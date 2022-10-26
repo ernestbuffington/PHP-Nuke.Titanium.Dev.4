@@ -3257,10 +3257,10 @@ switch($op)
 
         OpenTable();
 	    
-		echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=BlogssConfig\"><strong>Blogs Main Configuration</strong></a></div>";
+		echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=BlogsConfig\"><strong>Blogs Main Configuration</strong></a></div>";
 	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
 
-        echo "<form action='".$admin_file.".php?op=BlogssConfigSave' method='post'>\n";
+        echo "<form action='".$admin_file.".php?op=BlogsConfigSave' method='post'>\n";
         echo "<center>\n<table border='0' cellpadding='2' cellspacing='2'>\n";
 
         echo "<tr>\n<td align='right'><strong>"._BLOG_DISPLAYTYPE.":</strong></td>\n<td><select name='xcolumns'>";
@@ -3393,7 +3393,7 @@ switch($op)
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
 
-        redirect($admin_file.".php?op=BlogssConfig");
+        redirect($admin_file.".php?op=BlogsConfig");
     break;
   }
 } 
