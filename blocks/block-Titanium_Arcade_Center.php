@@ -130,7 +130,7 @@ if ($top) {
   
   $row = $db->sql_fetchrow($db->sql_query($sql));
   
-  $randomUser = UsernameColor($row['username']);
+  $randomUser = $row['username'];
   
   $row['game_highscore'] = number_format($row['game_highscore']);
         
@@ -143,12 +143,13 @@ if ($top) {
   $content .= "<a href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><img class=\"rounded-corners-arcade\" width=\"70\" 
   src=\"modules/Forums/games/pics/".$row['game_pic']."\" border= \"0\" alt=\"".$row['game_name']."\"></a><br /> \n";
   
-  $content .= "High Score set by<br /><strong><a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['game_highuser']."\"><img src=\"modules/Forums/templates/subSilver/images/loupe.gif\" 
-  border= \"0\" alt=\"Jump to ".$row['username']."...\"></a> <a href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=".$row['game_highuser']."\">$randomUser</a> </strong><br />\n";
+  $content .= "</br>High Score set by<br /><strong><a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['game_highuser']."\"><div class=\"w3-tag w3-round w3-green\" style=\"padding:3px\">
+  <div class=\"w3-tag w3-round w3-green w3-border w3-border-white\"><i class=\"bi bi-award\"></i>$randomUser</div>
+</div></a> </strong><br /><br />\n"; 
   
-  $content .= "with <strong>".$row['game_highscore']."</strong> <br /><br />\n";
+  $content .= "With a Score Of <strong><span class=\"w3-badge w3-green\">".$row['game_highscore']."</span></strong> <br /><br />\n";
   
-  $content .= "Total Games <strong>$total_games</strong><br />in <strong>$total_cats</strong> categories.</br></br>This site uses the ruffle Flash Engine</br></br></br>The ruffle Arcade Mod v4.0 is still in development.</td>\n";
+  $content .= "Total Games <strong>$total_games</strong><br />in <strong>$total_cats</strong> categories.</br></br>This site uses the ruffle Flash Engine</br>The ruffle Arcade Mod v4.0 is still in development.</td>\n";
 
   $content .= "<td align=\"center\" class=\"arcadeRow2\">\n";
 

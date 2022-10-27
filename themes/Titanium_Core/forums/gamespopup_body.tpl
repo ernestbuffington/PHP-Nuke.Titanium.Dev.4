@@ -24,4 +24,10 @@
 <!-- END game_type_V2 -->
 <br />
 </body>
+</html>e-flash" width="100%" height="100%">
+            </embed>
+        </object>
+<!-- END game_type_V2 -->
+<br />
+</body>
 </html>
