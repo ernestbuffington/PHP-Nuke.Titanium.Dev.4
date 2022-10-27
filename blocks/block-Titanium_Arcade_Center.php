@@ -35,7 +35,7 @@ define('IN_PHPBB', true);
 include_once('includes/functions.php');
 define('IN_PHPBB', false);
 
-global $prefix, $user_prefix, $db, $ThemeSel;
+global $prefix, $user_prefix, $db, $ThemeSel, $board_config;
 
 /*****EDIT CONFIG SETTINGS*******/
 /***** ON = 1  -  OFF = 0 *******/
@@ -94,7 +94,7 @@ if ($top) {
   $content .= "</tr>\n";
   $content .= "<tr>\n";
   
-  $content .= "<td align=\"center\" class=\"arcadeRow2\"><marquee behavior= \"scroll\" align= \"center\" direction= \"up\" scrollamount= \"2\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'><center>\n";
+  $content .= "<td align=\"center\" class=\"arcadeRow2\"><marquee height=500px behavior= \"scroll\" align= \"center\" direction= \"up\" scrollamount= \"4\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'><center>\n";
 
   $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, u.user_level 
   FROM ".$prefix."_bbgames g, ".$user_prefix."_users u WHERE g.game_highuser = u.user_id AND g.game_highuser <> 0 GROUP BY g.game_highuser ORDER BY nbvictoires DESC";
@@ -104,21 +104,41 @@ if ($top) {
   $place = 0;
   $nbvictprec = 0;
 
-  while ($row = $db->sql_fetchrow($result)) {
+  while ($row = $db->sql_fetchrow($result)) 
+  {
     if ($nbvictprec <> $row['nbvictoires']) {
       $nbvictprec = $row['nbvictoires'];
     }
 
     $place++;
+	
+    list($user_avatar, 
+	$user_avatar_type, 
+	$user_allowavatar) = $db->sql_ufetchrow("SELECT `user_avatar`,`user_avatar_type`, `user_allowavatar` FROM `".$prefix."_users` WHERE `user_id`=".$row['user_id']."", SQL_NUM);
+
+    switch($user_avatar_type)
+    {
+       case 1:
+       $current_avatar = $board_config['avatar_path'] . '/' . $user_avatar;
+       break;
+       case 2:
+       $current_avatar = resize_avatar($user_avatar);
+       break;
+       case 3:
+       $current_avatar = $board_config['avatar_gallery_path'] . '/' . (($user_avatar 
+	   == 'blank.png' || $user_avatar == 'gallery/blank.png') ? 'blank.png' : $user_avatar);
+       break;
+	}		
 
     $lastUser = $row['username'];
     $row['username'] = '<strong>' . UsernameColor($row['username']) . '</strong>';
     $row['username'] = UsernameColor($row['username']);
 
+    $content .= '<img class="rounded-corners-profile" width="80" src="'.$current_avatar.'"></br>';
     $content .= "<strong>$place - </strong>\n";
     $content .= "<a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['user_id']."\"><img src=\"modules/Forums/templates/subSilver/images/loupe.gif\" border= \"0\" alt=\"Jump to $lastUser's stats...\"></a> \n";
     $content .= "<a href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=".$row['user_id']."\">".$row['username']."</a> \n";
-    $content .= "<br /> "._VICTOIRES." $nbvictprec <br /><br />\n";
+    $content .= "<br /> <span class=\"w3-tag w3-round w3-blue\">NUMBER OF WINS</span> <span class=\"w3-badge w3-green\"><strong>$nbvictprec</strong></span> <br /><br />\n";
 
     $count = $count + 1;
   }
@@ -143,9 +163,9 @@ if ($top) {
   $content .= "<a href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><img class=\"rounded-corners-arcade\" width=\"70\" 
   src=\"modules/Forums/games/pics/".$row['game_pic']."\" border= \"0\" alt=\"".$row['game_name']."\"></a><br /> \n";
   
-  $content .= "</br>High Score set by<br /><strong><a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['game_highuser']."\"><div class=\"w3-tag w3-round w3-green\" style=\"padding:3px\">
-  <div class=\"w3-tag w3-round w3-green w3-border w3-border-white\"><i class=\"bi bi-award\"></i>$randomUser</div>
-</div></a> </strong><br /><br />\n"; 
+  $content .= "</br>High Score set by<br /><strong><a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['game_highuser']."\"><div class=\"w3-tag w3-round w3-green\" style=\"padding:3px\">\n";
+  $content .= "<div class=\"w3-tag w3-round w3-green w3-border w3-border-white\"><i class=\"bi bi-award\"></i>$randomUser</div>\n";
+  $content .= "</div></a> </strong><br /><br />\n"; 
   
   $content .= "With a Score Of <strong><span class=\"w3-badge w3-green\">".$row['game_highscore']."</span></strong> <br /><br />\n";
   
@@ -153,7 +173,7 @@ if ($top) {
 
   $content .= "<td align=\"center\" class=\"arcadeRow2\">\n";
 
-  $content .= "<marquee behavior= \"scroll\" align= \"center\" direction= \"up\" scrollamount= \"2\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'><center>\n";
+  $content .= "<marquee height=500px behavior= \"scroll\" align= \"center\" direction= \"up\" scrollamount= \"4\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'><center>\n";
 
   $sql = "SELECT game_name, game_id, game_pic FROM ".$prefix."_bbgames ORDER BY game_order DESC LIMIT 0,$recent_scores";
 
