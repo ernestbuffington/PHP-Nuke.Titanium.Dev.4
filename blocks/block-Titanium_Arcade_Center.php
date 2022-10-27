@@ -83,11 +83,11 @@ if ($top) {
 		# PADDING OVER TABLE
 		$content .= '<div align="center" style="padding-top:23px;"></div>'; 
         
-		$content .= "<table class=\"catHead\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
+		$content .= "<table class=\"arcadeCatHead\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
         $content .= "<tr>\n";
-        $content .= "<th class=\"thHead\" width=\"30%\" align=\"center\"><strong>Top Scorers</strong></th>\n";
-        $content .= "<th class=\"thHead\" width=\"40%\" align=\"center\"><strong>Random Game</strong></th>\n";
-        $content .= "<th class=\"thHead\" width=\"30%\" align=\"center\"><strong>New Games</strong></th>\n";
+        $content .= "<th class=\"arcadeThHead\" width=\"30%\" align=\"center\"><strong>Top Scorers</strong></th>\n";
+        $content .= "<th class=\"arcadeThHead\" width=\"40%\" align=\"center\"><strong>Random Game</strong></th>\n";
+        $content .= "<th class=\"arcadeThHead\" width=\"30%\" align=\"center\"><strong>New Games</strong></th>\n";
         $content .= "</tr>\n";
         $content .= "<tr>\n";
         $content .= "<td align=\"center\" class=\"row1\"><marquee behavior= \"scroll\" align= \"center\" direction= \"up\" scrollamount= \"2\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'><center>\n";
@@ -139,10 +139,10 @@ if ($top) {
  ******************************************************/
         $row['game_highscore'] = number_format($row['game_highscore']);
         
-        $content .= "<td valign=\"top\" align=\"center\" class=\"row2\"><center></br><a href=\"modules.php?name=Forums&amp;file=arcade\"><img width=\"269\" src=\"images/arcade_mod/arcade_logo.png\" border= \"0\"></a></center><br />
+        $content .= "<td valign=\"top\" align=\"center\" class=\"arcadeRow1\"><center></br><a href=\"modules.php?name=Forums&amp;file=arcade\"><img width=\"269\" src=\"images/arcade_mod/arcade_logo.png\" border= \"0\"></a></center><br />
 <strong>".$row['game_name']."</strong><br /><a href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><img src=\"modules/Forums/games/pics/".$row['game_pic']."\" border= \"0\" alt=\"".$row['game_name']."\"></a><br /> High Score set by<br /><strong><a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['game_highuser']."\"><img src=\"modules/Forums/templates/subSilver/images/loupe.gif\" border= \"0\" alt=\"Jump to ".$row['username']."...\"></a> <a href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=".$row['game_highuser']."\">$randomUser</a> </strong><br />with <strong>".$row['game_highscore']."</strong> <br /><br />Total Games <strong>$total_games</strong><br />in <strong>$total_cats</strong> categories.</br></br>This site uses the ruffle Flash Engine</br></br></br>The ruffle Arcade Mod v4.0 is still in development.</td>\n";
 
-        $content .= "<td align=\"center\" class=\"row1\">\n";
+        $content .= "<td align=\"center\" class=\"arcadeRow2\">\n";
 
         $content .= "<marquee behavior= \"scroll\" align= \"center\" direction= \"up\" scrollamount= \"2\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'><center>\n";
 

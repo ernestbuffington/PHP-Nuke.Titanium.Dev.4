@@ -8,21 +8,23 @@ global $screen_width, $screen_height, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4
 /* <?=$bgcolor1?> */
 ?>
 /* Main arcade table cell colors and backgrounds */
-td.arcade_row1 {
+td.arcadeRow1 {
 	background: #988653;
+    background-color: #988653;
 	border: 3px solid #c9b06d;
 	padding: 4px;
     box-shadow: inset 1px 1px 3px #000;
 }
 
-td.arcade_row2 {
-	background: #8d7b4d;
+td.arcadeRow2 {
+	background: #645838;
+    background-color: #645838;
 	border: 3px solid #c9b06d;
 	padding: 4px;
     box-shadow: inset 1px 1px 3px #000;
 }
 
-td.arcade_row3 {
+td.arcadeRow3 {
 	background: #8d7b4d;
 	border: 3px solid #c9b06d;
 	padding: 4px;
@@ -30,7 +32,7 @@ td.arcade_row3 {
 }
 
 /* Arcade Category Row Left */
-td.arcade_cat, td.arcade_catHead, td.arcade_catSides, td.arcade_catLeft, td.arcade_catRight, td.arcade_catBottom {
+td.arcadeCat, td.arcadeCatHead, td.arcadeCatSides, td.arcadeCatLeft, td.arcadeCatRight, td.arcadeCatBottom {
 	background-color: #343434;
 	color: #FFF;
 	border: 1px solid #787878;
@@ -38,11 +40,42 @@ td.arcade_cat, td.arcade_catHead, td.arcade_catSides, td.arcade_catLeft, td.arca
 	padding: 4px;
 }
 
-td.arcade_cat, td.arcade_catHead, td.arcade_catBottom {
+td.arcadeCat, td.arcadeCatHead, td.arcadeCatBottom {
 	white-space: nowrap;
   	background: #8d7b4d;
 	border: 3px solid #c9b06d;
 	padding: 4px;
    
+}
+
+/*
+ * Setting additional nice inner borders for the arcade table cells.
+ * The names indicate which sides the border will be on.
+ * Don't worry if you don't understand this, just ignore it :-)
+ *----------------------------------------------------------------
+*/
+
+
+/* Arcade Center Top Title Bar*/
+th.arcadeThHead, th.arcadeThSides, th.arcadeThTop, th.arcadeThLeft, th.arcadeThRight, th.arcadeThBottom, th.arcadeThCornerL, th.arcadeThCornerR {
+	color: #F1F1F1;
+	font-size: 14px;
+	background-color: #97834f;
+	background: #97834f;
+	white-space: nowrap;
+	border: 3px solid #c9b06d;
+	padding: 4px;
+    box-shadow: inset 1px 1px 3px #000;
+}
+
+/* Forum_Body.tpl - Last Column */
+td.arcadeRow3Right, td.arcadeSpaceRow {
+	height: 25px;
+	color: #F1F1F1;
+	border: 1px solid #222;
+	border-bottom-width: 0;
+	font-size: 10px;
+	background-color: <?=$bgcolor1?>;
+	white-space: nowrap;
 }
 <?
