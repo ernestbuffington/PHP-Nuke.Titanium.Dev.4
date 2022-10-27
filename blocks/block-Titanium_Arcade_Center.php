@@ -94,7 +94,8 @@ if ($top) {
   $content .= "</tr>\n";
   $content .= "<tr>\n";
   
-  $content .= "<td align=\"center\" class=\"arcadeRow2\"><marquee height=500px behavior= \"scroll\" align= \"center\" direction= \"up\" scrollamount= \"4\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'><center>\n";
+  $content .= "<td align=\"center\" class=\"arcadeRow2\"><marquee height=500px behavior= \"scroll\" align= \"center\" direction= \"up\" scrollamount= \"4\" 
+  scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'><center>\n";
 
   $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, u.user_level 
   FROM ".$prefix."_bbgames g, ".$user_prefix."_users u WHERE g.game_highuser = u.user_id AND g.game_highuser <> 0 GROUP BY g.game_highuser ORDER BY nbvictoires DESC";
@@ -297,84 +298,84 @@ if ($arcade_stats) {
     $content .= "</table>\n";
 }
 
-if ($whos_playing) {
-                $content .= "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
-        $content .= "<tr>\n";
-                $content .= "<th class=\"arcadeThHead\" width=\"100%\" colspan=\"2\" align=\"center\"><strong>Who's Playing</strong></th>\n";
-                $content .= "</tr>\n";
+if ($whos_playing) 
+{
+  $content .= "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
+  $content .= "<tr>\n";
+  $content .= "<th class=\"arcadeThHead\" width=\"100%\" colspan=\"2\" align=\"center\"><strong>Who's Playing</strong></th>\n";
+  $content .= "</tr>\n";
 
-        $sql = "SELECT u.username, u.user_id, u.user_level, user_allow_viewonline, g.game_name, g.game_id FROM ".$prefix."_bbgamehash gh LEFT JOIN ".$prefix."_bbsessions s ON gh.user_id = s.session_user_id LEFT JOIN ".$user_prefix."_users u ON gh.user_id = u.user_id LEFT JOIN ".$prefix."_bbgames g ON gh.game_id = g.game_id WHERE gh.hash_date >= s.session_time AND (" . time() . "- gh.hash_date <= 300) ORDER BY gh.hash_date DESC";
+  $sql = "SELECT u.username, u.user_id, u.user_level, user_allow_viewonline, g.game_name, g.game_id FROM ".$prefix."_bbgamehash gh LEFT JOIN ".$prefix."_bbsessions s 
+  ON gh.user_id = s.session_user_id LEFT JOIN ".$user_prefix."_users u 
+  ON gh.user_id = u.user_id LEFT 
+  JOIN ".$prefix."_bbgames g 
+  ON gh.game_id = g.game_id WHERE gh.hash_date >= s.session_time AND (" . time() . "- gh.hash_date <= 300) 
+  ORDER BY gh.hash_date DESC";
 
-        $result = $db->sql_query($sql);
+  $result = $db->sql_query($sql);
 
-        while ($row = $db->sql_fetchrow($result)) {
-                $players[] = $row;
-        }
+  while ($row = $db->sql_fetchrow($result)) {
+    $players[] = $row;
+  }
 
-        $nbplayers = count($players);
-        $listeid = array();
-        $games_players = array();
-        $games_names = array();
+  $nbplayers = count($players);
+  $listeid = array();
+  $games_players = array();
+  $games_names = array();
 
-        if ($nbplayers != 0) {
-                $content .="<tr>\n";
-                                $content .="<td class=\"arcadeRow2\"><strong>Game</strong></td>\n";
-                                $content .="<td class=\"arcadeRow2\"><strong>Users</strong></td>\n";
+  if ($nbplayers != 0) 
+  {
+    $content .="<tr>\n";
+    $content .="<td class=\"arcadeRow2\"><strong>Game</strong></td>\n";
+    $content .="<td class=\"arcadeRow2\"><strong>Users</strong></td>\n";
 
-                for ($i=0 ; $i<$nbplayers ; $i++) {
-                        if (!isset($listeid[ $players[$i]['user_id'] ])) {
-                                $listeid[ $players[$i]['user_id'] ] = true ;
+    for ($i=0 ; $i<$nbplayers ; $i++) 
+	{
+      
+	  if (!isset($listeid[ $players[$i]['user_id'] ])) 
+	  {
+        $listeid[ $players[$i]['user_id'] ] = true ;
 
-                                if ($players[$i]['user_allow_viewonline'])
-                                                                {
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-                                                $players[$i]['username'] = UsernameColor($players[$i]['username']);
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-                                        $player_link = '<a href=modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u='.$players[$i]['user_id']. '>' . $players[$i]['username'] . '</a>';
-                                                                }
-                                                                else
-                                                                {
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-                                                                                $players[$i]['username'] = UsernameColor($players[$i]['username']);
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-                                                                                $player_link = '<a href=modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u='.$players[$i]['user_id']. '><i>' . $players[$i]['username'] . '</i></a>';
-                                                                }
+          if ($players[$i]['user_allow_viewonline']) {
+             $players[$i]['username'] = UsernameColor($players[$i]['username']);
+             $player_link = '<a href=modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u='.$players[$i]['user_id']. '>' . $players[$i]['username'] . '</a>';
+          }
+          else
+          {
+             $players[$i]['username'] = UsernameColor($players[$i]['username']);
+             $player_link = '<a href=modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u='.$players[$i]['user_id']. '><i>' . $players[$i]['username'] . '</i></a>';
+          }
 
-                                if ($players[$i]['user_allow_viewonline'] || $userdata['user_level'] == 2) {
-                                        if(!isset($games_names[ $players[$i]['game_id'] ])) {
-                                                $games_names[ $players[$i]['game_id'] ] = $players[$i]['game_name'] ;
-                                                $games_players[ $players[$i]['game_id'] ] = $player_link ;
-                                        } else {
-                                                $games_players[ $players[$i]['game_id'] ] .=  ', ' . $player_link ;
-                                        }
-                                }
-                        }
-                }
-                foreach($games_names AS $key => $val) {
-                        if ($games_players[$key]!='') {
-                                $content .= "<tr>\n";
-                                                                $content .= "<td width=\"30%\" class=\"arcadeRow2\"><a href=\"modules.php?name=Forums&amp;file=games&amp;gid=$key\">$val</a></td>\n";
-                                $content .= "<td class=\"arcadeRow2\">" .$games_players[$key]. "</td>\n";
-                                                                $content .= "</tr>\n";
-                        }
-                }
-                $content .= "</table>";
-        } else {
-                $content .="<td class=\"arcadeRow2\" colspan=\"2\" align=\"center\" class=\"row1\">There are currently no games being played in the arcade.</td>\n";
-                $content .= "</table>\n";
-        }
-		
-		# PADDING AT BOTTOM OF TABLE
-		$content .= '<div align="center" style="padding-top:23px;"></div>'; 
-
+       if ($players[$i]['user_allow_viewonline'] || $userdata['user_level'] == 2) {
+          if(!isset($games_names[ $players[$i]['game_id'] ])) {
+           $games_names[ $players[$i]['game_id'] ] = $players[$i]['game_name'] ;
+           $games_players[ $players[$i]['game_id'] ] = $player_link ;
+      } 
+	  else 
+	  {
+           $games_players[ $players[$i]['game_id'] ] .=  ', ' . $player_link ;
+      }
+    }
+  }
+ }
+           foreach($games_names AS $key => $val) 
+		   {
+			 if ($games_players[$key]!='') 
+			 {
+               $content .= "<tr>\n";
+               $content .= "<td width=\"30%\" class=\"arcadeRow2\"><a href=\"modules.php?name=Forums&amp;file=games&amp;gid=$key\">$val</a></td>\n";
+               $content .= "<td class=\"arcadeRow2\">" .$games_players[$key]. "</td>\n";
+               $content .= "</tr>\n";
+             }
+           }
+           $content .= "</table>";
+} 
+else 
+{
+   $content .="<td class=\"arcadeRow2\" colspan=\"2\" align=\"center\" class=\"row1\">There are currently no games being played in the arcade.</td>\n";
+   $content .= "</table>\n";
 }
-
+   # PADDING AT BOTTOM OF TABLE
+   $content .= '<div align="center" style="padding-top:23px;"></div>'; 
+}
 ?>
