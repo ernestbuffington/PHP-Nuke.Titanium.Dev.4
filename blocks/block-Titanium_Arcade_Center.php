@@ -77,80 +77,88 @@ else {
 
 if ($top) {
 
-        $sql = "SELECT arcade_catid FROM ".$prefix."_bbarcade_categories";
-        $total_cats = $db->sql_numrows($db->sql_query($sql));
+  $sql = "SELECT arcade_catid FROM ".$prefix."_bbarcade_categories";
+  $total_cats = $db->sql_numrows($db->sql_query($sql));
         
-		# PADDING OVER TABLE
-		$content .= '<div align="center" style="padding-top:23px;"></div>'; 
+  # PADDING OVER TABLE
+  $content .= '<div align="center" style="padding-top:23px;"></div>'; 
         
-		$content .= "<table class=\"arcadeCatHead\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
-        $content .= "<tr>\n";
-        $content .= "<th class=\"arcadeThHead\" width=\"30%\" align=\"center\"><strong>Top Scorers</strong></th>\n";
-        $content .= "<th class=\"arcadeThHead\" width=\"40%\" align=\"center\"><strong>Random Game</strong></th>\n";
-        $content .= "<th class=\"arcadeThHead\" width=\"30%\" align=\"center\"><strong>New Games</strong></th>\n";
-        $content .= "</tr>\n";
-        $content .= "<tr>\n";
-        $content .= "<td align=\"center\" class=\"row1\"><marquee behavior= \"scroll\" align= \"center\" direction= \"up\" scrollamount= \"2\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'><center>\n";
+  $content .= "<table class=\"arcadeCatHead\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
+  
+  $content .= "<tr>\n";
+  
+  $content .= "<th class=\"arcadeThHead\" width=\"30%\" align=\"center\"><strong>Top Scorers</strong></th>\n";
+  $content .= "<th class=\"arcadeThHead\" width=\"40%\" align=\"center\"><strong>Random Game</strong></th>\n";
+  $content .= "<th class=\"arcadeThHead\" width=\"30%\" align=\"center\"><strong>New Games</strong></th>\n";
+  
+  $content .= "</tr>\n";
+  $content .= "<tr>\n";
+  
+  $content .= "<td align=\"center\" class=\"arcadeRow2\"><marquee behavior= \"scroll\" align= \"center\" direction= \"up\" scrollamount= \"2\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'><center>\n";
 
-        $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, u.user_level 
-		FROM ".$prefix."_bbgames g, ".$user_prefix."_users u WHERE g.game_highuser = u.user_id AND g.game_highuser <> 0 GROUP BY g.game_highuser ORDER BY nbvictoires DESC";
+  $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, u.user_level 
+  FROM ".$prefix."_bbgames g, ".$user_prefix."_users u WHERE g.game_highuser = u.user_id AND g.game_highuser <> 0 GROUP BY g.game_highuser ORDER BY nbvictoires DESC";
         
-		$result = $db->sql_query($sql);
+  $result = $db->sql_query($sql);
 
-        $place = 0;
-        $nbvictprec = 0;
+  $place = 0;
+  $nbvictprec = 0;
 
-        while ($row = $db->sql_fetchrow($result)) {
-                if ($nbvictprec <> $row['nbvictoires']) {
-                        $nbvictprec = $row['nbvictoires'];
-                }
+  while ($row = $db->sql_fetchrow($result)) {
+    if ($nbvictprec <> $row['nbvictoires']) {
+      $nbvictprec = $row['nbvictoires'];
+    }
 
-                $place++;
+    $place++;
 
-                                $lastUser = $row['username'];
-                                $row['username'] = '<strong>' . UsernameColor($row['username']) . '</strong>';
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-                                $row['username'] = UsernameColor($row['username']);
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
+    $lastUser = $row['username'];
+    $row['username'] = '<strong>' . UsernameColor($row['username']) . '</strong>';
+    $row['username'] = UsernameColor($row['username']);
 
-                $content .= "<strong>$place - </strong>\n";
-                $content .= "<a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['user_id']."\"><img src=\"modules/Forums/templates/subSilver/images/loupe.gif\" border= \"0\" alt=\"Jump to $lastUser's stats...\"></a> \n";
-                $content .= "<a href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=".$row['user_id']."\">".$row['username']."</a> \n";
-                $content .= "<br /> "._VICTOIRES." $nbvictprec <br /><br />\n";
+    $content .= "<strong>$place - </strong>\n";
+    $content .= "<a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['user_id']."\"><img src=\"modules/Forums/templates/subSilver/images/loupe.gif\" border= \"0\" alt=\"Jump to $lastUser's stats...\"></a> \n";
+    $content .= "<a href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=".$row['user_id']."\">".$row['username']."</a> \n";
+    $content .= "<br /> "._VICTOIRES." $nbvictprec <br /><br />\n";
 
-                $count = $count + 1;
-        }
+    $count = $count + 1;
+  }
 
-        $content .= "</center></marquee></td>\n";
+  $content .= "</center></marquee></td>\n";
 
-        //Random Game
-        $sql = "SELECT g.* , u.username FROM ".$prefix."_bbgames g, ".$user_prefix."_users u WHERE g.game_highuser = u.user_id ORDER BY rand() LIMIT 1";
-        $row = $db->sql_fetchrow($db->sql_query($sql));
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-        $randomUser = UsernameColor($row['username']);
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-        $row['game_highscore'] = number_format($row['game_highscore']);
+  //Random Game
+  $sql = "SELECT g.* , u.username FROM ".$prefix."_bbgames g, ".$user_prefix."_users u WHERE g.game_highuser = u.user_id ORDER BY rand() LIMIT 1";
+  
+  $row = $db->sql_fetchrow($db->sql_query($sql));
+  
+  $randomUser = UsernameColor($row['username']);
+  
+  $row['game_highscore'] = number_format($row['game_highscore']);
         
-        $content .= "<td valign=\"top\" align=\"center\" class=\"arcadeRow1\"><center></br><a href=\"modules.php?name=Forums&amp;file=arcade\"><img width=\"269\" src=\"images/arcade_mod/arcade_logo.png\" border= \"0\"></a></center><br />
-<strong>".$row['game_name']."</strong><br /><a href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><img src=\"modules/Forums/games/pics/".$row['game_pic']."\" border= \"0\" alt=\"".$row['game_name']."\"></a><br /> High Score set by<br /><strong><a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['game_highuser']."\"><img src=\"modules/Forums/templates/subSilver/images/loupe.gif\" border= \"0\" alt=\"Jump to ".$row['username']."...\"></a> <a href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=".$row['game_highuser']."\">$randomUser</a> </strong><br />with <strong>".$row['game_highscore']."</strong> <br /><br />Total Games <strong>$total_games</strong><br />in <strong>$total_cats</strong> categories.</br></br>This site uses the ruffle Flash Engine</br></br></br>The ruffle Arcade Mod v4.0 is still in development.</td>\n";
+  $content .= "<td valign=\"top\" align=\"center\" class=\"arcadeRow1\"><center></br>\n";
+  
+  $content .= "<a href=\"modules.php?name=Forums&amp;file=arcade\"><img width=\"269\" src=\"images/arcade_mod/arcade_logo.png\" border= \"0\"></a></center><br />\n";
+  
+  $content .= "<strong>".$row['game_name']."</strong><br />\n";
+  
+  $content .= "<a href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><img class=\"rounded-corners-arcade\" width=\"70\" 
+  src=\"modules/Forums/games/pics/".$row['game_pic']."\" border= \"0\" alt=\"".$row['game_name']."\"></a><br /> \n";
+  
+  $content .= "High Score set by<br /><strong><a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['game_highuser']."\"><img src=\"modules/Forums/templates/subSilver/images/loupe.gif\" 
+  border= \"0\" alt=\"Jump to ".$row['username']."...\"></a> <a href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=".$row['game_highuser']."\">$randomUser</a> </strong><br />\n";
+  
+  $content .= "with <strong>".$row['game_highscore']."</strong> <br /><br />\n";
+  
+  $content .= "Total Games <strong>$total_games</strong><br />in <strong>$total_cats</strong> categories.</br></br>This site uses the ruffle Flash Engine</br></br></br>The ruffle Arcade Mod v4.0 is still in development.</td>\n";
 
-        $content .= "<td align=\"center\" class=\"arcadeRow2\">\n";
+  $content .= "<td align=\"center\" class=\"arcadeRow2\">\n";
 
-        $content .= "<marquee behavior= \"scroll\" align= \"center\" direction= \"up\" scrollamount= \"2\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'><center>\n";
+  $content .= "<marquee behavior= \"scroll\" align= \"center\" direction= \"up\" scrollamount= \"2\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'><center>\n";
 
-        $sql = "SELECT game_name, game_id, game_pic FROM ".$prefix."_bbgames ORDER BY game_order DESC LIMIT 0,$recent_scores";
+  $sql = "SELECT game_name, game_id, game_pic FROM ".$prefix."_bbgames ORDER BY game_order DESC LIMIT 0,$recent_scores";
 
-        $result = $db->sql_query($sql);
+  $result = $db->sql_query($sql);
 
-        while ($row = $db->sql_fetchrow($result)) {
+  while ($row = $db->sql_fetchrow($result)) {
                 $lastGame = $row['game_name'];
                 $lastgameid = $row['game_id'];
                 $lastgamepic = $row['game_pic'];
