@@ -45,6 +45,10 @@ img.rounded-corners-last-post {
   border-radius: 9px; 
 }
 
+img.rounded-corners-arcade { 
+  border-radius: 9px; 
+}
+
 img.rounded-corners-forum {
   border-radius: 20px; 
 }
