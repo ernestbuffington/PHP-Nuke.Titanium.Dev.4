@@ -180,84 +180,112 @@ if ($top) {
   $result = $db->sql_query($sql);
 
   while ($row = $db->sql_fetchrow($result)) {
-                $lastGame = $row['game_name'];
-                $lastgameid = $row['game_id'];
-                $lastgamepic = $row['game_pic'];
+  
+  $lastGame = $row['game_name'];
+  
+  $lastgameid = $row['game_id'];
+  
+  $lastgamepic = $row['game_pic'];
 
-                $content .= "<a href=\"modules.php?name=Forums&amp;file=games&amp;gid=$lastgameid\"><img src=\"modules/Forums/games/pics/$lastgamepic\" border= \"0\" alt=\"$lastGame\"><br /><strong>$lastGame</strong></a><br /><br />\n";
-        }
+  $content .= "<div class=\"w3-card-2\"><a href=\"modules.php?name=Forums&amp;file=games&amp;gid=$lastgameid\"><img class=\"rounded-corners-arcade\" 
+  width=\"70\" src=\"modules/Forums/games/pics/$lastgamepic\" border= \"0\" alt=\"$lastGame\"><br /><strong><span class=\"w3-tag\">$lastGame</span></strong></a></div><br /><br />\n";
+  
+  }
 
         $content .= "</center></marquee></td>\n";
         $content .= "</tr></table>\n";
 }
 
-                if ($last_five) {
-                $content .= "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
-                $content .= "<tr>\n";
-                $content .= "<th class=\"thHead\" colspan=\"4\" align=\"center\"><strong>Latest High Scores</strong></th>\n";
-                $content .= "</tr>\n";
-                $content .= "<tr>\n";
-                $content .= "<td class=\"row1\" align=\"center\"><strong>User</strong></td>\n";
-                $content .= "<td class=\"row2\" align=\"center\"><strong>Score</strong></td>\n";
-                $content .= "<td class=\"row1\" align=\"center\"><strong>Game</strong></td>\n";
-                $content .= "<td class=\"row2\" align=\"center\"><strong>Date</strong></td>\n";
-                $content .= "</tr>\n";
+if ($last_five) {
+  $content .= "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
+  
+  $content .= "<tr>\n";
+  
+  $content .= "<th class=\"arcadeThHead\" colspan=\"4\" align=\"center\"><strong>Latest High Scores</strong></th>\n";
+  
+  $content .= "</tr>\n";
+  $content .= "<tr>\n";
+  
+  $content .= "<td class=\"arcadeRow1\" align=\"center\"><strong>User</strong></td>\n";
+  $content .= "<td class=\"arcadeRow1\" align=\"center\"><strong>Score</strong></td>\n";
+  $content .= "<td class=\"arcadeRow1\" align=\"center\"><strong>Game</strong></td>\n";
+  $content .= "<td class=\"arcadeRow1\" align=\"center\"><strong>Date</strong></td>\n";
+  
+  $content .= "</tr>\n";
 
-                 $place = 0;
+  $place = 0;
 
-                 $sql = "SELECT g.* , u.username FROM ".$prefix."_bbgames g, ".$user_prefix."_users u WHERE g.game_highuser = u.user_id ORDER BY game_highdate DESC LIMIT 0,$recent_scores";
-                         $result = $db->sql_query($sql);
+  $sql = "SELECT g.* , u.username FROM ".$prefix."_bbgames g, ".$user_prefix."_users u WHERE g.game_highuser = u.user_id ORDER BY game_highdate DESC LIMIT 0,$recent_scores";
+  
+  $result = $db->sql_query($sql);
 
-                 while ($row = $db->sql_fetchrow($result)) {
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-                $lastUser = UsernameColor($row['username']);
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-                $row['game_highscore'] = number_format($row['game_highscore']);
-                //$lasthighdate = date("D M d, Y g:i a" , $row['game_highdate']);
-                global $board_config;
-                $lasthighdate = create_date( $board_config['default_dateformat'] , $row['game_highdate'] , $board_config['board_timezone'] );
+  while ($row = $db->sql_fetchrow($result)) {
+  
+  $lastUser = UsernameColor($row['username']);
+  
+  $row['game_highscore'] = number_format($row['game_highscore']);
+  //$lasthighdate = date("D M d, Y g:i a" , $row['game_highdate']);
+  global $board_config;
+  
+  $lasthighdate = create_date( $board_config['default_dateformat'] , $row['game_highdate'] , $board_config['board_timezone'] );
 
-                $content .= "<tr>\n";
-                $content .= "<td width=\"18%\" align=\"center\" class=\"row1\"><a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['game_highuser']."\"><img src=\"modules/Forums/templates/subSilver/images/loupe.gif\" border= \"0\" alt=\"Jump to ".$row['username']."'s stats...\"></a><a href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=".$row['game_highuser']."\">$lastUser</a> </strong></td>\n";
-                $content .= "<td width=\"18%\" align=\"center\" class=\"row2\"><strong>".$row['game_highscore']."</strong></td>\n";
-                $content .= "<td width=\"34%\" align=\"left\" class=\"row1\"><strong>&nbsp;&nbsp;<a href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><img height=\"20\" width=\"20\" src=\"modules/Forums/games/pics/".$row['game_pic']."\" border= \"0\" alt=\"".$row['game_name']."\"></a> - ".$row['game_name']."</strong></td>\n";
-                $content .= "<td width=\"30%\" align=\"center\" class=\"row2\"><strong>$lasthighdate</strong></td>\n";
-                $content .= "</tr>\n";
-                }
+  $content .= "<tr>\n";
+  
+  $content .= "<td class=\"arcadeRow2\" width=\"18%\" align=\"center\" class=\"row1\"><a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['game_highuser']."\"><img 
+  src=\"modules/Forums/templates/subSilver/images/loupe.gif\" border= \"0\" alt=\"Jump to ".$row['username']."'s stats...\"></a><a 
+  href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=".$row['game_highuser']."\">$lastUser</a> </strong></td>\n";
+  
+  $content .= "<td class=\"arcadeRow2\" width=\"18%\" align=\"center\" class=\"row2\"><span class=\"w3-badge w3-green\"><strong>".$row['game_highscore']."</strong></span></td>\n";
+  
+  $content .= "<td class=\"arcadeRow2\" width=\"34%\" align=\"left\" class=\"row1\"><strong>&nbsp;&nbsp;&nbsp;<a href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><img 
+  height=\"40\" class=\"rounded-corners-gamepic\" src=\"modules/Forums/games/pics/".$row['game_pic']."\" border= \"0\" alt=\"".$row['game_name']."\"></a>&nbsp;&nbsp;
+  <a class=\"btn-hover-two\" style = \"text-decoration: none;\" href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><font size=\"3\">".$row['game_name']."</font></strong></a></td>\n";
+  
+  $content .= "<td class=\"arcadeRow2\" width=\"30%\" align=\"center\" class=\"row2\"><strong><font size=\"3\"><i class=\"bi bi-calendar2-range\"></i> $lasthighdate</font></strong></td>\n";
+  $content .= "</tr>\n";
+  }
 
-           $content .= "</table>\n";
-                   }
+  $content .= "</table>\n";
+}
 
 if ($arcade_stats) {
-                $content .= "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
-        $content .= "<tr>\n";
-                $content .= "<th class=\"thHead\" width=\"100%\" colspan=\"2\" align=\"center\" class=\"th\"><strong>Arcade Stats</strong></th>\n";
-                $content .= "</tr>\n";
+  $content .= "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
+  
+  $content .= "<tr>\n";
+  
+  $content .= "<th class=\"arcadeThHead\" width=\"100%\" colspan=\"2\" align=\"center\" class=\"th\"><strong>Arcade Stats</strong></th>\n";
+  
+  $content .= "</tr>\n";
 
-                //Most Played Game
-        $sql = "SELECT game_set, game_name, game_id FROM ".$prefix."_bbgames ORDER BY game_set DESC LIMIT 1";
-        $row = $db->sql_fetchrow($db->sql_query($sql));
+  //Most Played Game
+  $sql = "SELECT game_set, game_name, game_id FROM ".$prefix."_bbgames ORDER BY game_set DESC LIMIT 1";
+  
+  $row = $db->sql_fetchrow($db->sql_query($sql));
 
-        $content .= "<tr>\n";
-                $content .= "<td width=\"50%\" align=\"center\" class=\"row1\">Most Popular: <a href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><strong>".$row['game_name']."</strong> </a>with <strong>".$row['game_set']."</strong> plays.</td>\n";
+  $content .= "<tr>\n";
+  
+  $content .= "<td class=\"arcadeRow2\" width=\"50%\" align=\"center\" class=\"row1\">Most Popular: <a 
+  href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><strong>".$row['game_name']."</strong> </a>with <strong>".$row['game_set']."</strong> plays.</td>\n";
 
-                //Least Played Game
-        $sql = "SELECT game_set, game_name, game_id FROM ".$prefix."_bbgames ORDER BY game_set ASC LIMIT 1";
-                $row = $db->sql_fetchrow($db->sql_query($sql));
+  //Least Played Game
+  $sql = "SELECT game_set, game_name, game_id FROM ".$prefix."_bbgames ORDER BY game_set ASC LIMIT 1";
+  
+  $row = $db->sql_fetchrow($db->sql_query($sql));
 
-        $content .= "<td width=\"50%\" align=\"center\" class=\"row1\">Least Popular: <a href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"> <strong>".$row['game_name']."</strong> </a>with <strong>".$row['game_set']."</strong> plays.</td>\n";
-        $content .= "</tr>\n";
+  $content .= "<td class=\"arcadeRow2\" width=\"50%\" align=\"center\" class=\"row1\">Least Popular: <a 
+  href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"> <strong>".$row['game_name']."</strong> </a>with <strong>".$row['game_set']."</strong> plays.</td>\n";
+  
+  $content .= "</tr>\n";
 
-        //Category Stats
-        $content .= "<tr>\n";
-                $content .= "<td colspan=\"2\" width=\"10%\" height=\"25\"  align=\"center\" class=\"row1\"><marquee behavior= \"scroll\" align= \"center\" direction= \"left\" width=\"100%\" scrollamount= \"2\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'>\n";
+  //Category Stats
+  $content .= "<tr>\n";
+  
+  $content .= "<td class=\"arcadeRow2\" colspan=\"2\" width=\"10%\" height=\"25\"  align=\"center\" class=\"row1\"><marquee behavior= \"scroll\" align= \"center\" 
+  direction= \"left\" width=\"100%\" scrollamount= \"2\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'>\n";
 
-        $sql = "SELECT arcade_cattitle, arcade_nbelmt, arcade_catid FROM ".$prefix."_bbarcade_categories ORDER BY arcade_cattitle";
-                $result = $db->sql_query($sql);
+  $sql = "SELECT arcade_cattitle, arcade_nbelmt, arcade_catid FROM ".$prefix."_bbarcade_categories ORDER BY arcade_cattitle";
+  
+  $result = $db->sql_query($sql);
 
         while ($row = $db->sql_fetchrow($result))
                 {
@@ -273,7 +301,7 @@ if ($arcade_stats) {
 if ($whos_playing) {
                 $content .= "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
         $content .= "<tr>\n";
-                $content .= "<th class=\"thHead\" width=\"100%\" colspan=\"2\" align=\"center\"><strong>Who's Playing</strong></th>\n";
+                $content .= "<th class=\"arcadeThHead\" width=\"100%\" colspan=\"2\" align=\"center\"><strong>Who's Playing</strong></th>\n";
                 $content .= "</tr>\n";
 
         $sql = "SELECT u.username, u.user_id, u.user_level, user_allow_viewonline, g.game_name, g.game_id FROM ".$prefix."_bbgamehash gh LEFT JOIN ".$prefix."_bbsessions s ON gh.user_id = s.session_user_id LEFT JOIN ".$user_prefix."_users u ON gh.user_id = u.user_id LEFT JOIN ".$prefix."_bbgames g ON gh.game_id = g.game_id WHERE gh.hash_date >= s.session_time AND (" . time() . "- gh.hash_date <= 300) ORDER BY gh.hash_date DESC";
@@ -291,8 +319,8 @@ if ($whos_playing) {
 
         if ($nbplayers != 0) {
                 $content .="<tr>\n";
-                                $content .="<td class=\"row1\"><strong>Game</strong></td>\n";
-                                $content .="<td class=\"row2\"><strong>Users</strong></td>\n";
+                                $content .="<td class=\"arcadeRow2\"><strong>Game</strong></td>\n";
+                                $content .="<td class=\"arcadeRow2\"><strong>Users</strong></td>\n";
 
                 for ($i=0 ; $i<$nbplayers ; $i++) {
                         if (!isset($listeid[ $players[$i]['user_id'] ])) {
@@ -341,7 +369,7 @@ if ($whos_playing) {
                 }
                 $content .= "</table>";
         } else {
-                $content .="<td colspan=\"2\" align=\"center\" class=\"row1\">There are currently no games being played in the arcade.</td>\n";
+                $content .="<td class=\"arcadeRow2\" colspan=\"2\" align=\"center\" class=\"row1\">There are currently no games being played in the arcade.</td>\n";
                 $content .= "</table>\n";
         }
 		

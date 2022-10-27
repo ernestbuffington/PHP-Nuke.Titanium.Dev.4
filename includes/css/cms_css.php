@@ -49,6 +49,10 @@ img.rounded-corners-arcade {
   border-radius: 9px; 
 }
 
+img.rounded-corners-gamepic { 
+  border-radius: 7px; 
+}
+
 img.rounded-corners-forum {
   border-radius: 20px; 
 }
