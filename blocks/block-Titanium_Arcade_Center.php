@@ -138,7 +138,7 @@ if ($top) {
     $content .= "<strong>$place - </strong>\n";
     $content .= "<a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['user_id']."\"><img src=\"modules/Forums/templates/subSilver/images/loupe.gif\" border= \"0\" alt=\"Jump to $lastUser's stats...\"></a> \n";
     $content .= "<a href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=".$row['user_id']."\">".$row['username']."</a> \n";
-    $content .= "<br /> <span class=\"w3-tag w3-round w3-blue\">NUMBER OF WINS</span> <span class=\"w3-badge w3-green\"><strong>$nbvictprec</strong></span> <br /><br />\n";
+    $content .= "<br /> <span class=\"w3-tag w3-round w3-blue\">NUMBER OF WINS</span> <span class=\"w3-badge w3-blue\"><strong>$nbvictprec</strong></span> <br /><br />\n";
 
     $count = $count + 1;
   }
@@ -265,7 +265,7 @@ if ($arcade_stats) {
   $content .= "<tr>\n";
   
   $content .= "<td class=\"arcadeRow2\" width=\"50%\" align=\"center\" class=\"row1\">Most Popular: <a 
-  href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><strong>".$row['game_name']."</strong> </a>with <strong>".$row['game_set']."</strong> plays.</td>\n";
+  href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><strong>".$row['game_name']."</strong> </a>with <span class=\"w3-badge w3-blue\"><strong>".$row['game_set']."</strong></span> plays.</td>\n";
 
   //Least Played Game
   $sql = "SELECT game_set, game_name, game_id FROM ".$prefix."_bbgames ORDER BY game_set ASC LIMIT 1";
@@ -273,7 +273,7 @@ if ($arcade_stats) {
   $row = $db->sql_fetchrow($db->sql_query($sql));
 
   $content .= "<td class=\"arcadeRow2\" width=\"50%\" align=\"center\" class=\"row1\">Least Popular: <a 
-  href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"> <strong>".$row['game_name']."</strong> </a>with <strong>".$row['game_set']."</strong> plays.</td>\n";
+  href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"> <strong>".$row['game_name']."</strong> </a>with <span class=\"w3-badge w3-blue\"><strong>".$row['game_set']."</strong></span> plays.</td>\n";
   
   $content .= "</tr>\n";
 
@@ -287,15 +287,14 @@ if ($arcade_stats) {
   
   $result = $db->sql_query($sql);
 
-        while ($row = $db->sql_fetchrow($result))
-                {
-                    $content .="<a href=\"modules.php?name=Forums&amp;file=arcade&amp;cid=".$row['arcade_catid']."\">\n";
-            $content .="<strong>".$row['arcade_cattitle']." (".$row['arcade_nbelmt']." Games)</strong>\n";
-            $content .="</a>&nbsp;&nbsp;&nbsp;\n";
-        }
-                $content .= "</marquee></td>\n";
-                $content .= "</tr>\n";
-        $content .= "</table>\n";
+  while ($row = $db->sql_fetchrow($result)) {
+    $content .="<a href=\"modules.php?name=Forums&amp;file=arcade&amp;cid=".$row['arcade_catid']."\">\n";
+    $content .="<strong>".$row['arcade_cattitle']." <span class=\"w3-badge w3-indigo\">".$row['arcade_nbelmt']."</span> Games</strong>\n";
+    $content .="</a>&nbsp;&nbsp;&nbsp;\n";
+  }
+    $content .= "</marquee></td>\n";
+    $content .= "</tr>\n";
+    $content .= "</table>\n";
 }
 
 if ($whos_playing) {
@@ -362,8 +361,8 @@ if ($whos_playing) {
                 foreach($games_names AS $key => $val) {
                         if ($games_players[$key]!='') {
                                 $content .= "<tr>\n";
-                                                                $content .= "<td width=\"30%\" class=\"row1\"><a href=\"modules.php?name=Forums&amp;file=games&amp;gid=$key\">$val</a></td>\n";
-                                $content .= "<td class=\"row2\">" .$games_players[$key]. "</td>\n";
+                                                                $content .= "<td width=\"30%\" class=\"arcadeRow2\"><a href=\"modules.php?name=Forums&amp;file=games&amp;gid=$key\">$val</a></td>\n";
+                                $content .= "<td class=\"arcadeRow2\">" .$games_players[$key]. "</td>\n";
                                                                 $content .= "</tr>\n";
                         }
                 }
