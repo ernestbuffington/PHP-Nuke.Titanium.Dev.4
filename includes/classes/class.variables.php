@@ -198,14 +198,14 @@ function deepPurifier($data)
 			$config->set('HTML.SafeObject', true);
 			$config->set('HTML.SafeEmbed', true);
 			
-			$cfg->set('HTML.SafeIframe', true); # Add Safe Iframe
-            $cfg->set('URI.SafeIframeRegexp', '%^(https?:)?//(www\.youtube(?:-nocookie)?\.com/embed/|player\.vimeo\.com/video/)%'); # allow YouTube and Vimeo
+			//$config->set('HTML.SafeIframe', true); # Add Safe Iframe
+            //$config->set('URI.SafeIframeRegexp', '%^(https?:)?//(www\.youtube(?:-nocookie)?\.com/embed/|player\.vimeo\.com/video/)%'); # allow YouTube and Vimeo
             # This line is important allow iframe in allowed elements or it will not work    
             $config->set('HTML.AllowedAttributes','iframe@src,iframe@allowfullscreen');
 			$config->set('HTML.AllowedElements', array('iframe','div','script','object','p','span','pre','b','i','u','strong','em','sup','a','img','table','tr','td','tbody','thead','param'));
 			$config->set('Output.FlashCompat', true);
 			$config->set('Attr.EnableID', true);
-			$config->set('Filter.Custom', array(new HTMLPurifier_Filter_MyIframe()));
+			//$config->set('Filter.Custom', array(new HTMLPurifier_Filter_MyIframe()));
 			$config->set('Filter.Custom', array( new HTMLPurifier_Filter_YouTube() ));
         }
         

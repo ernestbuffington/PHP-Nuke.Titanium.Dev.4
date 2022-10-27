@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /************************************************************************/
 /* PHP-NUKE: Center Arcade Block                                        */
 /* ================================                                     */
@@ -83,8 +82,11 @@ if ($top) {
 
         $sql = "SELECT arcade_catid FROM ".$prefix."_bbarcade_categories";
         $total_cats = $db->sql_numrows($db->sql_query($sql));
-
-        $content .= "<table class=\"catHead\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
+        
+		# PADDING OVER TABLE
+		$content .= '<div align="center" style="padding-top:23px;"></div>'; 
+        
+		$content .= "<table class=\"catHead\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
         $content .= "<tr>\n";
         $content .= "<th class=\"thHead\" width=\"30%\" align=\"center\"><strong>Top Scorers</strong></th>\n";
         $content .= "<th class=\"thHead\" width=\"40%\" align=\"center\"><strong>Random Game</strong></th>\n";
@@ -316,6 +318,10 @@ if ($whos_playing) {
                 $content .="<td colspan=\"2\" align=\"center\" class=\"row1\">There are currently no games being played in the arcade.</td>\n";
                 $content .= "</table>\n";
         }
+		
+		# PADDING AT BOTTOM OF TABLE
+		$content .= '<div align="center" style="padding-top:23px;"></div>'; 
+
 }
 
 ?>

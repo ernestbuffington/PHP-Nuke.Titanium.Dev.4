@@ -1,55 +1,6 @@
 <?php
-#---------------------------------------------------------------------------------------#
-# THEME SYSTEM FILE                                                                     #
-#---------------------------------------------------------------------------------------#
-# THEME INFO                                                                            #
-# Titanium Core Theme v2.0 (Fixed & Full Width)                                         #
-#                                                                                       #
-# Final Build Date 10/09/2022 Tuesday 12:54am                                           #
-#                                                                                       #
-# A Very Nice Gold Template Theme                                                       #
-# Copyright © 2021 : Brandon Maintenance Management                                     #
-# e-Mail : brandon.maintenance.management@gmail.com                                     #
-#---------------------------------------------------------------------------------------#
-# Designed By: Ernest Buffington                                                        #
-# Web Site: https://www.theghost.86it.us                                                #
-# Purpose: PHP-Nuke Titanium v4.0.3                                                     #
-#---------------------------------------------------------------------------------------#
-# CMS INFO                                                                              #
-# PHP-Nuke Copyright (c) 2002    : Francisco Burzi phpnuke.org                          #
-# Nuke Evolution Xtreme (c) 2010 : Enhanced PHP-Nuke Web Portal System                  #
-# PHP-Nuke Titanium (c) 2022     : Enhanced and Advanced PHP-Nuke Web Portal System     #
-#---------------------------------------------------------------------------------------#
-#                                                                                       #
-# Special Honorable Mentions                                                            #
-#---------------------------------------------------------------------------------------#
-# killigan                                                                              # 
-# -[04/17/2010] Updated Nuke Sentinel to version 2.6.01                                 # 
-# -[04/17/2010] Updated Nuke Evolution to XHTML 1.0 Transitional                        #
-#---------------------------------------------------------------------------------------#
-# SgtLegend                                                                             #   
-# -[04/17/2010] Updated Nuke Evolution to XHTML 1.0 Transitional                        #
-# -[04/18/2010] Updated the installer/upgrade files and display                         #
-# -[04/19/2010] Improved load time for global variables                                 #
-# -[04/21/2010] Upgraded Swift mail to version 4.0.6                                    #
-# -[04/21/2010] Upgraded HTML Purifier to version 4                                     # 
-#---------------------------------------------------------------------------------------#
-# Technocrat                                                                            # 
-# -[04/22/2010] Added speed tweaks to the cache and PHP version compare                 #  
-#---------------------------------------------------------------------------------------#
-# Eyecu                                                                                 # 
-# -[04/17/2010] Updated Nuke Evolution to XHTML 1.0 Transitional                        #
-#---------------------------------------------------------------------------------------#
-# Wolfstar                                                                              # 
-# -[04/17/2010] Updated Nuke Evolution to XHTML 1.0 Transitional                        #
-#---------------------------------------------------------------------------------------#
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
 exit('Access Denied');
-
-#000000
-#11111
-#222222
-#333333
 
 #-----------------------------#
 # Theme Copyright Information #
@@ -79,7 +30,7 @@ $theme_name = basename(dirname(__FILE__));
 include(NUKE_THEMES_DIR.$theme_name.'/theme_info.php');
 
 # your admin id - this will normally be 2
-$portaladmin = 2;
+         $portaladmin = 3;
 
        global $powered_by, 
       $my_welcome_message, 
@@ -92,6 +43,8 @@ $define_theme_xtreme_209e,
      $avatar_overide_size, 
 	           $ThemeInfo, 
 	   $use_xtreme_voting, 
+	         $portaladmin,
+			     $opacity,
 $make_xtreme_avatar_small,
                       $db;
 
@@ -101,6 +54,7 @@ $make_xtreme_avatar_small,
 				   
 $my_welcome_message = '<a class = "welcome" href="'.HTTPS.'">PHP-Nuke Titanium <font color="#FF9900" size="1">(Desktop Version)</font></a>';
 
+$opacity = '0.9';
 # This is to tell the main portal menu to look for the images
 # in the theme dir "theme_name/images/menu"
 global $use_theme_image_dir_for_portal_menu;
@@ -142,8 +96,8 @@ define('theme_width', ((substr($ThemeInfo['themewidth'], -1) == '%') ? str_repla
 define('theme_copyright', ''.$theme_title.' Designed By: TheGhost<br />Copyright &copy '.date('Y').' The 86it Developers Network<br />All Rights Reserved');
 define('theme_copyright_click', 'Click the Link to Display Copyrights');
 
-addCSSToHead(theme_style_dir.'style.css','file');
-addCSSToHead(theme_style_dir.'menu.css','file');
+//addCSSToHead(theme_style_dir.'style.css','file');
+//addCSSToHead(theme_style_dir.'menu.css','file');
 
 #-------------------#
 # FlyKit Mod v1.0   #
@@ -157,6 +111,7 @@ addPHPCSSToHead(theme_phpstyle_dir.'sideblocks.php','file');
 addPHPCSSToHead(theme_phpstyle_dir.'body.php','file');       
 addPHPCSSToHead(theme_phpstyle_dir.'footer.php','file');     
 addPHPCSSToHead(theme_phpstyle_dir.'maintable.php','file');  
+addPHPCSSToHead(theme_phpstyle_dir.'arcade_tables.php','file');  
 addPHPCSSToHead(theme_phpstyle_dir.'CKeditor.php','file');   
 
 #-------------------#

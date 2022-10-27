@@ -13,7 +13,7 @@
 #---------------------------------------------------------------------------------------#
 # Designed By: Ernest Buffington                                                        #
 # Web Site: https://www.theghost.86it.us                                                #
-# Purpose: PHP-Nuke Titanium v4.0.3                                                     #
+# Purpose: PHP-Nuke Titanium v4.0.2                                                     #
 #---------------------------------------------------------------------------------------#
 # CMS INFO                                                                              #
 # PHP-Nuke Copyright (c) 2002    : Francisco Burzi phpnuke.org                          #
@@ -745,7 +745,7 @@ td.rowpic {
 /* Recent Topics Row*/
 th {
 	color: #FFF;
-	border: 1px solid #8d7b4d;
+	border: 1px solid #222;
 	border-bottom-width: 0;
 	font-size: 10px;
 	background-color: #3d3d3d;
@@ -754,8 +754,8 @@ th {
 }
 
 th.bar {
-	background: #645838;
-	border: pink 1px solid;
+	background: <?=$bgcolor5?>;
+	border: #222 1px solid;
 	color: #ddd;
 	font-size: 11px;
 	font-weight: bold;
