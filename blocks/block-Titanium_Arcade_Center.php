@@ -7,8 +7,8 @@
 /* PHP-NUKE: Center Arcade Block                                        */
 /* ================================                                     */
 /*                                                                      */
-/* Copyright (c) 2004 by JRSweets                                       */
-/* http://www.jeffrusso.net                                             */
+/* Copyright (c) 2022 by Ernest Allen Buffington                        */
+/* http://www.theghost.86it.us                                          */
 /*                                                                      */
 /* Originally by:                                                       */
 /* Copyright (c) 2004 by Barcrest                                       */
@@ -24,6 +24,8 @@
       Nuke Patched                             v3.1.0       09/20/2005
 -=[Mod]=-
       Advanced Username Color                  v1.0.5       09/20/2005
+	  User Avatar Top Scorers                  v1.0.0       10/27/2022
+	  Badges Mod                               v1.0.0       10/27/2022
  ************************************************************************/
 
 if(!defined('NUKE_EVO')) exit;
