@@ -31,7 +31,7 @@
 if(!defined('NUKE_EVO')) exit;
 
 define("_TOPGAMERS", "The Top Players");
-define("_VICTOIRES", "Number Of Wins :");
+define("_VICTOIRES", "NUMBER OF WINS");
 
 define('IN_PHPBB', true);
 include_once('includes/functions.php');
@@ -47,7 +47,7 @@ $top = 1;
 //Last 5 High Score section
 $last_five = 1;
 //Limit of lastest highscores
-$highscore_limit = 5;
+$highscore_limit = 10;
 
 //Arcade stats sections
 $arcade_stats = 1;
@@ -141,7 +141,7 @@ if ($top) {
     $content .= "<strong>$place - </strong>\n";
     $content .= "<a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['user_id']."\"><img src=\"modules/Forums/templates/subSilver/images/loupe.gif\" border= \"0\" alt=\"Jump to $lastUser's stats...\"></a> \n";
     $content .= "<a href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=".$row['user_id']."\">".$row['username']."</a> \n";
-    $content .= "<br /> <span class=\"w3-tag w3-round w3-blue\">NUMBER OF WINS</span> <span class=\"w3-badge w3-blue\"><strong>$nbvictprec</strong></span> <br /><br />\n";
+    $content .= "<br /> <span class=\"w3-tag w3-round w3-blue\">"._VICTOIRES."</span> <span class=\"w3-badge w3-blue\"><strong>$nbvictprec</strong></span> <br /><br />\n";
 
     $count = $count + 1;
   }
