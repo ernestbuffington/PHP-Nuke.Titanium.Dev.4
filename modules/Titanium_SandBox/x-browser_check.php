@@ -16,9 +16,9 @@ print "<!-- Your Test Code START x-browser_check.php -->";
 
 $pnt_browser = new Browser();
 
-global $cookie;
-$name = (isset($cookie[1]) && !empty($cookie[1])) ? $cookie[1] : _ANONYMOUS;
-log_write('admin', $name.' x-browser_check.php was called from facebook sandbox', 'loaded x-browser_check.php'); 
+global $userinfo, $cookie;
+$name = (isset($cookie[1]) && !empty($cookie[1])) ? $cookie[1] : Anonymous;
+log_write('admin', $name.' x-browser_check.php was called from Titanium Sandbox', 'loaded x-browser_check.php'); 
 
 if($pnt_browser->getBrowser() == Browser::BROWSER_CHROME && $pnt_browser->getVersion() >= 2 ) 
 {

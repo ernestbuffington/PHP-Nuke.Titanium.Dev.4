@@ -134,14 +134,16 @@ if ($top) {
 	}		
 
     $lastUser = $row['username'];
-    $row['username'] = '<strong>' . UsernameColor($row['username']) . '</strong>';
-    $row['username'] = UsernameColor($row['username']);
+    
+	$row['username'] = '<strong>' . UsernameColor($row['username']) . '</strong>';
 
-    $content .= '<img class="rounded-corners-profile" width="80" src="'.$current_avatar.'"></br>';
-    $content .= "<strong>$place - </strong>\n";
-    $content .= "<a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['user_id']."\"><img src=\"modules/Forums/templates/subSilver/images/loupe.gif\" border= \"0\" alt=\"Jump to $lastUser's stats...\"></a> \n";
-    $content .= "<a href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=".$row['user_id']."\">".$row['username']."</a> \n";
-    $content .= "<br /> <span class=\"w3-tag w3-round w3-blue\">"._VICTOIRES."</span> <span class=\"w3-badge w3-blue\"><strong>$nbvictprec</strong></span> <br /><br />\n";
+    $content .= "<a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['user_id']."\"><img class=\"rounded-corners-profile\" width=\"80\" src=".$current_avatar."></a></br>";
+    
+	$content .= "<strong>$place - </strong>\n";
+    
+	$content .= "<a href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=".$row['user_id']."\">".$row['username']."</a> \n";
+    
+	$content .= "<br /> <span class=\"w3-tag w3-round w3-blue\">"._VICTOIRES."</span> <span class=\"w3-badge w3-blue\"><strong>$nbvictprec</strong></span> <br /><br />\n";
 
     $count = $count + 1;
   }
@@ -218,7 +220,7 @@ if ($last_five) {
 
   $place = 0;
 
-  $sql = "SELECT g.* , u.username FROM ".$prefix."_bbgames g, ".$user_prefix."_users u WHERE g.game_highuser = u.user_id ORDER BY game_highdate DESC LIMIT 0,$recent_scores";
+  $sql = "SELECT g.* , u.user_id, u.username FROM ".$prefix."_bbgames g, ".$user_prefix."_users u WHERE g.game_highuser = u.user_id ORDER BY game_highdate DESC LIMIT 0,$recent_scores";
   
   $result = $db->sql_query($sql);
 
@@ -230,15 +232,32 @@ if ($last_five) {
   //$lasthighdate = date("D M d, Y g:i a" , $row['game_highdate']);
   global $board_config;
   
+    list($user_avatar, 
+	$user_avatar_type, 
+	$user_allowavatar) = $db->sql_ufetchrow("SELECT `user_avatar`,`user_avatar_type`, `user_allowavatar` FROM `".$prefix."_users` WHERE `user_id`=".$row['user_id']."", SQL_NUM);
+
+    switch($user_avatar_type)
+    {
+       case 1:
+       $current_avatar = $board_config['avatar_path'] . '/' . $user_avatar;
+       break;
+       case 2:
+       $current_avatar = resize_avatar($user_avatar);
+       break;
+       case 3:
+       $current_avatar = $board_config['avatar_gallery_path'] . '/' . (($user_avatar 
+	   == 'blank.png' || $user_avatar == 'gallery/blank.png') ? 'blank.png' : $user_avatar);
+       break;
+	}		
+  
   $lasthighdate = create_date( $board_config['default_dateformat'] , $row['game_highdate'] , $board_config['board_timezone'] );
 
   $content .= "<tr>\n";
   
-  $content .= "<td class=\"arcadeRow2\" width=\"18%\" align=\"center\" class=\"row1\"><a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['game_highuser']."\"><img 
-  src=\"modules/Forums/templates/subSilver/images/loupe.gif\" border= \"0\" alt=\"Jump to ".$row['username']."'s stats...\"></a><a 
-  href=\"modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u=".$row['game_highuser']."\">$lastUser</a> </strong></td>\n";
+  $content .= "<td class=\"arcadeRow2\" width=\"18%\" align=\"left\" class=\"row1\">&nbsp;<font color=\"gold\" size=\"4\"><i class=\"bi bi-trophy\"></i></font>1st<strong><a style = \"text-decoration: none;\"
+  href=\"modules.php?name=Forums&file=statarcade&uid=".$row['game_highuser']."\">&nbsp;&nbsp;<img class=\"rounded-corners-gamepic\" width=\"40\" src=".$current_avatar."></a><font size=\"3\"> $lastUser</font> </strong></td>\n";
   
-  $content .= "<td class=\"arcadeRow2\" width=\"18%\" align=\"center\" class=\"row2\"><span class=\"w3-badge w3-green\"><strong>".$row['game_highscore']."</strong></span></td>\n";
+  $content .= "<td class=\"arcadeRow2\" width=\"18%\" align=\"center\" class=\"row2\"><span class=\"w3-badge w3-green\"><font size=\"4\"><strong>".$row['game_highscore']."</strong></font></span></td>\n";
   
   $content .= "<td class=\"arcadeRow2\" width=\"34%\" align=\"left\" class=\"row1\"><strong>&nbsp;&nbsp;&nbsp;<a href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><img 
   height=\"40\" class=\"rounded-corners-gamepic\" src=\"modules/Forums/games/pics/".$row['game_pic']."\" border= \"0\" alt=\"".$row['game_name']."\"></a>&nbsp;&nbsp;

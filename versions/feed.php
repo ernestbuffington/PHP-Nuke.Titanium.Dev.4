@@ -9,7 +9,15 @@
 <div align="center"><strong>PHP-Nuke Titanium Repsoitory</strong> (Nightly Builds)</div>
 <div align="center"><a class="titaniumbutton" href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><i class="bi bi-github"></i> Visit GitHub Repository</a></div>
 <hr>
+<strong><i class="bi bi-calendar3"></i> Oct 28th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Working on Titanium Arcade Center Block<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Oct 27th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Worked on Titanium Arcade Center Block<br />
+<strong><i class="bi bi-calendar3"></i> Oct 27th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Setup www.inzanemindz.com Arcade<br />
+<strong><i class="bi bi-calendar3"></i> Oct 27th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Setup www.inzanemindz.com<br />
+<hr>
 <strong><i class="bi bi-calendar3"></i> Oct 26th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Disabled iFrame in HTML purifier Forum Crash<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Oct 25th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Blogs Post Config<br />
 <hr>
 <strong><i class="bi bi-calendar3"></i> Oct 25th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Fixed Blogs Post Config<br />
 <strong><i class="bi bi-calendar3"></i> Oct 25th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated 4n Who is Online<br />

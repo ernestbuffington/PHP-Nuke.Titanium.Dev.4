@@ -7,7 +7,7 @@ function resize_avatar(image)
   }
 }
 </script>
-  <!-- affichage de la phrase d'index -->
+  <!-- index phrase display -->
   
 <table width="100%" cellpadding="2" cellspacing="1" border="0" class="bodyline">
   <tr> 

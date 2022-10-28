@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /***************************************************************************
  *                              scoreboard.php
  *                            -------------------
@@ -21,24 +20,27 @@
  ************************************************************************/
 
 if (!defined('MODULE_FILE')) {
-    die('You can\'t access this file directly...');
+  die('You can\'t access this file directly...');
 }
 
 if ($popup != "1"){
-    $module_name = basename(dirname(__FILE__));
-    require("modules/".$module_name."/nukebb.php");
+  $module_name = basename(dirname(__FILE__));
+  require("modules/".$module_name."/nukebb.php");
 }
 else
 {
-    $phpbb_root_path = NUKE_FORUMS_DIR;
+  $phpbb_root_path = NUKE_FORUMS_DIR;
 }
 
 define('IN_PHPBB', true);
+
 $phpbb_root_path = 'modules/Forums/';
+
 include($phpbb_root_path . 'extension.inc');
 include($phpbb_root_path . 'common.'.$phpEx);
 
 date_default_timezone_set('America/New_York');
+
 $info = getdate();
 $date = $info['mday'];
 $month = $info['mon'];
@@ -48,6 +50,8 @@ $min = $info['minutes'];
 $sec = $info['seconds'];
 $current_date = "<i class=\"bi bi-calendar3\"></i>&nbsp;&nbsp;$month/$date/$year&nbsp;&nbsp;&nbsp;<i class=\"bi bi-alarm\"></i>&nbsp;$hour:$min:$sec";
 $actual_time = $current_date;
+
+global $prefix, $user_prefix, $db, $ThemeSel, $board_config;
 
 //
 // Start initial var setup
@@ -107,8 +111,9 @@ if (!($score_row = $db->sql_fetchrow($result))) {
 
 $score_count = $db->sql_numrows($result) ;
 
-$sql = "SET OPTION SQL_BIG_SELECTS=1 ";
-$db->sql_query($sql) ;
+//MAriaDB no longer supports SQL_BIG_SELECTS
+//$sql = "SET OPTION SQL_BIG_SELECTS=1 ";
+//$db->sql_query($sql) ;
 
 $sql = "SELECT COUNT(*) AS num, s.*, u.username, g.game_name 
 
@@ -187,39 +192,32 @@ $template->assign_vars(array(
 //
 if ($total_score) {
         for($i = 0; $i < $total_score; $i++) {
-                $row_color = (!($i % 2)) ? $theme['td_color1'] : $theme['td_color2'];
+                
+				$row_color = (!($i % 2)) ? $theme['td_color1'] : $theme['td_color2'];
                 $row_class = (!($i % 2)) ? $theme['td_class1'] : $theme['td_class2'];
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-                $user_gc = UsernameColor($score_rowset[$i]['username']);
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-     global $phpbb2_board_config;
- 	 
-	 list($player_avatar,$player_avatar_type) = $db->sql_ufetchrow("SELECT `user_avatar`, `user_avatar_type` FROM `nuke_users` WHERE `user_id`=$score_rowset[$i]['user_id']", SQL_NUM);
-	 
-	   switch($player_avatar_type)
-	   {
-		# user_allowavatar = 1
-		case USER_AVATAR_UPLOAD:
-		$user_avatar = '<td width="45px">'.( $phpbb2_board_config['allow_avatar_upload'] ) 
-		? '<div align="center"><img class="rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $phpbb2_board_config['avatar_path'] . '/' . $player_avatar . '" alt="" border="0" /></div></td>' : '</td>';
-		break;
-		# user_allowavatar = 2
-		case USER_AVATAR_REMOTE:
-		$user_avatar = '<td width="45px"><div align="center">'.'<img class="rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;"  src="'.avatar_resize($player_avatar).'" alt="" border="0" /></div></td>';
-		break;
-		# user_allowavatar = 3
-		case USER_AVATAR_GALLERY:
-		$user_avatar = '<td width="45px">'. ( $phpbb2_board_config['allow_avatar_local'] ) 
-		? '<div align="center"><img class="rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $phpbb2_board_config['avatar_gallery_path'] . '/' . (($player_avatar == 'blank.png' || $player_avatar == 'gallery/blank.png') ? 'blank.png' : $player_avatar) . '" alt="" border="0" /></td>' : '</div></td>';
-		break;
+                
+				$user_gc = UsernameColor($score_rowset[$i]['username']);
 
-	}
+                
+				list($user_avatar, 
+	            $user_avatar_type, 
+	            $user_allowavatar) = $db->sql_ufetchrow("SELECT `user_avatar`,`user_avatar_type`, `user_allowavatar` FROM `".$prefix."_users` WHERE `user_id`=".$score_rowset[$i]['user_id']."", SQL_NUM);
 
-		        $score_rowset[$i]['trophy'] = '';
+                switch($user_avatar_type)
+                {
+                  case 1:
+                  $current_avatar = $board_config['avatar_path'] . '/' . $user_avatar;
+                  break;
+                  case 2:
+                  $current_avatar = resize_avatar($user_avatar);
+                  break;
+                  case 3:
+                  $current_avatar = $board_config['avatar_gallery_path'] . '/' . (($user_avatar 
+	              == 'blank.png' || $user_avatar == 'gallery/blank.png') ? 'blank.png' : $user_avatar);
+                  break;
+	            }	
+		        
+				$score_rowset[$i]['trophy'] = '';
 
                 # Ordinal Number Suffix - TheGhost 11:05 pm Saturday 10/22/2022
 		        $last = substr($score_rowset[$i]['num'],-1);
@@ -245,7 +243,7 @@ if ($total_score) {
                         'SCORE' =>  number_format($score_rowset[$i]['score_game']),
                         'TROPHY' => $score_rowset[$i]['trophy'],
 						'PLAYER' => $score_rowset[$i]['username'],
-						'PLAYER_AVATAR' => $user_avatar,
+						'PLAYER_AVATAR' => '<a href="' . append_sid("statarcade.$phpEx?uid=" . $score_rowset[$i]['user_id']) . '"><img class="rounded-corners-gamepic" height="40" src="'.$current_avatar.'"></a>',
                         'URL_STATS' => '<nobr><a href="' . append_sid("statarcade.$phpEx?uid=" . $score_rowset[$i]['user_id']) . '">' . "<font size='5'><i class='bi bi-award'></i></font>" . '</a></nobr> ',
                         'GOTO_PAGE' => $goto_page,
                         'DATE' => create_date($board_config['default_dateformat'] , $score_rowset[$i]['score_date'] , $board_config['board_timezone']))

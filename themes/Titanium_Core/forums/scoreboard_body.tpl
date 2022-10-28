@@ -1,5 +1,5 @@
 <form method="post" action="{S_POST_DAYS_ACTION}">
-  <!-- affichage de la phrase d'index -->
+  <!-- index phrase display -->
   <table width="100%" cellspacing="2" cellpadding="2" border="0">
     <tr>
       <td align="left" valign="middle" width="100%">
@@ -39,7 +39,7 @@
 			   </font></td>
 			   
 	   
-          <td class="row3" align="left" width="250"><font size="4">{scorerow.PLAYER_AVATAR}{scorerow.PLAYER}</font></td>
+          <td class="row3" align="left" width="250"><font size="4">&nbsp;{scorerow.PLAYER_AVATAR}&nbsp;&nbsp;{scorerow.PLAYER}</font></td>
           <td class="row1" align="center" width="50">{scorerow.URL_STATS}</td>
           <td class="row3" align="center" width="244"><font size="2">USER SCORE</font></br> <font size="4">{scorerow.SCORE}</font></td>
           <td class="row1" align="left" width="235">&nbsp;<font size="3"><i class="bi bi-calendar2-check"></i>&nbsp;{scorerow.DATE}</font></td>

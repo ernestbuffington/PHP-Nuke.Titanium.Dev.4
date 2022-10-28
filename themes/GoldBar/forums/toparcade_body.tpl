@@ -1,4 +1,4 @@
-<!-- affichage de la phrase d'index -->
+<!-- index phrase display -->
 {HALL_OF_FAME}
   <table width="100%" cellspacing="2" cellpadding="2" border="0">
     <tr>

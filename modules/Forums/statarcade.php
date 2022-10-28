@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /***************************************************************************
  *                              statarcade.php
  *                            -------------------
@@ -25,15 +24,16 @@ if (!defined('MODULE_FILE')) {
 }
 
 if ($popup != "1"){
-    $module_name = basename(dirname(__FILE__));
-    require("modules/".$module_name."/nukebb.php");
+  $module_name = basename(dirname(__FILE__));
+  require("modules/".$module_name."/nukebb.php");
 }
 else
 {
-    $phpbb_root_path = NUKE_FORUMS_DIR;
+  $phpbb_root_path = NUKE_FORUMS_DIR;
 }
 
 define('IN_PHPBB', true);
+
 include($phpbb_root_path . 'extension.inc');
 include($phpbb_root_path . 'common.'.$phpEx);
 require($phpbb_root_path . 'gf_funcs/gen_funcs.' . $phpEx);
@@ -41,7 +41,7 @@ require($phpbb_root_path . 'gf_funcs/gen_funcs.' . $phpEx);
 $uid = get_var_gf(array('name' => 'uid', 'intval' => true, 'default' => 0));
 
 if ($uid == 0) {
-        message_die(GENERAL_ERROR, "Unknown user", '');
+  message_die(GENERAL_ERROR, "Unknown user", '');
 }
 
 $header_location = (@preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOFTWARE"))) ? "Refresh: 0; URL=" : "Location: ";
@@ -151,8 +151,9 @@ while ($row=$db->sql_fetchrow($result)) {
 $games_par_page = intval($arcade_config['stat_par_page']);
 $where_sql = (!empty($liste_id)) ? " AND s1.game_id IN ($liste_id)" : '';
 
-$sql = "SET OPTION SQL_BIG_SELECTS=1 ";
-$db->sql_query($sql);
+//MAriaDB no longer supports SQL_BIG_SELECTS
+//$sql = "SET OPTION SQL_BIG_SELECTS=1 ";
+//$db->sql_query($sql);
 $sql = "SELECT count(*) AS pos, s1.game_id , g.game_highuser, g.game_name FROM " . SCORES_TABLE . " s1 LEFT JOIN " . SCORES_TABLE . " s2 ON s1.score_game >= s2.score_game AND s1.game_id = s2.game_id LEFT JOIN " . GAMES_TABLE . " g ON g.game_id = s1.game_id WHERE s2.user_id = $uid AND ((s1.score_game > s2.score_game) OR (s1.user_id = $uid)) $where_sql GROUP BY s1.game_id";
 
 if (!($result = $db->sql_query($sql))) {

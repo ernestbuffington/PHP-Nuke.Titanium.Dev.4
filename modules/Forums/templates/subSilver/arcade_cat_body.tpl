@@ -8,7 +8,7 @@ function Arcade_Popup(mypage,myname,w,h,scroll)
   win = window.open(mypage,myname,settings);
 }
 </script>
- <!-- affichage de la phrase d'index -->
+ <!-- index phrase display -->
 {HEADINGARCADE}
   <table width="100%" cellspacing="2" cellpadding="2" border="0">
     <tr>
