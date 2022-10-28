@@ -6,6 +6,11 @@
 /***************************************************************************
  *                               proarcade.php
  *                            -------------------
+ *                                Arcade v4.0
+ *
+ *   Evo Xtreme Ported Arcade - http://www.php-nuke-titanium.86it.us
+ *   Ported to Titanium by Ernest Allen Buffington aka TheGhost
+ *   10/27/2022 8:41 pm Thursday
  *
  *   PHPNuke Ported Arcade - http://www.nukearcade.com
  *   Original Arcade Mod phpBB by giefca - http://www.gf-phpbb.com
@@ -13,8 +18,12 @@
  ***************************************************************************/
 
 /*****[CHANGES]**********************************************************
+-=[Fixes]=-
+       PHP-Nuke Titanium Session Handling
+	   PM Arcade Messages 
 -=[Base]=-
       Nuke Patched                             v3.1.0       09/20/2005
+	  PHP-Nuke Titanium Patched                v4.0.3       10/27/2022
  ************************************************************************/
 
 if (!defined('MODULE_FILE')) {
@@ -27,10 +36,11 @@ if ($popup != "1"){
 }
 else
 {
-    $phpbb_root_path = NUKE_FORUMS_DIR;
+  $phpbb_root_path = NUKE_FORUMS_DIR;
 }
 
 define('IN_PHPBB', true);
+
 include($phpbb_root_path . 'extension.inc');
 include($phpbb_root_path . 'common.' . $phpEx);
 require($phpbb_root_path . 'gf_funcs/gen_funcs.' . $phpEx);
@@ -41,20 +51,26 @@ $gid = get_var_gf(array('name'=>'gid', 'intval'=>true, 'default'=>0));
 
 $header_location = (@preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOFTWARE"))) ? "Refresh: 0; URL=" : "Location: ";
 
-//
-// Start session management
-//
-
+/***************************
+ *
+ * Start session management
+ *
+ **************************/
 $userdata = session_pagestart($user_ip, PAGE_GAME);
 init_userprefs($userdata);
+/***************************
+ *
+ * End session management
+ *
+ **************************/
 
-//
-// End session management
-//
 include('includes/functions_arcade.' . $phpEx);
-//
-// Start auth check
-//
+
+/***************************
+ *
+ * Start auth check
+ *
+ **************************/
 $header_location = (@preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOFTWARE"))) ? "Refresh: 0; URL=" : "Location: ";
 
 $sql = "SELECT * FROM " . GAMES_TABLE . " WHERE game_id = '$gid'";
@@ -162,10 +178,12 @@ if ($row['game_type'] == 4 or $row['game_type'] ==5) {
     exit;
  }
 }
+/***************************
+ *
+ * End auth check
+ *
+ **************************/
 
-//
-// End of auth check
-//
 $sql = "SELECT * FROM " . SCORES_TABLE . " WHERE game_id = $gid and user_id = " . $userdata['user_id'] ;
 
 if (!($result = $db->sql_query($sql))) {
@@ -181,7 +199,7 @@ if (!($row = $db->sql_fetchrow($result))) {
 
   if (!($result = $db->sql_query($sql))) {
     message_die(GENERAL_ERROR, "Unable to insert data into scores table", '', __LINE__, __FILE__, $sql);
-        }
+  }
 } 
 else 
 {
@@ -275,9 +293,7 @@ else
 
            if ($row_check['user_allow_arcadepm'] == 1) {
           
-		  //                                
-          // Add to the users new pm counter
-          //
+          # Add to the users new pm counter
           $sql = "UPDATE " . USERS_TABLE . "
           SET user_new_privmsg = user_new_privmsg + 1, user_last_privmsg = " . time() . "
           WHERE user_id = " . $user_id;
