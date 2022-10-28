@@ -255,7 +255,7 @@ if ($last_five) {
   $content .= "<tr>\n";
   
   $content .= "<td class=\"arcadeRow2\" width=\"18%\" align=\"left\" class=\"row1\">&nbsp;<font color=\"gold\" size=\"4\"><i class=\"bi bi-trophy\"></i></font>1st<strong><a style = \"text-decoration: none;\"
-  href=\"modules.php?name=Forums&file=statarcade&uid=".$row['game_highuser']."\">&nbsp;&nbsp;<img class=\"rounded-corners-gamepic\" width=\"40\" src=".$current_avatar."></a><font size=\"3\"> $lastUser</font> </strong></td>\n";
+  href=\"modules.php?name=Forums&file=statarcade&uid=".$row['game_highuser']."\">&nbsp;&nbsp;<img class=\"rounded-corners-gamepic tooltip-html-side-interact tooltipstered\" title= \"I'm ".$row['username'].", I just finished playing ( ".$row['game_name']." )</br>I just took the 1st Place Trophy!</br>My score was ".$row['game_highscore']."\" width=\"40\" src=".$current_avatar."> <font class=\"tooltip-html-side-interact tooltipstered\" title= \"".$row['username']."'s Arcade Stats\" size=\"3\"> $lastUser</font> </strong></a></td>\n";
   
   $content .= "<td class=\"arcadeRow2\" width=\"18%\" align=\"center\" class=\"row2\"><span class=\"w3-badge w3-green\"><font size=\"4\"><strong>".$row['game_highscore']."</strong></font></span></td>\n";
   
