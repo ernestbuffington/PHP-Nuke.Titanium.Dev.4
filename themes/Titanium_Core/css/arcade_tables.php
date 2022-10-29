@@ -8,6 +8,14 @@ global $screen_width, $screen_height, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4
 /* <?=$bgcolor1?> */
 ?>
 /* Main arcade table cell colors and backgrounds */
+td.whoisplaying_row {
+	white-space: nowrap;
+	background: #8d7b4d;
+	border: 3px solid #c9b06d;
+	padding: 4px;
+    box-shadow: inset 1px 1px 3px #000;
+}
+
 td.arcadeRow1 {
 	background: #988653;
     background-color: #988653;
@@ -42,9 +50,11 @@ td.arcadeCat, td.arcadeCatHead, td.arcadeCatSides, td.arcadeCatLeft, td.arcadeCa
 
 td.arcadeCat, td.arcadeCatHead, td.arcadeCatBottom {
 	white-space: nowrap;
-  	background: #8d7b4d;
+	background: #988653;
+    background-color: #988653;
 	border: 3px solid #c9b06d;
 	padding: 4px;
+    box-shadow: inset 1px 1px 3px #000;
    
 }
 

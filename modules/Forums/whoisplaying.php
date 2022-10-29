@@ -108,7 +108,7 @@ endfor;
 
 foreach($games_names AS $key => $val): 
  if ($games_players[$key]!=''): 
-   $class = ($class == 'row1') ? 'row2' : 'row1';
+   $class = ($class == 'arcadeRow1') ? 'arcadeRow2' : 'row1';
    $template->assign_block_vars('whoisplaying_row', array(
    'CLASS' => $class,
    'GAME' => '<a href="' . append_sid("games.$phpEx?gid=" . $key) . '">' . $val . '</a>',
