@@ -151,18 +151,18 @@ if (!$db->sql_query($sql))
 // Type V2 Game Else Type V1
 if ($row['game_type'] == 3) {
         
-		$type_v2 = true;
+  $type_v2 = true;
         
-		$template->assign_block_vars('game_type_V2',array());
+  $template->assign_block_vars('game_type_V2',array());
         
-		$gamehash_id = md5(uniqid($user_ip));
+  $gamehash_id = md5(uniqid($user_ip));
         
-		$sql = "INSERT INTO " . GAMEHASH_TABLE . " (gamehash_id , game_id , user_id , hash_date) VALUES ('$gamehash_id' , '$gid' , '" . $userdata['user_id'] . "' , '" . time() . "')";
+  $sql = "INSERT INTO " . GAMEHASH_TABLE . " (gamehash_id , game_id , user_id , hash_date) VALUES ('$gamehash_id' , '$gid' , '" . $userdata['user_id'] . "' , '" . time() . "')";
 
-        if (!($result = $db->sql_query($sql)))
-        {
-           message_die(GENERAL_ERROR, "Could not delete from game hash table", '', __LINE__, __FILE__, $sql);
-        }
+  if (!($result = $db->sql_query($sql)))
+  {
+    message_die(GENERAL_ERROR, "Could not delete from game hash table", '', __LINE__, __FILE__, $sql);
+  }
 }
 elseif ($row['game_type'] == 4 or $row['game_type'] == 5)
         {
