@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /***************************************************************************
  *                              games_popup.php
  *                            -------------------
@@ -41,7 +40,7 @@ include($phpbb_root_path . 'common.'.$phpEx);
 //
 // Start session management
 //
-$userdata = session_pagestart($user_ip, PAGE_GAME, $nukeuser);
+$userdata = session_pagestart($user_ip, PAGE_GAME);
 init_userprefs($userdata);
 //
 // End session management
@@ -110,13 +109,6 @@ if ((isset($_POST['gid']) && !empty($_POST['gid'])) && (isset($_GET['gid']) && !
 else 
     $gid = (isset($_REQUEST['gid']) && !stristr($_REQUEST['gid'],'..') && !stristr($_REQUEST['gid'],'://')) ? addslashes(trim($_REQUEST['gid'])) : false;
 	
-//End Limit Play mod
-//if (!empty($HTTP_POST_VARS['gid']) || !empty($HTTP_GET_VARS['gid'])) {
-//        $gid = (!empty($HTTP_POST_VARS['gid'])) ? intval($HTTP_POST_VARS['gid']) : intval($HTTP_GET_VARS['gid']);
-//} else {
-//        message_die(GENERAL_ERROR, "No game is specified");
-//}
-
 $sql = "SELECT g.* , u.username, MAX(s.score_game) AS highscore FROM " . GAMES_TABLE . " g LEFT JOIN " . SCORES_TABLE . " s ON g.game_id = s.game_id LEFT JOIN " . USERS_TABLE . " u ON g.game_highuser = u.user_id WHERE g.game_id = $gid GROUP BY g.game_id,g.game_highscore";
 
 if (!($result = $db->sql_query($sql))) {
