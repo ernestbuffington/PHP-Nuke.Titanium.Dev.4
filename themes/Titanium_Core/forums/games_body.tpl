@@ -166,7 +166,7 @@ function resize_avatar(image)
 {WHOISPLAYING}
   <table width="100%" cellpadding="5" cellspacing="1" border="0">
    <tr>
-        <td></td></br><div align="center">[ {URL_ARCADE} ]&nbsp;-&nbsp;[ {URL_BESTSCORES} ]&nbsp;-&nbsp;[ {URL_SCOREBOARD} ]&nbsp;-&nbsp;[ 
-		{MANAGE_COMMENTS} ]</div></td>
+        <td></td></br><div align="center"><span class="arcadeCattitle">[ {URL_ARCADE} ]</span>&nbsp;-&nbsp;<span class="arcadeCattitle">[ {URL_BESTSCORES} ]</span>&nbsp;-&nbsp;<span class="arcadeCattitle">[ {URL_SCOREBOARD} ]</span>&nbsp;-&nbsp;<span class="arcadeCattitle">[ 
+		{MANAGE_COMMENTS} ]</span></div></td>
    </tr>
   </table>

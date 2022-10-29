@@ -33,10 +33,13 @@ else
 }
 
 define('IN_PHPBB', true);
+
 $phpbb_root_path = NUKE_FORUMS_DIR;
+
 include($phpbb_root_path . 'extension.inc');
 include($phpbb_root_path . 'common.'.$phpEx);
 require($phpbb_root_path . 'gf_funcs/gen_funcs.' . $phpEx );
+
 include('includes/constants.'. $phpEx);
 
 //
@@ -52,9 +55,9 @@ include('includes/functions_arcade.' . $phpEx);
 // Start auth check
 //
 if (!$userdata['session_logged_in']) {
-        $header_location = ( @preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOFTWARE")) ) ? "Refresh: 0; URL=" : "Location: ";
-        header($header_location . "modules.php?name=Your_Account");
-        exit;
+  $header_location = ( @preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOFTWARE")) ) ? "Refresh: 0; URL=" : "Location: ";
+  header($header_location . "modules.php?name=Your_Account");
+  exit;
 }
 //
 // End of auth check
@@ -69,34 +72,30 @@ $arcade_config = read_arcade_config();
 $liste_cat_auth = get_arcade_categories($userinfo['user_id'], $userinfo['user_level'],'view');
 
 if( empty($liste_cat_auth) ) {
-        $liste_cat_auth = "''";
+  $liste_cat_auth = "''";
 }
 
 $order_by = '';
+
 switch ( $arcade_config['game_order']) {
-        case 'Alpha':
-            $order_by = ' game_name ASC ';
-            break;
-
-        case 'Popular':
-            $order_by = ' game_set DESC ';
-            break;
-
-        case 'Fixed':
-            $order_by = ' game_order ASC ';
-            break;
-
-        case 'Random':
-            $order_by = ' RAND() ';
-            break;
-
-        case 'News':
-            $order_by = ' game_id DESC ';
-            break;
-
-        default :
-            $order_by = ' game_order ASC ';
-            break;
+  case 'Alpha':
+    $order_by = ' game_name ASC ';
+    break;
+  case 'Popular':
+    $order_by = ' game_set DESC ';
+    break;
+  case 'Fixed':
+    $order_by = ' game_order ASC ';
+    break;
+  case 'Random':
+    $order_by = ' RAND() ';
+    break;
+  case 'News':
+    $order_by = ' game_id DESC ';
+    break;
+  default :
+    $order_by = ' game_order ASC ';
+    break;
 }
 
 //$favori = $HTTP_GET_VARS['favori'];

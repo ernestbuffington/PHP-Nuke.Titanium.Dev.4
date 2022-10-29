@@ -218,10 +218,10 @@ $template->assign_vars(array(
         'GAMEHASH' => $gamehash_id,
         'L_TOP' => $lang['best_scores_game'] ,
         'HIGHSCORE' => number_format($row['highscore']),
-        'URL_ARCADE' => '<nobr><a class="cattitle" href="' . append_sid("arcade.$phpEx") . '">' . $lang['lib_arcade'] . '</a></nobr> ',
-        'MANAGE_COMMENTS' => '<nobr><a class="cattitle" href="' . append_sid("comments_list.$phpEx") . '">' . $lang['comments'] . '</a></nobr> ',
-        'URL_BESTSCORES' => '<nobr><a class="cattitle" href="' . append_sid("toparcade.$phpEx") . '">' . $lang['best_scores'] . '</a></nobr> ',
-        'URL_SCOREBOARD' => '<nobr><a class="cattitle" href="' . append_sid("scoreboard.$phpEx?gid=$gid") . '">' . $lang['scoreboard'] . '</a></nobr> ')
+        'URL_ARCADE' => '<nobr><button class="arcadeCattitle" type="button" onclick=window.location.href="' . append_sid("arcade.$phpEx") . '">&nbsp;' . $lang['lib_arcade'] . '&nbsp;</button></nobr> ',
+        'MANAGE_COMMENTS' => '<nobr><button class="arcadeCattitle" type="button" onclick=window.location.href="' . append_sid("comments_list.$phpEx") . '">&nbsp;' . $lang['comments'] . '&nbsp;</button></nobr> ',
+        'URL_BESTSCORES' => '<nobr><button class="arcadeCattitle" type="button" onclick=window.location.href="' . append_sid("toparcade.$phpEx") . '">&nbsp;' . $lang['best_scores'] . '&nbsp;</button></nobr> ',
+        'URL_SCOREBOARD' => '<nobr><button class="arcadeCattitle" type="button" onclick=window.location.href="' . append_sid("scoreboard.$phpEx?gid=$gid") . '">&nbsp;' . $lang['scoreboard'] . '&nbsp;</button></nobr> ')
 );
 
 $sql = "SELECT s.* , u.username, u.user_avatar_type, u.user_allowavatar, u.user_avatar FROM " . SCORES_TABLE . " s LEFT JOIN " . USERS_TABLE . " u ON s.user_id = u.user_id WHERE game_id = $gid ORDER BY s.score_game DESC, s.score_date ASC LIMIT 0,15 ";

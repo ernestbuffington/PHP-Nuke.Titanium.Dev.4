@@ -30,6 +30,47 @@ echo "/* When we are done we will move this code to style.css */\n\n";
     
 }
 
+.arcadeCattitle {
+  background-color: #8d7b4d;
+  color: white;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 4px;
+  box-shadow: inset 1px 1px 3px #000;
+  text-shadow: 2px 2px 4px #000000;
+
+
+}
+
+.arcadeCattitle:hover {
+  background-color: #645838;
+  color: white;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 4px;
+  box-shadow: inset 1px 1px 3px #000;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+.arcadeCattitle:active {
+  background-color: #645838;
+  color: white;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 4px;
+  box-shadow: inset 1px 1px 3px #000;
+  text-shadow: 2px 2px 4px #000000;
+
+}
+
+.arcadeCattitle:visited {
+  color: white;
+  font-size: 15px;
+  text-decoration: none;
+  text-transform: uppercase;
+
+}
+
 .arcade-admin-font{
     text-shadow: 2px 2px black;
 	font-size: 13px;
