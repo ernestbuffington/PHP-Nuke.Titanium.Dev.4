@@ -164,35 +164,35 @@ if ($row['game_type'] == 3) {
     message_die(GENERAL_ERROR, "Could not delete from game hash table", '', __LINE__, __FILE__, $sql);
   }
 }
-elseif ($row['game_type'] == 4 or $row['game_type'] == 5)
-        {
-        if ($row['game_type'] == 5)
-                {
-                            $template->assign_block_vars('game_type_V5',array());
-            }
-            else
-            {
-                        $template->assign_block_vars('game_type_V2',array());
-            }
-        setcookie('gidstarted', '', time() - 3600);
-        setcookie('gidstarted',$gid);
-        setcookie('timestarted', '', time() - 3600);
-        setcookie('timestarted', time());
+elseif ($row['game_type'] == 4 or $row['game_type'] == 5) {
+  
+  if ($row['game_type'] == 5) {
+    $template->assign_block_vars('game_type_V5',array());
+  }
+  else
+     {
+       $template->assign_block_vars('game_type_V2',array());
+     }
+  
+  setcookie('gidstarted', '', time() - 3600);
+  setcookie('gidstarted',$gid);
+  setcookie('timestarted', '', time() - 3600);
+  setcookie('timestarted', time());
 
-        $gamehash_id = md5($user_ip);
-        $sql = "INSERT INTO " . GAMEHASH_TABLE . " (gamehash_id , game_id , user_id , hash_date) VALUES ('$gamehash_id' , '$gid' , '" . $userdata['user_id'] . "' , '" . time() . "')";
+  $gamehash_id = md5($user_ip);
+  
+  $sql = "INSERT INTO " . GAMEHASH_TABLE . " (gamehash_id , game_id , user_id , hash_date) VALUES ('$gamehash_id' , '$gid' , '" . $userdata['user_id'] . "' , '" . time() . "')";
 
-        if (!($result = $db->sql_query($sql)))
-                {
-                message_die(GENERAL_ERROR, "Couldn't update hashtable", '', __LINE__, __FILE__, $sql);
-        }
+  if (!($result = $db->sql_query($sql)))
+  {
+     message_die(GENERAL_ERROR, "Couldn't update hashtable", '', __LINE__, __FILE__, $sql);
+  }
 
-        }
+}
 else
-                {
-                        message_die(GENERAL_ERROR, "Game Type no longer supported, please contact the admin and have him/her delete it.");
-
-                }
+   {
+     message_die(GENERAL_ERROR, "Game Type no longer supported, please contact the admin and have him/her delete it.");
+   }
 
 setcookie('arcadepopup', '', time() - 3600);
 setcookie('arcadepopup', '0');
