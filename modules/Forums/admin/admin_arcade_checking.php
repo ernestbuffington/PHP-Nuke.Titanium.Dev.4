@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /***************************************************************************
  *                            admin_arcade_checking.php
  *                            -------------------------
@@ -19,20 +18,21 @@ define('IN_PHPBB', 1);
 
 if( !empty($setmodules) )
 {
-    $file = basename(__FILE__);
-    $module['Arcade_Admin']['Settings_check'] = $file;
-    return;
+  $file = basename(__FILE__);
+  $module['Arcade_Admin']['Settings_check'] = $file;
+  return;
 }
 
 $root_path = "./../../../";
 $phpbb_root_path = "./../";
+
 require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
-
 
 $problemcount=0;
 $tableproblem=0;
 $fileuploadproblem=0;
+
 echo "<div><h1>Arcade Checking</h1>\n"
     ."<p>This function will search and check for frequent errors during Arcade Mod V3+ Installation.</p>"
     ."</div>";
@@ -45,8 +45,7 @@ echo "<table cellpadding=\"4\" align=\"center\" border=\"1\">";
 $filechecklist=array(
                 "arcade.php",
                 "blocks/block-Arcade.php",
-                "blocks/block-Arcade_Center.php",
-                "blocks/block-Random_Games.php",
+                "blocks/block-Titanium_Arcade_Center.php",
                 "images/arcade_mod/arcade_logo.png",
                 "includes/functions_arcade.php",
                 "modules/Forums/arcade.php",
@@ -242,5 +241,4 @@ echo "    <tr>\n"
 echo "</table>";
 
 include('./page_footer_admin.'.$phpEx);
-
 ?>
