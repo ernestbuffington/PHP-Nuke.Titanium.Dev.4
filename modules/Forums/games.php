@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /***************************************************************************
  *                                games.php
  *                            -------------------
@@ -21,21 +20,23 @@
  ************************************************************************/
 
 if (!defined('MODULE_FILE')) {
-    die('You can\'t access this file directly...');
+ die('You can\'t access this file directly...');
 }
 
 if ($popup != "1"){
-    $module_name = basename(dirname(__FILE__));
-    require("modules/".$module_name."/nukebb.php");
+  $module_name = basename(dirname(__FILE__));
+  require("modules/".$module_name."/nukebb.php");
 }
 else
 {
-    $phpbb_root_path = NUKE_FORUMS_DIR;
+  $phpbb_root_path = NUKE_FORUMS_DIR;
 }
 
 define('IN_PHPBB', true);
+
 include($phpbb_root_path . 'extension.inc');
 include($phpbb_root_path . 'common.'.$phpEx);
+
 require_once('includes/bbcode.'. $phpEx);
 
 //
@@ -53,14 +54,13 @@ include('includes/functions_arcade.' . $phpEx);
 // Start auth check
 //
 if (!$userdata['session_logged_in']) {
-        $header_location = (@preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOFTWARE"))) ? "Refresh: 0; URL=" : "Location: ";
-        header($header_location . "modules.php?name=Your_Account");
-        exit;
+  $header_location = (@preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOFTWARE"))) ? "Refresh: 0; URL=" : "Location: ";
+  header($header_location . "modules.php?name=Your_Account");
+  exit;
 }
 //
 // End of auth check
 //
-
 $arcade_config = array();
 $arcade_config = read_arcade_config();
 
@@ -77,7 +77,7 @@ $old_time = $current_time - ($secs * $days);
 //Begin Limit Play mod
 if($arcade_config['limit_type'] == 'posts')
 {
-   $sql = "SELECT * FROM " . POSTS_TABLE . " WHERE poster_id = ".$uid;
+  $sql = "SELECT * FROM " . POSTS_TABLE . " WHERE poster_id = ".$uid;
 }
 else
 {
@@ -150,16 +150,20 @@ if (!$db->sql_query($sql))
 
 // Type V2 Game Else Type V1
 if ($row['game_type'] == 3) {
-        $type_v2 = true;
-        $template->assign_block_vars('game_type_V2',array());
-        $gamehash_id = md5(uniqid($user_ip));
-        $sql = "INSERT INTO " . GAMEHASH_TABLE . " (gamehash_id , game_id , user_id , hash_date) VALUES ('$gamehash_id' , '$gid' , '" . $userdata['user_id'] . "' , '" . time() . "')";
+        
+		$type_v2 = true;
+        
+		$template->assign_block_vars('game_type_V2',array());
+        
+		$gamehash_id = md5(uniqid($user_ip));
+        
+		$sql = "INSERT INTO " . GAMEHASH_TABLE . " (gamehash_id , game_id , user_id , hash_date) VALUES ('$gamehash_id' , '$gid' , '" . $userdata['user_id'] . "' , '" . time() . "')";
 
         if (!($result = $db->sql_query($sql)))
-                {
-                message_die(GENERAL_ERROR, "Could not delete from game hash table", '', __LINE__, __FILE__, $sql);
+        {
+           message_die(GENERAL_ERROR, "Could not delete from game hash table", '', __LINE__, __FILE__, $sql);
         }
-                    }
+}
 elseif ($row['game_type'] == 4 or $row['game_type'] == 5)
         {
         if ($row['game_type'] == 5)
