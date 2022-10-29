@@ -196,10 +196,15 @@ else
 
 setcookie('arcadepopup', '', time() - 3600);
 setcookie('arcadepopup', '0');
+
 global $prefix;
+
 $sql = "SELECT arcade_cattitle FROM `".$prefix."_bbarcade_categories` WHERE arcade_catid = " . $row['arcade_catid'];
+
 $result = $db->sql_query($sql);
+
 $ourrow = $db->sql_fetchrow($result);
+
 $cat_title = $ourrow['arcade_cattitle'];
 
 $template->assign_vars(array(
@@ -211,12 +216,6 @@ $template->assign_vars(array(
         'GAME_HEIGHT' => $row['game_height'] ,
         'L_GAME' => $row['game_name'] ,
         'GAMEHASH' => $gamehash_id,
-		
-		//'NEWSWF_A' => $newswf = new swfheader(false),
-		//'NEWSWF_V5' => $newswf->loadswf("modules/Forums/games/".$row['game_swf']."?arcade_hash=$gamehash_id"),
-		//'NEWSWF_V2' => $newswf->loadswf("modules/Forums/games/".$row['game_swf'].""),
-		//'NEWSWF_C' => $newswf->display($trans),
-		
         'L_TOP' => $lang['best_scores_game'] ,
         'HIGHSCORE' => number_format($row['highscore']),
         'URL_ARCADE' => '<nobr><a class="cattitle" href="' . append_sid("arcade.$phpEx") . '">' . $lang['lib_arcade'] . '</a></nobr> ',
