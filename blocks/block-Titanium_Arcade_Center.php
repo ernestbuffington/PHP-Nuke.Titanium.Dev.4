@@ -163,14 +163,21 @@ if ($top) {
   
   $content .= "<a href=\"modules.php?name=Forums&amp;file=arcade\"><img width=\"269\" src=\"images/arcade_mod/arcade_logo.png\" border= \"0\"></a></center><br />\n";
   
+  if (is_admin())
+  $content .= "<font class=\"arcade-admin-login\">&nbsp;YOU ARE CURRENTLY LOGGED IN AS ADMIN!&nbsp;</font></br>";
+  
   $content .= "<strong>".$row['game_name']."</strong><br />\n";
   
   $content .= "<a href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><img class=\"rounded-corners-arcade\" width=\"70\" 
   src=\"modules/Forums/games/pics/".$row['game_pic']."\" border= \"0\" alt=\"".$row['game_name']."\"></a><br /> \n";
+
+  if (is_admin())
+  $content .= "</br><a class=\"arcade-admin-font rounded-corners-gamepic tooltip-html-side-interact tooltipstered\" title=\"Only Admins See This Link\" href=\"modules/Forums/admin/arcade_elmt.php?mode=edit&amp;game_id=".$row['game_id']."\" target=\"_blank\">&nbsp;EDIT CURRENT RANDOM GAME SETTINGS&nbsp;</a>";
   
   $content .= "</br>High Score set by<br /><strong><a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['game_highuser']."\"><div class=\"w3-tag w3-round w3-green\" style=\"padding:3px\">\n";
   $content .= "<div class=\"w3-tag w3-round w3-green w3-border w3-border-white\"><i class=\"bi bi-award\"></i>$randomUser</div>\n";
-  $content .= "</div></a> </strong><br /><br />\n"; 
+  $content .= "</div></a> </strong>\n"; 
+  $content .= "<br /><br />\n";
   
   $content .= "With a Score Of <strong><span class=\"w3-badge w3-green\">".$row['game_highscore']."</span></strong> <br /><br />\n";
   
@@ -192,8 +199,14 @@ if ($top) {
   
   $lastgamepic = $row['game_pic'];
 
+  if (is_admin())
+  $content .= "</br><a class=\"arcade-admin-font rounded-corners-gamepic tooltip-html-side-interact tooltipstered\" 
+  title=\"Only Admins See This Link\" href=\"modules/Forums/admin/arcade_elmt.php?mode=edit&amp;game_id=".$row['game_id']."\" target=\"_blank\">&nbsp;EDIT GAME SETTINGS&nbsp;</a>";
+
   $content .= "<div class=\"w3-card-2\"><a href=\"modules.php?name=Forums&amp;file=games&amp;gid=$lastgameid\"><img class=\"rounded-corners-arcade\" 
   width=\"70\" src=\"modules/Forums/games/pics/$lastgamepic\" border= \"0\" alt=\"$lastGame\"><br /><strong><span class=\"w3-tag\">$lastGame</span></strong></a></div><br /><br />\n";
+  
+
   
   }
 
@@ -254,16 +267,16 @@ if ($last_five) {
 
   $content .= "<tr>\n";
   
-  $content .= "<td class=\"arcadeRow2\" width=\"18%\" align=\"left\" class=\"row1\">&nbsp;<font color=\"gold\" size=\"4\"><i class=\"bi bi-trophy\"></i></font>1st<strong><a style = \"text-decoration: none;\"
+  $content .= "<td class=\"arcadeRow2\" width=\"26%\" align=\"left\" class=\"row1\">&nbsp;<font color=\"gold\" size=\"4\"><i class=\"bi bi-trophy\"></i></font>1st<strong><a style = \"text-decoration: none;\"
   href=\"modules.php?name=Forums&file=statarcade&uid=".$row['game_highuser']."\">&nbsp;&nbsp;<img class=\"rounded-corners-gamepic tooltip-html-side-interact tooltipstered\" title= \"I'm ".$row['username'].", I just finished playing ( ".$row['game_name']." )</br>I just took the 1st Place Trophy!</br>My score was ".$row['game_highscore']."\" width=\"40\" src=".$current_avatar."> <font class=\"tooltip-html-side-interact tooltipstered\" title= \"".$row['username']."'s Arcade Stats\" size=\"3\"> $lastUser</font> </strong></a></td>\n";
   
-  $content .= "<td class=\"arcadeRow2\" width=\"18%\" align=\"center\" class=\"row2\"><span class=\"w3-badge w3-green\"><font size=\"4\"><strong>".$row['game_highscore']."</strong></font></span></td>\n";
+  $content .= "<td class=\"arcadeRow2\" width=\"10%\" align=\"center\" class=\"row2\"><span class=\"w3-badge w3-green\"><font size=\"4\"><strong>".$row['game_highscore']."</strong></font></span></td>\n";
   
-  $content .= "<td class=\"arcadeRow2\" width=\"34%\" align=\"left\" class=\"row1\"><strong>&nbsp;&nbsp;&nbsp;<a href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><img 
+  $content .= "<td class=\"arcadeRow2\" width=\"41%\" align=\"left\" class=\"row1\"><strong>&nbsp;&nbsp;&nbsp;<a href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><img 
   height=\"40\" class=\"rounded-corners-gamepic\" src=\"modules/Forums/games/pics/".$row['game_pic']."\" border= \"0\" alt=\"".$row['game_name']."\"></a>&nbsp;&nbsp;
-  <a class=\"btn-hover-two\" style = \"text-decoration: none;\" href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><font size=\"3\">".$row['game_name']."</font></strong></a></td>\n";
+  <a class=\"btn-hover-two\" style = \"text-decoration: none;\" href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><font size=\"2\">".$row['game_name']."</font></strong></a></td>\n";
   
-  $content .= "<td class=\"arcadeRow2\" width=\"30%\" align=\"center\" class=\"row2\"><strong><font size=\"3\"><i class=\"bi bi-calendar2-range\"></i> $lasthighdate</font></strong></td>\n";
+  $content .= "<td class=\"arcadeRow2\" width=\"30%\" align=\"center\" class=\"row2\"><strong><font size=\"2\"><i class=\"bi bi-calendar2-range\"></i> $lasthighdate</font></strong></td>\n";
   $content .= "</tr>\n";
   }
 

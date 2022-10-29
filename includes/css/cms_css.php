@@ -20,6 +20,58 @@ echo "/* When we are done we will move this code to style.css */\n\n";
 /*---------------------------------------------------------------*/
 /* Global CMS CSS                                                */
 /*---------------------------------------------------------------*/
+.arcade-admin-login{
+	font-size: 13px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    background-color: red;
+    text-shadow: 2px 2px black;
+    
+}
+
+.arcade-admin-font{
+    text-shadow: 2px 2px black;
+	font-size: 13px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    outline: 0.1px solid white;
+    background-color: red;
+    
+}
+
+a.arcade-admin-font:hover {
+  text-shadow: 2px 2px black;
+  font-size: 13px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  outline: 0.1px solid white;
+  background-color: green;
+}
+
+a.arcade-admin-font:active {
+  text-shadow: 2px 2px black;
+  font-size: 13px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  outline: 0.1px solid white;
+  background-color: green;
+}
+
+a.arcade-admin-font:visited {
+    text-shadow: 2px 2px black;
+	font-size: 13px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    outline: 0.1px solid white;
+    background-color: red;
+}
+
+
 .gensmall-visitorlog{
 	font-size: 11px;
 }
