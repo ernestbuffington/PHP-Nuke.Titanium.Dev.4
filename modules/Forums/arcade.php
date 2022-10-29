@@ -98,8 +98,6 @@ switch ( $arcade_config['game_order']) {
     break;
 }
 
-//$favori = $HTTP_GET_VARS['favori'];
-//$delfavori = $HTTP_GET_VARS['delfavori'];
 global $userinfo;
 
 if(isset($_GET['favori'])):
@@ -164,73 +162,74 @@ if (( $arcade_catid == 0 ) and ( $arcade_config['use_category_mod'] )) {
         );
 
     if($arcade_config['use_fav_category'])
+    {
+      $sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date, f.* FROM "
+      . GAMES_TABLE." g LEFT JOIN "
+      . USERS_TABLE . " u ON g.game_highuser = u.user_id LEFT JOIN "
+      . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userinfo['user_id'] . " LEFT JOIN "
+      . ARCADE_FAV_TABLE . " f ON f.game_id = g.game_id WHERE f.user_id=".$userinfo['user_id'] ;
+
+      if( !($result = $db->sql_query($sql)) )
+      {
+        message_die(GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql);
+      }
+      
+	  if ($db->sql_numrows($result))
+      {
+        $template->assign_block_vars('favrow',array()) ;
+        $frow['username'] = UsernameColor($frow['username']);
+        
+		while( $frow = $db->sql_fetchrow($result))
         {
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-            $sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date, f.* FROM "
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-            . GAMES_TABLE." g LEFT JOIN "
-            . USERS_TABLE . " u ON g.game_highuser = u.user_id LEFT JOIN "
-            . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userinfo['user_id'] . " LEFT JOIN "
-            . ARCADE_FAV_TABLE . " f ON f.game_id = g.game_id WHERE f.user_id=".$userinfo['user_id'] ;
+          $template->assign_block_vars('favrow.fav_row',array(
+          'GAMENAMEF' => $frow[game_name],
+          'DELFAVORI' => '<a href="' . append_sid("arcade.$phpEx?delfavori=" . $frow['game_id'] ) .'"><img src="modules/Forums/templates/subSilver/images/delfavs.gif" border=0 alt="'.$lang['del_fav'].'"></a>',
+          'GAMELINKF' => '<nobr><a href="' . append_sid("games.$phpEx?gid=" . $frow['game_id'] ) . '">' . $frow['game_name'] . '</a></nobr> ',
+          'GAMEPOPUPLINKF' => "<a href='javascript:Arcade_Popup(\"".append_sid("gamespopup.$phpEx?gid=".$frow['game_id'] )."\", \"New_Window\",\"".$frow['game_width']."\",\"".$frow['game_height']."\", \"no\")'>New Window</a>",
+          'GAMEPICF' => ( $frow['game_pic'] != '' ) ? "<a href='" . append_sid("games.$phpEx?gid=" . $frow['game_id'] ) . "'><img src='" . "modules/Forums/games/pics/" . $frow['game_pic'] . "'
+		  align='absmiddle' border='0' width='30' height='30' vspace='2' hspace='2' alt='" . $frow['game_name'] . "' ></a>" : '' ,
+                
+		  'GAMESETF' => ( $frow['game_set'] != 0  ) ? $lang['game_actual_nbset'] . $frow['game_set'] : '',
+          'HIGHSCOREF' => number_format($frow['game_highscore']),
+          'CLICKPLAY' => '<a href="' . append_sid("games.$phpEx?gid=" . $frow['game_id'] ) . '">Click to Play!</a>',
+          'YOURHIGHSCOREF' => number_format($frow['score_game']),
+          'NORECORDF' => ( $frow['game_highscore'] == 0 ) ? $lang['no_record'] : '',
+          'HIGHUSERF' => ( $frow['game_highuser'] != 0 ) ? '(' . $frow['username'] . ')' : '' ,
+          'URL_SCOREBOARDF' => '<nobr><a class="cattitle" href="' . append_sid("scoreboard.$phpEx?gid=" . $frow['game_id'] ) . '">' . "<img 
+		  src='modules/Forums/templates/" . $theme['template_name'] . "/images/scoreboard.gif' align='absmiddle' border='0' alt='" . $lang['scoreboard'] . " " . $frow['game_name'] . "'>" . '</a></nobr> ',
+         
+		  'GAMEIDF' => $frow['game_id'],
+          'DATEHIGHF' => "<nobr>" . create_date( $board_config['default_dateformat'] , $frow['game_highdate'] , $board_config['board_timezone'] ) . "</nobr>",
+          'YOURDATEHIGHF' => "<nobr>" . create_date( $board_config['default_dateformat'] , $frow['score_date'] , $board_config['board_timezone'] ) . "</nobr>",
+          'IMGFIRSTF' => ( $frow['game_highuser'] == $userinfo['user_id'] ) ? "&nbsp;&nbsp;<img src='".$phpbb_root_path ."templates/" . $theme['template_name'] . "/images/couronne.gif' align='absmiddle'>" : "" ,
+          'GAMEDESCF' => $frow['game_desc']
+           ));
 
-            if( !($result = $db->sql_query($sql)) )
-            {
-                message_die(GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql);
-            }
-            if ($db->sql_numrows($result))
-            {
-                $template->assign_block_vars('favrow',array()) ;
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-                $frow['username'] = UsernameColor($frow['username']);
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-                while( $frow = $db->sql_fetchrow($result))
-                {
-                $template->assign_block_vars('favrow.fav_row',array(
-                'GAMENAMEF' => $frow[game_name],
-                'DELFAVORI' => '<a href="' . append_sid("arcade.$phpEx?delfavori=" . $frow['game_id'] ) .'"><img src="modules/Forums/templates/subSilver/images/delfavs.gif" border=0 alt="'.$lang['del_fav'].'"></a>',
-                'GAMELINKF' => '<nobr><a href="' . append_sid("games.$phpEx?gid=" . $frow['game_id'] ) . '">' . $frow['game_name'] . '</a></nobr> ',
-                'GAMEPOPUPLINKF' => "<a href='javascript:Arcade_Popup(\"".append_sid("gamespopup.$phpEx?gid=".$frow['game_id'] )."\", \"New_Window\",\"".$frow['game_width']."\",\"".$frow['game_height']."\", \"no\")'>New Window</a>",
-                'GAMEPICF' => ( $frow['game_pic'] != '' ) ? "<a href='" . append_sid("games.$phpEx?gid=" . $frow['game_id'] ) . "'><img src='" . "modules/Forums/games/pics/" . $frow['game_pic'] . "' align='absmiddle' border='0' width='30' height='30' vspace='2' hspace='2' alt='" . $frow['game_name'] . "' ></a>" : '' ,
-                'GAMESETF' => ( $frow['game_set'] != 0  ) ? $lang['game_actual_nbset'] . $frow['game_set'] : '',
-                'HIGHSCOREF' => number_format($frow['game_highscore']),
-                'CLICKPLAY' => '<a href="' . append_sid("games.$phpEx?gid=" . $frow['game_id'] ) . '">Click to Play!</a>',
-                'YOURHIGHSCOREF' => number_format($frow['score_game']),
-                'NORECORDF' => ( $frow['game_highscore'] == 0 ) ? $lang['no_record'] : '',
-                'HIGHUSERF' => ( $frow['game_highuser'] != 0 ) ? '(' . $frow['username'] . ')' : '' ,
-                'URL_SCOREBOARDF' => '<nobr><a class="cattitle" href="' . append_sid("scoreboard.$phpEx?gid=" . $frow['game_id'] ) . '">' . "<img src='modules/Forums/templates/" . $theme['template_name'] . "/images/scoreboard.gif' align='absmiddle' border='0' alt='" . $lang['scoreboard'] . " " . $frow['game_name'] . "'>" . '</a></nobr> ',
-                'GAMEIDF' => $frow['game_id'],
-                'DATEHIGHF' => "<nobr>" . create_date( $board_config['default_dateformat'] , $frow['game_highdate'] , $board_config['board_timezone'] ) . "</nobr>",
-                'YOURDATEHIGHF' => "<nobr>" . create_date( $board_config['default_dateformat'] , $frow['score_date'] , $board_config['board_timezone'] ) . "</nobr>",
-                'IMGFIRSTF' => ( $frow['game_highuser'] == $userinfo['user_id'] ) ? "&nbsp;&nbsp;<img src='".$phpbb_root_path ."templates/" . $theme['template_name'] . "/images/couronne.gif' align='absmiddle'>" : "" ,
-                'GAMEDESCF' => $frow['game_desc']
-                ));
-
-                if ( $frow['game_highscore'] !=0 )
-                        {
-                            $template->assign_block_vars('favrow.fav_row.recordrow',array()) ;
-                        }
-                if ( $frow['score_game'] !=0 )
-                        {
-                            $template->assign_block_vars('favrow.fav_row.yourrecordrow',array()) ;
-                        }
-                else        {
-                            $template->assign_block_vars('favrow.fav_row.playrecordrow',array()) ;
-                        }
-                }
-            }
-        }
+           if ( $frow['game_highscore'] !=0 ) {
+             $template->assign_block_vars('favrow.fav_row.recordrow',array()) ;
+           }
+           
+		   if ( $frow['score_game'] !=0 ) {
+             $template->assign_block_vars('favrow.fav_row.yourrecordrow',array()) ;
+           }
+           else
+		   {
+             $template->assign_block_vars('favrow.fav_row.playrecordrow',array()) ;
+           }
+      }
+     }
+    }
 
         $liste_jeux = array();
 
-        $sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date FROM " . GAMES_TABLE . " g LEFT JOIN " . USERS_TABLE . " u ON g.game_highuser = u.user_id LEFT JOIN " . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userinfo['user_id'] . " WHERE  g.arcade_catid IN ($liste_cat_auth) ORDER BY g.arcade_catid, $order_by";
+        $sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date 
+		FROM " . GAMES_TABLE . " g 
+		LEFT JOIN " . USERS_TABLE . " u 
+		ON g.game_highuser = u.user_id 
+		LEFT JOIN " . SCORES_TABLE . " s 
+		ON s.game_id = g.game_id and s.user_id = " . $userinfo['user_id'] . " 
+		WHERE  g.arcade_catid IN ($liste_cat_auth) 
+		ORDER BY g.arcade_catid, $order_by";
 
         if( !($result = $db->sql_query($sql)) ) {
                 message_die(GENERAL_ERROR, "Could not read arcade categories", '', __LINE__, __FILE__, $sql);
