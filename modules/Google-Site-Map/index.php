@@ -361,12 +361,12 @@ while ($row2 = $db->sql_fetchrow($result2)):
      # xml is written below in the switch statement
      print '<td><a href="modules.php?name='.$link.'">'.$the_module_title.' &#187; '.$sitename.'\'s Disclaimer</a>&nbsp;&nbsp;&nbsp;</td></tr>'."\n";
 
-	 elseif($link === 'Blog_Archive'):
+	 elseif($link === 'Blog_Archives'):
      # xml is written below in the switch statement
      print '<td><a href="modules.php?name='.$link.'">'.$the_module_title.' &#187; View '.$sitename.'\'s Blog history</a>&nbsp;&nbsp;&nbsp;</td></tr>'."\n";
      $sitemap->addItem('/modules.php?name='.$link.'', '0.8', 'monthly', 'Jun 25');
 
-	 elseif($link === 'Blog'):
+	 elseif($link === 'Blogs'):
      # xml is written below in the switch statement
      print '<td><a href="modules.php?name='.$link.'">'.$the_module_title.' &#187; View '.$sitename.'\'s Blog content</a>&nbsp;&nbsp;&nbsp;</td></tr>'."\n";
 
@@ -679,7 +679,7 @@ while ($row2 = $db->sql_fetchrow($result2)):
             $db->sql_freeresult($result9);
 		break;
 		# Blog  #################################################################################################################################################
-		case 'Blog':
+		case 'Blogs':
 			$result10 = $db->sql_query('SELECT `title`, `sid` FROM `'.$prefix.'_stories` ORDER BY `sid` DESC LIMIT 0,'.$nnews);
 			while ($row10 = $db->sql_fetchrow($result8)): 
 				$newslink = $row10['title'];
