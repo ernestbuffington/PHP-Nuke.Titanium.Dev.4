@@ -1,13 +1,22 @@
 <script language="Javascript">
 var win = null;
 
-function Arcade_Popup(mypage,myname,w,h,scroll)
+function createPopupWin(mypage,myname,w,h,scroll)
 {
   LeftPosition = (screen.width) ? (screen.width-w)/2 : 0;
   TopPosition = (screen.height) ? (screen.height-h)/2 : 0;
   settings = 'height='+h+',width='+w+',top='+TopPosition+',left='+LeftPosition+',scrollbars='+scroll+',status='+scroll+',resizable=yes';
   win = window.open(mypage,myname,settings);
 }
+    
+function createPopupWin(mypage,myname,popupWinWidth, popupWinHeight) {
+            var left = (screen.width ) ;
+            var top = (screen.height ) ;
+            var myWindow = window.open(mypage, myname,
+                    'resizable=yes, width=' + popupWinWidth
+                    + ', height=' + popupWinHeight + ', top='
+                    + top + ', left=' + left);
+        }    
 </script>
  <!-- index phrase display -->
 {HEADINGARCADE}
@@ -15,7 +24,7 @@ function Arcade_Popup(mypage,myname,w,h,scroll)
   <table width="100%" cellspacing="2" cellpadding="2" border="0">
     <tr>
           <td align="left" valign="middle" width="100%">
-                <span class="nav">
+                <span class="arcade-nav">
                         <a href="{U_INDEX}" class="nav">{L_INDEX}</a>
                 </span>
                 <span class="nav">&nbsp;->&nbsp;{NAV_DESC}&nbsp;->&nbsp;{CATTITLE}</span>

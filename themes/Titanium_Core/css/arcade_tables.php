@@ -1,8 +1,8 @@
 <?php
-global $theme_name; 
+global $theme_name;
 
-echo "\n\n/* ".$theme_name."/css/arcade_tables.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
-echo "/* When we are done we will move this code to style.css */\n\n"; 
+echo "\n\n/* " . $theme_name . "/css/arcade_tables.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n";
+echo "/* When we are done we will move this code to style.css */\n\n";
 
 global $screen_width, $screen_height, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4;
 /* <?=$bgcolor1?> */
@@ -30,6 +30,7 @@ rowCount++;
 
 }​
 </script>
+
 /* Main arcade table cell colors and backgrounds */
 td.whoisplaying_row {
 	white-space: nowrap;
@@ -109,7 +110,9 @@ td.arcadeRow3Right, td.arcadeSpaceRow {
 	border: 1px solid #222;
 	border-bottom-width: 0;
 	font-size: 10px;
-	background-color: <?=$bgcolor1?>;
+	background-color:
+<?=$bgcolor1?>
+;
 	white-space: nowrap;
 }
 <?
