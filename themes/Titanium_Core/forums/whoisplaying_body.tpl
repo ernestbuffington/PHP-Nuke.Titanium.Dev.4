@@ -13,3 +13,5 @@
   </tr>
 <!-- END whoisplaying_row -->
 </table>
+<div align="center" style="padding-top:6px;">
+</div>

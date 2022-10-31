@@ -32,7 +32,7 @@ global $fieldset_color, $fieldset_border_width, $digits_color;
 }
 
 .arcadePink {
-  color: pink;
+  color: #FF99FF;
   font-size: 15px;
   text-decoration: none;
   padding: 4px;
@@ -59,15 +59,17 @@ global $fieldset_color, $fieldset_border_width, $digits_color;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
   background-color: mone;
-  cursor: none;
+  cursor: auto;
   font-weight: bold;
 }
 
-.arcadeTextWhite:hover {
+/*---------------------------------------------------------------*/
+/* Game Description START                                        */
+/*---------------------------------------------------------------*/
+.arcadeTextDescription {
   color: white;
-  font-size: 14px;
+  font-size: 18px;
   text-decoration: none;
-  padding-top: 5px;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
   background-color: mone;
@@ -75,8 +77,22 @@ global $fieldset_color, $fieldset_border_width, $digits_color;
   font-weight: bold;
 }
 
+.arcadeTextDescription:hover {
+  color: white;
+  font-size: 18px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: auto;
+  font-weight: bold;
+}
+/*---------------------------------------------------------------*/
+/* Game Description END                                        */
+/*---------------------------------------------------------------*/
+
 .arcadeTextPink {
-  color: pink;
+  color: #FF99FF;
   font-size: 15px;
   text-decoration: none;
   padding: 4px;
@@ -93,9 +109,21 @@ global $fieldset_color, $fieldset_border_width, $digits_color;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
   background-color: mone;
-  cursor: none;
+  cursor: auto;
   font-weight: bold;
 }
+
+.arcadeTitlePink {
+  color: #FF99FF;
+  font-size: 18px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: auto;
+  font-weight: bold;
+}
+
 
 .arcadeTitleLink {
   color: cyan;

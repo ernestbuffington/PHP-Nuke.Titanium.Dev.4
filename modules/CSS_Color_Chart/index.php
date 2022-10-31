@@ -10,21 +10,7 @@ $module_name = basename(dirname(__FILE__));
 get_lang($module_name);
 include("header.php");
 $index = 0;
-    #########################################################################
-    # Table Header Module     Fix Start - by TheGhost   v1.0.0     01/30/2012
-    #########################################################################
-    if(!function_exists('OpenTableModule'))
-    {
-      OpenTable();
-      echo "<center><h4>CSS Hex Color Chart</h4>";
-	}
-	else
-	{
-	   OpenTableModule();
-	}
-    #########################################################################
-    # Table Header Module     Fix End  - by TheGhost   v1.0.0     01/30/2012
-    #########################################################################
+  OpenTable();
 echo "<br/><table align=\"center\"  width=\"90%\" border=\"1\" cellpadding=\"2\" cellspacing=\"0\" bordercolorlight=\"#787878\" bordercolordark=\"#787878\" style=\"border-collapse: collapse\" bordercolor=\"#787878\">"
   . "<tr align=\"center\">"
   . "<td bgcolor=\"#eeeeee\"><font color=\"#000000\">EEEEEE</font></td>"

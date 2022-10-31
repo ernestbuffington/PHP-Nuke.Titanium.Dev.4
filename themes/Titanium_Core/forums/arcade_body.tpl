@@ -20,19 +20,17 @@ function createPopupWin(mypage,myname,popupWinWidth, popupWinHeight) {
 </script>
  <!-- index phrase display -->
 {HEADINGARCADE}
-
   <table width="100%" cellspacing="2" cellpadding="2" border="0">
     <tr>
           <td align="left" valign="middle" width="100%">
-                <span class="nav">
-                        <a href="{U_INDEX}" class="nav">{L_INDEX}</a>
+                <span class="arcadeTitleLink">
+                        <a href="{U_INDEX}" class="arcadeTitleLink">{L_INDEX}</a>
                 </span>
-                <span class="nav">&nbsp;->&nbsp;{NAV_DESC}&nbsp;->&nbsp;{CATTITLE}</span>
+                <span class="arcadeTitleLink">&nbsp;->&nbsp;{NAV_DESC}&nbsp;->&nbsp;{CATTITLE}</span>
           </td>
     </tr>
   </table>
 {WHOISPLAYING}
-<br />
   <!-- BEGIN arcade_search -->
 <table width="100%" cellspacing="2" cellpadding="2" border="0" align="center">
   <tr>
@@ -43,7 +41,7 @@ function createPopupWin(mypage,myname,popupWinWidth, popupWinHeight) {
 
 <table width="100%" cellpadding="2" cellspacing="1" border="0" class="forumline">
   <tr>
-        <th class="thTop" colspan="{ARCADE_COL}" nowrap="nowrap">&nbsp;{L_ARCADE}&nbsp;</th>
+        <th class="arcadeThTop" colspan="{ARCADE_COL}" nowrap="nowrap">&nbsp;{L_ARCADE}&nbsp;</th>
   </tr>
   <!-- BEGIN use_category_mod -->
   <tr> 

@@ -11,7 +11,7 @@
  *   Original Arcade Mod phpBB by giefca - http://www.gf-phpbb.com
  *
  ***************************************************************************/
-echo '<script src="includes/ruffle-core/ruffle.js"></script>'."\n";
+
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       09/20/2005
@@ -24,7 +24,6 @@ if (!defined('MODULE_FILE')) {
 }
 
 $popup = 1;
-
 if ($popup != "1"){
     $module_name = basename(dirname(__FILE__));
     require("modules/".$module_name."/nukebb.php");
@@ -32,14 +31,7 @@ if ($popup != "1"){
 else
 {
     $phpbb_root_path = NUKE_FORUMS_DIR;
-    $ThemeSel = get_theme();
-
-# START Load current theme. - 09/07/2019
-    echo "\n\n<!-- START Load current theme. -->\n\n";
-    include_once(NUKE_THEMES_DIR.$ThemeSel.'/theme.php');
-    echo "\n\n<!-- END Load current theme. -->\n\n";
-# START Load current theme. - 09/07/2019
-
+    echo '<script src="includes/ruffle-core/ruffle.js"></script>'."\n";
 }
 
 define('IN_PHPBB', true);

@@ -7,12 +7,11 @@ function resize_avatar(image)
   }
 }
 </script>
-  <!-- index phrase display -->
-  
+<!-- index phrase display --> 
 <table width="100%" cellpadding="2" cellspacing="1" border="0" class="bodyline">
 <tr> 
 <th class="arcadeThTop left" height="28" align="left" width="33.3%">&nbsp;<a class="arcadeTitleLink" href="modules.php?name=Forums&file=arcade">Arcade</a><i class="arcadeArrow fas fa-arrow-right" aria-hidden="true"></i> 
-{CAT_TITLE}<i class="arcadeArrow fas fa-arrow-right" aria-hidden="true"></i> <span class="arcadeTextPink">{L_GAME}</span></th>
+{CAT_TITLE}<i class="arcadeArrow fas fa-arrow-right" aria-hidden="true"></i> <span class="arcadeTextPink">{L_GAME}</span> </th>
         <th class="arcadeThTop" height="28" align="center" width="33.3%"><span class="arcadeText">{L_GAME}</span></th></th>
         <th class="arcadeThTop" height="28" align="center" width="33.3%"><span class="arcadeText">High Score Winners</span></th>
   </tr>

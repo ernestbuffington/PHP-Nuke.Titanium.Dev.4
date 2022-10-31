@@ -40,13 +40,11 @@ $template->set_filenames(array(
            'U_TOPARCADE' => append_sid("toparcade.$phpEx"),
            'BEST_SCORES' => $lang['best_scores'])
            );
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-        $color_name = UsernameColor($userdata['username']);
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
+
+    $color_name = UsernameColor($userdata['username']);
+    
+	$victories_badge = '<span class="w3-badge w3-blue">'.$nbvictoires.'</span>';
+	
     $template->assign_vars(array(
             'L_AVATAR' => $lang['Avatar'],
             'L_TOP' => $lang['heading_top'],
@@ -66,9 +64,10 @@ $template->set_filenames(array(
             'TOP_PLAYER' => $lang['Topgamers'],
             'PLAYER' => $lang['Player'],
             'VICTOIRES' => $lang['Victoires'],
-            'ARCADE_VICTOIRES' => $nbvictoires,
+            'ARCADE_VICTOIRES' => $victories_badge,
+			
             'AVATAR_IMG' => $avatar_img,
-            'USERNAME' => '<a href="' . append_sid("statarcade.$phpEx?uid=" . $userdata['user_id'] ) . '" class="genmed">' . $color_name . '</a> ',
+            'USERNAME' => '<a href="' . append_sid("statarcade.$phpEx?uid=" . $userdata['user_id'] ) . '" class="arcadeTextWhite">' . $color_name . '</a> ',
             'POSTER_RANK' => $poster_rank,
             'RANK_IMG' => $rank_image,
             'ARCADE_ANNOUNCEMENT' => $arcade_config['arcade_announcement'],
@@ -78,7 +77,6 @@ $template->set_filenames(array(
 //End of Template loading
 
 // Start of Top 10 Arcade Players
-
 $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, u.user_level FROM " . GAMES_TABLE . " g, " . USERS_TABLE . " u WHERE g.game_highuser = u.user_id AND g.game_highuser <> 0 GROUP BY g.game_highuser ORDER BY nbvictoires DESC LIMIT 0,10";
 
     if( !($result = $db->sql_query($sql)) )
@@ -95,28 +93,35 @@ $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, 
          $place++;
          $nbvictprec=$row['nbvictoires'];
         }
-        /*$style_color = '';
-        if ( $row['user_level'] == ADMIN )
-        {
-            $row['username'] = '<strong>' . $row['username'] . '</strong>';
-            $style_color = 'style="color:#' . $theme['fontcolor3'] . '"';
-        }
-        else if ( $row['user_level'] == MOD )
-        {
-            $row['username'] = '<strong>' . $row['username'] . '</strong>';
-            $style_color = 'style="color:#' . $theme['fontcolor2'] . '"';
-        }*/
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-                $row['username'] = UsernameColor($row['username']);
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-        $user_online_link = '<a href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id']) . '"' . $style_color .'>' . $row['username'] . '</a>';
+      
+	  $rank_suffix = '';
+	  
+	  if($place == 1)
+	  $rank_suffix = '<font size="1">st</font>';
+	  if($place == 2)
+	  $rank_suffix = '<font size="1">nd</font>';
+	  if($place == 3)
+	  $rank_suffix = '<font size="1">rd</font>';
+	  if($place == 4)
+	  $rank_suffix = '<font size="1">th</font>';
+	  if($place == 5)
+	  $rank_suffix = '<font size="1">th</font>';
+	  if($place == 6)
+	  $rank_suffix = '<font size="1">th</font>';
+	  if($place == 7)
+	  $rank_suffix = '<font size="1">th</font>';
+	  if($place == 8)
+	  $rank_suffix = '<font size="1">th</font>';
+	  if($place == 9)
+	  $rank_suffix = '<font size="1">th</font>';
+	  if($place == 10)
+	  $rank_suffix = '<font size="1">th</font>';
+	  
+      $row['username'] = UsernameColor($row['username']);
+      $user_online_link = '<a href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id']) . '"' . $style_color .'>' . $row['username'] . '</a>';
 
         $template->assign_block_vars('player_row', array(
-            'CLASSEMENT' => $place,
+            'CLASSEMENT' => $place.$rank_suffix,
             'USERNAME' => $user_online_link,
             'VICTOIRES' => $row['nbvictoires'])
         );
@@ -126,12 +131,16 @@ $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, 
 
 // Start of Last 5 highscores
 
-   $sql = " SELECT g.* , u.username FROM " . GAMES_TABLE . " g, " . USERS_TABLE . " u WHERE g.game_highuser = u.user_id ORDER BY game_highdate DESC LIMIT 0,5  ";
+   $sql = " SELECT g.* , u.username FROM " . GAMES_TABLE . " g, " . USERS_TABLE . " u WHERE g.game_highuser = u.user_id ORDER BY game_highdate DESC LIMIT 0,10  ";
 
    if ( !($result = $db->sql_query($sql)) )
    {
       message_die(GENERAL_ERROR, 'Could not query the games/users table', '', __LINE__, __FILE__, $sql);
    }
+
+   $arcade_config = array();
+   $arcade_config = read_arcade_config();
+
    while($rowArcade = $db->sql_fetchrow($result))
    {
 /*****[BEGIN]******************************************
@@ -142,13 +151,19 @@ $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, 
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
     $class = ($class == 'row1') ? 'row2' : 'row1' ;
-    $last_scoregame = '<a href="' . append_sid("games.$phpEx?gid=" . $rowArcade['game_id']) . '">' . $rowArcade['game_name'] . '</a>';
+    $last_scoregame = '<a class="arcadeTitleLink" href="' . append_sid("games.$phpEx?gid=" . $rowArcade['game_id']) . '">' . $rowArcade['game_name'] . '</a>';
     $last_scoreuser = '<a href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $rowArcade['game_highuser']) . '">' . $rowArcade['username'] . '</a>';
     $last_score = number_format($rowArcade['game_highscore']);
 
-        $template->assign_block_vars('arcaderow2.bestscore2',array(
-    'CLASS' => $class,
-    'L_HEADING_CHAMP' => sprintf($lang['heading_champ'], $last_scoreuser, $last_scoregame, $last_score),
+    $score_badge = '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.$last_score.'</span>';
+    
+	$template->assign_block_vars('arcaderow2.bestscore2',array(
+    
+	'CLASS' => $class,
+	
+    'ADD_FAV' => ( $arcade_config[ 'use_fav_category' ] ) ? '<td class="row1" width="25" align="center" valign="center"><a href="' . append_sid( "arcade.$phpEx?favori=" . $rowArcade[ 'game_id' ] ) . '"><img src="modules/Forums/templates/subSilver/images/favs.gif" border=0 alt="' . $lang[ 'add_fav' ] . '"></a></td>' : '',
+
+    'L_HEADING_CHAMP' => sprintf($lang['heading_champ'], $last_scoreuser, $last_scoregame, $score_badge),
         'LAST_SCOREDATE' => create_date($board_config['default_dateformat'], $rowArcade['game_highdate'] , $board_config['board_timezone']))
       );
     }
@@ -171,13 +186,15 @@ $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, 
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-      $last_scoregame = '<a href="' . append_sid("games.$phpEx?gid=" . $rowScore['game_id']) . '">' . $rowScore['game_name'] . '</a>';
+      $last_scoregame = '<a class="arcadeTitleLink" href="' . append_sid("games.$phpEx?gid=" . $rowScore['game_id']) . '">' . $rowScore['game_name'] . '</a>';
       $last_scoredate = create_date($board_config['default_dateformat'], $rowScore['score_date'], $board_config['board_timezone']);
       $last_scoreuser = '<a href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $rowScore['user_id']) . '">' . $rowScore['username'] . '</a>';
       $last_score = number_format($rowScore['score_game']);
-
+      
+	  $lastscore_badge = '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.$last_score.'</span>';
+	  
       $template->assign_block_vars('arcaderow3.score3',array(
-      'L_LAST_SCORE' => sprintf($lang['heading_last_score'], $last_scoreuser, $last_score, $last_scoregame, $last_scoredate ))
+      'L_LAST_SCORE' => sprintf($lang['heading_last_score'], $last_scoreuser, $lastscore_badge, $last_scoregame, $last_scoredate ))
       );
     }
 // End Last Recorded Score
@@ -293,9 +310,9 @@ $games_time = sec2hms($row['games_time']);
                 "AVATAR_IMG" => $avatar_img,
                 "POSTER_RANK" => $poster_rank,
                 "RANK_IMG" => $rank_image,
-                "ARCADE_VICTOIRES" => sprintf($lang['heading_stats'], $nbvictoires),
+                "ARCADE_VICTOIRES" => sprintf($lang['heading_stats'], '<span class="w3-badge w3-blue">'.$nbvictoires.'</span>'),
                 "L_ARCADE_TOTAL_PLAYS" => $lang['heading_plays'],
-                "ARCADE_TOTAL_PLAYS" => $games_played,
+                "ARCADE_TOTAL_PLAYS" => '<span class="w3-badge w3-blue">'.$games_played.'</span>',
                 "L_ARCADE_TOTAL_TIME" => $lang['heading_time'],
                 "ARCADE_TOTAL_TIME" => $games_time
             )

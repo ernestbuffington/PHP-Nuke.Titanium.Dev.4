@@ -181,13 +181,7 @@ print '</table>'."\n";
 # do not remove anything from here down when making a theme! The theme will not show up correctly
 echo '</td>';
 echo '</tr>';
-echo '</table><br /><br />';
-echo '<div align="center" style="padding-top:3956px;">';
-echo '</div>';
-global $powered_by;
-echo '<div align="center">'.$powered_by.'</div>';
-echo '<div align="center" style="padding-top:256px;">';
-echo '</div>';
+echo '</table>';
 echo '</td>';
 echo '</tr>';
 echo '</table>';
