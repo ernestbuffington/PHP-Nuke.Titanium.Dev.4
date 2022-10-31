@@ -11,11 +11,10 @@ function resize_avatar(image)
   
 <table width="100%" cellpadding="2" cellspacing="1" border="0" class="bodyline">
 <tr> 
-<th class="arcadeThTop left" height="28" align="left" width="33.3%">&nbsp;&nbsp;<font size="2"><a href="{U_INDEX}">{L_INDEX}</a> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;" aria-hidden="true"></i> 
-    {CAT_TITLE}
-    <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;" aria-hidden="true"></i> <font size="2">{L_GAME}</font></th>
-        <th class="arcadeThTop" height="28" align="center" width="33.3%"></th></th>
-        <th class="arcadeThTop" height="28" align="center" width="33.3%"></th>
+<th class="arcadeThTop left" height="28" align="left" width="33.3%">&nbsp;<a class="arcadeTitleLink" href="modules.php?name=Forums&file=arcade">Arcade</a><i class="arcadeArrow fas fa-arrow-right" aria-hidden="true"></i> 
+{CAT_TITLE}<i class="arcadeArrow fas fa-arrow-right" aria-hidden="true"></i> <span class="arcadeTextPink">{L_GAME}</span></th>
+        <th class="arcadeThTop" height="28" align="center" width="33.3%"><span class="arcadeText">{L_GAME}</span></th></th>
+        <th class="arcadeThTop" height="28" align="center" width="33.3%"><span class="arcadeText">High Score Winners</span></th>
   </tr>
   <tr>
 <td align="center" width="100%" colspan="3">
@@ -30,7 +29,7 @@ function resize_avatar(image)
  <table width="450" border="0" class="bodyline" cellpadding="2" cellspacing="1" > 
 
  <tr> 
- <td class="arcadeRow1" align="center" colspan="3"><span class="cattitle">{L_ACTUAL_WINNER}</span></td> 
+ <td class="arcadeRow1" align="center" colspan="3"><span class="arcadeTextWhite">{L_ACTUAL_WINNER}</span></td> 
  </tr> 
 
  <tr> 
@@ -38,7 +37,7 @@ function resize_avatar(image)
  </tr> 
 
  <tr> 
- <td class="arcadeRow2" align="center" colspan="3"><strong><font size="3">{BEST_USER_NAME}</font></strong></td> 
+ <td class="arcadeRow2" align="center" colspan="3"><strong><span class="arcadeTextWhite">{BEST_USER_NAME}</span></strong></td> 
  </tr> 
 
  <tr> 
@@ -57,7 +56,7 @@ function resize_avatar(image)
  <td class="arcadeRow2" align="center" colspan="3"><span class="genmed">{COMMENTS}</span></td> 
 
  <tr> 
- <td class="arcadeRow2" width="288" class="row1" align="center" colspan="3"><span class="genmed"><strong>Hi-Score<br /><big>{HIGHSCORE}</big></strong></span></td> 
+ <td class="arcadeRow2" width="288" class="row1" align="center" colspan="3"><span class="genmed"><strong>Hi-Score<br /><strong><span class="w3-tag w3-round w3-green w3-border w3-border-pink">{HIGHSCORE}</span></strong></strong></span></td> 
  </tr>
 
  <tr> 
@@ -73,7 +72,7 @@ function resize_avatar(image)
 
 </td>
 <!-- END avatar_best_player_left -->
-<td class="bodyline" align="center" valign="top"><font size="2">{L_GAME}</font></br>
+<td class="bodyline" align="center" valign="top"></br>
 <!-- BEGIN game_type_V5 -->
 <div id="container"> </div>
 
@@ -139,20 +138,20 @@ function resize_avatar(image)
 
                                         <table width="450" class="bodyline" cellpadding="2" cellspacing="1" >
                                         <tr>
-                                                <td class="arcadeRow1" align="center" colspan="3"><span class="cattitle">{L_TOP}</span></td>
+                                                <td class="arcadeRow1" align="center" colspan="3"><span class="arcadeTextWhite">{L_TOP}</span></td>
                                         </tr>
                                         <!-- BEGIN scorerow -->
                                         <tr>
-                                        <td class="arcadeRow2" align="center"><font color="gold" size="5"><i class="bi bi-trophy"></i></font>&nbsp;&nbsp;<font size="5">{scorerow.POS}{scorerow.TROPHY}</font></td>
+                                        <td class="arcadeRow2" align="center"><span class="arcadeTextWhite"><font color="gold" size="5"><i class="bi bi-trophy"></i></font></span>&nbsp;&nbsp;<span class="arcadeTextWhite"><font size="5">{scorerow.POS}{scorerow.TROPHY}</font></span></td>
                                         <td class="arcadeRow2" align="center">
                                                     <table width="100%" cellspacing="0" cellpadding="0">
                                                         <tr>
-                                                         <td align=center><font size="3">{scorerow.USERNAME}</font></td>
+                                                         <td align=center><span class="arcadeText">{scorerow.USERNAME}</span></td>
                                                          <td width="25" align="center">{scorerow.URL_STATS}</td>
                                                         </tr>
                                                         </table>
                                         </td>
-                                        <td class="arcadeRow2" align="center"><font size='3'>{scorerow.SCORE}</font></td>
+                                        <td class="arcadeRow2" align="center"><span class="w3-tag w3-round w3-green w3-border w3-border-pink">{scorerow.SCORE}</span></td>
                                         </tr>
                                         <!-- END scorerow -->
                                         </table>
@@ -166,7 +165,7 @@ function resize_avatar(image)
 {WHOISPLAYING}
   <table width="100%" cellpadding="5" cellspacing="1" border="0">
    <tr>
-        <td></td></br><div align="center"><span class="arcadeCattitle">[ {URL_ARCADE} ]</span>&nbsp;-&nbsp;<span class="arcadeCattitle">[ {URL_BESTSCORES} ]</span>&nbsp;-&nbsp;<span class="arcadeCattitle">[ {URL_SCOREBOARD} ]</span>&nbsp;-&nbsp;<span class="arcadeCattitle">[ 
+        <td class="arcadeRow1"><div align="center"><span class="arcadePink">[ {URL_ARCADE} ]</span>&nbsp;-&nbsp;<span class="arcadePink">[ {URL_BESTSCORES} ]</span>&nbsp;-&nbsp;<span class="arcadePink">[ {URL_SCOREBOARD} ]</span>&nbsp;-&nbsp;<span class="arcadePink">[ 
 		{MANAGE_COMMENTS} ]</span></div></td>
    </tr>
   </table>

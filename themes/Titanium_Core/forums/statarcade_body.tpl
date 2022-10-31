@@ -2,48 +2,47 @@
   <table width="100%" cellspacing="2" cellpadding="2" border="0">
     <tr>
           <td align="left" valign="middle" width="100%">
-                <span class="nav">
-                        <a href="{U_INDEX}" class="nav">{L_INDEX}</a>
-                </span>
+               
           </td>
     </tr>
   </table>
 
 <table width="100%" cellpadding="5" cellspacing="0" border="0" class="bodyline">
 <tr> 
-        <th class="thTop" colspan="4" nowrap="nowrap">&nbsp;{L_STATS}&nbsp;</th>
+        <th class="arcadeThTop" colspan="4" nowrap="nowrap"><img width="269" src="images/arcade_mod/arcade_logo.png" border="0"></a></th>
 </tr>
 <tr> 
-<td class="row1" colspan="4" align="center">{USER_AVATAR}</td>
+<td class="arcadeRow2" colspan="4" align="center"><div align="center" style="padding-top:6px;"></div>{USER_AVATAR}<a href="modules.php?name=Forums&amp;file=arcade"></a></br>{L_STATS}</td>
 </tr>
 
 <tr>
-        <td class="row1" colspan="4" align="center">[{URL_ARCADE}]&nbsp;-&nbsp;[{URL_BESTSCORES}]</td>
+        <td class="arcadeRow1" colspan="4" align="center"><span class="arcadePink">[</span> {URL_ARCADE} <span class="arcadePink">]</span>&nbsp;-&nbsp;<span class="arcadePink">[</span> {URL_BESTSCORES} <span class="arcadePink">]</span></td>
 </tr>
   <!-- BEGIN blkligne -->
   <tr>
      <!-- BEGIN blkcolonne -->
-         <td class="row1" valign="top" width="50%">
+         <td style="padding-top:15px" class="arcadeRow2" valign="top" width="50%">
                  <!-- BEGIN blkgame -->
-                <fieldset>
-                         <legend align=center><span class="gensmall">{blkligne.blkcolonne.blkgame.GAMENAME}</span></legend>
-                        <span class="gensmall">{blkligne.blkcolonne.blkgame.L_NBSET}</span>
-                        <span class="gensmall">{blkligne.blkcolonne.blkgame.NBSET}</span><br />
+                <fieldset class="fieldset">
+                         <legend align=center><span class="arcadeFieldsetTitle"><i class="bi bi-link"></i> {blkligne.blkcolonne.blkgame.GAMENAME} <i class="bi bi-link"></i>
+                        <legend align=left><span class="arcadeFieldset">{blkligne.blkcolonne.blkgame.L_NBSET}
+                        {blkligne.blkcolonne.blkgame.NBSET}</span></legend>
 
-                        <span class="gensmall">{blkligne.blkcolonne.blkgame.L_TPSSET}</span>
-                        <span class="gensmall">{blkligne.blkcolonne.blkgame.TPSSET}</span><br />
+                        <legend align=left><span class="arcadeFieldset">{blkligne.blkcolonne.blkgame.L_TPSSET}
+                        {blkligne.blkcolonne.blkgame.TPSSET}</span></legend>
         
-                        <span class="gensmall">{blkligne.blkcolonne.blkgame.L_TPSMOY}</span>
-                        <span class="gensmall">{blkligne.blkcolonne.blkgame.TPSMOY}</span><br />
+                        <legend align=left><span class="arcadeFieldset">{blkligne.blkcolonne.blkgame.L_TPSMOY}
+                        {blkligne.blkcolonne.blkgame.TPSMOY}</span></legend>
 
-                        <span class="gensmall">{blkligne.blkcolonne.blkgame.L_POSGAME}</span>
-                        <span class="gensmall">{blkligne.blkcolonne.blkgame.POSGAME}&nbsp;&nbsp;</span>{blkligne.blkcolonne.blkgame.IMGFIRST}<br />
+                        <legend align=left><span class="arcadeFieldset">{blkligne.blkcolonne.blkgame.L_POSGAME}
+                        {blkligne.blkcolonne.blkgame.POSGAME}&nbsp;&nbsp;{blkligne.blkcolonne.blkgame.IMGFIRST}</span></legend>
 
-                        <span class="gensmall">{blkligne.blkcolonne.blkgame.L_HIGHSCR}</span>
-                        <span class="gensmall">{blkligne.blkcolonne.blkgame.HIGHSCR}</span><br />
+                        <legend align=left><span class="arcadeFieldset">{blkligne.blkcolonne.blkgame.L_HIGHSCR}
+                        {blkligne.blkcolonne.blkgame.HIGHSCR}</span></legend>
 
-                        <span class="gensmall">{blkligne.blkcolonne.blkgame.L_DATHIGHSCR}</span>
-                        <span class="gensmall">{blkligne.blkcolonne.blkgame.DATHIGHSCR}</span><br />
+                        <legend align=left><span class="arcadeFieldset">{blkligne.blkcolonne.blkgame.L_DATHIGHSCR}
+                        <span class="gensmall-arcade">{blkligne.blkcolonne.blkgame.DATHIGHSCR}</span></legend>
+                        </span></legend>
                 </fieldset>
                 <!-- END blkgame -->
          </td>
@@ -54,7 +53,7 @@
 
 <table width="100%" cellspacing="2" cellpadding="2" border="0" align="center">
         <tr>
-                <td align="left" valign="middle" nowrap="nowrap"><span class="nav">{PAGE_NUMBER}</span></td>
-                <td align="right" valign="middle"><span class="nav">{PAGINATION}</span></td>
+                <td align="left" valign="middle" nowrap="nowrap"><span class="arcade-nav"></br>{PAGE_NUMBER}</span></td>
+                <td align="right" valign="middle"><span class="arcade-nav">{PAGINATION}</span></td>
         </tr>
 </table>

@@ -3,7 +3,8 @@
 # HEADER FLYKIT CSS                                                                     #
 #---------------------------------------------------------------------------------------#
 echo "\n\n/* includes/css/cms_css.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
-echo "/* When we are done we will move this code to style.css */\n\n"; 
+echo "/* When we are done we will move this code to style.css */\n\n";
+global $fieldset_color, $fieldset_border_width, $digits_color; 
 ?>
 /*---------------------------------------------------------------*/
 /* Global CMS CSS                                                */
@@ -30,6 +31,95 @@ echo "/* When we are done we will move this code to style.css */\n\n";
     
 }
 
+.arcadePink {
+  color: pink;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+}
+
+.arcadeArrow {
+  color: white;
+  font-size: 10px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: none;
+  font-weight: bold;
+}
+
+.arcadeTextWhite {
+  color: white;
+  font-size: 14px;
+  text-decoration: none;
+  padding-top: 5px;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: none;
+  font-weight: bold;
+}
+
+.arcadeTextWhite:hover {
+  color: white;
+  font-size: 14px;
+  text-decoration: none;
+  padding-top: 5px;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: auto;
+  font-weight: bold;
+}
+
+.arcadeTextPink {
+  color: pink;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: none;
+  font-weight: bold;
+}
+
+.arcadeText {
+  color: cyan;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: none;
+  font-weight: bold;
+}
+
+.arcadeTitleLink {
+  color: cyan;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.arcadeTitleLink:hover {
+  color: white;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+
 .arcadeCattitle {
   background-color: #8d7b4d;
   color: white;
@@ -38,7 +128,6 @@ echo "/* When we are done we will move this code to style.css */\n\n";
   padding: 4px;
   box-shadow: inset 1px 1px 3px #000;
   text-shadow: 2px 2px 4px #000000;
-
 
 }
 
@@ -127,7 +216,8 @@ img.rounded-corners-shout {
 }
 
 img.rounded-corners-profile {
-  border-radius: 20px; 
+  border-radius: 13px;
+  width: 200px; 
 }
 
 img.rounded-corners-header { 
@@ -138,12 +228,66 @@ img.rounded-corners-last-post {
   border-radius: 9px; 
 }
 
+.gensmall-arcade {
+	font-size: 16px;
+}
+
+.arcade-nav {
+	font-size: 16px;
+}
+
+.arcadeFieldsetTitle {
+	display: block; 
+	margin-left: 2px; 
+	margin-right: 2px; 
+	padding-top: 0.25em; 
+	padding-bottom: 0.625em; 
+	padding-left: 0.75em; 
+	padding-right: 0.75em; 
+	border: 2px groove (internal value);
+
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   color:cyan;
+  border-color: cyan; 
+  border-width: <?=$fieldset_border_width?>;
+  border-style: solid;
+  font-size: 16px;
+}
+
+.arcadeFieldset {
+	display: block; 
+	margin-left: 2px; 
+	margin-right: 2px; 
+	padding-top: 1.8em; 
+	padding-bottom: 0.625em; 
+	padding-left: 0.75em; 
+	padding-right: 0.75em; 
+	border: 2px groove (internal value);
+
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   color:cyan;
+  border-color: pink; 
+  border-width: <?=$fieldset_border_width?>;
+  border-style: solid;
+  font-size: 16px;
+  padding: 10px;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+legend {
+
+}
+
 img.rounded-corners-arcade { 
   border-radius: 9px; 
 }
 
 img.rounded-corners-gamepic { 
-  border-radius: 7px; 
+  border-radius: 4px; 
 }
 
 img.rounded-corners-forum {
@@ -159,11 +303,11 @@ img.rounded-corners-last-vistors {
 }
 
 img.rounded-corners-user-info {
-  border-radius: 20px; 
+  border-radius: 20px;
+  width: 200px; 
 }
 .w3-serif{font-family:serif}.w3-sans-serif{font-family:sans-serif}.w3-cursive{font-family:cursive}.w3-monospace{font-family:monospace}
-h1,h2,h3,h4,h5,h6{font-family:"Segoe UI",Arial,sans-serif;font-weight:400;margin:10px 0}.w3-wide{letter-spacing:4px}
-hr{border:0;border-top:1px solid #eee;margin:20px 0}
+.w3-wide{letter-spacing:4px}
 .w3-image{max-width:100%;height:auto}img{vertical-align:middle}a{color:inherit}
 .w3-table,.w3-table-all{border-collapse:collapse;border-spacing:0;width:100%;display:table}.w3-table-all{border:1px solid #ccc}
 .w3-bordered tr,.w3-table-all tr{border-bottom:1px solid #ddd}.w3-striped tbody tr:nth-child(even){background-color:#f1f1f1}

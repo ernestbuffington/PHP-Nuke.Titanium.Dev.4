@@ -7,13 +7,37 @@ echo "/* When we are done we will move this code to style.css */\n\n";
 global $screen_width, $screen_height, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4;
 /* <?=$bgcolor1?> */
 ?>
+<script>
+var table = document.getElementById("Table-1");
+var rowCount = table.rows.length;
+
+for(var i=0;i<6;i++) {
+row = table.insertRow(rowCount);
+cell1 = row.insertCell(0);
+cell1.name = "animate";
+cell1.id = i ;
+var content = document.createElement("output");                
+content.innerHTML = i ;
+cell1.appendChild(content);
+rowCount++;
+
+  // if (i%2 == 0) {
+       setInterval(function() {
+           $(input[name="animate"]).animate( { backgroundColor: '#f08080' }, 'slow')
+           .animate( { backgroundColor: 'red' }, 'slow'); 
+                 }, 1000);
+   // }
+
+}​
+</script>
 /* Main arcade table cell colors and backgrounds */
 td.whoisplaying_row {
 	white-space: nowrap;
 	background: #8d7b4d;
-	border: 3px solid #c9b06d;
+	border: 0px solid #c9b06d;
 	padding: 4px;
     box-shadow: inset 1px 1px 3px #000;
+    text-decoration: none;
 }
 
 td.arcadeRow1 {

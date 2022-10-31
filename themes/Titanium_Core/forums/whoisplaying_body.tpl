@@ -6,7 +6,7 @@
   </tr>
 <!-- BEGIN whoisplaying_row -->
   <tr>
-    <td class="arcadeRow2 {whoisplaying_row.CLASS}" valign="top">
+    <td class="arcadeRow1 arcadeTitleLink" valign="top">
     {whoisplaying_row.GAME}&nbsp;:
     {whoisplaying_row.PLAYER_LIST}
     </td>
