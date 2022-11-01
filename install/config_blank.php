@@ -100,7 +100,7 @@ $admin_file = 'admin';
 
 /*----[ $directory_mode ] ------------------------------------------
 |                                                                   |
-| permissions - by default, Evo will create new folders with the    |
+| permissions - by default, PNT will create new folders with the    |
 | permissions set with the following settings.  NOTE: do NOT use    |
 | quotes around this value or it will not work.                     |
 | Examples:                                                         |
@@ -112,7 +112,7 @@ $directory_mode = 0777;
 
 /*----[ $file_mode ] -------------------------------------------------- 
 |                                                                      |
-| file permissions mode - by default, Evo will create all new files    |
+| file permissions mode - by default, PNT will create all new files    |
 | with the permissions that are provided here.  NOTE: do NOT use any   |
 | quotes (single or double) around this value or it will not work.     |
 | Examples:                                                            |
@@ -178,4 +178,5 @@ $persistency = false;
 /* Thanks for choosing PHP-Nuke Titanium, we hope you enjoy using it! */
 /*                                                                    */
 /**********************************************************************/
+
 ?>
