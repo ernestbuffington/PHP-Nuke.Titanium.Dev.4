@@ -51,6 +51,18 @@ global $fieldset_color, $fieldset_border_width, $digits_color;
   font-weight: bold;
 }
 
+.arcadeTextDate {
+  color: white;
+  font-size: 14px;
+  text-decoration: none;
+  padding-top: 5px;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: auto;
+  font-weight: bold;
+}
+
 .arcadeTextWhite {
   color: white;
   font-size: 14px;
@@ -124,6 +136,38 @@ global $fieldset_color, $fieldset_border_width, $digits_color;
   font-weight: bold;
 }
 
+.arcadeTitlePink:hover {
+  color: white;
+  font-size: 18px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.clicktoplay {
+  color: cyan;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.clicktoplay:hover {
+  color: white;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: pointer;
+  font-weight: bold;
+}
 
 .arcadeTitleLink {
   color: cyan;

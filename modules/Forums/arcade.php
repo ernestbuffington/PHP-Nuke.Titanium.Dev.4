@@ -139,17 +139,28 @@ if ( ( $arcade_catid == 0 )and( $arcade_config[ 'use_category_mod' ] ) ) {
 
   $template->assign_vars( array(
     'URL_ARCADE' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "arcade.$phpEx" ) . '">' . $lang[ 'lib_arcade' ] . '</a></nobr> ',
-    'URL_BESTSCORES' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "toparcade.$phpEx" ) . '">' . $lang[ 'best_scores' ] . '</a></nobr> ',
-    'URL_SCOREBOARD' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "scoreboard.$phpEx?gid=$gid" ) . '">' . $lang[ 'scoreboard' ] . '</a></nobr> ',
-    'MANAGE_COMMENTS' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "comments_list.$phpEx" ) . '">' . $lang[ 'comments' ] . '</a></nobr> ',
-    'ARCADE_COL' => ( $arcade_config[ 'use_fav_category' ] ) ? 6 : 5,
-    'ARCADE_COL1' => ( $arcade_config[ 'use_fav_category' ] ) ? 2 : 1,
-    'FAV' => $lang[ 'fav' ],
-    'L_GAME' => $lang[ 'games' ],
-    'L_HIGHSCORE' => $lang[ 'highscore' ],
-    'L_YOURSCORE' => $lang[ 'yourbestscore' ],
-    'L_DESC' => $lang[ 'desc_game' ],
-    'L_ARCADE' => $lang[ 'lib_arcade' ] ) );
+    
+	'URL_BESTSCORES' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "toparcade.$phpEx" ) . '">' . $lang[ 'best_scores' ] . '</a></nobr> ',
+    
+	'URL_SCOREBOARD' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "scoreboard.$phpEx?gid=$gid" ) . '">' . $lang[ 'scoreboard' ] . '</a></nobr> ',
+    
+	'MANAGE_COMMENTS' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "comments_list.$phpEx" ) . '">' . $lang[ 'comments' ] . '</a></nobr> ',
+    
+	'ARCADE_COL' => ( $arcade_config[ 'use_fav_category' ] ) ? 6 : 5,
+    
+	'ARCADE_COL1' => ( $arcade_config[ 'use_fav_category' ] ) ? 2 : 1,
+    
+	'FAV' => $lang[ 'fav' ],
+    
+	'L_GAME' => $lang[ 'games' ],
+    
+	'L_HIGHSCORE' => $lang[ 'highscore' ],
+    
+	'L_YOURSCORE' => $lang[ 'yourbestscore' ],
+    
+	'L_DESC' => $lang[ 'desc_game' ],
+    
+	'L_ARCADE' => $lang[ 'lib_arcade' ] ) );
 
   if ( $arcade_config[ 'use_fav_category' ] ) {
     
@@ -189,9 +200,9 @@ if ( ( $arcade_catid == 0 )and( $arcade_config[ 'use_category_mod' ] ) ) {
         
 		  'HIGHSCOREF' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format( $frow[ 'game_highscore' ].'</span>' ),
         
-		  'CLICKPLAY' => '<a href="' . append_sid( "games.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">Click to Play!</a>',
+		  'CLICKPLAY' => '<a class="clicktoplay" href="' . append_sid( "games.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">Click to Play!</a>',
           
-		  'YOURHIGHSCOREF' => number_format( $frow[ 'score_game' ]),
+		  'YOURHIGHSCOREF' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format( $frow[ 'score_game' ].'</span>'),
           
 		  'NORECORDF' => ( $frow[ 'game_highscore' ] == 0 ) ? $lang[ 'no_record' ] : '',
           
@@ -204,11 +215,11 @@ if ( ( $arcade_catid == 0 )and( $arcade_config[ 'use_category_mod' ] ) ) {
           
 		  'DATEHIGHF' => "<nobr>" . create_date( $board_config[ 'default_dateformat' ], $frow[ 'game_highdate' ], $board_config[ 'board_timezone' ] ) . "</nobr>",
           
-		  'YOURDATEHIGHF' => "<nobr>" . create_date( $board_config[ 'default_dateformat' ], $frow[ 'score_date' ], $board_config[ 'board_timezone' ] ) . "</nobr>",
+		  'YOURDATEHIGHF' => "<nobr><span class='arcadeTextDate'>" . create_date( $board_config[ 'default_dateformat' ], $frow[ 'score_date' ], $board_config[ 'board_timezone' ] ) . "</span></nobr>",
           
 		  'IMGFIRSTF' => ( $frow[ 'game_highuser' ] == $userinfo[ 'user_id' ] ) ? "&nbsp;&nbsp;<img src='" . $phpbb_root_path . "templates/" . $theme[ 'template_name' ] . "/images/couronne.gif' align='absmiddle'>" : "",
           
-		  'GAMEDESCF' => $frow[ 'game_desc' ]
+		  'GAMEDESCF' => '<span class="arcadeTextDescription">'.$frow[ 'game_desc' ].'</span>'
         ) );
 
         if ( $frow[ 'game_highscore' ] != 0 ) {
@@ -255,10 +266,14 @@ if ( ( $arcade_catid == 0 )and( $arcade_config[ 'use_category_mod' ] ) ) {
 
     if ( $nbjeux > 0 ) {
       $template->assign_block_vars( 'cat_row', array(
-        'U_ARCADE' => append_sid( "arcade.$phpEx?cid=" . $row[ 'arcade_catid' ] ),
-        'LINKCAT_ALIGN' => ( $arcade_config[ 'linkcat_align' ] == '0' ) ? 'left' : ( ( $arcade_config[ 'linkcat_align' ] == '1' ) ? 'center' : 'right' ),
-        'L_ARCADE' => sprintf( $lang[ 'Other_games' ], $row[ 'arcade_nbelmt' ] ),
-        'CATTITLE' => $row[ 'arcade_cattitle' ] ) );
+    
+	    'U_ARCADE' => append_sid( "arcade.$phpEx?cid=" . $row[ 'arcade_catid' ] ),
+    
+	    'LINKCAT_ALIGN' => ( $arcade_config[ 'linkcat_align' ] == '0' ) ? 'left' : ( ( $arcade_config[ 'linkcat_align' ] == '1' ) ? 'center' : 'right' ),
+    
+	    'L_ARCADE' => sprintf( $lang[ 'Other_games' ], $row[ 'arcade_nbelmt' ] ),
+    
+	    'CATTITLE' => $row[ 'arcade_cattitle' ] ) );
 
       $nbjeux = ( $nbjeux < $games_par_categorie ) ? $nbjeux : $games_par_categorie;
 
@@ -272,35 +287,43 @@ if ( ( $arcade_catid == 0 )and( $arcade_config[ 'use_category_mod' ] ) ) {
           
 		  'GAMELINK' => '<nobr><a href="' . append_sid( "games.$phpEx?gid=" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . '">' . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_name' ] . '</a></nobr> ',
           
-		  'GAMEPOPUPLINK' => "<a href='javascript:Arcade_Popup(\"" . append_sid( "gamespopup.$phpEx?gid=" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . "\", \"New_Window\",\"" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_width' ] . "\",\"" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_height' ] . "\", \"no\")'>New Window</a>",
+		  'GAMEPOPUPLINK' => "<a href='javascript:Arcade_Popup(\"" . append_sid( "gamespopup.$phpEx?gid=" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . "\", \"New_Window\",\"" 
+		  . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_width' ] . "\",\"" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_height' ] . "\", \"no\")'>New Window</a>",
           
-		  'GAMEPIC' => ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_pic' ] != '' ) ? "<a class='rounded-corners-arcade' width='60' href='" . append_sid( "games.$phpEx?gid=" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . "'><img class='rounded-corners-arcade' width='60' src='" . $phpbb_root_path . "games/pics/" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_pic' ] . "' align='absmiddle' border='0' vspace='2' hspace='2' alt='" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_name' ] . "' ></a>" : '',
+		  'GAMEPIC' => ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_pic' ] != '' ) ? "<a class='rounded-corners-arcade' width='60' href='" . append_sid( "games.$phpEx?gid=" 
+		  . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . "'><img class='rounded-corners-arcade' width='60' src='" . $phpbb_root_path . "games/pics/" 
+		  . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_pic' ] . "' align='absmiddle' border='0' vspace='2' hspace='2' alt='" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_name' ] . "' ></a>" : '',
           
 		  'GAMESET' => ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_set' ] != 0 ) ? $lang[ 'game_actual_nbset' ] . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_set' ] : '',
           
 		  'HIGHSCORE' => number_format( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_highscore' ] ),
           
-		  'YOURHIGHSCORE' => number_format( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'score_game' ] ),
+		  'YOURHIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'score_game' ].'</span>' ),
           
-		  'CLICKPLAY' => '<a href="' . append_sid( "games.$phpEx?gid=" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . '">Click to Play!</a>',
+		  'CLICKPLAY' => '<a class="clicktoplay" href="' . append_sid( "games.$phpEx?gid=" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . '">Click to Play!</a>',
           
 		  'NORECORD' => ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_highscore' ] == 0 ) ? $lang[ 'no_record' ] : '',
           
 		  'HIGHUSER' => ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_highuser' ] != 0 ) ? '' . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'username' ] . '' : '',
           
-		  'URL_SCOREBOARD' => '<nobr><a class="cattitle" href="' . append_sid( "scoreboard.$phpEx?gid=" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . '">' . "<img src='" . $phpbb_root_path . "templates/" . $theme[ 'template_name' ] . "/images/scoreboard.gif' align='absmiddle' border='0' alt='" . $lang[ 'scoreboard' ] . " " . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_name' ] . "'>" . '</a></nobr> ',
+		  'URL_SCOREBOARD' => '<nobr><a class="cattitle" href="' . append_sid( "scoreboard.$phpEx?gid=" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . '">' . "<img 
+		  src='" . $phpbb_root_path . "templates/" . $theme[ 'template_name' ] . "/images/scoreboard.gif' align='absmiddle' border='0' alt='" . $lang[ 'scoreboard' ] . " " 
+		  . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_name' ] . "'>" . '</a></nobr> ',
           
 		  'GAMEID' => $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ],
           
 		  'DATEHIGH' => "<nobr>" . create_date( $board_config[ 'default_dateformat' ], $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_highdate' ], $board_config[ 'board_timezone' ] ) . "</nobr>",
           
-		  'YOURDATEHIGH' => "<nobr>" . create_date( $board_config[ 'default_dateformat' ], $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'score_date' ], $board_config[ 'board_timezone' ] ) . "</nobr>",
+		  'YOURDATEHIGH' => "<nobr><span class='arcadeTextDate'>" . create_date( $board_config[ 'default_dateformat' ], $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'score_date' ], $board_config[ 'board_timezone' ] ) 
+		  . "</span></nobr>",
           
-		  'IMGFIRST' => ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_highuser' ] == $userinfo[ 'user_id' ] ) ? "&nbsp;&nbsp;<img src='" . $phpbb_root_path . "templates/" . $theme[ 'template_name' ] . "/images/couronne.gif' align='absmiddle'>" : "",
+		  'IMGFIRST' => ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_highuser' ] == $userinfo[ 'user_id' ] ) ? "&nbsp;&nbsp;<img 
+		  src='" . $phpbb_root_path . "templates/" . $theme[ 'template_name' ] . "/images/couronne.gif' align='absmiddle'>" : "",
           
-		  'ADD_FAV' => ( $arcade_config[ 'use_fav_category' ] ) ? '<td class="arcadeRow1" width="8%" align="center" valign="center"><a href="' . append_sid( "arcade.$phpEx?favori=" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . '"><span class="arcadeTitleLink"><i class="bi bi-plus-square"></i></br><font size="2">Add Favorite</font></span></a></td>' : '',
+		  'ADD_FAV' => ( $arcade_config[ 'use_fav_category' ] ) ? '<td class="arcadeRow1" width="8%" align="center" valign="center"><a class="arcadeTitleLink" href="' . append_sid( "arcade.$phpEx?favori=" 
+		  . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . '"><i class="bi bi-plus-square"></i></br><font size="2">Add Favorite</font></a></td>' : '',
           
-		  'GAMEDESC' => $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_desc' ] ) );
+		  'GAMEDESC' => '<span class="arcadeTextDescription">'.$liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_desc' ].'</span>' ) );
 
         if ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_highscore' ] != 0 ) {
           $template->assign_block_vars( 'cat_row.game_row.recordrow', array() );
@@ -366,22 +389,39 @@ $template->set_filenames( array(
   'body' => 'arcade_body.tpl' ) );
 
 $template->assign_vars( array(
+  
   'URL_ARCADE' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "arcade.$phpEx" ) . '">' . $lang[ 'lib_arcade' ] . '</a></nobr> ',
+  
   'URL_BESTSCORES' => '<nobr><a class="cattitle" href="' . append_sid( "toparcade.$phpEx" ) . '">' . $lang[ 'best_scores' ] . '</a></nobr> ',
+  
   'URL_SCOREBOARD' => '<nobr><a class="cattitle" href="' . append_sid( "scoreboard.$phpEx?gid=$gid" ) . '">' . $lang[ 'scoreboard' ] . '</a></nobr> ',
+  
   'MANAGE_COMMENTS' => '<nobr><a class="cattitle" href="' . append_sid( "comments_list.$phpEx" ) . '">' . $lang[ 'comments' ] . '</a></nobr> ',
+  
   'CATTITLE' => $row[ 'arcade_cattitle' ],
+  
   'NAV_DESC' => '<a class="nav" href="' . append_sid( "arcade.$phpEx" ) . '">' . $lang[ 'arcade' ] . '</a> ',
+  
   'L_GAME' => $lang[ 'games' ],
+  
   'PAGINATION' => generate_pagination( append_sid( "arcade.$phpEx?cid=$arcade_catid" ), $total_games, $games_par_page, $start ),
+  
   'PAGE_NUMBER' => sprintf( $lang[ 'Page_of' ], ( floor( $start / $games_par_page ) + 1 ), ceil( $total_games / $games_par_page ) ),
+  
   'ARCADE_COL' => ( $arcade_config[ 'use_fav_category' ] ) ? 6 : 5,
+  
   'ARCADE_COL1' => ( $arcade_config[ 'use_fav_category' ] ) ? 2 : 1,
+  
   'FAV' => $lang[ 'fav' ],
+  
   'L_HIGHSCORE' => $lang[ 'highscore' ],
+  
   'L_YOURSCORE' => $lang[ 'yourbestscore' ],
+  
   'L_DESC' => $lang[ 'desc_game' ],
+  
   'L_ARCADE' => $lang[ 'lib_arcade' ] ) );
+
 if ( ( $arcade_config[ 'use_fav_category' ] ) && ( !$arcade_config[ 'use_category_mod' ] ) ) {
   $sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date, f.* FROM "
     . GAMES_TABLE . " g LEFT JOIN "
@@ -399,30 +439,43 @@ if ( ( $arcade_config[ 'use_fav_category' ] ) && ( !$arcade_config[ 'use_categor
     while ( $frow = $db->sql_fetchrow( $result ) ) {
 	  	
       $template->assign_block_vars( 'favrow.fav_row', array(
+
         'GAMENAMEF' => $frow[ game_name ],
+
         'DELFAVORI' => '<a href="' . append_sid( "arcade.$phpEx?delfavori=" . $frow[ 'game_id' ] ) . '"><img src="modules/Forums/templates/subSilver/images/delfavs.gif" border=0 alt="' . $lang[ 'del_fav' ] . '"></a>',
+
         'GAMELINKF' => '<nobr><a href="' . append_sid( "games.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">' . $frow[ 'game_name' ] . '</a></nobr> ',
-        'GAMEPOPUPLINKF' => "<a href='javascript:Arcade_Popup(\"" . append_sid( "gamespopup.$phpEx?gid=" . $frow[ 'game_id' ] ) . "\", \"New_Window\",\"" . $frow[ 'game_width' ] . "\",\"" . $frow[ 'game_height' ] . "\", \"no\")'>New Window</a>",
-        'GAMEPICF' => ( $frow[ 'game_pic' ] != '' ) ? "<a href='" . append_sid( "games.$phpEx?gid=" . $frow[ 'game_id' ] ) . "'><img src='" . "modules/Forums/games/pics/" . $frow[ 'game_pic' ] . "' align='absmiddle' border='0' width='30' height='30' vspace='2' hspace='2' alt='" . $frow[ 'game_name' ] . "' ></a>" : '',
+        
+		'GAMEPOPUPLINKF' => "<a href='javascript:Arcade_Popup(\"" . append_sid( "gamespopup.$phpEx?gid=" . $frow[ 'game_id' ] ) . "\", \"New_Window\",\"" . $frow[ 'game_width' ] . "\",\"" 
+		. $frow[ 'game_height' ] . "\", \"no\")'>New Window</a>",
+        
+		'GAMEPICF' => ( $frow[ 'game_pic' ] != '' ) ? "<a href='" . append_sid( "games.$phpEx?gid=" . $frow[ 'game_id' ] ) . "'><img src='" . "modules/Forums/games/pics/" 
+		. $frow[ 'game_pic' ] . "' align='absmiddle' border='0' width='30' height='30' vspace='2' hspace='2' alt='" . $frow[ 'game_name' ] . "' ></a>" : '',
         
 		'GAMESETF' => ( $frow[ 'game_set' ] != 0 ) ? $lang[ 'game_actual_nbset' ] . $frow[ 'game_set' ] : '',
         
 		'HIGHSCOREF' => number_format( $frow[ 'game_highscore' ] ),
-        'CLICKPLAY' => '<a href="' . append_sid( "games.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">Click to Play!</a>',
-        'YOURHIGHSCOREF' => number_format( $frow[ 'score_game' ] ),
-        'NORECORDF' => ( $frow[ 'game_highscore' ] == 0 ) ? $lang[ 'no_record' ] : '',
+        
+		'CLICKPLAY' => '<a class="clicktoplay" href="' . append_sid( "games.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">Click to Play!</a>',
+        
+		'YOURHIGHSCOREF' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format( $frow[ 'score_game' ].'</span>' ),
+        
+		'NORECORDF' => ( $frow[ 'game_highscore' ] == 0 ) ? $lang[ 'no_record' ] : '',
         
 		'HIGHUSERF' => ( $frow[ 'game_highuser' ] != 0 ) ? '(' . $frow[ 'username' ] . ')' : '',
         
-		'URL_SCOREBOARDF' => '<nobr><a class="cattitle" href="' . append_sid( "scoreboard.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">' . "<img src='modules/Forums/templates/" . $theme[ 'template_name' ] . "/images/scoreboard.gif' align='absmiddle' border='0' alt='" . $lang[ 'scoreboard' ] . " " . $frow[ 'game_name' ] . "'>" . '</a></nobr> ',
+		'URL_SCOREBOARDF' => '<nobr><a class="cattitle" href="' . append_sid( "scoreboard.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">' . "<img src='modules/Forums/templates/" 
+		. $theme[ 'template_name' ] . "/images/scoreboard.gif' align='absmiddle' border='0' alt='" . $lang[ 'scoreboard' ] . " " . $frow[ 'game_name' ] . "'>" . '</a></nobr> ',
         
 		'GAMEIDF' => $frow[ 'game_id' ],
-        'DATEHIGHF' => "<nobr>" . create_date( $board_config[ 'default_dateformat' ], $frow[ 'game_highdate' ], $board_config[ 'board_timezone' ] ) . "</nobr>",
-        'YOURDATEHIGHF' => "<nobr>" . create_date( $board_config[ 'default_dateformat' ], $frow[ 'score_date' ], $board_config[ 'board_timezone' ] ) . "</nobr>",
+        
+		'DATEHIGHF' => "<nobr>" . create_date( $board_config[ 'default_dateformat' ], $frow[ 'game_highdate' ], $board_config[ 'board_timezone' ] ) . "</nobr>",
+        
+		'YOURDATEHIGHF' => "<nobr><span class='arcadeTextDate'>" . create_date( $board_config[ 'default_dateformat' ], $frow[ 'score_date' ], $board_config[ 'board_timezone' ] ) . "</span></nobr>",
         
 		'IMGFIRSTF' => ( $frow[ 'game_highuser' ] == $userinfo[ 'user_id' ] ) ? "&nbsp;&nbsp;<img src='modules/Forums/templates/" . $theme[ 'template_name' ] . "/images/couronne.gif' align='absmiddle'>" : "",
         
-		'GAMEDESCF' => $frow[ 'game_desc' ]
+		'GAMEDESCF' => '<span class="arcadeTextDescription">'.$frow[ 'game_desc' ].'</span>'
       ) );
 
       if ( $frow[ 'game_highscore' ] != 0 ) {
@@ -437,7 +490,13 @@ if ( ( $arcade_config[ 'use_fav_category' ] ) && ( !$arcade_config[ 'use_categor
   }
 }
 
-$sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date FROM " . GAMES_TABLE . " g LEFT JOIN " . USERS_TABLE . " u ON g.game_highuser = u.user_id LEFT JOIN " . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userinfo[ 'user_id' ] . " $sql_where ORDER BY $order_by $limit";
+$sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date 
+FROM " . GAMES_TABLE . " g 
+LEFT JOIN " . USERS_TABLE . " u 
+ON g.game_highuser = u.user_id 
+LEFT JOIN " . SCORES_TABLE . " s 
+ON s.game_id = g.game_id and s.user_id = " . $userinfo[ 'user_id' ] . " $sql_where 
+ORDER BY $order_by $limit";
 
 if ( !( $result = $db->sql_query( $sql ) ) ) {
   message_die( GENERAL_ERROR, "Could not read games table", '', __LINE__, __FILE__, $sql );
@@ -445,28 +504,44 @@ if ( !( $result = $db->sql_query( $sql ) ) ) {
 
 while ( $row = $db->sql_fetchrow( $result ) ) {
   $template->assign_block_vars( 'gamerow', array(
+
     'GAMENAME' => $row[ 'game_name' ],
     
-	'GAMEPIC' => ( $row[ 'game_pic' ] != '' ) ? "<a class='rounded-corners-arcade' width='60' href='" . append_sid( "games.$phpEx?gid=" . $row[ 'game_id' ] ) . "'><img class='rounded-corners-arcade' width='60' src='" . $phpbb_root_path . "games/pics/" . $row[ 'game_pic' ] . "' align='absmiddle' border='0' alt='" . $row[ 'game_name' ] . "' ></a>" : '',
+	'GAMEPIC' => ( $row[ 'game_pic' ] != '' ) ? "<a class='rounded-corners-arcade' width='60' href='" . append_sid( "games.$phpEx?gid=" . $row[ 'game_id' ] ) . "'><img 
+	class='rounded-corners-arcade' width='60' src='" . $phpbb_root_path . "games/pics/" . $row[ 'game_pic' ] . "' align='absmiddle' border='0' alt='" . $row[ 'game_name' ] . "' ></a>" : '',
     
 	'GAMESET' => ( $row[ 'game_set' ] != 0 ) ? $lang[ 'game_actual_nbset' ] . $row[ 'game_set' ] : '',
-    'GAMEDESC' => $row[ 'game_desc' ],
-    'HIGHSCORE' => number_format( $row[ 'game_highscore' ] ),
-    'YOURHIGHSCORE' => number_format( $row[ 'score_game' ] ),
-    'CLICKPLAY' => '<a href="' . append_sid( "games.$phpEx?gid=" . $row[ 'game_id' ] ) . '">Click to Play!</a>',
+    
+	'GAMEDESC' => '<span class="arcadeTextDescription">'.$row[ 'game_desc' ].'</span>',
+    
+	'HIGHSCORE' => number_format( $row[ 'game_highscore' ] ),
+	
+    'YOURHIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format( $row[ 'score_game' ].'</span>' ),
+    
+	'CLICKPLAY' => '<a class="clicktoplay" href="' . append_sid( "games.$phpEx?gid=" . $row[ 'game_id' ] ) . '">Click to Play!</a>',
+
     'NORECORD' => ( $row[ 'game_highscore' ] == 0 ) ? $lang[ 'no_record' ] : '',
+
     'HIGHUSER' => ( $row[ 'game_highuser' ] != 0 ) ? '(' . $row[ 'username' ] . ')' : '',
-    'URL_SCOREBOARD' => '<nobr><a class="cattitle" href="' . append_sid( "scoreboard.$phpEx?gid=" . $row[ 'game_id' ] ) . '">' . "<img src='" . $phpbb_root_path . "templates/" . $theme[ 'template_name' ] . "/images/scoreboard.gif' align='absmiddle' border='0' alt='" . $lang[ 'scoreboard' ] . " " . $row[ 'game_name' ] . "'>" . '</a></nobr> ',
-    'GAMEID' => $row[ 'game_id' ],
+    
+	'URL_SCOREBOARD' => '<nobr><a class="cattitle" href="' . append_sid( "scoreboard.$phpEx?gid=" . $row[ 'game_id' ] ) . '">' . "<img 
+	src='" . $phpbb_root_path . "templates/" . $theme[ 'template_name' ] . "/images/scoreboard.gif' align='absmiddle' border='0' alt='" . $lang[ 'scoreboard' ] . " " . $row[ 'game_name' ] . "'>" . '</a></nobr> ',
+    
+	'GAMEID' => $row[ 'game_id' ],
+
     'DATEHIGH' => "<nobr>" . create_date( $board_config[ 'default_dateformat' ], $row[ 'game_highdate' ], $board_config[ 'board_timezone' ] ) . "</nobr>",
-    'YOURDATEHIGH' => "<nobr>" . create_date( $board_config[ 'default_dateformat' ], $row[ 'score_date' ], $board_config[ 'board_timezone' ] ) . "</nobr>",
+    
+	'YOURDATEHIGH' => "<nobr><span class='arcadeTextDate'>" . create_date( $board_config[ 'default_dateformat' ], $row[ 'score_date' ], $board_config[ 'board_timezone' ] ) . "</span></nobr>",
     
 	'IMGFIRST' => ( $row[ 'game_highuser' ] == $userinfo[ 'user_id' ] ) ? "&nbsp;&nbsp;<img src='" . $phpbb_root_path . "templates/" . $theme[ 'template_name' ] . "/images/couronne.gif' align='absmiddle'>" : "",
     
-	'ADD_FAV' => ( $arcade_config[ 'use_fav_category' ] ) ? '<td class="row1" width="25" align="center" valign="center"><a href="' . append_sid( "arcade.$phpEx?favori=" . $row[ 'game_id' ] ) . '"><img src="modules/Forums/templates/subSilver/images/favs.gif" border=0 alt="' . $lang[ 'add_fav' ] . '"></a></td>' : '',
+	'ADD_FAV' => ( $arcade_config[ 'use_fav_category' ] ) ? '<td class="row1" width="25" align="center" valign="center"><a 
+	href="' . append_sid( "arcade.$phpEx?favori=" . $row[ 'game_id' ] ) . '"><img src="modules/Forums/templates/subSilver/images/favs.gif" border=0 alt="' . $lang[ 'add_fav' ] . '"></a></td>' : '',
     
 	'GAMELINK' => '<nobr><a href="' . append_sid( "games.$phpEx?gid=" . $row[ 'game_id' ] ) . '">' . $row[ 'game_name' ] . '</a></nobr> ',
-    'GAMEPOPUPLINK' => "<a href='javascript:Arcade_Popup(\"" . append_sid( "gamespopup.$phpEx?gid=" . $row[ 'game_id' ] ) . "\", \"New_Window\",\"" . $row[ 'game_width' ] . "\",\"" . $row[ 'game_height' ] . "\", \"no\")'>New Window</a>" ) );
+    
+	'GAMEPOPUPLINK' => "<a href='javascript:Arcade_Popup(\"" . append_sid( "gamespopup.$phpEx?gid=" . $row[ 'game_id' ] ) . "\", \"New_Window\",\"" . $row[ 'game_width' ] . "\",\"" 
+	. $row[ 'game_height' ] . "\", \"no\")'>New Window</a>" ) );
 
   if ( $row[ 'game_highscore' ] != 0 ) {
     $template->assign_block_vars( 'gamerow.recordrow', array() );
