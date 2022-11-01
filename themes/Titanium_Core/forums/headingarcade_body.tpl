@@ -35,8 +35,8 @@ function resize_avatar(image)
                    <!-- BEGIN player_row -->
                    <tr>
                         <td class="row2" align="center" height="2" width="25%" class="gensmall"><p align="center"><img width="15" src="modules/Forums/templates/subSilver/images/couronne.gif" align="absmiddle"><span class="arcadeTextWhite">{player_row.CLASSEMENT}</span></td>
-                      <td class="row1" align="center" height="2" class="gensmall" width="50%"><p align="center"><span class="arcadeTextWhite">{player_row.USERNAME}</span></td>
-                        <td class="row2" height="2" align="center" width="25%"><p align="center"><span class="w3-badge w3-blue">{player_row.VICTOIRES}</span></td>   
+                      <td class="row1" align="center" height="2" class="gensmall" width="50%"><p align="center"><span class="arcadeTopTenHeader">{player_row.USERNAME}</span></td>
+                        <td class="row2" height="2" align="center" width="25%"><p align="center"><span class="arcadeTextWhite w3-badge w3-blue">{player_row.VICTOIRES}</span></td>   
                    </tr>
                       <!-- END player_row -->
             </table>
@@ -83,12 +83,16 @@ function resize_avatar(image)
                 </td>
                 
         <td class="row1" align="center" valign="top" width="15%" rowspan="2" height="93"><p align="center">
+<!-- padding between Arcade Tables and links at the bottom of the Arcade Page START -->
+<div align="center" style="padding-top:22px;">
+</div>
+<!-- padding between Arcade Tables and links at the bottom of the Arcade Page END -->
                         <span class="arcadeTextWhite"></span>{AVATAR_IMG}<br /><br />{USERNAME}<br /></br>
                         <span class="arcadeTextWhite"> <img width="15" src="modules/Forums/templates/subSilver/images/couronne.gif">{ARCADE_VICTOIRES}</span><br />
                         <span class="arcadeTextWhite">{L_ARCADE_TOTAL_PLAYS}</span><br />
                         <span class="arcadeTextWhite">{ARCADE_TOTAL_PLAYS}</span></br><br />
                         <span class="arcadeTextWhite"><strong>{L_ARCADE_TOTAL_TIME}</strong></span><br />
-                        <span class="w3-box w3-border w3-border-silver">&nbsp;&nbsp;{ARCADE_TOTAL_TIME}</span></p>
+                        {ARCADE_TOTAL_TIME}</p>
         </td>
    </tr>
           

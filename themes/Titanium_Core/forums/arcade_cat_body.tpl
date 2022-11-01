@@ -42,7 +42,7 @@ function Arcade_Popup(mypage,myname,w,h,scroll)
 <!-- game favorites table START -->
 <table width="100%" cellpadding="2" cellspacing="1" border="0" class="forumline">
 <tr>
-<td class="cat" colspan="6"><span class="cattitle">{FAV}</span></td>
+<td class="arcadeRow1" colspan="6"><span class="arcadeTitlePink">{FAV}</span></td>
 </tr>
          
 <!-- BEGIN fav_row -->
@@ -167,13 +167,13 @@ function Arcade_Popup(mypage,myname,w,h,scroll)
         <!-- padding between Arcade Tables END -->
           <table width="100%" cellpadding="2" cellspacing="1" border="0" class="forumline">
           <tr>
-            <td class="cat" colspan="{ARCADE_COL}"><span class="cattitle">{cat_row.CATTITLE}</span></td>
+            <td class="arcadeRow1" colspan="{ARCADE_COL}"><span class="arcadeTitlePink">{cat_row.CATTITLE} Games</span></td>
           </tr>
 <tr> 
-<td class="cat" height="28" align="center" colspan="2"><span class="cattitle">{L_GAME}</span></td> 
-<td class="cat" nowrap="nowrap" align="center"><span class="cattitle">{L_HIGHSCORE}</span></td> 
-<td class="cat" nowrap="nowrap" align="center"><span class="cattitle">{L_YOURSCORE}</span></td> 
-<td class="cat" nowrap="nowrap" align="center" colspan="{ARCADE_COL1}"><span class="cattitle">{L_DESC}</span></td> 
+<td class="arcadeRow2" height="28" align="center" colspan="2"><span class="cattitle">{L_GAME}</span></td> 
+<td class="arcadeRow2" nowrap="nowrap" align="center"><span class="cattitle">{L_HIGHSCORE}</span></td> 
+<td class="arcadeRow2" nowrap="nowrap" align="center"><span class="cattitle">{L_YOURSCORE}</span></td> 
+<td class="arcadeRow2" nowrap="nowrap" align="center" colspan="{ARCADE_COL1}"><span class="cattitle">{L_DESC}</span></td> 
 
 </tr>
 <!-- BEGIN game_row -->

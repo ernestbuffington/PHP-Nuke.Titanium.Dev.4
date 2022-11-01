@@ -141,6 +141,32 @@ body {
   font-weight: bold;
 }
 
+.arcadeTopTenHeader {
+  color: white;
+  font-size: 18px;
+  text-decoration: none;
+  padding-top: 5px;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: auto;
+  font-weight: bold;
+}
+
+
+.arcadeUserName {
+  color: white;
+  font-size: 20px;
+  text-decoration: none;
+  padding-top: 5px;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: auto;
+  font-weight: bold;
+}
+
+
 .arcadeTextWhite {
   color: white;
   font-size: 14px;
@@ -501,6 +527,12 @@ img.rounded-corners-user-info {
   border-radius: 20px;
   width: 200px; 
 }
+
+img.rounded-corners-arcade-center_block {
+  border-radius: 9px;
+  width: 80px; 
+}
+
 .w3-serif{font-family:serif}.w3-sans-serif{font-family:sans-serif}.w3-cursive{font-family:cursive}.w3-monospace{font-family:monospace}
 .w3-wide{letter-spacing:4px}
 .w3-image{max-width:100%;height:auto}img{vertical-align:middle}a{color:inherit}

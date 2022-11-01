@@ -137,7 +137,7 @@ if ($top) {
     
 	$row['username'] = '<strong>' . UsernameColor($row['username']) . '</strong>';
 
-    $content .= "<a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['user_id']."\"><img class=\"rounded-corners-profile\" width=\"80\" src=".$current_avatar."></a></br>";
+    $content .= "<a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['user_id']."\"><img class=\"rounded-corners-arcade-center_block\" src=".$current_avatar."></a></br>";
     
 	$content .= "<strong>$place - </strong>\n";
     
@@ -172,7 +172,8 @@ if ($top) {
   src=\"modules/Forums/games/pics/".$row['game_pic']."\" border= \"0\" alt=\"".$row['game_name']."\"></a><br /> \n";
 
   if (is_admin())
-  $content .= "</br><a class=\"arcade-admin-font rounded-corners-gamepic tooltip-html-side-interact tooltipstered\" title=\"Only Admins See This Link\" href=\"modules/Forums/admin/arcade_elmt.php?mode=edit&amp;game_id=".$row['game_id']."\" target=\"_blank\">&nbsp;EDIT CURRENT RANDOM GAME SETTINGS&nbsp;</a>";
+  $content .= "</br><a class=\"arcade-admin-font rounded-corners-gamepic tooltip-html-side-interact tooltipstered\" 
+  title=\"Only Admins See This Link\" href=\"modules/Forums/admin/arcade_elmt.php?mode=edit&amp;game_id=".$row['game_id']."\" target=\"_blank\">&nbsp;EDIT CURRENT RANDOM GAME SETTINGS&nbsp;</a>";
   
   $content .= "</br>High Score set by<br /><strong><a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['game_highuser']."\"><div class=\"w3-tag w3-round w3-green\" style=\"padding:3px\">\n";
   $content .= "<div class=\"w3-tag w3-round w3-green w3-border w3-border-white\"><i class=\"bi bi-award\"></i>$randomUser</div>\n";
@@ -187,7 +188,7 @@ if ($top) {
 
   $content .= "<marquee height=500px behavior= \"scroll\" align= \"center\" direction= \"up\" scrollamount= \"4\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'><center>\n";
 
-  $sql = "SELECT game_name, game_id, game_pic FROM ".$prefix."_bbgames ORDER BY game_order DESC LIMIT 0,$recent_scores";
+  $sql = "SELECT game_name, game_id, game_pic FROM ".$prefix."_bbgames ORDER BY game_order DESC LIMIT 0, 235"; #$recent_scores
 
   $result = $db->sql_query($sql);
 
@@ -268,7 +269,10 @@ if ($last_five) {
   $content .= "<tr>\n";
   
   $content .= "<td class=\"arcadeRow2\" width=\"26%\" align=\"left\" class=\"row1\">&nbsp;<font color=\"gold\" size=\"4\"><i class=\"bi bi-trophy\"></i></font>1st<strong><a style = \"text-decoration: none;\"
-  href=\"modules.php?name=Forums&file=statarcade&uid=".$row['game_highuser']."\">&nbsp;&nbsp;<img class=\"rounded-corners-gamepic tooltip-html-side-interact tooltipstered\" title= \"I'm ".$row['username'].", I just finished playing ( ".$row['game_name']." )</br>I just took the 1st Place Trophy!</br>My score was ".$row['game_highscore']."\" width=\"40\" src=".$current_avatar."> <font class=\"tooltip-html-side-interact tooltipstered\" title= \"".$row['username']."'s Arcade Stats\" size=\"3\"> $lastUser</font> </strong></a></td>\n";
+  href=\"modules.php?name=Forums&file=statarcade&uid=".$row['game_highuser']."\">&nbsp;&nbsp;<img class=\"rounded-corners-gamepic 
+  tooltip-html-side-interact tooltipstered\" 
+  title= \"I'm ".$row['username'].", I just finished playing ( ".$row['game_name']." )</br>I just took the 1st Place Trophy!</br>My score was ".$row['game_highscore']."\" 
+  width=\"40\" src=".$current_avatar."> <font class=\"tooltip-html-side-interact tooltipstered\" title= \"".$row['username']."'s Arcade Stats\" size=\"3\"> $lastUser</font> </strong></a></td>\n";
   
   $content .= "<td class=\"arcadeRow2\" width=\"10%\" align=\"center\" class=\"row2\"><span class=\"w3-badge w3-green\"><font size=\"4\"><strong>".$row['game_highscore']."</strong></font></span></td>\n";
   
@@ -300,7 +304,8 @@ if ($arcade_stats) {
   $content .= "<tr>\n";
   
   $content .= "<td class=\"arcadeRow2\" width=\"50%\" align=\"center\" class=\"row1\">Most Popular: <a 
-  href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><strong>".$row['game_name']."</strong> </a>with <span class=\"w3-badge w3-blue\"><strong>".$row['game_set']."</strong></span> plays.</td>\n";
+  href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><strong>".$row['game_name']."</strong> </a>with <span class=\"w3-badge 
+  w3-blue\"><strong>".$row['game_set']."</strong></span> plays.</td>\n";
 
   //Least Played Game
   $sql = "SELECT game_set, game_name, game_id FROM ".$prefix."_bbgames ORDER BY game_set ASC LIMIT 1";
@@ -323,7 +328,7 @@ if ($arcade_stats) {
   $result = $db->sql_query($sql);
 
   while ($row = $db->sql_fetchrow($result)) {
-    $content .="<a href=\"modules.php?name=Forums&amp;file=arcade&amp;cid=".$row['arcade_catid']."\">\n";
+    $content .="<a class=\"arcadeTitleLink\" href=\"modules.php?name=Forums&amp;file=arcade&amp;cid=".$row['arcade_catid']."\">\n";
     $content .="<strong>".$row['arcade_cattitle']." <span class=\"w3-badge w3-indigo\">".$row['arcade_nbelmt']."</span> Games</strong>\n";
     $content .="</a>&nbsp;&nbsp;&nbsp;\n";
   }
@@ -360,8 +365,8 @@ if ($whos_playing)
   if ($nbplayers != 0) 
   {
     $content .="<tr>\n";
-    $content .="<td class=\"arcadeRow2\"><strong>Game</strong></td>\n";
-    $content .="<td class=\"arcadeRow2\"><strong>Users</strong></td>\n";
+    $content .="<td class=\"arcadeRow1\"><strong>Game</strong></td>\n";
+    $content .="<td class=\"arcadeRow1\"><strong>Users</strong></td>\n";
 
     for ($i=0 ; $i<$nbplayers ; $i++) 
 	{
@@ -397,8 +402,8 @@ if ($whos_playing)
 			 if ($games_players[$key]!='') 
 			 {
                $content .= "<tr>\n";
-               $content .= "<td width=\"30%\" class=\"arcadeRow2\"><a href=\"modules.php?name=Forums&amp;file=games&amp;gid=$key\">$val</a></td>\n";
-               $content .= "<td class=\"arcadeRow2\">" .$games_players[$key]. "</td>\n";
+               $content .= "<td width=\"30%\" class=\"arcadeRow1 arcadeTitleLink\"><a href=\"modules.php?name=Forums&amp;file=games&amp;gid=$key\">$val</a></td>\n";
+               $content .= "<td class=\"arcadeRow1 arcadeTitleLink\">" .$games_players[$key]. "</td>\n";
                $content .= "</tr>\n";
              }
            }

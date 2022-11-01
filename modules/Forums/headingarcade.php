@@ -67,7 +67,7 @@ $template->set_filenames(array(
             'ARCADE_VICTOIRES' => $victories_badge,
 			
             'AVATAR_IMG' => $avatar_img,
-            'USERNAME' => '<a href="' . append_sid("statarcade.$phpEx?uid=" . $userdata['user_id'] ) . '" class="arcadeTextWhite">' . $color_name . '</a> ',
+            'USERNAME' => '<a href="' . append_sid("statarcade.$phpEx?uid=" . $userdata['user_id'] ) . '" class="arcadeUserName">' . $color_name . '</a> ',
             'POSTER_RANK' => $poster_rank,
             'RANK_IMG' => $rank_image,
             'ARCADE_ANNOUNCEMENT' => $arcade_config['arcade_announcement'],
@@ -154,14 +154,16 @@ $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, 
     $last_scoregame = '<a class="arcadeTitleLink" href="' . append_sid("games.$phpEx?gid=" . $rowArcade['game_id']) . '">' . $rowArcade['game_name'] . '</a>';
     $last_scoreuser = '<a href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $rowArcade['game_highuser']) . '">' . $rowArcade['username'] . '</a>';
     $last_score = number_format($rowArcade['game_highscore']);
-
-    $score_badge = '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.$last_score.'</span>';
+    
+	$add_to_favorites = '<a class="arcadeTitleLink" href="modules.php?name=Forums&amp;file=arcade&amp;favori='.$rowArcade['game_id'].'"><i class="bi bi-plus-square"></i><br><font size="2">Add Favorite</font></a>';
+    
+	$score_badge = '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.$last_score.'</span>';
     
 	$template->assign_block_vars('arcaderow2.bestscore2',array(
     
 	'CLASS' => $class,
 	
-    'ADD_FAV' => ( $arcade_config[ 'use_fav_category' ] ) ? '<td class="row1" width="25" align="center" valign="center"><a href="' . append_sid( "arcade.$phpEx?favori=" . $rowArcade[ 'game_id' ] ) . '"><img src="modules/Forums/templates/subSilver/images/favs.gif" border=0 alt="' . $lang[ 'add_fav' ] . '"></a></td>' : '',
+    'ADD_FAV' => ( $arcade_config[ 'use_fav_category' ] ) ? '<td class="row1" width="25" align="center" valign="center">'.$add_to_favorites.'</td>' : '',
 
     'L_HEADING_CHAMP' => sprintf($lang['heading_champ'], $last_scoreuser, $last_scoregame, $score_badge),
         'LAST_SCOREDATE' => create_date($board_config['default_dateformat'], $rowArcade['game_highdate'] , $board_config['board_timezone']))
@@ -171,7 +173,10 @@ $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, 
 
 // Last Recorded Score
 
-   $sql = " SELECT u.user_id, u.username, s.game_id, s.score_game, s.score_date, g.game_name FROM " . SCORES_TABLE . " s, " . USERS_TABLE . " u, " . GAMES_TABLE . " g WHERE s.user_id = u.user_id AND s.game_id = g.game_id ORDER BY score_date DESC LIMIT 0,1";
+   $sql = " SELECT u.user_id, u.username, s.game_id, s.score_game, s.score_date, g.game_name 
+   FROM " . SCORES_TABLE . " s, " . USERS_TABLE . " u, " . GAMES_TABLE . " g WHERE s.user_id = u.user_id 
+   AND s.game_id = g.game_id 
+   ORDER BY score_date DESC LIMIT 0,1";
 
    if ( !($result = $db->sql_query($sql)) )
    {
@@ -314,7 +319,7 @@ $games_time = sec2hms($row['games_time']);
                 "L_ARCADE_TOTAL_PLAYS" => $lang['heading_plays'],
                 "ARCADE_TOTAL_PLAYS" => '<span class="w3-badge w3-blue">'.$games_played.'</span>',
                 "L_ARCADE_TOTAL_TIME" => $lang['heading_time'],
-                "ARCADE_TOTAL_TIME" => $games_time
+                "ARCADE_TOTAL_TIME" => '<span class="w3-box w3-border w3-border-silver">&nbsp;'.$games_time.'&nbsp;&nbsp;</span>'
             )
             );
 
