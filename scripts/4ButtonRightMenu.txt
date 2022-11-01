@@ -1,0 +1,4 @@
+&home=modules.php?name=NetworkProfile
+&downloads=modules.php?name=NetworkProfile&amp;ucp=Avatar
+&forums=modules.php?name=NetworkMessages
+&account=modules.php?name=Album

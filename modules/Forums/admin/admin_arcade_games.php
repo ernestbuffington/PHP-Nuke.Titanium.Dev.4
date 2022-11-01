@@ -176,8 +176,8 @@ if ( $mode == 'editcreate')
 
             $max_order = $row['max_order'];
             $next_order = $max_order + 10;
-
-            $sql = "INSERT INTO " . ARCADE_CATEGORIES_TABLE . " ( arcade_cattitle, arcade_nbelmt, arcade_catorder )
+            
+			$sql = "INSERT INTO " . ARCADE_CATEGORIES_TABLE . " ( arcade_cattitle, arcade_nbelmt, arcade_catorder )
                     VALUES ('" . str_replace("\'","''",$arcade_cattitle) . "', 0, $next_order)" ;
             if( !$db->sql_query($sql) )
             {

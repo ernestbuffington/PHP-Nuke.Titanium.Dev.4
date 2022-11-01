@@ -1,0 +1,52 @@
+<scores>
+
+	<jet value="10000" />
+	<super_jet value="50000" />
+	
+	<topchute value="1000" />
+	<topchutes_complete value="2000" anim="bonusx" />
+	
+	<!-- ramps -->
+	<leftramp value="50000" combo="true" />
+	<leftramp_skill_jackpot value="250000" />
+	<leftramp_event_jackpot value="500000" />
+	
+	<enter_rightramp value="50000" combo="true" />
+	<rightramp_jackpot value="500000" />
+	
+	<!-- midtargets -->
+	<midtarget value="1000" />
+	<midtargets_complete value="100000" />
+	
+	<!-- sidetargets -->
+	<sidetarget value="5000" />
+	<sidetargets_complete value="20000" />
+	
+	<!-- saucer -->
+	<enter_centersaucer value="50000" />
+	
+	<!-- orbit -->
+	<spinner value="500" />
+	<spinner_event_spin value="25000" />
+	<spinner_event_hit value="250000" />
+	
+	<orbit_event_hit value="500000" />
+	
+	<leftorbit value="50000" combo="true" />
+	<rightorbit value="50000" combo="true" />
+	
+	<!-- combo increment -->
+	<combo value="100000" anim="combo" />
+	<combo_time value="3000" />
+	
+	<!-- skill shot -->
+	<skillshot value="100000" />
+	<skillshot_ramp value="250000" />
+	
+	<!-- bonus -->
+	<combo_bonus value="100000" />
+	<event_bonus value="250000" />
+	
+	<multiball_jackpot value="1000000" />
+	
+</scores>

@@ -209,7 +209,7 @@ $cat_title = $ourrow['arcade_cattitle'];
 
 $template->assign_vars(array(
         'MAXSIZE_AVATAR' => intval($arcade_config['maxsize_avatar']),
-        'CAT_TITLE' => '<a href="' . append_sid("arcade.$phpEx&amp;cid=") . $row['arcade_catid'] .'">' . $cat_title . '</a> ' ,
+        'CAT_TITLE' => '<a class="arcadeTitleLink" href="' . append_sid("arcade.$phpEx&amp;cid=") . $row['arcade_catid'] .'">' . $cat_title . '</a> ' ,
         'NAV_DESC' => '<a href="' . append_sid("arcade.$phpEx") . '">' . $lang['arcade'] . '</a> ' ,
         'SWF_GAME' => $row['game_swf'] ,
         'GAME_WIDTH' => $row['game_width'] ,
@@ -218,10 +218,10 @@ $template->assign_vars(array(
         'GAMEHASH' => $gamehash_id,
         'L_TOP' => $lang['best_scores_game'] ,
         'HIGHSCORE' => number_format($row['highscore']),
-        'URL_ARCADE' => '<nobr><button class="arcadeCattitle" type="button" onclick=window.location.href="' . append_sid("arcade.$phpEx") . '">&nbsp;' . $lang['lib_arcade'] . '&nbsp;</button></nobr> ',
-        'MANAGE_COMMENTS' => '<nobr><button class="arcadeCattitle" type="button" onclick=window.location.href="' . append_sid("comments_list.$phpEx") . '">&nbsp;' . $lang['comments'] . '&nbsp;</button></nobr> ',
-        'URL_BESTSCORES' => '<nobr><button class="arcadeCattitle" type="button" onclick=window.location.href="' . append_sid("toparcade.$phpEx") . '">&nbsp;' . $lang['best_scores'] . '&nbsp;</button></nobr> ',
-        'URL_SCOREBOARD' => '<nobr><button class="arcadeCattitle" type="button" onclick=window.location.href="' . append_sid("scoreboard.$phpEx?gid=$gid") . '">&nbsp;' . $lang['scoreboard'] . '&nbsp;</button></nobr> ')
+        'URL_ARCADE' => '<nobr><a class="arcadeTitleLink" onclick=window.location.href="' . append_sid("arcade.$phpEx") . '">&nbsp;' . $lang['lib_arcade'] . '&nbsp;</a></nobr> ',
+        'MANAGE_COMMENTS' => '<nobr><a class="arcadeTitleLink" onclick=window.location.href="' . append_sid("comments_list.$phpEx") . '">&nbsp;' . $lang['comments'] . '&nbsp;</a></nobr> ',
+        'URL_BESTSCORES' => '<nobr><a class="arcadeTitleLink" onclick=window.location.href="' . append_sid("toparcade.$phpEx") . '">&nbsp;' . $lang['best_scores'] . '&nbsp;</a></nobr> ',
+        'URL_SCOREBOARD' => '<nobr><a class="arcadeTitleLink" onclick=window.location.href="' . append_sid("scoreboard.$phpEx?gid=$gid") . '">&nbsp;' . $lang['scoreboard'] . '&nbsp;</a></nobr> ')
 );
 
 $sql = "SELECT s.* , u.username, u.user_avatar_type, u.user_allowavatar, u.user_avatar FROM " . SCORES_TABLE . " s LEFT JOIN " . USERS_TABLE . " u ON s.user_id = u.user_id WHERE game_id = $gid ORDER BY s.score_game DESC, s.score_date ASC LIMIT 0,15 ";
@@ -247,17 +247,17 @@ $orig_word = array();
 $replacement_word = array();
 obtain_word_list($orig_word, $replacement_word);
 
-if(!empty($row_comment['comments_value']))
-{
-            if ( count($orig_word) )
-                        {
-                             $row_comment['comments_value'] = preg_replace($orig_word, $replacement_word, $row_comment['comments_value']);
-                        }
-                        $comment = '<marquee scrollamount="3">' .$row_comment['comments_value'] .'</marquee>';
+if(!empty($row_comment['comments_value'])) {
+  
+  if ( count($orig_word) ) {
+     $row_comment['comments_value'] = preg_replace($orig_word, $replacement_word, $row_comment['comments_value']);
+  }
+  
+  $comment = '<marquee scrollamount="3">' .$row_comment['comments_value'] .'</marquee>';
 }
 else
 {
-$comment='';
+  $comment='';
 }
 
 $pos = 0;
@@ -297,7 +297,11 @@ while ($row = $db->sql_fetchrow($result)) {
          $row['trophy'] = '<font size="2">rd</font>';
         }
         elseif($last == 2) {
-         $row['trophy'] = '<font size="2">nd</font>';
+            
+			$row['trophy'] = '<font size="2">nd</font>';
+
+			if ($last == 3 && $last == 2)
+			$row['trophy'] = '<font size="2">1st Place Tie</font>';
         }
         else 
         {
@@ -328,15 +332,18 @@ $avatar_img = '';
 if ($user_avatar_type && $user_allowavatar) {
         switch($user_avatar_type) {
                 case USER_AVATAR_UPLOAD:
-                        $avatar_img = ($board_config['allow_avatar_upload']) ? '<img class="rounded-corners-user-info" src="' . $board_config['avatar_path'] . '/' . $user_avatar . '" alt="" border="0" hspace="20" align="center" valign="center" onload="resize_avatar(this)"/>' : '';
+                        $avatar_img = ($board_config['allow_avatar_upload']) ? '<img class="rounded-corners-user-info" 
+						src="' . $board_config['avatar_path'] . '/' . $user_avatar . '" alt="" border="0" hspace="20" align="center" valign="center" onload="resize_avatar(this)"/>' : '';
                         break;
 
                 case USER_AVATAR_REMOTE:
-                        $avatar_img = ($board_config['allow_avatar_remote']) ? '<img class="rounded-corners-user-info" src="' . $user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center"  onload="resize_avatar(this)"/>' : '';
+                        $avatar_img = ($board_config['allow_avatar_remote']) ? '<img class="rounded-corners-user-info" 
+						src="' . $user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center"  onload="resize_avatar(this)"/>' : '';
                         break;
 
                 case USER_AVATAR_GALLERY:
-                        $avatar_img = ($board_config['allow_avatar_local']) ? '<img class="rounded-corners-user-info" src="' . $board_config['avatar_gallery_path'] . '/' . $user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center"  onload="resize_avatar(this)"/>' : '';
+                        $avatar_img = ($board_config['allow_avatar_local']) ? '<img class="rounded-corners-user-info" 
+						src="' . $board_config['avatar_gallery_path'] . '/' . $user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center"  onload="resize_avatar(this)"/>' : '';
                         break;
         }
 }
@@ -348,13 +355,25 @@ if ($arcade_config['display_winner_avatar']) {
                 $template->assign_block_vars('avatar_best_player_left',array());
         }
 
+        if(empty($best_user))
+		$best_user = 'NO CHAMPION YET';
+
+        if(empty($best_time))
+		$best_time = '0';
+
+        if(empty($games_played))
+		$games_played = '0';
+
+        if(empty($best_date))
+		$best_date = 'The 1st of Never';
+		
         $template->assign_vars(array(
            'L_ACTUAL_WINNER' => $lang['Actual_winner'],
            'BEST_USER_NAME' => $best_user,
-           'BEST_USER_DATE' => sprintf($lang['hi_score_on'], $best_date),
-           'BEST_TIME' => sprintf($lang['played_time_total'], $best_time),
+           'BEST_USER_DATE' => sprintf($lang['hi_score_on'], '<span class="w3-box w3-border w3-border-silver">&nbsp;&nbsp;'.$best_date.'&nbsp;&nbsp;</span>'),
+           'BEST_TIME' => sprintf($lang['played_time_total'], '&nbsp;<span class="w3-box w3-border w3-border-silver">&nbsp;&nbsp;'.$best_time.'&nbsp;&nbsp;</span>'),
            'COMMENTS' => smilies_pass($comment),
-           'GAMES_PLAYED' => sprintf($lang['played_times'], $games_played),
+           'GAMES_PLAYED' => sprintf($lang['played_times'], '<span class="w3-box w3-border w3-border-silver">&nbsp;&nbsp;'.$games_played.'&nbsp;&nbsp;</span>'),
            'FIRST_AVATAR' => $avatar_img)
        );
 

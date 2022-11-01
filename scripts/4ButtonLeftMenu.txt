@@ -1,0 +1,4 @@
+&home=index.php
+&downloads=modules.php?name=Downloads
+&forums=modules.php?name=Web_Links
+&account=modules.php?name=Top

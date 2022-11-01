@@ -99,13 +99,16 @@ if ( $user_avatar_type && $user_allowavatar )
    switch( $user_avatar_type )
    {
       case USER_AVATAR_UPLOAD:
-         $avatar_img = ( $board_config['allow_avatar_upload'] ) ? '<img src="' . $board_config['avatar_path'] . '/' . $user_avatar . '" alt="" border="0" hspace="20" align="center" valign="center"/>' : '';
+         $avatar_img = ( $board_config['allow_avatar_upload'] ) ? '<img class="rounded-corners-user-info" 
+		 src="' . $board_config['avatar_path'] . '/' . $user_avatar . '" alt="" border="0" hspace="20" align="center" valign="center"/>' : '';
          break;
       case USER_AVATAR_REMOTE:
-         $avatar_img = ( $board_config['allow_avatar_remote'] ) ? '<img src="' . $user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center" />' : '';
+         $avatar_img = ( $board_config['allow_avatar_remote'] ) ? '<img class="rounded-corners-user-info" 
+		 src="' . $user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center" />' : '';
          break;
       case USER_AVATAR_GALLERY:
-         $avatar_img = ( $board_config['allow_avatar_local'] ) ? '<img src="' . $board_config['avatar_gallery_path'] . '/' . $user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center" />' : '';
+         $avatar_img = ( $board_config['allow_avatar_local'] ) ? '<img class="rounded-corners-user-info" 
+		 src="' . $board_config['avatar_gallery_path'] . '/' . $user_avatar . '" alt="" border="0"  hspace="20" align="center" valign="center" />' : '';
          break;
    }
 
@@ -154,7 +157,16 @@ $where_sql = (!empty($liste_id)) ? " AND s1.game_id IN ($liste_id)" : '';
 //MAriaDB no longer supports SQL_BIG_SELECTS
 //$sql = "SET OPTION SQL_BIG_SELECTS=1 ";
 //$db->sql_query($sql);
-$sql = "SELECT count(*) AS pos, s1.game_id , g.game_highuser, g.game_name FROM " . SCORES_TABLE . " s1 LEFT JOIN " . SCORES_TABLE . " s2 ON s1.score_game >= s2.score_game AND s1.game_id = s2.game_id LEFT JOIN " . GAMES_TABLE . " g ON g.game_id = s1.game_id WHERE s2.user_id = $uid AND ((s1.score_game > s2.score_game) OR (s1.user_id = $uid)) $where_sql GROUP BY s1.game_id";
+$sql = "SELECT count(*) AS pos, s1.game_id , g.game_highuser, g.game_name 
+FROM " . SCORES_TABLE . " s1 
+LEFT JOIN " . SCORES_TABLE . " s2 
+ON s1.score_game >= s2.score_game 
+AND s1.game_id = s2.game_id 
+LEFT JOIN " . GAMES_TABLE . " g 
+ON g.game_id = s1.game_id 
+WHERE s2.user_id = $uid AND ((s1.score_game > s2.score_game) 
+OR (s1.user_id = $uid)) $where_sql 
+GROUP BY s1.game_id";
 
 if (!($result = $db->sql_query($sql))) {
         message_die(GENERAL_ERROR, "Could not read the scores table", '', __LINE__, __FILE__, $sql);
@@ -174,8 +186,8 @@ if (!$row = $db->sql_fetchrow($result)) {
 $template->assign_vars(array(
         'PAGINATION' => generate_pagination(append_sid("statarcade.$phpEx?uid=$uid"), $total_games, $games_par_page, $start),
         'PAGE_NUMBER' => sprintf($lang['Page_of'], (floor($start / $games_par_page) + 1), ceil($total_games / $games_par_page)),
-        'URL_ARCADE' => '<nobr><a class="cattitle" href="' . append_sid("arcade.$phpEx") . '">' . $lang['lib_arcade'] . '</a></nobr> ',
-        'URL_BESTSCORES' => '<nobr><a class="cattitle" href="' . append_sid("toparcade.$phpEx") . '">' . $lang['best_scores'] . '</a></nobr> ',
+        'URL_ARCADE' => '<nobr><a class="arcadeTitleLink" href="' . append_sid("arcade.$phpEx") . '">' . $lang['lib_arcade'] . '</a></nobr> ',
+        'URL_BESTSCORES' => '<nobr><a class="arcadeTitleLink" href="' . append_sid("toparcade.$phpEx") . '">' . $lang['best_scores'] . '</a></nobr> ',
         'USER_AVATAR' => '<a href="modules.php?name=Forums&file=profile&mode=viewprofile&u=' . $uid . '">' . $avatar_img . '</a>',
         'L_STATS' => $lang['statuser'] . ' ' . $statuser)
 );
@@ -203,7 +215,7 @@ while(!$fini) {
                         $pos = (isset($tbpos[ $gamelist[$i]['game_id'] ])) ? $tbpos[ $gamelist[$i]['game_id'] ] : 1;
 
                         $template->assign_block_vars('blkligne.blkcolonne.blkgame', array(
-                                'GAMENAME' => '<nobr><a class="cattitle" href="' . append_sid("games.$phpEx?gid=" . $gamelist[$i]['game_id']) . '">' . $gamelist[$i]['game_name'] . '</a></nobr> ',
+                                'GAMENAME' => '<nobr><a class="arcadeTitleLink" href="' . append_sid("games.$phpEx?gid=" . $gamelist[$i]['game_id']) . '">' . $gamelist[$i]['game_name'] . '</a></nobr> ',
                                 'L_NBSET' => $lang['statnbset'],
                                 'NBSET' =>  ($gamelist[$i]['score_set'] == 0) ? "n/a" : $gamelist[$i]['score_set'],
                                 'L_TPSSET' => $lang['stattottime'],
@@ -214,7 +226,7 @@ while(!$fini) {
                                 'DATHIGHSCR' => create_date($board_config['default_dateformat'] , $gamelist[$i]['score_date'] , $board_config['board_timezone']),
                                 'L_POSGAME' => $lang['statposition'],
                                 'POSGAME' => ( $pos == 1 ) ? $pos . "st" : ( ( $pos == 2 ) ? $pos . "nd" : ( ( $pos == 3 ) ? $pos . "rd" : $pos . "th" ) ),
-                                'IMGFIRST' => ( $tbhighuser[ $gamelist[$i]['game_id'] ] == $uid ) ? "<img src='".$phpbb_root_path . "templates/" . $theme['template_name'] . "/images/couronne.gif' align='absmiddle'>" : "" ,
+                                'IMGFIRST' => ( $tbhighuser[ $gamelist[$i]['game_id'] ] == $uid ) ? "<img width='19' src='".$phpbb_root_path . "templates/" . $theme['template_name'] . "/images/couronne.gif' align='absmiddle'>" : "" ,
                                 'L_TPSMOY' => $lang['statmedtime'],
                                 'TPSMOY' =>  ($gamelist[$i]['score_set'] == 0) ? "n/a" : $avgtime)
                         );

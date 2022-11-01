@@ -928,6 +928,7 @@ function ApplyChange()
                  . " game_highscore=0"
                  . ",game_highdate=0"
                  . ",game_highuser=0"
+				 . ",game_set=0"
                  . " WHERE game_id = " . $gid;
                 $db->sql_query($sql) or die("Cannot update Games Table");
                 $sql = "DELETE FROM " . $prefix . "_bbscores WHERE game_id=$gid";

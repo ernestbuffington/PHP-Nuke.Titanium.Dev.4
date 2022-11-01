@@ -177,6 +177,16 @@ If you need help with an install do not hesitate to submit a request by clicking
 <p><strong>The PHP-Nuke Titanium Team </strong>(This is the US Support Team)<br />
 <a href="https://php-nuke-titanium.86it.us/index.php">http://php-nuke-titanium.86it.us/index.php</a></p>
 
+<h2>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</h2>
+
+<p>PHP-Nuke Titanium&nbsp;is licensed as free software under the GNU general public license for non-profit use, because there are so many people to include in the license please refer to the licenses.pdf file. Re-selling or direct&nbsp;marketing this software for commercial use is forbidden by the GNU general public license, the result of doing so can lead to legal action been taken against you so please ensure to read and understand the license before using this software for development and personal use.</p>
+
+<p>The skinny on this jargon is to do what you want with the software and always give full credit to the original copyright owners. You can sell a modified version of this software but you must always give credit to the original copyright owners. I suggest you do some research and find out who owns PHP-Nuke. The Original Copyright belonged to&nbsp;Francisco Burzi who added to a version of&nbsp;Thatware and the copyright owner for that software is&nbsp;David Norman. This is Open-Source software and should be treated as such.</p>
+
+<h2>Warranty</h2>
+
+<p>Because PHP-Nuke Titanium is licensed free of charge, there is no warranty for the package, to the extent permitted by applicable law. Except when otherwise stated in writing, the PHP-Nuke Titanium Team provides PHP-Nuke Titanium &quot;as is&quot; without warranty of any kind, either expressed or implied, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose. The entire risk as to the quality and performance of the package is with you. Should the package prove defective, you assume the cost of all necessary servicing, repair, or correction.</p>
+
 ## License
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fernestbuffington%2FPHP-Nuke.Titanium.Dev.4.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fernestbuffington%2FPHP-Nuke.Titanium.Dev.4?ref=badge_large)
 
