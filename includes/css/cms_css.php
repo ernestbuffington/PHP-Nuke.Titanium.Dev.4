@@ -41,6 +41,31 @@ table.rounded-corners>tfoot:not(:last-child) {
 }
 
 /*---------------------------------------------------------------*/
+/* Game Description START                                        */
+/*---------------------------------------------------------------*/
+.disclaimer {
+  color: goldenrod;
+  font-size: 14px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.disclaimer:hover {
+  color: white;
+  font-size: 14px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/*---------------------------------------------------------------*/
 /* Global CMS CSS                                                */
 /*                                                               */
 /* Designed and Coded By: Ernest Buffington aka TheGhost         */
