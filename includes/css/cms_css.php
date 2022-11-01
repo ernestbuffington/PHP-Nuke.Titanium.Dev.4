@@ -4,8 +4,42 @@
 #---------------------------------------------------------------------------------------#
 echo "\n\n/* includes/css/cms_css.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
 echo "/* When we are done we will move this code to style.css */\n\n";
-global $fieldset_color, $fieldset_border_width, $digits_color; 
+global $br, $fieldset_color, $fieldset_border_width, $digits_color;
+$br = '<div align="center" style="padding-top:2px;"></div>';
 ?>
+table.rounded-corners {
+ /* Change these properties */
+ --border: 1px solid black;
+ border-radius: 10px;
+
+ /* Don't change these properties */
+ border-spacing: 0;
+ border-collapse: separate;
+ border: var(--border);
+ overflow: hidden;
+}
+
+/* Apply a border to the right of all but the last column */
+table.rounded-corners th:not(:last-child),
+table.rounded-corners td:not(:last-child) {
+ border-right: var(--border);
+}
+
+/* Apply a border to the bottom of all but the last row */
+table.rounded-corners>thead>tr:not(:last-child)>th,
+table.rounded-corners>thead>tr:not(:last-child)>td,
+table.rounded-corners>tbody>tr:not(:last-child)>th,
+table.rounded-corners>tbody>tr:not(:last-child)>td,
+table.rounded-corners>tfoot>tr:not(:last-child)>th,
+table.rounded-corners>tfoot>tr:not(:last-child)>td,
+table.rounded-corners>tr:not(:last-child)>td,
+table.rounded-corners>tr:not(:last-child)>th,
+table.rounded-corners>thead:not(:last-child),
+table.rounded-corners>tbody:not(:last-child),
+table.rounded-corners>tfoot:not(:last-child) {
+ border-bottom: var(--border);
+}
+
 /*---------------------------------------------------------------*/
 /* Global CMS CSS                                                */
 /*                                                               */
@@ -99,7 +133,7 @@ body {
 /*---------------------------------------------------------------*/
 .arcadeTextDescription {
   color: white;
-  font-size: 18px;
+  font-size: 16px;
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
@@ -110,7 +144,7 @@ body {
 
 .arcadeTextDescription:hover {
   color: white;
-  font-size: 18px;
+  font-size: 16px;
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
@@ -167,7 +201,7 @@ body {
 }
 
 .popup {
-  color: white;
+  color: yellow;
   font-size: 13px;
   text-decoration: none;
   padding: 4px;
@@ -178,7 +212,7 @@ body {
 }
 
 .popup:hover {
-  color: yellow;
+  color: white;
   font-size: 13px;
   text-decoration: none;
   padding: 4px;
