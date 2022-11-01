@@ -91,21 +91,24 @@ function Arcade_Popup(mypage,myname,w,h,scroll)
 
 <!-- NO WINNER favrow.fav_row.NOSCOREF START -->
 {favrow.fav_row.NOSCOREF}
-!-- NO WINNER favrow.fav_row.NOSCOREF END -->
+<!-- NO WINNER favrow.fav_row.NOSCOREF END -->
 
 <!-- BEGIN yourrecordrow -->
-
-<!-- game trophy image for 1st place winners only START -->
+<!-- game trophy image for 1st place winners only favrow.fav_row.IMGFIRSTF START -->
 <strong>{favrow.fav_row.IMGFIRSTF}
 <div align="center" style="padding-top:2px;">
 </div>
-<!-- game trophy image for 1st place winners only END -->
+<!-- game trophy image for 1st place winners only favrow.fav_row.IMGFIRSTF END -->
 
+<!-- Your high score and date for favorites favrow.fav_row.YOURHIGHSCOREF and favrow.fav_row.YOURDATEHIGHF START -->
 {favrow.fav_row.YOURHIGHSCOREF}</strong><br />{favrow.fav_row.YOURDATEHIGHF}
+<!-- Your high score and date for favorites favrow.fav_row.YOURHIGHSCOREF and favrow.fav_row.YOURDATEHIGHF END -->
 <!-- END yourrecordrow -->
 
 <!-- BEGIN playrecordrow -->
+<!-- Click to play favorites only favrow.fav_row.CLICKPLAY START -->
 <strong>{favrow.fav_row.CLICKPLAY}</strong>
+<!-- Click to play favorites only favrow.fav_row.CLICKPLAY END -->
 <!-- END playrecordrow -->
 </td>
                         
@@ -115,14 +118,15 @@ function Arcade_Popup(mypage,myname,w,h,scroll)
 <tr>
 
 <td align="center">
-<!-- game description for favorites START -->
+<!-- game description for favorites favrow.fav_row.GAMEDESCF START -->
 {favrow.fav_row.GAMEDESCF}
-<!-- game description for favorites START -->
+<!-- game description for favorites favrow.fav_row.GAMEDESCF END -->
 </td>
 
-<!-- scoreboard link for each game START -->
+<!-- scoreboard link for each game favrow.fav_row.URL_SCOREBOARDF START -->
 <td width="25">{favrow.fav_row.URL_SCOREBOARDF}</td>
-<!-- scoreboard link for each game START -->
+<!-- scoreboard link for each game favrow.fav_row.URL_SCOREBOARDF END -->
+
 </tr>
 </table>
 <!-- game favorites table END -->
@@ -148,8 +152,11 @@ function Arcade_Popup(mypage,myname,w,h,scroll)
 </td></tr>
 </table> 
 <!-- END favrow -->
-    <div align="center" style="padding-top:17px;">
-        </div> 
+
+<!-- spacer between favorites and game tables START -->
+<div align="center" style="padding-top:17px;"></div> 
+<!-- spacer between favorites and game tables END -->
+
   <table width="100%" cellpadding="2" cellspacing="3" border="0">
 <!-- BEGIN cat_row -->
     <tr>
