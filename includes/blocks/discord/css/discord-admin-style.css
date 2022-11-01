@@ -41,31 +41,31 @@
 }
 
 .inp{
-  background-color: #000000 !IMPORTANT;
-  border:#444 2px solid !IMPORTANT;
-  padding:1px !IMPORTANT;
+  background-color: #000000 !important;
+  border:#444 2px solid !important;
+  padding:1px !important;
   margin:2px !important;
-  color:#FFF !IMPORTANT;
-  font-size:14px !IMPORTANT;
+  color:#FFF !important;
+  font-size:14px !important;
 }
 
 #dissub{
-	background: linear-gradient(to bottom, #7289da 0%, #000000 125%) !IMPORTANT;
-	color:#FFF !IMPORTANT;
-	text-align: center !IMPORTANT;
+	background: linear-gradient(to bottom, #7289da 0%, #000000 125%) !important;
+	color:#FFF !important;
+	text-align: center !important;
 	padding:2px 8px 4px 4px !important;
-	font-size:24px !IMPORTANT;
-	font-family: "Arial Black", Gadget, sans-serif !IMPORTANT;
-	font-weight:900 !IMPORTANT;
-	width:110px !IMPORTANT;
-	height:30px !IMPORTANT;
-	transition: 0.8s !IMPORTANT;
+	font-size:24px !important;
+	font-family: "Arial Black", Gadget, sans-serif !important;
+	font-weight:900 !important;
+	width:110px !important;
+	height:30px !important;
+	transition: 0.8s !important;
 	letter-spacing:1px;
 }
 
 #dissub:hover {
-    background: linear-gradient(to bottom, #7289da -66%, #000000 100%) !IMPORTANT;
-	cursor:pointer !IMPORTANT;
+    background: linear-gradient(to bottom, #7289da -66%, #000000 100%) !important;
+	cursor:pointer !important;
 }
 
 .discord_color_ex {
@@ -100,7 +100,7 @@ input[type=range] {
 	color: #C96 !important;
 	outline: 0 !important;
 }
-.discordhelp H3 {
+.discordhelp h3 {
 	color:#900;
 	font-weight:900;
 }
