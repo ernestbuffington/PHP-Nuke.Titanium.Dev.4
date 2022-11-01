@@ -564,8 +564,7 @@ endwhile;
 
 include($phpbb_root_path.'whoisplaying.'.$phpEx);
 
-//
-// Output page header
+# Output page header
 include( $phpbb_root_path . 'headingarcade.' . $phpEx );
 $page_title = $lang[ 'arcade' ];
 include( 'includes/page_header.' . $phpEx );
