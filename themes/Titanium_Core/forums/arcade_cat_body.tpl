@@ -40,19 +40,30 @@ function Arcade_Popup(mypage,myname,w,h,scroll)
          
 <!-- BEGIN fav_row -->
 <tr>
+
+<!-- game pics favorites START -->
 <td class="arcadeRow1" width="35">{favrow.fav_row.GAMEPICF}</td>
+<!-- game pics favorites END -->
                        
 <td class="arcadeRow1" width="100" align="center">
-<span class='genmed'>{favrow.fav_row.GAMELINKF}</span><br />
+
+<!-- main game link favorites START -->
+{favrow.fav_row.GAMELINKF}<br />
+<!-- main game link favorites END -->
+
+<!-- main game popup link favorites START -->
 <span class='genmed'>{favrow.fav_row.GAMEPOPUPLINKF}</span><br />
-<span class='gensmall'>{favrow.fav_row.GAMESETF}</span>
+<!-- main game popup link favorites END -->
+
+{favrow.fav_row.GAMESETF}
 </td>
                         
 <td class="arcadeRow1" width="150" align="center" valign="center" >
-<span class='gen'>{favrow.fav_row.NORECORDF}
 
 <!-- BEGIN recordrow -->
-<strong>{favrow.fav_row.HIGHSCOREF}</strong></span><span class='gensmall'>   {favrow.fav_row.HIGHUSERF}<br />{favrow.fav_row.DATEHIGHF}</span>
+<span class='gen'>{favrow.fav_row.NORECORDF}{favrow.fav_row.HIGHSCOREF}</span>
+
+{favrow.fav_row.HIGHUSERF}<br />{favrow.fav_row.DATEHIGHF}
 <!-- END recordrow -->
 
 </td>
@@ -129,41 +140,60 @@ function Arcade_Popup(mypage,myname,w,h,scroll)
 
 </tr>
 <!-- BEGIN game_row -->
-          <tr>
-            <td class="arcadeRow1" width="35">{cat_row.game_row.GAMEPIC}</td>
-            <td class="arcadeRow1" width="100" align="center">
-                <span class='genmed'>{cat_row.game_row.GAMELINK}</span><br />
-                <span class='genmed'>{cat_row.game_row.GAMEPOPUPLINK}</span><br />
-                <span class='gensmall'>{cat_row.game_row.GAMESET}</span>
-                </td>
-        <td class="arcadeRow1" width="150" align="center" valign="center" >
-                <span class='gen'>
-                {cat_row.game_row.NORECORD}
-          <!-- BEGIN recordrow -->
-        <strong>{cat_row.game_row.HIGHSCORE}</strong></span><span class='gensmall'>&nbsp;&nbsp;{cat_row.game_row.HIGHUSER}<br />{cat_row.game_row.DATEHIGH}
-           <!-- END recordrow -->
-            </span>
-           
-        </td>
+<tr>
 
- <td class="arcadeRow1" width="150" align="center" valign="center" >
+<td class="arcadeRow1" width="35">{cat_row.game_row.GAMEPIC}</td>
 
+<td class="arcadeRow1" width="100" align="center">
+<!-- game title link in regular arcade table START -->
+{cat_row.game_row.GAMELINK}<br />
+<!-- game title link in regular arcade table END -->
+
+<!-- game title pop up link in regular arcade table START -->
+{cat_row.game_row.GAMEPOPUPLINK}<br />
+<!-- game title pop up link in regular arcade table END -->
+
+<!-- how many game plays START -->
+{cat_row.game_row.GAMESET}
+<!-- how many game plays END -->
+
+</td>
+
+<td class="arcadeRow1" width="150" align="center" valign="center" >
+<span class='gen'>
+{cat_row.game_row.NORECORD}
+<!-- BEGIN recordrow -->
+<strong>{cat_row.game_row.HIGHSCORE}</strong></span><span class='gensmall'>&nbsp;&nbsp;{cat_row.game_row.HIGHUSER}<br />{cat_row.game_row.DATEHIGH}
+<!-- END recordrow -->
+</span>
+</td>
+
+<td class="arcadeRow1" width="150" align="center" valign="center" >
 {cat_row.game_row.NOSCORE}
-<!-- BEGIN yourrecordrow -->
+
+<!-- trophy START -->
 <strong>{cat_row.game_row.IMGFIRST}
+<!-- trophy START -->
+
+<!-- padding between trophy and your high score date START -->
 <div align="center" style="padding-top:2px;">
 </div>
-{cat_row.game_row.YOURHIGHSCORE}</strong><br />{cat_row.game_row.YOURDATEHIGH}
-<!-- END yourrecordrow -->
+<!-- padding between trophy and your high score date END -->
 
-<!-- BEGIN playrecordrow -->
+<!-- Your high score and date of high score START -->
+{cat_row.game_row.YOURHIGHSCORE}</strong><br />{cat_row.game_row.YOURDATEHIGH}
+<!-- Your high score and date of high score END -->
+
+<!-- click to play START -->
 {cat_row.game_row.CLICKPLAY}
-<!-- END playrecordrow -->
+<!-- click to play END -->
 
 </td>
 
 
 <td class="arcadeRow1" align="center" valign="center">
+
+
 <table width="100%">
 <tr>
 <td align="center">
@@ -174,12 +204,11 @@ function Arcade_Popup(mypage,myname,w,h,scroll)
 <td width="25">{cat_row.game_row.URL_SCOREBOARD}</td>
 </tr>
 </table>
-</td>
 
+</td>
 <!-- Add game to favorites START -->
  {cat_row.game_row.ADD_FAV}
 <!-- Add game to favorites END -->
-
 </tr>
 <!-- END game_row -->
 <tr>
@@ -188,19 +217,26 @@ function Arcade_Popup(mypage,myname,w,h,scroll)
 <td class="arcadeRow1" colspan="{ARCADE_COL}" align="{cat_row.LINKCAT_ALIGN}"><a class="arcadeTitlePink" href="{cat_row.U_ARCADE}">{cat_row.L_ARCADE}</a></td>
 <!-- View all games for this category END -->
 </tr>
-          </table>
-        </td>  
-        </tr>
+
+</table>
+</td>  
+</tr>
 <!-- END cat_row -->
-    </table>
-    <!-- padding between Arcade Tables and links at the bottom of the Arcade Page START -->
-    <div align="center" style="padding-top:17px;">
-        </div>
-    <!-- padding between Arcade Tables and links at the bottom of the Arcade Page END -->
-  <table width="100%" cellpadding="5" cellspacing="1" border="0">
-   <tr>
-   <!-- [ Arcade ] - [ All Games High Scores ] - [ Comments ] START -->
-   <td class="arcadeRow1" align="center">[&nbsp;{URL_ARCADE}]&nbsp;-&nbsp;[&nbsp;{URL_BESTSCORES}]&nbsp;-&nbsp;[&nbsp;{MANAGE_COMMENTS}]</td>
-   <!-- [ Arcade ] - [ All Games High Scores ] - [ Comments ] END -->
-   </tr>
-  </table>
+</table>
+
+
+<!-- padding between Arcade Tables and links at the bottom of the Arcade Page START -->
+<div align="center" style="padding-top:17px;">
+</div>
+<!-- padding between Arcade Tables and links at the bottom of the Arcade Page END -->
+
+
+
+<table width="100%" cellpadding="5" cellspacing="1" border="0">
+<tr>
+<!-- [ Arcade ] - [ All Games High Scores ] - [ Comments ] START -->
+<td class="arcadeRow1" align="center">[&nbsp;{URL_ARCADE}]&nbsp;-&nbsp;[&nbsp;{URL_BESTSCORES}]&nbsp;-&nbsp;[&nbsp;{MANAGE_COMMENTS}]</td>
+<!-- [ Arcade ] - [ All Games High Scores ] - [ Comments ] END -->
+</tr>
+
+</table>

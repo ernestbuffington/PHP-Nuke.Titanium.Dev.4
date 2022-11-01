@@ -278,11 +278,16 @@ $ourrow = $db->sql_fetchrow($result);
 $cat_title = $ourrow['arcade_cattitle'];
 
 $template->assign_vars(array(
-        'SWF_GAME' => $row['game_swf'] ,
-        'GAMEHASH' => $gamehash_id,
-        'L_GAME' => $row['game_name'],
-                'HIGHUSER' => (!empty($row['username'])) ? "'s Highscore: ".$row['username']." - ": " : No Highscore",
-                'HIGHSCORE' => $row['highscore'])
+        
+  'SWF_GAME' => $row['game_swf'] ,
+  
+  'GAMEHASH' => $gamehash_id,
+  
+  'L_GAME' => $row['game_name'],
+  
+  'HIGHUSER' => (!empty($row['username'])) ? "'s Highscore: ".$row['username']." - ": " : No Highscore",
+  
+  'HIGHSCORE' => $row['highscore'])
 );
 
 //

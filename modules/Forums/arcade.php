@@ -186,14 +186,14 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
 		  'GAMELINKF' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "games.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">' . $frow[ 'game_name' ] . '</a></nobr> ',
           
 		  'GAMEPOPUPLINKF' => "<a 
-		  href='javascript:Arcade_Popup(\"" . append_sid("gamespopup.$phpEx?gid=".$frow[ 'game_id' ])."\", \"New_Window\",\"".$frow[ 'game_width' ]."\",\"".$frow[ 'game_height' ]."\", \"no\")'>New Window</a>",
+		  class='popup' href='javascript:Arcade_Popup(\"" . append_sid("gamespopup.$phpEx?gid=".$frow[ 'game_id' ])."\", \"New_Window\",\"".$frow[ 'game_width' ]."\",\"".$frow[ 'game_height' ]."\", \"no\")'>New Window</a>",
           
 		  # Game Pic
 		  'GAMEPICF' => ( $frow[ 'game_pic' ] != '' ) ? "<a class=\"rounded-corners-arcade\" width=\"70\" href='" . append_sid( "games.$phpEx?gid=" . $frow[ 'game_id' ] ) . "'><img 
 		  class=\"rounded-corners-arcade\" width=\"60\" src='" . "modules/Forums/games/pics/" . $frow[ 'game_pic' ] . "'
 		  align='absmiddle' border='0' vspace='2' hspace='2' alt='" . $frow[ 'game_name' ] . "' ></a>" : '',
 
-          'GAMESETF' => ( $frow[ 'game_set' ] != 0 ) ? $lang[ 'game_actual_nbset' ] . $frow[ 'game_set' ] : '',
+          'GAMESETF' => ( $frow[ 'game_set' ] != 0 ) ? $lang[ 'game_actual_nbset' ] .'<span class="w3-badge w3-blue"><strong>'. $frow[ 'game_set' ].'</strong></span>' : '',
         
 		  'HIGHSCOREF' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format( $frow[ 'game_highscore' ].'</span>' ),
         
@@ -284,18 +284,19 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
           
 		  'GAMENAME' => $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_name' ],
           
-		  'GAMELINK' => '<nobr><a href="' . append_sid( "games.$phpEx?gid=" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . '">' . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_name' ] . '</a></nobr> ',
+		  'GAMELINK' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "games.$phpEx?gid=" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . '">' . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_name' ] . '</a></nobr> ',
           
-		  'GAMEPOPUPLINK' => "<a href='javascript:Arcade_Popup(\"" . append_sid( "gamespopup.$phpEx?gid=" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . "\", \"New_Window\",\"" 
+		  'GAMEPOPUPLINK' => "<a class='popup' href='javascript:Arcade_Popup(\"" . append_sid( "gamespopup.$phpEx?gid=" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . "\", \"New_Window\",\"" 
 		  . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_width' ] . "\",\"" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_height' ] . "\", \"no\")'>New Window</a>",
           
 		  'GAMEPIC' => ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_pic' ] != '' ) ? "<a class='rounded-corners-arcade' width='60' href='" . append_sid( "games.$phpEx?gid=" 
 		  . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . "'><img class='rounded-corners-arcade' width='60' src='" . $phpbb_root_path . "games/pics/" 
 		  . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_pic' ] . "' align='absmiddle' border='0' vspace='2' hspace='2' alt='" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_name' ] . "' ></a>" : '',
           
-		  'GAMESET' => ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_set' ] != 0 ) ? $lang[ 'game_actual_nbset' ] . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_set' ] : '',
+		  'GAMESET' => ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_set' ] != 0 ) ? $lang[ 'game_actual_nbset' ] 
+		  .'<span class="w3-badge w3-blue"><strong>'.$liste_jeux[ $row['arcade_catid']][$i]['game_set'].'</strong></span>' : '',
           
-		  'HIGHSCORE' => number_format( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_highscore' ] ),
+		  'HIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format($liste_jeux[$row['arcade_catid' ]][$i]['game_highscore'].'</span>' ),
           
 		  'YOURHIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'score_game' ].'</span>' ),
           
@@ -450,17 +451,17 @@ if(($arcade_config['use_fav_category']) && (!$arcade_config['use_category_mod'])
 
         'DELFAVORI' => '<a href="' . append_sid( "arcade.$phpEx?delfavori=" . $frow[ 'game_id' ] ) . '"><img src="modules/Forums/templates/subSilver/images/delfavs.gif" border=0 alt="' . $lang[ 'del_fav' ] . '"></a>',
 
-        'GAMELINKF' => '<nobr><a href="' . append_sid( "games.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">' . $frow[ 'game_name' ] . '</a></nobr> ',
+        'GAMELINKF' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "games.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">' . $frow[ 'game_name' ] . '</a></nobr> ',
         
-		'GAMEPOPUPLINKF' => "<a href='javascript:Arcade_Popup(\"" . append_sid( "gamespopup.$phpEx?gid=" . $frow[ 'game_id' ] ) . "\", \"New_Window\",\"" . $frow[ 'game_width' ] . "\",\"" 
+		'GAMEPOPUPLINKF' => "<a class='popup' href='javascript:Arcade_Popup(\"" . append_sid( "gamespopup.$phpEx?gid=" . $frow[ 'game_id' ] ) . "\", \"New_Window\",\"" . $frow[ 'game_width' ] . "\",\"" 
 		. $frow[ 'game_height' ] . "\", \"no\")'>New Window</a>",
         
 		'GAMEPICF' => ( $frow[ 'game_pic' ] != '' ) ? "<a href='" . append_sid( "games.$phpEx?gid=" . $frow[ 'game_id' ] ) . "'><img src='" . "modules/Forums/games/pics/" 
 		. $frow[ 'game_pic' ] . "' align='absmiddle' border='0' width='30' height='30' vspace='2' hspace='2' alt='" . $frow[ 'game_name' ] . "' ></a>" : '',
         
-		'GAMESETF' => ( $frow[ 'game_set' ] != 0 ) ? $lang[ 'game_actual_nbset' ] . $frow[ 'game_set' ] : '',
+		'GAMESETF' => ( $frow[ 'game_set' ] != 0 ) ? $lang[ 'game_actual_nbset' ] .'<span class="w3-badge w3-blue"><strong>'.$frow[ 'game_set' ].'</strong></span>' : '',
         
-		'HIGHSCOREF' => number_format( $frow[ 'game_highscore' ] ),
+		'HIGHSCOREF' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format($frow['game_highscore'].'</span>'),
         
 		'CLICKPLAY' => '<a class="clicktoplay" href="' . append_sid( "games.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">Click to Play!</a>',
         
@@ -518,11 +519,11 @@ while($row = $db->sql_fetchrow($result)):
 	'GAMEPIC' => ( $row[ 'game_pic' ] != '' ) ? "<a class='rounded-corners-arcade' width='60' href='" . append_sid( "games.$phpEx?gid=" . $row[ 'game_id' ] ) . "'><img 
 	class='rounded-corners-arcade' width='60' src='" . $phpbb_root_path . "games/pics/" . $row[ 'game_pic' ] . "' align='absmiddle' border='0' alt='" . $row[ 'game_name' ] . "' ></a>" : '',
     
-	'GAMESET' => ( $row[ 'game_set' ] != 0 ) ? $lang[ 'game_actual_nbset' ] . $row[ 'game_set' ] : '',
+	'GAMESET' => ( $row[ 'game_set' ] != 0 ) ? $lang[ 'game_actual_nbset' ] .'<span class="w3-badge w3-blue"><strong>'.$row['game_set'].'</strong></span>' : '',
     
 	'GAMEDESC' => '<span class="arcadeTextDescription">'.$row[ 'game_desc' ].'</span>',
     
-	'HIGHSCORE' => number_format( $row[ 'game_highscore' ] ),
+	'HIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format($row['game_highscore'].'<span'),
 	
     'YOURHIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format( $row[ 'score_game' ].'</span>' ),
     
@@ -546,9 +547,9 @@ while($row = $db->sql_fetchrow($result)):
 	'ADD_FAV' => ( $arcade_config[ 'use_fav_category' ] ) ? '<td class="row1" width="25" align="center" valign="center"><a 
 	href="' . append_sid( "arcade.$phpEx?favori=" . $row[ 'game_id' ] ) . '"><img src="modules/Forums/templates/subSilver/images/favs.gif" border=0 alt="' . $lang[ 'add_fav' ] . '"></a></td>' : '',
     
-	'GAMELINK' => '<nobr><a href="' . append_sid( "games.$phpEx?gid=" . $row[ 'game_id' ] ) . '">' . $row[ 'game_name' ] . '</a></nobr> ',
+	'GAMELINK' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "games.$phpEx?gid=" . $row[ 'game_id' ] ) . '">' . $row[ 'game_name' ] . '</a></nobr> ',
     
-	'GAMEPOPUPLINK' => "<a href='javascript:Arcade_Popup(\"" . append_sid( "gamespopup.$phpEx?gid=" . $row[ 'game_id' ] ) . "\", \"New_Window\",\"" . $row[ 'game_width' ] . "\",\"" 
+	'GAMEPOPUPLINK' => "<a class='popup' href='javascript:Arcade_Popup(\"" . append_sid( "gamespopup.$phpEx?gid=" . $row[ 'game_id' ] ) . "\", \"New_Window\",\"" . $row[ 'game_width' ] . "\",\"" 
 	. $row[ 'game_height' ] . "\", \"no\")'>New Window</a>" ) );
 
   if($row['game_highscore'] != 0):

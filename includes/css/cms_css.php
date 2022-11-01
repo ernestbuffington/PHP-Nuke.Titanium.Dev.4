@@ -17,7 +17,26 @@ global $fieldset_color, $fieldset_border_width, $digits_color;
 /* NO NEED FOR WRITTEN PERMISSION                                */
 /* I did not trade a goat for this code!                         */
 /*---------------------------------------------------------------*/
+.alertPulse-css {
+    animation: alertPulse 2s ease-out;
+    animation-iteration-count: infinite;
+    opacity: 1;
+    background: #9A2727; /* you need this to specify a color to pulse to */
+}
 
+.banner {
+  font-family: system-ui;
+  margin: 1rem;
+  border-radius: 100px;
+  font-size: 2.2rem;
+  color: white;
+  text-align: center;
+  padding: 1rem 3rem;
+}
+body {
+  padding: 0.1rem;
+  background: #222222;
+}
 /*---------------------------------------------------------------*/
 /* Global CMS CSS                                                */
 /*---------------------------------------------------------------*/
@@ -53,7 +72,7 @@ global $fieldset_color, $fieldset_border_width, $digits_color;
 
 .arcadeTextDate {
   color: white;
-  font-size: 14px;
+  font-size: 12px;
   text-decoration: none;
   padding-top: 5px;
   padding: 4px;
@@ -146,6 +165,51 @@ global $fieldset_color, $fieldset_border_width, $digits_color;
   cursor: pointer;
   font-weight: bold;
 }
+
+.popup {
+  color: white;
+  font-size: 13px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.popup:hover {
+  color: yellow;
+  font-size: 13px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.popup:active {
+  color: white;
+  font-size: 13px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.popup:visted {
+  color: white;
+  font-size: 13px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: pointer;
+  font-weight: bold;
+}
+
 
 .clicktoplay {
   color: cyan;
