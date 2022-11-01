@@ -19,63 +19,55 @@
       Advanced Username Color                  v1.0.5       09/20/2005
  ************************************************************************/
 
-if ( !defined( 'MODULE_FILE' ) ) {
-  die( 'You can\'t access this file directly...' );
-}
+if ( !defined( 'MODULE_FILE' ) )
+die( 'You can\'t access this file directly...' );
 
-if ( $popup != "1" ) {
+if ( $popup != "1" ) :
   $module_name = basename( dirname( __FILE__ ) );
-  require( "modules/" . $module_name . "/nukebb.php" );
-} else {
+  require( "modules/".$module_name."/nukebb.php" );
+else :
   $phpbb_root_path = NUKE_FORUMS_DIR;
-}
+endif;
 
-define( 'IN_PHPBB', true );
+define('IN_PHPBB',true);
 
 $phpbb_root_path = NUKE_FORUMS_DIR;
 
-include( $phpbb_root_path . 'extension.inc' );
-include( $phpbb_root_path . 'common.' . $phpEx );
-require( $phpbb_root_path . 'gf_funcs/gen_funcs.' . $phpEx );
+include($phpbb_root_path.'extension.inc');
+include($phpbb_root_path.'common.'. $phpEx );
+require($phpbb_root_path.'gf_funcs/gen_funcs.'.$phpEx);
 
-include( 'includes/constants.' . $phpEx );
+include('includes/constants.'.$phpEx);
 
-//
-// Start session management
-//
-$userdata = session_pagestart( $user_ip, PAGE_ARCADES );
-init_userprefs( $userdata );
-//
-// End session management
-//
-include( 'includes/functions_arcade.' . $phpEx );
-//
-// Start auth check
-//
-if ( !$userdata[ 'session_logged_in' ] ) {
-  $header_location = ( @preg_match( "/Microsoft|WebSTAR|Xitami/", getenv( "SERVER_SOFTWARE" ) ) ) ? "Refresh: 0; URL=" : "Location: ";
-  header( $header_location . "modules.php?name=Your_Account" );
+# Start session management
+$userdata = session_pagestart($user_ip,PAGE_ARCADES);
+init_userprefs($userdata);
+# End session management
+
+include('includes/functions_arcade.'.$phpEx);
+
+# Start auth check
+if(!$userdata['session_logged_in']):
+  $header_location = (@preg_match("/Microsoft|WebSTAR|Xitami/", getenv( "SERVER_SOFTWARE" ))) ? "Refresh: 0; URL=" : "Location: ";
+  header($header_location."modules.php?name=Your_Account");
   exit;
-}
-//
-// End of auth check
-//
+endif;
+# End of auth check
 
-$arcade_catid = get_var_gf( array( 'name' => 'cid', 'intval' => true ) );
-$start = get_var_gf( array( 'name' => 'start', 'intval' => true ) );
+$arcade_catid = get_var_gf(array('name' => 'cid','intval' => true));
+$start = get_var_gf(array('name' => 'start','intval' => true ));
 
 $arcade_config = array();
 $arcade_config = read_arcade_config();
 
-$liste_cat_auth = get_arcade_categories( $userinfo[ 'user_id' ], $userinfo[ 'user_level' ], 'view' );
+$liste_cat_auth = get_arcade_categories($userinfo['user_id'], $userinfo['user_level'],'view');
 
-if ( empty( $liste_cat_auth ) ) {
-  $liste_cat_auth = "''";
-}
+if(empty($liste_cat_auth))
+$liste_cat_auth = "''";
 
 $order_by = '';
 
-switch ( $arcade_config[ 'game_order' ] ) {
+switch($arcade_config['game_order']):
   case 'Alpha':
     $order_by = ' game_name ASC ';
     break;
@@ -94,51 +86,54 @@ switch ( $arcade_config[ 'game_order' ] ) {
   default:
     $order_by = ' game_order ASC ';
     break;
-}
+endswitch;
 
 global $userinfo;
 
-if ( isset( $_GET[ 'favori' ] ) ):
-  $favori = intval( $_GET[ 'favori' ] );
-endif;
+if(isset($_GET['favori']))
+$favori = intval($_GET['favori']);
 
-if ( isset( $_GET[ 'delfavori' ] ) ):
-  $delfavori = intval( $_GET[ 'delfavori' ] );
-endif;
+if(isset($_GET['delfavori']))
+$delfavori = intval($_GET['delfavori']);
 
-if ( $actfav = $favori + $delfavori ) {
-  $sql = "SELECT COUNT(*) AS nbfav FROM " . ARCADE_FAV_TABLE . " WHERE  user_id = " . $userinfo[ 'user_id' ] . " AND game_id= " . $actfav;
+if($actfav = $favori + $delfavori):
+  
+    $sql = "SELECT COUNT(*) AS nbfav FROM " . ARCADE_FAV_TABLE . " WHERE  user_id = " . $userinfo[ 'user_id' ] . " AND game_id= " . $actfav;
 
-  if ( !( $result = $db->sql_query( $sql ) ) ) {
+    if (!( $result = $db->sql_query($sql))):
     message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
-  }
-  $row = $db->sql_fetchrow( $result );
+    endif;
+  
+    $row = $db->sql_fetchrow($result);
 
-  $nbfav = $row[ 'nbfav' ];
+    $nbfav = $row['nbfav'];
 
-  if ( !$nbfav && $favori ) {
+    if(!$nbfav && $favori):
     $sql = "REPLACE INTO " . ARCADE_FAV_TABLE . " VALUES (0,'" . $userinfo[ 'user_id' ] . "','$favori')"; # changed to REPLACE INTO 10/22/2022 TheGhost
-
-    if ( !( $result = $db->sql_query( $sql ) ) ) {
-      message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
-    }
-  } elseif ( $delfavori ) {
+    endif;
+  
+    if(!( $result = $db->sql_query($sql))): 
+    message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
+    endif;
+  
+elseif($delfavori): 
     $sql = "DELETE FROM " . ARCADE_FAV_TABLE . " WHERE  user_id= " . $userinfo[ 'user_id' ] . " AND game_id= " . $delfavori;
+    if(!($result = $db->sql_query($sql))): 
+    message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
+    endif;
 
-    if ( !( $result = $db->sql_query( $sql ) ) ) {
-      message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
-    }
-  }
-};
+endif;
 
-$games_par_categorie = $arcade_config[ 'category_preview_games' ];
+$games_par_categorie = $arcade_config['category_preview_games'];
 
-if ( ( $arcade_catid == 0 )and( $arcade_config[ 'use_category_mod' ] ) ) {
-  $template->set_filenames( array(
-    'body' => 'arcade_cat_body.tpl' ) );
+if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
+  
+  $template->set_filenames(array(
+    'body' => 'arcade_cat_body.tpl' ));
 
-  $template->assign_vars( array(
-    'URL_ARCADE' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "arcade.$phpEx" ) . '">' . $lang[ 'lib_arcade' ] . '</a></nobr> ',
+  $template->assign_vars(array(
+    
+	'URL_ARCADE' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "arcade.$phpEx" ) . '">' . $lang[ 'lib_arcade' ] . '</a></nobr> ',
     
 	'URL_BESTSCORES' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "toparcade.$phpEx" ) . '">' . $lang[ 'best_scores' ] . '</a></nobr> ',
     
@@ -162,7 +157,7 @@ if ( ( $arcade_catid == 0 )and( $arcade_config[ 'use_category_mod' ] ) ) {
     
 	'L_ARCADE' => $lang[ 'lib_arcade' ] ) );
 
-  if ( $arcade_config[ 'use_fav_category' ] ) {
+  if($arcade_config['use_fav_category' ]):
     
 	$sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date, f.* FROM "
     
@@ -171,18 +166,19 @@ if ( ( $arcade_catid == 0 )and( $arcade_config[ 'use_category_mod' ] ) ) {
     . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userinfo[ 'user_id' ] . " LEFT JOIN "
     . ARCADE_FAV_TABLE . " f ON f.game_id = g.game_id WHERE f.user_id=" . $userinfo[ 'user_id' ];
 
-    if ( !( $result = $db->sql_query( $sql ) ) ) {
-      message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
-    }
+    if(!($result = $db->sql_query($sql))): 
+    message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
+    endif;
 
-    if ( $db->sql_numrows( $result ) ) {
-      $template->assign_block_vars( 'favrow', array() );
+    if($db->sql_numrows($result)):
+	
+      $template->assign_block_vars('favrow',array());
       
-      while ( $frow = $db->sql_fetchrow( $result ) ) {
+      while($frow = $db->sql_fetchrow($result)) {
         
-		$template->assign_block_vars( 'favrow.fav_row', array(
+		$template->assign_block_vars('favrow.fav_row',array(
         
-		  'GAMENAMEF' => $frow[ game_name ],
+		  'GAMENAMEF' => $frow['game_name'],
           
 		  'DELFAVORI' => '<a href="' . append_sid( "arcade.$phpEx?delfavori=" . $frow[ 'game_id' ] ) . '"><span class="arcadeTitleLink"><i class="bi bi-x-square"></i></br>Del Favorite</a></span>', 
           
@@ -222,18 +218,18 @@ if ( ( $arcade_catid == 0 )and( $arcade_config[ 'use_category_mod' ] ) ) {
 		  'GAMEDESCF' => '<span class="arcadeTextDescription">'.$frow[ 'game_desc' ].'</span>'
         ) );
 
-        if ( $frow[ 'game_highscore' ] != 0 ) {
-          $template->assign_block_vars( 'favrow.fav_row.recordrow', array() );
-        }
+        if($frow['game_highscore'] != 0 ): 
+         $template->assign_block_vars( 'favrow.fav_row.recordrow', array() );
+        endif;
 
-        if ( $frow[ 'score_game' ] != 0 ) {
-          $template->assign_block_vars( 'favrow.fav_row.yourrecordrow', array() );
-        } else {
-          $template->assign_block_vars( 'favrow.fav_row.playrecordrow', array() );
-        }
+          if($frow['score_game'] != 0 ):
+           $template->assign_block_vars( 'favrow.fav_row.yourrecordrow', array() );
+          else: 
+           $template->assign_block_vars( 'favrow.fav_row.playrecordrow', array() );
+          endif;
       }
-    }
-  }
+    endif;
+  endif;
 
   $liste_jeux = array();
 
@@ -246,25 +242,27 @@ if ( ( $arcade_catid == 0 )and( $arcade_config[ 'use_category_mod' ] ) ) {
 		WHERE  g.arcade_catid IN ($liste_cat_auth) 
 		ORDER BY g.arcade_catid, $order_by";
 
-  if ( !( $result = $db->sql_query( $sql ) ) ) {
+  if(!( $result = $db->sql_query($sql))):
     message_die( GENERAL_ERROR, "Could not read arcade categories", '', __LINE__, __FILE__, $sql );
-  }
+  endif;
 
-  while ( $row = $db->sql_fetchrow( $result ) ) {
+  while($row = $db->sql_fetchrow($result)):
+  
     $liste_jeux[ $row[ 'arcade_catid' ] ][] = $row;
-  }
+  
+  endwhile;
 
 
   $sql = "SELECT arcade_catid, arcade_cattitle, arcade_nbelmt, arcade_catauth FROM " . ARCADE_CATEGORIES_TABLE . " WHERE  arcade_catid IN ($liste_cat_auth) ORDER BY arcade_catorder";
 
-  if ( !( $result = $db->sql_query( $sql ) ) ) {
+  if(!( $result = $db->sql_query($sql))): 
     message_die( GENERAL_ERROR, "Could not read arcade categories", '', __LINE__, __FILE__, $sql );
-  }
+  endif;
 
-  while ( $row = $db->sql_fetchrow( $result ) ) {
+  while($row = $db->sql_fetchrow($result)):
     $nbjeux = sizeof( $liste_jeux[ $row[ 'arcade_catid' ] ] );
 
-    if ( $nbjeux > 0 ) {
+    if($nbjeux > 0 ):
       $template->assign_block_vars( 'cat_row', array(
     
 	    'U_ARCADE' => append_sid( "arcade.$phpEx?cid=" . $row[ 'arcade_catid' ] ),
@@ -277,7 +275,7 @@ if ( ( $arcade_catid == 0 )and( $arcade_config[ 'use_category_mod' ] ) ) {
 
       $nbjeux = ( $nbjeux < $games_par_categorie ) ? $nbjeux : $games_par_categorie;
 
-      for ( $i = 0; $i < $nbjeux; $i++ ) {
+      for($i = 0; $i < $nbjeux; $i++ ):
 
         $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'username' ] = UsernameColor( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'username' ] );
 
@@ -325,66 +323,70 @@ if ( ( $arcade_catid == 0 )and( $arcade_config[ 'use_category_mod' ] ) ) {
           
 		  'GAMEDESC' => '<span class="arcadeTextDescription">'.$liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_desc' ].'</span>' ) );
 
-        if ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_highscore' ] != 0 ) {
+        if($liste_jeux[$row['arcade_catid']][$i]['game_highscore'] != 0): 
           $template->assign_block_vars( 'cat_row.game_row.recordrow', array() );
-        }
+        endif;
 
-        if ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'score_game' ] != 0 ) {
+        if($liste_jeux[$row['arcade_catid']][$i]['score_game'] != 0):
           $template->assign_block_vars( 'cat_row.game_row.yourrecordrow', array() );
-        } else {
+        else: 
           $template->assign_block_vars( 'cat_row.game_row.playrecordrow', array() );
-        }
-      }
-    }
-  }
+        endif;
+      endfor;
+    endif;
+  endwhile;
 
 
-  include( $phpbb_root_path . 'whoisplaying.' . $phpEx );
+  include($phpbb_root_path.'whoisplaying.'.$phpEx);
 
-  //
-  // Output page header
-  include( $phpbb_root_path . 'headingarcade.' . $phpEx );
-  $page_title = $lang[ 'arcade' ];
-  include( 'includes/page_header.' . $phpEx );
-  $template->pparse( 'body' );
-  include( 'includes/page_tail.' . $phpEx );
+  # Output page header
+  include($phpbb_root_path.'headingarcade.'.$phpEx);
+  $page_title = $lang['arcade'];
+  include('includes/page_header.'.$phpEx);
+  $template->pparse('body');
+  include('includes/page_tail.'.$phpEx);
   exit;
-}
 
-$games_par_page = $arcade_config[ 'games_par_page' ];
+endif;
+
+$games_par_page = $arcade_config['games_par_page'];
 $sql_where = '';
 $limit = " LIMIT $start,$games_par_page ";
 
 $total_games = 0;
 
-if ( $arcade_config[ 'use_category_mod' ] ) {
+if($arcade_config['use_category_mod']):
+
   $sql_where = " WHERE  arcade_catid = $arcade_catid AND arcade_catid IN ($liste_cat_auth)";
   $sql = "SELECT arcade_cattitle, arcade_nbelmt AS nbgames FROM " . ARCADE_CATEGORIES_TABLE . " $sql_where";
 
-  if ( !( $result = $db->sql_query( $sql ) ) ) {
+  if(!($result = $db->sql_query($sql))):
     message_die( GENERAL_ERROR, "Could not read the arcade categories table", '', __LINE__, __FILE__, $sql );
-  }
+  endif;
 
-  if ( $row = $db->sql_fetchrow( $result ) ) {
+  if($row = $db->sql_fetchrow($result)):
     $total_games = $row[ 'nbgames' ];
-  } else {
-    message_die( GENERAL_MESSAGE, $lang[ 'no_arcade_cat' ] );
-  }
+  else:
+    message_die( GENERAL_MESSAGE, $lang['no_arcade_cat'] );
+  endif;
 
-  $template->assign_block_vars( 'use_category_mod', array() );
-} else {
+  $template->assign_block_vars('use_category_mod',array() );
+
+else:
+
   $sql = "SELECT COUNT(*) AS nbgames FROM " . GAMES_TABLE;
 
-  if ( !( $result = $db->sql_query( $sql ) ) ) {
+  if(!($result = $db->sql_query($sql))):
     message_die( GENERAL_ERROR, "Could not read games table", '', __LINE__, __FILE__, $sql );
-  }
+  endif;
 
-  if ( $row = $db->sql_fetchrow( $result ) ) {
+  if($row = $db->sql_fetchrow($result)):
     $total_games = $row[ 'nbgames' ];
-  }
-}
+  endif;
 
-//chargement du template
+endif;
+
+# load the template
 $template->set_filenames( array(
   'body' => 'arcade_body.tpl' ) );
 
@@ -422,23 +424,26 @@ $template->assign_vars( array(
   
   'L_ARCADE' => $lang[ 'lib_arcade' ] ) );
 
-if ( ( $arcade_config[ 'use_fav_category' ] ) && ( !$arcade_config[ 'use_category_mod' ] ) ) {
+if(($arcade_config['use_fav_category']) && (!$arcade_config['use_category_mod'])):
+  
   $sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date, f.* FROM "
-    . GAMES_TABLE . " g LEFT JOIN "
+  . GAMES_TABLE . " g LEFT JOIN "
   . USERS_TABLE . " u ON g.game_highuser = u.user_id LEFT JOIN "
   . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userinfo[ 'user_id' ] . " LEFT JOIN "
   . ARCADE_FAV_TABLE . " f ON f.game_id = g.game_id WHERE  f.user_id=" . $userinfo[ 'user_id' ];
 
-  if ( !( $result = $db->sql_query( $sql ) ) ) {
+  if(!($result = $db->sql_query($sql))):
     message_die( GENERAL_ERROR, "Could not read games table", '', __LINE__, __FILE__, $sql );
-  }
-  if ( $db->sql_numrows( $result ) ) {
-	$frow[ 'username' ] = UsernameColor( $frow[ 'username' ] );
-    $template->assign_block_vars( 'favrow', array() );
+  endif;
+  
+  if($db->sql_numrows($result)):
+  
+	$frow['username'] = UsernameColor($frow['username']);
+    $template->assign_block_vars('favrow',array());
 
-    while ( $frow = $db->sql_fetchrow( $result ) ) {
+    while($frow = $db->sql_fetchrow($result)):
 	  	
-      $template->assign_block_vars( 'favrow.fav_row', array(
+      $template->assign_block_vars('favrow.fav_row',array(
 
         'GAMENAMEF' => $frow[ game_name ],
 
@@ -478,17 +483,18 @@ if ( ( $arcade_config[ 'use_fav_category' ] ) && ( !$arcade_config[ 'use_categor
 		'GAMEDESCF' => '<span class="arcadeTextDescription">'.$frow[ 'game_desc' ].'</span>'
       ) );
 
-      if ( $frow[ 'game_highscore' ] != 0 ) {
+      if($frow['game_highscore' ] != 0):
         $template->assign_block_vars( 'favrow.fav_row.recordrow', array() );
-      }
-      if ( $frow[ 'score_game' ] != 0 ) {
+      endif;
+	  
+      if($frow['score_game' ] != 0):
         $template->assign_block_vars( 'favrow.fav_row.yourrecordrow', array() );
-      } else {
+      else:
         $template->assign_block_vars( 'favrow.fav_row.playrecordrow', array() );
-      }
-    }
-  }
-}
+      endif;
+    endwhile;
+  endif;
+endif;
 
 $sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date 
 FROM " . GAMES_TABLE . " g 
@@ -498,14 +504,15 @@ LEFT JOIN " . SCORES_TABLE . " s
 ON s.game_id = g.game_id and s.user_id = " . $userinfo[ 'user_id' ] . " $sql_where 
 ORDER BY $order_by $limit";
 
-if ( !( $result = $db->sql_query( $sql ) ) ) {
+if(!($result = $db->sql_query($sql))):
   message_die( GENERAL_ERROR, "Could not read games table", '', __LINE__, __FILE__, $sql );
-}
+endif;
 
-while ( $row = $db->sql_fetchrow( $result ) ) {
-  $template->assign_block_vars( 'gamerow', array(
+while($row = $db->sql_fetchrow($result)):
 
-    'GAMENAME' => $row[ 'game_name' ],
+  $template->assign_block_vars('gamerow',array(
+
+    'GAMENAME' => $row['game_name'],
     
 	'GAMEPIC' => ( $row[ 'game_pic' ] != '' ) ? "<a class='rounded-corners-arcade' width='60' href='" . append_sid( "games.$phpEx?gid=" . $row[ 'game_id' ] ) . "'><img 
 	class='rounded-corners-arcade' width='60' src='" . $phpbb_root_path . "games/pics/" . $row[ 'game_pic' ] . "' align='absmiddle' border='0' alt='" . $row[ 'game_name' ] . "' ></a>" : '',
@@ -543,18 +550,19 @@ while ( $row = $db->sql_fetchrow( $result ) ) {
 	'GAMEPOPUPLINK' => "<a href='javascript:Arcade_Popup(\"" . append_sid( "gamespopup.$phpEx?gid=" . $row[ 'game_id' ] ) . "\", \"New_Window\",\"" . $row[ 'game_width' ] . "\",\"" 
 	. $row[ 'game_height' ] . "\", \"no\")'>New Window</a>" ) );
 
-  if ( $row[ 'game_highscore' ] != 0 ) {
+  if($row['game_highscore'] != 0):
     $template->assign_block_vars( 'gamerow.recordrow', array() );
-  }
+  endif;
 
-  if ( $row[ 'score_game' ] != 0 ) {
+  if($row['score_game' ] != 0):
     $template->assign_block_vars( 'gamerow.yourrecordrow', array() );
-  } else {
+  else:
     $template->assign_block_vars( 'gamerow.playrecordrow', array() );
-  }
-}
+  endif;
+  
+endwhile;
 
-include( $phpbb_root_path . 'whoisplaying.' . $phpEx );
+include($phpbb_root_path.'whoisplaying.'.$phpEx);
 
 //
 // Output page header
