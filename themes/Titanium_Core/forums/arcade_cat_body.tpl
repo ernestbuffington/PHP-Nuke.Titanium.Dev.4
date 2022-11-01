@@ -32,7 +32,13 @@ function Arcade_Popup(mypage,myname,w,h,scroll)
 <table width="100%" cellpadding="2" cellspacing="3" border="0"> 
 <tr>
 <td>
-                
+
+
+
+
+
+
+<!-- game favorites table START -->
 <table width="100%" cellpadding="2" cellspacing="1" border="0" class="forumline">
 <tr>
 <td class="cat" colspan="6"><span class="cattitle">{FAV}</span></td>
@@ -55,7 +61,10 @@ function Arcade_Popup(mypage,myname,w,h,scroll)
 <span class='genmed'>{favrow.fav_row.GAMEPOPUPLINKF}</span><br />
 <!-- main game popup link favorites END -->
 
+<!-- how many game plays favorites START -->
 {favrow.fav_row.GAMESETF}
+<!-- how many game plays favorites END -->
+
 </td>
                         
 <td class="arcadeRow1" width="150" align="center" valign="center" >
@@ -101,6 +110,12 @@ function Arcade_Popup(mypage,myname,w,h,scroll)
 <!-- scoreboard link for each game START -->
 </tr>
 </table>
+<!-- game favorites table END -->
+
+
+
+
+
 
 </td>
                           
@@ -160,16 +175,30 @@ function Arcade_Popup(mypage,myname,w,h,scroll)
 </td>
 
 <td class="arcadeRow1" width="150" align="center" valign="center" >
-<span class='gen'>
+
+<!-- NO CHAMPION START -->
 {cat_row.game_row.NORECORD}
+<!-- NO CHAMPION END -->
+
 <!-- BEGIN recordrow -->
-<strong>{cat_row.game_row.HIGHSCORE}</strong></span><span class='gensmall'>&nbsp;&nbsp;{cat_row.game_row.HIGHUSER}<br />{cat_row.game_row.DATEHIGH}
+
+<!-- high score user name START -->
+<strong>{cat_row.game_row.HIGHUSER}</strong><br />
+<!-- high score user name END -->
+
+<!-- high score user badge START -->
+<span class='gensmall'>&nbsp;&nbsp;<strong>{cat_row.game_row.HIGHSCORE}</strong><br />
+<!-- high score user badge END -->
+
+{cat_row.game_row.DATEHIGH}
 <!-- END recordrow -->
 </span>
 </td>
 
 <td class="arcadeRow1" width="150" align="center" valign="center" >
+<!-- NO CHAMPION START -->
 {cat_row.game_row.NOSCORE}
+<!-- NO CHAMPION END -->
 
 <!-- trophy START -->
 <strong>{cat_row.game_row.IMGFIRST}
@@ -190,9 +219,7 @@ function Arcade_Popup(mypage,myname,w,h,scroll)
 
 </td>
 
-
 <td class="arcadeRow1" align="center" valign="center">
-
 
 <table width="100%">
 <tr>
@@ -231,12 +258,10 @@ function Arcade_Popup(mypage,myname,w,h,scroll)
 <!-- padding between Arcade Tables and links at the bottom of the Arcade Page END -->
 
 
-
 <table width="100%" cellpadding="5" cellspacing="1" border="0">
 <tr>
 <!-- [ Arcade ] - [ All Games High Scores ] - [ Comments ] START -->
 <td class="arcadeRow1" align="center">[&nbsp;{URL_ARCADE}]&nbsp;-&nbsp;[&nbsp;{URL_BESTSCORES}]&nbsp;-&nbsp;[&nbsp;{MANAGE_COMMENTS}]</td>
 <!-- [ Arcade ] - [ All Games High Scores ] - [ Comments ] END -->
 </tr>
-
 </table>

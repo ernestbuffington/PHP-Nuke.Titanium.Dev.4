@@ -193,7 +193,7 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
 		  class=\"rounded-corners-arcade\" width=\"60\" src='" . "modules/Forums/games/pics/" . $frow[ 'game_pic' ] . "'
 		  align='absmiddle' border='0' vspace='2' hspace='2' alt='" . $frow[ 'game_name' ] . "' ></a>" : '',
 
-          'GAMESETF' => ( $frow[ 'game_set' ] != 0 ) ? $lang[ 'game_actual_nbset' ] .'<span class="w3-badge w3-blue"><strong>'. $frow[ 'game_set' ].'</strong></span>' : '',
+          'GAMESETF' => ( $frow[ 'game_set' ] != 0 ) ? '<span class="arcadeTextWhite">'.$lang[ 'game_actual_nbset' ].'</span>'.'<span class="w3-badge w3-blue"><strong>'. $frow[ 'game_set' ].'</strong></span>' : '',
         
 		  'HIGHSCOREF' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format( $frow[ 'game_highscore' ].'</span>' ),
         
@@ -203,7 +203,7 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
           
 		  'NORECORDF' => ( $frow[ 'game_highscore' ] == 0 ) ? $lang[ 'no_record' ] : '',
           
-		  'HIGHUSERF' => ( $frow[ 'game_highuser' ] != 0 ) ? '<span class="arcadeTextWhite">' .  UsernameColor($frow[ 'username' ]). '</span>' : '', 
+		  'HIGHUSERF' => ($frow['game_highuser'] != 0) ? '<span class="arcadeTextWhite">'.UsernameColor($frow['username']).'</span>' : '', 
           
 		  'URL_SCOREBOARDF' => '<nobr><a class="cattitle" href="' . append_sid( "scoreboard.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">' . "<img 
 		  src='modules/Forums/templates/" . $theme[ 'template_name' ] . "/images/scoreboard.gif' align='absmiddle' border='0' alt='" . $lang[ 'scoreboard' ] . " " . $frow[ 'game_name' ] . "'>" . '</a></nobr> ',
@@ -293,7 +293,7 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
 		  . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . "'><img class='rounded-corners-arcade' width='60' src='" . $phpbb_root_path . "games/pics/" 
 		  . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_pic' ] . "' align='absmiddle' border='0' vspace='2' hspace='2' alt='" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_name' ] . "' ></a>" : '',
           
-		  'GAMESET' => ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_set' ] != 0 ) ? $lang[ 'game_actual_nbset' ] 
+		  'GAMESET' => ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_set' ] != 0 ) ? '<span class="arcadeTextWhite">'.$lang[ 'game_actual_nbset' ].'</span>' 
 		  .'<span class="w3-badge w3-blue"><strong>'.$liste_jeux[ $row['arcade_catid']][$i]['game_set'].'</strong></span>' : '',
           
 		  'HIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format($liste_jeux[$row['arcade_catid' ]][$i]['game_highscore'].'</span>' ),
@@ -304,7 +304,7 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
           
 		  'NORECORD' => ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_highscore' ] == 0 ) ? $lang[ 'no_record' ] : '',
           
-		  'HIGHUSER' => ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_highuser' ] != 0 ) ? '' . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'username' ] . '' : '',
+		  'HIGHUSER' => ($liste_jeux[$row['arcade_catid']][$i]['game_highuser'] != 0) ? '' .'<span class="arcadeTextWhite">'.$liste_jeux[$row['arcade_catid']][$i]['username'].'</span>'.'' : '',
           
 		  'URL_SCOREBOARD' => '<nobr><a class="cattitle" href="' . append_sid( "scoreboard.$phpEx?gid=" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . '">' . "<img 
 		  src='" . $phpbb_root_path . "templates/" . $theme[ 'template_name' ] . "/images/scoreboard.gif' align='absmiddle' border='0' alt='" . $lang[ 'scoreboard' ] . " " 
@@ -459,7 +459,7 @@ if(($arcade_config['use_fav_category']) && (!$arcade_config['use_category_mod'])
 		'GAMEPICF' => ( $frow[ 'game_pic' ] != '' ) ? "<a href='" . append_sid( "games.$phpEx?gid=" . $frow[ 'game_id' ] ) . "'><img src='" . "modules/Forums/games/pics/" 
 		. $frow[ 'game_pic' ] . "' align='absmiddle' border='0' width='30' height='30' vspace='2' hspace='2' alt='" . $frow[ 'game_name' ] . "' ></a>" : '',
         
-		'GAMESETF' => ( $frow[ 'game_set' ] != 0 ) ? $lang[ 'game_actual_nbset' ] .'<span class="w3-badge w3-blue"><strong>'.$frow[ 'game_set' ].'</strong></span>' : '',
+		'GAMESETF' => ( $frow[ 'game_set' ] != 0 ) ? '<span class="arcadeTextWhite">'.$lang[ 'game_actual_nbset' ].'</span>'.'<span class="w3-badge w3-blue"><strong>'.$frow[ 'game_set' ].'</strong></span>' : '',
         
 		'HIGHSCOREF' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format($frow['game_highscore'].'</span>'),
         
@@ -469,7 +469,7 @@ if(($arcade_config['use_fav_category']) && (!$arcade_config['use_category_mod'])
         
 		'NORECORDF' => ( $frow[ 'game_highscore' ] == 0 ) ? $lang[ 'no_record' ] : '',
         
-		'HIGHUSERF' => ( $frow[ 'game_highuser' ] != 0 ) ? '(' . $frow[ 'username' ] . ')' : '',
+		'HIGHUSERF' => ($frow['game_highuser'] != 0) ? '<span class="arcadeTextWhite">'.$frow['username'].'</span>' : '',
         
 		'URL_SCOREBOARDF' => '<nobr><a class="cattitle" href="' . append_sid( "scoreboard.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">' . "<img src='modules/Forums/templates/" 
 		. $theme[ 'template_name' ] . "/images/scoreboard.gif' align='absmiddle' border='0' alt='" . $lang[ 'scoreboard' ] . " " . $frow[ 'game_name' ] . "'>" . '</a></nobr> ',
@@ -519,7 +519,7 @@ while($row = $db->sql_fetchrow($result)):
 	'GAMEPIC' => ( $row[ 'game_pic' ] != '' ) ? "<a class='rounded-corners-arcade' width='60' href='" . append_sid( "games.$phpEx?gid=" . $row[ 'game_id' ] ) . "'><img 
 	class='rounded-corners-arcade' width='60' src='" . $phpbb_root_path . "games/pics/" . $row[ 'game_pic' ] . "' align='absmiddle' border='0' alt='" . $row[ 'game_name' ] . "' ></a>" : '',
     
-	'GAMESET' => ( $row[ 'game_set' ] != 0 ) ? $lang[ 'game_actual_nbset' ] .'<span class="w3-badge w3-blue"><strong>'.$row['game_set'].'</strong></span>' : '',
+	'GAMESET' => ( $row[ 'game_set' ] != 0 ) ? '<span class="arcadeTextWhite">'.$lang[ 'game_actual_nbset' ].'</span>'.'<span class="w3-badge w3-blue"><strong>'.$row['game_set'].'</strong></span>' : '',
     
 	'GAMEDESC' => '<span class="arcadeTextDescription">'.$row[ 'game_desc' ].'</span>',
     
@@ -531,7 +531,7 @@ while($row = $db->sql_fetchrow($result)):
 
     'NORECORD' => ( $row[ 'game_highscore' ] == 0 ) ? $lang[ 'no_record' ] : '',
 
-    'HIGHUSER' => ( $row[ 'game_highuser' ] != 0 ) ? '(' . $row[ 'username' ] . ')' : '',
+    'HIGHUSER' => ($row['game_highuser'] != 0) ? '<span class="arcadeTextWhite">'.$row[ 'username' ].'</span>' : '',
     
 	'URL_SCOREBOARD' => '<nobr><a class="cattitle" href="' . append_sid( "scoreboard.$phpEx?gid=" . $row[ 'game_id' ] ) . '">' . "<img 
 	src='" . $phpbb_root_path . "templates/" . $theme[ 'template_name' ] . "/images/scoreboard.gif' align='absmiddle' border='0' alt='" . $lang[ 'scoreboard' ] . " " . $row[ 'game_name' ] . "'>" . '</a></nobr> ',
