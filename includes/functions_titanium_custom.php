@@ -30,7 +30,8 @@ function facebook_comments() {
  * @since Titanium v3.0.1b
  */
 function title_and_meta_tags() {
-    global $ThemeSel, $sitename, $appID, $name, $sid, $file, $db, $prefix;
+    /** @var type $facebook_admin_id_number */
+    global $facebook_admin_id_number, $ThemeSel, $sitename, $appID, $name, $sid, $file, $db, $prefix;
 
     /** @var type $ThemeSel get current theme */
     $ThemeSel = get_theme();
@@ -45,8 +46,12 @@ function title_and_meta_tags() {
     # if the user is visiting a module, change the page title to the module name.
     else:
         $facebookappid = "<meta property=\"fb:app_id\" content=\"" . $appID . "\" />\n";
-        $facebook_admin = '<meta property="fb:admins" content="3788797984541781" />' . "\n"; # TheGhost's facebook user ID
-        $facebook_page_type = "<meta property=\"og:type\" content=\"website\" />\n";
+        
+    if ($appID > 0):
+         $facebook_admin = "<meta property=\"fb:admins\" content=\"" . $facebook_admin_id_number . "\" />"; # TheGhost's facebook user ID
+    endif;    
+    
+    $facebook_page_type = "<meta property=\"og:type\" content=\"website\" />\n";
 
         if (!defined('HOME_FILE')):
 

@@ -11,13 +11,16 @@
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
-exit('Access Denied');
+if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
+    exit('Access Denied');
+}
 
 //define('facebook', 'enabled'); 
 if ( defined('facebook') ):
-global $fb, $appID, $api_version, $appSecret, $my_url;
+global $fb, $appID, $api_version, $appSecret, $my_url, $facebook_admin_id_number;
 require_once __DIR__ . '/includes/Facebook/autoload.php';
+
+$facebook_admin_id_number = '3788797984541781';
 # Your domain name i.e yoursite.com
 $my_url = 'www.php-nuke-titanium.86it.us';
 # you facebook app secret
