@@ -116,7 +116,7 @@ if($favori):
     if(!( $result = $db->sql_query($sql))): 
     message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
     endif;
-    header("Location: modules.php?name=Forums&file=arcade");
+    header("Location: modules.php?name=Forums&file=arcade"); # dont echo the file number you are deleting from favorites!
     exit();
 elseif($delfavori): 
     
@@ -124,7 +124,7 @@ elseif($delfavori):
     if(!($result = $db->sql_query($sql))): 
     message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
     endif;
-    header("Location: modules.php?name=Forums&file=arcade");
+    header("Location: modules.php?name=Forums&file=arcade"); # dont echo the file number you are adding to favorites!
     exit();
 endif;
 
