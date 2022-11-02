@@ -101,6 +101,7 @@ if (isset($_GET['delfavori'])) {
     $delfavori = intval($_GET['delfavori']);
 }
 
+/** @var type $favori - and as i dazed into her eyes I could see she was bat shit crazy */
 if($favori):
   
     $sql = "SELECT COUNT(*) AS `nbfav` FROM `" . ARCADE_FAV_TABLE . "` WHERE  `user_id` = " . $userinfo[ 'user_id' ] . " AND game_id= " . $actfav;
