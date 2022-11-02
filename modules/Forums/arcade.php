@@ -116,14 +116,16 @@ if($favori):
     if(!( $result = $db->sql_query($sql))): 
     message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
     endif;
-  
+    header("Location: modules.php?name=Forums&file=arcade");
+    exit();
 elseif($delfavori): 
     
     $sql = "DELETE FROM " . ARCADE_FAV_TABLE . " WHERE  user_id= " . $userinfo[ 'user_id' ] . " AND game_id= " . $delfavori;
     if(!($result = $db->sql_query($sql))): 
     message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
     endif;
-
+    header("Location: modules.php?name=Forums&file=arcade");
+    exit();
 endif;
 
 $games_par_categorie = $arcade_config['category_preview_games'];
@@ -195,7 +197,8 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
 		  class=\"rounded-corners-arcade\" width=\"60\" src='" . "modules/Forums/games/pics/" . $frow[ 'game_pic' ] . "'
 		  align='absmiddle' border='0' vspace='2' hspace='2' alt='" . $frow[ 'game_name' ] . "' ></a>" : '',
 
-          'GAMESETF' => ( $frow[ 'game_set' ] != 0 ) ? '<span class="arcadeTextWhite">'.$lang[ 'game_actual_nbset' ].'</span>'.'<span class="w3-badge w3-blue"><strong>'. $frow[ 'game_set' ].'</strong></span>' : '',
+                  'GAMESETF' => ( $frow[ 'game_set' ] != 0 ) ? '<span class="arcadeTextWhite">'.$lang[ 'game_actual_nbset' ].'</span>'.'<span '
+                  . 'class="w3-badge w3-blue"><strong>'. $frow[ 'game_set' ].'</strong></span>' : '',
         
 		  'HIGHSCOREF' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format($frow['game_highscore'].'</span>'),
         
@@ -210,7 +213,7 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
 		  'URL_SCOREBOARDF' => '<nobr><a class="cattitle" href="' . append_sid( "scoreboard.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">' . "<img 
 		  src='modules/Forums/templates/" . $theme[ 'template_name' ] . "/images/scoreboard.gif' align='absmiddle' border='0' alt='" . $lang[ 'scoreboard' ] . " " . $frow[ 'game_name' ] . "'>" . '</a></nobr> ',
 
-          'GAMEIDF' => $frow[ 'game_id' ],
+                  'GAMEIDF' => $frow[ 'game_id' ],
           
 		  # Favorites date for high score!
 		  'DATEHIGHF' => "<nobr><span class='arcadeTextDate'>" . create_date( $board_config[ 'default_dateformat' ], $frow[ 'game_highdate' ], $board_config[ 'board_timezone' ] ) . "</span></nobr>",
@@ -218,8 +221,8 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
 		  'YOURDATEHIGHF' => "<nobr><span class='arcadeTextDate'>" . create_date( $board_config[ 'default_dateformat' ], $frow[ 'score_date' ], $board_config[ 'board_timezone' ] ) . "</span></nobr>",
           
 		  # Favorites curren winner - if your the high scorer this shows up!
-		  'IMGFIRSTF' => ($frow['game_highuser'] == $userinfo['user_id']) ? "<span class='arcadeTextDate'>1st Place</span>".$br."<img 
-		  src='".$phpbb_root_path."templates/".$theme['template_name']."/images/couronne.gif' align='absmiddle'>" : "",
+		  'IMGFIRSTF' => ($frow['game_highuser'] == $userinfo['user_id']) ? "<span class='arcadeTextDate'>1st Place</span>".$br."<img "
+                  . "src='".$phpbb_root_path."templates/".$theme['template_name']."/images/couronne.gif' align='absmiddle'>" : "",
           
 		  'GAMEDESCF' => '<span class="arcadeTextDescription">'.$frow[ 'game_desc' ].'</span>'
         ) );
