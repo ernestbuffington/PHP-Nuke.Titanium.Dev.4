@@ -54,7 +54,7 @@ function title_and_meta_tags() {
             if ($module_name == "Shout_Box"):
 
                 # each module has a logo image file START
-                if (@file_exists(NUKE_MODULES_DIR . $module_name . '/images/logo.png')):
+                if (file_exists(NUKE_MODULES_DIR . $module_name . '/images/logo.png')):
                     $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png" />' . "\n";
                     $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png" />' . "\n";
                 else:
@@ -78,7 +78,7 @@ function title_and_meta_tags() {
             elseif ($module_name == "Google-Site-Map"):
 
                 # each module has a logo image file START
-                if (@file_exists(NUKE_MODULES_DIR . $module_name . '/images/logo.png')):
+                if (file_exists(NUKE_MODULES_DIR . $module_name . '/images/logo.png')):
                     $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png" />' . "\n";
                     $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png" />' . "\n";
                 else:
@@ -98,9 +98,35 @@ function title_and_meta_tags() {
                 $facebookimage_alt = '<meta property="og:image:alt" content="Google Site Map Module v1.0" />' . "\n";
                 $facebook_ogurl = '<meta property="og:url" content="' . HTTPS . 'modules.php?name=' . $name . '" />' . "\n";
             # PHP-Nuke Titanium Google Site Map Module v1.0 --------------------------------------------------------------------------------------------
+            
+            # PHP-Nuke Arcade v4.0 --------------------------------------------------------------------------------------------
+            elseif ($module_name == "Forums"):
+              if (($file == 'arcade') && isset($file)):
+                # each module has a logo image file START
+                if (file_exists(NUKE_MODULES_DIR . $module_name . '/images/logo.png')):
+                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png" />' . "\n";
+                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png" />' . "\n";
+                else:
+                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/Blogs/images/logo.png" />' . "\n";
+                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/Blogs/images/logo.png" />' . "\n";
+                endif;
+                # each module has a logo image file END
 
+                $newpagetitle = $sitename . ' ' . $item_delim . ' Titanium Arcade v4.0';
+                $facebook_og_title = '<meta property="og:title" content="' . $newpagetitle . '" />' . "\n";
 
-            else:
+                $facebook_ogdescription = '<meta property="og:description" content="Titanium Arcade v4.0 written by Ernest Buffington, have a look!" />' . "\n";
+
+                $facebookimagetype = '<meta property="og:image:type" content="image/png" />' . "\n";
+                $facebook_ogimage_width = '<meta property="og:image:width" content="1200" />' . "\n";
+                $facebook_ogimage_height = '<meta property="og:image:height" content="628" />' . "\n";
+                $facebookimage_alt = '<meta property="og:image:alt" content="Titanium Arcade v4.0" />' . "\n";
+                $facebook_ogurl = '<meta property="og:url" content="' . HTTPS . 'modules.php?name=' . $name . '&file=arcade" />' . "\n";
+                
+              endif;
+            # PHP-Nuke Arcade v4.0 --------------------------------------------------------------------------------------------
+
+                else:
 
                 if (file_exists(NUKE_MODULES_DIR . $module_name . '/images/logo.png')):
                     $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png" />' . "\n";
@@ -123,6 +149,7 @@ function title_and_meta_tags() {
                 list($art, $top) = $db->sql_ufetchrow("SELECT `title`, `topic` FROM `" . $prefix . "_stories` WHERE `sid`='" . $sid . "'", SQL_NUM);
 
                 if ($top) {
+                    $topicimage = '';
                     list($top, $topicimage) = $db->sql_ufetchrow("SELECT `topictext`,`topicimage` FROM `" . $prefix . "_topics` WHERE `topicid`='" . $top . "'", SQL_NUM);
 
                     if ($sitename == $top):
@@ -195,7 +222,7 @@ function title_and_meta_tags() {
 
             endif;
 
-            if (@file_exists(TITANIUM_THEMES_DIR . '/includes/facebook/' . $module_name . '/' . $module_name . '.php')): # Added by Ernest Buffington
+            if (file_exists(TITANIUM_THEMES_DIR . '/includes/facebook/' . $module_name . '/' . $module_name . '.php')): # Added by Ernest Buffington
                 include(TITANIUM_THEMES_DIR . '/includes/facebook/' . $module_name . '/' . $module_name . '.php');           # Load extra meta settings from each module
             endif;
 
@@ -245,7 +272,10 @@ function title_and_meta_tags() {
             $structured_data .= '  "dateModified": "' . $dmod . '",' . "\n\n";
 
             global $prefix, $portaladmin, $webmastername;
-
+            
+            $avatar = '';
+            $email = '';
+            
             list($webmastername,
                     $avatar,
                     $email) = $db->sql_ufetchrow("SELECT `name`,`user_avatar`, `user_email` FROM `" . $prefix . "_users` WHERE `user_id`='$portaladmin'", SQL_NUM);
@@ -268,15 +298,20 @@ function title_and_meta_tags() {
             $structured_data .= "\n\n\n" . '}' . "\n";
             $structured_data .= '</script>' . "\n";
 
-            if (@file_exists(TITANIUM_THEMES_DIR . '/includes/facebook/Index/Index.php')): # Added by Ernest Buffington  
+            if (file_exists(TITANIUM_THEMES_DIR . '/includes/facebook/Index/Index.php')): # Added by Ernest Buffington  
                 include(TITANIUM_THEMES_DIR . '/includes/facebook/Index/Index.php');           # Load extra meta settings for Index
             endif;
         endif;
-
-        $newpagetitle = ($module_name) ? $item_delim . ' ' . $module_name_str : '';
+        
+        if (($file == 'arcade') && isset($file)):
+            $module_name_str = 'Arcade v4.0';
+            $newpagetitle = ($module_name) ? $item_delim . ' ' . $module_name_str : '';
+        endif;
+        
+            $newpagetitle = ($module_name) ? $item_delim . ' ' . $module_name_str : '';
     endif;
 
-    if ($appID > 0):
+    //if ($appID > 0):
         print $facebook_admin;
         print $facebook_page_type;
         print $facebookappid;
@@ -293,7 +328,7 @@ function title_and_meta_tags() {
         print $facebookimagetype;
         print $facebook_ogdescription;
         print $facebook_og_title;
-    endif;
+    //endif;
 
     print '<title>' . $sitename . ' ' . $newpagetitle . '</title>' . "\n";
 
@@ -345,16 +380,16 @@ function get_titanium_version_information($version_check_url, $local_cache_locat
 
 function get_titanium_timeago($ptime) {
     $estimate_time = time() - $ptime;
-    if ($estimate_time < 1)
+    if ($estimate_time < 1) {
         return 'Secs';
-    $condition = array(
-        12 * 30 * 24 * 60 * 60 => 'Year',
+    }
+    $condition = [12 * 30 * 24 * 60 * 60 => 'Year',
         30 * 24 * 60 * 60 => 'Month',
         24 * 60 * 60 => 'Day',
         60 * 60 => 'Hour',
         60 => 'Min',
         1 => 'Sec'
-    );
+        ];
 
     foreach ($condition as $secs => $str):
         $d = $estimate_time / $secs;
@@ -378,4 +413,4 @@ function get_titanium_timeago($ptime) {
     endforeach;
 }
 
-
+?>
