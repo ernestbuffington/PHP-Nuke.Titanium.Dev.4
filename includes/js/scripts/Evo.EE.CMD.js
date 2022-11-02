@@ -8,7 +8,7 @@ nuke_jq(function($){
 
 nuke_jq(function($){
   $(window).jKonamicode({
-      code:[69,86,79,87,72,79,65,77,73], <!-- evowhoami -->
+      code:[69,86,79,87,72,79,65,77,73] 
     },
      function(){
    var left = (screen.width - 400) / 2;
@@ -19,7 +19,7 @@ nuke_jq(function($){
 
 nuke_jq(function($){
   $(window).jKonamicode({
-      code:[69,86,79,65,78,83,87,69,82], <!-- evoanswer -->
+      code:[69,86,79,65,78,83,87,69,82] 
     },
      function(){
       alert("Answer to the Ultimate Question of Life, the Universe, and Everything?\n...\n...\n...\n42");
