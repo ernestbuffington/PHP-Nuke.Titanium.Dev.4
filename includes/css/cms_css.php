@@ -7,6 +7,36 @@ echo "/* When we are done we will move this code to style.css */\n\n";
 global $br, $fieldset_color, $fieldset_border_width, $digits_color;
 $br = '<div align="center" style="padding-top:2px;"></div>';
 ?>
+.button {
+  background-color: <?=$bgcolor3?>;
+  border: none;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+.button:hover {
+  background-color: <?=$bgcolor2?>;
+  border: none;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  margin: 4px 2px;
+}
+
+.button1 {border-radius: 2px;}
+.button2 {border-radius: 4px;}
+.button3 {border-radius: 8px;}
+.button4 {border-radius: 12px;}
+.button5 {border-radius: 50%;}
+
 table.rounded-corners {
  /* Change these properties */
  --border: 1px solid black;
