@@ -3,6 +3,22 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
+/*======================================================================= 
+  This is used when you read everyones private messages in the admin panel! 
+  modules/Forums/admin/admin_priv_msgs.php?sid=(some-number)
+ =======================================================================*/
+
+/***************************************************************************
+*                      $RCSfile: admin_priv_msgs.php,v $
+*                            -------------------
+*   end                  : November 2nd 2022
+*   copyright            : (C) 2005-2022 www.86it.us
+*   email                : support@86it.us
+*
+*   $Id: admin_priv_msgs.php,v 1.4 2022/11/02 23:54:41 86it Exp $
+*
+***************************************************************************/
+
 /***************************************************************************
 *                      $RCSfile: admin_priv_msgs.php,v $
 *                            -------------------
@@ -484,7 +500,7 @@ class aprvmUtils
     function makeURLStart()
     {
         global $filter_from, $filter_to, $order;
-        global $mode, $pmtype, $sort, $start;
+        global $mode, $pmtype, $sort, $pmtype_text, $start, $phpEx;
         
         $this->urlBase = basename(__FILE__). "?order=$order&amp;sort=$sort&amp;pmtype=$pmtype&filter_from=$filter_from&filter_to=$filter_to";
         $this->urlPage = $this->urlBase. "&mode=$mode";
@@ -583,7 +599,7 @@ class aprvmUtils
 
     function resync($type, $user_id, $num = 1)
     {
-        global $db, $lang;
+        global $db;
 
         if (($type == PRIVMSGS_NEW_MAIL || $type == PRIVMSGS_UNREAD_MAIL))
         {
@@ -610,7 +626,7 @@ class aprvmUtils
 
     function make_drop_box($prefix = 'sort')
     {
-        global $sort_types, $order_types, $pmtypes, $lang, $sort, $order, $pmtype;
+        global $sort_types, $order_types, $pmtypes, $lang, $sort, $order, $pmtype, $page_title;
 
         $rval = '<select name="'.$prefix.'">';
 
@@ -645,12 +661,12 @@ class aprvmUtils
 
     function id_2_name($id, $mode = 'user')
     {
-        global $db, $lang;
+        global $db;
 
-        static $nameCache = []; //Stores names we've already sent a query for
-                                //Has array sections ['user'] and ['reverse']
-                                //['user']['user_id'] => ['username']
-                                //['reverse']['username'] => ['user_id']
+        static $nameCache; //Stores names we've already sent a query for
+                           //Has array sections ['user'] and ['reverse']
+                           //['user']['user_id'] => ['username']
+                           //['reverse']['username'] => ['user_id']
         
         if ($id == '')
         {
@@ -678,6 +694,7 @@ class aprvmUtils
                 $nameCache['user'][$row['user_id']] = $row['username'];
                 $nameCache['reverse'][$row['username']] = $row['user_id'];
                 return $row['username'];
+                break;
             }
             case 'reverse':
             {
@@ -711,8 +728,8 @@ class aprvmUtils
     
     function do_pagination($mode = 'normal')
     {
-        global $db, $filter_from_text, $filter_to_text, $lang, $template;
-        global $mode, $pmtype_text, $start, $topics_per_pg;
+        global $db, $filter_from_text, $filter_to_text, $filter_from, $filter_to, $lang, $template, $order;
+        global $mode, $pmtype, $sort, $pmtype_text, $archive_text, $start, $archive_start, $topics_per_pg, $phpEx;
 
         $sql = 'SELECT count(*) AS total FROM ' . PRIVMSGS_TABLE . $this->inArchiveText." pm
            WHERE 1
@@ -744,7 +761,7 @@ class aprvmUtils
     */
     function find_lang_file($filename)
     {
-        global $phpbb_root_path, $board_config, $phpEx;
+        global $lang, $phpbb_root_path, $board_config, $phpEx;
         
         if (file_exists($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . "/$filename.$phpEx"))
         {
@@ -840,10 +857,8 @@ class aprvmManager
     {
         global $lang, $db, $status_message, $aprvmUtil;
         
-        if (!count($this->archiveQueue)) {
-            return;
-        }
-
+        if (!count($this->archiveQueue)) return;
+        
         $postList = '';
         foreach($this->archiveQueue as $post_id)
         {
@@ -886,9 +901,7 @@ class aprvmManager
     {
         global $board_config, $HTTP_POST_VARS, $db, $lang, $status_message, $aprvmUtil, $mode;
         
-        if (!count($this->deleteQueue)) {
-            return;
-        }
+        if (!count($this->deleteQueue)) return;
 
         $postList = '';
         foreach($this->deleteQueue as $post_id)
@@ -961,3 +974,4 @@ class aprvmManager
     }
 }
 
+?>
