@@ -118,6 +118,7 @@ if($favori):
     endif;
   
 elseif($delfavori): 
+    
     $sql = "DELETE FROM " . ARCADE_FAV_TABLE . " WHERE  user_id= " . $userinfo[ 'user_id' ] . " AND game_id= " . $delfavori;
     if(!($result = $db->sql_query($sql))): 
     message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
