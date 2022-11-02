@@ -55,7 +55,7 @@
 	z-index:2; 
 }
 
-<!-- background-image: url(../images/starry-night-blue-sparkle.gif);   -->
+/* background-image: url(../images/starry-night-blue-sparkle.gif);  */
 
 #LpinkRose {
 	position:absolute;
@@ -63,7 +63,7 @@
 	top:260px;    
 	width:277px; 
 	height:160px;  
-	border: 4; 
+	border: 4px; 
 	border-top-color: #EE6A12; 
 	border-left-color: #959595;
 	border-right-color: #EE6A12;
@@ -83,7 +83,7 @@
 	width:167px;
 	height:327px;
     background-color: #FFFF00;  
-	border: 4; 
+	border: 4px; 
 	border-top-color: #EE6A12;
 	border-left-color: #333333;
 	border-right-color: #EE6A12;
@@ -104,7 +104,7 @@
 	width:167px;
 	height:327px;
     background-color: #FFFF00;  
-	border: 4; 
+	border: 4px; 
 	border-top-color: #EE6A12;
 	border-left-color: #EE6A12;
 	border-right-color: #333333;

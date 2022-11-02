@@ -1,4 +1,4 @@
-<!-- Bottom layer, bottom frame, LoanFooter.html -->
+/* Bottom layer, bottom frame, LoanFooter.html */
 #Layer1Bot {
 	position:absolute;
 	left:1px;
@@ -10,7 +10,7 @@
 	background-color: #CCCCCC;
 }
 
-<!-- Top Layer, bottom frame, indx-bottom2.html -->
+/* Top Layer, bottom frame, indx-bottom2.html */
 #Layer2Bot {
 	position:absolute;
 	left:1px;
@@ -140,7 +140,7 @@
 	z-index:3001;
 	filter: DropShadow(Color=#3399FF, OffX=20, OffY=20,Positive=0);
 }
-<!-- background-image: url(../images/LinkBack.jpg); -->
+/* background-image: url(../images/LinkBack.jpg); */
 #LLinkFore {
 	position:absolute;
 	left:880px;

@@ -5,7 +5,7 @@
 	top:260px;    
 	width:277px; 
 	height:160px;  
-	border: 4; 
+	border: 4px; 
 	border-top-color: #EE6A12; 
 	border-left-color: #959595; 
 	border-right-color: #EE6A12;
@@ -21,11 +21,11 @@
 #Ljackie {
 	position:absolute;
     visibility:hidden;
-    left:278;
-	top:258;
+    left:278px;
+	top:258px;
 	width:640px; 
 	height:360px;   
-	border: 4; 
+	border: 4px; 
 	border-top-color: #959595; 
 	border-left-color: #959595; 
 	border-right-color: #959595;
@@ -44,8 +44,8 @@
 	top:510px;  
 	width:62px; 
 	height:25px; 
-    padding: 4;
-	border: 4; 
+    padding: 4px;
+	border: 4px; 
 	border-top-color: #959595; 
 	border-left-color: #959595;
 	border-right-color: #959595;
@@ -64,8 +64,8 @@
 	top:468px;  
 	width:62px; 
 	height:25px; 
-    padding: 4;
-	border: 4; 
+    padding: 4px;
+	border: 4px; 
 	border-top-color: #959595; 
 	border-left-color: #959595;
 	border-right-color: #959595;
@@ -82,11 +82,11 @@
 
 #LbuttonOne{
 	position:absolute;
-    left:300;
-	top:410;
+        left: 300px;
+	top: 410px;
 	width:187px; 
 	height:27px;   
-	border: 4; 
+	border: 4px; 
 	border-top-color: #959595; 
 	border-left-color: #959595;
 	border-right-color: #959595;
@@ -101,12 +101,12 @@
 
 #LbuttonTwo{
 	position:absolute;
-    left:320;
-	top:465;
+    left:320px;
+	top:465px;
 	width:152px; 
 	height:27px;   
-    padding: 4;
-	border: 4; 
+    padding: 4px;
+	border: 4px; 
 	border-top-color: #959595; 
 	border-left-color: #959595;
 	border-right-color: #959595;
@@ -121,9 +121,9 @@
 
 <!--visibility:hidden-->
 
-<style type=\"text/css\">
+
    span
    {
       display:block;
    }
-</style>
+

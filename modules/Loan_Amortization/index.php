@@ -64,23 +64,22 @@ switch($ins['step'])
    $temp1 = $ins['principle'];
    $temp2 = $ins['interest'];
    $temp3 = $ins['term'];
-?>
-<style type="text/css"> 
 
-.scottybcoder
-{
-	background-color:#F60
-	!important
-}
-input.centerInput
-{
-text-align:center; 
-font-weight:bold;
-color:green;
-background-color:#DDDDDD;
-} 
-</style>
-<?
+echo '<style type="text/css">'; 
+echo '.scottybcoder';
+echo '{';
+echo '	background-color:#F60';
+echo '	!important';
+echo '}';
+echo 'input.centerInput';
+echo '{';
+echo 'text-align:center; ';
+echo 'font-weight:bold;';
+echo 'color:green;';
+echo 'background-color:#DDDDDD;';
+echo '} ';
+echo '</style>';
+
    // OPEN FORM
    echo "<form action=\"$PHP_SELF\" method=\"post\">"; 
    // ROW 1   
@@ -151,23 +150,22 @@ background-color:#DDDDDD;
    $pagetitle = 'PHP-Nuke Titanium :: Loan Data Calculations';
    $title = 'Review Your Loan';
 
-?>
-<style type="text/css"> 
 
-.scottybcoder
-{
-	background-color:#F60
-	!important
-}
-input.centerInput
-{
-text-align:center; 
-font-weight:bold;
-color:green;
-background-color:#DDDDDD;
-} 
-</style>
-<?
+echo '<style type="text/css"> ';
+echo '.scottybcoder';
+echo '{';
+echo '	background-color:#F60';
+echo '	!important';
+echo '}';
+echo 'input.centerInput';
+echo '{';
+echo 'text-align:center; ';
+echo 'font-weight:bold;';
+echo 'color:green;';
+echo 'background-color:#DDDDDD;';
+echo '} ';
+echo '</style>';
+
    title($sitename.' '.$title);
    OpenTable();	
 
@@ -350,23 +348,22 @@ background-color:#DDDDDD;
    include("header.php"); 
    $pagetitle = 'PHP-Nuke Titanium :: Loan Calculator';
    $title = 'Thank You';
-?>
-<style type="text/css"> 
 
-.scottybcoder
-{
-	background-color:#F60
-	!important
-}
-input.centerInput
-{
-text-align:center; 
-font-weight:bold;
-color:green;
-background-color:#DDDDDD;
-} 
-</style>
-<?
+echo '<style type="text/css"> ';
+echo '.scottybcoder';
+echo '{';
+echo '	background-color:#F60';
+echo '	!important';
+echo '}';
+echo 'input.centerInput';
+echo '{';
+echo 'text-align:center; ';
+echo 'font-weight:bold;';
+echo 'color:green;';
+echo 'background-color:#DDDDDD;';
+echo '} ';
+echo '</style>';
+
    title($sitename.' '.$title);
    OpenTable();
    
@@ -446,23 +443,22 @@ background-color:#DDDDDD;
    include("header.php"); 
    $pagetitle = 'PHP-Nuke Titanium :: Loan Amortization';
    $title = 'Loan Schedule';
-?>
-<style type="text/css"> 
 
-.scottybcoder
-{
-	background-color:#F60
-	!important
-}
-input.centerInput
-{
-text-align:center; 
-font-weight:bold;
-color:green;
-background-color:#DDDDDD;
-} 
-</style>
-<?
+echo '<style type="text/css"> ';
+echo '.scottybcoder';
+echo '{';
+echo '	background-color:#F60';
+echo '	!important';
+echo '}';
+echo 'input.centerInput';
+echo '{';
+echo 'text-align:center; ';
+echo 'font-weight:bold;';
+echo 'color:green;';
+echo 'background-color:#DDDDDD;';
+echo '} ';
+echo '</style>';
+
    title($sitename.' '.$title);
    OpenTable();
 
@@ -625,4 +621,4 @@ background-color:#DDDDDD;
    include("footer.php");
    break;
 }
-?>
+
