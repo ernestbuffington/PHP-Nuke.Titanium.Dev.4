@@ -33,7 +33,7 @@ endif;
 
 define('IN_PHPBB',true);
 
-global $br;
+global $br, $userinfo;
 
 $phpbb_root_path = NUKE_FORUMS_DIR;
 
@@ -52,7 +52,7 @@ include('includes/functions_arcade.'.$phpEx);
 
 # Start auth check
 if(!$userdata['session_logged_in']):
-  $header_location = (@preg_match("/Microsoft|WebSTAR|Xitami/", getenv( "SERVER_SOFTWARE" ))) ? "Refresh: 0; URL=" : "Location: ";
+  $header_location = (preg_match("/Microsoft|WebSTAR|Xitami/", getenv( "SERVER_SOFTWARE" ))) ? "Refresh: 0; URL=" : "Location: ";
   header($header_location."modules.php?name=Your_Account");
   exit;
 endif;
@@ -66,8 +66,9 @@ $arcade_config = read_arcade_config();
 
 $liste_cat_auth = get_arcade_categories($userinfo['user_id'], $userinfo['user_level'],'view');
 
-if(empty($liste_cat_auth))
-$liste_cat_auth = "''";
+if (empty($liste_cat_auth)) {
+    $liste_cat_auth = "''";
+}
 
 $order_by = '';
 
@@ -92,24 +93,26 @@ switch($arcade_config['game_order']):
     break;
 endswitch;
 
-global $userinfo;
+if (isset($_GET['favori'])) {
+    $favori = intval($_GET['favori']);
+}
 
-if(isset($_GET['favori']))
-$favori = intval($_GET['favori']);
+if (isset($_GET['delfavori'])) {
+    $delfavori = intval($_GET['delfavori']);
+}
 
-if(isset($_GET['delfavori']))
-$delfavori = intval($_GET['delfavori']);
-
-if($actfav = $favori + $delfavori):
+if($favori):
   
-    $sql = "SELECT COUNT(*) AS nbfav FROM " . ARCADE_FAV_TABLE . " WHERE  user_id = " . $userinfo[ 'user_id' ] . " AND game_id= " . $actfav;
+    $sql = "SELECT COUNT(*) AS `nbfav` FROM `" . ARCADE_FAV_TABLE . "` WHERE  `user_id` = " . $userinfo[ 'user_id' ] . " AND game_id= " . $actfav;
 
     if (!( $result = $db->sql_query($sql))):
-    message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
-    endif;
-  
-    $row = $db->sql_fetchrow($result);
+    # don't do shit - was using die message that was not accurate!
+    else:
 
+    $row = $db->sql_fetchrow($result);
+    
+    endif;
+    
     $nbfav = $row['nbfav'];
 
     if(!$nbfav && $favori):
