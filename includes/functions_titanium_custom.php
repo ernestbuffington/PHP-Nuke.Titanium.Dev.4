@@ -45,10 +45,9 @@ function title_and_meta_tags() {
 
     # if the user is visiting a module, change the page title to the module name.
     else:
-        $facebookappid = "<meta property=\"fb:app_id\" content=\"" . $appID . "\" />\n";
-        
     if ($appID > 0):
-         $facebook_admin = "<meta property=\"fb:admins\" content=\"" . $facebook_admin_id_number . "\" />"; # TheGhost's facebook user ID
+        $facebookappid = "<meta property=\"fb:app_id\" content=\"" . $appID . "\" />\n";
+        $facebook_admin = "<meta property=\"fb:admins\" content=\"" . $facebook_admin_id_number . "\" />"; # TheGhost's facebook user ID
     endif;    
     
     $facebook_page_type = "<meta property=\"og:type\" content=\"website\" />\n";
@@ -282,8 +281,8 @@ function title_and_meta_tags() {
             $email = '';
             
             list($webmastername,
-                    $avatar,
-                    $email) = $db->sql_ufetchrow("SELECT `name`,`user_avatar`, `user_email` FROM `" . $prefix . "_users` WHERE `user_id`='$portaladmin'", SQL_NUM);
+                        $avatar,
+                         $email) = $db->sql_ufetchrow("SELECT `name`,`user_avatar`, `user_email` FROM `" . $prefix . "_users` WHERE `user_id`='$portaladmin'", SQL_NUM);
 
             $structured_data .= '  "author": {' . "\n";
             $structured_data .= '  "@type": "Person",' . "\n";
@@ -316,7 +315,6 @@ function title_and_meta_tags() {
             $newpagetitle = ($module_name) ? $item_delim . ' ' . $module_name_str : '';
     endif;
 
-    //if ($appID > 0):
         print $facebook_admin;
         print $facebook_page_type;
         print $facebookappid;
@@ -333,7 +331,6 @@ function title_and_meta_tags() {
         print $facebookimagetype;
         print $facebook_ogdescription;
         print $facebook_og_title;
-    //endif;
 
     print '<title>' . $sitename . ' ' . $newpagetitle . '</title>' . "\n";
 
@@ -341,7 +338,7 @@ function title_and_meta_tags() {
 }
 
 /**
- * Custom function: This will be used quite alot throughout the site, For such things as CMS, Block, Module & Theme version chekcing. 
+ * Custom function: This will be used quite a lot throughout the site, For such things as CMS, Block, Module & Theme version chekcing. 
  * @since v3.0.0b
  */
 function get_titanium_version_information($version_check_url, $local_cache_location, $force_refresh = false) {
@@ -418,4 +415,4 @@ function get_titanium_timeago($ptime) {
     endforeach;
 }
 
-?>
+
