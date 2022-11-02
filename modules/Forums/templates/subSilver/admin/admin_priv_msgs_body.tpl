@@ -1,5 +1,4 @@
-<script language="JavaScript" type="text/javascript">
-<!--
+<script>
 function toggle_check_all()
 {
     var archive_text = "archive_id";
@@ -7,9 +6,9 @@ function toggle_check_all()
     for (var i=0; i < document.msgrow_values.elements.length; i++)
     {
         var checkbox_element = document.msgrow_values.elements[i];
-        if ((checkbox_element.name != 'check_all_del_box') && (checkbox_element.name != 'check_all_arch_box') && (checkbox_element.type == 'checkbox'))
+        if ((checkbox_element.name !== 'check_all_del_box') && (checkbox_element.name !== 'check_all_arch_box') && (checkbox_element.type === 'checkbox'))
         {
-            if (checkbox_element.name.search("archive_id") != -1)
+            if (checkbox_element.name.search("archive_id") !== -1)
             {        
                 checkbox_element.checked = document.msgrow_values.check_all_arch_box.checked;
             }
@@ -20,7 +19,6 @@ function toggle_check_all()
         }
     }
 }
--->
 </script>
 <!-- BEGIN statusrow -->
 <table width="100%" cellspacing="2" cellpadding="2" border="1" align="center">
