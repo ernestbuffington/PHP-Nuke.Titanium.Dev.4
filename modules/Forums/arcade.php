@@ -104,15 +104,8 @@ if (isset($_GET['delfavori'])) {
 if($favori):
   
     $sql = "SELECT COUNT(*) AS `nbfav` FROM `" . ARCADE_FAV_TABLE . "` WHERE  `user_id` = " . $userinfo[ 'user_id' ] . " AND game_id= " . $actfav;
-
-    if (!( $result = $db->sql_query($sql))):
-    # don't do shit - was using die message that was not accurate!
-    else:
-
+    $result = $db->sql_query($sql);
     $row = $db->sql_fetchrow($result);
-    
-    endif;
-    
     $nbfav = $row['nbfav'];
 
     if(!$nbfav && $favori):
