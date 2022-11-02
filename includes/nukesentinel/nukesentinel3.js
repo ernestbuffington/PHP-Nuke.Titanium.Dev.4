@@ -1,3 +1,5 @@
+/* global CENTERPOPUP, CENTEROFFSET, o3_followscroll */
+
 //\/////
 //\  overLIB Center Popup Plugin
 //\  This file requires overLIB 4.10 or later.
@@ -14,7 +16,7 @@
 // PRE-INIT
 // Ignore these lines, configuration is below.
 ////////
-if (typeof olInfo == 'undefined' || typeof olInfo.meets == 'undefined' || !olInfo.meets(4.10)) console.log('overLIB 4.10 or later is required for the Center Popup Plugin.');
+if (typeof olInfo === 'undefined' || typeof olInfo.meets === 'undefined' || !olInfo.meets(4.10)) console.log('overLIB 4.10 or later is required for the Center Popup Plugin.');
 else {
 registerCommands('centerpopup,centeroffset');
 ////////
@@ -23,8 +25,8 @@ registerCommands('centerpopup,centeroffset');
 // changed on your html page or through an overLIB call.
 ////////
 // Default value for centerpopup is to not center the popup
-if (typeof ol_centerpopup == 'undefined') var ol_centerpopup = 0;
-if (typeof ol_centeroffset == 'undefined') var ol_centeroffset = '0';
+if (typeof ol_centerpopup === 'undefined') var ol_centerpopup = 0;
+if (typeof ol_centeroffset === 'undefined') var ol_centeroffset = '0';
 ////////
 // END OF CONFIGURATION
 // Don't change anything below this line, all configuration is above.
@@ -47,8 +49,8 @@ function parseCenterPopupExtras(pf,i,ar) {
 	var k = i,v;
 
 	if (k < ar.length) {
-		if (ar[k] == CENTERPOPUP) { eval(pf + 'centerpopup = (' + pf + 'centerpopup == 0) ? 1 : 0'); return k; }
-		if (ar[k] == CENTEROFFSET) { k = opt_MULTIPLEARGS(++k,ar,(pf + 'centeroffset')); return k; }
+		if (ar[k] === CENTERPOPUP) { eval(pf + 'centerpopup = (' + pf + 'centerpopup == 0) ? 1 : 0'); return k; }
+		if (ar[k] === CENTEROFFSET) { k = opt_MULTIPLEARGS(++k,ar,(pf + 'centeroffset')); return k; }
 	}
 
 	return -1;
@@ -62,7 +64,7 @@ function centerPopupHorizontal(browserWidth, horizontalScrollAmount, widthFix) {
   var pWd = parseInt(o3_width);
 
 	placeX = winoffset + Math.round((iwidth - widthFix - pWd)/2) + parseInt(vdisp[0]);
-	if(typeof o3_followscroll != 'undefined' && o3_followscroll && o3_sticky) o3_relx = placeX;
+	if(typeof o3_followscroll !== 'undefined' && o3_followscroll && o3_sticky) o3_relx = placeX;
 
 	return placeX;
 }
@@ -74,7 +76,7 @@ function centerPopupVertical(browserHeight,verticalScrollAmount) {
 	var pHeight = (o3_aboveheight ? parseInt(o3_aboveheight) : (olNs4 ? over.clip.height : over.offsetHeight));
 
 	placeY = scrolloffset + Math.round((iheight - pHeight)/2) + (vdisp.length > 1 ? parseInt(vdisp[1]) : 0);
-	if(typeof o3_followscroll != 'undefined' && o3_followscroll && o3_sticky) o3_rely = placeY;
+	if(typeof o3_followscroll !== 'undefined' && o3_followscroll && o3_sticky) o3_rely = placeY;
 
 	return placeY;
 }

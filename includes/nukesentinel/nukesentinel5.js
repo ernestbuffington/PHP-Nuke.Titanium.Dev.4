@@ -28,9 +28,9 @@ function scrollerLoad()
 {
 	var pos;
 	if(window.getComputedStyle && (pos = window.getComputedStyle(this,null).position))
-		if(pos!="absolute" && pos!="fixed") this.style.position = "relative";
+		if(pos!=="absolute" && pos!=="fixed") this.style.position = "relative";
 	else if(this.currentStyle && (pos = this.currentStyle.position))
-		if(pos!="absolute" && pos!="fixed") this.style.position = "relative";
+		if(pos!=="absolute" && pos!=="fixed") this.style.position = "relative";
 	while(!this.id || gScrollers[this.id]) this.id="a"+Math.floor(10000 * Math.random());
 	gScrollers[this.id] = this;
 	this.scrollIncrement = this.className.match(/Scroller\.Increment:([0-9]+)/);

@@ -151,16 +151,3 @@ addEventHandler(window,'load',function(){ doRegister(); },false);
 
 document.register('img',null,fspImageToolbarRemoval,'load',false);
 
-// for Internet Explorer
-
-/*@cc_on @*/
-@if (@_win32)
-  var fsp_x = 0; var fsp_flag = false; var fsp_src = ''; var fsp_ss = document.getElementsByTagName('script');
-  while(!fsp_flag && fsp_x<fsp_ss.length)
-  {
-    fsp_src = fsp_ss[fsp_x].src.replace('nukesentinel4.js','nukesentinel6.js');
-    if(fsp_src!==fsp_ss[fsp_x].src) fsp_flag = true;
-    ++fsp_x;
-  }
-  document.write('<script type="text/javascript" defer="true" src="includes/'+fsp_src+'"><'+'/script>');
-/*@end @*/

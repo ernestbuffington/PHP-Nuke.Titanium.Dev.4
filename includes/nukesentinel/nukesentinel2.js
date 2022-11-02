@@ -1,3 +1,5 @@
+/* global o3_shadow, o3_bubble */
+
 //\/////
 //\  overLIB Hide Form Plugin
 //\
@@ -12,14 +14,14 @@
 //   $Revision: 1.20 $                $Date: 2004/11/25 21:27:19 $
 //\/////
 //\mini
-if (typeof olInfo == 'undefined' || typeof olInfo.meets == 'undefined' || !olInfo.meets(4.10)) 
+if (typeof olInfo === 'undefined' || typeof olInfo.meets === 'undefined' || !olInfo.meets(4.10)) 
 	alert('overLIB 4.10 or later is required for the HideForm Plugin.');
 else 
 {
 
 	// Function which generates the popup with an IFRAME shim
 	function generatePopUp(content) {
-		if(!olIe4||olOp||!olIe55||(typeof o3_shadow != 'undefined' && o3_shadow)||(typeof o3_bubble != 'undefined' && o3_bubble)) return;
+		if(!olIe4||olOp||!olIe55||(typeof o3_shadow !== 'undefined' && o3_shadow)||(typeof o3_bubble !== 'undefined' && o3_bubble)) return;
 
 		var wd,ht,txt, zIdx =  0;
 
@@ -82,7 +84,7 @@ else
 		if(v < 20030624) {
 			selEl = (olIe4) ? o3_frame.document.all.tags("SELECT") : o3_frame.document.getElementsByTagName("SELECT");
 			for (var i=0; i<selEl.length; i++) {
-				if(typeof selEl[i].isHidden !=  'undefined' && selEl[i].isHidden) {
+				if(typeof selEl[i].isHidden !==  'undefined' && selEl[i].isHidden) {
 					selEl[i].isHidden = 0;
 					selEl[i].style.visibility = 'visible';
 				}
@@ -93,16 +95,16 @@ else
 	// function gets the total offset properties of an element
 	// this same function occurs in overlib_mark.js.
 	function pageLocation(o,t){
-		var x = 0
+		var x = 0;
 
 		while(o.offsetParent){
-			x += o['offset'+t]
-			o = o.offsetParent
+			x += o['offset'+t];
+			o = o.offsetParent;
 		}
 
-		x += o['offset'+t]
+		x += o['offset'+t];
 
-		return x
+		return x;
 	}
 
 	// reset mouse move routine for NS7 but not NS7.1,Opera, or IE5.5+
