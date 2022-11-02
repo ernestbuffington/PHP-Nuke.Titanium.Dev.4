@@ -377,8 +377,10 @@ if($arcade_config['use_category_mod']):
   if(!($result = $db->sql_query($sql))):
     message_die( GENERAL_ERROR, "Could not read the arcade categories table", '', __LINE__, __FILE__, $sql );
   endif;
+  
+  $row = $db->sql_fetchrow($result);
 
-  if($row = $db->sql_fetchrow($result)):
+  if($row):
     $total_games = $row[ 'nbgames' ];
   else:
     message_die( GENERAL_MESSAGE, $lang['no_arcade_cat'] );
@@ -390,11 +392,15 @@ else:
 
   $sql = "SELECT COUNT(*) AS nbgames FROM " . GAMES_TABLE;
 
-  if(!($result = $db->sql_query($sql))):
+  $result = $db->sql_query($sql);
+  
+  if(!($result)):
     message_die( GENERAL_ERROR, "Could not read games table", '', __LINE__, __FILE__, $sql );
   endif;
 
-  if($row = $db->sql_fetchrow($result)):
+  $row = $db->sql_fetchrow($result);
+  
+  if($row):
     $total_games = $row[ 'nbgames' ];
   endif;
 

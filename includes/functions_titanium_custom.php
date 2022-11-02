@@ -30,11 +30,12 @@ endif;
  */
 function title_and_meta_tags()
 {
-	global $sitename, $appID, $name, $sid, $file, $db, $prefix;
+	global $ThemeSel, $sitename, $appID, $name, $sid, $file, $db, $prefix;
 	
-	$ThemeSel           = get_theme();
+        /** @var type $ThemeSel get current theme */
+        $ThemeSel           = get_theme();
 	$item_delim         = "&raquo;";
-	$module_name 		= get_query_var( 'name', 'get', 'string', '' );
+	$module_name 	    = get_query_var( 'name', 'get', 'string', '' );
 	$module_name_str    = str_replace(array('-','_'),' ',$module_name);
 
 	# if the user is in the administration panel, simply change the page title to administration.
@@ -103,8 +104,8 @@ function title_and_meta_tags()
 
 		else:
 			
-			if (@file_exists(NUKE_MODULES_DIR.$module_name.'/images/logo.png')): 
-		   $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
+			if (file_exists(NUKE_MODULES_DIR.$module_name.'/images/logo.png')): 
+		      $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
 	              $facebook_ogimage = '<meta property="og:image:secure_url" content="'.HTTP.'modules/'.$module_name.'/images/logo.png" />'."\n";
 			else:
 		   $facebook_ogimage_normal = '<meta property="og:image" content="'.HTTP.'modules/Blogs/images/logo.png" />'."\n";
