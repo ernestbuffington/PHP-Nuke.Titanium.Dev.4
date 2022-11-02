@@ -27,6 +27,8 @@
 -=[Base]=-
       Nuke Patched                           v3.1.0       06/29/2005
  ************************************************************************/
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))
+if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 	exit('Access Denied');
+}
+
 ?>
