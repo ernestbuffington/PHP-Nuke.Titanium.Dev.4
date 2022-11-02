@@ -20,8 +20,9 @@
 	  PHP-Nuke Titanium Patched                v4.0.3       10/31/2022 
  ************************************************************************/
 
-if ( !defined( 'MODULE_FILE' ) )
-die( 'You can\'t access this file directly...' );
+if (!defined('MODULE_FILE')) {
+    die('You can\'t access this file directly...');
+}
 
 if ( $popup != "1" ) :
   $module_name = basename( dirname( __FILE__ ) );

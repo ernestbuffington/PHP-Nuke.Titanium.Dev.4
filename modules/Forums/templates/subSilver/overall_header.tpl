@@ -1,12 +1,19 @@
-<html dir="{S_CONTENT_DIRECTION}">
+<?xml version="1.0" encoding=""?>
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" />
+<html xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="https://www.facebook.com/2008/fbml" />
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset={S_CONTENT_ENCODING}">
-<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="Content-Language" content="en" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
 {META}
 {NAV_LINKS}
 <title>{SITENAME} :: {PAGE_TITLE}</title>
 <!-- link rel="stylesheet" href="modules/Forums/templates/subSilver/{T_HEAD_STYLESHEET}" type="text/css" -->
-<style type="text/css">
+<style>
 <!--
 /*
   The original subSilver Theme for phpBB version 2+
@@ -207,11 +214,11 @@ input.liteoption {
 .helpline { background-color: {T_TR_COLOR2}; border-style: none; }
 
 /* Import the fancy styles for IE only (NS4.x doesn't use the @import function) */
-@import url("modules/Forums/templates/subSilver/formIE.css"); 
+@importurl "modules/Forums/templates/subSilver/formIE.css" 
 -->
 </style>
 <!-- start mod : Resize Posted Images Based on Max Width -->
-<script type="text/javascript">
+<script>
 //<![CDATA[
 <!--
 
@@ -220,8 +227,9 @@ var rmw_border_1 = '1px solid {T_BODY_LINK}';
 var rmw_border_2 = '2px dotted {T_BODY_LINK}';
 var rmw_image_title = '{L_RMW_IMAGE_TITLE}';
 
-//-->
+-->
 //]]>
+
 </script>
 <script type="text/javascript" src="{U_RMW_JSLIB}"></script>
 <!-- fin mod : Resize Posted Images Based on Max Width -->
@@ -243,22 +251,22 @@ send_pc_dateTime();
 <!-- End Replace - window.onload = send_pc_dateTime -->
 
 function send_pc_dateTime() {
-    var pc_dateTime = new Date()
+    var pc_dateTime = new Date();
     pc_timezoneOffset = pc_dateTime.getTimezoneOffset()*(-60);
     pc_date = pc_dateTime.getFullYear()*10000 + (pc_dateTime.getMonth()+1)*100 + pc_dateTime.getDate();
     pc_time = pc_dateTime.getHours()*3600 + pc_dateTime.getMinutes()*60 + pc_dateTime.getSeconds();
 
     for ( i = 0; document.links.length > i; i++ ) {
         with ( document.links[i] ) {
-            if ( href.indexOf('{U_SELF}') == 0 ) {
-                textLink = '' + document.links[i].firstChild.data
-                if ( textLink.indexOf('http://') != 0 && textLink.indexOf('www.') != 0 && (textLink.indexOf('@') == -1 || textLink.indexOf('@') == 0 || textLink.indexOf('@') == textLink.length-1 )) {
-                    if ( href.indexOf('?') == -1 ) {
+            if ( href.indexOf('{U_SELF}') === 0 ) {
+                textLink = '' + document.links[i].firstChild.data;
+                if ( textLink.indexOf('http://') !== 0 && textLink.indexOf('www.') !== 0 && (textLink.indexOf('@') === -1 || textLink.indexOf('@') === 0 || textLink.indexOf('@') === textLink.length-1 )) {
+                    if ( href.indexOf('?') === -1 ) {
                         pc_data = '?pc_tzo=' + pc_timezoneOffset + '&pc_d=' + pc_date + '&pc_t=' + pc_time;
                     } else {
                         pc_data = '&pc_tzo=' + pc_timezoneOffset + '&pc_d=' + pc_date + '&pc_t=' + pc_time;
                     }
-                    if ( href.indexOf('#') == -1 ) {
+                    if ( href.indexOf('#') === -1 ) {
                         href += pc_data;
                     } else {
                         href = href.substring(0, href.indexOf('#')-1) + pc_data + href.substring(href.indexOf('#'), href.length-1);
@@ -304,10 +312,10 @@ function checkSearch()
 //-->
 </script>
 <center>
-<table width="100%" cellpadding="2" cellspacing="1" border="0"><form name="search_block" method="post" action="{U_SEARCH}" onSubmit="return 
-checkSearch()">
+<table width="100%" cellpadding="2" cellspacing="1" border="0"><form name="search_block" method="post" action="{U_SEARCH}" onSubmit="return; 
+checkSearch();">
   <tr>            
-    <td align="center"><span class="gensmall" style="line-height=150%">
+    <td align="center"><span class="gensmall" style="line-height: 150%">
     {switch_quick_search.L_QUICK_SEARCH_FOR} <input class="post" type="text" name="search_keywords" size="15"> 
 {switch_quick_search.L_QUICK_SEARCH_AT} <select class="post" name="site_search">{switch_quick_search.SEARCHLIST}</select>
     <input class="mainoption" type="submit" value="{L_SEARCH}"></span></td>
