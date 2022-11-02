@@ -44,8 +44,9 @@
 	  Lytebox Resize Images                    v3.2.2
 	  Hide BBCode                              v1.2.0
  ************************************************************************/
-if (!defined('IN_PHPBB'))
-exit('Hacking attempt');
+if (!defined('IN_PHPBB')) {
+    exit('Hacking attempt');
+}
 
 define("BBCODE_UID_LEN", 10);
 # global that holds loaded-and-prepared bbcode templates, so we only have to do
@@ -88,7 +89,7 @@ function load_bbcode_template()
 # Nathan Codding, Sept 26 2001
 function prepare_bbcode_template($bbcode_tpl)
 {
-    global $lang, $db;
+    global $lang, $board_config;
 
     $bbcode_tpl['olist_open'] = str_replace('{LIST_TYPE}','\\1',$bbcode_tpl['olist_open']);
 
@@ -673,7 +674,7 @@ function bbencode_first_pass($text, $uid)
     # [b] and [/b] for bolding text.
     $text = preg_replace_callback("(\[b\](.*?)\[/b\])is", function($m) { return '[b:'._BBCODE_UNIQUE_ID.']'.$m[1].'[/b:'._BBCODE_UNIQUE_ID.']'; }, $text);
 
-    #[u] and [/u] for underlining text.
+    # [u] and [/u] for underlining text.
     $text = preg_replace_callback("(\[u\](.*?)\[/u\])is", function($m) { return '[u:'._BBCODE_UNIQUE_ID.']'.$m[1].'[/u:'._BBCODE_UNIQUE_ID.']'; }, $text);
 
     # [i] and [/i] for italicizing text.
@@ -714,7 +715,7 @@ function bbencode_first_pass($text, $uid)
   	# [marquee=left/right/up/down]Marquee Code[/marquee] code..
   	// $text = preg_replace_callback("(\[marq=(left|right|up|down)\](.*?)\[/marq\])is", create_function('$matches','return "[marq=$matches[1]:'.$uid.']$matches[2][/marq:'.$uid.']";'), $text);
   	
-  	#[table=blah]Table[/table] code..
+  	# [table=blah]Table[/table] code..
   	// $text = preg_replace_callback("(\[table=(.*?)\](.*?)\[/table\])is", create_function('$matches','return "[table=$matches[1]:'.$uid.']$matches[2][/table:'.$uid.']";'), $text);
   	
   	# [cell=blah]Cell[/table] code..
@@ -1680,4 +1681,4 @@ if(!function_exists('get_code_lang'))
         return ($array[$var] != '') ? $array[$var] : $var;
     }
 }
-?>
+
