@@ -101,7 +101,7 @@ if (isset($_GET['delfavori'])) {
     $delfavori = intval($_GET['delfavori']);
 }
 
-/** @var type $favori - and as i dazed into her eyes I could see she was bat shit crazy */
+/** @var type $favori - the fumes from her snatch made me dizzy and as i dazed into her eyes I could see she was bat shit crazy */
 if($favori):
   
     $sql = "SELECT COUNT(*) AS `nbfav` FROM `" . ARCADE_FAV_TABLE . "` WHERE  `user_id` = " . $userinfo[ 'user_id' ] . " AND game_id= " . $actfav;
@@ -163,9 +163,9 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
 
   if($arcade_config['use_fav_category' ]):
     
-	$sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date, f.* FROM "
+    $sql = "SELECT g.*, u.username, u.user_id, s.score_game, s.score_date, f.* FROM "
     
-	. GAMES_TABLE . " g LEFT JOIN "
+    . GAMES_TABLE . " g LEFT JOIN "
     . USERS_TABLE . " u ON g.game_highuser = u.user_id LEFT JOIN "
     . SCORES_TABLE . " s ON s.game_id = g.game_id and s.user_id = " . $userinfo[ 'user_id' ] . " LEFT JOIN "
     . ARCADE_FAV_TABLE . " f ON f.game_id = g.game_id WHERE f.user_id=" . $userinfo[ 'user_id' ];
@@ -176,10 +176,10 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
 
     if($db->sql_numrows($result)):
 	  
-	  # FAVORITES ARCADE TABLE
+      # FAVORITES ARCADE TABLE
       $template->assign_block_vars('favrow',array());
       
-      while($frow = $db->sql_fetchrow($result)) {
+       while($frow = $db->sql_fetchrow($result)) :
         
 		$template->assign_block_vars('favrow.fav_row',array(
         
@@ -210,8 +210,8 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
           
 		  'HIGHUSERF' => ($frow['game_highuser'] != 0) ? '<span class="arcadeTextWhite">'.UsernameColor($frow['username']).'</span>' : '', 
           
-		  'URL_SCOREBOARDF' => '<nobr><a class="cattitle" href="' . append_sid( "scoreboard.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">' . "<img 
-		  src='modules/Forums/templates/" . $theme[ 'template_name' ] . "/images/scoreboard.gif' align='absmiddle' border='0' alt='" . $lang[ 'scoreboard' ] . " " . $frow[ 'game_name' ] . "'>" . '</a></nobr> ',
+		  'URL_SCOREBOARDF' => '<nobr><a class="cattitle" href="' . append_sid( "scoreboard.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">' . "<img"
+                  . "src='modules/Forums/templates/" . $theme[ 'template_name' ] . "/images/scoreboard.gif' align='absmiddle' border='0' alt='" . $lang[ 'scoreboard' ] . " " . $frow[ 'game_name' ] . "'>" . '</a></nobr> ',
 
                   'GAMEIDF' => $frow[ 'game_id' ],
           
@@ -227,18 +227,22 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
 		  'GAMEDESCF' => '<span class="arcadeTextDescription">'.$frow[ 'game_desc' ].'</span>'
         ) );
 
-        if($frow['game_highscore'] != 0 ): 
-         $template->assign_block_vars( 'favrow.fav_row.recordrow', array() );
-        endif;
+        
+           if($frow['game_highscore'] != 0 ): 
+             $template->assign_block_vars( 'favrow.fav_row.recordrow', array() );
+           endif;
 
-          if($frow['score_game'] != 0 ):
-           $template->assign_block_vars( 'favrow.fav_row.yourrecordrow', array() );
-          else: 
+           if($frow['score_game'] != 0 ):
+             $template->assign_block_vars( 'favrow.fav_row.yourrecordrow', array() );
+           else: 
            $template->assign_block_vars( 'favrow.fav_row.playrecordrow', array() );
-          endif;
-      }
+           endif;
+      
+           endwhile;
+    
+      endif;
+  
     endif;
-  endif;
 
   $liste_jeux = array();
 
