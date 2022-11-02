@@ -30,12 +30,12 @@ function doRegister(n)
     for(var x=0; x<r.length; x++)
     {
       t = n.getElementsByTagName(r[x].tag);
-      if(r[x].tag=='*' && t.length==0) t = document.all;
+      if(r[x].tag==='*' && t.length===0) t = document.all;
       for(y=0; y<t.length; y++)
       {
         if(!r[x].effect || hasClassName(t[y],"Fsp."+r[x].effect) || hasClassName(t[y],r[x].effect) || t[y].className.indexOf("Fsp."+r[x].effect+":") > -1 || t[y].className.indexOf("Fsp."+r[x].effect+".") > -1)
         {
-          if(r[x].event == 'load')
+          if(r[x].event === 'load')
           {
             t[y].load = r[x].func;
             t[y].load({ currentTarget:t[y] });
@@ -67,7 +67,7 @@ function addEventHandler(el,ev,func,exclusive)
     else if(el.attachEvent)
     {
       el['e'+ev+func] = func;
-      el[ev+func] = function(){el['e'+ev+func]( window.event );}
+      el[ev+func] = function(){el['e'+ev+func]( window.event );};
       return el.attachEvent( 'on'+ev, el[ev+func] );
     }
     else return false;
@@ -84,7 +84,7 @@ function dumpProps(obj)
     val = ''+eval('obj.'+p);
     val = val.substring(0,300);
     str += p+' = '+val+'\n';
-    if(i++==15){ alert(str); str=''; i=0; }
+    if(i++===15){ alert(str); str=''; i=0; }
   }
   alert(str);
 }
@@ -98,7 +98,7 @@ function addClassName(el,newClass)
 {
   var ary = el.className.split(' ');
   var x=0;
-  while(x<ary.length && ary[x]!=newClass) x++;
+  while(x<ary.length && ary[x]!==newClass) x++;
   if(x<ary.length) return false;
   else
   {
@@ -112,8 +112,8 @@ function removeClassName(el,oldClass)
 {
   var ary = el.className.split(' ');
   var className = new Array();
-  for(var x=0; x<ary.length; x++) if(ary[x]!=oldClass) className[className.length] = ary[x];
-  if(ary.length==className.length) return false;
+  for(var x=0; x<ary.length; x++) if(ary[x]!==oldClass) className[className.length] = ary[x];
+  if(ary.length===className.length) return false;
   else
   {
     el.className = className.join(' ');
@@ -125,7 +125,7 @@ function replaceClassName(el,oldClass,newClass)
 {
   var ary = el.className.split(' ');
   var x = 0;
-  while(x<ary.length && ary[x]!=oldClass) x++;
+  while(x<ary.length && ary[x]!==oldClass) x++;
   if(x<ary.length)
   {
     el.className = ary.join(' ');
@@ -138,7 +138,7 @@ function hasClassName(el,searchClass)
 {
   var ary = el.className.split(' ');
   var x = 0;
-  while(x<ary.length && ary[x]!=searchClass && ary[x].substr(0,ary[x].search(":"))!=searchClass) x++;
+  while(x<ary.length && ary[x]!==searchClass && ary[x].substr(0,ary[x].search(":"))!==searchClass) x++;
   return (x<ary.length);
 }
 
@@ -159,7 +159,7 @@ document.register('img',null,fspImageToolbarRemoval,'load',false);
   while(!fsp_flag && fsp_x<fsp_ss.length)
   {
     fsp_src = fsp_ss[fsp_x].src.replace('nukesentinel4.js','nukesentinel6.js');
-    if(fsp_src!=fsp_ss[fsp_x].src) fsp_flag = true;
+    if(fsp_src!==fsp_ss[fsp_x].src) fsp_flag = true;
     ++fsp_x;
   }
   document.write('<script type="text/javascript" defer="true" src="includes/'+fsp_src+'"><'+'/script>');
