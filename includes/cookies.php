@@ -1,11 +1,8 @@
-<?php declare(strict_types=1) ?>
 <?php 
 /*========================================================================
  PHP-Nuke Titanium: Enhanced PHP-Nuke Web Portal System
  ========================================================================*/
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
-    exit('Access Denied');
-}
+if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) exit('Access Denied');
 
 global $screen_res, $screen_width, $screen_height;
 
@@ -16,6 +13,7 @@ if(!isset($_COOKIE["theme_resolution"])):
 writeCookie();
 function writeCookie() 
 {
+  var today = new Date();
   var the_date = new Date("June 16, 2023");
   var the_cookie_date = the_date.toGMTString();
   var the_cookie = "theme_resolution="+ screen.width +"x"+ screen.height +"x"+ screen.colorDepth;
@@ -35,16 +33,17 @@ if(!isset($_COOKIE["titanium_resolution"])):
 <!--
 function writeCookie() 
 {
+  var today = new Date();
   var the_date = new Date("December 31, 2023");
   var the_cookie_date = the_date.toGMTString();
   var the_cookie = "titanium_resolution="+ screen.width +"x"+ screen.height;
   var the_cookie = the_cookie + ";expires=" + the_cookie_date;
-  document.cookie=the_cookie;
+  document.cookie=the_cookie
 }
 writeCookie();
 //-->
 </script>
-<?php
+<?
 $screen_res = $_COOKIE["titanium_resolution"];
 $screen_res_tmp = explode("x", $screen_res);
 $screen_width = $screen_res_tmp[0];
@@ -100,4 +99,4 @@ if ($screen_width == "1920")
 {
 
 }
-
+?>
