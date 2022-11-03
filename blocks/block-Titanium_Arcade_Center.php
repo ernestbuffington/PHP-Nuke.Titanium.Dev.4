@@ -28,7 +28,9 @@
 	  Badges Mod                               v1.0.0       10/27/2022
  ************************************************************************/
 
-if(!defined('NUKE_EVO')) exit;
+if (!defined('NUKE_EVO')) {
+    exit;
+}
 
 define("_TOPGAMERS", "The Top Players");
 define("_VICTOIRES", "NUMBER OF WINS");
@@ -357,7 +359,7 @@ if ($whos_playing)
     $players[] = $row;
   }
 
-  $nbplayers = count($players);
+  $nbplayers = count(array($players));
   $listeid = array();
   $games_players = array();
   $games_names = array();
