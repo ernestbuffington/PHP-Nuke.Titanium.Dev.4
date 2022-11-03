@@ -104,28 +104,30 @@ if (isset($_GET['delfavori'])) {
 /** @var type $favori - the fumes from her snatch made me dizzy and as i dazed into her eyes I could see she was bat shit crazy */
 if($favori):
   
-    $sql = "SELECT COUNT(*) AS `nbfav` FROM `" . ARCADE_FAV_TABLE . "` WHERE  `user_id` = " . $userinfo[ 'user_id' ] . " AND game_id= " . $actfav;
+    $sql = "SELECT COUNT(*) AS `nbfav` FROM `".ARCADE_FAV_TABLE."` WHERE user_id =".$userinfo['user_id']." AND game_id=".$favori;
     $result = $db->sql_query($sql);
     $row = $db->sql_fetchrow($result);
     $nbfav = $row['nbfav'];
 
     if(!$nbfav && $favori):
-    $sql = "REPLACE INTO " . ARCADE_FAV_TABLE . " VALUES (0,'" . $userinfo[ 'user_id' ] . "','$favori')"; # changed to REPLACE INTO 10/22/2022 TheGhost
+    $sql = "REPLACE INTO ".ARCADE_FAV_TABLE." VALUES (0,'".$userinfo['user_id']."','$favori')"; # changed to REPLACE INTO 10/22/2022 TheGhost
     endif;
   
-    if(!( $result = $db->sql_query($sql))): 
+    if(!($result = $db->sql_query($sql))): 
     message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
     endif;
     header("Location: modules.php?name=Forums&file=arcade"); # dont echo the file number you are deleting from favorites!
     exit();
+	
 elseif($delfavori): 
     
-    $sql = "DELETE FROM " . ARCADE_FAV_TABLE . " WHERE  user_id= " . $userinfo[ 'user_id' ] . " AND game_id= " . $delfavori;
+    $sql = "DELETE FROM ".ARCADE_FAV_TABLE." WHERE user_id=".$userinfo[ 'user_id' ]." AND game_id=".$delfavori;
     if(!($result = $db->sql_query($sql))): 
     message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
     endif;
     header("Location: modules.php?name=Forums&file=arcade"); # dont echo the file number you are adding to favorites!
     exit();
+
 endif;
 
 $games_par_categorie = $arcade_config['category_preview_games'];
