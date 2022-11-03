@@ -1397,7 +1397,7 @@ INSERT INTO `nuke_bbthemes_name` (`themes_id`, `tr_color1_name`, `tr_color2_name
 CREATE TABLE `nuke_bbtopics` (
   `topic_id` mediumint(8) UNSIGNED NOT NULL,
   `forum_id` smallint(8) UNSIGNED NOT NULL DEFAULT 0,
-  `topic_title` char(60) NOT NULL DEFAULT '',
+  `topic_title` char(120) NOT NULL DEFAULT '',
   `topic_poster` mediumint(8) NOT NULL DEFAULT 0,
   `topic_time` int(11) NOT NULL DEFAULT 0,
   `topic_views` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
