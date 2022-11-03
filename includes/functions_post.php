@@ -325,15 +325,42 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 
         if ($mode == 'newtopic' || ($mode == 'editpost' && $post_data['first_post']))
         {
+
+                # TheGhost aka Erbest Buffington 10/14/2022 10:41am
+		        # if somehow the person is able to get more than 120 characters to submit in a post subject
+		        # we just chop the mother fucker off!
+		        if(strlen($post_subject) >  117)
+		        $post_subject = substr($post_subject,0,117) . "...";
+
                 $topic_vote = (!empty($poll_title) && count($poll_options) >= 2) ? 1 : 0;
 /*****[BEGIN]******************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
-                $sql  = ($mode != "editpost") ? "INSERT INTO " . TOPICS_TABLE . " (topic_title, topic_poster, topic_time, forum_id, topic_status, topic_type, topic_icon, topic_vote) VALUES ('$post_subject', " . $userdata['user_id'] . ", '$current_time', '$forum_id', " . TOPIC_UNLOCKED . ", '$topic_type', $post_icon, '$topic_vote')" : "UPDATE " . TOPICS_TABLE . " SET topic_title = '$post_subject', topic_icon=$post_icon, topic_type = $topic_type " . (($post_data['edit_vote'] || !empty($poll_title)) ? ", topic_vote = " . $topic_vote : "") . " WHERE topic_id = '$topic_id'";
+                $sql  = ($mode != "editpost") ? "INSERT INTO " . TOPICS_TABLE . " (topic_title, 
+				                                                                  topic_poster, 
+																				    topic_time, 
+																					  forum_id, 
+																				  topic_status, 
+																				    topic_type, 
+																					topic_icon, 
+																					topic_vote) 
+																					
+		       VALUES ('$post_subject', 
+		  " . $userdata['user_id'] . ", 
+		               '$current_time', 
+					       '$forum_id', 
+				" . TOPIC_UNLOCKED . ", 
+				         '$topic_type', 
+						    $post_icon, 
+						  '$topic_vote')" : "UPDATE " . TOPICS_TABLE . " 
+						  
+		SET topic_title = '$post_subject', 
+		            topic_icon=$post_icon, 
+				 topic_type = $topic_type " . (($post_data['edit_vote'] || !empty($poll_title)) ? ", topic_vote = " . $topic_vote : "") . " WHERE topic_id = '$topic_id'";
 /*****[END]********************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
-                if (!$db->sql_query($sql))
+				if (!$db->sql_query($sql))
                 {
                         message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
                 }
