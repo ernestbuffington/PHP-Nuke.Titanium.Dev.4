@@ -71,7 +71,7 @@
   <!-- End add - Custom mass PM MOD -->
   <tr> 
     <td class="row1" style="width: 20%">{L_SUBJECT}</td>
-    <td class="row2" style="width: 80%"><input type="text" name="subject" size="45" maxlength="60" style="width:98.8%; fpadding-left:7px; letter-spacing:1px;" tabindex="2" class="post" value="{SUBJECT}" /></td>
+    <td class="row2" style="width: 80%"><input type="text" name="subject" size="45" maxlength="120" style="width:98.8%; fpadding-left:7px; letter-spacing:1px;" tabindex="2" class="post" value="{SUBJECT}" /></td>
   </tr>
   <!-- BEGIN switch_icon_checkbox -->
   <tr>
