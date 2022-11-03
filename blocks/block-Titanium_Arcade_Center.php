@@ -165,19 +165,21 @@ if ($top) {
   
   $content .= "<a href=\"modules.php?name=Forums&amp;file=arcade\"><img width=\"269\" src=\"images/arcade_mod/arcade_logo.png\" border= \"0\"></a></center><br />\n";
   
-  if (is_admin())
-  $content .= "<font class=\"arcade-admin-login\">&nbsp;YOU ARE CURRENTLY LOGGED IN AS ADMIN!&nbsp;</font></br>";
-  
-  $content .= "<strong>".$row['game_name']."</strong><br />\n";
+  if (is_admin()) {
+        $content .= "<font class=\"arcade-admin-login\">&nbsp;YOU ARE CURRENTLY LOGGED IN AS ADMIN!&nbsp;</font></br>";
+    }
+
+    $content .= "<strong>".$row['game_name']."</strong><br />\n";
   
   $content .= "<a href=\"modules.php?name=Forums&amp;file=games&amp;gid=".$row['game_id']."\"><img class=\"rounded-corners-arcade\" width=\"70\" 
   src=\"modules/Forums/games/pics/".$row['game_pic']."\" border= \"0\" alt=\"".$row['game_name']."\"></a><br /> \n";
 
-  if (is_admin())
-  $content .= "</br><a class=\"arcade-admin-font rounded-corners-gamepic tooltip-html-side-interact tooltipstered\" 
-  title=\"Only Admins See This Link\" href=\"modules/Forums/admin/arcade_elmt.php?mode=edit&amp;game_id=".$row['game_id']."\" target=\"_blank\">&nbsp;EDIT CURRENT RANDOM GAME SETTINGS&nbsp;</a>";
-  
-  $content .= "</br>High Score set by<br /><strong><a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['game_highuser']."\"><div class=\"w3-tag w3-round w3-green\" style=\"padding:3px\">\n";
+  if (is_admin()) {
+        $content .= "</br><a class=\"arcade-admin-font rounded-corners-gamepic tooltip-html-side-interact tooltipstered\" 
+  title=\"Only Admins See This Link\" href=\"modules/Forums/admin/arcade_elmt.php?mode=edit&amp;game_id=" . $row['game_id'] . "\" target=\"_blank\">&nbsp;EDIT CURRENT RANDOM GAME SETTINGS&nbsp;</a>";
+    }
+
+    $content .= "</br>High Score set by<br /><strong><a href=\"modules.php?name=Forums&amp;file=statarcade&amp;uid=".$row['game_highuser']."\"><div class=\"w3-tag w3-round w3-green\" style=\"padding:3px\">\n";
   $content .= "<div class=\"w3-tag w3-round w3-green w3-border w3-border-white\"><i class=\"bi bi-award\"></i>$randomUser</div>\n";
   $content .= "</div></a> </strong>\n"; 
   $content .= "<br /><br />\n";
@@ -202,11 +204,12 @@ if ($top) {
   
   $lastgamepic = $row['game_pic'];
 
-  if (is_admin())
-  $content .= "</br><a class=\"arcade-admin-font rounded-corners-gamepic tooltip-html-side-interact tooltipstered\" 
-  title=\"Only Admins See This Link\" href=\"modules/Forums/admin/arcade_elmt.php?mode=edit&amp;game_id=".$row['game_id']."\" target=\"_blank\">&nbsp;EDIT GAME SETTINGS&nbsp;</a>";
+  if (is_admin()) {
+            $content .= "</br><a class=\"arcade-admin-font rounded-corners-gamepic tooltip-html-side-interact tooltipstered\" 
+  title=\"Only Admins See This Link\" href=\"modules/Forums/admin/arcade_elmt.php?mode=edit&amp;game_id=" . $row['game_id'] . "\" target=\"_blank\">&nbsp;EDIT GAME SETTINGS&nbsp;</a>";
+        }
 
-  $content .= "<div class=\"w3-card-2\"><a href=\"modules.php?name=Forums&amp;file=games&amp;gid=$lastgameid\"><img class=\"rounded-corners-arcade\" 
+        $content .= "<div class=\"w3-card-2\"><a href=\"modules.php?name=Forums&amp;file=games&amp;gid=$lastgameid\"><img class=\"rounded-corners-arcade\" 
   width=\"70\" src=\"modules/Forums/games/pics/$lastgamepic\" border= \"0\" alt=\"$lastGame\"><br /><strong><span class=\"w3-tag\">$lastGame</span></strong></a></div><br /><br />\n";
   
 
@@ -419,4 +422,4 @@ else
    # PADDING AT BOTTOM OF TABLE
    $content .= '<div align="center" style="padding-top:23px;"></div>'; 
 }
-?>
+
