@@ -89,7 +89,7 @@ if($arcade == 'Arcade' && $newscore='newscore'):
      $gamescore = intval($HTTP_POST_VARS['gscore']);
 
       //Get Game ID
-      $row = $db->sql_ufetchrow("SELECT game_id FROM ".$prefix."_bbgames WHERE game_scorevar='$gamename'");
+      $row = $db->sql_ufetchrow("SELECT `game_id` FROM `".$prefix."_bbgames` WHERE `game_scorevar`='$gamename'");
       $gid = intval($row['game_id']);
 
       $ThemeSel = get_theme();
