@@ -51,6 +51,7 @@ $define_theme_xtreme_209e,
 			     $opacity,
 $make_xtreme_avatar_small,
          $poweredby_color,
+	   $menu_image_height,
                       $db;
 
     list($portaladminname, 
@@ -67,6 +68,11 @@ $opacity = '0.9';
 global $use_theme_image_dir_for_portal_menu;
 $use_theme_image_dir_for_portal_menu = false;
 
+#---------------------------------#
+# Adjust T images for Portal Menu #
+#---------------------------------#
+$menu_image_height = '23';
+
 #-------------------------#
 # Theme Colors Definition #
 #-------------------------#
@@ -76,7 +82,6 @@ $poweredby_color = 'goldenrod';
 $menu_text_color = 'white';
 $fieldset_border_width = '1px'; 
 $fieldset_color = '#4e4e4e';
-
 $define_theme_xtreme_209e = false;
 $avatar_overide_size = '150';
 $make_xtreme_avatar_small = true;

@@ -310,7 +310,7 @@ echo '</td>';
 echo '<td align="center" valign="top" rowspan="4">';
 # space at the top of header inside graphics area!
 if($_COOKIE["titanium_resolution_width"] > 1366):
-echo '<div align="center" style="padding-top:25px;">'; //Set the padding - how far down the logo sits
+echo '<div align="center" style="padding-top:26px;">'; //Set the padding - how far down the logo sits
 echo '</div>';
 ?>
 <div align="center" class="logo" id="logo"><svg width="64" viewBox="0 0 128 128">

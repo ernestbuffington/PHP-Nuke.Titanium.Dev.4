@@ -50,7 +50,7 @@ else
 include_once(NUKE_LANGUAGE_DIR.'Menu/lang-english.php');
 
 $userpoints=intval($userpoints); 
-
+global $menu_image_height;
 $gestiongroupe = 1; 
 $managment_group = 1; 
 
@@ -1095,7 +1095,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 			   $new = ($newinthisgroup[$som_groupmenu][$keyinthisgroup] == "on") ? " <img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" 
 			   border=\"0\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">" : "" ;
 			   
-			   $imagedulien = "<img width=\"21\" align=\"$align\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" 
+			   $imagedulien = "<img height=\"$menu_image_height\" width=\"21\" align=\"$align\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" 
 			   border=\"0\" alt=\"".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\">";
 			
 			   if($linkinthisgroup[$som_groupmenu][$keyinthisgroup]) 
@@ -1267,7 +1267,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				}
 				
 				if($imageinthisgroup[$som_groupmenu][$keyinthisgroup] != "middot.gif"): 
-				$limage = "<img width=\"21\" align=\"$align\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" 
+				$limage = "<img height=\"$menu_image_height\" width=\"21\" align=\"$align\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" 
 				border=\"0\" alt=\"".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\">";
 				else: 
 				$limage = "<strong><big>&middot;</big></strong>";

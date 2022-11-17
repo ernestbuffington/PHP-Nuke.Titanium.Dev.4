@@ -1,27 +1,67 @@
 <?php
+
 echo '<div align="center" style="padding-top:8px;">';
 echo '</div>';
+
+echo '<nav id="menu">';
+echo '  <input type="checkbox" id="responsive-menu" onclick="updatemenu()"><label></label>';
+echo '  <ul>';
+echo '    <li><a class="dropdown-arrow" href="'.HTTPS.'">Home</a>';
+
+echo '      <ul class="sub-menus">';
+echo '        <li><a href="'.HTTPS.'">Home</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=Forums&file=search">Forums Search</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=Forums&file=search&search_id=newposts">New Posts</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=Forums&file=search&search_id=unanswered">Unanswered Posts</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=Your_Account&redirect=search&search_id=egosearch">My Posts</a></li>';
+echo '      </ul>';
+echo '    </li>';
+
+echo '    <li><a class="dropdown-arrow" href="'.HTTPS.'modules.php?name=Forums">Forums</a>';
+echo '      <ul class="sub-menus">';
+echo '        <li><a href="'.HTTPS.'modules.php?name=Forums">Forums Main</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=Forums&file=search">Forums Search</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=Forums&file=search&search_id=newposts">New Posts</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=Forums&file=search&search_id=unanswered">Unanswered Posts</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=Your_Account&redirect=search&search_id=egosearch">My Posts</a></li>';
+echo '      </ul>';
+echo '    </li>';
+
+
+echo '    <li><a class="dropdown-arrow" href="'.HTTPS.'modules.php?name=Blogs">Blogs</a>';
+echo '      <ul class="sub-menus">';
+echo '        <li><a href="'.HTTPS.'modules.php?name=Blogs">Blogs Main</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=Blog_Topics">Blog Topics</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=Blog_Archives">Blog Archives</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=Blogs_Top">Blogs Top 10</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=Blog_Submit">Submit Blog</a></li>';
+echo '      </ul>';
+echo '    </li>';
+
+echo '    <li><a class="dropdown-arrow" href="'.HTTPS.'modules.php?name=File_Repository">Downloads</a>';
+echo '      <ul class="sub-menus">';
+echo '        <li><a href="'.HTTPS.'modules.php?name=File_Repository">Downloads Main</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=File_Repository&action=newdownloads">Downloads New</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=File_Repository&action=mostpopular">Most Popular</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=File_Repository&action=statistics">Statistics</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=File_Repository&action=search">Search</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=File_Repository&action=submitdownload">UPLOAD FILE</a></li>';
+echo '      </ul>';
+echo '    </li>';
+
+
+echo '    <li><a class="dropdown-arrow" href="'.HTTPS.'modules.php?name=Forums&file=arcade">Arcade</a>';
+echo '      <ul class="sub-menus">';
+echo '        <li><a href="'.HTTPS.'modules.php?name=Forums&file=arcade">Arcade Main</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=Forums&file=arcade_search&x=2">Newest Games</a></li>';
+echo '        <li><a href="'.HTTPS.'modules.php?name=Forums&file=arcade_search&x=1">Not Played Yet</a></li>';
+echo '      </ul>';
+echo '    </li>';
+
+
+echo '    <li><a href="'.HTTPS.'/modules.php?name=Private_Messages&mode=post&u=3">FAQ</a></li>';
+
+
+echo '  </ul>';
+echo '</nav>';
 ?>
-<nav id='menu'>
-  <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
-  <ul>
-    <li><a href='http://'>Home</a></li>
-    <li><a class='dropdown-arrow' href='http://'>Products</a>
-      <ul class='sub-menus'>
-        <li><a href='http://'>Products 1</a></li>
-        <li><a href='http://'>Products 2</a></li>
-        <li><a href='http://'>Products 3</a></li>
-        <li><a href='http://'>Products 4</a></li>
-      </ul>
-    </li>
-    <li><a href='http://'>About</a></li>
-    <li><a class='dropdown-arrow' href='http://'>Services</a>
-      <ul class='sub-menus'>
-        <li><a href='http://'>Services 1</a></li>
-        <li><a href='http://'>Services 2</a></li>
-        <li><a href='http://'>Services 3</a></li>
-      </ul>
-    </li>
-    <li><a href='http://'>Contact Us</a></li>
-  </ul>
-</nav>
