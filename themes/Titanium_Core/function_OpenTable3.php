@@ -65,7 +65,7 @@ echo '</tr>';
 echo '<tr>';
 echo '<td background="themes/'.$theme_name.'/center/left_side.gif"><img name="leftside" src="themes/'.$theme_name.'/center/invisible_pixel.gif" width="1" height="1" border="0" alt=""></td>';
 
-echo '<td id="middlebg" class="topics_middleflames" height"0" valign="top" >';
+echo '<td id="middlebg" class="opentable_three" height"0" valign="top" >';
 
 echo '<div align="center" id="locator" class="title"><strong></strong></div>';
 echo '<div align="left" id="text">'; 

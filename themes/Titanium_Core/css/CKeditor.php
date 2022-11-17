@@ -5,7 +5,7 @@
 # PHP-Nuke Titanium (c) 2019 : Enhanced PHP-Nuke Web Portal System                      #
 #---------------------------------------------------------------------------------------#
 global $theme_name;
-echo "/* Fly Kit CKeditor Style Sheet */\n"; 
+echo "/* themes/".$theme_name."/css/CKeditor.php - Fly Kit CKeditor Style Sheet */\n"; 
 echo "/* Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved. */\n"; 
 echo "/* For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license */\n"; 
 

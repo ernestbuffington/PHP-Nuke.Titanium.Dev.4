@@ -118,7 +118,7 @@ define('BODY_CONTAIN', 'background-size: 100% auto, cover;
                               background-repeat: repeat-y;'); // stretch this whore out
 ?>
 <?
-echo 'greatminds {'."\n";
+echo 'googleminds {'."\n";
 echo 'font-size:14px;'."\n";
 echo 'font-weight:bold;'."\n";
 echo 'font-size-adjust:!important;'."\n";   
@@ -132,8 +132,7 @@ a.welcome {
     font-size-adjust:!important;
 }
 
-a.welcome:hover,
-a.welcome.bbcode-href:hover { 
+a.welcome:hover{ 
 	color: #f5a405;
     font-size:20px;
 	text-decoration: none;
@@ -141,7 +140,7 @@ a.welcome.bbcode-href:hover {
     font-size-adjust:!important;
 }
 
-a.welcome.bbcode-href {
+a.welcome {
 	color: #ce982d;
     font-size:20px;
 	text-decoration: none;
@@ -170,56 +169,10 @@ a.welcome.bbcode-href {
 	<?php echo CONTAIN; ?> 	
 }
 
-/* used in OpenTable - TheGhost add 08/04/2019 */
-.emiddleflames
-{
-opacity: 0.9;
-background-color: black;	
-background-image: 
-url(themes/<?=$theme_name?>/backgrounds/topright.png),       /* top black glass - TheGhost add 08/04/2019 */
-url(themes/<?=$theme_name?>/backgrounds/box_bottom.png);     /* bottom flames - TheGhost add 08/04/2019 */
-background-position:
-top right, 
-bottom left; 
-background-repeat: 
-repeat-x; /* this makes the top glass block and the bottom flame block repaete from left to right and vice vs - TheGhost add 08/04/2019 */ 
-	
-}
-
 /* used in OpenTable3 - TheGhost add 08/04/2019 */
-.topics_middleflames {
+.opentable_three {
     opacity: 0.9;
     background: url(<?php echo TABLE3_MIDDLEHEADER_BACKGROUND; ?>); /* Universal background - TheGhost add 08/04/2019 */
 	<?php echo TABLE3_MIDDLEHEADER_CONTAIN; ?>
-}
-
-/* used in themearticle - TheGhost add 08/04/2019 */
-.themearticleflames
-{
-opacity: 0.9;
-background-color: black;	
-background-image: 
-url(themes/<?=$theme_name?>/backgrounds/topright.png),   /* top black glass - TheGhost add 08/04/2019 */
-url(themes/<?=$theme_name?>/backgrounds/box_bottom.png); /* bottom flames - TheGhost add 08/04/2019 */
-background-position:
-top right, 
-bottom left; 
-background-repeat: 
-repeat-x; /* this makes the top glass block and the bottom flame block repaete from left to right and vice vs - TheGhost add 08/04/2019 */ 
-}
-
-/* used in themeindex - TheGhost add 08/04/2019 */
-.themeindexflames
-{
-opacity: 0.9;
-background-color: black;	
-background-image: 
-url(themes/<?=$theme_name?>/backgrounds/topright.png),       /* top black glass - TheGhost add 08/04/2019 */
-url(themes/<?=$theme_name?>/backgrounds/box_bottom.png);     /* bottom flames - TheGhost add 08/04/2019 */
-background-position:
-top right, 
-bottom left; 
-background-repeat: 
-repeat-x; /* this makes the top glass block and the bottom flame block repaete from left to right and vice vs - TheGhost add 08/04/2019 */ 
 }
 <?

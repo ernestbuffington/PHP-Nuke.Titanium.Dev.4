@@ -1,7 +1,7 @@
 <?php
 global $theme_name;
 
-echo "\n\n/* Titanium_Core/css/body.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
+echo "\n\n/* themes/".$theme_name."/css/body.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
 echo "/* When we are done we will move this code to style.css */\n\n"; 
 
 global $screen_width, $screen_height, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4;
