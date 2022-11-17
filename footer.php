@@ -72,7 +72,8 @@ static $has_echoed;
 if(isset($has_echoed) && $has_echoed == 1) return; 
 
 # powered by information and credits START
-global $powered_by;
+global $powered_by, $ThemeSel;
+	
 $powered_by = '<font size="3">PHP-Nuke Titanium (US Version) Copyright &copy; 2010 2021<br /> by Ernest Allen Buffington and The 86it Developers Network.<br /> 
  All logos, trademarks and posts in this site are property of their respective owners, all the rest <br />&copy; '.date('l jS \of F Y h:i:s A').' by Brandon Maintenance Management, LLC.<br />
  Powered by PHP-Nuke Titanium v4.0.0b (US Version)<br /><br />
@@ -119,6 +120,7 @@ if(($name) && $name === 'Forums'):
 $footmsg .= '<br />';
 $footmsg .= 'Forums Powered by <a href="http://www.php-nuke-titanium.86it.us/" target="_tab">phpBB Titanium v4.0.3</a> | Core &copy; 2005, 2022 phpBB Titanium Group<br />';
 endif;
+
 $footmsg .= '<a class="tooltip-html copyright" href="'.$theme_download_link.'" data-toggle="modal" data-target="'.$theme_download_link.'" title="'.$theme_title; 
 $footmsg .= '<br/>Designed By '.$theme_author.'<br />Created '.$theme_date.'<br />'.$theme_business.'<br/>All Rights Reserved">'.$theme_title.'</a><br/><br/>';
 # Copyright Information END

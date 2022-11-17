@@ -4,9 +4,81 @@
 #---------------------------------------------------------------------------------------#
 echo "\n\n/* includes/css/cms_css.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
 echo "/* When we are done we will move this code to style.css */\n\n";
-global $br, $fieldset_color, $fieldset_border_width, $digits_color;
+global $ThemeSel, $br, $fieldset_color, $fieldset_border_width, $digits_color;
 $br = '<div align="center" style="padding-top:2px;"></div>';
 ?>
+.modal-body {
+#   background-image: url(themes/<?=$ThemeSel?>/backgrounds/1920x1080.png);
+}
+
+.modal-backdrop {
+}
+
+.modal .modal-popout-bg {
+    background-image: url(themes/<?=$ThemeSel?>/backgrounds/modal_theme_copyright_pop_bg.png); 
+    height: 560px;
+}
+
+.modal {
+ 
+  /* Take the box out of the flow, so that it could look like a modal box */
+  # position: absolute;
+
+  /* Avoid the awkwardly stretchy box on bigger screens */
+  # max-width: 550px;
+
+  /* Aligning it to the absolute center of the page */
+  # top: 50%;
+  # left: 50%;
+  # transform: translate(-50%, -50%);
+
+  /* Some cosmetics */
+  # border-radius: 4px;
+  # background-color: rgba(0, 0, 0, .1);
+}
+
+.modal-hidden {
+  display: none;
+}
+
+/* Make the media inside the box adapt the width of the parent */
+.modal img,
+.modal iframe,
+.modal video 
+{
+  max-width: 100%;
+  max-height: 560px;
+}
+
+/* Make the inner element relatively-positioned to contain the close button */
+.modal-inner {
+  position: relative;
+  padding: 10px;
+}
+
+/* Close button */
+.modal-close {
+  font-size: 10px;
+
+  /* Take it out of the flow, and align to the top-left corner */
+  position: absolute;
+  top: -10px;
+  right: -10px;
+
+  /* Size it up */
+  width: 24px;
+  height: 24px;
+
+  /* Text-alignment */
+  text-align: center;
+
+  /* Cosmetics */
+  color: #eee;
+  border-width: 0;
+  border-radius: 100%;
+  background-color: black;
+}
+
 .button {
   background-color: <?=$bgcolor3?>;
   border: none;
@@ -41,7 +113,6 @@ table.rounded-corners {
  /* Change these properties */
  --border: 1px solid black;
  border-radius: 10px;
-
  /* Don't change these properties */
  border-spacing: 0;
  border-collapse: separate;
@@ -106,6 +177,7 @@ table.rounded-corners>tfoot:not(:last-child) {
 /* NO NEED FOR WRITTEN PERMISSION                                */
 /* I did not trade a goat for this code!                         */
 /*---------------------------------------------------------------*/
+
 .alertPulse-css {
     animation: alertPulse 2s ease-out;
     animation-iteration-count: infinite;
@@ -120,15 +192,20 @@ table.rounded-corners>tfoot:not(:last-child) {
   font-size: 2.2rem;
   color: white;
   text-align: center;
+
   padding: 1rem 3rem;
+
 }
+
 body {
   padding: 0.1rem;
   background: #222222;
 }
+
 /*---------------------------------------------------------------*/
 /* Global CMS CSS                                                */
 /*---------------------------------------------------------------*/
+
 .arcade-admin-login{
 	font-size: 13px;
     color: white;
@@ -136,7 +213,6 @@ body {
     font-weight: bold;
     background-color: red;
     text-shadow: 2px 2px black;
-    
 }
 
 .arcadePink {
@@ -183,7 +259,6 @@ body {
   font-weight: bold;
 }
 
-
 .arcadeUserName {
   color: white;
   font-size: 20px;
@@ -195,7 +270,6 @@ body {
   cursor: auto;
   font-weight: bold;
 }
-
 
 .arcadeTextWhite {
   color: white;
@@ -233,10 +307,10 @@ body {
   cursor: auto;
   font-weight: bold;
 }
+
 /*---------------------------------------------------------------*/
 /* Game Description END                                        */
 /*---------------------------------------------------------------*/
-
 .arcadeTextPink {
   color: #FF99FF;
   font-size: 15px;
@@ -325,7 +399,6 @@ body {
   font-weight: bold;
 }
 
-
 .clicktoplay {
   color: cyan;
   font-size: 15px;
@@ -370,7 +443,6 @@ body {
   font-weight: bold;
 }
 
-
 .arcadeCattitle {
   background-color: #8d7b4d;
   color: white;
@@ -379,7 +451,6 @@ body {
   padding: 4px;
   box-shadow: inset 1px 1px 3px #000;
   text-shadow: 2px 2px 4px #000000;
-
 }
 
 .arcadeCattitle:hover {
@@ -400,7 +471,6 @@ body {
   padding: 4px;
   box-shadow: inset 1px 1px 3px #000;
   text-shadow: 2px 2px 4px #000000;
-
 }
 
 .arcadeCattitle:visited {
@@ -408,7 +478,6 @@ body {
   font-size: 15px;
   text-decoration: none;
   text-transform: uppercase;
-
 }
 
 .arcade-admin-font{
@@ -419,7 +488,6 @@ body {
     font-weight: bold;
     outline: 0.1px solid white;
     background-color: red;
-    
 }
 
 a.arcade-admin-font:hover {
@@ -451,7 +519,6 @@ a.arcade-admin-font:visited {
     outline: 0.1px solid white;
     background-color: red;
 }
-
 
 .gensmall-visitorlog{
 	font-size: 11px;
@@ -496,15 +563,14 @@ img.rounded-corners-last-post {
 	padding-left: 0.75em; 
 	padding-right: 0.75em; 
 	border: 2px groove (internal value);
-
    -webkit-border-radius: 8px;
    -moz-border-radius: 8px;
    border-radius: 8px;
    color:cyan;
-  border-color: cyan; 
-  border-width: <?=$fieldset_border_width?>;
-  border-style: solid;
-  font-size: 16px;
+   border-color: cyan; 
+   border-width: <?=$fieldset_border_width?>;
+   border-style: solid;
+   font-size: 16px;
 }
 
 .arcadeFieldset {
@@ -516,7 +582,6 @@ img.rounded-corners-last-post {
 	padding-left: 0.75em; 
 	padding-right: 0.75em; 
 	border: 2px groove (internal value);
-
    -webkit-border-radius: 8px;
    -moz-border-radius: 8px;
    border-radius: 8px;
@@ -619,7 +684,7 @@ img.rounded-corners-arcade-center_block {
 .w3-content,.w3-auto{margin-left:auto;margin-right:auto}.w3-content{max-width:980px}.w3-auto{max-width:1140px}
 .w3-cell-row{display:table;width:100%}.w3-cell{display:table-cell}
 .w3-cell-top{vertical-align:top}.w3-cell-middle{vertical-align:middle}.w3-cell-bottom{vertical-align:bottom}
-.w3-hide{display:none!important}.w3-show-block,.w3-show{display:block!important}.w3-show-inline-block{display:inline-block!important}
+w3-hide{display:none!important}.w3-show-block,.w3-show{display:block!important}.w3-show-inline-block{display:inline-block!important}
 @media (max-width:1205px){.w3-auto{max-width:95%}}
 @media (max-width:600px){.w3-modal-content{margin:0 10px;width:auto!important}.w3-modal{padding-top:30px}
 .w3-dropdown-hover.w3-mobile .w3-dropdown-content,.w3-dropdown-click.w3-mobile .w3-dropdown-content{position:relative}	
@@ -770,5 +835,3 @@ img.rounded-corners-arcade-center_block {
 .w3-border-pale-red,.w3-hover-border-pale-red:hover{border-color:#ffe7e7!important}.w3-border-pale-green,.w3-hover-border-pale-green:hover{border-color:#e7ffe7!important}
 .w3-border-pale-yellow,.w3-hover-border-pale-yellow:hover{border-color:#ffffcc!important}.w3-border-pale-blue,.w3-hover-border-pale-blue:hover{border-color:#e7ffff!important}
 <?
-
-

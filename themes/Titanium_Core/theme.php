@@ -12,6 +12,10 @@ $theme_business = 'Brandon Maintenance Management, LLC';
 # Theme Name
 $theme_title = '<u>GoldBar Theme v3.0 &copy; 2022</u>';
 define('THEME', $theme_title);
+
+$theme_overview = '<font color="darkblue">BOOTSTRAP 3.4.1 / HTML / XHTML</font>';
+define('THEME_OVERVIEW', $theme_overview);
+
 # Theme Author
 $theme_author = 'Ernest Allen Buffington';
 define('THEME_AUTHOR', $theme_author);
@@ -134,7 +138,11 @@ include_once(theme_dir.'function_FormatStory.php');
 #----------------#
 # Header Section #
 #----------------#
-function themeheader(){	include_once(theme_dir.'header.php'); }
+function themeheader()
+{	
+  include_once(theme_dir.'copyright.php'); 
+  include_once(theme_dir.'header.php'); 
+}
 
 #----------------#
 # Footer Section #

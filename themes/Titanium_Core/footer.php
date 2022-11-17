@@ -126,7 +126,6 @@ print '<tr>'."\n";
 print '<td width="100%" bgcolor="'.$bgcolor4.'">'."\n";
 echo "<!-- Top Footer END -->\n\n\n\n\n";
 
-
 echo '<div align="center">';
 footmsg();
 echo '</div>'; 

@@ -607,6 +607,15 @@ class sql_db
 		return ((!$error) ? true : false);
     }
     
+	/*!
+	* Performs a search on the current/chosen database and returns all tables
+	* associated with it
+	*
+	* @public function sql_fetchtables
+	* @param  string  $database
+	* @param  boolean $nuke_only
+	* @return array   $tables
+	*/	
 	function sql_fetchtables($database="", $nuke_only=false)
     {
         global $prefix;

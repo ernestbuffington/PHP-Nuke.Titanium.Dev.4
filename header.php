@@ -95,10 +95,8 @@ function head()
 	include_once(NUKE_INCLUDE_DIR.'javascript.php');        ####### Javascript Loader 09/21/2019
     ######################################################### 
 
-    echo "\n\n<!-- CHECKING FOR pre 2019 themes -> javascript.php in Theme Dir START -->\n";   # Used for PHP-Nuke Titanium pre 2019 themes.
 	if (@file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php')) # CHECK FOR THEME JAVASCRIPT Added by Ernest Buffington 3/16/2021 10:58am
     include_once(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php');
-    echo "<!-- CHECKING FOR pre 2019 themes -> javascript.php in Theme Dir END -->\n\n";
 
 	global $titanium_browser;
     $titanium_browser = new Browser();
@@ -111,6 +109,7 @@ function head()
     # START Load current theme. - 09/07/2019
     echo "\n\n<!-- START Load current theme. -->\n\n";
     include_once(NUKE_THEMES_DIR.$ThemeSel.'/theme.php');
+
     echo "\n\n<!-- END Load current theme. -->\n\n";
 	# START Load current theme. - 09/07/2019
 
