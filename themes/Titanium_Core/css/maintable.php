@@ -90,8 +90,8 @@ define('TABLE3_MIDDLEHEADER_CONTAIN', 'background-repeat: repeat-y | repeat-x;
 					                                              z-index: 20;
 					                                    background-size: auto;');
 ########################################################################################################
-$blow_it_out_your_ass2 = 'block_repeat_y_fix.png';  
-define('THEME_ARTICLE_BACKGROUND', '"themes/'.$theme_name.'/backgrounds/'.$blow_it_out_your_ass2.'"'); 
+$filename2 = 'block_repeat_y_fix.png';  
+define('THEME_ARTICLE_BACKGROUND', '"themes/'.$theme_name.'/backgrounds/'.$filename2.'"'); 
 define('THEME_ARTICLE_CONTAIN', 'background-repeat: repeat-y | repeat-x;
                                      background-position: CENTER CENTER; 
 					                                         width 100%;
@@ -101,8 +101,8 @@ define('THEME_ARTICLE_CONTAIN', 'background-repeat: repeat-y | repeat-x;
 					                                        z-index: 20;
 					                              background-size: auto;');
 ########################################################################################################
-$lori_is_a_sadist_sociapath = 'block_repeat_y_fix.png';  
-define('THEME_INDEX_BACKGROUND', '"themes/'.$theme_name.'/backgrounds/'.$lori_is_a_sadist_sociapath.'"'); 
+$filename = 'block_repeat_y_fix.png';  
+define('THEME_INDEX_BACKGROUND', '"themes/'.$theme_name.'/backgrounds/'.$filename.'"'); 
 define('THEME_INDEX_CONTAIN', 'background-repeat: repeat-y | repeat-x;
                                    background-position: center center; 
 					                                       width 100%;
