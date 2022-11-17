@@ -86,9 +86,7 @@ td.arcadeRow3Right, td.arcadeSpaceRow {
 	border: 1px solid #222;
 	border-bottom-width: 0;
 	font-size: 10px;
-	background-color:
-<?=$bgcolor1?>
-;
+	background-color: <?=$bgcolor1?>;
 	white-space: nowrap;
 }
 <?
