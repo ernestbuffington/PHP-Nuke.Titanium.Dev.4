@@ -60,6 +60,7 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))exit('Access Den
 # Define File
 define_once('NUKE_EVO', '2.0.9e');
 define_once('NUKE_TITANIUM', '4.0.3');
+define_once('PHPBB_TITANIUM', '2.0.25');
 define_once('TITANIUM_BUILD', '209402');
 define_once('CUR_EVO', 'NUKE_EVO');
 define_once('CUR_TITANIUM', 'NUKE_TITANIUM');

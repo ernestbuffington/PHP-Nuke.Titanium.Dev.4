@@ -409,7 +409,7 @@ function validate_admin(){
             $message .= '<font color="red">'.$install_lang['god_fail'].'</font><br />';
         }
 
-        if (!mysqli_query($server_check, "INSERT INTO " . $_SESSION['user_prefix'] . "_users (`user_id`, `username`, `user_email`, `user_website`, `user_avatar`, `user_regdate`, `user_password`, `theme`, `commentmax`, `user_level`, `user_lang`, `user_dateformat`, `user_color_gc`, `user_color_gi`, `user_posts`) VALUES (NULL,'$pnt_user_nick','".$_POST['admin_email']."','".$url."','".$pnt_user_avatar."','".$pnt_user_regdate."','$pnt_user_pass','XtremeV3','".$commentlimit."', '2', 'english','D M d, Y g:i a','d12727','--1--', '1')")){
+        if (!mysqli_query($server_check, "INSERT INTO " . $_SESSION['user_prefix'] . "_users (`user_id`, `username`, `user_email`, `user_website`, `user_avatar`, `user_regdate`, `user_password`, `theme`, `commentmax`, `user_level`, `user_lang`, `user_dateformat`, `user_color_gc`, `user_color_gi`, `user_posts`) VALUES (NULL,'$pnt_user_nick','".$_POST['admin_email']."','".$url."','".$pnt_user_avatar."','".$pnt_user_regdate."','$pnt_user_pass','Titanium_Core','".$commentlimit."', '2', 'english','D M d, Y g:i a','d12727','--1--', '1')")){
 			$error = true;
 			$message .= '<font color="red">'.$install_lang['user_fail'].'</font><br />';
 		}

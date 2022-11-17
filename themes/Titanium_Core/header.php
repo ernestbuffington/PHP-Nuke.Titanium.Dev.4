@@ -291,7 +291,7 @@ echo '<div align="center" style="padding-top:6px;">';
 echo '</div>';
 
 # This stays always
-echo '<table class= "outer_table_opacity" border="0" width="100%" cellspacing="0" cellpadding="0">';
+echo '<table class= "header_table_opacity" border="0" width="100%" cellspacing="0" cellpadding="0">';
 echo '<tr>';
 echo '<td>';
 
@@ -357,10 +357,9 @@ echo '</td>';
 
 # center CELL TWO @ 33.3% START
 echo '<td align="center" valign="top" rowspan="4">';
-
 # space at the top of header inside graphics area!
 if($_COOKIE["titanium_resolution_width"] > 1366):
-echo '<div align="center" style="padding-top:10px;">';
+echo '<div align="center" style="padding-top:25px;">'; //Set the padding - how far down the logo sits
 echo '</div>';
 ?>
 <div align="center" class="logo" id="logo"><svg width="64" viewBox="0 0 128 128">
@@ -382,18 +381,10 @@ echo '</div>';
 <?
 endif;
 if($_COOKIE["titanium_resolution_width"] > 1366):
-global $eighty_six_it, $my_welcome_message;
-echo '<div align="center"><strong><font color="#e48e00"></font>'.$my_welcome_message.'</strong></div>';
-echo '<div align="center"><strong><font color="#1572b6">'.$eighty_six_it.'</font></strong></div>';
-echo '<div align="center" style="padding-top:5px;">';
+echo '<div align="center" style="padding-top:15px;">'; //Set the padding - space between menu and top logo 
 echo '</div>';
 endif;
-# MENU SYSTEM
-#######################################################################################################################################################
-//echo '<div class="box_bottom" style="width: 100%; height: 45px;>';                                                                                  #
-include(theme_dir.'menu.php');                                                                                                                        #
-//echo '</div>';                                                                                                                                      #
-#######################################################################################################################################################
+include(theme_dir.'menu.php'); // load actual menu                                                                                                                       #
 
 # logo end
 echo '</td>';

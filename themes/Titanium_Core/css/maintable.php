@@ -124,30 +124,6 @@ echo 'font-weight:bold;'."\n";
 echo 'font-size-adjust:!important;'."\n";   
 echo '}'."\n";
 ?>
-a.welcome { 
-	color: #1572b6;
-    font-size:20px;
-	text-decoration: none;
-    font-weight:bold
-    font-size-adjust:!important;
-}
-
-a.welcome:hover{ 
-	color: #f5a405;
-    font-size:20px;
-	text-decoration: none;
-    font-weight:bold
-    font-size-adjust:!important;
-}
-
-a.welcome {
-	color: #ce982d;
-    font-size:20px;
-	text-decoration: none;
-    font-weight:bold
-    font-size-adjust:!important;
-}
-
 .bookmark
 {
     opacity: 0.9;

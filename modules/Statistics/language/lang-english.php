@@ -20,6 +20,7 @@ define('_LINKSCAT','Web Resource Link Categories:');
 define('_NEWSWAITING','Blog Posts Waiting to be Published:');
 define('_EVOVER','PHP-Nuke Evolution Version:');
 define('_TITANIUMVER','PHP-Nuke Titanium Version:');
+define('_TITANIUMFORUMVER','phpBB Titanium Version:');
 define('_SEARCHENGINES','Search Engines');
 define('_STATS','Access Statistics');
 define('_HITS','Hits');

@@ -5,112 +5,6 @@ echo "/* When we are done we will move this code to style.css */\n\n";
 global $screen_width, $screen_height, $textcolor1, $textcolor2, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $bgcolor5;
 $bgcolor5 ='#3c3523';
 ?>
-input[type="radio"]{
-    vertical-align: bottom;
-}
-
-.absmiddle{
-    vertical-align: absmiddle;
-}
-
-/*---------------------------------------------------------------*/
-/* Forum Attachements                                            */
-/*---------------------------------------------------------------*/
-td.attachrowZ        
-{ 
-#font: normal 11px Verdana, Arial, Helvetica, sans-serif; color : <?=$textcolor1?>; 
-border-color : <?=$bgcolor4?>; 
-}
-td.attachheaderZ     
-{ 
-#font: normal 11px Verdana, Arial, Helvetica, sans-serif; color : <?=$textcolor1?>; 
-border-color : <?=$bgcolor4?>; 
-background-color: <?=$bgcolor1?>; 
-}
-table.attachtableZ    
-{ 
-#font: normal 12px Verdana, Arial, Helvetica, sans-serif; color : <?=$textcolor1?>; 
-border-color : <?=$bgcolor4?>;    
-border-collapse : collapse; 
-}
-/*---------------------------------------------------------------*/
-/* Main Theme Body                                               */
-/*---------------------------------------------------------------*/
-.button {
-  background-color: <?=$bgcolor1?>;
-  border: none;
-  color: white;
-  padding: 5px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-}
-
-.button1 {border-radius: 2px;}
-.button2 {border-radius: 4px;}
-.button3 {border-radius: 8px;}
-.button4 {border-radius: 12px;}
-.button5 {border-radius: 50%;}
-
-a.redalert:link {text-decoration: underline; color: crimson;}
-a.redalert:visited {text-decoration: underline; color: crimson;}
-a.redalert:hover {text-decoration: underline; color: green;}
-
-.alert {
-  position: absolute;
-  top: 217px; // Should be same as the height of the header
-  width: 100%;
-}
-
-fieldset 
-{
-	display: block; 
-	margin-left: 2px; 
-	margin-right: 2px; 
-	padding-top: 0.15em; 
-	padding-bottom: 0.625em; 
-	padding-left: 0.75em; 
-	padding-right: 0.75em; 
-	border: 2px groove (internal value);
-
-   -webkit-border-radius: 8px;
-   -moz-border-radius: 8px;
-   border-radius: 8px;
-
-}
-
-hr {
-	background-color: #8d7b4d;
-	border: 0;
-	height: 1px;
-	margin: 5px 0;
-	width: 100%;
-    #opacity: 0.4;
-
-}
-
-   
-.outer_table_opacity
-{
-  opacity: 0.9;
-}
-.inferno_header_table
-{
-opacity: 0.9;
-background-color: black; 
-background-image: 
-url(themes/<?=$theme_name?>/backgrounds/top_box.png),       /* top black glass - TheGhost add 03/19/2021 */
-url(themes/<?=$theme_name?>/backgrounds/box_bottom.png);    /* bottom flames   - TheGhost add 03/19/2021 */
-background-position:
-top right, 
-bottom left; 
-background-repeat: 
-repeat-x; /* this makes the top glass block and the bottom flame block repeat from left to right and vice vs - TheGhost add 08/04/2019 */ 
-z-index: 780;
-}
-
 /*################################################################# Forum CSS from here down ###########################################*/
 /**
  * Stylesheet for the Universal Theme
@@ -176,10 +70,7 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
-body {
-	/*line-height: 1;*/
 
-}
 a
 blockquote, q {
 	quotes: none;
@@ -226,6 +117,77 @@ input[type='checkbox'] { cursor: pointer; }
 	margin: 0 auto;
 }
 
+input[type="radio"]{
+    vertical-align: bottom;
+}
+
+.absmiddle{
+    vertical-align: absmiddle;
+}
+
+/*---------------------------------------------------------------*/
+/* Main Theme Body                                               */
+/*---------------------------------------------------------------*/
+.button {
+  background-color: <?=$bgcolor1?>;
+  border: none;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+.button1 {border-radius: 2px;}
+.button2 {border-radius: 4px;}
+.button3 {border-radius: 8px;}
+.button4 {border-radius: 12px;}
+.button5 {border-radius: 50%;}
+
+a.redalert:link {text-decoration: underline; color: crimson;}
+a.redalert:visited {text-decoration: underline; color: crimson;}
+a.redalert:hover {text-decoration: underline; color: green;}
+
+.alert {
+  position: absolute;
+  top: 217px; // Should be same as the height of the header
+  width: 100%;
+}
+
+hr {
+	background-color: #8d7b4d;
+	border: 0;
+	height: 1px;
+	margin: 5px 0;
+	width: 100%;
+    #opacity: 0.4;
+
+}
+
+fieldset 
+{
+	display: block; 
+	margin-left: 2px; 
+	margin-right: 2px; 
+	padding-top: 0.15em; 
+	padding-bottom: 0.625em; 
+	padding-left: 0.75em; 
+	padding-right: 0.75em; 
+	border: 2px groove (internal value);
+
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+
+}
+
+.header_table_opacity
+{
+  opacity: 0.9;
+}
+
 body {	
 	font-size: 14px;
 	color: #fff;
@@ -233,17 +195,35 @@ body {
 	text-rendering: optimizeLegibility;
 }
 
-a { 
-	color: <?=$textcolor1?>;
-	text-decoration: none;
+a {
+
 }
 
-a:active,
+a:link {
+
+}
+
+a:visited {
+
+}
+
+a:focus {
+
+}
+
+a:hover {
+
+}
+
+a:active {
+
+}
+  
+
 a.bbcode-href:active { 
 	color: <?=$textcolor2?>;
 }
 
-a:hover,
 a.bbcode-href:hover { 
 	color: <?=$textcolor2?>;
 }
@@ -285,6 +265,7 @@ h3 { font-size: 15px; line-height: 1; margin-bottom: 10px; }
 h4 { font-size: 12px; line-height: 1.25; margin-bottom: 12.5px; }
 h5 { font-size: 10px; font-weight: bold; margin-bottom: 15px; }
 h6 { font-size: 10px; font-weight: bold; }
+
 
 .bviewed {
 	font-size: 14px;

@@ -103,10 +103,18 @@ function Stats_Main() {
     echo '<tr align="left">
         <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$module_name.'/images/waiting.gif" alt="" />&nbsp;'._NEWSWAITING.'</span></td><td class="row3"><span class="gen">'.$subnum.'</span></td>
     </tr>';
+
     echo '<tr align="left">
-        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$module_name.'/images/sections.gif" alt="" />&nbsp;'._EVOVER.'</span></td><td class="row3"><span class="gen">'.ucfirst($evover).'</span></td>
-    </tr></table>';
-    CloseTable();
+        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$module_name.'/images/sections.gif" alt="" />&nbsp;'._TITANIUMVER.'</span></td><td class="row3"><span class="gen">v'.NUKE_TITANIUM.'</span></td>
+    </tr>';
+
+    echo '<tr align="left">
+        <td class="row1" colspan="2"><span class="gen"><img src="modules/'.$module_name.'/images/sections.gif" alt="" />&nbsp;'._TITANIUMFORUMVER.'</span></td><td class="row3"><span class="gen">v'.PHPBB_TITANIUM.'</span></td>
+    </tr>';
+	
+	echo '</table>';
+    
+	CloseTable();
 }
 
 function Stats() {

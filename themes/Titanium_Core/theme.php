@@ -55,8 +55,10 @@ $make_xtreme_avatar_small,
     list($portaladminname, 
 	              $avatar, 
 				   $email) = $db->sql_ufetchrow("SELECT `username`,`user_avatar`, `user_email` FROM `nuke_users` WHERE `user_id`=$portaladmin", SQL_NUM);
-				   
-$my_welcome_message = '<a class = "welcome" href="'.HTTPS.'">PHP-Nuke Titanium <font color="#FF9900" size="1">(Desktop Version)</font></a>';
+
+global $eighty_six_it;
+$eighty_six_it = '<div class="eightysixit1stline"><a href="https://www.86it.us" target="_blank" rel="noopener noreferrer">Programmers Making Connections. Coders Making a Difference.</a></div>';
+$my_welcome_message = '<div class="eightysixit2ndline"><a href="'.HTTPS.'"><font color="#FF9900" size="5">PHP-Nuke Titanium</font> </a><font align="absmiddle" color="#FF9900" size="1">(Desktop Version)</font></div>';
 
 $opacity = '0.9';
 # This is to tell the main portal menu to look for the images
@@ -106,17 +108,20 @@ define('theme_copyright_click', 'Click the Link to Display Copyrights');
 #-------------------#
 # FlyKit Mod v1.0   #
 #-------------------#
-addPHPCSSToHead(theme_phpstyle_dir.'Nuke_Projects.php','file'); 
+addPHPCSSToHead(theme_phpstyle_dir.'header.php','file');     
+
 addPHPCSSToHead(theme_phpstyle_dir.'banner_ads.php','file');     
 addPHPCSSToHead(theme_phpstyle_dir.'menu.php','file');     
-addPHPCSSToHead(theme_phpstyle_dir.'header.php','file');     
+
 addPHPCSSToHead(theme_phpstyle_dir.'scrollbars.php','file'); 
-addPHPCSSToHead(theme_phpstyle_dir.'sideblocks.php','file'); 
+//addPHPCSSToHead(theme_phpstyle_dir.'sideblocks.php','file'); 
 addPHPCSSToHead(theme_phpstyle_dir.'body.php','file');       
-addPHPCSSToHead(theme_phpstyle_dir.'footer.php','file');     
+//addPHPCSSToHead(theme_phpstyle_dir.'footer.php','file');     
 addPHPCSSToHead(theme_phpstyle_dir.'maintable.php','file');  
 addPHPCSSToHead(theme_phpstyle_dir.'arcade_tables.php','file');  
 addPHPCSSToHead(theme_phpstyle_dir.'CKeditor.php','file');   
+
+addPHPCSSToHead(theme_phpstyle_dir.'Nuke_Projects.php','file'); 
 
 #-------------------#
 # OpenTable Section #

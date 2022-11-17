@@ -2,7 +2,7 @@
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
 exit('Access Denied');
 global $domain;
-echo '<!-- Modal -->'."\n";
+echo '<!-- Copyright Modal START -->'."\n";
 echo '<div class="modal fade" id="myCopyRight" tabindex="-1" role="dialog" aria-labelledby="CenterTitle" aria-hidden="true">'."\n";
 echo '<div class="modal-dialog modal-dialog-centered" role="document">'."\n";
 echo '<div class="modal-content modal-popout-bg">'."\n";
@@ -52,3 +52,4 @@ echo '</div>'."\n";
 echo '</div>'."\n";
 echo '</div>'."\n";
 echo '</div>'."\n";
+echo '<!-- Copyright Modal END -->'."\n";

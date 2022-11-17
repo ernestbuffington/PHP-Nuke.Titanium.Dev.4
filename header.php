@@ -52,9 +52,6 @@ function head()
 
 	$ThemeSel = get_theme();
 	
-    global $eighty_six_it;
-	$eighty_six_it = '<a class = "small" href="https://www.86it.us" target="_blank" rel="noopener noreferrer">Programmers Making Connections. Coders Making a Difference.</a>';
-    
 	# Auto MimeType v1.0.0 START
 	if (@file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/mimetype.php')):  
     include(NUKE_THEMES_DIR.$ThemeSel.'/includes/mimetype.php');
@@ -140,7 +137,6 @@ function head()
     writeHEAD();
     echo "\n<!-- END writeHEAD() -->\n\n";
 
-    /*
 	echo "\n\n<!-- START custom_head -->\n\n";
 	if ((($custom_head = $cache->load('custom_head', 'config')) === false) || empty($custom_head)): 
         $custom_head = array();
@@ -162,7 +158,6 @@ function head()
         endif;
     endif;
     echo "\n<!-- END custom_head -->\n\n";
-    */
     
 	/* ----- as you can probably tell this is used for IE compatibility ----- */
     echo '<!--[if lt IE 9]><script src="includes/js/scripts/html5shiv.min.js"></script><![endif]-->'."\n";
