@@ -662,13 +662,11 @@ class sql_db
 	# added by Ernest Allen Buffington 4/29/2021 Thursday 9:05pm
     function mariadb_version()
 	{
-		if($this->db_connect_id):
-			$result  = '<div class="poweredby"> <a class="poweredby" href="http://www.php-nuke-titanium.86it.us/" target="_blank">Powered by PHP-Nuke Titanium v'.NUKE_TITANIUM.' | &copy; 2005, 2022 PHP-Nuke Titanium Group</a></div>';
-			
-			//$result  = 'Powered by PHP-Nuke Titanium v'.NUKE_TITANIUM.'<br />';
-			$result .= 'MySQL Database Server: ';
-			$result .= @mysqli_get_server_info($this->db_connect_id);
-			return $result;
+	  if($this->db_connect_id):
+	  $result  = '<div class="poweredby"> <a class="poweredby" href="http://www.php-nuke-titanium.86it.us/" target="_blank">Powered by PHP-Nuke Titanium v'.NUKE_TITANIUM.' | &copy; 2005, 2022 PHP-Nuke Titanium Group</a></div>';
+	  $result .= 'MySQL Database Server: ';
+	  $result .= @mysqli_get_server_info($this->db_connect_id);
+	  return $result;
 		else:
 			return false;
 		endif;

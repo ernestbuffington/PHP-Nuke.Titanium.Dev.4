@@ -26,7 +26,7 @@ a.modules,input.modules
 a.modules:hover,input.modules:hover
 {
   /* Main Font Color */
-  color:darkgrey;
+  color:goldenrod;
  /* Highlight Color On Hover */
 }
 

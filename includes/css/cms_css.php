@@ -209,7 +209,6 @@ table.rounded-corners>tfoot:not(:last-child) {
   cursor: pointer;
   font-weight: bold;
 }
-
 /*---------------------------------------------------------------*/
 /* Powered By END                                                */
 /*---------------------------------------------------------------*/
