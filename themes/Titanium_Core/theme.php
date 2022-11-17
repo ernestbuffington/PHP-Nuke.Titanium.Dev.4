@@ -50,6 +50,7 @@ $define_theme_xtreme_209e,
 	         $portaladmin,
 			     $opacity,
 $make_xtreme_avatar_small,
+         $poweredby_color,
                       $db;
 
     list($portaladminname, 
@@ -71,7 +72,7 @@ $use_theme_image_dir_for_portal_menu = false;
 #-------------------------#
 $digits_txt_color ='yellow';  # Reads
 $digits_color ='#FF0000';     # How many reads
-
+$poweredby_color = 'goldenrod';
 $fieldset_border_width = '1px'; 
 $fieldset_color = '#4e4e4e';
 

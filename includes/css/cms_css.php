@@ -4,7 +4,7 @@
 #---------------------------------------------------------------------------------------#
 echo "\n\n/* includes/css/cms_css.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
 echo "/* When we are done we will move this code to style.css */\n\n";
-global $ThemeSel, $br, $fieldset_color, $fieldset_border_width, $digits_color;
+global $ThemeSel, $br, $fieldset_color, $fieldset_border_width, $digits_color, $poweredby_color;
 $br = '<div align="center" style="padding-top:2px;"></div>';
 ?>
 .modal-body {
@@ -140,6 +140,79 @@ table.rounded-corners>tbody:not(:last-child),
 table.rounded-corners>tfoot:not(:last-child) {
  border-bottom: var(--border);
 }
+
+/*---------------------------------------------------------------*/
+/* Powered By START                                              */
+/*---------------------------------------------------------------*/
+.poweredby {
+  color: <?=$poweredby_color?>;
+  font-size: 12px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.poweredby:link {
+  color: <?=$poweredby_color?>;
+  font-size: 12px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.poweredby:visited {
+  color: <?=$poweredby_color?>;
+  font-size: 12px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.poweredby:active {
+  color: <?=$poweredby_color?>;
+  font-size: 12px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.poweredby:focus {
+  color: white;
+  font-size: 12px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.poweredby:hover {
+  color: white;
+  font-size: 12px;
+  text-decoration: none;
+  padding: 4px;
+  text-shadow: 2px 2px 4px #000000;
+  background-color: mone;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/*---------------------------------------------------------------*/
+/* Powered By END                                                */
+/*---------------------------------------------------------------*/
 
 /*---------------------------------------------------------------*/
 /* Game Description START                                        */

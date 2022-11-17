@@ -106,7 +106,7 @@ $footmsg .= $foot2."<br/>";
 if($use_cache && $usrclearcache): 
 $footmsg .= "<form method='post' name='clear_cache' action='".$_SERVER['REQUEST_URI']."'>";
 $footmsg .= "<input type='hidden' name='clear_cache' value='1'>";
-$footmsg .= ""._SITECACHED . "</span> <a href=\"javascript:clear_cache.submit()\">" . _UPDATECACHE . "</a>";
+$footmsg .= ""._SITECACHED . "</span> <a class=\"poweredby\" href=\"javascript:clear_cache.submit()\">" . _UPDATECACHE . "</a>";
 $footmsg .= "</form>";
 endif;
 # END user clear cache updated 09/12/2019 Ernest Allen Buffington
@@ -117,12 +117,11 @@ endif;
 # PLAY FAIR AND SUPPORT THE DEVELOPERS, PLEASE!
 global $theme_business, $theme_title, $theme_author, $theme_date, $theme_name, $theme_download_link, $name; 
 if(($name) && $name === 'Forums'):
-$footmsg .= '<br />';
-$footmsg .= 'Forums Powered by <a href="http://www.php-nuke-titanium.86it.us/" target="_tab">phpBB Titanium v'.PHPBB_TITANIUM.'</a> | Core &copy; 2005, 2022 phpBB Titanium Group<br />';
+$footmsg .= '<a class="poweredby" href="http://www.php-nuke-titanium.86it.us/" target="_blank">Forums Powered by phpBB Titanium v'.PHPBB_TITANIUM.' | Core &copy; 2005, 2022 phpBB Titanium Group</a><br />';
 endif;
 
 $footmsg .= '<a class="tooltip-html copyright" href="'.$theme_download_link.'" data-toggle="modal" data-target="'.$theme_download_link.'" title="'.$theme_title; 
-$footmsg .= '<br/>Designed By '.$theme_author.'<br />Created '.$theme_date.'<br />'.$theme_business.'<br/>All Rights Reserved">'.$theme_title.'</a><br/><br/>';
+$footmsg .= '<br/>Designed By '.$theme_author.'<br />Created '.$theme_date.'<br />'.$theme_business.'<br/>All Rights Reserved">'.$theme_title.'</a><br />';
 # Copyright Information END
 		
 # Network About us START
@@ -136,7 +135,7 @@ $footmsg .= "[ "
          . "Privacy Statement</a> ] - [ "
          . "<a class='disclaimer' href=\"".HTTPS."modules.php?name=Network&file=terms\">"
          . "Terms of Use</a> ]\n";
-$footmsg .= "</font><br><br>";
+$footmsg .= "</font><br>";
 # Network About us END
 
 # footer message 3 from the database START
