@@ -1,3 +1,6 @@
+<?php
+
+?>
 <!-- 80sPXL W00 Thin V1 Font Info CSS -->
 <!-- our project just needs Font Awesome Solid + Brands -->
 <link href="/assets/fontawesome-free-6.2.0-web/css/all.css" rel="stylesheet">

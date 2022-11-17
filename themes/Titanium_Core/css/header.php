@@ -196,27 +196,39 @@ body {
 }
 
 a {
-
+ color: <?=$textcolor1?>;
+ text-decoration: none;
+ font-size: 1rem;
 }
 
 a:link {
-
+ color: <?=$textcolor1?>;
+ text-decoration: none;
+ text-shadow: 2px 2px black;
 }
 
 a:visited {
-
+ color: <?=$textcolor1?>;
+ text-decoration: none;
+ text-shadow: 2px 2px black;
 }
 
 a:focus {
-
+ color: <?=$textcolor1?>;
+ text-decoration: none;
+ text-shadow: 2px 2px black;
 }
 
 a:hover {
-
+ color: white;
+ text-decoration: none;
+ text-shadow: 2px 2px black;
 }
 
 a:active {
-
+ color: <?=$textcolor1?>;
+ text-decoration: none;
+ text-shadow: 2px 2px black;
 }
   
 
@@ -711,9 +723,15 @@ a.postlink:hover {
 /*--------------------------------------------------------------*/
 /* Everything Below this Line Needs to be Added to Other Themes */
 /*--------------------------------------------------------------*/
-input[type='submit'],input[type='checkbox'],input[type='radio']{cursor:pointer;}
+input[type='submit'],input[type='checkbox'],input[type='radio']
+{
+  cursor:pointer;
+}
+
 select{color: #fff;border:1px solid <?=$bgcolor1?>;cursor:pointer;margin:0 1px 1px;box-sizing:border-box;}
+
 input{color: #fff;border:1px solid <?=$bgcolor1?>;box-sizing:border-box;letter-spacing:1px;margin:0 1px 1px;padding:5px;box-sizing:border-box;}
+
 span.uppercase{text-transform:uppercase;}
 
 td.forums,th.forums{padding-left:5px;}

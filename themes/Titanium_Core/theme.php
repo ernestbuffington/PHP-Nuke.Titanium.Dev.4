@@ -73,6 +73,7 @@ $use_theme_image_dir_for_portal_menu = false;
 $digits_txt_color ='yellow';  # Reads
 $digits_color ='#FF0000';     # How many reads
 $poweredby_color = 'goldenrod';
+$menu_text_color = 'white';
 $fieldset_border_width = '1px'; 
 $fieldset_color = '#4e4e4e';
 
@@ -93,6 +94,7 @@ define('theme_images_dir', theme_dir.'images/');
 define('theme_style_dir', theme_dir.'style/');
 
 define('theme_phpstyle_dir', theme_dir.'css/'); 
+define('theme_phpinclude_js_dir', theme_dir.'includes/js/'); 
 
 define('theme_js_dir', theme_style_dir.'js/');
 define('theme_hdr_images', theme_images_dir.'hdr/');
@@ -106,6 +108,7 @@ define('theme_copyright_click', 'Click the Link to Display Copyrights');
 //addCSSToHead(theme_style_dir.'style.css','file');
 //addCSSToHead(theme_style_dir.'menu.css','file');
 
+
 #-------------------#
 # FlyKit Mod v1.0   #
 #-------------------#
@@ -117,13 +120,18 @@ addPHPCSSToHead(theme_phpstyle_dir.'menu.php','file');
 addPHPCSSToHead(theme_phpstyle_dir.'scrollbars.php','file'); 
 //addPHPCSSToHead(theme_phpstyle_dir.'sideblocks.php','file'); 
 addPHPCSSToHead(theme_phpstyle_dir.'body.php','file');       
-//addPHPCSSToHead(theme_phpstyle_dir.'footer.php','file');     
+//addPHPCSSToHead(theme_phpstyle_dir.'footer.php','file'); 
+//addPHPCSSToHead(theme_phpstyle_dir.'drop_down_menu.php','file'); # enable for drop_down_menu         
+//addPHPCSSToHead(theme_phpstyle_dir.'scss_menu.php','file'); # enable for SCSS drop_down_menu         
+addPHPCSSToHead(theme_phpstyle_dir.'css3_menu.php','file'); # enable for css3 menu
 addPHPCSSToHead(theme_phpstyle_dir.'maintable.php','file');  
 addPHPCSSToHead(theme_phpstyle_dir.'arcade_tables.php','file');  
 addPHPCSSToHead(theme_phpstyle_dir.'CKeditor.php','file');   
 
 addPHPCSSToHead(theme_phpstyle_dir.'Nuke_Projects.php','file'); 
 
+//addJSToBody(theme_phpinclude_js_dir.'drop_down_menu.js','file'); # enable for drop_down_menu  
+addJSToBody(theme_phpinclude_js_dir.'css3_menu.js','file'); # enable for css3 menu
 #-------------------#
 # OpenTable Section #
 #-------------------#
