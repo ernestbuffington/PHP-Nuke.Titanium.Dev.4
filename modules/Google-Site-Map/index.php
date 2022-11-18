@@ -739,8 +739,6 @@ print '</table>';
 print '<hr>';
 if(defined('facebook')):	
 global $content, $sid, $appID, $my_url;
-print '<div id="fb-root"></div>'."\n";
-print '<br /><script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v10.0&appId='.$appID.'&autoLogAppEvents=1" nonce="dv0pyfMc"></script>'."\n";
 print '<div style="background-color: none" class="fb-like" data-href="https://'.$my_url.'/modules.php?name=Google-Site-Map" data-width="" data-layout="button_count" data-action="like" data-size="large" data-share="true"></div>'."\n";
 endif;
 print '<br/><br/><hr>';

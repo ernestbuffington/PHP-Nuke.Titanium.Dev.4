@@ -9,7 +9,7 @@ global $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $textcolor1, $textcolor2, $me
 	background: linear-gradient(to bottom,  #BBA466,  #A28E59);
 	color: <?=$menu_text_color?>;
 	height: 33px;
-    width: 570px;
+    width: 597px;
 	padding-left: 18px;
 	border-radius: 10px;
 }
