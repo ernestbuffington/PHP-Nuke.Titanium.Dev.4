@@ -247,8 +247,6 @@ if(get_evo_option('recap_site_key') && get_evo_option('recap_priv_key'))
  /*****[END]*******************************************
  [ Mod:     Advanced Security Code Control     v1.0.0 ]
  ******************************************************/
- 
-echo "<script src=\"https://kit.fontawesome.com/5a71e91c84.js\" crossorigin=\"anonymous\"></script>";
 
 /*****[BEGIN]******************************************
  [ Mod:     Arcade                             v1.0.0 ]
@@ -383,7 +381,6 @@ if ($collapse)
  ******************************************************/
 include(NUKE_JQUERY_INCLUDE_DIR.'jquery.php');
 include(NUKE_JQUERY_INCLUDE_DIR.'jquery.reimg.image.resizer.php');
-
 /**
  * A jQuery Plugin to replace Javascript's window.alert(), window.confirm() and window.prompt() functions
  *

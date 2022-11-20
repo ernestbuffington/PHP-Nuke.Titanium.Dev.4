@@ -10,13 +10,16 @@ die('Access forbbiden');
 
 global $fwysiwyg, $wysiwyg;
 
-add_css_to_head(NUKE_CSS_DIR.'fontawesome/all.css','file', '5.8.1');
+add_css_to_head('assets/fontawesome-free-6.2.0-web/css/all.css','file', '5.8.1');
+add_css_to_head('assets/fontawesome-free-6.2.0-web/css/all.min.css','file');
+
+add_css_to_head('assets/bootstrap-icons-1.9.1/bootstrap-icons.css','file');
+
 # Devicon 2.0
 # Devicon is a set of icons representing programming languages, designing & 
 # development tools. You can use it as a font or directly copy/paste the 
 # svg code into your project.
 addCSSToHead('//cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css','file');
-
 add_css_to_head(NUKE_CSS_DIR.'fontawesome/font-awesome-animation.min.css','file');
 
 if(defined('ENABLE_JQUERY_UI'))
@@ -24,12 +27,10 @@ add_css_to_head(NUKE_CSS_DIR.'jquery.ui.css','file', '1.12.0');
 
 echo "\n\n<!-- START marquee -->\n\n";
 # addJSToHead('//code.jquery.com/jquery-compat-git.js','file'); # Original loaded with Evo 2.x
-add_js_to_head(NUKE_JQUERY_SCRIPTS_DIR.'jquery-migrate-3.4.0.js','file','3.4.0'); # Development Migrate 11/19/2022
-#add_js_to_head(NUKE_JQUERY_SCRIPTS_DIR.'jquery-migrate-3.4.0.min.js','file','3.4.0'); # Production Migrate 11/19/2022
-
+#add_js_to_head(NUKE_JQUERY_SCRIPTS_DIR.'jquery-migrate-3.4.0.js','file','3.4.0'); # Development Migrate 11/19/2022
+add_js_to_head(NUKE_JQUERY_SCRIPTS_DIR.'jquery-migrate-3.4.0.min.js','file','3.4.0'); # Production Migrate 11/19/2022
 
 addJSToHead('//code.jquery.com/jquery-compat-git.js','file');
-
 addJSToHead('//rawgithub.com/tobia/Pause/master/jquery.pause.js','file');
 addJSToHead('//cdn.jsdelivr.net/jquery.marquee/1.3.1/jquery.marquee.min.js','file');
 $JStoHead  = '<script>//<![CDATA['.PHP_EOL;

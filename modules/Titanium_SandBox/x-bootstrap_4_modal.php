@@ -37,18 +37,18 @@ $page_header2 .= "<link rel=\"StyleSheet\" href=\"modules/Titanium_SandBox/css/x
 # Using jQuery 3.6.1 installed locally on your server:
 # This config assumes you have jquery installed to your dev_includes folder which resides off of the root of your portal
 # /public_html/dev_includes/dev_includes/jquery/jquery.js
-$page_header2 .= "<script type=\"text/javascript\" language=\"javascript\" src=\"".HTTPS."dev_includes/jquery/jquery.js\"></script>\n";
+$page_header2 .= "<script src=\"".HTTPS."assets/jquery/jquery.js\"></script>\n";
 
 # Using Bootstrap 5.2 installed locally on your server:
 # This config assumes you have bootstrap installed to your dev_includes folder which resides off of the root of your portal
 # /public_html/dev_includes/bootstrap/js/bootstrap.min.js
-$page_header2 .= "<script type=\"text/javascript\" language=\"javascript\" src=\"".HTTPS."dev_includes/bootstrap/js/bootstrap.min.js\"></script>\n";
+$page_header2 .= "<script src=\"".HTTPS."assets/bootstrap/js/bootstrap.min.js\"></script>\n";
 
 # Load the header tags so the browser stays out of quirk mode CLOSE TAG
 $page_header2 .= "</head>";
 
 # Check to see if Jquery is working START
-$page_header2 .= "<script type=\"text/javascript\" language=\"javascript\">$(function() { alert('JQuery is loaded and working fine!') })</script>\n";
+$page_header2 .= "<script>$(function() { alert('JQuery is loaded and working fine!') })</script>\n";
 # Check to see if Jquery is working END
 
 print_r($page_header2);
