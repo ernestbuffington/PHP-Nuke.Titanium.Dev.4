@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /************************************************************************
    Nuke-Evolution: Admin / Error Tracker
    ============================================
@@ -28,7 +27,6 @@
 -=[Mod]=-
       Advanced Username Color                  v1.0.5       06/11/2005
  ************************************************************************/
-
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
     exit('Access Denied');
 }
