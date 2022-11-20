@@ -417,22 +417,7 @@ body {
     /* overflow-x: scroll;  Show horizontal scrollbar */
 }
 
-::-webkit-scrollbar {
-  height: 12px;
-  width: 12px;
-  background: #969696;
-  -webkit-border-radius: 1ex;
-}
 
-::-webkit-scrollbar-thumb {
-  background: #2B2B2B;
-  -webkit-border-radius: 1ex;
-  -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
-}
-
-::-webkit-scrollbar-corner {
-  background: #1A1A1A;
-}
 
 a {
  color: <?=$textcolor1?>;
