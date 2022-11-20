@@ -6,16 +6,17 @@ echo '</div>';
 echo '<nav id="menu">';
 echo '  <input type="checkbox" id="responsive-menu" onclick="updatemenu()"><label></label>';
 echo '  <ul>';
-echo '    <li><a class="dropdown-arrow" href="'.HTTPS.'">Home</a>';
+//echo '    <li><a class="dropdown-arrow" href="'.HTTPS.'">Home</a>';
 
-echo '      <ul class="sub-menus">';
+//echo '      <ul class="sub-menus">';
 echo '        <li><a href="'.HTTPS.'">Home</a></li>';
-echo '        <li><a href="'.HTTPS.'modules.php?name=Forums&file=search">Forums Search</a></li>';
-echo '        <li><a href="'.HTTPS.'modules.php?name=Forums&file=search&search_id=newposts">New Posts</a></li>';
-echo '        <li><a href="'.HTTPS.'modules.php?name=Forums&file=search&search_id=unanswered">Unanswered Posts</a></li>';
-echo '        <li><a href="'.HTTPS.'modules.php?name=Your_Account&redirect=search&search_id=egosearch">My Posts</a></li>';
-echo '      </ul>';
-echo '    </li>';
+//echo '        <li><a href="'.HTTPS.'modules.php?name=Forums&file=search">Forums Search</a></li>';
+//echo '        <li><a href="'.HTTPS.'modules.php?name=Forums&file=search&search_id=newposts">New Posts</a></li>';
+//echo '        <li><a href="'.HTTPS.'modules.php?name=Forums&file=search&search_id=unanswered">Unanswered Posts</a></li>';
+//echo '        <li><a href="'.HTTPS.'modules.php?name=Your_Account&redirect=search&search_id=egosearch">My Posts</a></li>';
+//echo '      </ul>';
+
+//echo '    </li>';
 
 echo '    <li><a class="dropdown-arrow" href="'.HTTPS.'modules.php?name=Forums">Forums</a>';
 echo '      <ul class="sub-menus">';
@@ -59,7 +60,7 @@ echo '      </ul>';
 echo '    </li>';
 
 
-echo '    <li><a href="'.HTTPS.'/modules.php?name=Private_Messages&mode=post&u=3">FAQ</a></li>';
+echo '    <li><a href="'.HTTPS.'/modules.php?name=FAQ">FAQ</a></li>';
 
 
 echo '  </ul>';
