@@ -104,13 +104,13 @@ endif;
 global $board_config;
 $serverdate = EvoDate($board_config['default_dateformat'], time(), $board_config['board_timezone']);
 
-$date .= '::: QUOTE OF THE DAY "Stop Fixing Shit That Is Not Broken! by ErnStoy" ::: Today is <span style="color:'.$textcolor2.'">'.$serverdate.'</span>';
+$date .= '::: <span style=color:orange> QUOTE OF THE DAY “Every saint has a past, and every sinner has a future.”  ~ Oscar Wilde</span> ::: Today is <span style="color:'.$textcolor2.'">'.$serverdate.'</span>';
 
 if ($username === _ANONYMOUS)
-$moreuser_info .= '::: There is so much more here to see, it takes 30 seconds to register an account and we don\'t even verify with e-mail! Just register we promise you won\'t be sorry...';
+$moreuser_info .= '::: <span style=color:pink>There is so much more here to see, it takes 30 seconds to register an account and we don\'t even verify with e-mail! Just register we promise you won\'t be sorry...</span>';
 
 if ($username === _ANONYMOUS)
-$marquee_one = $moreuser_info.' ::: Your Monitor Resolution is <span style="color:'.$textcolor2.'">'.$screen_res.'</span> ::: '.$newmessages.'';
+$marquee_one = $moreuser_info.' ::: <span style="color:'.$textcolor2.'>Your Monitor Resolution is '.$screen_res.'</span> ::: '.$newmessages.'';
 else
 $marquee_one = $date.' '.$connected.' Welcome back <strong><span class="blink-one" style="color:'.$textcolor2.'">'.$username.'</span></strong> It\'s quite awesome to see you my friend! We are so glad you could make it back over to visit... We know with your super tight busy schedule and all, it most certainly must have been quite a task! ::: <span style="color:'.$textcolor2.'">'.$newmessages.'</span> ::: Your current Monitor Resolution is <span style="color:'.$textcolor2.'">'.$screen_res.'</span> '.$moreuser_info.' ::: Your current browser version is <span style="color:'.$textcolor2.'">'.$titanium_browser->getVersion().'</span> ::: '.$scrollmsg.'';
 
