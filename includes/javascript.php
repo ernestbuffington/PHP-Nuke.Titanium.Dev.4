@@ -168,8 +168,6 @@ echo "});\n";
 ##################################################################################################################
 echo "FB.AppEvents.logPageView();\n";   
 ##################################################################################################################
-##################################################################################################################
-##################################################################################################################
 echo "};\n";
 
 echo "(function(d, s, id){\n";
@@ -330,9 +328,9 @@ if (defined('ADMIN_FILE') && defined('USE_DRAG_DROP')) {
     }
 
     //echo "<link rel=\"stylesheet\" href=\"includes/ajax/lists.css\" type=\"text/css\">";
-    echo "<script type=\"text/javascript\" src=\"includes/ajax/coordinates.js\" defer></script>\n";
-    echo "<script type=\"text/javascript\" src=\"includes/ajax/drag.js\" defer></script>\n";
-    echo "<script type=\"text/javascript\" src=\"includes/ajax/dragdrop.js\" defer></script>\n";
+    echo "<script src=\"includes/ajax/coordinates.js\" defer></script>\n";
+    echo "<script src=\"includes/ajax/drag.js\" defer></script>\n";
+    echo "<script src=\"includes/ajax/dragdrop.js\" defer></script>\n";
     echo "<script><!--
     function confirm(z)
     {
@@ -548,7 +546,6 @@ echo "\n<!-- Ernest Allen Buffington aka TheGhost -->\n\n\n";
 
 global $analytics;
 
-/* This is garbage as far as I can see - to much fucking work to get it working.
 if (!empty($analytics)) {
    echo "<script>
            var gaJsHost = ((\"https:\" == document.location.protocol) ? \"https://ssl.\" : \"http://www.\");
@@ -560,7 +557,6 @@ if (!empty($analytics)) {
            pageTracker._trackPageview();
          </script>";
 }
-*/
 
 global $more_js;
 if (!empty($more_js)) {
@@ -569,4 +565,5 @@ if (!empty($more_js)) {
 
 //DO NOT PUT ANYTHING AFTER THIS LINE
 echo "<!--[if IE]><script>womOn();</script><![endif]-->\n";
+
 ?>
