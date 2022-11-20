@@ -15,7 +15,7 @@ add_css_to_head(NUKE_CSS_DIR.'fontawesome/all.css','file', '5.8.1');
 # Devicon is a set of icons representing programming languages, designing & 
 # development tools. You can use it as a font or directly copy/paste the 
 # svg code into your project.
-addCSSToHead('//cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css','file');
+addCSSToHead('//cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css','file');
 
 add_css_to_head(NUKE_CSS_DIR.'fontawesome/font-awesome-animation.min.css','file');
 
@@ -23,10 +23,16 @@ if(defined('ENABLE_JQUERY_UI'))
 add_css_to_head(NUKE_CSS_DIR.'jquery.ui.css','file', '1.12.0');
 
 echo "\n\n<!-- START marquee -->\n\n";
+# addJSToHead('//code.jquery.com/jquery-compat-git.js','file'); # Original loaded with Evo 2.x
+add_js_to_head(NUKE_JQUERY_SCRIPTS_DIR.'jquery-migrate-3.4.0.js','file','3.4.0'); # Development Migrate 11/19/2022
+#add_js_to_head(NUKE_JQUERY_SCRIPTS_DIR.'jquery-migrate-3.4.0.min.js','file','3.4.0'); # Production Migrate 11/19/2022
+
+
 addJSToHead('//code.jquery.com/jquery-compat-git.js','file');
+
 addJSToHead('//rawgithub.com/tobia/Pause/master/jquery.pause.js','file');
 addJSToHead('//cdn.jsdelivr.net/jquery.marquee/1.3.1/jquery.marquee.min.js','file');
-$JStoHead  = '<script type="text/javascript">//<![CDATA['.PHP_EOL;
+$JStoHead  = '<script>//<![CDATA['.PHP_EOL;
 $JStoHead .= '$(window).on("load", function() {'.PHP_EOL;
 $JStoHead .= '$(function () {'.PHP_EOL;
 $JStoHead .= '$(".marquee_one").marquee({'.PHP_EOL;
@@ -41,7 +47,7 @@ $JStoHead .= '});'.PHP_EOL;
 $JStoHead .= '});'.PHP_EOL;
 $JStoHead .= '//]]></script>'.PHP_EOL;
 addJSToHead($JStoHead,'inline');
-$JStoHead  = '<script type="text/javascript">//<![CDATA['.PHP_EOL;
+$JStoHead  = '<script>//<![CDATA['.PHP_EOL;
 $JStoHead .= '$(window).on("load", function() {'.PHP_EOL;
 $JStoHead .= '$(function () {'.PHP_EOL;
 $JStoHead .= '$(".marquee_two").marquee({'.PHP_EOL;
@@ -67,7 +73,7 @@ add_js_to_head(NUKE_JQUERY_SCRIPTS_DIR.'jquery-ui.min.js','file','1.12.0');
 
 add_js_to_head(NUKE_JQUERY_SCRIPTS_DIR.'jquery-migrate.min.js','file','3.0.0');
 
-$JStoHead  = '<script type="text/javascript">'.PHP_EOL;
+$JStoHead  = '<script>'.PHP_EOL;
 $JStoHead .= 'var nuke_jq = jQuery.noConflict();'.PHP_EOL;
 
 if(is_admin())
@@ -99,7 +105,7 @@ $cookieconsent_inline .= '})});';
 $cookieconsent_inline .= '</script>';
 add_js_to_head($cookieconsent_inline,'inline');
 
-$progress_bar_loading  = '<script type="text/javascript">'.PHP_EOL;
+$progress_bar_loading  = '<script>'.PHP_EOL;
 $progress_bar_loading .= 'nuke_jq(function($)';
 $progress_bar_loading .= '{';
 $progress_bar_loading .= '$(".progress-bar > span").each(function() {$(this).width(0).animate({width: $(this).data("percentage")+"%"}, 1200);});';
@@ -109,7 +115,7 @@ add_js_to_body($progress_bar_loading,'inline');
 
 add_js_to_head(NUKE_JQUERY_SCRIPTS_DIR.'jquery.marquee.js','file');
 
-$jquery_marquee  = '<script type="text/javascript">'.PHP_EOL;
+$jquery_marquee  = '<script>'.PHP_EOL;
 $jquery_marquee .= 'nuke_jq("[data-marquee]").marquee({
     direction: "up",
 });';

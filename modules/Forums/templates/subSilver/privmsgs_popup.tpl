@@ -1,4 +1,4 @@
-<script language="javascript" type="text/javascript">
+<script>
 <!--
 function jump_to_inbox()
 {

@@ -65,7 +65,7 @@ switch($ins['step'])
    $temp2 = $ins['interest'];
    $temp3 = $ins['term'];
 
-echo '<style type="text/css">'; 
+echo '<style>'; 
 echo '.scottybcoder';
 echo '{';
 echo '	background-color:#F60';
@@ -151,7 +151,7 @@ echo '</style>';
    $title = 'Review Your Loan';
 
 
-echo '<style type="text/css"> ';
+echo '<style> ';
 echo '.scottybcoder';
 echo '{';
 echo '	background-color:#F60';
@@ -349,7 +349,7 @@ echo '</style>';
    $pagetitle = 'PHP-Nuke Titanium :: Loan Calculator';
    $title = 'Thank You';
 
-echo '<style type="text/css"> ';
+echo '<style> ';
 echo '.scottybcoder';
 echo '{';
 echo '	background-color:#F60';
@@ -444,7 +444,7 @@ echo '</style>';
    $pagetitle = 'PHP-Nuke Titanium :: Loan Amortization';
    $title = 'Loan Schedule';
 
-echo '<style type="text/css"> ';
+echo '<style> ';
 echo '.scottybcoder';
 echo '{';
 echo '	background-color:#F60';

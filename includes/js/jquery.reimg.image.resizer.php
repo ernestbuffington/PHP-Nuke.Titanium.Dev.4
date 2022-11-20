@@ -18,7 +18,7 @@ global $ThemeSel, $img_resize, $ThemeSel;
 if ($img_resize) 
 {
 	global $img_width, $img_height, $board_config;
-	$JStoBody  = '<script type="text/javascript">'.PHP_EOL;
+	$JStoBody  = '<script>'.PHP_EOL;
 
 	if (!defined('IN_PHPBB'))
 		$JStoBody .= '  var reimg_maxWidth          = '.$img_width.', reimg_maxHeight = '.$img_height.', reimg_relWidth = 0;'.PHP_EOL;

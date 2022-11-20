@@ -1,6 +1,6 @@
 <!-- $Id: rebuild_search.tpl,v 2.4.0.0 2006/06/17 19:32:23 chatasos Exp $ -->
 
-<SCRIPT type="text/javascript" language="JavaScript">
+<script>
 <!--
 
 // define some variables
@@ -114,7 +114,7 @@ function check_fast_mode(mycheckbox)
 }
 
 //-->
-</SCRIPT>
+</script>
 
 <h1>{L_REBUILD_SEARCH}</h1>
 

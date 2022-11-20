@@ -1,5 +1,5 @@
 {META}
-<script type="text/javascript">
+<script>
 function postThank(method)
 {
 	(function($)
@@ -18,7 +18,7 @@ function postThank(method)
 
 <!-- Start add - Advanced time management MOD -->
 <!-- BEGIN switch_send_pc_dateTime -->
-<script type="text/javascript">
+<script>
 //<![CDATA[
 <!-- Start Replace - window.onload = send_pc_dateTime -->
 send_pc_dateTime();
@@ -59,7 +59,7 @@ function send_pc_dateTime() {
 <!-- END boarddisabled -->
 <!-- Quick Search -->
 <!-- BEGIN switch_quick_search -->
-<br /><script type="text/javascript">
+<br /><script>
 <!--
 function checkSearch()
 {

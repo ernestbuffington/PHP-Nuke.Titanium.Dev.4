@@ -26,7 +26,7 @@ $XMAIL = urlencode($ya_user_email);
 $result = $db->sql_query("SELECT usehp, check1, check2, check3, check4, check5, check6, c7opt1, c7opt2, c7amount, c8opt1, c8opt2, usebsapi, c8apikey, fs9opt1, fs9opt2, fs9apikey, check3time, check4question, check4answer, usefeedback, email FROM ".$prefix."_honeypot_config");
 list($usehp, $check1, $check2, $check3, $check4, $check5, $check6, $c7opt1, $c7opt2, $c7amount, $c8opt1, $c8opt2, $usebsapi, $c8apikey, $fs9opt1, $fs9opt2, $fs9apikey, $check3time, $check4question, $check4answer, $usefeedback, $email) = $db->sql_fetchrow($result);
 
-echo '<style type="text/css">
+echo '<style>
     .center{
 		text-align:center;
 		}

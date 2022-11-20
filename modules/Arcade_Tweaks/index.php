@@ -681,7 +681,7 @@ function CheckDB()
 
     ?>
 
-<script language="Javascript">
+<script>
 <!-- Check/Unckeck Javascript function
 function setCheckboxes(do_check)
 {
@@ -1095,7 +1095,7 @@ function ShowCategory()
         echo "<form action=\"modules.php?name=$module&amp;m_op=submitchange\" name=\"gameselection\"method=\"post\">";
 
         ?>
-<script language="Javascript">
+<script>
 <!-- Check/Unckeck Javascript function
 function setCheckboxes(do_check)
 {

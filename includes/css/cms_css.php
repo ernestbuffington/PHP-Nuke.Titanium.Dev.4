@@ -7,6 +7,114 @@ echo "/* When we are done we will move this code to style.css */\n\n";
 global $ThemeSel, $br, $fieldset_color, $fieldset_border_width, $digits_color, $poweredby_color;
 $br = '<div align="center" style="padding-top:2px;"></div>';
 ?>
+/*---------------------------------------------------------------*/
+/* Google Site Map START                                         */
+/* Lock Colors and Settings                                      */
+/*---------------------------------------------------------------*/
+.violet
+{
+text-align: center;
+color: violet;
+height: 23px;
+width: 15px;
+padding-bottom: 7px;
+}
+.green
+{
+text-align: center;
+color: green;
+height: 23px;
+width: 15px;
+padding-bottom: 7px;
+}
+.lime
+{
+text-align: center;
+color: lime;
+height: 23px;
+width: 15px;
+padding-bottom: 7px;
+}
+.aqua
+{
+text-align: center;
+color: aqua; 
+height: 23px;
+width: 15px;
+padding-bottom: 7px;
+}
+.brightred
+{
+text-align: center;
+color: #FF0000;
+height: 23px;
+width: 15px;
+padding-bottom: 7px;
+}
+.darkgreen
+{
+text-align: center;
+color: darkgreen;
+height: 23px;
+width: 15px;
+padding-bottom: 7px;
+}
+
+a.blueicon:link
+{
+font-size: 21px;
+color: white;
+vertical-align: middle;
+}
+
+.blueicon
+{
+font-size: 60px;
+color: blue;
+vertical-align: middle;
+}
+/*---------------------------------------------------------------*/
+/* Google Site Map END                                           */
+/*---------------------------------------------------------------*/
+
+
+
+
+
+/*---------------------------------------------------------------*/
+/* Global copyright Modal START                                  */
+/*---------------------------------------------------------------*/
+.modal-text1 {
+	font-size: 13px;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    text-shadow: 2px 2px grey;
+}
+
+.modal-text2 {
+	font-size: 15px;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    text-shadow: 2px 2px grey;
+}
+
+.modal-text3 {
+	font-size: 25px;
+    color: goldenrod;
+    text-decoration: none;
+    font-weight: bold;
+    text-shadow: 2px 2px black;
+}
+
+.modal-text4 {
+	font-size: 10px;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+
 .modal-body {
 #   background-image: url(themes/<?=$ThemeSel?>/backgrounds/1920x1080.png);
 }
@@ -20,21 +128,7 @@ $br = '<div align="center" style="padding-top:2px;"></div>';
 }
 
 .modal {
- 
-  /* Take the box out of the flow, so that it could look like a modal box */
-  # position: absolute;
 
-  /* Avoid the awkwardly stretchy box on bigger screens */
-  # max-width: 550px;
-
-  /* Aligning it to the absolute center of the page */
-  # top: 50%;
-  # left: 50%;
-  # transform: translate(-50%, -50%);
-
-  /* Some cosmetics */
-  # border-radius: 4px;
-  # background-color: rgba(0, 0, 0, .1);
 }
 
 .modal-hidden {
@@ -78,6 +172,14 @@ $br = '<div align="center" style="padding-top:2px;"></div>';
   border-radius: 100%;
   background-color: black;
 }
+/*---------------------------------------------------------------*/
+/* Global copyright Modal END                                    */
+/*---------------------------------------------------------------*/
+
+
+
+
+
 
 .button {
   background-color: <?=$bgcolor3?>;
@@ -150,7 +252,7 @@ table.rounded-corners>tfoot:not(:last-child) {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
 }
@@ -161,7 +263,7 @@ table.rounded-corners>tfoot:not(:last-child) {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
 }
@@ -169,10 +271,10 @@ table.rounded-corners>tfoot:not(:last-child) {
 .poweredby:visited {
   color: <?=$poweredby_color?>;
   font-size: 12px;
-  text-decoration: none;
+  text-decoration: transparent;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
 }
@@ -180,10 +282,10 @@ table.rounded-corners>tfoot:not(:last-child) {
 .poweredby:active {
   color: <?=$poweredby_color?>;
   font-size: 12px;
-  text-decoration: none;
+  text-decoration: transparent;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
 }
@@ -194,7 +296,7 @@ table.rounded-corners>tfoot:not(:last-child) {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
 }
@@ -205,7 +307,7 @@ table.rounded-corners>tfoot:not(:last-child) {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
 }
@@ -222,7 +324,7 @@ table.rounded-corners>tfoot:not(:last-child) {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
 }
@@ -233,7 +335,7 @@ table.rounded-corners>tfoot:not(:last-child) {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
 }
@@ -293,7 +395,7 @@ body {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
 }
 
 .arcadeArrow {
@@ -302,7 +404,7 @@ body {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: none;
   font-weight: bold;
 }
@@ -314,7 +416,7 @@ body {
   padding-top: 5px;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: auto;
   font-weight: bold;
 }
@@ -326,7 +428,7 @@ body {
   padding-top: 5px;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: auto;
   font-weight: bold;
 }
@@ -338,7 +440,7 @@ body {
   padding-top: 5px;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: auto;
   font-weight: bold;
 }
@@ -350,7 +452,7 @@ body {
   padding-top: 5px;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: auto;
   font-weight: bold;
 }
@@ -364,7 +466,7 @@ body {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: auto;
   font-weight: bold;
 }
@@ -375,7 +477,7 @@ body {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: auto;
   font-weight: bold;
 }
@@ -389,7 +491,7 @@ body {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: none;
   font-weight: bold;
 }
@@ -400,7 +502,7 @@ body {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: auto;
   font-weight: bold;
 }
@@ -411,7 +513,7 @@ body {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: auto;
   font-weight: bold;
 }
@@ -422,7 +524,7 @@ body {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
 }
@@ -433,7 +535,7 @@ body {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
 }
@@ -444,7 +546,7 @@ body {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
 }
@@ -455,18 +557,18 @@ body {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
 }
 
-.popup:visted {
+.popup:visited {
   color: white;
   font-size: 13px;
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
 }
@@ -477,7 +579,7 @@ body {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
 }
@@ -488,7 +590,7 @@ body {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
 }
@@ -499,7 +601,7 @@ body {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
 }
@@ -510,7 +612,7 @@ body {
   text-decoration: none;
   padding: 4px;
   text-shadow: 2px 2px 4px #000000;
-  background-color: mone;
+  background-color: transparent;
   cursor: pointer;
   font-weight: bold;
 }
@@ -626,44 +728,50 @@ img.rounded-corners-last-post {
 	font-size: 16px;
 }
 
+.menunowrap 
+{
+  white-space: nowrap;
+}
+
 .arcadeFieldsetTitle {
-	display: block; 
-	margin-left: 2px; 
-	margin-right: 2px; 
-	padding-top: 0.25em; 
-	padding-bottom: 0.625em; 
-	padding-left: 0.75em; 
-	padding-right: 0.75em; 
-	border: 2px groove (internal value);
-   -webkit-border-radius: 8px;
-   -moz-border-radius: 8px;
-   border-radius: 8px;
-   color:cyan;
-   border-color: cyan; 
-   border-width: <?=$fieldset_border_width?>;
-   border-style: solid;
-   font-size: 16px;
+  display: block; 
+  margin-left: 2px; 
+  margin-right: 2px; 
+  padding-top: 0.25em; 
+  padding-bottom: 0.625em; 
+  padding-left: 0.75em; 
+  padding-right: 0.75em; 
+  border: 2px groove (internal value);
+  border-radius: 8px;
+  color: #00FFFF;
+  border-color: #00FFFF; 
+  border-width: thin;
+  border-style: solid;
+  font-size: medium;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+
 }
 
 .arcadeFieldset {
-	display: block; 
-	margin-left: 2px; 
-	margin-right: 2px; 
-	padding-top: 1.8em; 
-	padding-bottom: 0.625em; 
-	padding-left: 0.75em; 
-	padding-right: 0.75em; 
-	border: 2px groove (internal value);
-   -webkit-border-radius: 8px;
-   -moz-border-radius: 8px;
-   border-radius: 8px;
-   color:cyan;
+  display: block; 
+  margin-left: 2px; 
+  margin-right: 2px; 
+  padding-top: 1.8em; 
+  padding-bottom: 0.625em; 
+  padding-left: 0.75em; 
+  padding-right: 0.75em; 
+  border: 2px groove (internal value);
+  border-radius: 8px;
+  color: #00FFFF;
   border-color: pink; 
-  border-width: <?=$fieldset_border_width?>;
+  border-width: thin;
   border-style: solid;
-  font-size: 16px;
+  font-size: medium;
   padding: 10px;
   text-shadow: 2px 2px 4px #000000;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
 }
 
 legend {

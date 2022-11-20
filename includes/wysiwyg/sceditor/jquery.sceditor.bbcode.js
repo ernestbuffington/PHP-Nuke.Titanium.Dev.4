@@ -35,7 +35,7 @@
 					'<head>' +
 						'<style>.ie * {min-height: auto !important}</style>' +
 
-						// '<script type="text/javascript">' +
+						// '<script>' +
 						// '	var reimg_maxWidth          = '+reimg_maxWidth+', reimg_maxHeight = '+reimg_maxHeight+', reimg_relWidth = 0;' +
 						// // '	var reimg_swapPortrait      = true;' +
 						// // '	var reimg_loadingStyle      = "width: 126px; height: 22px; background: url(./includes/css/images/reimg-image-resizer/loading.gif) top left no-repeat;";' +
@@ -46,11 +46,11 @@
 						// // '	var reimage_viewer			= "'+reimg_img_viewer+'"; ' +
 						// '</script>' +
 
-						// '<script type="text/javascript" src="./includes/js/jquery.reimg.image.resizer.js"></script>' +
+						// '<script src="./includes/js/jquery.reimg.image.resizer.js"></script>' +
 
 						// border: 2px solid rgb(0, 102, 153); padding: 2px; background-color: white;
 
-						// '<script type="text/javascript">' +
+						// '<script>' +
 
 						// '	function reimg(img, width, height)' +
 						// '	{' +

@@ -94,7 +94,7 @@ function login()
 
 	?>
 
-	<style type="text/css">
+	<style>
 		.form-control {
 			display: block;
 			width: 100%;

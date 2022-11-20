@@ -1,4 +1,4 @@
-<script language="Javascript">
+<script>
 var win = null;
 function Arcade_Popup(mypage,myname,w,h,scroll)
 {

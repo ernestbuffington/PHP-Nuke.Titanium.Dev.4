@@ -32,7 +32,7 @@ function donation_index() {
 }
 
 // global $more_js;
-$donation_js = '<script type="text/javascript">
+$donation_js = '<script>
 function createCookie(name, value, days)
 {
   if (days) {

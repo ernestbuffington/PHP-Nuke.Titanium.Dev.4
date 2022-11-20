@@ -2,7 +2,7 @@
 
 <p>{L_SMILEY_EXPLAIN}</p>
 
-<script language="javascript" type="text/javascript">
+<script>
 <!--
 function update_smiley(newimage)
 {

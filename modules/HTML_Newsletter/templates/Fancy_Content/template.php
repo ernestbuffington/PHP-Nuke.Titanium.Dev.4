@@ -929,7 +929,7 @@ $emailfile = <<< EOD
 <html>
 <head>
   <title>{SITENAME} Email</title>
-  <style type="text/css">
+  <style>
 		<!--
 		DIV {FONT-FAMILY: Verdana,Helvetica; FONT-SIZE: 10px}
 		FONT {FONT-FAMILY: Verdana,Helvetica; FONT-SIZE: 10px}

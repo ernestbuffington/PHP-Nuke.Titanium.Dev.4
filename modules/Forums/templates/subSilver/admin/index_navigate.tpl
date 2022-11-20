@@ -1,4 +1,4 @@
-<script language="javascript" type="text/javascript">
+<script>
 <!--
 
 var menuVersion = "Slide Menu v1.0.0";

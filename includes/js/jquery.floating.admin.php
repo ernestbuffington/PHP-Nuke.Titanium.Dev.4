@@ -215,7 +215,7 @@ if ( is_admin() && !defined('_disable_floating_admin') )
 	 * OK, Let's add some inline CSS for the admin menu button.
 	 */
 	$fa_inline__css  = '<!-- Inline CSS for scroll to top v1.0 -->'.PHP_EOL;
-	$fa_inline__css .= '<style type="text/css">'.PHP_EOL;
+	$fa_inline__css .= '<style>'.PHP_EOL;
 	$fa_inline__css .= '.toggle-menu{-webkit-box-shadow: 0px 0px 3px 2px '.$ThemeInfo['uitotophover'].';-moz-box-shadow: 0px 0px 3px 2px '.$ThemeInfo['uitotophover'].';box-shadow: 0px 0px 3px 2px '.$ThemeInfo['uitotophover'].';}';
 	$fa_inline__css .= '.navigation-item a:before {background-color: '.$ThemeInfo['uitotophover'].'}';
 	$fa_inline__css .= '</style>'.PHP_EOL;
@@ -242,7 +242,7 @@ if ( is_admin() && !defined('_disable_floating_admin') )
 	 * Add some inline jQuery variables for getting text hover color and links.
 	 */
 	$fa_inline__js  = "<!-- Inline jQuery for floating admin menu v2.0 -->".PHP_EOL;
-	$fa_inline__js .= "<script type=\"text/javascript\">".PHP_EOL;
+	$fa_inline__js .= "<script>".PHP_EOL;
 	$fa_inline__js .= '	var uitotophover = "'.$ThemeInfo['uitotophover'].'";'.PHP_EOL;
 	$fa_inline__js .= ' var links_json = "'.addslashes(json_encode($administration_links)).'";';
     $fa_inline__js .= "</script>".PHP_EOL;

@@ -146,7 +146,7 @@ print '</table>';
 print '</div>';
 
 print'
-<script type="text/javascript">
+<script>
  <!--
  function copy() {
    var w = 400;

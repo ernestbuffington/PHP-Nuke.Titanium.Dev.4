@@ -37,14 +37,14 @@ switch($ShoutSubmit) {
 }
 
 if (!isset($_GET['Action']) && $_GET['Action'] != 'AJAX') {
-    $content .= '<script type="text/javascript">
+    $content .= '<script>
     //<![CDATA[
 	var SBheight = \''.$ShoutMarqueeheight.'\';var SBcontent = new String(\''.$mid_content.'\');
 	//]]>
 	</script>
-    <script type="text/javascript" src="includes/shoutbox.js"></script>';
+    <script src="includes/shoutbox.js"></script>';
     $content .= $top_content."\n";
-    $content .= "<div align=\"center\" id=\"shoutbox\"><script type=\"text/javascript\">document.write(SBtxt);</script></div>\n";
+    $content .= "<div align=\"center\" id=\"shoutbox\"><script>document.write(SBtxt);</script></div>\n";
     $content .= $bottom_content."\n";
 }
 ?>

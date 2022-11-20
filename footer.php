@@ -92,7 +92,7 @@ $powered_by = '<font size="3">PHP-Nuke Titanium (US Version) Copyright &copy; 20
 $footmsg = "<span class=\"footmsg\">\n";
 
 # Google Site Map v1.0 START	    
-$footmsg .= '<font size="5"><strong><a class="googleminds" href="modules.php?name=Google-Site-Map" target="_self"><font color="#4285f4">G</font><font color="#ea4335">o</font><font color="#fbbc05">o</font><font color="#4285f4">g</font><font color="#34a853">l</font><font color="#ea4335">e</font> <font color="#4285f4">S</font><font color="#ea4335">i</font><font color="#fbbc05">t</font><font color="#4285f4">e</font><font color="#ea4335">m</font><font color="#34a853">a</font><font color="#ea4335">p</font></a></strong></font><br />';
+$footmsg .= '<a class="googleminds" href="modules.php?name=Google-Site-Map" target="_self"><span style="color:#4285f4">G</span><span style="color:#ea4335">o</span><span style="color:"#fbbc05">o</span><span style="color:#4285f4">g</span><span style="color:#34a853">l</span><span style="color:#ea4335">e</span> <span style="color:#4285f4">S</span><span style="color:#ea4335">i</span><span style="color:#fbbc05">t</span><span style="color:#4285f4">e</span><span style="color:#ea4335">m</span><span style="color:#34a853">a</span><span style="color:#ea4335">p</span></a><br />';
 # Google Site Map v1.0 END
 
 # footer messages from databae START
@@ -247,9 +247,9 @@ endif;
 
 echo "\n<!-- START facebook connector -->\n";
 if(defined('facebook')):
-echo '<div id="status">'."\n";
-echo '</div>'."\n";
-echo '<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>'."\n";
+echo '<div id="status">'.PHP_EOL;
+echo '</div>'.PHP_EOL;
+echo '<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>'.PHP_EOL;
 endif;
 echo "<!-- END facebook connector -->\n\n";
 
@@ -288,7 +288,7 @@ $pageURL = "".HTTPS."modules/".$module_name."/copyright.php";
 
 if (defined('MODULE_FILE') && !defined("HOME_FILE") AND file_exists("modules/".$module_name."/copyright.php")) 
 {
-    echo "<script type=\"text/javascript\">\n";
+    echo "<script>\n";
     echo "<!--\n";
     echo "function openwindow(w,h){\n";
     echo "var left = (screen.width/2)-(w/2);\n";

@@ -1,4 +1,4 @@
-<script language="JavaScript">
+<script>
 function resize_avatar(image)
 {
   if ({MAXSIZE_AVATAR}>0)

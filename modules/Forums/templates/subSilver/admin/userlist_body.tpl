@@ -1,5 +1,5 @@
 <!-- BEGIN user_row -->
-<script type="text/javascript">
+<script>
   nuke_jq(function($)
   {
   	// var user_id = '{user_row.USER_ID}';

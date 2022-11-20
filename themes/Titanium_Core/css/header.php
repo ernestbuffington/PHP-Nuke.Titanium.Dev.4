@@ -2,7 +2,7 @@
 global $theme_name;
 echo "\n\n/* themes/".$theme_name."/css/header.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
 echo "/* When we are done we will move this code to style.css */\n\n"; 
-global $screen_width, $screen_height, $textcolor1, $textcolor2, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $bgcolor5;
+global $screen_width, $screen_height, $textcolor1, $textcolor2, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $bgcolor5, $fieldset_border_width, $locked_width;
 $bgcolor5 ='#3c3523';
 ?>
 /*################################################################# Forum CSS from here down ###########################################*/
@@ -122,7 +122,7 @@ input[type="radio"]{
 }
 
 .absmiddle{
-    vertical-align: absmiddle;
+    vertical-align: middle;
 }
 
 /*---------------------------------------------------------------*/
@@ -153,7 +153,7 @@ a.redalert:hover {text-decoration: underline; color: green;}
 .alert {
   position: absolute;
   top: 217px; // Should be same as the height of the header
-  width: 100%;
+
 }
 
 hr {
@@ -166,26 +166,246 @@ hr {
 
 }
 
-fieldset 
+fieldset {
+-webkit-border-radius: 8px;
+-moz-border-radius: 8px;
+border-radius: 8px;
+padding: 6px;
+}
+
+/* REG TABLES 100% Width */
+.table100
 {
-	display: block; 
-	margin-left: 2px; 
-	margin-right: 2px; 
-	padding-top: 0.15em; 
-	padding-bottom: 0.625em; 
-	padding-left: 0.75em; 
-	padding-right: 0.75em; 
-	border: 2px groove (internal value);
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
+}
 
-   -webkit-border-radius: 8px;
-   -moz-border-radius: 8px;
-   border-radius: 8px;
-
+td.BackgroundColor4
+{
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-color: <?=$bgcolor4?>;
 }
 
 .header_table_opacity
 {
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
   opacity: 0.9;
+}
+
+.header_table_two
+{
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
+}
+
+td.header_table_twoTL
+{
+  table-layout: auto;
+  width: 39px;
+  height: 50px;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-image: url('themes/<?=$theme_name?>/images/HEADER/top_left_corner.png');
+}
+
+td.header_table_twoTM
+{
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background: repeat-x; 
+  background-image: url('themes/<?=$theme_name?>/images/HEADER/top_middle_piece.png');
+}
+
+td.header_table_twoTR
+{
+  table-layout: auto;
+  width: 39px;
+  height: 50px;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-image: url('themes/<?=$theme_name?>/images/HEADER/top_right_corner_10.png');
+}
+
+td.header_table_twoLSM
+{
+  table-layout: auto;
+  width: 39px;
+  height: 100%;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 39px;
+  border-spacing: 0px;
+  background-image: url('themes/<?=$theme_name?>/images/HEADER/left_side_middle_151515.png');
+}
+
+/* Used To Slide Banner Ads In TO View */
+@-webkit-keyframes pulsate {
+    0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;}
+    50% {opacity: 1.0;}
+    100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
+}
+
+.banneradLT
+{
+  table-layout: auto;
+  width: 100%;
+  height: 165px;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
+  /* filter: drop-shadow(1px 1px 6px #87774b); */
+}
+
+td.banneradLSM
+{
+  table-layout: auto;
+  width: 25%;
+  height: 79px;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
+  text-align: left;
+  vertical-align: top;
+  /* -webkit-border-radius: 6px; */
+  /* -webkit-animation: pulsate 1s ease-in; */
+  /* -webkit-animation-iteration-count: 1; */
+  /* 0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;} */
+  /* 50% {opacity: 1.0;} */
+  /* 100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;} */
+
+}
+
+.banneradRT
+{
+  table-layout: auto;
+  width: 100%;
+  height: 165px;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
+  /* filter: drop-shadow(1px 1px 6px #87774b); */
+}
+
+td.banneradRSM
+{
+  table-layout: auto;
+  width: 25%;
+  height: 79px;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
+  text-align: right;
+  vertical-align: top;
+  -webkit-border-radius: 6px;
+  -webkit-animation: pulsate 1s ease-in;
+  -webkit-animation-iteration-count: 1; 
+  0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;}
+  50% {opacity: 1.0;}
+  100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
+}
+
+td.undermarqueeLT
+{
+  table-layout: auto;
+  width: 25%;
+  height: 20px;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
+  text-align: left;
+  vertical-align: bottom;
+}
+
+td.undermarqueeRT
+{
+  table-layout: auto;
+  width: 25%;
+  height: 20px;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
+  text-align: right;
+  vertical-align: bottom;
+}
+
+td.abovemarqueeLT
+{
+  table-layout: auto;
+  width: 25%;
+  height: 30px;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
+  text-align: left;
+  vertical-align: bottom;
+}
+
+td.abovemarqueeRT
+{
+  table-layout: auto;
+  width: 25%;
+  height: 30px;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
+  text-align: left;
+  vertical-align: bottom;
 }
 
 body {	
@@ -193,6 +413,25 @@ body {
 	color: #fff;
 	font-family: "Open Sans", sans-serif;
 	text-rendering: optimizeLegibility;
+    overflow-y: scroll; /* Show vertical scrollbar */
+    /* overflow-x: scroll;  Show horizontal scrollbar */
+}
+
+::-webkit-scrollbar {
+  height: 12px;
+  width: 12px;
+  background: #969696;
+  -webkit-border-radius: 1ex;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2B2B2B;
+  -webkit-border-radius: 1ex;
+  -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
+}
+
+::-webkit-scrollbar-corner {
+  background: #1A1A1A;
 }
 
 a {
@@ -233,15 +472,18 @@ a:active {
   
 
 a.bbcode-href:active { 
-	color: <?=$textcolor2?>;
+	color: <?=$textcolor1?>;
+    text-shadow: 2px 2px black;
 }
 
 a.bbcode-href:hover { 
-	color: <?=$textcolor2?>;
+	color: white;
+    text-shadow: 2px 2px black;
 }
 
 a.bbcode-href {
 	color: <?=$textcolor1?>;
+    text-shadow: 2px 2px black;
 }
 
 /*
@@ -476,7 +718,7 @@ td.row2 {
 
 td.row3 {
 	background-color: #7f6f49;
-	border: 1px solid border: 1px solid <?=$bgcolor3?>;
+	border: 1px solid <?=$bgcolor3?>;
 	border: 1px solid <?=$bgcolor3?>;
 	padding: 4px;
 }
@@ -484,7 +726,7 @@ td.row3 {
 /* Category Row Right */
 td.rowpic {
 	background: <?=$bgcolor2?>;
-	border: <?=$bgcolor3?> 1px solid;
+	border: 1px solid <?=$bgcolor3?>;
 	padding-left: 2px;
 	padding-right: 2px;
 	padding-bottom: 2px;
@@ -761,7 +1003,7 @@ padding:10px 15px 7px 40px;
 width:90%;
 line-height:15px;
 color:<?=$textcolor1?>;text-shadow:0 1px 1px <?=$bgcolor4?>; 
-background-color:none;
+background-color:transparent;
 
 background-image:-webkit-radial-gradient(center,cover,rgba(166,139,67,0.7) 0%,rgba(166,139,67,0.1) 90%),-webkit-repeating-linear-gradient(top,transparent 0%,transparent 29px,rgba(239,207,173,0.7) 29px,rgba(239,207,173,0.7) 0px); 
 
@@ -843,15 +1085,12 @@ font-style:italic;color:<?=$textcolor1?>;
 
 .visitors:hover
 {
-/* filter: grayscale(0%); */
-  filter: saturate(5px);
   transform: rotate(360deg);
   transition: transform .8s ease-in-out;
   cursor: pointer;
 }
 .visitors
 {
-/* filter: grayscale(100%); */
   transition: all .2s ease-in-out;
   max-width: 100vmin;
   max-height: 70vmin;

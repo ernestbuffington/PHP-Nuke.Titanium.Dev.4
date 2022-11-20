@@ -1,6 +1,6 @@
 <!-- BEGIN ROPM_QUICK_REPLY -->
 </form>
-<script language="JavaScript" type="text/javascript">
+<script>
 var theSelection = false;
 function quoteSelection()
 {

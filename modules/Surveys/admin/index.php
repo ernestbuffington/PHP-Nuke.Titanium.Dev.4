@@ -157,7 +157,7 @@ if(is_mod_admin($module_name)) {
 
     // "borrowed" FROM Credits module and modified
     function LoadJS() {
-      echo "<script type=\"text/javascript\">\n"
+      echo "<script>\n"
           ."<!--\n"
           ."function show(id) {\n"
           ."  if (id.style.display == \"\"){\n"

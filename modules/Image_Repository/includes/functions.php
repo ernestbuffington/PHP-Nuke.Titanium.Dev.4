@@ -44,7 +44,7 @@ $myimages	= $db->sql_numrows($db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_
 $quotainfo 	= _quota_percentages($userinfo['user_id']);
 
 
-$JStoHead  = '<script type="text/javascript">';
+$JStoHead  = '<script>';
 $JStoHead .= '	var jquery_prefix				= '.((defined('NUKE_EVO')) ? 'nuke_jq' : '$').';'."\n";
 $JStoHead .= '	var module_name 				= "'.$module_name.'";'."\n";
 $JStoHead .= '	var version_installed			= "'._IREPOSITORY_VERSION.'";'."\n";

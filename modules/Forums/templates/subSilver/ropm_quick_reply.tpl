@@ -1,6 +1,6 @@
 <!-- BEGIN ROPM_QUICK_REPLY -->
 </form>
-<script language="JavaScript" type="text/javascript">
+<script>
 var theSelection = false;
     function openAllSmiles(){
         smiles = window.open('modules.php?name=Forums&file=posting&mode=smilies&popup=1', '_phpbbsmilies', 'HEIGHT=300,resizable=yes,scrollbars=yes,WIDTH=500');

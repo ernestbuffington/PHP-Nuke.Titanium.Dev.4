@@ -3,14 +3,14 @@
 PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" />
-<html xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="https://www.facebook.com/2008/fbml" />
-<head>
+<html xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="https://www.facebook.com/2008/fbml" /><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="Content-Language" content="en" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 {META}
 {NAV_LINKS}
+
 <title>{SITENAME} :: {PAGE_TITLE}</title>
 <!-- link rel="stylesheet" href="modules/Forums/templates/subSilver/{T_HEAD_STYLESHEET}" type="text/css" -->
 <style>
@@ -231,10 +231,10 @@ var rmw_image_title = '{L_RMW_IMAGE_TITLE}';
 //]]>
 
 </script>
-<script type="text/javascript" src="{U_RMW_JSLIB}"></script>
+<script src="{U_RMW_JSLIB}"></script>
 <!-- fin mod : Resize Posted Images Based on Max Width -->
 <!-- BEGIN switch_enable_pm_popup -->
-<script type="text/javascript">
+<script>
 <!--
     if ( {PRIVATE_MESSAGE_NEW_FLAG} )
     {
@@ -245,7 +245,7 @@ var rmw_image_title = '{L_RMW_IMAGE_TITLE}';
 <!-- END switch_enable_pm_popup -->
 <!-- Start add - Advanced time management MOD -->
 <!-- BEGIN switch_send_pc_dateTime -->
-<script type="text/javascript">
+<script>
 <!-- Start Replace - window.onload = send_pc_dateTime -->
 send_pc_dateTime();
 <!-- End Replace - window.onload = send_pc_dateTime -->
@@ -299,7 +299,7 @@ function send_pc_dateTime() {
 
 <!-- Quick Search -->
 <!-- BEGIN switch_quick_search -->
-<br /><script type="text/javascript">
+<br /><script>
 <!--
 function checkSearch()
 {

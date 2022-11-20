@@ -214,7 +214,7 @@ $content ="
 <!-- Sommaire realise grace au module Sommaire Parametrable v.2.1.1 - ©marcoledingue - marcoledingue .-:@at@:-. free.fr -->
 ";
 ?>
-<script type="text/javascript" language="JavaScript">
+<script >
 function sommaire_envoielistbox(page) {
     var reg= new RegExp('(_sommaire_targetblank)$','g');
     if (reg.test(page)) {
@@ -271,7 +271,7 @@ $cache->save('sommaire_row3', 'block', $row3);
         if ($som_dynamic=="on" && $dynamictest!=1 && $detectMozilla!=1) {
             $dynamic=1;
             ?>
-            <script type="text/javascript" language="JavaScript">
+            <script>
             function sommaire_showhide(tableau, trigger, somimagename) {
                 if (document.getElementById(tableau).style.display == "none" && trigger!="nok") {
                     document.getElementById(tableau).style.display = ""; //block

@@ -10,7 +10,7 @@ echo '<html>
     <head>
     <title>Password Strength Help</title>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-    <style type="text/css">
+    <style>
         h1.myclass {font-size: 20pt; font-weight: bold; color: blue; text-align: center}
         h1.myclass2 {font-size: 11pt; font-style: normal; text-align: left}
     </style>

@@ -1,4 +1,4 @@
-<script language="javascript" type="text/javascript">
+<script>
 <!--
 function update_rank(newimage)
 {
@@ -6,7 +6,7 @@ function update_rank(newimage)
 }
 //-->
 </script>
-<script language="javascript" type="text/javascript">
+<script>
 <!--
 function update_rank(newimage)
 {

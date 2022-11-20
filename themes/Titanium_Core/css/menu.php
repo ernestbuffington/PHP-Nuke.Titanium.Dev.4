@@ -52,11 +52,8 @@ color: #cccccc;
 
 .btn-hover-one:hover {
     background-color: <?=$bgcolor2?> !important;
-    # button border
     border-color: <?=$textcolor1?>;
-    color: #CCC;
-    outline: 1;
-    # box background
+    color: white;
     box-shadow: 0 0 40px 40px <?=$bgcolor2?> inset;
     display:inline-block;
 }
@@ -67,6 +64,7 @@ color: #cccccc;
   -moz-appearance: none;
   appearance: none;
   background-color: transparent;
+  color: white;
   border: 1px solid <?=$bgcolor4?>;
   border-radius: 1.9em;
   color: <?=$bgcolor1?>;
@@ -97,87 +95,10 @@ color: #cccccc;
 
 .btn-hover-two:hover {
     background-color: <?=$bgcolor3?> !important;
-    # button border
     border-color: <?=$textcolor1?>;
-    color: #CCC;
-    outline: 1;
-    # box background
+    color: white;
     box-shadow: 0 0 40px 40px <?=$bgcolor2?> inset;
     display:inline-block;
-}
-
-/* Dropdown Button */
-.dropbtn {
-  background-color: <?=$bgcolor1?>;
-  border: none;
-}
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: <?=$bgcolor1?>;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-  color: black;
-  text-decoration: none;
-  display: block;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover 
-{
-  background-color: <?=$bgcolor2?>;
-}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content 
-{
-  display: block;
-}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn 
-{
-  background-color: <?=$bgcolor1?>;
-}
-
-/* Dropdown Button */
-.adropbtn {
-  background-color: <?=$bgcolor2?>;
-  border: none;
-}
-
-/* Dropdown Button */
-.adropbtn-admin {
-  background-color: none;
-  border: none;
-}
-
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.adropdown:hover .adropbtn 
-{
-  color: <?=$bgcolor1?> !important;
-  background-color: <?=$bgcolor4?>;
-}
-
-
-ul.dropdown-content a:hover 
-{ 
-  color: white !important;
-  background-color: <?=$bgcolor2?>; 
 }
 <?
 

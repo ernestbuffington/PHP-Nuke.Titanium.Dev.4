@@ -50,7 +50,7 @@ global $textcolor1, $textcolor2;
 //$icon = img('computer.png', 'cPanel_Login'); 
 /*<?=$icon?>*/
 ?>
-<script type="text/javascript">
+<script>
 <!--
 function hov(loc,cls){
    if(loc.className)

@@ -10,8 +10,8 @@
 <table width="90%" cellspacing="1" cellpadding="3" border="0" align="center"  class="bodyline">
 <tr>
       <td class="helpline"><span class="genmed"><strong>{USERNAME} {L_WROTE}:</strong>
-<script type="text/javascript" src="{U_SXBB_JSLIB}"></script>
-<script type="text/javascript">
+<script src="{U_SXBB_JSLIB}"></script>
+<script>
 <!--
     var id = 'SXBB' + (1000 + Math.floor(Math.random() * 5000));
     SXBB[id] = new _SXBB(id);
@@ -25,7 +25,7 @@
     </tr>
     <tr>
       <td class="quote">
-<script type="text/javascript">
+<script>
 <!--
     SXBB[id].writeDiv();
 //-->
@@ -35,8 +35,8 @@
 <table width="90%" cellspacing="1" cellpadding="3" border="0" align="center" class="bodyline">
 <tr>
       <td class="helpline"><span class="genmed"><strong>{L_QUOTE}:</strong>
-<script type="text/javascript" src="{U_SXBB_JSLIB}"></script>
-<script type="text/javascript">
+<script src="{U_SXBB_JSLIB}"></script>
+<script>
 <!--
     var id = 'SXBB' + (1000 + Math.floor(Math.random() * 5000));
     SXBB[id] = new _SXBB(id);
@@ -50,7 +50,7 @@
     </tr>
     <tr>
       <td class="quote">
-<script type="text/javascript">
+<script>
 <!--
     SXBB[id].writeDiv();
 //-->
@@ -60,8 +60,8 @@
 <table class="bodyline" width="90%" cellspacing="1" cellpadding="3" border="0" align="center">
 <tr>
       <td class="helpline"><span class="genmed"><strong>{USERNAME} {L_WROTE} ({U_VIEW_POST}):</strong>
-<script type="text/javascript" src="{U_SXBB_JSLIB}"></script>
-<script type="text/javascript">
+<script src="{U_SXBB_JSLIB}"></script>
+<script>
 <!--
     var id = 'SXBB' + (1000 + Math.floor(Math.random() * 5000));
     SXBB[id] = new _SXBB(id);
@@ -75,7 +75,7 @@
     </tr>
     <tr>
       <td class="quote">
-<script type="text/javascript">
+<script>
 <!--
     SXBB[id].writeDiv();
 //-->
@@ -84,8 +84,8 @@
 <table class="bodyline" width="90%" cellspacing="1" cellpadding="3" border="0" align="center">
 <tr>
       <td class="helpline"><span class="genmed"><strong>{L_QUOTE} ({U_VIEW_POST}):</strong>
-<script type="text/javascript" src="{U_SXBB_JSLIB}"></script>
-<script type="text/javascript">
+<script src="{U_SXBB_JSLIB}"></script>
+<script>
 <!--
     var id = 'SXBB' + (1000 + Math.floor(Math.random() * 5000));
     SXBB[id] = new _SXBB(id);
@@ -99,13 +99,13 @@
     </tr>
     <tr>
       <td class="quote">
-<script type="text/javascript">
+<script>
 <!--
     SXBB[id].writeDiv();
 //-->
 </script><!-- END quote_post_open -->
 <!-- BEGIN quote_close -->
-<script type="text/javascript">
+<script>
 <!--
     document.write('</div>');
 //-->
@@ -119,8 +119,8 @@
 <table width="90%" cellspacing="1" cellpadding="3" border="0" align="center" class="bodyline">
 <tr>
       <td class="helpline"><span class="genmed"><strong>{L_CODE}:</strong>
-<script type="text/javascript" src="{U_SXBB_JSLIB}"></script>
-<script type="text/javascript">
+<script src="{U_SXBB_JSLIB}"></script>
+<script>
 <!--
     var id = 'SXBB' + (1000 + Math.floor(Math.random() * 5000));
     SXBB[id] = new _SXBB(id);
@@ -134,13 +134,13 @@
     </tr>
     <tr>
       <td class="code">
-<script type="text/javascript">
+<script>
 <!--
     SXBB[id].writeDiv();
 //-->
 </script><!-- END code_open -->
 <!-- BEGIN code_close -->
-<script type="text/javascript">
+<script>
 <!--
     document.write('</div>');
 //-->
@@ -155,8 +155,8 @@
 <table class="bodyline" border="0" align="center" width="90%" cellpadding="3" cellspacing="1">
 <tr>
       <td class="helpline"><span class="genmed"><strong>{L_PHP}:</strong>
-<script type="text/javascript" src="{U_SXBB_JSLIB}"></script>
-<script type="text/javascript">
+<script src="{U_SXBB_JSLIB}"></script>
+<script>
 <!--
     var id = 'SXBB' + (1000 + Math.floor(Math.random() * 5000));
     SXBB[id] = new _SXBB(id);
@@ -170,13 +170,13 @@
     </tr>
     <tr>
       <td class="code">
-<script type="text/javascript">
+<script>
 <!--
     SXBB[id].writeDiv();
 //-->
 </script><!-- END php_open -->
 <!-- BEGIN php_close -->
-<script type="text/javascript">
+<script>
 <!--
     document.write('</div>');
 //-->

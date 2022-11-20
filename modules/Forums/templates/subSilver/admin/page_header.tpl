@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset={S_CONTENT_ENCODING}">
   <link rel="stylesheet" href="{T_HEAD_STYLESHEET}" type="text/css">
   <title>{SITENAME} - {L_PHPBB_ADMIN}</title>
-  <script type="text/javascript"> 
+  <script> 
     function ismaxlength(obj)
     { 
       var mlength=obj.getAttribute? parseInt(obj.getAttribute("maxlength")) : "" 
@@ -13,8 +13,8 @@
         obj.value=obj.value.substring(0,mlength) 
     } 
   </script>
-  <script type="text/javascript" src="../../../includes/js/scripts/jquery.min.js"></script>
-  <script type="text/javascript">
+  <script src="../../../includes/js/scripts/jquery.min.js"></script>
+  <script>
     var nuke_jq = jQuery.noConflict();
   </script>
 
@@ -23,8 +23,8 @@
   <link rel="stylesheet" type="text/css" href="../../../includes/css/jquery.tooltipster.bundle.min.css">
   <link rel="stylesheet" type="text/css" href="../../../includes/css/jquery.tooltipster-sideTip-light.min.css">
 
-  <script type="text/javascript" src="../../../includes/js/scripts/jquery.tooltipster.bundle.min.js"></script>
-  <script type="text/javascript">
+  <script src="../../../includes/js/scripts/jquery.tooltipster.bundle.min.js"></script>
+  <script>
     nuke_jq(function($)
     {
         $(".tooltip").tooltipster({

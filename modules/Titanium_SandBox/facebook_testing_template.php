@@ -29,7 +29,7 @@ if (!defined('MODULE_FILE')) {
 	OpenTable();
 	echo "<center>\n";
 	echo"<div id=\"fb-root\"></div>\n";
-    echo "<script type=\"text/javascript\">\n";
+    echo "<script>\n";
     echo "<!--\n";
 	
 	echo"window.fbAsyncInit = function() {\n";

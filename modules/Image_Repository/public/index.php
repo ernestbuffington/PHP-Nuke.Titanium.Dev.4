@@ -22,7 +22,7 @@ function main()
 //-------------------------------------------------------------------------
 //	UPDATE THE JQUERY IMAGE COUNT VALUE.
 //-------------------------------------------------------------------------	
-	echo '<script type="text/javascript">'."\n";
+	echo '<script>'."\n";
 	echo '	var imagecount_per_page = "'.$settings['perpage'].'"'."\n";
     echo '</script>'."\n";	
 //-------------------------------------------------------------------------
@@ -557,7 +557,7 @@ function myquota()
 //-------------------------------------------------------------------------
 //	JQUERY, TO UPDATE THE PERCENTAGE BAR WITH YOUR QUOTA PROGRESS
 //-------------------------------------------------------------------------
-	echo '<script type="text/javascript">';
+	echo '<script>';
 //-------------------------------------------------------------------------
 //	IF THIS IS EVOLUTION XTREME, USE JQUERY NOCONFLICT
 //-------------------------------------------------------------------------

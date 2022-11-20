@@ -1460,7 +1460,7 @@ function select_gallery($name='default', $gallery='', $img_show = FALSE, $select
     $href_dir = NUKE_HREF_BASE_DIR . $gallery;
     if (is_dir($dir)) {
         if (!defined('GALLERY_JAVASCRIPT') && ($img_show == TRUE)) {
-            $select = '<script language="javascript" type="text/javascript">
+            $select = '<script>
                         <!--
                         function update_gallery(newimage)
                         {

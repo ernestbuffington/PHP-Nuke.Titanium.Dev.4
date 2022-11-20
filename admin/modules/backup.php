@@ -296,7 +296,7 @@ switch ($op) {
         OpenTable();
         echo '<br />';
 		echo '<form method="post" name="backup" action="'.$admin_file.'.php" enctype="multipart/form-data">';
-        echo "<script language=\"JavaScript\" type=\"text/javascript\">
+        echo "<script>
         <!--
         function setSelectOptions(the_form, the_select, do_check)
         {

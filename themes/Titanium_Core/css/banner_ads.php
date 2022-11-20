@@ -33,18 +33,12 @@ animation: blinker-two 1.4s linear infinite;
 }
 
 .logo {
-float: center;
 position: relative;
 margin: 0px 0px 0px 0px;
 z-index: 777;
 }
 
-@import url(//db.onlinewebfonts.com/c/783dd6c2d08bdc67012a0eec73fc1702?family=80sPXLW00-Thin);
-
-@font-face {font-family: "80sPXLW00-Thin"; src: url("//db.onlinewebfonts.com/t/783dd6c2d08bdc67012a0eec73fc1702.eot"); src: url("//db.onlinewebfonts.com/t/783dd6c2d08bdc67012a0eec73fc1702.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/783dd6c2d08bdc67012a0eec73fc1702.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/783dd6c2d08bdc67012a0eec73fc1702.woff") format("woff"), url("//db.onlinewebfonts.com/t/783dd6c2d08bdc67012a0eec73fc1702.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/783dd6c2d08bdc67012a0eec73fc1702.svg#80sPXLW00-Thin") format("svg"); }
-
 .marquee_one {
-  font-family: "80sPXLW00-Thin";
   width: 484px;
   height: 20px;
   overflow: hidden;
@@ -54,7 +48,6 @@ z-index: 777;
 }
 
 .marquee_two {
-  font-family: "80sPXLW00-Thin";
   width: 484px;
   height: 20px;
   overflow: hidden;

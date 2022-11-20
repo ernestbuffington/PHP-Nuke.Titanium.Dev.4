@@ -5,6 +5,11 @@ echo "\n\n/* themes/".$theme_name."/css/body.php Fly Kit for PHP-Nuke Titanium -
 echo "/* When we are done we will move this code to style.css */\n\n"; 
 
 global $screen_width, $screen_height, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4;
+if(empty($screen_width))
+$screen_width = '1280px';
+
+if(empty($screen_height))
+$screen_height = '1024px';
 
 ?>
 /*---------------------------------------------------------------*/

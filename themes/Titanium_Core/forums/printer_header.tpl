@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Style-Type" content="text/css">
 {META}
 <title>{SITENAME} :: {PAGE_TITLE}</title>
-<style type="text/css">
+<style>
 <!--
 
 body { 

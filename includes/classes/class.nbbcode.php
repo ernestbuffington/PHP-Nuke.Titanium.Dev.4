@@ -170,7 +170,7 @@ class BBCode
 	public static function evo_spoil( $hidden_content )
 	{
 		$template  = '
-		<style type="text/css">
+		<style>
 		.spoiler-container {
 			display: block;
 		}
@@ -222,7 +222,7 @@ class BBCode
 		$template .= '	Spoiler: <button class="btn btn-mod btn-border" type="button" id="reveal-spoiler" name="spoiler">Show</button>';
 		$template .= '	<div id="spoiler-contents">Phones Broken</div>';
 		$template .= '</div>';
-		$template .= '<script type="text/javascript">
+		$template .= '<script>
 			var hidden_content = document.getElementById("spoiler-contents");
 			document.getElementById("reveal-spoiler").addEventListener("click", function (event) 
 			{

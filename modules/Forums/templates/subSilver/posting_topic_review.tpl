@@ -1,4 +1,4 @@
-<script language="JavaScript" type="text/javascript">
+<script>
 <!--
 
 message = new Array();

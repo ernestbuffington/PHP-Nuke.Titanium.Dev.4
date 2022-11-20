@@ -89,7 +89,7 @@ switch ($op)
         
 		if($neconfig["readmore"] == 1) 
 		{
-            echo "<script language='JavaScript'>\n";
+            echo "<script>\n";
             echo "<!-- Begin\n";
             echo "function NewsReadWindow(mypage, myname, w, h, scroll) {\n";
             echo "var winl = (screen.width - w) / 2;\n";

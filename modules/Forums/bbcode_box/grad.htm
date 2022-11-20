@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1256">
 <title>Gradient</title>
-<script language="javascript">
+<script>
 function openDialog() {	
   window.dialogLeft = parseFloat(window.dialogLeft) - (frm.clientWidth - parseFloat(window.dialogWidth)) / 2 + "px";
   window.dialogTop = parseFloat(window.dialogTop) - (frm.clientHeight - parseFloat(window.dialogHeight)) / 2 + "px";
@@ -144,9 +144,9 @@ function gradient_accept() {
 }
 </script>
 </head>
-<body bgcolor="#EFEFEF" onload="openDialog();">
+<body bgcolor="#EFEFEF" onLoad="openDialog();">
 <table id="frm" align="center" border="0"><tr><td align="center" nowrap>
-		<select id="clr1" onchange="document.body.focus();gradient_preview();">
+		<select id="clr1" onChange="document.body.focus();gradient_preview();">
 		    <option value="">x
             <option value="000000" style="background-color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>            
             <option value="FFFFFF" style="background-color:white"></option>
@@ -176,7 +176,7 @@ function gradient_accept() {
 			<option value="C0C0C0" style="background-color:silver"></option>
             <option value="808080" style="background-color:gray"></option>
         </select>
-		<select id="clr2" onchange="document.body.focus();gradient_preview();">
+		<select id="clr2" onChange="document.body.focus();gradient_preview();">
 		    <option value="">x
             <option value="000000" style="background-color:black" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
             <option value="FFFFFF" style="background-color:white"></option>
@@ -206,7 +206,7 @@ function gradient_accept() {
 			<option value="C0C0C0" style="background-color:silver"></option>
             <option value="808080" style="background-color:gray"></option>
         </select>
-		<select id="clr3" onchange="document.body.focus();gradient_preview();">
+		<select id="clr3" onChange="document.body.focus();gradient_preview();">
 		    <option value="">x
             <option value="000000" style="background-color:black" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
             <option value="FFFFFF" style="background-color:white"></option>
@@ -236,7 +236,7 @@ function gradient_accept() {
 			<option value="C0C0C0" style="background-color:silver"></option>
             <option value="808080" style="background-color:gray"></option>
         </select>
-		<select id="clr4" onchange="document.body.focus();gradient_preview();">
+		<select id="clr4" onChange="document.body.focus();gradient_preview();">
 		    <option value="">x
             <option value="000000" style="background-color:black" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
             <option value="FFFFFF" style="background-color:white"></option>
@@ -266,7 +266,7 @@ function gradient_accept() {
 			<option value="C0C0C0" style="background-color:silver"></option>
             <option value="808080" style="background-color:gray"></option>
         </select>
-		<select id="clr5" onchange="document.body.focus();gradient_preview();">
+		<select id="clr5" onChange="document.body.focus();gradient_preview();">
 		    <option value="">x
             <option value="000000" style="background-color:black" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
             <option value="FFFFFF" style="background-color:white"></option>
@@ -296,7 +296,7 @@ function gradient_accept() {
 			<option value="C0C0C0" style="background-color:silver"></option>
             <option value="808080" style="background-color:gray"></option>
         </select>&nbsp;
-        <select id="template" onchange="document.body.focus();gradient_template();" name="hi">
+        <select id="template" onChange="document.body.focus();gradient_template();" name="hi">
            <option value="3,4,5,0,0">Selected Colors
            <option value="3,4,5,0,0">1           
            <option value="14,12,9,0,0">2
@@ -306,8 +306,8 @@ function gradient_accept() {
            <option value="20,15,8,14,20">6
         </select>
 <p id="preview" align="center">&nbsp;</p>
-<input type=button value="ok" onclick="gradient_accept()">&nbsp;
-<input type=button value="cancel" onclick="window.close();">
+<input type=button value="ok" onClick="gradient_accept()">&nbsp;
+<input type=button value="cancel" onClick="window.close();">
 </td></tr></table>
 <script>
   template.selectedIndex=1;

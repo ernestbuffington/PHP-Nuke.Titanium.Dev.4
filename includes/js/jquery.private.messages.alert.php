@@ -41,7 +41,7 @@ if ( !defined('_disable_default_evo_pm_alert') ):
 		$CSStoHead .= '</style>'.PHP_EOL;
 		addCSSToHead($CSStoHead,'inline');
 
-		$JStoHead  = '<script type="text/javascript">'.PHP_EOL;
+		$JStoHead  = '<script>'.PHP_EOL;
 		$JStoHead .= '	var pm_alert_status = "'.get_evo_option('pm_alert_status','int').'";'.PHP_EOL;
 		$JStoHead .= '	var pm_delay_timing = "'.get_evo_option('pm_cookie_seconds','int').'";'.PHP_EOL;
 		$JStoHead .= '	var pm_alert_message = "'.sprintf((($newpms > 1) ? $customlang['private_msg']['messages'] : $customlang['private_msg']['message']),$newpms).'";'.PHP_EOL;

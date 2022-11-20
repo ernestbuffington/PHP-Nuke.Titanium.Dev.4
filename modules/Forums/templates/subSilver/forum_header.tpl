@@ -2,7 +2,7 @@
 {NAV_LINKS}
 <title>{SITENAME} :: {PAGE_TITLE}</title>
 <!-- link rel="stylesheet" href="themes/DeepBlue/forums/{T_HEAD_STYLESHEET}" type="text/css" -->
-<style type="text/css">
+<style>
 <!--
 /*
   The original subSilver Theme for phpBB version 2+
@@ -205,7 +205,7 @@ input.liteoption {
 -->
 </style>
 <!-- BEGIN switch_enable_pm_popup -->
-<script language="Javascript" type="text/javascript">
+<script>
 <!--
     if ( {PRIVATE_MESSAGE_NEW_FLAG} )
     {

@@ -27,7 +27,7 @@ global $locked_width,
    $titanium_browser, 
 	     $theme_name;
 
-echo "\n\n<!-- THEME HEADER START -->\n"; # set background here in themes/Inferno/css/maintable.php
+echo "\n\n<!-- TITANIUM CORE THEME HEADER START -->\n"; 
 
 # Check if a Registered User is Logged-In
 $username = is_user() ? $userinfo['username'] : _ANONYMOUS;
@@ -36,9 +36,7 @@ $username = is_user() ? $userinfo['username'] : _ANONYMOUS;
 if ($username === _ANONYMOUS)
 {
    $theuser  = '<div align="center">Please <a href="modules.php?name=Your_Account"><u>Login</u></a> or <a href="modules.php?name=Your_Account&amp;op=new_user"><u>Register</u></a>&nbsp;&nbsp;</div>';
-   # start 4th line of header
    $theuser .= '<div align="center" id="locator">Monitor Resolution '.$screen_res.'</div>';
-   # end 4th line of header
    $newmessages = 'Please <a href="modules.php?name=Your_Account"><u>Login</u></a> or <a href="modules.php?name=Your_Account&amp;op=new_user"><u>Register</u></a>';
 }
 else
@@ -62,63 +60,34 @@ else
 	{
 	  $theuser  .= '<div align="center" id="theuser"><strong>';
 	  $theuser  .= sprintf(_YOUHAVE_NO_MSGS,'(<a href="modules.php?name=Private_Messages">'.has_new_or_unread_private_messages().'</a>)');
-	//$theuser .= '<br /><a href="modules.php?name=Profile&amp;mode=editprofile">'._EDIT_PROFILE.'</a> | ';
-    //$theuser .= '<a href="modules.php?name=Your_Account&amp;op=logout">'._LOGOUT.'</a>';
-    # start 4th line of header
       $theuser  .= '<div align="center" id="resolution">Monitor Resolution '.$screen_res.'</div>';
 	  $theuser  .= '</strong></div>';
 	  $newmessages = sprintf(_YOUHAVE_NO_MSGS,'(<a href="modules.php?name=Private_Messages">'.has_new_or_unread_private_messages().'</a>)');
-    # end 4th line of header
 	}
 }
+#chrome canary 64bit 91.0.4446.3 NIGHTLY BUILDS
+if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '109.0.0.0') // Chrome Canary Last Version for Windows 7 / 8.1 (x64bit) version as of 11/19/2022
+$scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"15\" src=\"images/browsers/current-channel-logo@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome Canary (64-bit)... We are glad you keep up with the times! You have been updating your browser and now unfortunately you must update your OS. This is the last release verion of Chrome that will work on Windows 7 and Windows 8.1 - It;s been fun and we wanted windows 7 to last forever but it's not going to happen... Windows 7 was our friend to the END!~!~!</strong>";
 
-#chrome canary 64bit 91.0.4446.3
-if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '91.0.4446.3') // Chrome Canary (x64bit) version as of 3/16/2021
-$scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"15\" src=\"https://www.86it.us/images/browsers/current-channel-logo@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome Canary (64-bit) We are glad you keep up with the times on a nightly basis!</strong>";
-
-if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '89.0.4389.90') // MicroSoft Edge (x64bit) version as of 3/5/2021
-$scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"16\" src=\"https://www.86it.us/images/browsers/edge-beta@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Microsoft Edge (64-bit), Looks like Microsoft finally pulled their head out of their ass!</strong>";
-
-if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '89.0.4389.82') // MicroSoft Edge (x64bit) version as of 3/5/2021
-$scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"16\" src=\"https://www.86it.us/images/browsers/edge-beta@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Microsoft Edge (64-bit), Looks like Microsoft finally pulled their head out of their ass!</strong>";
-
-if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '88.0.4324.182') // MicroSoft Edge (x64bit) version as of 3/5/2021
-$scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"16\" src=\"https://www.86it.us/images/browsers/edge-beta@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Microsoft Edge (64-bit), Looks like Microsoft finally pulled their head out of their ass!</strong>";
+#chrome canary 64bit 91.0.4446.3 NIGHTLY BUILDS
+if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '110.0.0.0') // Chrome Canary (x64bit) version as of 11/19/2022
+$scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"15\" src=\"images/browsers/current-channel-logo@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome Canary (64-bit)... We are glad you keep up with the times! Google Chrome Canary is primarily an untested nightly build version of the most awesome badass browser that ever existed, Google Mother Fucking Chrome. Developers like (TheGhost) and early tech adopters, want to experience and test for bugs or any new updates that might have been added to the latest versions of Chrome.</strong>";
 
 if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '89.0.4389.114') // Chrome (x64bit) version as of 3/5/2021
 $scrollmsg .= "<img border=\"0\" align=\"top\" height=\"16\" src=\"https://www.chromium.org/_/rsrc/1302286290899/chromium-projects/chrome-32.png?height=32&width=32 alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome, you have great taste... Chrome is the #1 browsing solution in the world! When you are using Chrome it doesnt get any better!</strong>";
 
-if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '89.0.4389.72') // Chrome (x64bit) version as of 3/5/2021
-$scrollmsg .= "<img border=\"0\" align=\"top\" height=\"16\" src=\"https://www.chromium.org/_/rsrc/1302286290899/chromium-projects/chrome-32.png?height=32&width=32 alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome, you have great taste... Chrome is the #1 browsing solution in the world! When you are using Chrome it doesnt get any better!</strong>";
+if($titanium_browser->getBrowser() == Browser::BROWSER_EDGE && $titanium_browser->getVersion() == '107.0.1418.52') // MicroSoft Edge (x64bit) version as of 11/19/2022
+$scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"16\" src=\"images/browsers/microsoft.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Microsoft Edge (64-bit), Looks like Microsoft finally pulled their head out of their ass! TheGhost always said that sooner or later Microsoft would slide into the Chromium engine and shit can that piece of garbage they called Microsoft Explorer... They have come a long way but Bing Search sucks almost as bad as Yahoo search and they will always be a bunch of money grubbing end-user fucking pieces of shit!!! I understand, they have been trying to force their shit browser on millions of people for many years. I see you gave in... I guess you got tired of Windows asking you over and over again to change your default browser? We will pray for you next sunday in church... We heard Bill Gates fucked a goat, don't know how much thruth there is to that but his wife left him. The goats name was Nicholas and his wife said he should just marry the goat since he loved it so much!! xXxXx This website was hacked by HiJacker xXxXx</strong>";
 
-if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '77.0.3865.75') // MicroSoft Edge (x64bit) Beta
-$scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"16\" src=\"https://www.86it.us/images/browsers/edge-beta@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Microsoft Edge Beta (64-bit), Looks like Microsoft finally pulled their head out of their ass!</strong>";
+if($titanium_browser->getBrowser() == Browser::BROWSER_EDGE && $titanium_browser->getVersion() == '108.0.1462.20') // MicroSoft Edge (x64bit) Beta as of 11/19/2022
+$scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"16\" src=\"https://www.86it.us/images/browsers/edge-beta@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Microsoft Edge Beta (64-bit),Looks like Microsoft finally pulled their head out of their ass! TheGhost always said that sooner or later Microsoft would slide into the Chromium engine and shit can that piece of garbage they called Microsoft Explorer... They have come a long way but Bing Search sucks almost as bad as Yahoo search and they will always be a bunch of money grubbing end-user fucking pieces of shit!!! I understand, they have been trying to force their shit browser on millions of people for many years. I see you gave in... I guess you got tired of Windows asking you over and over again to change your default browser? We will pray for you next sunday in church... We heard Bill Gates fucked a goat, don't know how much thruth there is to that but his wife left him. The goats name was Nicholas and his wife said he should just marry the goat since he loved it so much!! xXxXx This website was hacked by HiJacker xXxXx</strong>";
 
-if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '70.0.3538.102') // MicroSoft Edge (x64bit) 
-$scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"16\" src=\"https://www.86it.us/images/browsers/edge.png\" alt=\"\" title=\"\"> <strong>Thanks for using Microsoft Edge (64-bit)</strong>";
-
-if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '79.0.3917.0') // Chrome Canary Nightly Build 
-$scrollmsg .= "<img border=\"0\" align=\"absmiddle\" height=\"15\" src=\"https://www.86it.us/images/browsers/current-channel-logo@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome Canary (64-bit) We are glad you keep up with the times on a nightly basis!</strong>";
-
-if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '76.0.3809.132') // Chrome Official Release (x64bit) 
-$scrollmsg .= "<img border=\"0\" align=\"top\" height=\"16\" src=\"https://www.chromium.org/_/rsrc/1302286290899/chromium-projects/chrome-32.png?height=32&width=32 alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome, you have great taste... Chrome is the #1 browsing solution in the world! When you are using Chrome it doesnt get any better!</strong>";
-
-if($titanium_browser->getBrowser() == Browser::BROWSER_FIREFOX && $titanium_browser->getVersion() == '69.0') // Official FireFox Quantum Release - CURRENTLY BROKEN BY THE DEVELOPERS as of 9/21/2017
+if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '107.0.0.0') // Chrome Official Release (x64bit) as of 11/19/2022
+$scrollmsg .= "<img border=\"0\" align=\"top\" height=\"16\" src=\"images/browsers/chrome-transparent.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome, you have great taste... Chrome is the #1 browsing solution for everyone in the world! When you are using Chrome it doesnt get any better! You made the superior choice and went with the latest and greatest!</strong>";
+if($titanium_browser->getBrowser() == Browser::BROWSER_FIREFOX && $titanium_browser->getVersion() == '107.0') // Official FireFox Release - WAS BROKEN BY THE DEVELOPERS 9/21/2017 and now 11/19/2022 it's halfway decent!
 {
-$scrollmsg .= "<img style=\"vertical-align:middle\" border=\"0\" height=\"16\"  src=\"https://addons.cdn.mozilla.net/static/img/icons/firefox.png?b=54591c07-59b80978\" alt=\"Browser\" title=\"Browser\"><strong> Thanks for using FireFox Quantum</strong> ";
-$scrollmsg .= '<span class="blink-one">This version of <strong>FireFox</strong> does break websites so please use at your own RISK!</span>'; // 0%
-}
-
-if( $titanium_browser->getBrowser() == Browser::BROWSER_FIREFOX) // Other FireFox - CURRENTLY BROKEN BY THE DEVELOPERS as of 9/21/2017
-{
-$scrollmsg .= "<img style=\"vertical-align:middle\" border=\"0\" height=\"16\"  src=\"https://addons.cdn.mozilla.net/static/img/icons/firefox.png?b=54591c07-59b80978\" alt=\"Browser\" title=\"Browser\"><strong> Thanks for using FireFox</strong> ";
-$scrollmsg .= '<span class="blink-one"> - This version of <strong>FireFox</strong> does break websites so please use at your own RISK!</span>';
-}
-
-if($titanium_browser->getBrowser() == Browser::BROWSER_MOZILLA && $titanium_browser->getVersion() == 5) // Maxthon Cloud (x64bit) Now is Garbage
-{
-$scrollmsg .= "<img style=\"vertical-align:absmiddle\" border=\"0\" height=\"10\"  src=\"https://www.86it.us/images/browsers/logo-maxthon.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Maxthon</strong> ";
-$scrollmsg .= '<span class="blink-one">This version of <strong>Maxthon</strong> does break websites so please use at your own RISK!</span>'; // 0%
+$scrollmsg .= '<img src="images/browsers/mozilla-firefox-icon-15.png" border="0" align="top" height="16"><strong>Thanks for using FireFox (64bit) <span 
+class="blink-one">FireFox breaks websites use at your own RISK!</strong></span> There has been a lot of discussion lately about the decline of the Firefox browser and numerous articles about it losing 50 Million users in the last two years. But the real decline has been over the last 12 years with a total loss of half a Billion users and 75% of the market share it once held. Was Google trying to sabotage Firefox by switching to a JavaScript library for YouTube that they knew wasn’t supported by Firefox? Did FireFox exec get with Chin albokerke and destroy flash and adobe without giving a fuck about the 12 million flash developers? We heard someone paid somone on the dark web to kill the main CEO of FireFox... Could all this be true? Are screen shot utils and text to speech worth it?? Some say No!';
 }
 
 global $connected;
@@ -132,16 +101,18 @@ $marquee_one .= ' Thanks for taking the time to login to our facebook app now yo
 else:
 $marquee_one .= ' login to our facebook app and you will be able to use the like and comments sections of this web portal...';
 endif;
+global $board_config;
+$serverdate = EvoDate($board_config['default_dateformat'], time(), $board_config['board_timezone']);
 
-$date .= '::: QUOTE OF THE DAY "Stop Fixing Shit That Is Not Broken! by ErnStoy" ::: Todays date <font color="'.$textcolor2.'">'.date('m-d-Y').'</font>';
+$date .= '::: QUOTE OF THE DAY "Stop Fixing Shit That Is Not Broken! by ErnStoy" ::: Today is <span style="color:'.$textcolor2.'">'.$serverdate.'</span>';
 
 if ($username === _ANONYMOUS)
 $moreuser_info .= '::: There is so much more here to see, it takes 30 seconds to register an account and we don\'t even verify with e-mail! Just register we promise you won\'t be sorry...';
 
 if ($username === _ANONYMOUS)
-$marquee_one = $moreuser_info.' ::: Your Monitor Resolution is <font color="'.$textcolor2.'">'.$screen_res.'</font> ::: '.$newmessages.'';
+$marquee_one = $moreuser_info.' ::: Your Monitor Resolution is <span style="color:'.$textcolor2.'">'.$screen_res.'</span> ::: '.$newmessages.'';
 else
-$marquee_one = $date.' '.$connected.' Welcome back <strong><font color='.$textcolor2.'><span class="blink-one">'.$username.'</span></font></strong> It\'s quite awesome to see you my friend! We are so glad you could make it back over to visit... We know with your super tight busy schedule and all, it most certainly must have been quite a task! ::: '.$newmessages.' ::: Your current Monitor Resolution is <font color='.$textcolor2.'>'.$screen_res.'</font> '.$moreuser_info.' ::: Your current browser version is <font color="'.$textcolor2.'">'.$titanium_browser->getVersion().'</font> ::: '.$scrollmsg.'</div>';
+$marquee_one = $date.' '.$connected.' Welcome back <strong><span class="blink-one" style="color:'.$textcolor2.'">'.$username.'</span></strong> It\'s quite awesome to see you my friend! We are so glad you could make it back over to visit... We know with your super tight busy schedule and all, it most certainly must have been quite a task! ::: <span style="color:'.$textcolor2.'">'.$newmessages.'</span> ::: Your current Monitor Resolution is <span style="color:'.$textcolor2.'">'.$screen_res.'</span> '.$moreuser_info.' ::: Your current browser version is <span style="color:'.$textcolor2.'">'.$titanium_browser->getVersion().'</span> ::: '.$scrollmsg.'';
 
 //$bullshit2 = 'Sept 28th 2019, Oct 4th 2019, Oct 5th 2019, Oct 11th 2019, Oct 13th 2019, Oct 14th 2019 Oct 20th 2019, Oct 22nd 2019, Oct 24th 2019';
 # right finger
@@ -152,160 +123,73 @@ $marquee_two = '
                <strong>IPHub is an IP lookup website featuring Proxy/VPN detection. 
 			   A free API is available, so you can perform fraud checks on online stores, 
 			   detect malicious players on online games and much more! <a href="https://iphub.info" target="new">'.$rfinger.' Click here '.$lfinger.' to sign up for FREE today at ipHub</a></strong>
-              <strong>::: <font color='.$textcolor2.'><a href="https://soulcircuscowboys.com" target="_blank">Country Music: The Soul Circus Cowboys</a></font></strong>
-              <strong>::: <font color='.$textcolor2.'><a href="https://facebook.com/brandon.maintenance" target="_blank">Sponsor: Brandon Maintenance Management, LLC Phone: 813-846-2865</a></font></strong>
-              <strong>::: <font color='.$textcolor2.'><a href="https://bigcountryradio.net" target="_blank">Sponsor: Big Country Radio - The EJ Morning Show</a></font> :::</strong>';
-
-
-#-----------------#
-# RD Scripts v1.0 #
-#-----------------#
-//addJSToBody(theme_js_dir.'menu.min.js');
-
+              <strong>::: <span style="color:'.$textcolor2.'"><a href="https://soulcircuscowboys.com" target="_blank">Country Music: The Soul Circus Cowboys</a></span></strong>
+              <strong>::: <span style="color:'.$textcolor2.'"><a href="https://facebook.com/brandon.maintenance" target="_blank">Sponsor: Brandon Maintenance Management, LLC Phone: 813-846-2865</a></span></strong>
+              <strong>::: <span style="color:'.$textcolor2.'"><a href="https://bigcountryradio.net" target="_blank">Sponsor: Big Country Radio - The EJ Morning Show</a></span> :::</strong>';
 
 # This is where we set the poster background and full screen video START
-echo '<div class="fullscreen-bg">';
-echo '<video muted loop autoplay poster="themes/'.$theme_name.'/images/BACKGROUNDS/1e1e1e.png" class="fullscreen-bg__video">';
-//echo '<source src="themes/'.$theme_name.'/video/spinning_black_wave_lines.mp4" type="video/mp4">';
-//echo '<source src="themes/'.$theme_name.'/video/abstract_liquid.mp4" type="video/mp4">'; // Ypp slow but pretty
-//echo '<source src="themes/'.$theme_name.'/video/abstract_geometric_grid.mp4" type="video/mp4">';
-//echo '<source src="themes/'.$theme_name.'/video/abstract_red_neon_frame.mp4" type="video/mp4">'; ### Very Cool ###
-//echo '<source src="themes/'.$theme_name.'/video/abstract_blue_neon_frame.mp4" type="video/mp4">'; ### Very Cool ###
-//echo '<source src="themes/'.$theme_name.'/video/abstract_purple_green_neon_frame.mp4" type="video/mp4">'; ### Very Cool ###
-//echo '<source src="themes/'.$theme_name.'/video/abstract_retro_laser_neon_flourescent_line_beams_geometric_motion_moving.mp4" type="video/mp4">'; ### 1 to 10  THis is a 10 ###
-//echo '<source src="themes/'.$theme_name.'/video/neon_lines_saber_abstract_background_animated.mp4" type="video/mp4">'; ### 1 to 10  This is a 2 ###
-//echo '<source src="themes/'.$theme_name.'/video/retro_neon_hypnotic_orange_white.mp4" type="video/mp4">'; ### 1 to 10  This is a 9 ###
-//echo '<source src="themes/'.$theme_name.'/video/abstract_x_neon.mp4" type="video/mp4">'; ### 1 to 10  This is a 1 ###
-
-#### PHP-Nuke Titanium
-//echo '<source src="themes/'.$theme_name.'/video/aqua_fresh.mp4" type="video/mp4">'; // $$$ Top 10 - 01
-//echo '<source src="themes/'.$theme_name.'/video/abstract_neon_reflections_circular_particles_3D_light_moving.mp4" type="video/mp4">'; ### 1 to 10  This is a 8 ### Bad Ass
-//echo '<source src="themes/'.$theme_name.'/video/abstract_modern_Liquid_U_trend_aurora_gradien.mp4" type="video/mp4">'; ### 1 to 10  This is a 5 ###
-echo '<source src="themes/'.$theme_name.'/video/futuristic_gold_abstract_3D_tunnel_1.49gb.mp4" type="video/mp4">'; ### 1 to 10  This is a 10 ### BEST SO FAR
-//echo '<source src="themes/'.$theme_name.'/video/abstract_bright_neon_moving_geometric_lines_gradient.mp4" type="video/mp4">'; ### 1 to 10  This is a 6 ### 
-//echo '<source src="themes/'.$theme_name.'/video/abstract_3D_tunnel_motion.mp4" type="video/mp4">'; ### 1 to 10  This is a 5 ### 
-//echo '<source src="themes/'.$theme_name.'/video/abstract_trendy_gradient_glowing_pink_moving_geometric_circles_spheres.mp4" type="video/mp4">'; ### 1 to 10  This is a 7 ### VEry Cool
-//echo '<source src="themes/'.$theme_name.'/video/abstract_retro_laser_neon_flourescent_line_beams_geometric_motion_moving_02.mp4" type="video/mp4">'; ### 1 to 10 This is a 10 ### Bad as fuck 
-
-### Electrical field frame - Maybe good for a theme that could be built arounf the way it looks
-//echo '<source src="themes/'.$theme_name.'/video/electrical_frame.mp4" type="video/mp4">'; ### 1 to 10 This is a 10 ### Bad as fuck  
-
-
-//echo '<source src="themes/'.$theme_name.'/video/futuristic_crystal_landscape_abstract_3D_neon.mp4" type="video/mp4">'; ### 1 to 10  This is a 4 ### 
-//echo '<source src="themes/'.$theme_name.'/video/red_glowing_neon_frame_border_twitching_lines.mp4" type="video/mp4">'; ### 1 to 10  This is a 7 ### VEry Cool
-//echo '<source src="themes/'.$theme_name.'/video/trending_abstract_blue_gradient_moving_geometric_circle_sphere.mp4" type="video/mp4">'; ### 1 to 10  This is a 7 ### VEry Cool
-
-//echo '<source src="themes/'.$theme_name.'/video/abstract_gaming_animated_digital_grid_tech_neon_moving.mp4" type="video/mp4">'; ### 1 to 4  This is a 8 ok
-//echo '<source src="themes/'.$theme_name.'/video/abstract_hexagonal_geometric_animated_neon.mp4" type="video/mp4">'; ### 1 to 10  This is a 8 ### Bad Ass MAybe FOr ANother Color Theme
-//echo '<source src="themes/'.$theme_name.'/video/red_neon_abstract_moving_geometric_circles.mp4" type="video/mp4">'; ### 1 to 10 This is a 5 ###  
-
-//echo '<source src="themes/'.$theme_name.'/video/cinematic_motion_2020.mp4" type="video/mp4">'; ### 1 to 10 This is a 10 ### GEars SPinning - More for a bronze theme  VEry Cools
-
-//echo '<source src="themes/'.$theme_name.'/video/techno_matrix_numbers.mp4" type="video/mp4">'; ### 1 to 10 This is a 6 ### GEars SPinning - More for a green theme 
-//echo '<source src="themes/'.$theme_name.'/video/birthday.mp4" type="video/mp4">'; ### 1 to 10 This is a 6 ### GEars SPinning - lightning no audio 
-
-## Best out of all - American Flag 
-//echo '<source src="themes/'.$theme_name.'/video/USA_Flag.mp4" type="video/mp4">'; ### 1 to 10 This is a 10 ### FLAG - BAd As Fuck 
-
-## Raining Money
-//echo '<source src="themes/'.$theme_name.'/video/money_falling.mp4" type="video/mp4">'; ### 1 to 10 This is a 10 ### Bad As Fuck - Riaing Money
-
-## Music Videos
-//echo '<source src="themes/'.$theme_name.'/video/Blackway_and_Black_Caviar_Whats_Up_Danger.mp4" type="video/mp4">'; ### 1 to 10 This is a 6 ### GEars SPinning - BAd as Fuck 
-//echo '<source src="themes/'.$theme_name.'/video/Arctic_Monkeys_-_Do_I_Wanna_Know.mp4" type="video/mp4">'; ### 1 to 10 This is a 10 ### Bad As Fuck 
-
-## Loading Screens
-//echo '<source src="themes/'.$theme_name.'/video/Loading_Screen_001.mp4" type="video/mp4">'; ### 1 to 10 This is a 10 ### Loading Screen Only - Video has to be loop off ### cool as fauck 
-
-//echo '<source src="themes/'.$theme_name.'/video/black_psychedelic_abstract.mp4" type="video/mp4">'; ### 1 to 0 This is a 10 ### jumps NOT A LOOP
-
-## Hacker at computer - Hacking Music
-//echo '<source src="themes/'.$theme_name.'/video/Programming_Coding_Hacking_music_vol.18_ANONYMOUS_HEADQUARTERS.mp4" type="video/mp4">'; ### 1 to 0 This is a 10 ### jumps NOT A LOOP
-
-## Red Cross
-//echo '<source src="themes/'.$theme_name.'/video/red_cross_motion.mp4" type="video/mp4">'; ### 1 to 10 This is a 10 ### Bad as fuck 
-
-
-echo '</video>';
-echo '</div>';
+echo '<div class="fullscreen-bg">'."\n";
+echo '<video muted loop autoplay poster="themes/'.$theme_name.'/images/BACKGROUNDS/1e1e1e.png" class="fullscreen-bg__video">'."\n";
+echo '<source src="themes/'.$theme_name.'/video/futuristic_gold_abstract_3D_tunnel_1.49gb.mp4" type="video/mp4">'."\n"; ### 1 to 10  This is a 10 ### BEST SO FAR
+echo '</video>'."\n";
+echo '</div>'."\n";
 # This is where we set the poster background and full screen video END
 
 # This is the flex container used to resize the layout START
-echo '<section id="flex-container">';
+echo '<section id="flex-container">'."\n";
 //echo '<div class="container" style="width: '.theme_width.'">';
-echo '<div class="container" style="width: '.$locked_width.'">';
-
-
+echo '<div class="container" style="width: '.$locked_width.'">'."\n";
 
 # space at the top of the page
-echo '<div align="center" style="padding-top:6px;">';
-echo '</div>';
+echo '<div style="padding-top:6px;"></div>'."\n";
 
 # This stays always
-echo '<table class= "header_table_opacity" border="0" width="100%" cellspacing="0" cellpadding="0">';
-echo '<tr>';
-echo '<td>';
+echo '<table class="header_table_opacity">'."\n";
+echo '<tr>'."\n";
+echo '<td>'."\n";
 
 # add the top of your tabel here
 echo "\n\n<!-- HEADER TOP START -->\n";
 
-global $bgcolor4;
 # top of awesome table
-print '<table bgcolor="'.$bgcolor4.'" class="blockz" cellSpacing="0" cellPadding="0" border="0" width="100%">'."\n";
-# invisble pixel set to width 39
-print '<tr><td width="39" style="background: repeat-x; background-image: url('.HTTPS.'themes/'.$theme_name.'/images/HEADER/invisible_pixel.gif);">'."\n";
+print '<table class="header_table_two">'."\n";
 # left corner of awesome table
-print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/HEADER/top_left_corner.png" border="0" width="39" height="50"></td>'."\n";
+print '<tr><td class="header_table_twoTL"></td>'."\n";
 # top middle repeat image for stretch of table
-print '<td align="center" style="background: repeat-x; background-image: url('.HTTPS.'themes/'.$theme_name.'/images/HEADER/top_middle_piece.png);"></td>'."\n";
-print '<td align="right" width="39">'."\n";
+print '<td class="header_table_twoTM"></td>'."\n";
 # top right corner of awesome table
-print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/HEADER/top_right_corner_10.png" border="0" width="39" height="50"></td>'."\n";
+print '<td class="header_table_twoTR"></td>'."\n";
+
 print '</tr>'."\n";
 print '<tr><td colSpan="3">'."\n";
 
-
-print '<table cellSpacing="0" cellPadding="0" width="100%" border="0">'."\n";
-
-///////////////////////
+print '<table class="table100">'."\n";
 print '<tr>'."\n";
+
 #left middle side of awesome table
-print '<td width="23" height="3" background="'.HTTPS.'themes/'.$theme_name.'/images/HEADER/left_side_middle_151515.png">'."\n"; 
+print '<td class="header_table_twoLSM"></td>'."\n"; 
+
 # left middle side of awesome table
-print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/HEADER/left_side_middle_151515.png" border="0" width="39" height="3"></td>'."\n";
-//////////////////////
-
-print '<td width="100%">'."\n";
+print '<td>'."\n";
 # end top half of table HERE
-//echo '<div class="marquee_one"><font color="#ffc62a" size="2"><strong>TEST</strong></font></div>'."\n\n";
-//echo '<div align="center" class="marquee_two"><font color="#ffc62a" size="2"><strong>TEST</strong></font></div>'."\n\n";
 
-print '<table cellSpacing="0" cellPadding="8" width="100%" border="0" style="border-collapse: collapse" bordercolor="#111111">'."\n";
+print '<table class="table100">'."\n";
+
 print '<tr>'."\n";
-print '<td width="100%" bgcolor="'.$bgcolor4.'">'."\n";
+print '<td class="BackgroundColor4">'."\n";
 
 echo "<!-- HEADER TOP END -->\n\n\n\n\n";
 
 # ad banner for left side of header - 86it ads only! CELL ONE @ 33.3% START
-echo '<table border="0" width="100%" height="165">';
+echo '<table class="banneradLT">';
 echo '<tr>';
-echo '<td align="left" width="25%" valign="top">';
-echo '<div align="center" style="padding-top:17px;">';
-echo '</div>';
+echo '<td class="banneradLSM">';
+echo '<div align="center" style="padding-top:17px;"></div>'; # used to position the AD banner from top to bottom
 echo ''.ads(0).'';
 echo '</td>';
 # ad banner for left side of header - 86it ads only! CELL ONE @ 33.3% END
 
-//echo '<table border="0" width="100%" height="165">';
-//echo '<tr>';
-//echo '<td align="left" width="25%" valign="top">';
-//echo '</div>';
-//echo '<div class="banner_left"><img src="'.HTTPS.'themes/'.$theme_name.'/images/HEADER/future_02.png" width="350" alt="Xtreme" longdesc="PHP-Nuke Evolution Xtreme" />';
-//echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="'.HTTPS.'themes/'.$theme_name.'/header/buzzard2.png" width="92" alt="Buzzard" longdesc="Buzzard (Patients My Ass)" /></div>';
-//echo '</td>';
-
 # programming logos start
-
 # center CELL TWO @ 33.3% START
 echo '<td align="center" valign="top" rowspan="4">';
 # space at the top of header inside graphics area!
@@ -339,16 +223,16 @@ endif;
 echo '<div align="center" style="padding-left:15px; padding-right:15px;">'; //Set the padding - space between menu and top logo 
 //include(theme_dir.'menu.php'); // load actual menu
 //include(theme_dir.'drop_down_menu.php'); // load actual menu                                                                                                                       
-include(theme_dir.'scss_menu.php'); // load actual menu                                                                                                                       
+//include(theme_dir.'scss_menu.php'); // load actual menu                                                                                                                       
 include(theme_dir.'css3_menu.php'); // load actual menu
 echo '</div>';
 # logo end
 echo '</td>';
 
 # ad banner for right side of header - 86it ads only! 
-echo '<td align="right" width="25%" valign="top">';
+echo '<td class="banneradRSM">';
 echo '<div align="right">'; 
-echo '<div align="center" style="padding-top:17px;">'; 
+echo '<div style="padding-top:17px;">'; 
 echo '</div>';
 echo ''.network_ads(0).''; 
 echo '</div>';
@@ -356,30 +240,29 @@ echo '</td>';
 echo '</tr>';
 
 echo '<tr>';
-echo '<td align="left" height="30" width="25%" valign="middle">   </td>';
+echo '<td class="abovemarqueeLT">&nbsp;<span style="color:#b8a265">Welcome to the home of PHP-Nuke Titanium, Please Enjoy Your Visit...</span></td>';
 
-
-
-echo '<td align="left" width="25%" valign="middle"></td>';
+echo '<td class="abovemarqueeRT">&nbsp;<span style="color:#b8a265">This is the Sponsor Tron for the PHP-Nuke Titanium Project...</span></td>';
 
 echo '</tr>';
-
-# left and right marquee START
-echo '<tr>';
-echo '<td align="left" width="25%" valign="bottom" height="20"><div class="marquee_one"><font color="#008000" size="2"><strong>'.$marquee_one.'</strong></font></div></td>';
-echo '<td align="right" width="25%" valign="bottom" height="20"><div class="marquee_two"><font color="#008000" size="2"><strong>'.$marquee_two.'</strong></font></div></td>';
-echo '</tr>';
-# left and right marquee END
 
 echo '<tr>';
-echo '<td align="left" height="13" width="25%" valign="middle"></td>';
-echo '<td align="right" height="13" width="25%" valign="middle"></td>';
+# left marquee START
+echo '<td class="undermarqueeLT"><div class="marquee_one"><span color="#008000" size="2"><strong>'.$marquee_one.'</strong></span></div></td>';
+# right marquee START
+echo '<td class="undermarqueeRT"><div class="marquee_two"><span color="#008000" size="2"><strong>'.$marquee_two.'</strong></span></div></td>';
 echo '</tr>';
+echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">';
+echo '<tr>';
+echo '<td class="undermarqueeLT"><div style="padding-top:5px;"><a href="https://www.facebook.com/profile.php?id=100086492648606" class="fa-brands fa-facebook"  target="_blank"></i></a>
+&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/eighty_six_it" class="fa-brands fa-twitter" target="_blank></a>
+&nbsp;&nbsp;&nbsp;<a href="https://ernestbuffington.tumblr.com/" class="fa fa-tumblr" target="_blank></a>
+</div></td>';
 
+echo '<td class="undermarqueeRT"></td>';
+echo '</tr>';
 
 echo '</table>';
-
-
 
 if (!is_user()):
 echo '<div align="center">';
@@ -387,7 +270,6 @@ echo '<div class="alert alert-danger fade in alert-dismissible role="alert">';
 echo '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>';
 echo '  <strong>Alert!</strong> You are not logged in, please <a style="cursor:help" class="redalert" href="modules.php?name=Your_Account&op=new_user">create an account</a> or <a style="cursor:help" class="redalert" href="modules.php?name=Your_Account">login!</a>';
 echo '</div>';
-
 echo '</div>';
 endif;
 
@@ -401,18 +283,18 @@ print '</table>';
 
 /////////////////////////////
 print '</td>';
+
 # middle repeat image for ride side of the table
 print '<td width="23" height="3" background="'.HTTPS.'themes/'.$theme_name.'/images/HEADER/right_side_middle_151515.png">'."\n";
 print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/HEADER/right_side_middle_151515.png" border="0" width="39" height="3"></td>'."\n";
-//print '</tr>'."\n";
 /////////////////////////////
 
 print '</table>'."\n"; 
 
 print '</td>'."\n";
 print '</tr>'."\n";
-print '<tr>'."\n";
 
+print '<tr>'."\n";
 # invisble gif used in the awesome table
 print '<td width="39" style="background: repeat-x; background-image: url('.HTTPS.'themes/'.$theme_name.'/images/HEADER/invisible_pixel.gif);">'."\n";
 
@@ -429,9 +311,8 @@ print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/HEADER/bottom_right_corn
 print '</tr>'."\n";
 print '</table>'."\n";
 
-
-echo "<img src=\"themes/".$theme_name."/images/invisible_pixel.gif\" alt=\"\" width=\"1\" height=\"6\" border=\"0\" />";
-
+# space between header tabled and main page
+echo '<div style="padding-top:6px;"></div>'."\n";
 
 echo "<table width=\"100%\"  cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\">\n";
 echo "<tr valign=\"top\">\n";
@@ -445,7 +326,6 @@ if(blocks_visible('left'))
   // space between the left blocks and the left side of the center block
   echo "<td style=\"width: 6px;\" valign =\"top\"><img src=\"themes/".$theme_name."/images/invisible_pixel.gif\" alt=\"\" width=\"6\" height=\"0\" border=\"0\" /></td>\n";
   echo " <td width=\"100%\">\n";
-
 } 
 else  
 {
@@ -453,7 +333,6 @@ else
   echo " <td style=\"width: 1px;\" valign =\"top\"><img src=\"themes/".$theme_name."/images/invisible_pixel.gif\" alt=\"\" width=\"0\" height=\"0\" border=\"0\" /></td>\n";
   echo " <td width=\"100%\">\n";
 }
+echo "\n\n<!-- TITANIUM CORE THEME HEADER END -->\n"; 
 
-echo "\n<!-- THEME HEADER END -->\n\n\n";
 ?>
-

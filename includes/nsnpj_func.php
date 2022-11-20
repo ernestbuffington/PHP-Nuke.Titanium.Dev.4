@@ -367,7 +367,7 @@ function pj_copy()
   $cpname = preg_replace("/_/", " ", $pj_config['location']);
   
   $pcname = $pj_config['location'];
-  echo "<script type=\"text/javascript\">\n";
+  echo "<script>\n";
   echo "<!--\n";
   echo "function nsnpjwindow(){\n";
   echo "  window.open (\"modules/$pcname/copyright.php\",\"Copyright\",\"toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=no,copyhistory=no,height=200,width=400,screenX=100,left=100,screenY=100,top=100\");\n";

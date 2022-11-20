@@ -53,7 +53,7 @@ function honeypotstats()
 		list($check1, $check2, $check3, $check4, $check5, $check6, $c8opt1, $c8opt2, $fs9opt1, $fs9opt2, $headcolor, $rowcolor1, $rowcolor2, $pagebgcolor, $pagebordercolor, $fontcolor, $fontcolor2) = $db->sql_fetchrow($result);
 		
 		addCSSToHead('./includes/honeypot/css/honeypot_stats.css','file');
-    $hpcss2head .='<style type="text/css">';
+    $hpcss2head .='<style>';
 	$hpcss2head .='.maincontent {';
 	$hpcss2head .='border:1px solid '.$pagebordercolor.';';
 	$hpcss2head .='}';
@@ -113,8 +113,8 @@ $db->sql_freeresult($result7);
 
 
 	
-		echo '<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>' , PHP_EOL
-		,'    <script type="text/javascript">
+		echo '<script src="https://www.gstatic.com/charts/loader.js"></script>' , PHP_EOL
+		,'    <script>
       google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(drawChart);
       function drawChart() {
@@ -341,7 +341,7 @@ function honeypot()
 			
 			addCSSToHead('./includes/honeypot/css/honeypot.css','file');
 			
-			$hpcss2head = '<style type="text/css">';
+			$hpcss2head = '<style>';
 			$hpcss2head .='.button, button.inputbutton, input.inputarea, div.pagination a {';
 			$hpcss2head .='		border:1px solid '.$pagebordercolor .';';
 			$hpcss2head .='		color: '.$fontcolor.';';
@@ -490,7 +490,7 @@ function honeypot()
 			} 
 		}
 
-	echo '<script type="text/javascript">' , PHP_EOL
+	echo '<script>' , PHP_EOL
 		, 'var checked=false;' , PHP_EOL
 		, 'var frmname=\'\';' , PHP_EOL
 		, 'function checkedAll(frmname)' , PHP_EOL
@@ -511,7 +511,7 @@ function honeypot()
 		, '}' , PHP_EOL
 		, '</script>' , PHP_EOL
 // Jquery for Hidden div start
-		, '<script type="text/javascript">' , PHP_EOL
+		, '<script>' , PHP_EOL
 		, 'nuke_jq(document).ready(function(){' , PHP_EOL
 		, '		nuke_jq(".mark").bind("mouseover", function () {' , PHP_EOL
 		, '			var index = nuke_jq(this).attr("id").replace("mark", "");' , PHP_EOL
@@ -679,7 +679,7 @@ function honeypot()
 
 		$result2 = $db->sql_query("SELECT usehp, botlisting, perpage, pagenumberpos, headcolor, rowcolor1, rowcolor2, pagebgcolor, pagebordercolor, fontcolor, fontcolor2, check1, check2, check3, check4, check5, check6, c7opt1, c7opt2, c7amount, c8opt1, c8opt2, usebsapi, c8apikey, fs9opt1, fs9opt2, fs9apikey, check3time, check4question, check4answer, usefeedback, email, version FROM ".$prefix."_honeypot_config");
 		list($usehp, $botlisting, $perpage, $pagenumberpos, $headcolor, $rowcolor1, $rowcolor2, $pagebgcolor, $pagebordercolor, $fontcolor, $fontcolor2, $check1, $check2, $check3, $check4, $check5, $check6, $c7opt1, $c7opt2, $c7amount, $c8opt1, $c8opt2, $usebsapi, $c8apikey, $fs9opt1, $fs9opt2, $fs9apikey, $check3time, $check4question, $check4answer, $usefeedback, $email, $hpversion) = $db->sql_fetchrow($result2);
-$hpcss2head = '<style type="text/css">'."\n";
+$hpcss2head = '<style>'."\n";
 $hpcss2head .= '	.pothead {'."\n";
 $hpcss2head .= '		border:1px solid '.$pagebgcolor .';'."\n";
 $hpcss2head .= '	}'."\n";
@@ -693,7 +693,7 @@ $hpcss2head .= '	td.spacer {'."\n";
 $hpcss2head .= '		background-color: '.$bgcolor2.';'."\n";
 $hpcss2head .= '	}'."\n";
 $hpcss2head .= '	</style>'."\n";
-$hpjs2head = '<script type="text/javascript">'."\n";
+$hpjs2head = '<script>'."\n";
 $hpjs2head .= '  nuke_jq(document).ready(function(){'."\n";
 $hpjs2head .= '      nuke_jq(\'.img-zoom\').hover(function() {'."\n";
 $hpjs2head .= '          nuke_jq(this).addClass(\'transition\');'."\n";

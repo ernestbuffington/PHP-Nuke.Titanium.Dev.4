@@ -475,9 +475,9 @@ function abview_template($template="") {
 
 function OpenMenu($adsection="") {
   global $bgcolor1, $bgcolor2, $textcolor1, $ab_config, $getAdmin, $prefix, $db, $op, $admin;
-  echo '<script type="text/javascript" src="includes/nukesentinel/nukesentinel1.js"><!-- overLIB (c) Erik Bosrup --></script>'."\n";
-  echo '<script type="text/javascript" src="includes/nukesentinel/nukesentinel2.js"><!-- overLIB_hideform (c) Erik Bosrup --></script>'."\n";
-  echo '<script type="text/javascript" src="includes/nukesentinel/nukesentinel3.js"><!-- overLIB_centerpopup (c) Erik Bosrup --></script>'."\n";
+  echo '<script src="includes/nukesentinel/nukesentinel1.js"><!-- overLIB (c) Erik Bosrup --></script>'."\n";
+  echo '<script src="includes/nukesentinel/nukesentinel2.js"><!-- overLIB_hideform (c) Erik Bosrup --></script>'."\n";
+  echo '<script src="includes/nukesentinel/nukesentinel3.js"><!-- overLIB_centerpopup (c) Erik Bosrup --></script>'."\n";
   echo '<div id="overDiv" style="position:absolute; visibility:hidden; z-index:9999;"></div>'."\n";
   echo '<table summary="" width="100%" border="0" cellspacing="1" cellpadding="4">'."\n";
   $nsnstcopy  = "<strong>Module's Name:</strong> NukeSentinel(tm)<br />";

@@ -37,7 +37,7 @@ if ( _force_lightbox_lite_load || get_evo_option('img_viewer') == 'lightbox-lite
 	addJSToBody(NUKE_JQUERY_SCRIPTS_DIR.'jquery.lightbox.lite.min.js','file');
 
 	$lc_light_lite_inline_js  = '<!-- Inline jQuery for LC Lightbox Lite -->';
-	$lc_light_lite_inline_js .= '<script type="text/javascript">'.PHP_EOL;
+	$lc_light_lite_inline_js .= '<script>'.PHP_EOL;
 	$lc_light_lite_inline_js .= 'nuke_jq(function($)'.PHP_EOL;
 	$lc_light_lite_inline_js .= '{'.PHP_EOL;
 	

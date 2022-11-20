@@ -5,7 +5,7 @@ echo '<!DOCTYPE HTML>
 
 <title>Copyright Information</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<style type="text/css">
+<style>
 <!--
 
 a:focus { outline: none; }

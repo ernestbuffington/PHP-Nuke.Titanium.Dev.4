@@ -64,7 +64,7 @@ if(!isset($min)) {
   include_once(NUKE_BASE_DIR.'header.php');
   title($pagetitle);
   OpenTable();
-  echo '<script type="text/javascript"><!--'."\n";
+  echo '<script><!--'."\n";
   echo 'setTimeout(\'Redirect()\','.($pagedelay*1000).');'."\n";
   echo 'function Redirect()'."\n";
   echo '{'."\n";

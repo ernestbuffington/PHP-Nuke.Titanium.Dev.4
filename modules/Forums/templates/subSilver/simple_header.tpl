@@ -10,7 +10,7 @@
 {META}
 <title>{SITENAME} :: {PAGE_TITLE}</title>
 <!-- link rel="stylesheet" href="modules/Forums/templates/subSilver/{T_HEAD_STYLESHEET}" type="text/css" -->
-<style type="text/css">
+<style>
 <!--
 
 /*
@@ -197,7 +197,7 @@ input.liteoption {
 -->
 </style>
 <!-- start mod : Resize Posted Images Based on Max Width -->
-<script type="text/javascript">
+<script>
 //<![CDATA[
 <!--
 
@@ -209,7 +209,7 @@ var rmw_image_title = '{L_RMW_IMAGE_TITLE}';
 //-->
 //]]>
 </script>
-<script type="text/javascript" src="{U_RMW_JSLIB}"></script>
+<script src="{U_RMW_JSLIB}"></script>
 <!-- fin mod : Resize Posted Images Based on Max Width -->
 </head>
 

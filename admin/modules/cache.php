@@ -126,7 +126,7 @@ function display_main() {
    $open = get_evo_icon('evo-sprite folder-live');
    $closed = get_evo_icon('evo-sprite folder');
 
-   // echo "<script type=\"text/javascript\">
+   // echo "<script>
    //      <!--
 
    //      var folder_closed = new Image();

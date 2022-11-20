@@ -164,11 +164,11 @@ function head()
     echo "</head>\n";
     echo "\n<!-- END </head> -->\n\n";
 	echo "\n<!-- START Top Primary Body Tags -->\n";
-	echo "<html>\n";
-	echo "<body>\n";
+	//echo "</html>\n";
+	//echo "<body>\n";
 	global $appID;
     echo '<div id="fb-root"></div>' . "\n";
-    echo '<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v15.0&appId=' . $appID . '&autoLogAppEvents=1" nonce="prEImF3g"></script>' . "\n";
+    echo '<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v15.0&appId=' . $appID . '&autoLogAppEvents=1" nonce="uoLAf2EF"></script>' . "\n";
 	echo "<!-- END Top Primary Body Tags -->\n\n";
 
     themeheader();

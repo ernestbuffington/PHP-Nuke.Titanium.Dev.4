@@ -6,15 +6,23 @@
 function facebook_likes() {
     if (defined('facebook')):
         global $sid, $appID, $my_url;
-        echo '<div style="background-color: none" class="fb-like" data-href="https://' . $my_url . '/modules.php?name=Blogs&amp;file=article&amp;sid=' . $sid . '" data-width="" data-layout="button_count" data-action="like" data-size="large" data-share="true"></div><br /><br />' . "\n";
-    endif;
+		echo 'LIKE START</br>';
+		
+		# IFRAME LOADER
+		#echo '<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.php-nuke-titanium.86it.us%2Fmodules.php%3Fname%3DBlogs%26file%3Darticle%26sid%3D' . $sid . '%26mode%3Dnested%26order%3D0%26thold%3D0&tabs=timeline&width=180&height=70&small_header=false&adapt_container_width=true&hide_cover=true&show_facepile=true&appId=' . $appID . '" width="180" height="70" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>';
+        # NORMAL LOADER
+		//echo '<div class="fb-page" data-href="https://' . $my_url . '/modules.php?name=Blogs&amp;file=article&amp;sid=' . $sid . '&amp;mode=nested&amp;order=0&amp;thold=0" data-tabs="timeline" data-width="180" data-height="70" data-small-header="false" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true"></div>';
+
+   endif;
+   		echo 'LIKE END</br>';
+
 }
 
 function facebook_comments() {
     if (defined('facebook')):
         global $sid, $appID, $my_url;
         #facebook comment plugin START
-        echo '<div style="background-color: grey" class="fb-comments" data-colorscheme="light" data-href="https://' . $my_url . '/modules.php?name=Blogs&amp;file=article&amp;sid=' . $sid . '" data-width="100%" data-numposts="5"></div><br /><br />' . "\n";
+        //echo '<div style="background-color: grey" class="fb-comments" data-colorscheme="light" data-href="https://' . $my_url . '/modules.php?name=Blogs&amp;file=article&amp;sid=' . $sid . '" data-width="100%" data-numposts="5"></div><br /><br />' . "\n";
     #facebook comment plugin END
     endif;
 }

@@ -48,8 +48,9 @@ textarea.cke_source
 
 .cke_wysiwyg_frame, .cke_wysiwyg_div
 {
-	#000000;
+	color: #000000;
 	background-color: #FFFFFF;
 }
+
 <?
 

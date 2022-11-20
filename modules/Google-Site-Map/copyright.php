@@ -12,8 +12,8 @@ $author_email = 'ernest.buffington@gmail.com';
 $author_homepage = 'http://php-nuke-titanium.86it.us';
 $license = 'GNU/GPL';
 $download_location = 'http://www.86it.us';
-$module_version = 'v1.0b';
-$release_date = 'April 11th, 2021';
+$module_version = 'v2.0';
+$release_date = '11/18/2022';
 $module_description = 'Google Site Map';
 $mod_cost = '$300.00 US Dollars';
 

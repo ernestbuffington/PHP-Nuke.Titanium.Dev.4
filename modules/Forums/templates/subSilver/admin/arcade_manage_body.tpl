@@ -1,4 +1,4 @@
-<script language="Javascript">
+<script>
 function setCheckboxes(do_check)
 {
     var elts      = document.forms['gamebox'].elements['select_list[]'];

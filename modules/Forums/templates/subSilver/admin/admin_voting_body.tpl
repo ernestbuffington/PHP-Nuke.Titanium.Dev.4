@@ -1,7 +1,7 @@
 <html>
  <head>
 <title>{TOPIC}</title> 
-<script language="JavaScript" type="text/javascript"> 
+<script> 
 <!-- 
     function __off(n) 
     { 
@@ -86,7 +86,7 @@
     <tr>
         <td class="{votes.COLOR}" border="1" align="center"><span class="gensmall">{votes.VOTE_ID}</span></td> 
         <td class="{votes.COLOR}" border="1"><span class="genmed">
-            <script language="JavaScript" type="text/javascript"> 
+            <script> 
             <!-- 
                 onoff('vote{votes.VOTE_ID}_switch',false); 
             //--> 

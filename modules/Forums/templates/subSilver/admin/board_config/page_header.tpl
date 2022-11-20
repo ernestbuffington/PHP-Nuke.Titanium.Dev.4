@@ -3,7 +3,7 @@
 <p>{L_CONFIGURATION_EXPLAIN}</p>
 
 <!-- BEGIN use_dhtml -->
-<script language="Javascript" type="text/javascript">
+<script>
 <!--
 function show (id) {
     if (id.style.display == "")

@@ -26,7 +26,7 @@ if ($usehp == 1){
  if ($check3 == 1){
 
 echo "<tr><td bgcolor='$bgcolor1' colspan='2' width='100%'><p align=\"center\" id=\"countdown-1\"><strong>"._HONEYPOT_ANTIBOTWAIT."</strong>, "._HONEYPOT_PLEASEDONTCLICK." $check3time "._HONEYPOT_SECONDS."</p>
-<script type=\"text/javascript\">
+<script>
     var countdown = document.getElementById('countdown-1'),
     passed    = 0,
     seconds   = $check3time;

@@ -37,7 +37,7 @@ $bgcolorhidefallback='#909090';
 function menu_js_code() { # this php function will send all java script functions.
 	global $urlofimages, $ThemeSel, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $bgcolorhide, $bgcolorhidefallback, $admin_file;
 ?>
-<script type="text/javascript" language="Javascript">
+<script language="Javascript">
 function menuadminshowhide(zenom, numero) {
 	if (numero==1) {
 		document.getElementById(zenom).style.display='';
@@ -675,7 +675,7 @@ if ($old_school_imagedropdown == 0)
 	
 	if ($old_school_imagedropdown_cat == 0) 
 	{
-		echo "<script type=\"text/javascript\">oldschool=0;</script>"; 
+		echo "<script>oldschool=0;</script>"; 
 		echo "<div id=\"menu_imagelist_cat\" style=\"display: none; z-index:2; position: absolute; padding: 15px;\">";
 		echo "<div id=\"imagelist_wrapper_cat\" style=\"z-index:3; background-color: ".$bgcolor3."; border: 1px solid black;\">";
 		
@@ -707,7 +707,7 @@ if ($old_school_imagedropdown == 0)
 	}
 	else 
 	{
-		echo "<script type=\"text/javascript\">oldschool=1;</script>";
+		echo "<script>oldschool=1;</script>";
 	}
 	
 	$sql = "SELECT title FROM ".$prefix."_modules ORDER BY title ASC";
@@ -1809,7 +1809,7 @@ function edit()
 	else{
 		$dynamic = ($_POST['alwaysopen']=='on') ? '' : 'on' ;
 	?>
-	<script type="text/javascript" language="Javascript">
+	<script language="Javascript">
 	<?php if ($z!="imacategory") { ?>
 	opener.document.forms.form_menu.elements["menuformmoduleclass[<?php echo $key;?>][<?php echo $z;?>]"].value="<?php echo $menu_link_class;?>";
 	opener.document.forms.form_menu.elements["menuformmodulenew_days[<?php echo $key;?>][<?php echo $z;?>]"].value="<?php echo $menu_new_days;?>";

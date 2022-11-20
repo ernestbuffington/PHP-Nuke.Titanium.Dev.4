@@ -518,7 +518,7 @@ $modules_attach = $db->sql_query($sql);
 $content = "";
 echo "\n\n\n\n<!--  START Titanium Portal Menu Javascript Functions v5.01b -->\n";
 ?>
-<script type="text/javascript" language="JavaScript">
+<script >
 function menu_listbox(page) 
 {
 	var reg= new RegExp('(_menu_targetblank)$','g');
@@ -541,7 +541,7 @@ function menu_over_popup(page,nom,option)
 }
 </script>
 
-<style type="text/css">
+<style>
 .menunowrap 
 {
   white-space: nowrap;
@@ -649,7 +649,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 			# $dynamic = 1;
 			echo "\n<!--  START Titanium Portal Menu Dynamic Javascript Function v5.01b -->\n\n\n\n";
 			?>
-			<script type="text/javascript" language="JavaScript">
+			<script>
 			var keymenu;
 			function menu_showhide(tableau, trigger, somimagename) 
 			{

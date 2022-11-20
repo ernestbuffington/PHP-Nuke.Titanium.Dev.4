@@ -51,7 +51,7 @@ echo "<form method='post' name='ibpro_score' action='modules.php?name=Forums&amp
 echo "<input type=hidden name='vscore' value='$gamescore'>";
 echo "<input type=hidden name='gid' value='$gid'>";
 echo "</form>";
-echo "<script type=\"text/javascript\">";
+echo "<script>";
 echo "window.onload = function(){document.forms[\"ibpro_score\"].submit()}";
 echo "</script>";
 exit;

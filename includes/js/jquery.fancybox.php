@@ -44,7 +44,7 @@ if ( _force_fancybox_load || get_evo_option('img_viewer') == 'fancybox' ):
 	addCSSToHead(NUKE_CSS_DIR.'jquery.fancybox.css','file');
 	addJSToBody(NUKE_JQUERY_SCRIPTS_DIR.'jquery.fancybox.js','file');
 	$JStoHead  = '<!-- Inline jQuery for Fancybox v3.1.20 -->';
-	$JStoHead .= '<script type="text/javascript">'.PHP_EOL;
+	$JStoHead .= '<script>'.PHP_EOL;
 	$JStoHead .= 'nuke_jq(function($)'.PHP_EOL;
 	$JStoHead .= '{'.PHP_EOL;
 	$JStoHead .= '	$("[data-fancybox]").fancybox({'.PHP_EOL;

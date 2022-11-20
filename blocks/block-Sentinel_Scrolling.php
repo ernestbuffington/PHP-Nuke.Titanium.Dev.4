@@ -16,8 +16,8 @@ if(!defined('NUKE_EVO')) exit;
 global $db, $prefix, $ab_config, $currentlang;
 
 $content = '';
-// $content .= '<script type="text/javascript" src="includes/nukesentinel/nukesentinel4.js"></script>'."\n";
-// $content .= '<script type="text/javascript" src="includes/nukesentinel/nukesentinel5.js"></script>'."\n";
+// $content .= '<script src="includes/nukesentinel/nukesentinel4.js"></script>'."\n";
+// $content .= '<script src="includes/nukesentinel/nukesentinel5.js"></script>'."\n";
 $content .= '<center>'._AB_LISTBANNEDIPS.'</center><hr />'."\n";
 $content .= '<center><div style="width:150px; overflow:hidden; height:150px; position:relative;" class="Fsp.Scroller.Delay:30"><div>'."\n";
 $result = $db->sql_query('SELECT `ip_addr`, `reason` FROM `'.$prefix.'_nsnst_blocked_ips` ORDER BY `date` DESC LIMIT 0,20');

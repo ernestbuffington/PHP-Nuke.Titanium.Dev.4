@@ -113,7 +113,7 @@ if(!function_exists('bbcode_table'))
 
         // jquery.bbcode
         // addCSSToHead(NUKE_CSS_DIR.'bbcode.css?v=1.0','file');
-        $JStoBody  = '<script type="text/javascript">'.PHP_EOL;
+        $JStoBody  = '<script>'.PHP_EOL;
         $JStoBody .= '  var emailError      = "'.$bbcode_help['emailError'].'";';
         $JStoBody .= '  var imageError      = "'.$bbcode_help['imageError'].'";';
         $JStoBody .= '  var imageLabel      = "'.$bbcode_help['imageLabel'].'";';

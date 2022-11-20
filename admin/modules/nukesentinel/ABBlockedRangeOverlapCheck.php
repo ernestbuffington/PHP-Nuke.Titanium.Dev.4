@@ -203,7 +203,7 @@ if(!isset($min)) {
     echo '</tr>'."\n";
     echo '</table>'."\n";
   } else {
-    echo '<script type="text/javascript"><!--'."\n";
+    echo '<script><!--'."\n";
     echo 'setTimeout(\'Redirect()\','.($pagedelay*1000).');'."\n";
     echo 'function Redirect()'."\n";
     echo '{'."\n";

@@ -49,7 +49,7 @@ if ( !file_exists(@phpbb_realpath($phpbb_root_path . 'language/lang_' . $board_c
 <meta http-equiv="Content-Style-Type" content="text/css">
 <link rel="stylesheet" href="<?php echo $phpbb_root_path . 'templates/' . $theme['template_name'] . '/' . $theme['head_stylesheet'];?>" type="text/css">
 <title><?php echo $board_config['sitename']; ?></title>
-<style type="text/css">
+<style>
 <!--
 body { 
     margin: 0px 0px 0px 0px;

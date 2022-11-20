@@ -915,7 +915,7 @@ $emailfile = <<< EOD
 <html>
 <head>
   <title>{SITENAME} Email</title>
-  <style type="text/css">
+  <style>
         <!--
         body {font-family: Verdana,Helvetica; font-size: 10px}
         div {font-family: Verdana,Helvetica; font-size: 10px}

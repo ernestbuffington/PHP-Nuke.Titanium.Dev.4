@@ -1,4 +1,4 @@
-<style type="text/css">
+<style>
 <!--
 td.attachrow        { font: normal 11px Verdana, Arial, Helvetica, sans-serif; color : {T_BODY_TEXT}; border-color : {T_BODY_TEXT}; }
 td.attachheader     { font: normal 11px Verdana, Arial, Helvetica, sans-serif; color : {T_BODY_TEXT}; border-color : {T_BODY_TEXT}; background-color: {T_TR_COLOR3}; }

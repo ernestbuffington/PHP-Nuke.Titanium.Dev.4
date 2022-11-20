@@ -1775,11 +1775,11 @@ function writeHEAD()
 	if (is_array($headPHPCSS) && count($headPHPCSS) > 0):
         foreach($headPHPCSS AS $php):
             if ($php[0]=='file'):
-				echo "<style type=\"text/css\">\n";
+				echo "<style>\n";
                 include($php[1]);
 				echo "</style>\n";
 			else: 
-				echo "<style type=\"text/css\">\n";
+				echo "<style>\n";
                 include($php[1]);
 				echo "</style>\n"; 
             endif;
@@ -1799,7 +1799,7 @@ function writeHEAD()
     if (is_array($headJS) && count($headJS) > 0):
         foreach($headJS AS $js):
             if ($js[0] == 'file') 
-                echo '<script type="text/javascript" src="' . $js[1] . '"></script>' . "\n";
+                echo '<script src="' . $js[1] . '"></script>' . "\n";
             else
                 echo $js[1];
         endforeach;
@@ -1814,7 +1814,7 @@ function writeBODYJS()
 	if (is_array($bodyJS) && count($bodyJS) > 0): 
         foreach($bodyJS AS $js):
             if ($js[0] == 'file') 
-                echo '<script type="text/javascript" language="JavaScript" src="' . $js[1] . '"></script>' . "\n";
+                echo '<script src="' . $js[1] . '"></script>' . "\n";
             else
                 echo $js[1];
         endforeach;

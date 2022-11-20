@@ -63,7 +63,7 @@ switch ($op) {
         if ($multilingual == 1) { $querylang = "AND (alanguage='$currentlang' OR alanguage='')"; } else { $querylang = ""; }
         include_once(NUKE_BASE_DIR."header.php");
         if($neconfig["readmore"] == 1) {
-            echo "<script language='JavaScript' type='text/javascript'>\n";
+            echo "<script>\n";
             echo "<!-- Begin\n";
             echo "function NewsReadWindow(mypage, myname, w, h, scroll) {\n";
             echo "var winl = (screen.width - w) / 2;\n";

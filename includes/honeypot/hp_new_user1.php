@@ -31,7 +31,7 @@ if ($check1 == 1){
 echo "<tr id=\"noninfo\"><td bgcolor='$bgcolor2'><div class=\"textbold\"><font color=\"FF0000\">("._HONEYPOT_DONTANSWER.")</font><br>"._HONEYPOT_WHATIS." 2 + 2?:</td><td bgcolor='$bgcolor1'><input name=\"addition\" type=\"text\" size=\"23\"> <span class='tiny'>"._REQUIRED."</span></td></tr>" , PHP_EOL;
 }
 if ($check2 == 1){
-echo"<script type=\"text/javascript\"> 
+echo"<script> 
 var e = document.getElementById('noninfo'); 
 e.parentNode.removeChild(e); 
 </script>" , PHP_EOL;

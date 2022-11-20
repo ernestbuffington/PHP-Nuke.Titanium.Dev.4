@@ -1,6 +1,6 @@
 <strong><div align="center">{L_UACP} :: {USERNAME}</div></strong>
 
-<script language="Javascript" type="text/javascript">
+<script>
     //
     // Should really check the browser to stop this whining ...
     //

@@ -1,4 +1,4 @@
-<script language='JavaScript'>
+<script>
 function emoticon(text) {
     text = ' ' + text + ' ';
     PostWrite(text);

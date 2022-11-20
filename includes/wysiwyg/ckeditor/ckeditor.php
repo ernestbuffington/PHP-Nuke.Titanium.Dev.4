@@ -42,14 +42,14 @@ class ckeditor {
         }
 		
         $this->first = false;
-		$modheader = '<script type="text/javascript" src="includes/wysiwyg/ckeditor/ckeditor.js"></script>';
+		$modheader = '<script src="includes/wysiwyg/ckeditor/ckeditor.js"></script>';
 
     }
 	
 	function getHtml($name) {
         $html  = '<div>';
 		$html .= '<textarea name="' . $name . '">' . htmlspecialchars($this->fields[$name]['value']) . '</textarea>';
-		$html .= '<script type="text/javascript">';
+		$html .= '<script>';
 		$html .= 'var editor = CKEDITOR.replace(\'' . $name . '\',{height:"' . $this->fields[$name]['height'] . '", width:"' . $this->fields[$name]['width'] . '"});';
 		$html .= '</script>';
 		$html .= '</div>';

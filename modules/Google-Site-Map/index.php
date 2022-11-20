@@ -68,12 +68,12 @@ print '<div align="center"><strong>'._GOOGLE_MAP.' '.$sitename.'</strong></div>'
 print '<div align="center">';
 
 # lock legend
-print '<font color="violet"><i style="vertical-align: middle;" class="fa fa-unlock-alt"></i></font>&nbsp;&nbsp;';
-print '<font color="green"><i style="vertical-align: middle;" class="fa fa-unlock-alt"></i></font>&nbsp;&nbsp;';
-print '<font color="lime"><i style="vertical-align: middle;" class="fa fa-unlock-alt"></i></font>&nbsp;&nbsp;';
-print '<font color="aqua"><i style="vertical-align: middle;" class="fa fa-unlock-alt"></i></font>&nbsp;<font size="1">(EVERYONE)</font>&nbsp;';
-print '<font color="#FF0000"><i style="vertical-align: middle;" class="fa fa-lock"></i></font>&nbsp;<font size="1">(REGISTERED USERS ONLY)</font>&nbsp;';
-print '</div><br/>';
+print '<i style="vertical-align: middle; height: 15px; width: 15;" class="fa fa-unlock-alt violet"></i>&nbsp;&nbsp;';
+print '<i style="vertical-align: middle; height: 15px; width: 15;" class="fa fa-unlock-alt green"></i>&nbsp;&nbsp;';
+print '<i style="vertical-align: middle; height: 15px; width: 15;" class="fa fa-unlock-alt lime"></i>&nbsp;&nbsp;';
+print '<i style="vertical-align: middle; height: 15px; width: 15;" class="fa fa-unlock-alt aqua"></i>&nbsp;(EVERYONE)&nbsp;';
+print '<i style="vertical-align: middle; height: 15px; width: 15;" class="fa fa-lock brightred"></i>&nbsp;(REGISTERED USERS ONLY)&nbsp;';
+print '<br/>';
 
 print '<div align="center">';
 print '<table style="background-color:#70163C;" class="googlesitemap" align="center" border="5" cellpadding="15" cellspacing="20" dir="ltr" id="googlesitemap">';
@@ -102,7 +102,7 @@ while ($row2 = $db->sql_fetchrow($result2)):
     
 	$show = true;
 
-	print '<tr><td>';
+	print '<tr><td style="margin: 0 20px 20px 0;">';
 
 	if ($permission < 3): 
        # we do not want these in our sitemap
@@ -116,7 +116,7 @@ while ($row2 = $db->sql_fetchrow($result2)):
 	   # dont do anything
 	   else:
 
-		print '&nbsp;&nbsp;&nbsp;<font color="lime"><i style="vertical-align: absmiddle;" class="fa fa-unlock-alt"></i>';
+		print '&nbsp;&nbsp;&nbsp;<i style="vertical-align: middle; height: 24px; width: 15;" class="fa fa-unlock-alt lime"></i></td>';
 
       endif;
 
@@ -132,7 +132,7 @@ while ($row2 = $db->sql_fetchrow($result2)):
 	   # dont do anything
 	   else:
 
-	    print '&nbsp;&nbsp;&nbsp;<font color="lime"><i style="vertical-align: absmiddle;" class="fa fa-unlock-alt"></i>';
+	    print '&nbsp;&nbsp;&nbsp;<i style="vertical-align: middle; height: 24px; width: 15;" class="fa fa-unlock-alt lime"></i></td>';
 
       endif;
 	elseif ($permission == 6 && !empty($groups) && is_array($groups)): 
@@ -156,7 +156,7 @@ while ($row2 = $db->sql_fetchrow($result2)):
       ):
       # dont do anything
 	  else:
-        print '&nbsp;&nbsp;&nbsp;<font color="lime"><i style="vertical-align: absmiddle;" class="fa fa-unlock-alt"></i>';
+        print '&nbsp;&nbsp;&nbsp;<i style="vertical-align: middle;  height: 24px; width: 15;" class="fa fa-unlock-alt lime"></i></td>';
       endif;		
 	
 		else: 
@@ -170,7 +170,7 @@ while ($row2 = $db->sql_fetchrow($result2)):
           ):
 	      # dont do anything
 	      else:
-		    print '&nbsp;&nbsp;&nbsp;<font color="#FF0000"><i style="vertical-align: absmiddle;" class="fa fa-lock"></i></font>&nbsp;';
+		    print '&nbsp;&nbsp;&nbsp;<i style="vertical-align: middle;  height: 24px; width: 15;" class="fa fa-lock brightred"></i>&nbsp;</td>';
 			$show = false;
           endif;	    
 		endif;
@@ -187,14 +187,14 @@ while ($row2 = $db->sql_fetchrow($result2)):
 	    # dont do anything
 	    else:
 	
-		  print '&nbsp;&nbsp;&nbsp;<font color="#FF0000"><i style="vertical-align: absmiddle;" class="fa fa-lock"></i></font>&nbsp;';
+		  print '&nbsp;&nbsp;&nbsp;<i style="vertical-align: middle; height: 24px; width: 15;" class="fa fa-lock brightred"></i>&nbsp;</td>';
 		  $show = false;
 
         endif;	
 	
 	endif;
 
-	print '</td>'."\n";
+	//print '</td>'."\n";
     # we do not want these in our sitemap
 	if(($link === 'Arcade_Tweaks')
 	|| ($link === 'cPanel_Login')
@@ -206,12 +206,13 @@ while ($row2 = $db->sql_fetchrow($result2)):
     # dont do anything
 	else:
 
-    # content module
-	if($link === 'Content'):
+     # content module
+	 if($link === 'Content'):
 
-     print '<td><a href="modules.php?name='.$link.'">'.$the_module_title.' &#187; A list of the available content on '.$sitename.'</a>&nbsp;&nbsp;&nbsp;</td></tr>'."\n";
+     print '<td><a href="modules.php?name='.$link.'">'.$the_module_title.' &#187; A list of the available content on '.$sitename.'</a>&nbsp;&nbsp;&nbsp;<hr></td></tr>'."\n";
      $sitemap->addItem('/modules.php?name='.$link.'', '0.8', 'monthly', 'Jun 25');
      
+	 
 	 # groups module
 	 elseif($link === 'Groups'):
      print '<td><a href="modules.php?name='.$link.'">'.$the_module_title.' &#187; A list of the available user groups on the '.$sitename.' web portal</a>&nbsp;&nbsp;&nbsp;</td></tr>';
@@ -220,14 +221,16 @@ while ($row2 = $db->sql_fetchrow($result2)):
      $sql = $db->sql_query("select group_id, group_name from ".$prefix."_bbgroups where group_description <> 'Personal User'");
      while(list($group_id, $group_name) = $db->sql_fetchrow($sql)): 
        if (is_user())
-       print '<td></td><td><font color="green"><i style="vertical-align: middle;" 
-	   class="fa fa-lock"></i></font>&nbsp;<a href="modules.php?name=Groups&amp;g='.$group_id.'">Users Group &#187; '.$group_name.' &#187; Join Today</a></td></tr>'; 
+       print '<td></td><td><i style="vertical-align: middle;" 
+	   class="fa fa-lock green"></i>&nbsp;<a href="modules.php?name=Groups&amp;g='.$group_id.'">Users Group &#187; '.$group_name.' &#187; Join Today</a></td></tr>'; 
 	   else
-       print '<td></td><td><font color="#FF0000"><i style="vertical-align: middle;" 
-	   class="fa fa-lock"></i></font>&nbsp;<a href="modules.php?name=Groups&amp;g='.$group_id.'">Users Group &#187; '.$group_name.'</a><a  
+       print '<td></td><td><span class="brightred"><i style="vertical-align: middle;" 
+	   class="fa fa-lock"></i></span>&nbsp;<a href="modules.php?name=Groups&amp;g='.$group_id.'">Users Group &#187; '.$group_name.'</a><a  
 	   href="modules.php?name=Your_Account&op=new_user"> &#187; Login or Create New User Account</a></td></tr>'; 
 	   $sitemap->addItem('/modules.php?name=modules.php?name=Groups&g='.$group_id.'', '0.8', 'monthly', 'Jun 25');
      endwhile;
+	 
+	 
 	 
 	 # Feedback Module
 	 elseif($link === 'Feedback'):
@@ -402,89 +405,91 @@ while ($row2 = $db->sql_fetchrow($result2)):
     endif;
 
 	switch($link): 
-		# Network Advertising #################################################################################################################################################
+		# Network Projects 
 		case 'Network_Projects':
 		global $network_prefix, $db2; 
         $projectresult = $db2->sql_query("SELECT `project_id` FROM `".$network_prefix."_projects` ORDER BY `weight`");
         while(list($project_id) = $db2->sql_fetchrow($projectresult)): 
           $project = pjprojectpercent_info($project_id);
-		  print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-		  class="fa fa-unlock-alt"></i>&nbsp;</font><a href="modules.php?name=Network_Projects&amp;op=Project&amp;project_id='.$project_id.'">'.$project['project_name'].'</a>
+		  print '<tr><td></td><td><i style="vertical-align: middle;" 
+		  class="fa fa-unlock-alt violet"></i>&nbsp;<a 
+		  href="modules.php?name=Network_Projects&amp;op=Project&amp;project_id='.$project_id.'">'.$project['project_name'].'</a>
 		  &nbsp;&nbsp;</td>';
           $sitemap->addItem('/modules.php?name=Network_Projects&op=Project&project_id='.$project_id.'', '0.8', 'daily', 'Today');
 	    endwhile;
 		break;
-		# Network Advertising #################################################################################################################################################
+		# Network Advertising 
 		case 'Network_Advertising':
-		print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-		class="fa fa-unlock-alt"></i></font> <a 
+		print '<tr><td></td><td><i style="vertical-align: middle;" 
+		class="fa fa-unlock-alt violet"></i> <a 
 		href="modules.php?name=Network_Advertising&op=network_ad_terms">'.$the_module_title.' &#187; Network Advertising Terms</a>&nbsp;&nbsp;</td>';
         $sitemap->addItem('/modules.php?name=Network_Advertising&op=network_ad_terms', '0.8', 'monthly', 'Jun 25');
-		print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-		class="fa fa-unlock-alt"></i></font> <a 
+		print '<tr><td></td><td><i style="vertical-align: middle;" 
+		class="fa fa-unlock-alt violet"></i> <a 
 		href="modules.php?name=Network_Advertising&op=ad_plans">'.$the_module_title.' &#187; Network Advertising Plans and Prices</a>&nbsp;&nbsp;</td>';
         $sitemap->addItem('/modules.php?name=Network_Advertising&op=ad_plans', '0.8', 'monthly', 'Jun 25');
-		print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-		class="fa fa-unlock-alt"></i></font> <a 
+		print '<tr><td></td><td><i style="vertical-align: middle;" 
+		class="fa fa-unlock-alt violet"></i> <a 
 		href="modules.php?name=Network_Advertising&op=network_ad_client">'.$the_module_title.' &#187; Network Advertising Client Login</a>&nbsp;&nbsp;</td>';
         $sitemap->addItem('/modules.php?name=Network_Advertising&op=network_ad_client', '0.8', 'monthly', 'Jun 25');
 		break;
-		# Portal Advertising #################################################################################################################################################
+		# Portal Advertising 
 		case 'Advertising':
-		print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-		class="fa fa-unlock-alt"></i></font> <a href="modules.php?name=Advertising&op=terms">'.$the_module_title.' &#187; Portal Advertising Terms</a>&nbsp;&nbsp;</td>';
+		print '<tr><td></td><td><i style="vertical-align: middle;" 
+		class="fa fa-unlock-alt violet"></i> <a 
+		href="modules.php?name=Advertising&op=terms">'.$the_module_title.' &#187; Portal Advertising Terms</a>&nbsp;&nbsp;</td>';
         $sitemap->addItem('/modules.php?name=Advertising&op=terms', '0.8', 'monthly', 'Jun 25');
-		print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-		class="fa fa-unlock-alt"></i></font> <a 
+		print '<tr><td></td><td><i style="vertical-align: middle;" 
+		class="fa fa-unlock-alt violet"></i> <a 
 		href="modules.php?name=Advertising&op=plans">'.$the_module_title.' &#187; Portal Advertising Plans and Prices</a>&nbsp;&nbsp;</td>';
         $sitemap->addItem('/modules.php?name=Advertising&op=plans', '0.8', 'monthly', 'Jun 25');
-		print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-		class="fa fa-unlock-alt"></i></font> <a href="modules.php?name=Advertising&op=client">'.$the_module_title.' &#187; Portal Advertising Client Login</a>&nbsp;&nbsp;</td>';
+		print '<tr><td></td><td><i style="vertical-align: middle;" 
+		class="fa fa-unlock-alt violet"></i> <a href="modules.php?name=Advertising&op=client">'.$the_module_title.' &#187; Portal Advertising Client Login</a>&nbsp;&nbsp;</td>';
         $sitemap->addItem('/modules.php?name=Advertising&op=client', '0.8', 'monthly', 'Jun 25');
 		break;
-		# 86it Network Disclaimer #################################################################################################################################################
+		# 86it Network Disclaimer 
 		case 'Network': 
 		$sitemap->addItem('/modules.php?name=Network', '0.8', 'monthly', 'Jun 25');
-		print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-		class="fa fa-unlock-alt"></i></font> <a href="modules.php?name=Network&file=about">'.$the_module_title.' &#187; About The 86it Developers Network</a>&nbsp;&nbsp;</td>';
+		print '<tr><td></td><td><i style="vertical-align: middle;" 
+		class="fa fa-unlock-alt violet"></i> <a href="modules.php?name=Network&file=about">'.$the_module_title.' &#187; About The 86it Developers Network</a>&nbsp;&nbsp;</td>';
         $sitemap->addItem('/modules.php?name=Network&file=about', '0.8', 'monthly', 'Jun 25');
-		print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-		class="fa fa-unlock-alt"></i></font> <a 
+		print '<tr><td></td><td><i style="vertical-align: middle;" 
+		class="fa fa-unlock-alt violet"></i> <a 
 		href="modules.php?name=Network&file=disclaimer">'.$the_module_title.' &#187; Disclaimer For The 86it Developers Network</a>&nbsp;&nbsp;</td>';
         $sitemap->addItem('/modules.php?name=Network&file=disclaimer', '0.8', 'monthly', 'Jun 25');
-		print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-		class="fa fa-unlock-alt"></i></font> <a 
+		print '<tr><td></td><td><i style="vertical-align: middle;" 
+		class="fa fa-unlock-alt violet"></i> <a 
 		href="modules.php?name=Network&file=privacy">'.$the_module_title.' &#187; Privacy Statement For The 86it Developers Network</a>&nbsp;&nbsp;</td>';
         $sitemap->addItem('/modules.php?name=Network&file=privacy', '0.8', 'monthly', 'Jun 25');
-		print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-		class="fa fa-unlock-alt"></i></font> <a 
+		print '<tr><td></td><td><i style="vertical-align: middle;" 
+		class="fa fa-unlock-alt violet"></i> <a 
 		href="modules.php?name=Network&file=terms">'.$the_module_title.' &#187; Network Terms For The 86it Developers Network</a>&nbsp;&nbsp;</td>';
         $sitemap->addItem('/modules.php?name=Network&file=terms', '0.8', 'monthly', 'Jun 25');
 		break;
-		# Portal Disclaimer #################################################################################################################################################
+		# Portal Disclaimer 
 		case 'Docs': 
 		$sitemap->addItem('/modules.php?name=Docs', '0.8', 'monthly', 'Jun 25');
-		print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-		class="fa fa-unlock-alt"></i></font> <a href="modules.php?name=Docs&file=about">'.$the_module_title.' &#187; About '.$sitename.'</a>&nbsp;&nbsp;</td>';
+		print '<tr><td></td><td><i style="vertical-align: middle;" 
+		class="fa fa-unlock-alt violet"></i> <a href="modules.php?name=Docs&file=about">'.$the_module_title.' &#187; About '.$sitename.'</a>&nbsp;&nbsp;</td>';
         $sitemap->addItem('/modules.php?name=Docs&file=about', '0.8', 'monthly', 'Jun 25');
-		print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-		class="fa fa-unlock-alt"></i></font> <a href="modules.php?name=Docs&file=disclaimer">'.$the_module_title.' &#187; Disclaimer For '.$sitename.'</a>&nbsp;&nbsp;</td>';
+		print '<tr><td></td><td><i style="vertical-align: middle;" 
+		class="fa fa-unlock-alt violet"></i> <a href="modules.php?name=Docs&file=disclaimer">'.$the_module_title.' &#187; Disclaimer For '.$sitename.'</a>&nbsp;&nbsp;</td>';
         $sitemap->addItem('/modules.php?name=Docs&file=disclaimer', '0.8', 'monthly', 'Jun 25');
-		print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-		class="fa fa-unlock-alt"></i></font> <a href="modules.php?name=Docs&file=privacy">'.$the_module_title.' &#187; Privacy Statement For '.$sitename.'</a>&nbsp;&nbsp;</td>';
+		print '<tr><td></td><td><i style="vertical-align: middle;" 
+		class="fa fa-unlock-alt violet"></i> <a href="modules.php?name=Docs&file=privacy">'.$the_module_title.' &#187; Privacy Statement For '.$sitename.'</a>&nbsp;&nbsp;</td>';
         $sitemap->addItem('/modules.php?name=Docs&file=privacy', '0.8', 'monthly', 'Jun 25');
-		print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-		class="fa fa-unlock-alt"></i></font> <a href="modules.php?name=Docs&file=terms">'.$the_module_title.' &#187; Terms For '.$sitename.'</a>&nbsp;&nbsp;</td>';
+		print '<tr><td></td><td><i style="vertical-align: middle;" 
+		class="fa fa-unlock-alt violet"></i> <a href="modules.php?name=Docs&file=terms">'.$the_module_title.' &#187; Terms For '.$sitename.'</a>&nbsp;&nbsp;</td>';
         $sitemap->addItem('/modules.php?name=Docs&file=terms', '0.8', 'monthly', 'Jun 25');
 		break;
-		# Downloads #################################################################################################################################################
+		# Downloads 
 		case 'Downloads':
 			$result3 = $db->sql_query("SELECT `cid`, `title` FROM `".$prefix."_downloads_categories` WHERE `active`=1 AND `parentid`=0 ORDER BY `title`");
 			while ($row3 = $db->sql_fetchrow($result3)): 
 				$titolodown = $row3['title'];
 				$cid1 = $row3['cid'];
-				print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-				class="fa fa-unlock-alt"></i></font> <a href="modules.php?name=Downloads&amp;cid='.$cid1.'">'.$titolodown.'</a></td>';
+				print '<tr><td></td><td><i style="vertical-align: middle;" 
+				class="fa fa-unlock-alt violet"></i> <a href="modules.php?name=Downloads&amp;cid='.$cid1.'">'.$titolodown.'</a></td>';
 				if($xml):
                 //@fwrite($var, '<url><loc>'.$nukeurl.'/modules.php?name=Downloads&amp;cid='.$cid1.'</loc></url>'."\n");
                 endif;
@@ -492,8 +497,8 @@ while ($row2 = $db->sql_fetchrow($result2)):
 				while ($row4 = $db->sql_fetchrow($result4)): 
 					$titolodown2 = $row4['title'];
 					$cid2 = $row4['cid'];
-					print '<tr><td></td><td><font color="green"><i style="vertical-align: middle;" 
-					class="fa fa-unlock-alt"></i></font> <a href="modules.php?name=Downloads&amp;cid='.$cid2.'">'.$titolodown2.'</a></td>';
+					print '<tr><td></td><td><i style="vertical-align: middle;" 
+					class="fa fa-unlock-alt green"></i> <a href="modules.php?name=Downloads&amp;cid='.$cid2.'">'.$titolodown2.'</a></td>';
 					if($xml):
                     //@fwrite($var, '<url><loc>'.$nukeurl.'/modules.php?name=Downloads&amp;cid='.$cid2.'</loc></url>'."\n");
                     endif;
@@ -519,14 +524,15 @@ while ($row2 = $db->sql_fetchrow($result2)):
 			endwhile;
             $db->sql_freeresult($result3);
 		break;
-		# File Repository  #################################################################################################################################################
+		# File Repository  
 		case 'File_Repository':
+		
 			$result3 = $db->sql_query('SELECT `cid`, `cname` FROM `'.$prefix.'_file_repository_categories` WHERE `parentid`= 0 ORDER BY `cname`');
 			while ($row3 = $db->sql_fetchrow($result3)):
 				$titolodown = $row3['cname'];
 				$cid1 = $row3['cid'];
-				print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-				class="fa fa-unlock-alt"></i></font> <a href="modules.php?name=File_Repository&amp;cid='.$cid1.'">'.$titolodown.'</a></td>';
+				print '<tr><td></td><td><i style="vertical-align: middle;" 
+				class="fa fa-unlock-alt violet"></i> <a href="modules.php?name=File_Repository&amp;cid='.$cid1.'">'.$titolodown.'</a></td>';
 				if($xml):
                 $sitemap->addItem('/modules.php?name=File_Repository&cid='.$cid1.'', '0.8', 'daily', 'Jun 25');
                 endif;
@@ -534,8 +540,8 @@ while ($row2 = $db->sql_fetchrow($result2)):
 				while ($row3b = $db->sql_fetchrow($result3b)):
 					$titolodown3 = $row3b['title'];
 					$cid3 = $row3b['did'];
-					print '<tr><td></td><td><font color="green"><i style="vertical-align: middle;" class="fa 
-					fa-unlock-alt"></i></font> <a 
+					print '<tr><td></td><td><i style="vertical-align: middle;" class="fa 
+					fa-unlock-alt aqua"></i> <a 
 					href="modules.php?name=File_Repository&amp;&action=view&amp;did='.$cid3.'">'.$titolodown3.'</a></td>';					
 					if($xml):
                     $sitemap->addItem('/modules.php?name=File_Repository&action=view&did='.$cid3.'', '0.8', 'daily', 'Jun 25');
@@ -546,17 +552,18 @@ while ($row2 = $db->sql_fetchrow($result2)):
 				while ($row4 = $db->sql_fetchrow($result4)):
 					$titolodown2 = $row4['cname'];
 					$cid2 = $row4['cid'];
-					print '<tr><td></td><td><font color="green"><i style="vertical-align: middle;" class="fa 
-					fa-unlock-alt"></i></font> <a href="modules.php?name=File_Repository&amp;cid='.$cid2.'">'.$titolodown2.'</a></td>';
+					print '<tr><td></td><td>&nbsp;&nbsp;<i style="vertical-align: middle;" class="fa 
+					fa-unlock-alt aqua"></i> <a href="modules.php?name=File_Repository&amp;cid='.$cid2.'">'.$titolodown2.'</a></td>';
 					if($xml):
                     $sitemap->addItem('/modules.php?name=File_Repository&cid='.$cid2.'', '0.8', 'daily', 'Jun 25');
                     endif;
 					$result4b = $db->sql_query('SELECT `cid`, `did`, `title` FROM `'.$prefix.'_file_repository_items` WHERE `cid`="'.$cid2.'" ORDER BY `hits` LIMIT 0,'.$ndown);
+					
 					while ($row4b = $db->sql_fetchrow($result4b)):
 						$titolodown4 = $row4b['title'];
 						$cid4 = $row4b['did'];
-						print '<tr><td></td><td><font color="green"><i style="vertical-align: middle;" 
-						class="fa fa-unlock-alt"></i></font> <a href="modules.php?name=File_Repository&amp;&action=view&amp;did='.$cid4.'">'.$titolodown4.'</a></td>';
+						print '<tr><td></td><td>&nbsp;&nbsp;&nbsp;&nbsp;<i style="vertical-align: middle;" 
+						class="fa fa-unlock-alt green"></i> <a href="modules.php?name=File_Repository&amp;&action=view&amp;did='.$cid4.'">'.$titolodown4.'</a></td>';
 						if($xml):
                         $sitemap->addItem('/modules.php?name=File_Repository&action=view&did='.$cid4.'', '0.8', 'daily', 'Jun 25');
 						endif;
@@ -566,8 +573,9 @@ while ($row2 = $db->sql_fetchrow($result2)):
 				$db->sql_freeresult($result4);
 			endwhile;
             $db->sql_freeresult($result3);
+			print '<tr><td></td><td></td>';
 		break;
-		# Forums  #################################################################################################################################################		
+		# Forums  
 		case 'Forums':
 			$result5 = $db->sql_query('SELECT `cat_id`, 
 			                               `cat_title` 
@@ -583,8 +591,8 @@ while ($row2 = $db->sql_fetchrow($result2)):
 																	 AND auth_read < 2 ORDER BY forum_order'));
 				if ($number_of_forums <= 0) 
 				continue;
-				print '<tr><td></td><td><font color="violet"><i style="vertical-align: absmiddle;" 
-				class="fa fa-unlock-alt"></i></font> <a href="modules.php?name=Forums&amp;file=index&amp;c='.$cat_id.'">'.$titolocatf.'</a></td>';
+				print '<tr><td></td><td><i style="vertical-align: middle;" 
+				class="fa fa-unlock-alt violet"></i> <a href="modules.php?name=Forums&amp;file=index&amp;c='.$cat_id.'">'.$titolocatf.'</a></td>';
 				if($xml):
                 $sitemap->addItem('/modules.php?name=Forums&file=index&c='.$cat_id.'', '0.8', 'daily', 'Jun 25');
 				endif;
@@ -604,10 +612,10 @@ while ($row2 = $db->sql_fetchrow($result2)):
 					$auth_read = $row6['auth_read'];
 					print '<tr><td></td><td>';
 					if ($auth_view && !is_user()): 
-						print '<font color="#FF0000"><i class="fa fa-lock"></i></font>';
+						print '<i class="fa fa-lock brightred"></i>';
 						print $titoloforum.'</td></tr>';
 					else: 
-						print '&nbsp;&nbsp;&nbsp;&nbsp;<font color="green"><i style="vertical-align: absmiddle;" class="fa fa-unlock-alt"></i></font>&nbsp;';
+						print '&nbsp;&nbsp;&nbsp;&nbsp;<i style="vertical-align: middle;" class="fa fa-unlock-alt green"></i>&nbsp;';
 						print  '<a href="modules.php?name=Forums&amp;file=viewforum&amp;f='.$fid.'">'.$titoloforum.'</a></td></tr>';
 						if($xml):
                         $sitemap->addItem('/modules.php?name=Forums&file=viewforum&f='.$fid.'', '0.8', 'daily', 'Jun 25');
@@ -615,8 +623,8 @@ while ($row2 = $db->sql_fetchrow($result2)):
 						$resultT = $db->sql_query('SELECT topic_title, topic_id FROM '.$prefix.'_bbtopics WHERE `forum_id`="'.$fid.'" ORDER BY topic_id DESC LIMIT 0,'.$ntopics);
 						while($rowT = $db->sql_fetchrow($resultT)): 
 						print '<tr><td></td><td>';
-						print '&nbsp;&nbsp;&nbsp;&nbsp;<font color="darkgreen"><i style="vertical-align: middle;" 
-						class="fa fa-unlock-alt"></i></font>&nbsp;';
+						print '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="vertical-align: middle;" 
+						class="fa fa-unlock-alt aqua"></i>&nbsp;';
 						print '<a href="modules.php?name=Forums&amp;file=viewtopic&amp;t='.$rowT['topic_id'].'">'.$rowT['topic_title'].'</a></td>';
 						if($xml):
                         $sitemap->addItem('/modules.php?name=Forums&file=viewtopic&t='.$rowT['topic_id'].'', '0.8', 'daily', 'Jun 25');
@@ -629,7 +637,7 @@ while ($row2 = $db->sql_fetchrow($result2)):
 			endwhile;
 			$db->sql_freeresult($result5);
 		break;
-		# Sections  #################################################################################################################################################
+		# Sections  
 		case 'Sections':
 			$result7 = $db->sql_query('select `secid`, `secname`, `image` from `'.$prefix.'_sections` order by `secname`');
 			while ($row7 = $db->sql_fetchrow($result7)): 
@@ -638,9 +646,9 @@ while ($row2 = $db->sql_fetchrow($result2)):
 				$view = $row7['view'];
 				print '<tr><td></td><td>';
 				if($view==1): 
-				print '<font color="#FF0000"><i class="fa fa-lock"></i></font>';
+				print '<i class="fa fa-lock brightred"></i>';
 				else: 
-				print '<i style="vertical-align: absmiddle;" class="fa fa-unlock-alt"></i></font> ';
+				print '<i style="vertical-align: middle;" class="fa fa-unlock-alt lime"></i> ';
 				endif;
 				print '<a href="modules.php?name=Sections&amp;op=listarticles&amp;secid='.$secid.'">'.$secname.'</a></td>';
 				if($xml):
@@ -649,28 +657,28 @@ while ($row2 = $db->sql_fetchrow($result2)):
 			endwhile;
 			$db->sql_freeresult($result7);
 		break;
-		# Web Links  #################################################################################################################################################
+		# Web Links  
 		case 'Web_Links':
 			$result8 = $db->sql_query('SELECT `cid`, `title` from `'.$prefix.'_links_categories` where `parentid`="'.$cid.'" order by `title`');
 			while ($row8 = $db->sql_fetchrow($result8)): 
 				$titololink = $row8['title'];
 				$cid1 = $row8['cid'];
-				print '<tr><td></td><td><font color="green"><i style="vertical-align: absmiddle;" 
-				class="fa fa-unlock-alt"></i></font> <a href="modules.php?name=Web_Links&amp;l_op=viewlink&amp;cid='.$cid1.'">'.$titololink.'</a></td>';
+				print '<tr><td></td><td><i style="vertical-align: middle;" 
+				class="fa fa-unlock-alt green"></i> <a href="modules.php?name=Web_Links&amp;l_op=viewlink&amp;cid='.$cid1.'">'.$titololink.'</a></td>';
 				if($xml):
 			    $sitemap->addItem('/modules.php?name=Web_Links&l_op=viewlink&cid='.$cid1.'', '0.8', 'monthly', 'Jun 25');
 				endif;
 			endwhile;
             $db->sql_freeresult($result8);
 		break;
-		# Blog Topics  #################################################################################################################################################
+		# Blog Topics  
 		case 'Blog_Topics':
 			$result9 = $db->sql_query("SELECT topictext,topicid FROM ".$prefix."_topics ORDER BY topictext");
 			while ($row9 = $db->sql_fetchrow($result9)):
 				$topiclink=$row9['topictext'];
 				$cidtopic=$row9['topicid'];
-				print '<tr><td></td><td><font color="green"><i 
-				style="vertical-align: absmiddle;" class="fa fa-unlock-alt"></i></font> <a 
+				print '<tr><td></td><td><i 
+				style="vertical-align: middle;" class="fa fa-unlock-alt green"></i> <a 
 				href="modules.php?name=Blog_Topics&amp;cid='.$cidtopic.'">Blog Topic &#187; '.$topiclink.'</a></td>';
 				if($xml):
 		        $sitemap->addItem('/modules.php?name=Blog_Topics&cid='.$cidtopic.'', '0.8', 'monthly', 'Jun 25');
@@ -678,14 +686,14 @@ while ($row2 = $db->sql_fetchrow($result2)):
             endwhile;
             $db->sql_freeresult($result9);
 		break;
-		# Blog  #################################################################################################################################################
+		# Blog  
 		case 'Blogs':
 			$result10 = $db->sql_query('SELECT `title`, `sid` FROM `'.$prefix.'_stories` ORDER BY `sid` DESC LIMIT 0,'.$nnews);
 			while ($row10 = $db->sql_fetchrow($result8)): 
 				$newslink = $row10['title'];
 				$cidnews = $row10['sid'];
-				print '<tr><td></td><td><font color="green"><i 
-				style="vertical-align: absmiddle;" class="fa fa-unlock-alt"></i></font> <a 
+				print '<tr><td></td><td><i 
+				style="vertical-align: middle;" class="fa fa-unlock-alt green"></i> <a 
 				href="modules.php?name=Blogs&amp;file=article&amp;sid='.$cidnews.'">Blog Post &#187; '.$newslink.'</a></td>';
 				if($xml):
 		        $sitemap->addItem('/modules.php?name=Blogs&file=article&sid='.$cidnews.'', '0.8', 'monthly', 'Jun 25');
@@ -693,7 +701,7 @@ while ($row2 = $db->sql_fetchrow($result2)):
             endwhile;
             $db->sql_freeresult($result10);
 		break;
-		# Members List  #################################################################################################################################################
+		# Members List  
 		case 'Members_List':
 			$result11 = $db->sql_query('SELECT `username`, 
 			                                    `user_id`, 
@@ -707,8 +715,8 @@ while ($row2 = $db->sql_fetchrow($result2)):
 			    continue;
 				$user=$row11['username'];
 				$ciduser=$row11['user_id'];
-				print '<tr><td></td><td><font color="green"><i style="vertical-align: absmiddle;" 
-				class="fa fa-unlock-alt"></i></font> <a 
+				print '<tr><td></td><td><i style="vertical-align: middle;" 
+				class="fa fa-unlock-alt green"></i> <a 
 				href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$ciduser.'">PHP-Nuke Titanium &#187; User Profile &#187; '.$user.'</a></td>';
 				if($xml):
                 $sitemap->addItem('/modules.php?name=Profile&mode=viewprofile&u='.$ciduser.'', '0.8', 'daily', 'Today');
@@ -717,14 +725,14 @@ while ($row2 = $db->sql_fetchrow($result2)):
             $db->sql_freeresult($result11);
 		endif;
 		break;
-		# Reviews  #################################################################################################################################################
+		# Reviews  
 		case 'Reviews':
 			$result12 = $db->sql_query('SELECT `title`, `id` FROM `'.$prefix.'_reviews` ORDER BY `id` DESC LIMIT 0,'.$nrev);
 			while ($row12 = $db->sql_fetchrow($result12)): 
 				$titrev=$row12['title'];
 				$cidrev=$row12['id'];
-				print '<tr><td></td><td><font color="green"><i style="vertical-align: absmiddle;" 
-				class="fa fa-unlock-alt"></i></font> <a href="modules.php?name=Reviews&amp;rop=showcontent&amp;id='.$cidrev.'">'.$titrev.'</a></td>';
+				print '<tr><td></td><td><i style="vertical-align: middle;" 
+				class="fa fa-unlock-alt green"></i> <a href="modules.php?name=Reviews&amp;rop=showcontent&amp;id='.$cidrev.'">'.$titrev.'</a></td>';
 				if($xml):
 				$sitemap->addItem('/modules.php?name=Reviews&rop=showcontent&id='.$cidrev.'', '0.8', 'daily', 'Today');
                 endif;
@@ -736,23 +744,20 @@ endwhile;
 
 $db->sql_freeresult($result2);
 print '</table>';
+print '</div>';
+
 print '<hr>';
-if(defined('facebook')):	
-global $content, $sid, $appID, $my_url;
-print '<div style="background-color: none" class="fb-like" data-href="https://'.$my_url.'/modules.php?name=Google-Site-Map" data-width="" data-layout="button_count" data-action="like" data-size="large" data-share="true"></div>'."\n";
-endif;
-print '<br/><br/><hr>';
-print '<table style="background-color:none; height:100%;" class="googlesitemap" align="center" border="5" cellpadding="15" cellspacing="20" dir="ltr" id="googlesitemaplogo">';
+print '<table align="center" style="background-color:none; height:100%;" class="googlesitemap" align="center" border="5" cellpadding="15" cellspacing="20" dir="ltr" id="googlesitemaplogo">';
 print '<tbody>';
 print '<tr>';
 print '<td valign="top" align="center">';
-print '<a href="https://github.com/evert/sitemap-php#readme" target="_tab">Sitemap</a><font color="lightblue"><font size ="5"><i style="vertical-align: absmiddle;" class="devicon-php-plain"></i></font>'."\n";
+print '<a class="blueicon" href="https://github.com/evert/sitemap-php#readme" target="_tab"><i class="devicon-php-plain colored blueicon"></i> Sitemap</a>'."\n";
 print '</td>';
 print '</tr>';
 print '</tbody>';
 print '</table>';
 
-print '<font color="lightgrey" size ="1">by Ernest Buffington, Evert Pot, David Oti, Osman Ungur, Mike Lay, Userlond, and Philipp Scheit</font><hr>';
+print 'by Ernest Buffington, Evert Pot, David Oti, Osman Ungur, Mike Lay, Userlond, and Philipp Scheit<hr>';
 
 print '</td>';
 
@@ -764,10 +769,11 @@ print '</td>';
 print '</tr>';
 print '</tbody>';
 print '</table>';
+
 print '</div>';
 
 print'
-<script type="text/javascript">
+<script>
  <!--
  function copy() {
    var w = 400;

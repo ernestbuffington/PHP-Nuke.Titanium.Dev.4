@@ -34,7 +34,7 @@ if ( _force_colorbox_load || get_evo_option('img_viewer') == 'colorbox' ):
 
 	addCSSToHead(NUKE_CSS_DIR.'jquery.colorbox.min.css','file');
 	addJSToBody(NUKE_JQUERY_SCRIPTS_DIR.'jquery.colorbox.min.js','file');
-	$JStoHead  = '<script type="text/javascript">'.PHP_EOL;
+	$JStoHead  = '<script>'.PHP_EOL;
 	$JStoHead .= 'nuke_jq(function($)'.PHP_EOL;
 	$JStoHead .= '{'.PHP_EOL;
 	# The following code was added so colorbox can be added dynamically to images and links

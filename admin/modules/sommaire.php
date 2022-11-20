@@ -80,7 +80,7 @@ if (file_exists(NUKE_ADMIN_DIR.'language/Sommaire/lang-'.$currentlang.'.php')) {
 }
 
 
-$more_js .= "<script language=\"Javascript\">
+$more_js .= "<script>
     function sommaireadminshowhide(zenom, numero) {
         if (numero==1) {
             document.getElementById(zenom).style.display='';
@@ -341,7 +341,7 @@ echo "<head><style type=\"text/css\">"
             echo "<img src=\"".$urlofimages."/".$zeimgname."\" name=\"catimage".$keysommaire."\">";
 
 // fonction jscript permettant de changer l'image affiche (en fonction de la valeur indique dans la listbox 'image dans cette catgorie')
-        echo "<script language=\"Javascript\">"
+        echo "<script>"
             ."function change".$keysommaire."(valeur) {"
             ."var url=\"".$urlofimages."/\";"
             ."if (valeur==\"noimg\") {"
@@ -432,7 +432,7 @@ if ( is_array( $moduleinthisgroup[$groupmenu[$keysommaire]]) ) {
             }
             echo "<tr id=\"span$formpointer\"><td valign=\"center\"><img src=\"".$urlofimages."/$afficheimageinthiscategorie\" name=\"image$formpointer\">"
                 // on va changer l'image affiche devant le nom du module...
-                ."<script language=\"Javascript\">"
+                ."<script>"
                 ."function changeimage$formpointer(cedoc,valeur) {"
                     ."if (valeur==\"middot.gif\") {"
                     ."url =\"".$urlofimages."/admin/\";"
@@ -535,7 +535,7 @@ else {
         echo "</tr>";
 
         if ($z>$nbmodules) { // pour n'afficher qu'une seul liste droulante vide, on cache les autres.
-            echo "<script language=\"JavaScript\">"
+            echo "<script>"
             ."sommaireadminshowhide(\"span$formpointer\",0);"
             ." </script>";
             }
@@ -553,7 +553,7 @@ else {
     echo "</table>";
     echo"</td></tr>";
     
-    echo "<script language=\"JavaScript\">"
+    echo "<script>"
     ."sommaireadminshowhide(\"sommairespan$keysommaire\",0);"
     ." </script>";
 
@@ -864,7 +864,7 @@ global $admin_file;
     }
     else{
     ?>
-    <script language="Javascript">
+    <script>
     opener.document.forms.form_sommaire.elements["sommaireformmoduleclass[<?php
 /*======================================================================= 
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System

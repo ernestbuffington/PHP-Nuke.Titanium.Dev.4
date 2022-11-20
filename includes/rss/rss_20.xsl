@@ -4,7 +4,7 @@
 <xsl:template match="/">
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<script type="text/javascript">
+<script>
 function decodeEscaped()
 {
   if(document.getElementsByName)
@@ -19,7 +19,7 @@ function decodeEscaped()
 <head>
 <title><xsl:value-of select="rss/channel/title"/></title>
 <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
-<style type="text/css">
+<style>
 div.channel-title { font-family: sans-serif, arial, helvetica }
 div.image { font-family: sans-serif, arial, helvetica }
 div.image-description { font-family: sans-serif, arial, helvetica }

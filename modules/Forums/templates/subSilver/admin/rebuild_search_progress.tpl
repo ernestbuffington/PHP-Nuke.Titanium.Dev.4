@@ -1,6 +1,6 @@
 <!-- $Id: rebuild_search_progress.tpl,v 2.4.0.0 2006/06/17 19:32:23 chatasos Exp $ -->
 
-<SCRIPT type="text/javascript" language="JavaScript">
+<script>
 <!--
 
 var refresh;
@@ -29,7 +29,7 @@ function updateButton()
   }
 }
 //-->
-</SCRIPT>
+</script>
 
 <h1>{L_REBUILD_SEARCH}</h1>
 
@@ -54,8 +54,8 @@ function updateButton()
           <th colspan="3"><span class="gen">{L_PROCESSING_POST_DETAILS}</span></th>
         </tr>
         <tr>
-          <td class="row3" nowrap="nowrap">
-            &nbsp;
+          <td class="row3" nowrap="nowrap">&nbsp;
+            
           </td>
           <td class="row3" nowrap="nowrap" align="center">
             <span class="genmed"><b>{L_PROCESSED_POSTS}</b></span>

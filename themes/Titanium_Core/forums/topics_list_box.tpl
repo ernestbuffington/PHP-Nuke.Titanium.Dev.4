@@ -2,7 +2,7 @@
 <!-- BEGIN row -->
 <!-- BEGIN header_table -->
 <!-- BEGIN multi_selection -->
-<script language="Javascript" type="text/javascript">
+<script>
 //
 // checkbox selection management
 function check_uncheck_main_{topics_list_box.row.header_table.BOX_ID}()

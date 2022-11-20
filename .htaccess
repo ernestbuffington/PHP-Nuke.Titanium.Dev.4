@@ -29,6 +29,9 @@ RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
 RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
 RewriteRule (.*) https://%{HTTP_HOST}:443%{REQUEST_URI}
 
+# Use HTTP Strict Transport Security to force client to use secure connections only Header 
+Header always set Strict-Transport-Security "max-age=63072000; includeSubdomains; preload"
+
 ##################################################################################################
 # Force WWW - this is only needed for root domains...                                            ##### Added By Ernest Allen Buffington 03/16/2021
 ##################################################################################################

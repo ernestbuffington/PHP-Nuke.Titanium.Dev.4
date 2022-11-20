@@ -19,7 +19,7 @@ if(!defined('NUKE_FILE')) die('Access forbbiden');
 addCSSToHead(NUKE_CSS_DIR.'jquery.tooltipster.bundle.min.css','file');
 addCSSToHead(NUKE_CSS_DIR.'jquery.tooltipster-sideTip-light.min.css','file');
 addJSToBody(NUKE_JQUERY_SCRIPTS_DIR.'jquery.tooltipster.bundle.min.js','file', true);
-$JStoHead  = '<script type="text/javascript">'.PHP_EOL;
+$JStoHead  = '<script>'.PHP_EOL;
 $JStoHead .= '	nuke_jq(function($)'.PHP_EOL;
 $JStoHead .= '	{'.PHP_EOL;
 $JStoHead .= '		$(".tooltip").tooltipster({'.PHP_EOL;

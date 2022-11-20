@@ -98,7 +98,7 @@ if(!defined('FORUM_ADMIN'))
  ******************************************************/
 global $fb, $portaladmin, $appID, $api_version, $appSecret, $my_url, $connected;
 if ($appID > 0) { # This will not load if there is not a facebook app id.
-echo "\n<script type=\"text/javascript\">\n";
+echo "\n<script>\n";
 echo "<!--\n";
 ##################################################################################################################
 ## titaniumAPI                                                                                                  ##
@@ -202,7 +202,7 @@ echo "</script>\n\n";
   $connected = '::: You aren\'t logged into our facebook app :::';
 
 }
-/* echo "\n<script type=\"text/javascript\">\n"; */
+/* echo "\n<script>\n"; */
 /* echo "<!--\n";                                */
 /* echo "//-->\n";                               */
 /* echo "</script>\n\n";                         */
@@ -211,7 +211,7 @@ echo "</script>\n\n";
  ******************************************************/
 
 if (isset($userpage)) {
-    echo "<script type=\"text/javascript\">\n";
+    echo "<script>\n";
     echo "<!--\n";
     echo "function showimage() {\n";
     echo "if (!document.images)\n";
@@ -225,7 +225,7 @@ if (isset($userpage)) {
 
 global $name;
 if (defined('MODULE_FILE') && !defined("HOME_FILE") AND file_exists("modules/".$name."/copyright.php")) {
-    echo "<script type=\"text/javascript\">\n";
+    echo "<script>\n";
     echo "<!--\n";
     echo "function openwindow(){\n";
     echo "    window.open (\"modules/".$name."/copyright.php\",\"Copyright\",\"toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=no,copyhistory=no,width=400,height=200\");\n";
@@ -279,7 +279,7 @@ if (!$arcade_on) {
  ******************************************************/
  global $admin_file;
  if(isset($name) && ($name == "Your Account" || $name == "Your_Account" || $name == "Profile" || defined('ADMIN_FILE'))) {
-     echo '<script type="text/javascript">
+     echo '<script>
         var pwd_strong = "'.PSM_STRONG.'";
         var pwd_stronger = "'.PSM_STRONGER.'";
         var pwd_strongest = "'.PSM_STRONGEST.'";
@@ -298,7 +298,7 @@ if (!$arcade_on) {
  [ Base:    Theme Management                   v1.0.2 ]
  ******************************************************/
 if (defined('ADMIN_FILE')) {
-    echo "<script type=\"text/javascript\">\n";
+    echo "<script>\n";
     echo "<!--\n";
     echo "function themepreview(theme){\n";
     echo "window.open (\"index.php?tpreview=\" + theme + \"\",\"ThemePreview\",\"toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=no,copyhistory=no,width=1000,height=800\");\n";
@@ -316,7 +316,7 @@ if (defined('ADMIN_FILE')) {
 if (defined('ADMIN_FILE') && defined('USE_DRAG_DROP')) {
     global $element_ids, $Sajax;
     if(isset($Sajax) && is_object($Sajax)) {
-        echo "<script type=\"text/javascript\">\n<!--\n";
+        echo "<script>\n<!--\n";
         echo $Sajax->sajax_show_javascript();
         echo "//-->\n";
         echo "</script>\n";
@@ -343,7 +343,7 @@ if (defined('ADMIN_FILE') && defined('USE_DRAG_DROP')) {
     echo "<script type=\"text/javascript\" src=\"includes/ajax/coordinates.js\" defer></script>\n";
     echo "<script type=\"text/javascript\" src=\"includes/ajax/drag.js\" defer></script>\n";
     echo "<script type=\"text/javascript\" src=\"includes/ajax/dragdrop.js\" defer></script>\n";
-    echo "<script type=\"text/javascript\"><!--
+    echo "<script><!--
     function confirm(z)
     {
       window.status = 'Sajax version updated';
@@ -374,7 +374,7 @@ if (defined('ADMIN_FILE') && defined('USE_DRAG_DROP')) {
 global $plus_minus_images, $collapse;
 if ($collapse) 
 {
-    $JStoBody  = '<script type="text/javascript">'.PHP_EOL;
+    $JStoBody  = '<script>'.PHP_EOL;
     $JStoBody .= '  var enablepersist   = "on";'.PHP_EOL;
     $JStoBody .= '  var memoryduration  = "7";'.PHP_EOL;
     $JStoBody .= '  var contractsymbol  = "'.$plus_minus_images['minus'].'";'.PHP_EOL;
@@ -561,11 +561,11 @@ global $analytics;
 
 /* This is garbage as far as I can see - to much fucking work to get it working.
 if (!empty($analytics)) {
-   echo "<script type=\"text/javascript\">
+   echo "<script>
            var gaJsHost = ((\"https:\" == document.location.protocol) ? \"https://ssl.\" : \"http://www.\");
            document.write(unescape(\"%3Cscript src='\" + gaJsHost + \"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"));
          </script>
-         <script type=\"text/javascript\">
+         <script>
            var pageTracker = _gat._getTracker(\"".$analytics."\");
            pageTracker._initData();
            pageTracker._trackPageview();
@@ -579,5 +579,5 @@ if (!empty($more_js)) {
 }
 
 //DO NOT PUT ANYTHING AFTER THIS LINE
-echo "<!--[if IE]><script type=\"text/javascript\">womOn();</script><![endif]-->\n";
+echo "<!--[if IE]><script>womOn();</script><![endif]-->\n";
 ?>

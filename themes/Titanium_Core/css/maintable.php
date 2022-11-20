@@ -80,15 +80,6 @@ define('CENTER_CONTAIN', 'background-repeat: no-repeat;
 					  
 $blow_it_out_your_ass = 'dark.png';  
 define('TABLE3_MIDDLEHEADER_BACKGROUND', '"themes/'.$theme_name.'/backgrounds/'.$blow_it_out_your_ass.'"'); 
-define('TABLE3_MIDDLEHEADER_CONTAIN', 'background-repeat: repeat-y | repeat-x;
-                                           background-position: CENTER CENTER; 
-					                                               width 100%;
-					                                              height 100%;
-					                                             opacity: 100;
-					                                     blow-it-out: yourass;
-												          visibility: inherit;
-					                                              z-index: 20;
-					                                    background-size: auto;');
 ########################################################################################################
 $filename2 = 'block_repeat_y_fix.png';  
 define('THEME_ARTICLE_BACKGROUND', '"themes/'.$theme_name.'/backgrounds/'.$filename2.'"'); 
@@ -118,11 +109,16 @@ define('BODY_CONTAIN', 'background-size: 100% auto, cover;
                               background-repeat: repeat-y;'); // stretch this whore out
 ?>
 <?
-echo 'googleminds {'."\n";
-echo 'font-size:14px;'."\n";
-echo 'font-weight:bold;'."\n";
-echo 'font-size-adjust:!important;'."\n";   
+echo 'a.googleminds:link {'."\n";
+echo 'font-size:20px; !important;'."\n";
+echo 'font-weight: 100 400;'."\n";
 echo '}'."\n";
+
+echo 'a.googleminds:hover {'."\n";
+echo 'font-size:20px; !important;'."\n";
+echo 'font-weight: 100 400;'."\n";
+echo '}'."\n";
+
 ?>
 .bookmark
 {
@@ -147,8 +143,10 @@ echo '}'."\n";
 
 /* used in OpenTable3 - TheGhost add 08/04/2019 */
 .opentable_three {
-    opacity: 0.9;
-    background: url(<?php echo TABLE3_MIDDLEHEADER_BACKGROUND; ?>); /* Universal background - TheGhost add 08/04/2019 */
-	<?php echo TABLE3_MIDDLEHEADER_CONTAIN; ?>
+  opacity: 0.9;
+  background: url(<?php echo TABLE3_MIDDLEHEADER_BACKGROUND; ?>); 
+  background-repeat: repeat-y | repeat-x;
 }
+
+
 <?

@@ -13,7 +13,7 @@ $theme_business = 'Brandon Maintenance Management, LLC';
 $theme_title = '<u>GoldBar Theme v3.0 &copy; 2022</u>';
 define('THEME', $theme_title);
 
-$theme_overview = '<font color="darkblue">BOOTSTRAP 3.4.1 / HTML / XHTML</font>';
+$theme_overview = 'BOOTSTRAP 3.4.1 / HTML5 / XHTML5';
 define('THEME_OVERVIEW', $theme_overview);
 
 # Theme Author
@@ -71,7 +71,7 @@ $use_theme_image_dir_for_portal_menu = false;
 #---------------------------------#
 # Adjust T images for Portal Menu #
 #---------------------------------#
-$menu_image_height = '23';
+$menu_image_height = '24';
 
 #-------------------------#
 # Theme Colors Definition #
@@ -80,7 +80,7 @@ $digits_txt_color ='yellow';  # Reads
 $digits_color ='#FF0000';     # How many reads
 $poweredby_color = 'goldenrod';
 $menu_text_color = 'white';
-$fieldset_border_width = '1px'; 
+$fieldset_border_width = '1.2rem'; 
 $fieldset_color = '#4e4e4e';
 $define_theme_xtreme_209e = false;
 $avatar_overide_size = '150';

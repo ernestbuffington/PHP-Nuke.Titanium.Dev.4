@@ -94,13 +94,13 @@ if($arcade == 'Arcade' && $newscore='newscore'):
 
       $ThemeSel = get_theme();
 
-      print '<link rel="StyleSheet" href="themes/"'.$ThemeSel.'"/style/style.css" type="text/css">'."\n";
+      print '<link rel="StyleSheet" href="themes/"'.$ThemeSel.'"/style/style.css">'."\n";
       print '<form method="post" name="ibpro_score" action="modules.php?name=Forums&amp;file=proarcade&amp;valid=X&amp;gpaver=GFARV2">'."\n";
       print '<input type=hidden name="vscore" value="'.$gamescore.'">'."\n";
       print '<input type=hidden name="gid" value="'.$gid.'">'."\n";
       print '</form>'."\n";
 
-      print '<script type="text/javascript">'."\n";
+      print '<script>'."\n";
       print 'window.onload = function(){document.forms["ibpro_score"].submit()}'."\n";
       print '</script>'."\n";
 exit;

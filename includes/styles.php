@@ -1,15 +1,9 @@
 <?php
-
 /*======================================================================= 
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /************************************************************************
-	Nuke-Evolution: Evolution CSS
-	============================================
-	Copyright (c) 2005 - 2018 by The Nuke-Evolution Team
-
 	Filename      : styles.php
 	Author        : The Nuke-Evolution Team
 	Version       : 1.5.0
@@ -17,14 +11,13 @@
 
 	Notes         : Miscellaneous CSS
  ************************************************************************/
-
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))
-    exit('Access Denied');
+exit('Access Denied');
 
 global $ThemeInfo;
 
 /* here are the core forum css changes */
-$core_css  = '<style type="text/css">'."\n";
+$core_css  = '<style>'."\n";
 
 # The below css is for use with admin/blocks.php & admin/modules.php
 if (defined('ADMIN_FILE')) 
@@ -104,7 +97,6 @@ $core_css .= '.glow span          {box-shadow:0 5px 5px rgba(255,255,255,.7) ins
 
 $core_css .= '@keyframes animate-shine {0%{opacity:0;width:0}50%{opacity:.5}100%{opacity:0;width:95%}}'."\n";
 $core_css .= '@keyframes animate-glow  {0%{box-shadow:0 5px 5px rgba(255,255,255,.7) inset,0 -5px 5px rgba(255,255,255,.7) inset}50%{box-shadow:0 5px 5px rgba(255,255,255,.3) inset,0 -5px 5px rgba(255,255,255,.3) inset}100%{box-shadow:0 5px 5px rgba(255,255,255,.7) inset,0 -5px 5px rgba(255,255,255,.7) inset}}'."\n";
-
 
 $core_css .= '.col-12{width:100%}';
 $core_css .= '.col-11{width:91.66666667%}';

@@ -17,7 +17,7 @@ if(!defined('NUKE_FILE'))
 
 global $ThemeInfo, $customlang;
 $back_to_top_inline_css  = '<!-- Inline CSS for back to top v1.0 -->'.PHP_EOL;
-$back_to_top_inline_css .= '<style type="text/css">'.PHP_EOL;
+$back_to_top_inline_css .= '<style>'.PHP_EOL;
 $back_to_top_inline_css .= '#back-to-top{border-radius:100%;bottom:24px;cursor:pointer;display:block;font-size:18px;height:36px;line-height:34px;overflow:hidden;position:fixed;right:-40px;text-align:center;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0);-webkit-transition:background-color .18s cubic-bezier(0.6,0,0.1,1),box-shadow .18s cubic-bezier(0.6,0,0.1,1),-webkit-transform .18s cubic-bezier(0.6,0,0.1,1);transition:background-color .18s cubic-bezier(0.6,0,0.1,1),box-shadow .18s cubic-bezier(0.6,0,0.1,1),transform .18s cubic-bezier(0.6,0,0.1,1);width:36px;z-index:1}'.PHP_EOL;
 $back_to_top_inline_css .= '#back-to-top.btt-visible{-webkit-transform:translate3d(-58px,0,0);transform:translate3d(-58px,0,0)}'.PHP_EOL;
 $back_to_top_inline_css .= '#back-to-top{background-color:#222;color:#fafafa;border:1px solid}'.PHP_EOL;
@@ -26,7 +26,7 @@ $back_to_top_inline_css .= '#back-to-top .fa-angle-double-up{font-size: 20px;pad
 $back_to_top_inline_css .= '</style>'.PHP_EOL;
 addCSSToHead($back_to_top_inline_css,'inline');
 
-$back_to_top_inline_js  = '<script type="text/javascript">'.PHP_EOL;
+$back_to_top_inline_js  = '<script>'.PHP_EOL;
 $back_to_top_inline_js .= 'nuke_jq(document).ready(function($)'.PHP_EOL;
 $back_to_top_inline_js .= '{'.PHP_EOL;
 $back_to_top_inline_js .= '		$("body").append("<div id=\'back-to-top\'><i class=\'fa fa-angle-double-up tooltip-left\' title=\''.$customlang['back_to_top']['title'].'\'></i></div>");';

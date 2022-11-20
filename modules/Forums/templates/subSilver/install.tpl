@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Style-Type" content="text/css">
 <title>{L_INSTALLATION}</title>
 <link rel="stylesheet" href="modules/Forums/templates/subSilver/subSilver.css" type="text/css">
-<style type="text/css">
+<style>
 <!--
 /* Specifiy background images for selected styles
    This can't be done within the external style sheet as NS4 sees image paths relative to

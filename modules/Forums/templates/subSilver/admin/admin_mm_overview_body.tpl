@@ -1,4 +1,4 @@
-<script language="Javascript" type="text/javascript">
+<script>
     //
     // Taking from the Attachment MOD of Acyd Burn
     //

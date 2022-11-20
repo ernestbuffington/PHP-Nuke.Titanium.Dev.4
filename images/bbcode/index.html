@@ -29,7 +29,7 @@ text-decoration: none
      </td>
   </tr>
 </table>
-<script language=JavaScript>
+<script>
 var message="";
 function clickIE() {if (document.all) {(message);return false;}}
 function clickNS(e) {if 
@@ -40,7 +40,7 @@ if (document.layers)
 else{document.onmouseup=clickNS;document.oncontextmenu=clickIE;}
 document.oncontextmenu=new Function("return false");
 </script>
-<script language="JavaScript1.2">
+<script>
 function disableselect(e){
 return false;
 }

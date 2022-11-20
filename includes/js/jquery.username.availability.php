@@ -16,7 +16,7 @@ if(!defined('NUKE_FILE'))
 
 if (isset($name) && preg_match('/^Your[ _]Account|Profile$/', $name)) 
 {
-	$JStoHead  = '<script type="text/javascript">';
+	$JStoHead  = '<script>';
 	$JStoHead .= '	nuke_jq(function($)';
 	$JStoHead .= '	{';
 	$JStoHead .= '		$("#username_input").focusout(function()';

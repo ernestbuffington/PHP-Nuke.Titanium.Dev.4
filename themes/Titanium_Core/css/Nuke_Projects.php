@@ -215,7 +215,7 @@ td.proof_of_god_row2 {
 
 td.proof_of_god_row3 {
 	background-color: <?=$bgcolor4?>;
-	border: 1px solid border: 1px solid <?=$bgcolor3?>;
+	border: 1px solid <?=$bgcolor3?>;
 	border: 1px solid <?=$bgcolor3?>;
 	padding: 4px;
 }
@@ -235,7 +235,7 @@ td.projects_row2 {
 
 td.projects_row3 {
 	background-color: <?=$bgcolor4?>;
-	border: 1px solid border: 1px solid <?=$bgcolor3?>;
+	border: 1px solid <?=$bgcolor3?>;
 	border: 1px solid <?=$bgcolor3?>;
 	padding: 4px;
 }

@@ -40,17 +40,17 @@ class sceditor
 		}
 		$this->first = false;
 
-		$modheader .= '<script type="text/javascript">'.PHP_EOL;
+		$modheader .= '<script>'.PHP_EOL;
 		if (!defined('IN_PHPBB'))
 			$modheader .= '  var reimg_maxWidth = '.$img_width.', reimg_maxHeight = '.$img_height.', reimg_relWidth = 0, reimg_img_viewer = "'.$img_viewer.'";'.PHP_EOL;
 		else
 			$modheader .= '  var reimg_maxWidth = '.$board_config['image_resize_width'].', reimg_maxHeight = '.$board_config['image_resize_height'].', reimg_relWidth = 0, reimg_img_viewer = "'.$img_viewer.'";'.PHP_EOL;
 		$modheader .= '</script>'.PHP_EOL;
 		$modheader .= '<link rel="stylesheet" href="includes/wysiwyg/sceditor/css/square.css" type="text/css"/>'.PHP_EOL;
-		$modheader .= '<script type="text/javascript" src="includes/wysiwyg/sceditor/jquery.sceditor.bbcode.js"></script>'.PHP_EOL;
-		$modheader .= '<script type="text/javascript" src="includes/wysiwyg/sceditor/bbcodes_sceditor.js"></script>'.PHP_EOL;
+		$modheader .= '<script src="includes/wysiwyg/sceditor/jquery.sceditor.bbcode.js"></script>'.PHP_EOL;
+		$modheader .= '<script src="includes/wysiwyg/sceditor/bbcodes_sceditor.js"></script>'.PHP_EOL;
 		// $modheader .= '<link rel="stylesheet" href="includes/wysiwyg/sceditor/css/jquery.spectrum.css" type="text/css"/>';
-		// $modheader .= '<script type="text/javascript" src="includes/wysiwyg/sceditor/jquery.spectrum.js"></script>';
+		// $modheader .= '<script src="includes/wysiwyg/sceditor/jquery.spectrum.js"></script>';
 	}
 	
 	function getHtml($name)
@@ -61,7 +61,7 @@ class sceditor
 			$allowed = false;
 		
 		$JStoHTML .= '<textarea style="border: 1px solid; box-sizing: border-box; cursor: auto; height: '.$this->fields[$name]['height'].'; letter-spacing: 1px; min-height: 130px; padding: 5px; resize: vertical; width: '.$this->fields[$name]['width'].';" id="'.$name.'" name="'.$name.'">'.$this->fields[$name]['value'].'</textarea>'.PHP_EOL;
-		$JStoHTML .= '<script type="text/javascript">'.PHP_EOL;
+		$JStoHTML .= '<script>'.PHP_EOL;
 		$JStoHTML .= 'nuke_jq(function($) {'.PHP_EOL;
 		$JStoHTML .= '  $("#'.$name.'").sceditor({'.PHP_EOL;
 		$JStoHTML .= '		width: "100%",'.PHP_EOL;

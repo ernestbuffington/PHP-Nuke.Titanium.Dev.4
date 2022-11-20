@@ -7,7 +7,7 @@
 {META}
 <title>{SITENAME} :: {PAGE_TITLE}</title>
 <link rel="stylesheet" href="themes/{THEME_NAME}/style/style.css" type="text/css">
-<script type="text/javascript">
+<script>
   var reimg_maxWidth          = {IMGWIDTH}, reimg_maxHeight = {IMGHEIGHT}, reimg_relWidth = 0;
   var reimg_swapPortrait      = true;
   var reimg_loadingImg        = "images/spacer.gif";
@@ -31,7 +31,7 @@
       }
   }
 </script>
-<script type="text/javascript" language="JavaScript" src="includes/js/scripts/jquery.reimg.image.resizer.js"></script>
+<script src="includes/js/scripts/jquery.reimg.image.resizer.js"></script>
 </head>
 <body>
 <span class="gen"><a name="top"></a></span>

@@ -63,7 +63,7 @@ $themes     = _module_themes();
 //---------------------------------------------------------------------
 //	HERE WE HAVE THE VARIABLES USED FOR THE JQUERY SIDE OF THINGS
 //---------------------------------------------------------------------
-$more_js .= '<script type="text/javascript">'."\n";
+$more_js .= '<script>'."\n";
 $more_js .= '	var admin_file				= "'.$admin_file.'"'."\n";
 $more_js .= '	var css_folder				= "'._FILE_REPOSITORY_CSS.'";'."\n";
 $more_js .= '	var img_folder				= "'._FILE_REPOSITORY_SCREENS.'";'."\n";
@@ -135,23 +135,23 @@ else:
 
 	// This is for evo 2.0.9d, Will be remove in the next release of the File Repository.
 	$more_js .= '<link rel="stylesheet" href="'._FILE_REPOSITORY_CSS.'jquery.ui.css" type="text/css" />';
-	$more_js .= '<script type="text/javascript" src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>'."\n";
+	$more_js .= '<script src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>'."\n";
 
 	$more_js .= '<link rel="stylesheet" href="'._FILE_REPOSITORY_CSS.'sceditor/square.css" type="text/css"/>';
 	$more_js .= '<link rel="stylesheet" href="'._FILE_REPOSITORY_CSS.'jquery.colorpicker.css" type="text/css" />';
 	$more_js .= '<link rel="stylesheet" href="'._FILE_REPOSITORY_CSS.'style.css?v='.$settings['version'].'" type="text/css" />';
 
-	$more_js .= '<script type="text/javascript" src="'._FILE_REPOSITORY_JS.'jquery.jcarousel.min.js"></script>'; 
-	$more_js .= '<script type="text/javascript" src="'._FILE_REPOSITORY_JS.'jcarousel.responsive.js"></script>'; 
-	$more_js .= '<script type="text/javascript" src="'._FILE_REPOSITORY_JS.'sceditor/jquery.sceditor.bbcode.js"></script>';
-	$more_js .= '<script type="text/javascript" src="'._FILE_REPOSITORY_JS.'jquery.colorpicker.js"></script>'."\n";
-	$more_js .= '<script type="text/javascript" src="'._FILE_REPOSITORY_JS.'jquery.file-repository.js?v='.$settings['version'].'"></script>'."\n";
+	$more_js .= '<script src="'._FILE_REPOSITORY_JS.'jquery.jcarousel.min.js"></script>'; 
+	$more_js .= '<script src="'._FILE_REPOSITORY_JS.'jcarousel.responsive.js"></script>'; 
+	$more_js .= '<script src="'._FILE_REPOSITORY_JS.'sceditor/jquery.sceditor.bbcode.js"></script>';
+	$more_js .= '<script src="'._FILE_REPOSITORY_JS.'jquery.colorpicker.js"></script>'."\n";
+	$more_js .= '<script src="'._FILE_REPOSITORY_JS.'jquery.file-repository.js?v='.$settings['version'].'"></script>'."\n";
 
 	$more_js .= '<link rel="stylesheet" href="'._FILE_REPOSITORY_CSS.'jquery.tagit.css" type="text/css" />';
 	$more_js .= '<link rel="stylesheet" href="'._FILE_REPOSITORY_CSS.'tagit.ui-zendesk.css" type="text/css" />';
-	$more_js .= '<script type="text/javascript" src="'._FILE_REPOSITORY_JS.'tag-it.min.js"></script>'."\n";
+	$more_js .= '<script src="'._FILE_REPOSITORY_JS.'tag-it.min.js"></script>'."\n";
 
-	/* $more_js .= '<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>'."\n"; */
+	/* $more_js .= '<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>'."\n"; */
 	/* $more_js .= '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" type="text/css" />'; */
 
 endif;

@@ -78,7 +78,7 @@ $form =& $_POST;
 
 
 
-   //echo "<script language=\"JavaScript\">";
+   //echo "<script>";
 
       //echo "function openNewWin()";
       //echo "{";
