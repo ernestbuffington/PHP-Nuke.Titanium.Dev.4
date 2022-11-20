@@ -14,6 +14,7 @@
 
 <ul>
 	<li>Ernest Allen Buffington (Lead Core Developer)</li>
+	<li>Gaz "Wiggy" Jones (Core Developer)</li>
 	<li>Winston Terrance Wolfe</li>
 	<li>Truman Scott Buffington</li>
 	<li>Bob Marion</li> 
