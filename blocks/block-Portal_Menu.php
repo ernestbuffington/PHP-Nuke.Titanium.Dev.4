@@ -523,7 +523,7 @@ $modules_attach = $db->sql_query($sql);
 	}
 
 $content = "";
-echo "\n\n\n\n<!--  START Titanium Portal Menu Javascript Functions v5.01b -->\n";
+echo "\n\n\n\n<!--  START Titanium Portal Menu Javascript Functions v1.0 -->\n";
 ?>
 <script >
 function menu_listbox(page) 
@@ -675,7 +675,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 		if(($general_dynamic == 1) && ($dynamictest != 1)) 
 		{
 			# $dynamic = 1;
-			echo "\n<!--  START Titanium Portal Menu Dynamic Javascript Function v5.01b -->\n\n\n\n";
+			echo "\n<!--  START Titanium Portal Menu Dynamic Javascript Function v1.0 -->\n\n\n\n";
 			?>
 			<script>
 			var keymenu;
@@ -702,7 +702,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 			}
 			</script>
 			<?php
-			echo "\n<!--  END Titanium Portal Menu Dynamic Javascript Function v5.01b -->\n\n\n\n";
+			echo "\n<!--  END Titanium Portal Menu Dynamic Javascript Function v1.0 -->\n\n\n\n";
 		}
 		
 		$dynamictest = 1;

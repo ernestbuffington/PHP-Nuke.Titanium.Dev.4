@@ -516,7 +516,7 @@ $modules_attach = $db->sql_query($sql);
 	}
 
 $content = "";
-echo "\n\n\n\n<!--  START Titanium Portal Menu Javascript Functions v5.01b -->\n";
+echo "\n\n\n\n<!--  START Titanium Portal Menu Javascript Functions v1.0 -->\n";
 ?>
 <script >
 function menu_listbox(page) 
@@ -598,7 +598,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 
 	$content .= "&nbsp;<a class=\"modules\" href=\"index.php\"><strong>Home</strong></a>";	
 	
-	$content .= "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n";
+	$content .= "<table class=\"table100\">\n";
 	$content .= "<tr><td width=\"100%\"></td><td id=\"menu_block\"></td></tr>\n";
 	
 	if($horizontal == 1) 
@@ -647,7 +647,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 		if(($general_dynamic == 1) && ($dynamictest != 1)) 
 		{
 			# $dynamic = 1;
-			echo "\n<!--  START Titanium Portal Menu Dynamic Javascript Function v5.01b -->\n\n\n\n";
+			echo "\n<!--  START Titanium Portal Menu Dynamic Javascript Function v1.0 -->\n\n\n\n";
 			?>
 			<script>
 			var keymenu;
@@ -674,7 +674,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 			}
 			</script>
 			<?php
-			echo "\n<!--  END Titanium Portal Menu Dynamic Javascript Function v5.01b -->\n\n\n\n";
+			echo "\n<!--  END Titanium Portal Menu Dynamic Javascript Function v1.0 -->\n\n\n\n";
 		}
 		
 		$dynamictest = 1;
@@ -700,7 +700,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 			
 			if($horizontal == 1) 
 			{
-				$content .= "<td bgcolor=\"$som_bgcolor\" width=\"4\"></td><td bgcolor=\"$som_bgcolor\" class=\"menunowrap\" valign=\"top\"><table class=\"menunowrap\"><tr><td $action_somgroupmenu>\n";
+				$content .= "<td bgcolor=\"$som_bgcolor\" width=\"4\"></td><td bgcolor=\"$som_bgcolor\" class=\"menunowrap\" valign=\"top\"><table class=\"table100 menunowrap\"><tr><td $action_somgroupmenu>\n";
 			}
 			else 
 			{
@@ -871,7 +871,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 			   $aenlever = "menu_showhide\('menu-".$som_groupmenu."','nok','menuupdown-".$som_groupmenu."'\);";
 			   $total_actions = str_replace("$aenlever", "" , $total_actions);
 			
-			   $content .= "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" class=\"menunowrap\"><tr><td width=\"100%\">";
+			   $content .= "<table class=\"table100 menunowrap\"><tr><td width=\"100%\">";
 			
 			   $content .= "<form action=\"modules.php\" method=\"get\" name=\"menuformlistbox\">"
 				  	    ."<select name=\"somlistbox$key\" onchange=\"menu_listbox(this.options[this.selectedIndex].value)\">"
@@ -897,7 +897,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				$content .= "<tr id=\"menu-$som_groupmenu\"><td bgcolor=\"$som_bgcolor\" width=\"100\">";
 			}
 			
-			$content .= "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" class=\"menunowrap\">";
+			$content .= "<table class=\"table100 menunowrap\">";
 		}
 		
 		if($sub_image <> "noimg" && $som_center <> "on") 
@@ -1062,12 +1062,12 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 					if($div == 1) 
 					{
 						$sublevelzindex = $sublevelinthisgroup[$som_groupmenu][$keyinthisgroup] +2;
-						$content .= "<td style=\"vertical-align: top;\"><table id=\"".$id_sublevel."\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" 
-						class=\"menunowrap\" style=\"position: absolute; z-index: ".$sublevelzindex."; border: 1px solid ".$bgcolor2."; background-color: ".$bgcolor1.";\">";
+						$content .= "<td style=\"vertical-align: top;\"><table id=\"".$id_sublevel."\" class=\"table100 menunowrap\" 
+						style=\"position: absolute; z-index: ".$sublevelzindex."; border: 1px solid ".$bgcolor2."; background-color: ".$bgcolor1.";\">";
 					}
 					else 
 					{
-					    $content .= "<tr id=\"".$id_sublevel."\"><td style=\"align: right;".$zebar."\"></td><td><table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" class=\"menunowrap\">";
+					    $content .= "<tr id=\"".$id_sublevel."\"><td style=\"align: right;".$zebar."\"></td><td><table class=\"table100 menunowrap\">";
 					}
 					
 					$id_sublevel = "";
@@ -1414,12 +1414,12 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 					if($div == 1) 
 					{
 						$sublevelzindex=$sublevelinthisgroup[$som_groupmenu][$keyinthisgroup]+2;
-						$content.="<td style=\"vertical-align: top;\"><table id=\"".$id_sublevel."\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" 
-						class=\"menunowrap\" style=\"position: absolute; z-index: ".$sublevelzindex."; border: 1px solid ".$bgcolor2."; background-color: ".$bgcolor1.";\">";
+						$content.="<td style=\"vertical-align: top;\"><table id=\"".$id_sublevel."\" class=\"table100 menunowrap\" 
+						style=\"position: absolute; z-index: ".$sublevelzindex."; border: 1px solid ".$bgcolor2."; background-color: ".$bgcolor1.";\">";
 					}
 					else 
 					{
-					    $content.="<tr id=\"".$id_sublevel."\"><td style=\"align: right;".$zebar."\"></td><td><table cellpadding=0 cellspacing=0 border=0 class=\"menunowrap\">";
+					    $content.="<tr id=\"".$id_sublevel."\"><td style=\"align: right;".$zebar."\"></td><td><table class=\"table100 menunowrap\">";
 					}
 					
 					$id_sublevel="";
@@ -1655,7 +1655,7 @@ if( $showadmin==1 && $is_admin===1 && $horizontal!=1)
 {
 	$key=count($module); 
 	$content .= "<br><div align=\"center\"><strong>"._INVISIBLEMODULES."</strong></div>";
-	$content .= "<div align=\"center\"><font class=\"tiny\">"._ACTIVEBUTNOTSEE."</font></div>";
+	$content .= "<div align=\"center\"><span class=\"tiny\">"._ACTIVEBUTNOTSEE."</span></div>";
 	$content.="<div align=\"center\"><form action=\"modules.php\" method=\"get\" name=\"menuformlistboxinvisibles\">"
 	."<select name=\"somlistboxinvisibles\" onchange=\"menu_listbox(this.options[this.selectedIndex].value)\">"
 	."<option value=\"select\">"._MENU_SELECTALINK."";
@@ -1676,8 +1676,8 @@ if( $showadmin==1 && $is_admin===1 && $horizontal!=1)
 	$content.= "</select></form></div>\n";
 	
 	$content .= "<br /><div align=\"center\"><strong>"._NOACTIVEMODULES."</strong></div>";
-	$content .= "<div align=\"center\"><font class=\"tiny\">"._FORADMINTESTS."</font></div>";
-	$content.="<div align=\"center\"><form action=\"modules.php\" method=\"get\" name=\"menuformlistboxinactifs\">"
+	$content .= "<div align=\"center\"><span class=\"tiny\">"._FORADMINTESTS."</span></div>";
+	$content .="<div align=\"center\"><form action=\"modules.php\" method=\"get\" name=\"menuformlistboxinactifs\">"
 				."<select name=\"somlistboxinactifs\" onchange=\"menu_listbox(this.options[this.selectedIndex].value)\">"
 				."<option value=\"select\">"._MENU_SELECTALINK."";
 	
