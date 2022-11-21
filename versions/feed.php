@@ -9,6 +9,8 @@
 <div align="center"><strong>PHP-Nuke Titanium Repsoitory</strong> (Nightly Builds)</div>
 <div align="center"><a class="titaniumbutton" href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><i class="bi bi-github"></i> Visit GitHub Repository</a></div>
 <hr>
+<strong><i class="bi bi-calendar3"></i> Nov 21st 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Google-Site-Map to v2.0<br />
+<hr>
 <strong><i class="bi bi-calendar3"></i> Nov 19th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Converting Core Theme to HTML5/XHTML5<br />
 <strong><i class="bi bi-calendar3"></i> Nov 19th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Core Theme is no longer in Quirks mode<br />
 <strong><i class="bi bi-calendar3"></i> Nov 19th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> New Copyright system for themes<br />

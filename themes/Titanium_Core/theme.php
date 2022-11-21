@@ -176,10 +176,6 @@ if(empty($locked_width)):
  echo "<!-- Setting THEME WIDTH to ".theme_width." in themes/".$theme_name."/theme.php -->\n";
 endif;
 
-//addCSSToHead(theme_style_dir.'style.css','file');
-
-//addCSSToHead(theme_style_dir.'menu.css','file');
-
 #-------------------#
 # FlyKit Mod v1.0   #
 #-------------------#
@@ -239,6 +235,10 @@ echo "<!-- Setting Loading themes/".$theme_name."/includes/js/css3_menu.js in th
 
 addJSToBody(theme_phpinclude_js_dir.'Hover.js','file'); # jQuery Hover
 echo "<!-- Setting Loading themes/".$theme_name."/includes/js/Hover.js in themes/".$theme_name."/theme.php (PHP FlyKit v1.0 Mod) -->\n";
+
+//addCSSToHead(theme_style_dir.'style.css','file');
+
+//addCSSToHead(theme_style_dir.'menu.css','file');
 
 #-------------------#
 # OpenTable Section #

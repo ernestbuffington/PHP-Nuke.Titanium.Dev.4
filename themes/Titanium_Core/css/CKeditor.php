@@ -54,12 +54,15 @@ textarea.cke_source
 :host ::ng-deep .ck-editor__editable_inline p {
   margin: 0;
 }
-.cke_editable p { margin: 0 !important; }
+.cke_editable p 
+{ 
+  margin: 0 !important; 
+}
 
 p {
-    line-height:17px;        
+    line-height:19px;        
 }
 b {
-    line-height:1px; 
+    line-height:0px; 
 }​
 <?
