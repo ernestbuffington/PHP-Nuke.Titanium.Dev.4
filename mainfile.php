@@ -612,10 +612,11 @@ endif;
  ******************************************************/
 if(!defined('FORUM_ADMIN')):
     global $admin_file;
-    if(!isset($admin_file) || empty($admin_file)) 
+    if(!isset($admin_file) || empty($admin_file)): 
         die('You must set a value for $admin_file in config.php');
-    elseif(!empty($admin_file) && !file_exists(NUKE_BASE_DIR.$admin_file.'.php'))
+    elseif(!empty($admin_file) && !file_exists(NUKE_BASE_DIR.$admin_file.'.php')):
         die('The $admin_file you defined in config.php does not exist');
+    endif;
 endif;
 
 /*****[END]********************************************
@@ -662,14 +663,16 @@ function is_god_admin($trash=0)
 {
     static $godadminstatus;
 
-    if(isset($godadminstatus)) 
-	return $godadminstatus;
+    if(isset($godadminstatus)): 
+	  return $godadminstatus;
+	endif;
 
     $godadmincookie = isset($_COOKIE['admin']) ? $_COOKIE['admin'] : false;
     
-	if (!$godadmincookie) 
-	return $godadminstatus = 0; 
-    
+	if (!$godadmincookie): 
+	  return $godadminstatus = 0; 
+    endif;
+	
 	$godadmincookie = (!is_array($godadmincookie)) ? explode(':', base64_decode($godadmincookie)) : $godadmincookie;
     $aid = $godadmincookie[0];
     $pwd = $godadmincookie[1];
@@ -695,13 +698,16 @@ function is_god_admin($trash=0)
 function is_user($trash=0) 
 {
     static $userstatus;
-    if(isset($userstatus)) 
-	return $userstatus;
+    
+	if(isset($userstatus)): 
+	  return $userstatus;
+	endif;
     
 	$usercookie = isset($_COOKIE['user']) ? $_COOKIE['user'] : false;
     
-	if (!$usercookie) 
-	return $userstatus = 0; 
+	if (!$usercookie): 
+	  return $userstatus = 0; 
+	endif;
     
 	$usercookie = (!is_array($usercookie)) ? explode(':', base64_decode($usercookie)) : $usercookie;
     $uid = $usercookie[0];
@@ -710,8 +716,9 @@ function is_user($trash=0)
 
     if (!empty($uid) AND !empty($pwd)):
         $user_password = get_user_field('user_password', $uid);
-        if ($user_password == $pwd && !empty($user_password))
-        return $userstatus = 1;
+        if ($user_password == $pwd && !empty($user_password)):
+          return $userstatus = 1;
+		endif;
     endif;
     return $userstatus = 0;
 }
@@ -721,15 +728,17 @@ function cookiedecode($trash=0)
     global $cookie;
     static $rcookie;
 
-    if(isset($rcookie)) 
-	return $rcookie; 
+    if(isset($rcookie)): 
+	  return $rcookie; 
+	endif;
 
     $usercookie = $_COOKIE['user'];
     $rcookie = (!is_array($usercookie)) ? explode(':', base64_decode($usercookie)) : $usercookie;
     $pass = get_user_field('user_password', $rcookie[1], true);
 
-    if ($rcookie[2] == $pass && !empty($pass))
-    return $cookie = $rcookie;
+    if ($rcookie[2] == $pass && !empty($pass)):
+      return $cookie = $rcookie;
+	endif;
     
     return false;
 }
@@ -769,15 +778,18 @@ function is_active($module)
     global $prefix, $db, $cache;
     static $active_modules;
     
-	if (is_array($active_modules)) 
-    return(isset($active_modules[$module]) ? 1 : 0);
+	if (is_array($active_modules)): 
+      return(isset($active_modules[$module]) ? 1 : 0);
+	endif;
     
 	if ((($active_modules = $cache->load('active_modules', 'config')) === false) || empty($active_modules)):
 		$active_modules = array();
         $result = $db->sql_query('SELECT `title` FROM `'.$prefix.'_modules` WHERE `active`="1"');
+		
 		while(list($title) = $db->sql_fetchrow($result, SQL_NUM)):
             $active_modules[$title] = 1;
         endwhile;
+		
 		$db->sql_freeresult($result);
         $cache->save('active_modules', 'config', $active_modules);
     endif;
@@ -790,10 +802,11 @@ function render_blocks($side, $block)
 	define_once('BLOCK_FILE', true);
     
 	# Include the block lang files
-    if (file_exists(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php')) 
-        include_once(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php');
-    else
-        include_once(NUKE_LANGUAGE_DIR.'blocks/lang-english.php');
+    if (file_exists(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php')): 
+      include_once(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php');
+    else:
+      include_once(NUKE_LANGUAGE_DIR.'blocks/lang-english.php');
+	endif;
     /*****[BEGIN]******************************************
      [ Mod:     Switch Content Script              v2.0.0 ]
      ******************************************************/
@@ -833,27 +846,32 @@ function blocks_visible($side)
     $side = strtolower($side[0]);
 
     # If there are no blocks for this module && not admin file
-    if (!$showblocks && !defined('ADMIN_FILE')) 
-	return false;
+    if (!$showblocks && !defined('ADMIN_FILE')): 
+	  return false;
+	endif;
 
     # If in the admin show l blocks
-    if (defined('ADMIN_FILE')) 
-    return true;
+    if (defined('ADMIN_FILE')): 
+      return true;
+	endif;
 
     # If set to 3 its all blocks
-    if ($showblocks == 3) 
-	return true;
+    if ($showblocks == 3): 
+	  return true;
+	endif;
 
     # Count the blocks on the side
     $blocks = blocks($side, true);
 
     # If there are no blocks
-    if (!$blocks)
-    return false;
+    if (!$blocks):
+      return false;
+	endif;
 
     # Check for blocks to show
-    if (($showblocks == 1 && $side == 'l') || ($showblocks == 2 && $side == 'r')) 
-    return true;
+    if (($showblocks == 1 && $side == 'l') || ($showblocks == 2 && $side == 'r')): 
+      return true;
+	endif;
 
     return false;
 }

@@ -52,7 +52,7 @@ function head()
 
 	$ThemeSel = get_theme();
 	
-	# Auto MimeType v1.0.0 START
+	echo "<!-- Loading Auto MimeType v1.0.0 from header.php -->\n";
 	if (@file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/mimetype.php')):  
     include(NUKE_THEMES_DIR.$ThemeSel.'/includes/mimetype.php');
 	else: 
@@ -69,48 +69,49 @@ function head()
       echo '<meta http-equiv="Content-Style-Type" content="text/css" />'."\n";
       echo '<meta http-equiv="Content-Script-Type" content="text/javascript" />'."\n";
     endif;	
-	# Auto MimeType v1.0.0 END
 
+	echo "<!-- Loading dynamic meta tags from database from includes/meta.php -->\n";
     include_once(NUKE_INCLUDE_DIR.'meta.php');
 
-    # START function to grab the page title. - 09/07/2019
- 	echo "\n\n<!-- START title_and_meta_tags(); -->\n";
+	echo "\n<!-- Loadiing function title_and_meta_tags(); from header.php -->\n";
  	title_and_meta_tags();
-    echo "<!-- END title_and_meta_tags(); -->\n\n\n\n\n\n";
-    # END function to grab the page title. - 09/07/2019
+
+	echo "\n<!-- Loadiing includes/ruffle-core/ruffle.js from header.php -->\n";
 	echo '<script src="includes/ruffle-core/ruffle.js"></script>'."\n"; 
 
+	#################################################################
+	echo "\n<!-- Loadiing class.browsers.php from header.php -->\n";#
+	if (@file_exists(TITANIUM_CLASSES_DIR . 'class.browsers.php'))  #      Added by Ernest Buffington
+	include(TITANIUM_CLASSES_DIR . 'class.browsers.php');           #----- Load Browser class - used for checking your browser types
+    #                                                               #      Start date Jan 1st 2012 till Present - It is a work in progress!
+    #################################################################
+	echo "\n<!-- Loadiing cookies.php from header.php -->\n";#
+	if (@file_exists(TITANIUM_INCLUDE_DIR . 'cookies.php'))  #            Added by Ernest Buffington
+	include(TITANIUM_INCLUDE_DIR . 'cookies.php');           #----------- Load the custom cookies file if it exist COOKIE CONTROL
+    ##########################################################            Jan 1st 2012 
+	include_once(NUKE_INCLUDE_DIR.'javascript.php');         #------ Javascript Loader 09/21/2019
+    ########################################################## 
 
-	################################################################
-	if (@file_exists(TITANIUM_CLASSES_DIR . 'class.browsers.php')) #      Added by Ernest Buffington
-	include(TITANIUM_CLASSES_DIR . 'class.browsers.php');          ###### Load Browser class - used for checking your browser types
-    #                                                              #      Start date Jan 1st 2012 till Present - It is a work in progress!
-    ################################################################
-	if (@file_exists(TITANIUM_INCLUDE_DIR . 'cookies.php')) #            Added by Ernest Buffington
-	include(TITANIUM_INCLUDE_DIR . 'cookies.php');          ############ Load the custom cookies file if it exist COOKIE CONTROL
-    #########################################################            Jan 1st 2012 
-	include_once(NUKE_INCLUDE_DIR.'javascript.php');        ####### Javascript Loader 09/21/2019
-    ######################################################### 
-
-	if (@file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php')) # CHECK FOR THEME JAVASCRIPT Added by Ernest Buffington 3/16/2021 10:58am
-    include_once(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php');
+	if (@file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php')): # CHECK FOR THEME JAVASCRIPT Added by Ernest Buffington 3/16/2021 10:58am
+	  echo "\n<!-- Loadiing themes/".$ThemeSel."/includes/javascript.php from header.php -->\n\n";
+      include_once(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php');
+	endif;
 
 	global $titanium_browser;
     $titanium_browser = new Browser();
 	
     # FlyKit Mod v1.0.0 START
 	# used to add rounded corners to user avatars!
+	echo "<!-- Loadiing includes/css/cms_css.php from header.php -->\n";
 	addPHPCSSToHead(NUKE_BASE_DIR.'includes/css/cms_css.php','file');
     # FlyKit Mod v1.0.0 END
 
     # START Load current theme. - 09/07/2019
-    echo "\n\n<!-- START Load current theme. -->\n\n";
+	echo "\n<!-- Loadiing themes/".$ThemeSel."/theme.php from header.php -->\n";
     include_once(NUKE_THEMES_DIR.$ThemeSel.'/theme.php');
-
-    echo "\n\n<!-- END Load current theme. -->\n\n";
 	# START Load current theme. - 09/07/2019
 
-    echo "\n\n<!-- START Load favicon. -->\n\n";
+	echo "\n<!-- Loadiing favicon from header.php -->\n\n";
     if ((($favicon = $cache->load('favicon', 'config')) === false) || empty($favicon)): 
         if (file_exists(NUKE_BASE_DIR.'favicon.ico')) 
 		$favicon = "favicon.ico";
@@ -129,47 +130,61 @@ function head()
         if ($favicon != 'none') 
         echo "<link rel=\"shortcut icon\" href=\"$favicon\" type=\"image/x-icon\" />\n";
     endif;
-    echo "\n<!-- END Load favicon. -->\n\n";
 
     global $browser;
     
-    echo "\n\n<!-- START writeHEAD() -->\n\n";
+	echo "\n<!-- Loadiing function writeHEAD() from header.php -->\n\n";
     writeHEAD();
-    echo "\n<!-- END writeHEAD() -->\n\n";
 
-	echo "\n\n<!-- START custom_head -->\n\n";
+
 	if ((($custom_head = $cache->load('custom_head', 'config')) === false) || empty($custom_head)): 
-        $custom_head = array();
-	    if (file_exists(NUKE_INCLUDE_DIR.'custom_files/custom_head.php')) 
-        $custom_head[] = 'custom_head';
- 		if (file_exists(NUKE_INCLUDE_DIR.'custom_files/custom_header.php')) 
-        $custom_head[] = 'custom_header';
+    
+	    $custom_head = array();
+
+	    if (file_exists(NUKE_INCLUDE_DIR.'custom_files/custom_head.php')): 
+	       echo "\n<!-- Loadiing custom_head.php from header.php -->\n\n";
+           $custom_head[] = 'custom_head';
+		endif;
+
+ 		if (file_exists(NUKE_INCLUDE_DIR.'custom_files/custom_header.php')): 
+	       echo "\n<!-- Loadiing custom_header.php from header.php -->\n\n";
+           $custom_head[] = 'custom_header';
+		endif;
+
         if (!empty($custom_head)): 
-            foreach ($custom_head as $file):
+          
+		    foreach ($custom_head as $file):
+	            echo "\n<!-- Loadiing includes/".$file.".php from header.php -->\n\n";
                 include_once(NUKE_INCLUDE_DIR.'custom_files/'.$file.'.php');
             endforeach;
-        endif;
+        
+		endif;
 		$cache->save('custom_head', 'config', $custom_head);
 	else: 
-        if (!empty($custom_head)): 
-            foreach ($custom_head as $file): 
+        
+		if (!empty($custom_head)): 
+        
+		    foreach ($custom_head as $file): 
                 include_once(NUKE_INCLUDE_DIR.'custom_files/'.$file.'.php');
             endforeach;
-        endif;
+        
+		endif;
     endif;
-    echo "\n<!-- END custom_head -->\n\n";
     
 	/* ----- as you can probably tell this is used for IE compatibility ----- */
-    echo '<!--[if lt IE 9]><script src="includes/js/scripts/html5shiv.min.js"></script><![endif]-->'."\n";
-    echo "</head>\n";
-    echo "\n<!-- END </head> -->\n\n";
-	echo "\n<!-- START Top Primary Body Tags -->\n";
-	//echo "</html>\n";
-	//echo "<body>\n";
+    echo "\n";
+	echo '<!--[if lt IE 9]><script src="includes/js/scripts/html5shiv.min.js"></script><![endif]-->'."\n\n";
+    
+	echo "</head>\n";
+	echo "<!-- Finished Loading The Header from header.php -->\n";
+
+	echo "\n<!-- Loading Primary Body Tag from header.php -->\n";
+	echo "<body>\n";
+	
+	echo "\n<!-- Loadiing Facebook Root from header.php -->\n";
 	global $appID;
     echo '<div id="fb-root"></div>' . "\n";
-    echo '<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v15.0&appId=' . $appID . '&autoLogAppEvents=1" nonce="uoLAf2EF"></script>' . "\n";
-	echo "<!-- END Top Primary Body Tags -->\n\n";
+    echo '<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v15.0&appId=' . $appID . '&autoLogAppEvents=1" nonce="uoLAf2EF"></script>' . "\n\n";
 
     themeheader();
 

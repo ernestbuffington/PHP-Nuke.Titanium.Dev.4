@@ -3,16 +3,17 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 /************************************************************************
-   Nuke-Evolution: Server Info Administration
+   PHP-Nuke Titanium : Server Info Administration
+   Nuke-Evolution    : Server Info Administration
    ============================================
    Copyright (c) 2005 by The Nuke-Evolution Team
 
    Filename      : login.php
-   Author(s)     : Technocrat (www.Nuke-Evolution.com)
+   Author(s)     : Technocrat, TheGhost
    Version       : 1.0.0
-   Date          : 05.19.2005 (mm.dd.yyyy)
+   Date          : 05.19.2005 - 11/20/2022 (mm.dd.yyyy)
 
-   Notes         : Evo User Block Login Module
+   Notes         : User Block Login Module
 ************************************************************************/
 if(!defined('NUKE_EVO')) 
 exit ("Illegal File Access");
@@ -25,7 +26,7 @@ function evouserinfo_login () {
     mt_srand ((double)microtime()*1000000);
     $maxran = 1000000;
     $random_num = mt_rand(0, $maxran);
-    $evouserinfo_login .= "<form action=\"modules.php?name=Your_Account\" method=\"post\">\n";
+    $evouserinfo_login  = "<form action=\"modules.php?name=Your_Account\" method=\"post\">\n";
     $evouserinfo_login .= "<table border=\"0\" style=\"margin: auto\">";
     $evouserinfo_login .= "<tr><td>\n";
     $evouserinfo_login .= "<i class=\"fa fa-angle-double-right fa-right-arrows\" aria-hidden=\"true\"></i>&nbsp;";
@@ -96,7 +97,7 @@ else
 
     $icon1 = "<i style=\"font-size: 17px; color: #3498DB\" onMouseOver=\"this.style.color='#ECAB53'\" onMouseOut=\"this.style.color='#3498DB'\" class=\"fa fa-upload\"></i>";
     $link1 = " <a class=\"modules\" href=\"modules.php?name=Image_Repository\" target=\"_self\"> ".$icon1." My Hosted Images</a>";
-    $evouserinfo_login  = '<div style="padding-left: 10px;">';
+    $evouserinfo_login .= '<div style="padding-left: 10px;">';
 	$evouserinfo_login .= $link1."";
 	$evouserinfo_login .= '</div>';
 

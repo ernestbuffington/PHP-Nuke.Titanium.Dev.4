@@ -1,9 +1,8 @@
 <?php
 
-echo '<div align="center" style="padding-top:8px;">';
-echo '</div>';
+echo '<div align="center">';
 
-echo '<nav id="menu">';
+echo '<nav style="text-align: center;" id="menu">';
 echo '  <input type="checkbox" id="responsive-menu" onclick="updatemenu()"><label></label>';
 echo '  <ul>';
 //echo '    <li><a class="dropdown-arrow" href="'.HTTPS.'">Home</a>';
@@ -65,4 +64,8 @@ echo '    <li><a href="'.HTTPS.'/modules.php?name=FAQ">FAQ</a></li>';
 
 echo '  </ul>';
 echo '</nav>';
+
+echo '</div>';
+
+
 ?>

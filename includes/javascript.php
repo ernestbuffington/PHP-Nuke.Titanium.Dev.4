@@ -527,7 +527,7 @@ include(NUKE_JQUERY_INCLUDE_DIR.'jquery.tooltipster.php');
 /*****[END]********************************************
  [ Mod:     jQuery                             v1.5.0 ]
  ******************************************************/
-echo "\n\n<!--                                                                                
+echo "\n<!--                                                                                
 @@@@@@@  @@@  @@@  @@@@@@@@   @@@@@@@@  @@@  @@@   @@@@@@    @@@@@@   @@@@@@@  
 @@@@@@@  @@@  @@@  @@@@@@@@  @@@@@@@@@  @@@  @@@  @@@@@@@@  @@@@@@@   @@@@@@@  
   @@!    @@!  @@@  @@!       !@@        @@!  @@@  @@!  @@@  !@@         @@!    
@@ -542,7 +542,7 @@ echo "\n\n<!--
 # Easter Egg Hunt added by who I'm not sure but it's cute
 # addJSToBody(NUKE_JQUERY_SCRIPTS_DIR.'Evo.EE.js','file');
 # addJSToBody(NUKE_JQUERY_SCRIPTS_DIR.'Evo.EE.CMD.js','file');
-echo "\n<!-- Ernest Allen Buffington aka TheGhost -->\n\n\n";
+echo "\n<!-- Ernest Allen Buffington aka TheGhost was here 11/20/2022 -->\n\n";
 
 global $analytics;
 

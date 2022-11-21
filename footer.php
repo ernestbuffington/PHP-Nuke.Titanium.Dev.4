@@ -125,7 +125,7 @@ $footmsg .= '<br/>Designed By '.$theme_author.'<br />Created '.$theme_date.'<br 
 # Copyright Information END
 		
 # Network About us START
-$footmsg .= "<font size=\"+1\">";
+$footmsg .= "<span style=\"font-size: 14px\">";
 $footmsg .= "[ "
          . "<a class='disclaimer' href=\"".HTTPS."modules.php?name=Network&file=about\">"
          . "About Us</a> ] - [ "
@@ -135,7 +135,7 @@ $footmsg .= "[ "
          . "Privacy Statement</a> ] - [ "
          . "<a class='disclaimer' href=\"".HTTPS."modules.php?name=Network&file=terms\">"
          . "Terms of Use</a> ]\n";
-$footmsg .= "</font><br>";
+$footmsg .= "</span><br>";
 # Network About us END
 
 # footer message 3 from the database START
@@ -144,16 +144,15 @@ $footmsg .= $foot3."<br/><br/>";
 # footer message 3 from the database END
 
 global $digits_color;
-$total_time = (get_microtime() - $start_time);                                              # I'm lying right here can you figure out how?
-$total_time = '<span class="copyright"> '._PAGEGENERATION."<strong><font color='".$digits_color."'> ".(substr($total_time,0,4)-0.04)."</font></strong> "._SECONDS."";
+$total_time = (get_microtime() - $start_time);                                              
+$total_time = '<span class="copyright"> '._PAGEGENERATION.'<strong><span style="color:'.$digits_color.'"> '.substr($total_time,0,4).'</span></strong> '._SECONDS.'';
         
 if ($start_mem > 0): 
 $total_mem = memory_get_usage()-$start_mem;
-$total_time .= ' | Memory Usage: <strong><font color="'.$digits_color.'">'.(($total_mem >= 1048576) 
-? round((round($total_mem / 1048576 * 100) / 100), 2).'</font></strong> MB<strong><font color="'.$digits_color.'">' : (($total_mem >= 1024) 
-? round((round($total_mem / 1024 * 100) / 100), 2).'</font></strong> KB<strong><font 
-color="'.$digits_color.'">' : $total_mem.'</font></strong> Bytes<strong><font color="'.$digits_color.'">')); 
-$total_time .= '</font></strong>';
+$total_time .= ' | Memory Usage: <strong><span style="color:'.$digits_color.'">'.(($total_mem >= 1048576) 
+? round((round($total_mem / 1048576 * 100) / 100), 2).'</span></strong> MB<strong><span style="color:'.$digits_color.'">' : (($total_mem >= 1024) 
+? round((round($total_mem / 1024 * 100) / 100), 2).'</span></strong> KB<strong><span style="color:'.$digits_color.'">' : $total_mem.'</span></strong> Bytes<strong><span style="color:'.$digits_color.'">')); 
+$total_time .= '</span></strong>';
 endif;
 
 # MariaDB version at bottom of footer START
@@ -162,13 +161,13 @@ $footmsg .= $db->mariadb_version().'<br/>';
 
 # START Queries Count v2.0.1
 if($queries_count):
-$total_time .= ' | DB Queries: <strong><font color="'.$digits_color.'">' . $db->num_queries;
-$total_time .= '</font></strong>';
+$total_time .= ' | DB Queries: <strong><span style="color:'.$digits_color.'">' . $db->num_queries;
+$total_time .= '</span></strong>';
 endif;
 # END Queries Count v2.0.1
 
-$total_time .= ' ';
-$total_time .= '</span>';
+//$total_time .= ' ';
+//$total_time .= '</span>';
 
 # Auto Optimize v1.0.0 START
 if(is_admin()): 
@@ -201,7 +200,7 @@ endif;
     # START Debugger v1.0.0
     if(is_admin() && $debugger->debug && count($debugger->errors) > 0): 
        $footmsg .= "<br /><div align=\"center\"><strong>Debugging:</strong></div>";
-       $footmsg .= "<table border='0' width='80%' align='center'><tr><td>";
+       $footmsg .= "<table style='width: 80%; text-align: center; border-collapse: collapse;'><tr><td>";
        $footmsg .= $debugger->return_errors();
        $footmsg .= "</td></tr></table>";
     endif;
