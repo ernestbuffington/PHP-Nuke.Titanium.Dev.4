@@ -30,24 +30,24 @@ else:
 global $theme_name;	
 global $bgcolor4;
 # top half of center table START
-print '<table bgcolor="'.$bgcolor4.'" class="tableSB_width_defined" width="261">'."\n";
+print '<table bgcolor="'.$bgcolor4.'" class="tableSB_width_defined" width="261px">'."\n";
 # invisble image spacer for top right table image!
 print '<tr><td class="tableSB_width_definedLT">'."\n";
 # top left corner of center table
-print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/SIDEBLOCKS/top_left_corner.png" width="39" height="50"></td>'."\n";
+print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/SIDEBLOCKS/top_left_corner.png" width="39px" height="50px"></td>'."\n";
 # top middle piece for center table
 print '<td class="tableSB_width_definedTM"><br><strong>'.$title.'</strong></td>'."\n";
 
 print '<td align="right" width="39">'."\n";
 # top right corner of center table
-print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/SIDEBLOCKS/top_right_corner_10.png" width="39" height="50"></td>'."\n";
+print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/SIDEBLOCKS/top_right_corner_10.png" width="39px" height="50px"></td>'."\n";
 print '</tr>'."\n";
 print '<tr><td colSpan="3">'."\n";
 print '<table class="table100">'."\n";
 print '<tr>'."\n";
 # table left middle side
 print '<td class="tableSB_width_definedLSM">'."\n";
-print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/CENTERBLOCKS/left_side_middle_151515.png" width="39" height="3"></td>'."\n";
+print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/CENTERBLOCKS/left_side_middle_151515.png" width="39px" height="3px"></td>'."\n";
 print '<td width="100%">'."\n";
 # Top of center table END  (this is where you edit for each theme design)
 #################################################################################################################################################################
@@ -64,8 +64,9 @@ print '<table class="table100">'."\n";
 print '<tr>'."\n";
 print '<td width="100%" bgcolor="'.$bgcolor4.'">'."\n";
 
-echo '<div align="left" id="text">';
+echo '<div align="left" id="text" style="padding-top:6px;">';
 echo ''.$content.'</div>';
+echo '<div align="left" id="text" style="padding-top:6px;">';
 echo '</td>';
 
 print '</td>';
@@ -84,7 +85,7 @@ echo "\n\n<!-- SIDEBOX CONTENT END -->\n\n";
 # bottome of center table START (this is where you edit for each theme design)
 print '</td>';
 print '<td class="tableSB_width_definedRSM">'."\n";
-print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/SIDEBLOCKS/right_side_middle_151515.png" width="39" height="3"></td>'."\n";
+print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/SIDEBLOCKS/right_side_middle_151515.png" width="39px" height="3px"></td>'."\n";
 print '</tr>'."\n";
 print '</table>'."\n";
 print '</td>'."\n";
@@ -92,12 +93,12 @@ print '</tr>'."\n";
 print '<tr>'."\n";
 
 print '<td class="tableSB_width_definedRT">'."\n";
-print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/SIDEBLOCKS/bottom_left_corner.png" width="39" height="50"></td>'."\n";
+print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/SIDEBLOCKS/bottom_left_corner.png" width="39px" height="50px"></td>'."\n";
 
 print '<td class="tableSB_width_definedBM"></td>'."\n";
 
 print '<td class="tableSB_width_definedRT">'."\n";
-print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/SIDEBLOCKS/bottom_right_corner.png" width="39" height="50"></td>'."\n";
+print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/SIDEBLOCKS/bottom_right_corner.png" width="39px" height="50px"></td>'."\n";
 
 print '</tr>'."\n";
 print '</table>'."\n";
@@ -125,4 +126,3 @@ print '</div>';
 echo "<!-- END function themesidebox -->\n\n";	
 }
 ?>
-

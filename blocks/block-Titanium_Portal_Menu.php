@@ -592,10 +592,9 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 	              $avatar, 
 				   $email) = $db->sql_ufetchrow("SELECT `username`,`user_avatar`, `user_email` FROM `".$prefix."_users` WHERE `user_id`='$portaladmin'", SQL_NUM);
 
-    $content .= "\n\n\n";
+    $content .= "\n";
 	
-    $content .= "<br />";
-	$content .= "&nbsp;&nbsp;&nbsp;<img width=\"21\" align=\"$align\" src=\"images/menu/home.gif\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+ 	$content .= "&nbsp;&nbsp;&nbsp;<img width=\"21\" align=\"$align\" src=\"images/menu/home.gif\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 
 	$content .= "&nbsp;<a class=\"modules\" href=\"index.php\"><strong>Home</strong></a>";	
 	
