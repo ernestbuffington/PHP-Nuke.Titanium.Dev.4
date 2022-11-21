@@ -32,8 +32,8 @@ global $db, $prefix, $cache;
   /*****[BEGIN]******************************************
    [ Base:    Caching System                     v3.0.0 ]
    ******************************************************/
-if(($metatags = $cache->load('metatags', 'config')) === false) 
-{
+if(($metatags = $cache->load('metatags', 'config')) === false): 
+
   /*****[END]********************************************
    [ Base:    Caching System                     v3.0.0 ]
    ******************************************************/
@@ -42,13 +42,14 @@ if(($metatags = $cache->load('metatags', 'config')) === false)
   $result = $db->sql_query($sql, true);
   $i=0;
 
-  while(list($meta_name, $meta_content) = $db->sql_fetchrow($result, SQL_NUM)) 
-  {
+  while(list($meta_name, $meta_content) = $db->sql_fetchrow($result, SQL_NUM)): 
+  
       $metatags[$i] = array();
       $metatags[$i]['meta_name'] = $meta_name;
       $metatags[$i]['meta_content'] = $meta_content;
       $i++;
-  }
+	  
+  endwhile;
   
   unset($i);
   
@@ -57,26 +58,28 @@ if(($metatags = $cache->load('metatags', 'config')) === false)
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
   $cache->save('metatags', 'config', $metatags);
-}
+  
+endif;
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-$metastring .= '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />'."\n";
+$metastring .= '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">'."\n";
 
 /**
  * Only add the meta tag below if the theme is bootstrap made.
  */
-if(defined('BOOTSTRAP'))
-$metastring .= '<meta name="viewport" content="width=device-width, maximum-scale=1.0; user-scalable=no" />'."\n";
-else
-$metastring .= '<meta name="viewport" content="width=device-width, initial-scale=1.0" />'."\n";
+if(defined('BOOTSTRAP')):
+$metastring .= '<meta name="viewport" content="width=device-width, maximum-scale=1.0; user-scalable=no">'."\n";
+else:
+$metastring .= '<meta name="viewport" content="width=device-width, initial-scale=1.0">'."\n";
+endif;
 
+for($i=0,$j=count($metatags);$i<$j;$i++): 
 
-for($i=0,$j=count($metatags);$i<$j;$i++) 
-{
 	$metatag = $metatags[$i];
-    $metastring .= '<meta name="'.$metatag['meta_name'].'" content="'.$metatag['meta_content'].'" />'."\n";
-}
+    $metastring .= '<meta name="'.$metatag['meta_name'].'" content="'.$metatag['meta_content'].'">'."\n";
+
+endfor;
 
 ###############################################
 # DO NOT REMOVE THE FOLLOWING COPYRIGHT LINE! #
@@ -85,6 +88,6 @@ for($i=0,$j=count($metatags);$i<$j;$i++)
 
 // IF YOU REALLY NEED TO REMOVE IT AND HAVE MY WRITTEN AUTHORIZATION CHECK: http://phpnuke.org/modules.php?name=Commercial_License
 // PLAY FAIR AND SUPPORT THE DEVELOPMENT, PLEASE!
-$metastring .= '<meta name="generator" content="The US Version of PHP-Nuke Titanium Copyright (c) 2021 by Brandon Maintenance Management, LLC" />'."\n";
+$metastring .= '<meta name="generator" content="The US Version of PHP-Nuke Titanium Copyright (c) 2021 by Brandon Maintenance Management, LLC">'."\n";
 
 echo $metastring;

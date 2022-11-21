@@ -49,11 +49,11 @@ function title_and_meta_tags() {
     # if the user is visiting a module, change the page title to the module name.
     else:
     if ($appID > 0):
-        $facebookappid = "<meta property=\"fb:app_id\" content=\"" . $appID . "\" />\n";
-        $facebook_admin = "<meta property=\"fb:admins\" content=\"" . $facebook_admin_id_number . "\" />"; # TheGhost's facebook user ID
+        $facebookappid = "<meta property=\"fb:app_id\" content=\"" . $appID . "\">\n";
+        $facebook_admin = "<meta property=\"fb:admins\" content=\"" . $facebook_admin_id_number . "\">"; # TheGhost's facebook user ID
     endif;    
     
-    $facebook_page_type = "<meta property=\"og:type\" content=\"website\" />\n";
+    $facebook_page_type = "<meta property=\"og:type\" content=\"website\">\n";
 
         if (!defined('HOME_FILE')):
 
@@ -62,22 +62,22 @@ function title_and_meta_tags() {
 
                 # each module has a logo image file START
                 if (file_exists(NUKE_MODULES_DIR . $module_name . '/images/logo.png')):
-                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png" />' . "\n";
-                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png" />' . "\n";
+                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png">' . "\n";
+                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png">' . "\n";
                 else:
-                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/Blogs/images/logo.png" />' . "\n";
-                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/Blogs/images/logo.png" />' . "\n";
+                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/Blogs/images/logo.png">' . "\n";
+                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/Blogs/images/logo.png">' . "\n";
                 endif;
                 # each module has a logo image file END
 
                 $newpagetitle = $sitename . ' ' . $item_delim . ' Shout Box';
 
                 $facebook_og_title = '<meta property="og:title" content="' . $newpagetitle . '">' . "\n";
-                $facebook_ogdescription = '<meta property="og:description" content="PHP-Nuke Titanium ' . $item_delim . ' Shout Box Module v1.0" />' . "\n";
+                $facebook_ogdescription = '<meta property="og:description" content="PHP-Nuke Titanium ' . $item_delim . ' Shout Box Module v1.0">' . "\n";
 
-                $facebookimagetype = '<meta property="og:image:type" content="image/png" />' . "\n";
-                $facebook_ogimage_width = '<meta property="og:image:width" content="1200" />' . "\n";
-                $facebook_ogimage_height = '<meta property="og:image:height" content="628" />' . "\n";
+                $facebookimagetype = '<meta property="og:image:type" content="image/png">' . "\n";
+                $facebook_ogimage_width = '<meta property="og:image:width" content="1200">' . "\n";
+                $facebook_ogimage_height = '<meta property="og:image:height" content="628">' . "\n";
                 $facebookimage_alt = '<meta property="og:image:alt" content="' . $newpagetitle . '">' . "\n";
                 $facebook_ogurl = '<meta property="og:url" content="' . HTTPS . 'modules.php?name=' . $name . '" />' . "\n";
             # PHP-Nuke Titanium Shout Box Module v1.0 -------------------------------------------------------------------------------------------------
@@ -86,24 +86,24 @@ function title_and_meta_tags() {
 
                 # each module has a logo image file START
                 if (file_exists(NUKE_MODULES_DIR . $module_name . '/images/logo.png')):
-                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png" />' . "\n";
-                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png" />' . "\n";
+                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png">' . "\n";
+                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png">' . "\n";
                 else:
-                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/Blogs/images/logo.png" />' . "\n";
-                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/Blogs/images/logo.png" />' . "\n";
+                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/Blogs/images/logo.png">' . "\n";
+                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/Blogs/images/logo.png">' . "\n";
                 endif;
                 # each module has a logo image file END
 
                 $newpagetitle = $sitename . ' ' . $item_delim . ' Google Site Map v1.0';
-                $facebook_og_title = '<meta property="og:title" content="' . $newpagetitle . '" />' . "\n";
+                $facebook_og_title = '<meta property="og:title" content="' . $newpagetitle . '">' . "\n";
 
-                $facebook_ogdescription = '<meta property="og:description" content="Google Site Map Generator v1.0 written by Ernest Buffington, have a look!" />' . "\n";
+                $facebook_ogdescription = '<meta property="og:description" content="Google Site Map Generator v1.0 written by Ernest Buffington, have a look!">' . "\n";
 
-                $facebookimagetype = '<meta property="og:image:type" content="image/png" />' . "\n";
-                $facebook_ogimage_width = '<meta property="og:image:width" content="1200" />' . "\n";
-                $facebook_ogimage_height = '<meta property="og:image:height" content="628" />' . "\n";
-                $facebookimage_alt = '<meta property="og:image:alt" content="Google Site Map Module v1.0" />' . "\n";
-                $facebook_ogurl = '<meta property="og:url" content="' . HTTPS . 'modules.php?name=' . $name . '" />' . "\n";
+                $facebookimagetype = '<meta property="og:image:type" content="image/png">' . "\n";
+                $facebook_ogimage_width = '<meta property="og:image:width" content="1200">' . "\n";
+                $facebook_ogimage_height = '<meta property="og:image:height" content="628">' . "\n";
+                $facebookimage_alt = '<meta property="og:image:alt" content="Google Site Map Module v1.0">' . "\n";
+                $facebook_ogurl = '<meta property="og:url" content="' . HTTPS . 'modules.php?name=' . $name . '">' . "\n";
             # PHP-Nuke Titanium Google Site Map Module v1.0 --------------------------------------------------------------------------------------------
             
             # PHP-Nuke Arcade v4.0 --------------------------------------------------------------------------------------------
@@ -111,24 +111,24 @@ function title_and_meta_tags() {
               if (($file == 'arcade') && isset($file)):
                 # each module has a logo image file START
                 if (file_exists(NUKE_MODULES_DIR . $module_name . '/images/logo.png')):
-                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png" />' . "\n";
-                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png" />' . "\n";
+                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png">' . "\n";
+                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png">' . "\n";
                 else:
-                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/Blogs/images/logo.png" />' . "\n";
-                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/Blogs/images/logo.png" />' . "\n";
+                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/Blogs/images/logo.png">' . "\n";
+                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/Blogs/images/logo.png">' . "\n";
                 endif;
                 # each module has a logo image file END
 
                 $newpagetitle = $sitename . ' ' . $item_delim . ' Titanium Arcade v4.0';
-                $facebook_og_title = '<meta property="og:title" content="' . $newpagetitle . '" />' . "\n";
+                $facebook_og_title = '<meta property="og:title" content="' . $newpagetitle . '">' . "\n";
 
-                $facebook_ogdescription = '<meta property="og:description" content="Titanium Arcade v4.0 written by Ernest Buffington, have a look!" />' . "\n";
+                $facebook_ogdescription = '<meta property="og:description" content="Titanium Arcade v4.0 written by Ernest Buffington, have a look!">' . "\n";
 
-                $facebookimagetype = '<meta property="og:image:type" content="image/png" />' . "\n";
-                $facebook_ogimage_width = '<meta property="og:image:width" content="1200" />' . "\n";
-                $facebook_ogimage_height = '<meta property="og:image:height" content="628" />' . "\n";
-                $facebookimage_alt = '<meta property="og:image:alt" content="Titanium Arcade v4.0" />' . "\n";
-                $facebook_ogurl = '<meta property="og:url" content="' . HTTPS . 'modules.php?name=' . $name . '&file=arcade" />' . "\n";
+                $facebookimagetype = '<meta property="og:image:type" content="image/png">' . "\n";
+                $facebook_ogimage_width = '<meta property="og:image:width" content="1200">' . "\n";
+                $facebook_ogimage_height = '<meta property="og:image:height" content="628">' . "\n";
+                $facebookimage_alt = '<meta property="og:image:alt" content="Titanium Arcade v4.0">' . "\n";
+                $facebook_ogurl = '<meta property="og:url" content="' . HTTPS . 'modules.php?name=' . $name . '&file=arcade">' . "\n";
                 
               endif;
             # PHP-Nuke Arcade v4.0 --------------------------------------------------------------------------------------------
@@ -136,18 +136,18 @@ function title_and_meta_tags() {
                 else:
 
                 if (file_exists(NUKE_MODULES_DIR . $module_name . '/images/logo.png')):
-                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png" />' . "\n";
-                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png" />' . "\n";
+                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png">' . "\n";
+                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png">' . "\n";
                 else:
-                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/Blogs/images/logo.png" />' . "\n";
-                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/Blogs/images/logo.png" />' . "\n";
+                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/Blogs/images/logo.png">' . "\n";
+                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/Blogs/images/logo.png">' . "\n";
                 endif;
 
-                $facebookimagetype = '<meta property="og:image:type" content="image/png" />' . "\n";
-                $facebook_ogimage_width = '<meta property="og:image:width" content="1200" />' . "\n";
-                $facebook_ogimage_height = '<meta property="og:image:height" content="628" />' . "\n";
-                $facebookimage_alt = '<meta property="og:image:alt" content="Title png File" />' . "\n";
-                $facebook_ogurl = "<meta property=\"og:url\" content=\"" . HTTPS . "modules.php?name=$name\" />\n";
+                $facebookimagetype = '<meta property="og:image:type" content="image/png">' . "\n";
+                $facebook_ogimage_width = '<meta property="og:image:width" content="1200">' . "\n";
+                $facebook_ogimage_height = '<meta property="og:image:height" content="628">' . "\n";
+                $facebookimage_alt = '<meta property="og:image:alt" content="Title png File">' . "\n";
+                $facebook_ogurl = "<meta property=\"og:url\" content=\"" . HTTPS . "modules.php?name=$name\">\n";
 
             endif;
 
@@ -161,26 +161,26 @@ function title_and_meta_tags() {
 
                     if ($sitename == $top):
                         $newpagetitle = "$sitename $item_delim $art";
-                        $facebook_og_title = '<meta property="og:title" content="' . $newpagetitle . '" />' . "\n";
+                        $facebook_og_title = '<meta property="og:title" content="' . $newpagetitle . '">' . "\n";
                     else:
                         $newpagetitle = "$sitename $item_delim $top $item_delim $art";
-                        $facebook_og_title = '<meta property="og:title" content="' . $newpagetitle . '" />' . "\n";
+                        $facebook_og_title = '<meta property="og:title" content="' . $newpagetitle . '">' . "\n";
                     endif;
 
-                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png" />' . "\n";
-                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png" />' . "\n";
+                    $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png">' . "\n";
+                    $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/' . $module_name . '/images/logo.png">' . "\n";
 
-                    $facebook_ogurl = "<meta property=\"og:url\" content=\"" . HTTPS . "modules.php?name=$name&file=article&sid=$sid\" />\n";
-                    $facebook_ia_markup_url = "<meta property=\"ia:markup_url\" content=\"" . HTTPS . "modules.php?name=$name&file=article&sid=$sid\" />\n";
-                    $facebook_ia_markup_url_dev = "<meta property=\"ia:markup_url_dev\" content=\"" . HTTPS . "modules.php?name=$name&file=article&sid=$sid\" />\n";
-                    $facebook_ia_rules_url = "<meta property=\"ia:rules_url\" content=\"" . HTTPS . "modules.php?name=$name&file=article&sid=$sid\" />\n";
-                    $facebook_ia_rules_url_dev = "<meta property=\"ia:rules_url_dev\" content=\"" . HTTPS . "modules.php?name=$name&file=article&sid=$sid\" />\n";
+                    $facebook_ogurl = "<meta property=\"og:url\" content=\"" . HTTPS . "modules.php?name=$name&file=article&sid=$sid\">\n";
+                    $facebook_ia_markup_url = "<meta property=\"ia:markup_url\" content=\"" . HTTPS . "modules.php?name=$name&file=article&sid=$sid\">\n";
+                    $facebook_ia_markup_url_dev = "<meta property=\"ia:markup_url_dev\" content=\"" . HTTPS . "modules.php?name=$name&file=article&sid=$sid\">\n";
+                    $facebook_ia_rules_url = "<meta property=\"ia:rules_url\" content=\"" . HTTPS . "modules.php?name=$name&file=article&sid=$sid\">\n";
+                    $facebook_ia_rules_url_dev = "<meta property=\"ia:rules_url_dev\" content=\"" . HTTPS . "modules.php?name=$name&file=article&sid=$sid\">\n";
 
                     list($hometext) = $db->sql_ufetchrow("SELECT `hometext` FROM `" . $prefix . "_stories` WHERE `sid`='" . $sid . "'", SQL_NUM);
 
                     $hometext = stripslashes(check_html($hometext, "nohtml"));
 
-                    $facebook_ogdescription = '<meta property="og:description" content="' . $hometext . '" />' . "\n";
+                    $facebook_ogdescription = '<meta property="og:description" content="' . $hometext . '">' . "\n";
 
                     $structured_data = '<script type="application/ld+json">' . "\n";
 
@@ -235,23 +235,23 @@ function title_and_meta_tags() {
 
         # do all this shit if you are on the index.php page
         else:
-            $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/Blogs/images/logo.png" />' . "\n";
-            $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/Blogs/images/logo.png" />' . "\n";
-            $facebookimagetype = '<meta property="og:image:type" content="image/png" />' . "\n";
-            $facebook_ogimage_width = '<meta property="og:image:width" content="1200" />' . "\n";
-            $facebook_ogimage_height = '<meta property="og:image:height" content="628" />' . "\n";
-            $facebookimage_alt = '<meta property="og:image:alt" content="Programmers Making Connections. Coders Making a Difference." />' . "\n";
-            $facebook_ogurl = "<meta property=\"og:url\" content=\"" . HTTPS . "index.php\" />\n";
+            $facebook_ogimage_normal = '<meta property="og:image" content="' . HTTP . 'modules/Blogs/images/logo.png">' . "\n";
+            $facebook_ogimage = '<meta property="og:image:secure_url" content="' . HTTP . 'modules/Blogs/images/logo.png">' . "\n";
+            $facebookimagetype = '<meta property="og:image:type" content="image/png">' . "\n";
+            $facebook_ogimage_width = '<meta property="og:image:width" content="1200">' . "\n";
+            $facebook_ogimage_height = '<meta property="og:image:height" content="628">' . "\n";
+            $facebookimage_alt = '<meta property="og:image:alt" content="Programmers Making Connections. Coders Making a Difference.">' . "\n";
+            $facebook_ogurl = "<meta property=\"og:url\" content=\"" . HTTPS . "index.php\">\n";
 
-            $facebook_ia_markup_url = "<meta property=\"ia:markup_url\" content=\"" . HTTPS . "index.php\" />\n";
-            $facebook_ia_markup_url_dev = "<meta property=\"ia:markup_url_dev\" content=\"" . HTTPS . "index.php\" />\n";
-            $facebook_ia_rules_url = "<meta property=\"ia:rules_url\" content=\"" . HTTPS . "index.php\" />\n";
-            $facebook_ia_rules_url_dev = "<meta property=\"ia:rules_url_dev\" content=\"" . HTTPS . "index.php\" />\n";
-            $facebook_ogdescription = "<meta property=\"og:description\" content=\"Programmers Making Connections. Coders Making a Difference. We have a new look, come visit us today...\" />\n";
+            $facebook_ia_markup_url = "<meta property=\"ia:markup_url\" content=\"" . HTTPS . "index.php\">\n";
+            $facebook_ia_markup_url_dev = "<meta property=\"ia:markup_url_dev\" content=\"" . HTTPS . "index.php\">\n";
+            $facebook_ia_rules_url = "<meta property=\"ia:rules_url\" content=\"" . HTTPS . "index.php\">\n";
+            $facebook_ia_rules_url_dev = "<meta property=\"ia:rules_url_dev\" content=\"" . HTTPS . "index.php\">\n";
+            $facebook_ogdescription = "<meta property=\"og:description\" content=\"Programmers Making Connections. Coders Making a Difference. We have a new look, come visit us today...\">\n";
             $newpagetitle = "$sitename $item_delim $top $item_delim $art";
-            $facebook_og_title = '<meta property="og:title" content="' . $newpagetitle . '" />' . "\n";
+            $facebook_og_title = '<meta property="og:title" content="' . $newpagetitle . '">' . "\n";
 
-            $facebook_ogdescription = '<meta property="og:description" content="' . $hometext . '" />' . "\n";
+            $facebook_ogdescription = '<meta property="og:description" content="' . $hometext . '">' . "\n";
 
             $structured_data = "\n" . '<script type="application/ld+json">' . "\n";
 
@@ -314,9 +314,14 @@ function title_and_meta_tags() {
             $module_name_str = 'Arcade v4.0';
             $newpagetitle = ($module_name) ? $item_delim . ' ' . $module_name_str : '';
         endif;
+		
+		    $newpagetitle = ($module_name) ? $item_delim . ' ' . $module_name_str : ''.$name.'';
+			
+			if(empty($name)):
+            $newpagetitle = ($module_name) ? $item_delim . ' ' . $module_name_str : '&raquo; Home';
+			endif;
         
-            $newpagetitle = ($module_name) ? $item_delim . ' ' . $module_name_str : '';
-    endif;
+		endif;
 
         print $facebook_admin;
         print $facebook_page_type;
