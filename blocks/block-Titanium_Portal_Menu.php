@@ -26,6 +26,8 @@
 -=[Mod]=-
 	  Titanium Patched                         v3.0.0       08/28/2019
  ************************************************************************/
+ echo "\n<!-- Loading blocks/block-Titanium_Portal_Menu.php -->\n";
+
  if(!defined('NUKE_EVO')) exit;
 
        global $db, 
@@ -516,7 +518,7 @@ $modules_attach = $db->sql_query($sql);
 	}
 
 $content = "";
-echo "\n\n\n\n<!--  START Titanium Portal Menu Javascript Functions v1.0 -->\n";
+echo "<!--  START Titanium Portal Menu Javascript Functions v1.0 -->\n";
 ?>
 <script >
 function menu_listbox(page) 
@@ -547,9 +549,8 @@ function menu_over_popup(page,nom,option)
   white-space: nowrap;
 }
 </style>
-
 <?php
-echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
+echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 # MAIN MENU 
 	$dynamictest=0;
 	
@@ -584,7 +585,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 			      $uid, 
 			 $ThemeSel;
 	
-	   $align = 'absmiddle'; # added by Ernest Buffingtn to align the new.gif image
+	   $align = 'middle'; # added by Ernest Buffingtn to align the new.gif image
 	$aligncat = 'style="text-align:left"'; # added by Ernest Buffingtn to align the link text left
 	
     list($portaladminname, 
@@ -594,7 +595,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
     $content .= "\n\n\n";
 	
     $content .= "<br />";
-	$content .= "&nbsp;&nbsp;&nbsp;<img width=\"21\" align=\"$align\" src=\"images/menu/home.gif\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+	$content .= "&nbsp;&nbsp;&nbsp;<img width=\"21\" align=\"$align\" src=\"images/menu/home.gif\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 
 	$content .= "&nbsp;<a class=\"modules\" href=\"index.php\"><strong>Home</strong></a>";	
 	
@@ -759,7 +760,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 			if($sub_image <> "noimg") 
 			{
 			    $fermebalise = ($som_lien!="") ? "</a>" : "" ;
-				$content .= "&nbsp;&nbsp;&nbsp;<img width=\"21\" align=\"$align\" src=\"$path_icon/$sub_image\" border=\"0\" alt=\"$sub_image\">".$fermebalise."&nbsp;";
+				$content .= "&nbsp;&nbsp;&nbsp;<img width=\"21\" align=\"$align\" src=\"$path_icon/$sub_image\" alt=\"$sub_image\">".$fermebalise."&nbsp;";
 			}
 
 			if(strpos($som_name,"LANG:_") === 0) 
@@ -811,7 +812,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				$bold2 = ($som_bold == "on") ? "</strong>" : "";
 				
 				# add NEW (new.gif)to top level
-				$new = ($som_new == "on") ? "<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\"> " : "" ;
+				$new = ($som_new == "on") ? "<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\"> " : "" ;
 				
 				$content .= "".$bold1."$som_name".$bold2." ".$new."";
 			}
@@ -826,7 +827,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 			if($som_dynamic == 'on' && isset($moduleinthisgroup[$som_groupmenu]['0'])) 
 			{
 				$zeimage = ($som_listbox == "on") ? "null.gif" : "down.gif" ;
-				$content .= "<img align=\"bottom\" id=\"menuupdown-$som_groupmenu\" src=\"$path_icon/admin/$zeimage\" border=0 alt=\"Show/Hide content\">";
+				$content .= "<img align=\"bottom\" id=\"menuupdown-$som_groupmenu\" src=\"$path_icon/admin/$zeimage\" alt=\"Show/Hide content\">";
 			}
 			
 			if($som_center == "on") 
@@ -1093,10 +1094,10 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				
 			   # add NEW (new.gif)to sub level 
 			   $new = ($newinthisgroup[$som_groupmenu][$keyinthisgroup] == "on") ? " <img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" 
-			   border=\"0\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">" : "" ;
+			   title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">" : "" ;
 			   
 			   $imagedulien = "<img height=\"$menu_image_height\" width=\"21\" align=\"$align\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" 
-			   border=\"0\" alt=\"".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\">";
+			   alt=\"".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\">";
 			
 			   if($linkinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 			   { 
@@ -1268,7 +1269,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				
 				if($imageinthisgroup[$som_groupmenu][$keyinthisgroup] != "middot.gif"): 
 				$limage = "<img height=\"$menu_image_height\" width=\"21\" align=\"$align\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" 
-				border=\"0\" alt=\"".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\">";
+				alt=\"".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\">";
 				else: 
 				$limage = "<strong><big>&middot;</big></strong>";
                 endif;
@@ -1284,7 +1285,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 				
 				# add NEW (new.gif)to ?
 				$new = ($newinthisgroup[$som_groupmenu][$keyinthisgroup] == "on") ? "<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" 
-				border=\"0\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">" : "" ;
+				title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">" : "" ;
 
 				if($nomdumodule == "Downloads" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup] != "-1") 
 				{
@@ -1301,7 +1302,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 						
 						if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 						{
-							$new = "<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+							$new = "<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 						}
 					}
 				}
@@ -1321,7 +1322,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
                     
 					   if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 					   {
-                            $new = "<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+                            $new = "<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
                        }
                      }
                 }
@@ -1341,7 +1342,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 						
 						if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 						{
-							$new="<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=0 title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+							$new="<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 						}
 					}
 				}
@@ -1361,7 +1362,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 						
 						if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 						{
-							$new="<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=\"0\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+							$new="<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 						}
 					}
 				}
@@ -1386,7 +1387,7 @@ echo "<!--  END Titanium Portal Menu Javascript Functions v5.01 -->\n\n\n\n";
 						
 						if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 						{
-							$new="<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" border=\"0\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+							$new="<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 						}
 					}
 				}
