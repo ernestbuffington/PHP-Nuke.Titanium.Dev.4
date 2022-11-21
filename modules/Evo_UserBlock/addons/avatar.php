@@ -23,9 +23,9 @@ if(!defined('NUKE_EVO'))
 
 global $avatar_overide_size, $make_xtreme_avatar_small, $board_config, $userinfo;
 // START - this was added for the very whimpy small themes that have no block width! by Ernest Buffington 08/06/2019
-if ($make_xtreme_avatar_small == true)
+if ($make_xtreme_avatar_small === true)
 {
-  $board_config['avatar_max_height'] = $avatar_overide_size;
+  $board_config['avatar_max_height'] = '';
   $board_config['avatar_max_width'] = $avatar_overide_size;
 }
 // END - this was added for the very whimpy small themes that have no block width! by Ernest Buffington 08/06/2019

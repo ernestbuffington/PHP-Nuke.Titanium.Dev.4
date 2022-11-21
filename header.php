@@ -24,13 +24,15 @@
       Collapsing Blocks                        v1.0.0       08/16/2005
 	  NSN Center Blocks                        v2.2.1       05/26/2009
  ************************************************************************/
-if(!defined('HEADER')) 
-define('HEADER', true); 
-else 
-return; 
+if(!defined('HEADER')): 
+ define('HEADER', true); 
+else: 
+ return;
+endif; 
 
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
-exit('Access Denied'); 
+if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])): 
+ exit('Access Denied'); 
+endif;
 
 require_once(dirname(__FILE__).'/mainfile.php');
 

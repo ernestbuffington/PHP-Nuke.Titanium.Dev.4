@@ -51,6 +51,15 @@ textarea.cke_source
 	color: #000000;
 	background-color: #FFFFFF;
 }
+:host ::ng-deep .ck-editor__editable_inline p {
+  margin: 0;
+}
+.cke_editable p { margin: 0 !important; }
 
+p {
+    line-height:17px;        
+}
+b {
+    line-height:1px; 
+}​
 <?
-

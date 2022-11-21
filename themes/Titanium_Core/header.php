@@ -256,12 +256,9 @@ echo '<td class="undermarqueeRT"><div class="marquee_two"><span color="#008000" 
 echo '</tr>';
 
 echo '<tr>';
-echo '<td class="undermarqueeLT"><div style="padding-top:5px;"><a href="https://www.facebook.com/profile.php?id=100086492648606" class="fa-brands fa-facebook"  target="_blank"></i></a>
-&nbsp;&nbsp;&nbsp;<a href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" class="fa-brands fa-github" target="_blank></a>
-&nbsp;&nbsp;&nbsp;<a href="https://ernestbuffington.tumblr.com/" class="fa fa-tumblr" target="_blank></a><i class="fa-brands fa-github"></i>
-
-
-</div></td>';
+echo '<td class="undermarqueeLT">';
+echo '<img class="githubicon" id="githubicon" src="images/brands/png/github-active.png">';
+echo '</td>';
 
 echo '<td class="undermarqueeRT"></td>';
 echo '</tr>';

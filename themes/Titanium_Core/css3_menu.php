@@ -50,7 +50,7 @@ echo '      </ul>';
 echo '    </li>';
 
 
-echo '    <li><a class="dropdown-arrow" href="'.HTTPS.'modules.php?name=Forums&file=arcade">Arcade</a>';
+echo '    <li><a class="dropdown-arrow" href="#">Arcade</a>';
 echo '      <ul class="sub-menus">';
 echo '        <li><a href="'.HTTPS.'modules.php?name=Forums&file=arcade">Arcade Main</a></li>';
 echo '        <li><a href="'.HTTPS.'modules.php?name=Forums&file=arcade_search&x=2">Newest Games</a></li>';

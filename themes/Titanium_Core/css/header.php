@@ -344,13 +344,23 @@ td.banneradRSM
   100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
 }
 
+.githubicon {
+ width: 21px;
+ height: 21px;
+ background: url("images/brands/png/github-active.png") no-repeat;
+ display: inline-block;
+}
+.githubicon:hover {
+ background: url("images/brands/png/github-active.png") no-repeat;
+}
+
 td.undermarqueeLT
 {
-  table-layout: auto;
-  width: 25%;
+  table-layout: auto; 
+  width: 25%; 
   height: 20px;
   border-collapse: collapse;
-  padding-top: 0px;
+  padding-top: 5px;
   padding-bottom: 0px;
   padding-left: 0px;
   padding-right: 0px;

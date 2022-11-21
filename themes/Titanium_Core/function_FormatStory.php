@@ -43,45 +43,48 @@
 # Wolfstar                                                                              # 
 # -[04/17/2010] Updated Nuke Evolution to XHTML 1.0 Transitional                        #
 #---------------------------------------------------------------------------------------#
-
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) 
-    exit('Access Denied');
+if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])): 
+ exit('Access Denied');
+endif;
 	
 /*--------------------------*/
 /* Theme FormatStory
 /*--------------------------*/
 function FormatStory($thetext, $notes, $aid, $informant) 
 {
-global $anonymous;
+  global $anonymous;
 
-$notes = !empty($notes) ? '<br /><br /><strong>'._NOTE.'</strong> <em>'.$notes.'</em>' : '';	
-if ($aid == $informant) 
-{
-   echo '<span class="content" color="#505050">'.$thetext.$notes.'</span>';
-} 
-else 
-{
-   if (defined('WRITES')) 
-   {
-      if (!empty($informant)) 
-      {
-         if ( is_array($informant) ):
+  $notes = !empty($notes) ? '<br /><br /><strong>'._NOTE.'</strong> <em>'.$notes.'</em>' : '';	
+  
+  if ($aid == $informant) 
+  {
+     echo '<span class="content" color="#505050">'.$thetext.$notes.'</span>';
+  } 
+  else 
+  {
+     if (defined('WRITES')) 
+     {
+        if (!empty($informant)) 
+        {
+           if ( is_array($informant) ):
             $boxstuff = '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant[0].'">'.$informant[1].'</a>';
-         else:
+           else:
             $boxstuff = '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant.'">'.$informant.'</a>';
          endif;
+  } 
+  else 
+  {
+     $boxstuff = $anonymous.' ';
+  }
+  
+   $boxstuff .= _WRITES.' <em>'.$thetext.'</em>'.$notes;
 } 
 else 
 {
-            $boxstuff = $anonymous.' ';
-      }
-            $boxstuff .= _WRITES.' <em>'.$thetext.'</em>'.$notes;
-} 
-else 
-{
-            $boxstuff .= $thetext . $notes;
-      }
+  $boxstuff .= $thetext . $notes;
+}
       echo '<span class="content" color="#505050">' . $boxstuff . '</span>';
    }
 }
+
 ?>

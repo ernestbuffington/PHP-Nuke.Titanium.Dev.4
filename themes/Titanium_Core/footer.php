@@ -130,24 +130,8 @@ echo '<div align="center">';
 footmsg();
 echo '</div>'; 
 
-//echo '<section id="flex-container">';
-//echo '<div class="flex-item" style="width: 100%; height: 0px; ">';
-//echo '<div class="tooltip-html center" style="font-size: 1;" title="'.theme_copyright.'"><span style="color: #ffffff;">'.str_replace('<br />', '', 'Universal Theme Design By The 86it Developers Network &copy; 2019-2021').'</span></div>';
-//echo '</div>';
-//echo '</section>';
-
-//echo '<div align="center" style="padding-top:5px;">';
-//echo '<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myCopyRight">&copy; '.THEME.' by The 86it Developers Network</button><br />';
-//echo '</div>';
 echo '<div align="center" style="padding-top:5px;">';
 echo '</div>';
-
-
-//echo '<div class="center">'.ads(3).'</div>';
-
-//echo '<a class="copyright" href="javascript: void(0)" onclick="window.open(\''.theme_dir.'copyrights.php\', \'windowname1\', \'width=800, height=500\'); return false;">';
-//echo '<span class="tooltip-html" title="'.theme_copyright_click.'"><strong>Universal Theme Design By The 86it Developers Network &copy; 2019-2021</strong></span>';
-//echo '</a>';
 
 echo "\n\n\n\n\n<!-- function_CloseTable top START -->\n";
 print '</td>';

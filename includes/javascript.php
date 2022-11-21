@@ -114,7 +114,7 @@ echo "if (response.status === 'connected') {\n";   // Logged into your webpage a
 echo "titaniumAPI();\n";  
 echo "} else {\n";                                 // Not logged into your webpage or we are unable to tell.
 echo "document.getElementById('status').innerHTML = 'Please log ' +\n";
-echo "'into this webpage.';\n";
+echo "'into our Facebook app if you would like to leave a comment.';\n";
 echo "}\n";
 echo "}\n\n";
 ##################################################################################################################
