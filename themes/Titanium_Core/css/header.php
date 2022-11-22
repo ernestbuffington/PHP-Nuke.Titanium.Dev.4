@@ -325,21 +325,51 @@ h6 { font-size: 10px; font-weight: bold; }
   background-image: url('themes/<?=$theme_name?>/images/BACKGROUNDS/151515.png');
 }
 
+.visitorName
+{
+  border: 0px solid #f00;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  vertical-align: bottom;
+  text-align: bottom;
+  height: 0px;
+  width: 0px;
+  display: box;
+  justify-content: box-end;
+  align-items: box-end;
+}
+
+.sendMessage
+{
+  border: 0px solid #f00;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  vertical-align: bottom;
+  text-align: top;
+  height: 0px;
+  width: 0px;
+  display: box;
+  justify-content: box-end;
+  align-items: box-end;
+}
+
 .tableVisotrLog
 {
   table-layout: auto;
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0px;
-
   padding-top: 0px;
   padding-bottom: 0px;
   padding-left: 0px;
   padding-right: 0px;
   border-spacing: 0px;
-  
-  background: repeat-x;
-  background: repeat-y;
   text-align: center;
   background-color: <?=$bgcolor4?>; 
 }
