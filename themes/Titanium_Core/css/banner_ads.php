@@ -1,12 +1,37 @@
 <?php
 global $theme_name;
 
-echo "\n\n/* themes/".$theme_name."/css/banner_ads.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
-echo "/* When we are done we will move this code to style.css */\n\n"; 
+echo "/* themes/".$theme_name."/css/banner_ads.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
+echo "/* When we are done we will move this code to style.css */\n"; 
 
 global $screen_width, $screen_height, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4;
 /* <?=$bgcolor1?> */
 ?>
+/**
+ * Stylesheet for the Titanium Core Theme
+ *
+ * @filename:  banner_ads.php
+ * @author  :  TheGhost
+ * @version :  3.0
+ * @date    :  11/22/2022 (DD/MM/YYY)
+ * @license :  Copyright (c) 2022 The 86it Developers Network under the MIT license
+ * @notes   :  n/a
+ *
+ * -- -------------------------------------------------------------------
+ * \/ STYLESHEET NAVIGATION
+ * -- -------------------------------------------------------------------
+ *
+ *  1.  Blinker
+ *  2.  Marquee Settings
+ *  3.  Banner Ad Settings
+ * --- -------------------------------------------------------------------
+ */
+
+/*
+ * 1. Blink Text
+ *----------------------------------------
+ */
+ 
 blink{
 animation: blinker 0.6s linear infinite;
 color: #1c87c9;
@@ -32,11 +57,10 @@ animation: blinker-two 1.4s linear infinite;
 100% { opacity: 0; }
 }
 
-.logo {
-position: relative;
-margin: 0px 0px 0px 0px;
-z-index: 777;
-}
+/*
+ * 2. Marquee Settings
+ *----------------------------------------
+ */
 
 .marquee_one {
   width: 484px;
@@ -56,6 +80,11 @@ z-index: 777;
   color: rgb(104, 182, 4);
 
 }
+
+/*
+ * 3. Banner Ad Settings
+ *----------------------------------------
+ */
 
 .fit-top-center 
 {
@@ -90,6 +119,5 @@ right: 0;
 display:inline;
 z-index: 9999;
 }
-
 
 <?

@@ -1,38 +1,39 @@
 <?php
 global $theme_name;
-echo "\n\n/* themes/".$theme_name."/css/header.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
-echo "/* When we are done we will move this code to style.css */\n\n"; 
+echo "/* Loading themes/".$theme_name."/css/header.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
+echo "/* When we are done we will move this code to style.css */\n"; 
 global $screen_width, $screen_height, $textcolor1, $textcolor2, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $bgcolor5, $fieldset_border_width, $locked_width;
 $bgcolor5 ='#3c3523';
 ?>
-/*################################################################# Forum CSS from here down ###########################################*/
 /**
- * Stylesheet for the Universal Theme
+ * Stylesheet for the Titanium Core Theme
  *
- * @filename:  style.css
+ * @filename:  header.php
  * @author  :  TheGhost
  * @version :  3.0
- * @date    :  12/24/2018 (DD/MM/YYY)
- * @license :  Copyright (c) 2019 The Mortal The 86it Developers Network under the MIT license
+ * @date    :  11/22/2022 (DD/MM/YYY)
+ * @license :  Copyright (c) 2022 The 86it Developers Network under the MIT license
  * @notes   :  n/a
  *
  * -- -------------------------------------------------------------------
  * \/ STYLESHEET NAVIGATION
  * -- -------------------------------------------------------------------
  *
- * 1.  Reset CSS
- * 2.  Primary page styles
- * 3.  Page elements
- * 4.  Page header
- * 5.  Page footer
- * 6.  User interaction
- * 7.  Body content wrappers
- * 8.  Side body blocks
- * 9.  Center content wrapper
- * 10. Story content wrapper
- * 11. Inputs
- * 12. Clearfix
- * 13.  Forums Page Styles
+ *  1.  Reset CSS
+ *  2.  Primary page styles
+ *  3.  Page elements
+ *  4.  Page header
+ *  5.  Center Blocks
+ *  6.  Side Blocks
+ *  7.  Page footer
+ *  8.  User interaction
+ *  9.  Body content wrappers
+ * 10.  Side body blocks
+ * 11.  Center content wrapper
+ * 12.  Story content wrapper
+ * 13.  Inputs
+ * 14.  Clearfix
+ * 15.  Forums Page Styles
  * --- -------------------------------------------------------------------
 */
 
@@ -108,7 +109,7 @@ input[type='checkbox'] { cursor: pointer; }
 /*
  * 2. Primary page styles
  *----------------------------------------
-*/
+ */
 
 #flex-container {
     display: flex;
@@ -180,6 +181,116 @@ border-radius: 8px;
 padding: 6px;
 }
 
+body {	
+	font-size: 14px;
+	color: #fff;
+	font-family: "Open Sans", sans-serif;
+	text-rendering: optimizeLegibility;
+    overflow-y: scroll; /* Show vertical scrollbar */
+    /* overflow-x: scroll;  Show horizontal scrollbar */
+}
+
+
+
+a {
+ color: <?=$textcolor1?>;
+ text-decoration: none;
+ font-size: 1rem;
+}
+
+a:link {
+ color: <?=$textcolor1?>;
+ text-decoration: none;
+ text-shadow: 2px 2px black;
+}
+
+a:visited {
+ color: <?=$textcolor1?>;
+ text-decoration: none;
+ text-shadow: 2px 2px black;
+}
+
+a:focus {
+ color: <?=$textcolor1?>;
+ text-decoration: none;
+ text-shadow: 2px 2px black;
+}
+
+a:hover {
+ color: white;
+ text-decoration: none;
+ text-shadow: 2px 2px black;
+}
+
+a:active {
+ color: <?=$textcolor1?>;
+ text-decoration: none;
+ text-shadow: 2px 2px black;
+}
+  
+
+a.bbcode-href:active { 
+	color: <?=$textcolor1?>;
+    text-shadow: 2px 2px black;
+}
+
+a.bbcode-href:hover { 
+	color: white;
+    text-shadow: 2px 2px black;
+}
+
+a.bbcode-href {
+	color: <?=$textcolor1?>;
+    text-shadow: 2px 2px black;
+}
+
+/*
+ * 3. Page elements
+ *--------------------------------------------------
+*/
+textarea, select, input {
+	background-color: <?=$bgcolor5?>;
+	color: #fff;
+	font-family: "Open Sans", sans-serif;
+	letter-spacing: 0px;
+	margin: 0px 1px 1px;
+	padding: 4px;
+	border: 1px solid <?=$bgcolor1?>;
+	resize: vertical;
+	box-sizing: border-box;
+}
+
+p { padding-bottom: 5px; text-decoration: none; }
+p, table { text-decoration: none; }
+
+ul {
+	list-style-type: disc;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: #999;
+	font-weight: normal;
+}
+h1 { font-size: 30px; line-height: 1; margin-bottom: 5px; }
+h2 { font-size: 20px; margin-bottom: 7.5px; }
+h3 { font-size: 15px; line-height: 1; margin-bottom: 10px; }
+h4 { font-size: 12px; line-height: 1.25; margin-bottom: 12.5px; }
+h5 { font-size: 10px; font-weight: bold; margin-bottom: 15px; }
+h6 { font-size: 10px; font-weight: bold; }
+
+
+.bviewed {
+	font-size: 14px;
+	color: #303030;
+	text-decoration: none;
+	padding-top: 14px;
+}
+
+/*
+ * 4. Page Header
+ *--------------------------------------------------
+ */
+
 /* REG TABLES 100% Width */
 .table100
 {
@@ -189,119 +300,6 @@ padding: 6px;
   padding: 0px;
   border-spacing: 0px;
   background-color: transparent;
-}
-
-.tableSB_width_defined
-{
-  table-layout: auto;
-  border-collapse: collapse;
-  padding: 0px;
-  border-spacing: 0px;
-  background-color: transparent;
-}
-
-td.tableSB_width_definedLT
-{
-  table-layout: auto;
-  width: 39px;
-  border-collapse: collapse;
-  padding: 0px;
-  border-spacing: 0px;
-  background-color: transparent;
-}
-
-td.tableSB_width_definedRT
-{
-  table-layout: auto;
-  width: 39px;
-  border-collapse: collapse;
-  padding: 0px;
-  border-spacing: 0px;
-  background-color: transparent;
-}
-
-td.tableCB_width_definedRT
-{
-  table-layout: auto;
-  width: 39px;
-  border-collapse: collapse;
-  padding: 0px;
-  border-spacing: 0px;
-  background-color: transparent;
-}
-
-td.tableCB_width_definedLT
-{
-  table-layout: auto;
-  width: 39px;
-  border-collapse: collapse;
-  padding: 0px;
-  border-spacing: 0px;
-  background-color: transparent;
-}
-
-td.tableCB_width_definedTM
-{
-  table-layout: auto;
-  width: 100%;
-  border-collapse: collapse;
-  padding: 0px;
-  border-spacing: 0px;
-  background: repeat-x;
-  text-align: center; 
-  background-image: url('themes/<?=$theme_name?>/images/CENTERBLOCKS/top_middle_piece.png');
-}
-
-td.tableCB_width_definedLSM
-{
-  table-layout: auto;
-  width: 23px;
-  height: 100%;
-  border-collapse: collapse;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  border-spacing: 0px;
-  background-image: url('themes/<?=$theme_name?>/images/CENTERBLOCKS/left_side_middle_151515.png');
-}
-
-td.tableCB_width_definedRSM
-{
-  table-layout: auto;
-  width: 23px;
-  height: 100%;
-  border-collapse: collapse;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  border-spacing: 0px;
-  background-image: url('themes/<?=$theme_name?>/images/CENTERBLOCKS/right_side_middle_151515.png');
-}
-
-td.tableCB_width_definedBM
-{
-  table-layout: auto;
-  width: 100%;
-  border-collapse: collapse;
-  padding: 0px;
-  border-spacing: 0px;
-  background: repeat-x;
-  text-align: center; 
-  background-image: url('themes/<?=$theme_name?>/images/CENTERBLOCKS/bottom_middle_piece.png');
-}
-
-td.tableSB_width_definedTM
-{
-  table-layout: auto;
-  width: 100%;
-  border-collapse: collapse;
-  padding: 0px;
-  border-spacing: 0px;
-  background: repeat-x;
-  text-align: center; 
-  background-image: url('themes/<?=$theme_name?>/images/SIDEBLOCKS/top_middle_piece.png');
 }
 
 .table100bg
@@ -374,47 +372,6 @@ td.opentable_width_definedTM
   text-align: center; 
   background-image: url('themes/<?=$theme_name?>/images/TABLES/top_middle_piece.png');
 }
-
-td.tableSB_width_definedBM
-{
-  table-layout: auto;
-  width: 100%;
-  border-collapse: collapse;
-  padding: 0px;
-  border-spacing: 0px;
-  background: repeat-x;
-  text-align: center; 
-  background-image: url('themes/<?=$theme_name?>/images/SIDEBLOCKS/bottom_middle_piece.png');
-}
-
-td.tableSB_width_definedLSM
-{
-  table-layout: auto;
-  width: 23px;
-  height: 100%;
-  border-collapse: collapse;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  border-spacing: 0px;
-  background-image: url('themes/<?=$theme_name?>/images/SIDEBLOCKS/left_side_middle_151515.png');
-}
-
-td.tableSB_width_definedRSM
-{
-  table-layout: auto;
-  width: 23px;
-  height: 100%;
-  border-collapse: collapse;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  border-spacing: 0px;
-  background-image: url('themes/<?=$theme_name?>/images/SIDEBLOCKS/right_side_middle_151515.png');
-}
-
 
 td.BackgroundColor4
 {
@@ -576,21 +533,11 @@ td.banneradRSM
   100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
 }
 
-.githubicon {
- width: 21px;
- height: 21px;
- background: url("images/brands/png/github-active.png") no-repeat;
- display: inline-block;
-}
-.githubicon:hover {
- background: url("images/brands/png/github-active.png") no-repeat;
-}
-
 td.undermarqueeLT
 {
   table-layout: auto; 
   width: 25%; 
-  height: 0px;
+  height: 14px;
   border-collapse: collapse;
   padding-top: 5px;
   padding-bottom: 0px;
@@ -650,137 +597,173 @@ td.abovemarqueeRT
   vertical-align: bottom;
 }
 
-body {	
-	font-size: 14px;
-	color: #fff;
-	font-family: "Open Sans", sans-serif;
-	text-rendering: optimizeLegibility;
-    overflow-y: scroll; /* Show vertical scrollbar */
-    /* overflow-x: scroll;  Show horizontal scrollbar */
+/*
+ * 5. Center Blocks
+ *--------------------------------------------------
+ */
+td.tableCB_width_definedRT
+{
+  table-layout: auto;
+  width: 39px;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
+}
+
+td.tableCB_width_definedLT
+{
+  table-layout: auto;
+  width: 39px;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
+}
+
+td.tableCB_width_definedTM
+{
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background: repeat-x;
+  text-align: center; 
+  background-image: url('themes/<?=$theme_name?>/images/CENTERBLOCKS/top_middle_piece.png');
+}
+
+td.tableCB_width_definedLSM
+{
+  table-layout: auto;
+  width: 23px;
+  height: 100%;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  background-image: url('themes/<?=$theme_name?>/images/CENTERBLOCKS/left_side_middle_151515.png');
+}
+
+td.tableCB_width_definedRSM
+{
+  table-layout: auto;
+  width: 23px;
+  height: 100%;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  background-image: url('themes/<?=$theme_name?>/images/CENTERBLOCKS/right_side_middle_151515.png');
+}
+
+td.tableCB_width_definedBM
+{
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background: repeat-x;
+  text-align: center; 
+  background-image: url('themes/<?=$theme_name?>/images/CENTERBLOCKS/bottom_middle_piece.png');
 }
 
 
-
-a {
- color: <?=$textcolor1?>;
- text-decoration: none;
- font-size: 1rem;
+/*
+ * 6. Side Blocks
+ *--------------------------------------------------
+ */
+td.tableSB_width_definedTM
+{
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background: repeat-x;
+  text-align: center; 
+  background-image: url('themes/<?=$theme_name?>/images/SIDEBLOCKS/top_middle_piece.png');
+}
+ 
+td.tableSB_width_definedBM
+{
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background: repeat-x;
+  text-align: center; 
+  background-image: url('themes/<?=$theme_name?>/images/SIDEBLOCKS/bottom_middle_piece.png');
 }
 
-a:link {
- color: <?=$textcolor1?>;
- text-decoration: none;
- text-shadow: 2px 2px black;
+td.tableSB_width_definedLSM
+{
+  table-layout: auto;
+  width: 23px;
+  height: 100%;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  background-image: url('themes/<?=$theme_name?>/images/SIDEBLOCKS/left_side_middle_151515.png');
 }
 
-a:visited {
- color: <?=$textcolor1?>;
- text-decoration: none;
- text-shadow: 2px 2px black;
+td.tableSB_width_definedRSM
+{
+  table-layout: auto;
+  width: 23px;
+  height: 100%;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  background-image: url('themes/<?=$theme_name?>/images/SIDEBLOCKS/right_side_middle_151515.png');
 }
 
-a:focus {
- color: <?=$textcolor1?>;
- text-decoration: none;
- text-shadow: 2px 2px black;
+.tableSB_width_defined
+{
+  table-layout: auto;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
 }
 
-a:hover {
- color: white;
- text-decoration: none;
- text-shadow: 2px 2px black;
+td.tableSB_width_definedLT
+{
+  table-layout: auto;
+  width: 39px;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
 }
 
-a:active {
- color: <?=$textcolor1?>;
- text-decoration: none;
- text-shadow: 2px 2px black;
-}
-  
-
-a.bbcode-href:active { 
-	color: <?=$textcolor1?>;
-    text-shadow: 2px 2px black;
-}
-
-a.bbcode-href:hover { 
-	color: white;
-    text-shadow: 2px 2px black;
-}
-
-a.bbcode-href {
-	color: <?=$textcolor1?>;
-    text-shadow: 2px 2px black;
+td.tableSB_width_definedRT
+{
+  table-layout: auto;
+  width: 39px;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
 }
 
 /*
- * 3. Page elements
+ * 7. Page Footer
  *--------------------------------------------------
-*/
-textarea, select, input {
-	background-color: <?=$bgcolor5?>;
-	color: #fff;
-	font-family: "Open Sans", sans-serif;
-	letter-spacing: 0px;
-	margin: 0px 1px 1px;
-	padding: 4px;
-	border: 1px solid <?=$bgcolor1?>;
-	resize: vertical;
-	box-sizing: border-box;
-}
-
-p { padding-bottom: 5px; text-decoration: none; }
-p, table { text-decoration: none; }
-
-ul {
-	list-style-type: disc;
-}
-
-h1, h2, h3, h4, h5, h6 {
-	color: #999;
-	font-weight: normal;
-}
-h1 { font-size: 30px; line-height: 1; margin-bottom: 5px; }
-h2 { font-size: 20px; margin-bottom: 7.5px; }
-h3 { font-size: 15px; line-height: 1; margin-bottom: 10px; }
-h4 { font-size: 12px; line-height: 1.25; margin-bottom: 12.5px; }
-h5 { font-size: 10px; font-weight: bold; margin-bottom: 15px; }
-h6 { font-size: 10px; font-weight: bold; }
-
-
-.bviewed {
-	font-size: 14px;
-	color: #303030;
-	text-decoration: none;
-	padding-top: 14px;
-}
-
-/*
- * 4. Page Header
- *--------------------------------------------------
-*/
-.wrapLogo {
-	background-image: url('../images/hdr/Text-Logo.png');
-	float: left;
-	height: 110px;
-	padding: 0;
-	text-indent: -9999px;
-	width: 400px;
-	margin: 20px 15px 0 0;
-}
-
-#hdr-banner-ads {
-	width: 468px;
-	height: 60px;
-	float: right;
-	clear: right;
-	margin: 40px 15px 0 0;
-}
-
-/*
- * 5. Page Footer
- *--------------------------------------------------
-*/
+ */
+ 
 .copyright,
 a.copyright,
 a.copyright:link,
@@ -806,7 +789,7 @@ a.copyright:hover {
 }
 
 /*
- * 6. User interaction
+ * 8. User interaction
  *--------------------------------------------------
 */
 .welcomebg {
@@ -827,7 +810,7 @@ a.copyright:hover {
 }
 
 /*
- * 7. Body Content wrappers
+ * 9. Body Content wrappers
  *--------------------------------------------------
 */
 .body-background {
@@ -839,7 +822,7 @@ a.copyright:hover {
 }
 
 /*
- * 11. Inputs
+ * 10. Inputs
  *--------------------------------------------------
 */
 input {
@@ -896,7 +879,7 @@ td.extra {
 
 
 /*
- * 12. Clearfix
+ * 11. Clearfix
  *
  * The Magnificent Clearfix: Updated to prevent margin-collapsing on child elements.
  * j.mp/bestclearfix
@@ -914,7 +897,7 @@ td.extra {
 
 
 /*
- * 13. FORUMS CSS Coding Begins Here
+ * 12. FORUMS CSS Coding Begins Here
  *--------------------------------------------------
 */
 
@@ -1324,4 +1307,5 @@ font-style:italic;color:<?=$textcolor1?>;
   box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.2);
   border-radius: 100%;
 }
+
 <?

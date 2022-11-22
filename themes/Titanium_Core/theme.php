@@ -191,8 +191,8 @@ echo "<!-- Setting Loading themes/".$theme_name."/css/header.php in themes/".$th
 addPHPCSSToHead(theme_phpstyle_dir.'banner_ads.php','file');     
 echo "<!-- Setting Loading themes/".$theme_name."/css/banner_ads.php in themes/".$theme_name."/theme.php (PHP FlyKit v1.0 Mod) -->\n";
 
-addPHPCSSToHead(theme_phpstyle_dir.'menu.php','file');     
-echo "<!-- Setting Loading themes/".$theme_name."/css/menu.php in themes/".$theme_name."/theme.php (PHP FlyKit v1.0 Mod) -->\n";
+addPHPCSSToHead(theme_phpstyle_dir.'buttons.php','file');     
+echo "<!-- Setting Loading themes/".$theme_name."/css/buttons.php in themes/".$theme_name."/theme.php (PHP FlyKit v1.0 Mod) -->\n";
 
 addPHPCSSToHead(theme_phpstyle_dir.'scrollbars.php','file'); 
 echo "<!-- Setting Loading themes/".$theme_name."/css/scrollbars.php in themes/".$theme_name."/theme.php (PHP FlyKit v1.0 Mod) -->\n";

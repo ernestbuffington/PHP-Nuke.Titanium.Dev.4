@@ -1,8 +1,8 @@
 <?php
 global $theme_name;
 
-echo "\n\n/* themes/".$theme_name."/css/menu.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
-echo "/* When we are done we will move this code to style.css */\n\n"; 
+echo "/* themes/".$theme_name."/css/buttons.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
+echo "/* When we are done we will move this code to style.css */\n"; 
 
 global $screen_width, $screen_height, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4;
 /* .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
@@ -10,6 +10,30 @@ global $screen_width, $screen_height, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4
 }
  */
 ?>
+/**
+ * Stylesheet for the Titanium Core Theme
+ *
+ * @filename:  buttons.php
+ * @author  :  TheGhost
+ * @version :  3.0
+ * @date    :  11/22/2022 (DD/MM/YYY)
+ * @license :  Copyright (c) 2022 The 86it Developers Network under the MIT license
+ * @notes   :  n/a
+ *
+ * -- -------------------------------------------------------------------
+ * \/ STYLESHEET NAVIGATION
+ * -- -------------------------------------------------------------------
+ *
+ *  1.  Buttons for Entire Website
+ *  2.  
+ *  3.  
+ * --- -------------------------------------------------------------------
+ */
+
+/*
+ * 1. Buttons for Entire Website
+ *----------------------------------------
+ */
 .over-ride{
 font-size:4.6mm;
 vertical-align: middle;
