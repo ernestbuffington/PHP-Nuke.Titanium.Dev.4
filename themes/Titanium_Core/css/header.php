@@ -104,7 +104,11 @@ select { cursor: pointer; }
 
 input, select { vertical-align: middle; }
 label.radio { cursor: pointer; }
-input[type='checkbox'] { cursor: pointer; }
+input[type='checkbox']
+{
+  width:17px;height:17px;
+  cursor: pointer;
+}
 
 /*
  * 2. Primary page styles
@@ -757,6 +761,50 @@ td.tableSB_width_definedRT
   padding: 0px;
   border-spacing: 0px;
   background-color: transparent;
+}
+
+/*
+ * Proof Of God Style Sheet Cell Colors and Backgrounds
+ *--------------------------------------------------
+ */
+td.proof_of_god_row1 {
+	background: <?=$bgcolor2?>;
+	border: 1px solid #212f47;
+	padding: 4px;
+}
+
+td.proof_of_god_row2 {
+	border: 1px solid #212f47;
+	padding: 14px;
+}
+
+td.proof_of_god_row3 {
+	background-color: <?=$bgcolor4?>;
+	border: 1px solid <?=$bgcolor3?>;
+	border: 1px solid <?=$bgcolor3?>;
+	padding: 4px;
+}
+
+/*
+ * Nuke_Projects Style Sheet Cell Colors and Backgrounds
+ *--------------------------------------------------
+ */
+td.projects_row1 {
+	background: <?=$bgcolor2?>;
+	border: 1px solid #212f47;
+	padding: 4px;
+}
+
+td.projects_row2 {
+	border: 1px solid #212f47;
+	padding: 14px;
+}
+
+td.projects_row3 {
+	background-color: <?=$bgcolor4?>;
+	border: 1px solid <?=$bgcolor3?>;
+	border: 1px solid <?=$bgcolor3?>;
+	padding: 4px;
 }
 
 /*

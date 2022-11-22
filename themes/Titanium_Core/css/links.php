@@ -1,13 +1,34 @@
 <?php 
 global $theme_name;
-
-echo "/* themes/".$theme_name."/css/Nuke_Projects.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
-echo "/* When we are done we will move this code to style.css */\n\n"; 
+echo "/* themes/".$theme_name."/css/links.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
+echo "/* When we are done we will move this code to style.css */\n"; 
 
 global $font_color, $screen_width, $screen_height, $textcolor1, $textcolor2, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $bgcolor5;
 global $font_colorH, $font_colorV, $font_colorA, $font_colorL, $body_color; 
 
 ?>
+/**
+ * Stylesheet for the Titanium Core Theme
+ *
+ * @filename:  links.php
+ * @author  :  TheGhost
+ * @version :  3.0
+ * @date    :  11/22/2022 (DD/MM/YYY)
+ * @license :  Copyright (c) 2022 The 86it Developers Network under the MIT license
+ * @notes   :  n/a
+ *
+ * -- -------------------------------------------------------------------
+ * \/ STYLESHEET NAVIGATION
+ * -- -------------------------------------------------------------------
+ *
+ *  1.  Links for Entire Website
+ * --- -------------------------------------------------------------------
+ */
+
+/*
+ * 1. Links for Entire Website
+ *----------------------------------------
+ */
 /* Modules Link START */
 a.modules,input.modules
 {
@@ -200,50 +221,4 @@ a.projectlink:hover,input.projectlink:hover
   }
 }
 
-/* Proof Of God v1.0 Style Sheet Cell Colors and Backgrounds START */ 
-/* Main table cell colours and backgrounds */
-td.proof_of_god_row1 {
-	background: <?=$bgcolor2?>;
-	border: 1px solid #212f47;
-	padding: 4px;
-}
-
-td.proof_of_god_row2 {
-	border: 1px solid #212f47;
-	padding: 14px;
-}
-
-td.proof_of_god_row3 {
-	background-color: <?=$bgcolor4?>;
-	border: 1px solid <?=$bgcolor3?>;
-	border: 1px solid <?=$bgcolor3?>;
-	padding: 4px;
-}
-
-/* Nuke_Projects Style Sheet Cell Colors and Backgrounds START */ 
-/* Main table cell colours and backgrounds */
-td.projects_row1 {
-	background: <?=$bgcolor2?>;
-	border: 1px solid #212f47;
-	padding: 4px;
-}
-
-td.projects_row2 {
-	border: 1px solid #212f47;
-	padding: 14px;
-}
-
-td.projects_row3 {
-	background-color: <?=$bgcolor4?>;
-	border: 1px solid <?=$bgcolor3?>;
-	border: 1px solid <?=$bgcolor3?>;
-	padding: 4px;
-}
-
-/* Nuke_Projects Style Sheet Cell Colors and Backgrounds END */ 
-input[type='checkbox']
-{
-  width:17px;height:17px;
-  cursor: pointer;
-}
 <?

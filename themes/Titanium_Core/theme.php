@@ -224,8 +224,8 @@ echo "<!-- Setting Loading themes/".$theme_name."/css/arcade_tables.php in theme
 addPHPCSSToHead(theme_phpstyle_dir.'CKeditor.php','file');   
 echo "<!-- Setting Loading themes/".$theme_name."/css/CKeditor.php in themes/".$theme_name."/theme.php (PHP FlyKit v1.0 Mod) -->\n";
 
-addPHPCSSToHead(theme_phpstyle_dir.'Nuke_Projects.php','file'); 
-echo "<!-- Setting Loading themes/".$theme_name."/css/Nuke_Projects.php in themes/".$theme_name."/theme.php (PHP FlyKit v1.0 Mod) -->\n";
+addPHPCSSToHead(theme_phpstyle_dir.'links.php','file'); 
+echo "<!-- Setting Loading themes/".$theme_name."/css/links.php in themes/".$theme_name."/theme.php (PHP FlyKit v1.0 Mod) -->\n";
 
 //addJSToBody(theme_phpinclude_js_dir.'drop_down_menu.js','file'); # enable for drop_down_menu  
 //echo "<!-- Setting Loading themes/".$theme_name."/includes/js/drop_down_menu.js in themes/".$theme_name."/theme.php (PHP FlyKit v1.0 Mod) -->\n";

@@ -1,16 +1,39 @@
 <?php
-#---------------------------------------------------------------------------------------#
-# HEADER FLYKIT CSS                                                                     #
-#---------------------------------------------------------------------------------------#
-echo "\n\n/* includes/css/cms_css.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
-echo "/* When we are done we will move this code to style.css */\n\n";
+echo "/* includes/css/cms_css.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
+echo "/* When we are done we will move this code to style.css */\n";
 global $ThemeSel, $br, $fieldset_color, $fieldset_border_width, $digits_color, $poweredby_color;
 $br = '<div align="center" style="padding-top:2px;"></div>';
 ?>
-/*---------------------------------------------------------------*/
-/* Google Site Map START                                         */
-/* Lock Colors and Settings                                      */
-/*---------------------------------------------------------------*/
+/**
+ * Stylesheet for the Titanium Core Theme
+ *
+ * @filename:  cms_css.php
+ * @author  :  TheGhost
+ * @version :  3.0
+ * @date    :  11/22/2022 (DD/MM/YYY)
+ * @license :  Copyright (c) 2022 The 86it Developers Network under the MIT license
+ * @notes   :  n/a
+ *
+ * -- -------------------------------------------------------------------
+ * \/ STYLESHEET NAVIGATION
+ * -- -------------------------------------------------------------------
+ *  GLOBAL CMS CSS - Used Site Wide for Every Theme
+ *  1.  Google Site Map Lock Colors and Settings
+ *  2.  Global copyright Modal  
+ *  3.  Global Misc Buttons Settings
+ *  4.  Global Rounded Table Settings
+ *  5.  Powered By Setting for Footer
+ *  6.  Disclaimer Settings for Footer
+ *  7.  Alert Pulse
+ *  8.  Misc Start Banner Settings
+ *  9.  Body Start Settings
+ * --- -------------------------------------------------------------------
+ */
+
+/*
+ * 1. Google Site Map
+ *----------------------------------------
+ */
 .violet
 {
 text-align: center;
@@ -73,17 +96,11 @@ font-size: 60px;
 color: blue;
 vertical-align: middle;
 }
-/*---------------------------------------------------------------*/
-/* Google Site Map END                                           */
-/*---------------------------------------------------------------*/
 
-
-
-
-
-/*---------------------------------------------------------------*/
-/* Global copyright Modal START                                  */
-/*---------------------------------------------------------------*/
+/*
+ * 2. Global copyright Modal
+ *----------------------------------------
+ */
 .modal-text1 {
 	font-size: 13px;
     color: black;
@@ -172,15 +189,11 @@ vertical-align: middle;
   border-radius: 100%;
   background-color: black;
 }
-/*---------------------------------------------------------------*/
-/* Global copyright Modal END                                    */
-/*---------------------------------------------------------------*/
 
-
-
-
-
-
+/*
+ * 3. Global Misc Buttons Settings
+ *----------------------------------------
+ */
 .button {
   background-color: <?=$bgcolor3?>;
   border: none;
@@ -211,6 +224,10 @@ vertical-align: middle;
 .button4 {border-radius: 12px;}
 .button5 {border-radius: 50%;}
 
+/*
+ * 4. Global Rounded Table Settings
+ *----------------------------------------
+ */
 table.rounded-corners {
  /* Change these properties */
  --border: 1px solid black;
@@ -243,9 +260,10 @@ table.rounded-corners>tfoot:not(:last-child) {
  border-bottom: var(--border);
 }
 
-/*---------------------------------------------------------------*/
-/* Powered By START                                              */
-/*---------------------------------------------------------------*/
+/*
+ * 5. Powered By Setting for Footer
+ *----------------------------------------
+ */
 .poweredby {
   color: <?=$poweredby_color?>;
   font-size: 12px;
@@ -311,13 +329,11 @@ table.rounded-corners>tfoot:not(:last-child) {
   cursor: pointer;
   font-weight: bold;
 }
-/*---------------------------------------------------------------*/
-/* Powered By END                                                */
-/*---------------------------------------------------------------*/
 
-/*---------------------------------------------------------------*/
-/* Game Description START                                        */
-/*---------------------------------------------------------------*/
+/*
+ * 6. Disclaimer Settings for Footer
+ *----------------------------------------
+ */
 .disclaimer {
   color: goldenrod;
   font-size: 14px;
@@ -340,18 +356,10 @@ table.rounded-corners>tfoot:not(:last-child) {
   font-weight: bold;
 }
 
-/*---------------------------------------------------------------*/
-/* Global CMS CSS                                                */
-/*                                                               */
-/* Designed and Coded By: Ernest Buffington aka TheGhost         */
-/* Coded On: 16th October, 2022                                  */
-/* Copyright © 2022 Brandon Maintenance Management               */
-/*                                                               */
-/* PLEASE STEAL AND/OR USE THIS CSS CODE                         */
-/* NO NEED FOR WRITTEN PERMISSION                                */
-/* I did not trade a goat for this code!                         */
-/*---------------------------------------------------------------*/
-
+/*
+ * 7. Alert Pulse
+ *----------------------------------------
+ */
 .alertPulse-css {
     animation: alertPulse 2s ease-out;
     animation-iteration-count: infinite;
@@ -359,6 +367,10 @@ table.rounded-corners>tfoot:not(:last-child) {
     background: #9A2727; /* you need this to specify a color to pulse to */
 }
 
+/*
+ * 8. Misc Start Banner Settings
+ *----------------------------------------
+ */
 .banner {
   font-family: system-ui;
   margin: 1rem;
@@ -371,15 +383,19 @@ table.rounded-corners>tfoot:not(:last-child) {
 
 }
 
+/*
+ * 9. Misc Body Start Settings
+ *----------------------------------------
+ */
 body {
   padding: 0.1rem;
   background: #222222;
 }
 
-/*---------------------------------------------------------------*/
-/* Global CMS CSS                                                */
-/*---------------------------------------------------------------*/
-
+/*
+ * Arcade Text Settings
+ *----------------------------------------
+ */
 .arcade-admin-login{
 	font-size: 13px;
     color: white;
@@ -703,23 +719,6 @@ font.gensmall-visitorlog
   font-size: 11px;
 }
 
-img.rounded-corners-shout { 
-  border-radius: 3px;
-}
-
-img.rounded-corners-profile {
-  border-radius: 13px;
-  width: 200px; 
-}
-
-img.rounded-corners-header { 
-  border-radius: 3px; 
-}
-
-img.rounded-corners-last-post { 
-  border-radius: 9px; 
-}
-
 .gensmall-arcade {
 	font-size: 16px;
 }
@@ -778,6 +777,27 @@ legend {
 
 }
 
+/*
+ * Rounded Image Corners for Entire Site
+ *----------------------------------------
+ */
+ img.rounded-corners-shout { 
+  border-radius: 3px;
+}
+
+img.rounded-corners-profile {
+  border-radius: 13px;
+  width: 200px; 
+}
+
+img.rounded-corners-header { 
+  border-radius: 3px; 
+}
+
+img.rounded-corners-last-post { 
+  border-radius: 9px; 
+}
+
 img.rounded-corners-arcade { 
   border-radius: 9px; 
 }
@@ -808,6 +828,10 @@ img.rounded-corners-arcade-center_block {
   width: 80px; 
 }
 
+/*
+ * W3 Settings
+ *----------------------------------------
+ */
 .w3-serif{font-family:serif}.w3-sans-serif{font-family:sans-serif}.w3-cursive{font-family:cursive}.w3-monospace{font-family:monospace}
 .w3-wide{letter-spacing:4px}
 .w3-image{max-width:100%;height:auto}img{vertical-align:middle}a{color:inherit}

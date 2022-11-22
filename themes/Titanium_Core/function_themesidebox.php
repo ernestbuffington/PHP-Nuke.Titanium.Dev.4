@@ -30,7 +30,7 @@ else:
 global $theme_name;	
 global $bgcolor4;
 # top half of center table START
-print '<table bgcolor="'.$bgcolor4.'" class="tableSB_width_defined" width="261px">'."\n";
+print '<table class="tableSB_width_defined" width="261px">'."\n";
 # invisble image spacer for top right table image!
 print '<tr><td class="tableSB_width_definedLT">'."\n";
 # top left corner of center table

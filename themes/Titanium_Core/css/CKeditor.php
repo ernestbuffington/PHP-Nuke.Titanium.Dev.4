@@ -11,28 +11,60 @@ echo "/* For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-os
 
 global $screen_width, $screen_height, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $bgcolor5;
 ?>
-/* PRESETS */
+/**
+ * Stylesheet for the Titanium Core Theme
+ *
+ * @filename:  CKeditor.php
+ * @author  :  TheGhost
+ * @version :  3.0
+ * @date    :  11/22/2022 (DD/MM/YYY)
+ * @license :  Copyright (c) 2022 The 86it Developers Network under the MIT license
+ * @notes   :  n/a
+ *
+ * -- -------------------------------------------------------------------
+ * \/ STYLESHEET NAVIGATION
+ * -- -------------------------------------------------------------------
+ *  PRESETS
+ *  1.  "Source" button label
+ *  2.  "Font Size" combo width  
+ *  3.  "Font Size" panel size  
+ *  4.  Editable regions
+ * --- -------------------------------------------------------------------
+ */
 
-/* "Source" button label */
+/*
+ * 1. "Source" button label
+ *----------------------------------------
+ */
 .cke_button__source_label,
 .cke_button__sourcedialog_label
 {
 	display: inline;
 }
 
-/* "Font Size" combo width */
+/*
+ * 2. "Font Size" combo width
+ *----------------------------------------
+ */
 .cke_combo__fontsize .cke_combo_text
 {
 	width: 30px;
 }
 
-/* "Font Size" panel size */
+/*
+ * 3. "Font Size" panel size
+ *----------------------------------------
+ */
 .cke_combopanel__fontsize
 {
 	width: 120px;
 }
 
-/* Editable regions */
+/*
+ * 4. Editable regions
+ *----------------------------------------
+ */
+
 textarea.cke_source
 {
 	font-family: 'Courier New', Monospace;
@@ -65,4 +97,5 @@ p {
 b {
     line-height:0px; 
 }​
+
 <?
