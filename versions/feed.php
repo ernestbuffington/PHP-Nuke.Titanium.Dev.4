@@ -9,6 +9,13 @@
 <div align="center"><strong>PHP-Nuke Titanium Repsoitory</strong> (Nightly Builds)</div>
 <div align="center"><a class="titaniumbutton" href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><i class="bi bi-github"></i> Visit GitHub Repository</a></div>
 <hr>
+<strong><i class="bi bi-calendar3"></i> Nov 22nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Top 10 Links Block<br />
+<strong><i class="bi bi-calendar3"></i> Nov 22nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Link Us Block<br />
+<strong><i class="bi bi-calendar3"></i> Nov 22nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Shout Block<br />
+<strong><i class="bi bi-calendar3"></i> Nov 22nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Portal Menu v1.0e<br />
+<strong><i class="bi bi-calendar3"></i> Nov 22nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Still Updating Core Theme 96% Done<br />
+<strong><i class="bi bi-calendar3"></i> Nov 22nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Center Visitor Log to v2.0<br />
+<hr>
 <strong><i class="bi bi-calendar3"></i> Nov 21st 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Google-Site-Map to v2.0<br />
 <hr>
 <strong><i class="bi bi-calendar3"></i> Nov 19th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Converting Core Theme to HTML5/XHTML5<br />

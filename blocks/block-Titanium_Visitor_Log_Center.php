@@ -89,7 +89,7 @@ while($whosbeen = $db->sql_fetchrow($row1_result)):
 	
 	$row1 .= '<tr>';
 	$row1 .= '<td width="81" rowspan="3" align="center"><a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">'.$avatar.'</a></td>';
-	$row1 .= '<td width="100%" align="left" valign="bottom">&nbsp;&nbsp;<a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">'.UsernameColor($whosbeen['username']).'</a></td>';
+	$row1 .= '<td width="100%" align="left" valign="bottom">&nbsp;&nbsp;<a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'"><span style="font-weight: bold; text-shadow: 3px 0px 7px rgba(81,67,21,0.8), -3px 0px 7px rgba(81,67,21,0.8), 0px 4px 7px rgba(81,67,21,0.8);">'.UsernameColor($whosbeen['username']).'</span></a></td>';
 	$row1 .= '<td width="81" rowspan="3" align="center">'.get_titanium_timeago($whosbeen['last_visit']).'';
 	$row1 .= '</td>';
 	$row1 .= '</tr>';
@@ -172,7 +172,7 @@ while($whosbeen = $db->sql_fetchrow($row2_result)):
 	
 	$row2 .= '<tr>';
 	$row2 .= '<td width="81" rowspan="3" align="center"><a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">'.$avatar.'</a></td>';
-	$row2 .= '<td width="100%" align="left" valign="bottom">&nbsp;&nbsp;<a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">'.UsernameColor($whosbeen['username']).'</a></td>';
+	$row2 .= '<td width="100%" align="left" valign="bottom">&nbsp;&nbsp;<a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'"><span style="font-weight: bold; text-shadow: 3px 0px 7px rgba(81,67,21,0.8), -3px 0px 7px rgba(81,67,21,0.8), 0px 4px 7px rgba(81,67,21,0.8);">'.UsernameColor($whosbeen['username']).'</span></a></td>';
 	$row2 .= '<td width="81" rowspan="3" align="center">'.get_titanium_timeago($whosbeen['last_visit']).'';
 	$row2 .= '</td>';
 	$row2 .= '</tr>';
@@ -255,7 +255,7 @@ while($whosbeen = $db->sql_fetchrow($row3_result)):
 	
 	$row3 .= '<tr>';
 	$row3 .= '<td width="81" rowspan="3" align="center"><a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">'.$avatar.'</a></td>';
-	$row3 .= '<td width="100%" align="left" valign="bottom">&nbsp;&nbsp;<a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">'.UsernameColor($whosbeen['username']).'</a></td>';
+	$row3 .= '<td width="100%" align="left" valign="bottom">&nbsp;&nbsp;<a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'"><span style="font-weight: bold; text-shadow: 3px 0px 7px rgba(81,67,21,0.8), -3px 0px 7px rgba(81,67,21,0.8), 0px 4px 7px rgba(81,67,21,0.8);">'.UsernameColor($whosbeen['username']).'</span></a></td>';
 	$row3 .= '<td width="81" rowspan="3" align="center">'.get_titanium_timeago($whosbeen['last_visit']).'';
 	$row3 .= '</td>';
 	$row3 .= '</tr>';
@@ -338,7 +338,7 @@ while($whosbeen = $db->sql_fetchrow($row4_result)):
 	
 	$row4 .= '<tr>';
 	$row4 .= '<td width="81" rowspan="3" align="center"><a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">'.$avatar.'</a></td>';
-	$row4 .= '<td width="100%" align="left" valign="bottom">&nbsp;&nbsp;<a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">'.UsernameColor($whosbeen['username']).'</a></td>';
+	$row4 .= '<td width="100%" align="left" valign="bottom">&nbsp;&nbsp;<a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'"><span style="font-weight: bold; text-shadow: 3px 0px 7px rgba(81,67,21,0.8), -3px 0px 7px rgba(81,67,21,0.8), 0px 4px 7px rgba(81,67,21,0.8);">'.UsernameColor($whosbeen['username']).'</span></a></td>';
 	$row4 .= '<td width="81" rowspan="3" align="center">'.get_titanium_timeago($whosbeen['last_visit']).'';
 	$row4 .= '</td>';
 	$row4 .= '</tr>';
@@ -384,4 +384,5 @@ endif;
 
 
 $content .= '</div>';
+
 ?>
