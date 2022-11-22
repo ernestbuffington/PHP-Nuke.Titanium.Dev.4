@@ -758,7 +758,7 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 			# TOP IMAGE AND TITLE OF EACH LINK CATEGORY
 			if($sub_image <> "noimg") 
 			{
-			    $fermebalise = ($som_lien!="") ? "</a>" : "" ;
+			    $fermebalise = ($som_lien != "") ? "</a>" : "";
 				$content .= "&nbsp;&nbsp;&nbsp;<img width=\"21\" style=\"vertical-align: left !important;\" src=\"$path_icon/$sub_image\" alt=\"$sub_image\">".$fermebalise."&nbsp;";
 			}
 

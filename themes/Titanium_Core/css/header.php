@@ -590,7 +590,7 @@ td.undermarqueeLT
 {
   table-layout: auto; 
   width: 25%; 
-  height: 20px;
+  height: 0px;
   border-collapse: collapse;
   padding-top: 5px;
   padding-bottom: 0px;
@@ -606,7 +606,7 @@ td.undermarqueeRT
 {
   table-layout: auto;
   width: 25%;
-  height: 20px;
+  height: 0px;
   border-collapse: collapse;
   padding-top: 0px;
   padding-bottom: 0px;
