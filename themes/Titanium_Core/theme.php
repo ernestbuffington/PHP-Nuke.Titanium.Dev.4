@@ -200,8 +200,8 @@ echo "<!-- Setting Loading themes/".$theme_name."/css/scrollbars.php in themes/"
 //addPHPCSSToHead(theme_phpstyle_dir.'sideblocks.php','file'); 
 //echo "<!-- Setting Loading themes/".$theme_name."/css/sideblocks.php in themes/".$theme_name."/theme.php (PHP FlyKit v1.0 Mod) -->\n";
 
-addPHPCSSToHead(theme_phpstyle_dir.'body.php','file');       
-echo "<!-- Setting Loading themes/".$theme_name."/css/body.php in themes/".$theme_name."/theme.php (PHP FlyKit v1.0 Mod) -->\n";
+addPHPCSSToHead(theme_phpstyle_dir.'full_screen_video_background.php','file');       
+echo "<!-- Setting Loading themes/".$theme_name."/css/body.php in themes/".$theme_name."/full_screen_video_background.php (PHP FlyKit v1.0 Mod) -->\n";
 
 //addPHPCSSToHead(theme_phpstyle_dir.'footer.php','file'); 
 //echo "<!-- Setting Loading themes/".$theme_name."/css/footer.php in themes/".$theme_name."/theme.php (PHP FlyKit v1.0 Mod) -->\n";
