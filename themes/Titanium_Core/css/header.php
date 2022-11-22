@@ -606,7 +606,7 @@ td.undermarqueeRT
 {
   table-layout: auto;
   width: 25%;
-  height: 0px;
+  height: 14px;
   border-collapse: collapse;
   padding-top: 0px;
   padding-bottom: 0px;

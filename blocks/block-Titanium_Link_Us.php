@@ -1,4 +1,4 @@
-<?php
+<?php 
 /*=======================================================================
  PHP-Nuke Titanium : Enhanced and Advanced Web Portal System
  ========================================================================
@@ -72,13 +72,13 @@ elseif($config['block_height'] == 5){ $height = "300"; }
 elseif($config['marquee_scroll'] == 2){ $amount = 2; }
 
 
-$my_image = '<br /><img src="'.$config['my_image'].'" alt="'.$sitename.'" title="'.$sitename.'" width="88" height="31">';
+$my_image = '<img src="'.$config['my_image'].'" alt="'.$sitename.'" title="'.$sitename.'" width="88" height="31">';
 $linkus_settings = '<a href="'.$nukeurl.'" target="_blank"><img src="'.$config['my_image'].'" alt="'.$sitename.'" title="'.$sitename.'" width="88" height="31">lol</a><br>';
 
 $content = '<div align="center" style="padding-top:6px;">';
 $content = '</div>';
 
-$content  = '<div align="center">'.$my_image.'</div><br />';
+$content  = '<div style="padding-top: 6px" align="center">'.$my_image.'</div><br />';
 $content .= '<div align="center">';
 $content .= '<span class="content"><textarea style="resize: none; font-size: 13px" name="text" rows="3" cols="15">'.$linkus_settings.'</textarea></span>';
 $content .= '<br /><br />';
@@ -107,4 +107,5 @@ endforeach;
 if($config['marquee'] == 1)
 $content .= "</marquee>";
 $content .= '</div>';
+
 ?>
