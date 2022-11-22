@@ -1,10 +1,7 @@
 <?php
-global $theme_name;
-
-echo "/* themes/".$theme_name."/css/maintable.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
-echo "/* When we are done we will move this code to style.css */\n\n"; 
-
-
+global $theme_name; 
+echo "/* themes/".$theme_name."/css/css_toolbox.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
+echo "/* When we are done we will move this code to style.css */\n"; 
 ######################################################################################################
    //USE background-position: CENTER CENTER; to squuze top to bottom 
    define('BOOKMARKS_BACKGROUND', '"../../../themes/'.$theme_name.'/backgrounds/blackbar.png"'); 
@@ -16,7 +13,6 @@ echo "/* When we are done we will move this code to style.css */\n\n";
 					                     visibility: inherit;
 					                             z-index: 20;
 					                  background-size: cover;');
-					  
 ######################################################################################################
    define('BOOKMARKS_TITLE_BACKGROUND', '"../../../themes/'.$theme_name.'/backgrounds/newredbar.png"'); 
    define('BOOKMARKS_TITLE_CONTAIN', 'background-repeat: no-repeat;
@@ -27,9 +23,6 @@ echo "/* When we are done we will move this code to style.css */\n\n";
 					                           visibility: inherit;
 					                                   z-index: 20;
 					                        background-size: cover;');
-
-//maintable css
-echo "/* Sets the Header Background Elements */\n"; 
 ######################################################################################################
 define('HEADER_BACKGROUND', '"../../../themes/'.$theme_name.'/header/2056x2056.png"');
 define('HEADER_CONTAIN', 'background-repeat: no-repeat;
@@ -78,8 +71,8 @@ define('CENTER_CONTAIN', 'background-repeat: no-repeat;
 					                                            z-index: 20;
 					                                  background-size: auto;');
 					  
-$blow_it_out_your_ass = 'dark.png';  
-define('TABLE3_MIDDLEHEADER_BACKGROUND', '"themes/'.$theme_name.'/backgrounds/'.$blow_it_out_your_ass.'"'); 
+$filename_seven = 'dark.png';  
+define('TABLE3_MIDDLEHEADER_BACKGROUND', '"themes/'.$theme_name.'/backgrounds/'.$filename_seven.'"'); 
 ########################################################################################################
 $filename2 = 'block_repeat_y_fix.png';  
 define('THEME_ARTICLE_BACKGROUND', '"themes/'.$theme_name.'/backgrounds/'.$filename2.'"'); 
@@ -108,18 +101,46 @@ define('BODY_CONTAIN', 'background-size: 100% auto, cover;
                              background-attachment: fixed;
                               background-repeat: repeat-y;'); // stretch this whore out
 ?>
-<?
-echo 'a.googleminds:link {'."\n";
-echo 'font-size:20px; !important;'."\n";
-echo 'font-weight: 100 400;'."\n";
-echo '}'."\n";
+/**
+ * Stylesheet for the Titanium Core Theme
+ *
+ * @filename:  css_toolbox.php
+ * @author  :  TheGhost
+ * @version :  3.0
+ * @date    :  11/22/2022 (DD/MM/YYY)
+ * @license :  Copyright (c) 2022 The 86it Developers Network under the MIT license
+ * @notes   :  n/a
+ *
+ * -- -------------------------------------------------------------------
+ * \/ STYLESHEET NAVIGATION
+ * -- -------------------------------------------------------------------
+ *
+ *  1. Footer Message Code 
+ *  2. Bookmarks Code 
+ *  3. function OpenTable() Code  
+ * --- -------------------------------------------------------------------
+ */
 
-echo 'a.googleminds:hover {'."\n";
-echo 'font-size:20px; !important;'."\n";
-echo 'font-weight: 100 400;'."\n";
-echo '}'."\n";
+/*
+ * 1. Footer Message Code
+ *----------------------------------------
+ */
 
-?>
+a.googleminds:link {
+  font-size:20px; !important;
+  font-weight: 100 400;
+}
+
+a.googleminds:hover {
+  font-size:20px; !important;
+  font-weight: 100 400;
+}
+
+/*
+ * 2. Bookmarks Code
+ *----------------------------------------
+ */
+
 .bookmark
 {
     opacity: 0.9;
@@ -141,7 +162,11 @@ echo '}'."\n";
 	<?php echo CONTAIN; ?> 	
 }
 
-/* used in OpenTable3 - TheGhost add 08/04/2019 */
+/*
+ * 3. function OpenTable3() Code
+ *----------------------------------------
+ */
+
 .opentable_three {
   opacity: 0.9;
   background: url(<?php echo TABLE3_MIDDLEHEADER_BACKGROUND; ?>); 
