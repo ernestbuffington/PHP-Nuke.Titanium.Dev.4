@@ -60,8 +60,8 @@ $detectPM = 1; # Put 0 to deactivate the detection of the Private Messages.  (ga
 $detectMozilla = (preg_match("/Mozilla/i",$_SERVER['HTTP_USER_AGENT']) && !preg_match("/MSIE/i",$_SERVER['HTTP_USER_AGENT']) && !preg_match("/Opera/i",$_SERVER['HTTP_USER_AGENT']) && !preg_match("/Konqueror/i",$_SERVER['HTTP_USER_AGENT'])) ? 1 : 0 ;
 $detectMozilla = 0;
 
-$horizontal=0;
-$div=0;
+$horizontal = 0;
+$div = 0;
 
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -94,7 +94,7 @@ $path_icon = "themes/$ThemeSel/images/menu";
 else
 $path_icon = "images/menu";
 
-$imgnew="new.gif";
+$imgnew = "new.gif";
 
 if(($is_user == 1) && ($detectPM == 1))
 {
@@ -594,7 +594,7 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 
     $content .= "\n";
 	
- 	$content .= "&nbsp;&nbsp;&nbsp;<img width=\"21\" align=\"$align\" src=\"images/menu/home.gif\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+ 	$content .= "&nbsp;&nbsp;&nbsp;<img width=\"21\" style=\"vertical-align: left;\" src=\"images/menu/home.gif\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 
 	$content .= "&nbsp;<a class=\"modules\" href=\"index.php\"><strong>Home</strong></a>";	
 	
@@ -759,7 +759,7 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 			if($sub_image <> "noimg") 
 			{
 			    $fermebalise = ($som_lien!="") ? "</a>" : "" ;
-				$content .= "&nbsp;&nbsp;&nbsp;<img width=\"21\" align=\"$align\" src=\"$path_icon/$sub_image\" alt=\"$sub_image\">".$fermebalise."&nbsp;";
+				$content .= "&nbsp;&nbsp;&nbsp;<img width=\"21\" style=\"vertical-align: left !important;\" src=\"$path_icon/$sub_image\" alt=\"$sub_image\">".$fermebalise."&nbsp;";
 			}
 
 			if(strpos($som_name,"LANG:_") === 0) 
@@ -811,7 +811,7 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 				$bold2 = ($som_bold == "on") ? "</strong>" : "";
 				
 				# add NEW (new.gif)to top level
-				$new = ($som_new == "on") ? "<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\"> " : "" ;
+				$new = ($som_new == "on") ? "<img width=\"21\" style=\"vertical-align: left;\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\"> " : "" ;
 				
 				$content .= "".$bold1."$som_name".$bold2." ".$new."";
 			}
@@ -1092,10 +1092,10 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 				}
 				
 			   # add NEW (new.gif)to sub level 
-			   $new = ($newinthisgroup[$som_groupmenu][$keyinthisgroup] == "on") ? " <img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" 
+			   $new = ($newinthisgroup[$som_groupmenu][$keyinthisgroup] == "on") ? " <img width=\"21\" style=\"vertical-align: left;\" src=\"$path_icon/admin/$imgnew\" 
 			   title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">" : "" ;
 			   
-			   $imagedulien = "<img height=\"$menu_image_height\" width=\"21\" align=\"$align\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" 
+			   $imagedulien = "<img height=\"$menu_image_height\" width=\"21\" style=\"vertical-align: left;\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" 
 			   alt=\"".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\">";
 			
 			   if($linkinthisgroup[$som_groupmenu][$keyinthisgroup]) 
@@ -1267,14 +1267,14 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 				}
 				
 				if($imageinthisgroup[$som_groupmenu][$keyinthisgroup] != "middot.gif"): 
-				$limage = "<img height=\"$menu_image_height\" width=\"21\" align=\"$align\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" 
+				$limage = "<img height=\"$menu_image_height\" width=\"21\" style=\"vertical-align: left;\" src=\"$path_icon/categories/".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\" 
 				alt=\"".$imageinthisgroup[$som_groupmenu][$keyinthisgroup]."\">";
 				else: 
 				$limage = "<strong><big>&middot;</big></strong>";
                 endif;
 				
 				if($poster_moduleinthisgroup[$som_groupmenu][$keyinthisgroup] == 2) 
-				$limage="<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/interdit.gif\" title=\"".$whyrestricted[$som_groupmenu][$keyinthisgroup]."\" 
+				$limage="<img width=\"21\" style=\"vertical-align: left;\" src=\"$path_icon/admin/interdit.gif\" title=\"".$whyrestricted[$som_groupmenu][$keyinthisgroup]."\" 
 				alt=\"".$whyrestricted[$som_groupmenu][$keyinthisgroup]."\">";
 
 				if(($newpms[0]) && ($nomdumodule == "Private_Messages")) 
@@ -1283,7 +1283,7 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 				$disp_pmicon= "";
 				
 				# add NEW (new.gif)to ?
-				$new = ($newinthisgroup[$som_groupmenu][$keyinthisgroup] == "on") ? "<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" 
+				$new = ($newinthisgroup[$som_groupmenu][$keyinthisgroup] == "on") ? "<img width=\"21\" style=\"vertical-align: left;\" src=\"$path_icon/admin/$imgnew\" 
 				title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">" : "" ;
 
 				if($nomdumodule == "Downloads" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup] != "-1") 
@@ -1301,7 +1301,7 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 						
 						if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 						{
-							$new = "<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+							$new = "<img width=\"21\" style=\"vertical-align: left;\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 						}
 					}
 				}
@@ -1321,7 +1321,7 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
                     
 					   if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 					   {
-                            $new = "<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+                            $new = "<img width=\"21\" style=\"vertical-align: left;\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
                        }
                      }
                 }
@@ -1341,7 +1341,7 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 						
 						if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 						{
-							$new="<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+							$new="<img width=\"21\" style=\"vertical-align: left;\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 						}
 					}
 				}
@@ -1361,7 +1361,7 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 						
 						if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 						{
-							$new="<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+							$new="<img width=\"21\" style=\"vertical-align: left;\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 						}
 					}
 				}
@@ -1386,7 +1386,7 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 						
 						if(intval(($now-$zedate)/86400) <= $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]) 
 						{
-							$new="<img width=\"21\" align=\"$align\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
+							$new="<img width=\"21\" style=\"vertical-align: left;\" src=\"$path_icon/admin/$imgnew\" title=\""._MENU_NEWCONTENT."\" alt=\""._MENU_NEWCONTENT."\">";
 						}
 					}
 				}

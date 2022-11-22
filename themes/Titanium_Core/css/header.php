@@ -71,6 +71,13 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 
+/* By adding the following CSS properties we can prevent the odd rendering: PHONES */
+html{
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+  
 a
 blockquote, q {
 	quotes: none;
