@@ -213,6 +213,78 @@ td.tableSB_width_definedRT
   background-color: transparent;
 }
 
+td.tableCB_width_definedRT
+{
+  table-layout: auto;
+  width: 39px;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
+}
+
+td.tableCB_width_definedLT
+{
+  table-layout: auto;
+  width: 39px;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
+}
+
+td.tableCB_width_definedTM
+{
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background: repeat-x;
+  text-align: center; 
+  background-image: url('themes/<?=$theme_name?>/images/CENTERBLOCKS/top_middle_piece.png');
+}
+
+td.tableCB_width_definedLSM
+{
+  table-layout: auto;
+  width: 23px;
+  height: 100%;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  background-image: url('themes/<?=$theme_name?>/images/CENTERBLOCKS/left_side_middle_151515.png');
+}
+
+td.tableCB_width_definedRSM
+{
+  table-layout: auto;
+  width: 23px;
+  height: 100%;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  background-image: url('themes/<?=$theme_name?>/images/CENTERBLOCKS/right_side_middle_151515.png');
+}
+
+td.tableCB_width_definedBM
+{
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background: repeat-x;
+  text-align: center; 
+  background-image: url('themes/<?=$theme_name?>/images/CENTERBLOCKS/bottom_middle_piece.png');
+}
+
 td.tableSB_width_definedTM
 {
   table-layout: auto;
@@ -223,6 +295,77 @@ td.tableSB_width_definedTM
   background: repeat-x;
   text-align: center; 
   background-image: url('themes/<?=$theme_name?>/images/SIDEBLOCKS/top_middle_piece.png');
+}
+
+.table100bg
+{
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0px;
+
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  
+  background: repeat-x;
+  background: repeat-y;
+  text-align: center; 
+  background-image: url('themes/<?=$theme_name?>/images/BACKGROUNDS/151515.png');
+}
+
+td.table1_width_definedLSM
+{
+  table-layout: auto;
+  width: 39px;
+  height: 100%;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  background-image: url('themes/<?=$theme_name?>/images/TABLES/left_side_middle_151515.png');
+}
+
+td.table1_width_definedRSM
+{
+  table-layout: auto;
+  width: 39px;
+  height: 100%;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  background-image: url('themes/<?=$theme_name?>/images/TABLES/right_side_middle_151515.png');
+}
+
+td.table1_width_definedBM
+{
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background: repeat-x;
+  text-align: center; 
+  background-image: url('themes/<?=$theme_name?>/images/TABLES/bottom_middle_piece.png');
+}
+
+td.opentable_width_definedTM
+{
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background: repeat-x;
+  text-align: center; 
+  background-image: url('themes/<?=$theme_name?>/images/TABLES/top_middle_piece.png');
 }
 
 td.tableSB_width_definedBM

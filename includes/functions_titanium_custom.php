@@ -310,10 +310,10 @@ function title_and_meta_tags() {
             endif;
         endif;
         
-        if (($file == 'arcade') && isset($file)):
+            if (($file == 'arcade') && isset($file)):
             $module_name_str = 'Arcade v4.0';
             $newpagetitle = ($module_name) ? $item_delim . ' ' . $module_name_str : '';
-        endif;
+            endif;
 		
 		    $newpagetitle = ($module_name) ? $item_delim . ' ' . $module_name_str : ''.$name.'';
 			

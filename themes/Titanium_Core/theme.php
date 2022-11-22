@@ -247,7 +247,7 @@ include_once(theme_dir.'function_OpenTable.php');
 echo "<!-- Loading function_OpenTable.php from themes/".$theme_name."/theme.php -->\n";
 
 include_once(theme_dir.'function_CloseTable.php');
-echo "<!-- Loading function_OpenTable.php from themes/".$theme_name."/theme.php -->\n";
+echo "<!-- Loading function_CloseTable.php from themes/".$theme_name."/theme.php -->\n\n";
 
 include_once(theme_dir.'function_OpenTable2.php');
 echo "<!-- Loading function_OpenTable2.php from themes/".$theme_name."/theme.php -->\n";
@@ -259,13 +259,13 @@ include_once(theme_dir.'function_OpenTable3.php');
 echo "<!-- Loading function_OpenTable3.php from themes/".$theme_name."/theme.php -->\n";
 
 include_once(theme_dir.'function_CloseTable3.php');
-echo "<!-- Loading function_CloseTable3.php from themes/".$theme_name."/theme.php -->\n";
+echo "<!-- Loading function_CloseTable3.php from themes/".$theme_name."/theme.php -->\n\n";
 
 include_once(theme_dir.'function_OpenTable4.php');
 echo "<!-- Loading function_OpenTable4.php from themes/".$theme_name."/theme.php -->\n";
 
 include_once(theme_dir.'function_CloseTable4.php');
-echo "<!-- Loading function_CloseTable4.php from themes/".$theme_name."/theme.php -->\n";
+echo "<!-- Loading function_CloseTable4.php from themes/".$theme_name."/theme.php -->\n\n";
 
 #---------------------#
 # FormatStory Section #

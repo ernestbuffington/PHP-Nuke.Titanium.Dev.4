@@ -1,4 +1,31 @@
 <?php
+/*======================================================================= 
+  PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
+ =======================================================================*/
+
+/*======================================================================= 
+  PHP-NUKE: Shout Box
+  ==========================
+
+ Copyright (c) 2003-2005 by Aric Bolf (SuperCat)
+ http://www.OurScripts.net
+
+ Copyright (c) 2002 by Quiecom
+ http://www.Quiecom.com
+
+ This program is free software. You can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation
+ =======================================================================*/
+
+/*****[CHANGES]**********************************************************
+-=[Base]=-
+      Nuke Patched                             v3.1.0       08/10/2005
+      NukeSentinel                             v2.4.2       10/29/2005
+-=[Mod]=-
+      Advanced Username Color                  v1.0.5       10/10/2005
+ ************************************************************************/
+
 function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid) 
 {
     global $currentlang, $cache, $top_content, $mid_content, $bottom_content, $ShoutMarqueeheight, $nsnst_const, $userinfo, $prefix, $db, $top_out, $board_config;
@@ -690,7 +717,7 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
             }
         }
         // You may not remove or edit this copyright!!! Doing so violates the GPL license.
-        $mid_content .= "<tr><td align=\"right\"><a title=\"Free scripts!\" target=\"_blank\" href=\"https://ourscripts.86it.us\"><span style=\"font-size: 9;\">Shout Box &copy;</span></a></td></tr></table>";
+        $mid_content .= "<tr><td align=\"right\"><a title=\"SuperCats ShoutBox!\" target=\"_blank\" href=\"https://supercat.86it.us\"><span style=\"font-size: 9;\">Shout Box &copy;</span></a></td></tr></table>";
         // end copyright.
         // end mid content
         // start bottom content $bottom_content
