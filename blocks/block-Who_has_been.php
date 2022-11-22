@@ -74,7 +74,7 @@ while($whosbeen = $db->sql_fetchrow($result)):
 	//list($notes) = $db->sql_ufetchrow("SELECT `user_admin_notes` FROM `".$prefix."_users` WHERE `user_id`='".$shit."'", SQL_NUM);
 	
 	$content .= '<td width="45px"><a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">'.$avatar.'</a></td>';
-    $content .= '<td><a class="turdball" style="text-decoration: none;" href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">
+    $content .= '<td><a class="visitorName" style="text-decoration: none;" href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">
 	<strong>&nbsp;&nbsp;'.UsernameColor($whosbeen['username']).'<br />&nbsp;&nbsp;<a style="text-decoration: none;" href="modules.php?name=Private_Messages&mode=post&u='.$whosbeen['user_id'].'"><font size="5" color="orange"><i class="bi bi-envelope"></i>&nbsp;<font color="gold" size="5"><i class="bi bi-mailbox"></i></font></font>
 	
 	&nbsp;<br />

@@ -325,6 +325,25 @@ h6 { font-size: 10px; font-weight: bold; }
   background-image: url('themes/<?=$theme_name?>/images/BACKGROUNDS/151515.png');
 }
 
+.tableVisotrLog
+{
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0px;
+
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  
+  background: repeat-x;
+  background: repeat-y;
+  text-align: center;
+  background-color: <?=$bgcolor4?>; 
+}
+
 td.table1_width_definedLSM
 {
   table-layout: auto;
@@ -682,6 +701,8 @@ td.tableCB_width_definedBM
  * 6. Side Blocks
  *--------------------------------------------------
  */
+
+/* Side Block */
 td.tableSB_width_definedTM
 {
   table-layout: auto;
@@ -693,7 +714,8 @@ td.tableSB_width_definedTM
   text-align: center; 
   background-image: url('themes/<?=$theme_name?>/images/SIDEBLOCKS/top_middle_piece.png');
 }
- 
+
+/* Side Block */
 td.tableSB_width_definedBM
 {
   table-layout: auto;
@@ -706,6 +728,7 @@ td.tableSB_width_definedBM
   background-image: url('themes/<?=$theme_name?>/images/SIDEBLOCKS/bottom_middle_piece.png');
 }
 
+/* Side Block */
 td.tableSB_width_definedLSM
 {
   table-layout: auto;
@@ -720,6 +743,7 @@ td.tableSB_width_definedLSM
   background-image: url('themes/<?=$theme_name?>/images/SIDEBLOCKS/left_side_middle_151515.png');
 }
 
+/* Side Block */
 td.tableSB_width_definedRSM
 {
   table-layout: auto;
@@ -734,6 +758,7 @@ td.tableSB_width_definedRSM
   background-image: url('themes/<?=$theme_name?>/images/SIDEBLOCKS/right_side_middle_151515.png');
 }
 
+/* Side Block */
 .tableSB_width_defined
 {
   table-layout: auto;
@@ -743,6 +768,7 @@ td.tableSB_width_definedRSM
   background-color: transparent;
 }
 
+/* Side Block */
 td.tableSB_width_definedLT
 {
   table-layout: auto;
@@ -753,6 +779,7 @@ td.tableSB_width_definedLT
   background-color: transparent;
 }
 
+/* Side Block */
 td.tableSB_width_definedRT
 {
   table-layout: auto;

@@ -22,14 +22,14 @@ defined('NUKE_EVO') or die('Just go away, Shit Head!');
 global $db, $prefix, $userinfo;
 global $evouserinfo_avatar, $board_config, $userinfo, $bgcolor4; 
 
-$max_height = '59';
-$max_width = '59';
+$max_height = '';
+$max_width = '80';
 
 $z = 3;
 $row1_result = $db->sql_query("SELECT * FROM `".$prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT ".$z."");
 
 $row1   = '<div align="center">';
-$row1  .= '<table bgcolor="'.$bgcolor4.'" border="0" width="200">';
+$row1  .= '<table class="tableVisotrLog">';
 $row1  .= '<tr>';
 $row1  .= '<td align="center">';
 
@@ -86,9 +86,8 @@ while($whosbeen = $db->sql_fetchrow($row1_result)):
 	   }
 	}
 	
-	
 	$row1 .= '<td align="center" width="45px"><a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">'.$avatar.'</a></td>';
-    $row1 .= '<td align="left"><a class="turdball" style="text-decoration: none;" href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">
+    $row1 .= '<td align="left"><a class="visitorName" style="text-decoration: none;" href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">
 	<strong>&nbsp;&nbsp;'.UsernameColor($whosbeen['username']).'<br />&nbsp;&nbsp;<a style="text-decoration: none;" href="modules.php?name=Private_Messages&mode=post&u='.$whosbeen['user_id'].'"><font size="5" color="orange"><i class="bi bi-envelope"></i><font color="gold" size="5"><i class="bi bi-arrow-right-short"></i><i class="bi bi-mailbox"></i></font></font>
 	
 	&nbsp;<br />
@@ -97,21 +96,19 @@ while($whosbeen = $db->sql_fetchrow($row1_result)):
 	$row1 .= '<td align="center"><div align="top" style="padding-left:10px;">'.get_titanium_timeago($whosbeen['last_visit']).'</div>';
     $row1 .= '</td>';
     $row1 .= '</tr>'; 
-	
-   
 
 endwhile;
-    $row1 .= '</table>';
 
+$row1 .= '</table>';
 $row1 .= '</td>';
-		$row1 .= '</tr>';
-	$row1 .= '</table>';
+$row1 .= '</tr>';
+$row1 .= '</table>';
 $row1 .= '</div>';
 
 $row2_result = $db->sql_query("SELECT * FROM `".$prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT 3, ".$z."");
 
 $row2   = '<div align="center">';
-$row2  .= '<table bgcolor="'.$bgcolor4.'" border="0" width="200">';
+$row2  .= '<table class="tableVisotrLog">';
 $row2  .= '<tr>';
 $row2  .= '<td align="center">';
 
@@ -171,7 +168,7 @@ while($whosbeen = $db->sql_fetchrow($row2_result)):
 	
 	$row2 .= '<td align="center" width="45px"><a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">'.$avatar.'</a></td>';
     // fixed row 2 it was not aligned 8/21/2022 TheGhost
-	$row2 .= '<td align="left"><a class="turdball" style="text-decoration: none;" href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">
+	$row2 .= '<td align="left"><a class="visitorName" style="text-decoration: none;" href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">
 	<strong>&nbsp;&nbsp;'.UsernameColor($whosbeen['username']).'<br />&nbsp;&nbsp;<a style="text-decoration: none;" href="modules.php?name=Private_Messages&mode=post&u='.$whosbeen['user_id'].'"><font size="5" color="orange"><i class="bi bi-envelope"></i><font color="gold" size="5"><i class="bi bi-arrow-right-short"></i><i class="bi bi-mailbox"></i></font></font>
     <br />
 	&nbsp;&nbsp;<font size="5" color="gold"><i class="bi bi-arrow-up-short"></i></font><font class="gensmall-visitorlog">SEND PM </font></span>
@@ -179,21 +176,19 @@ while($whosbeen = $db->sql_fetchrow($row2_result)):
 	$row2 .= '<td align="center"><div align="top" style="padding-left:10px;">'.get_titanium_timeago($whosbeen['last_visit']).'</div>';
     $row2 .= '</td>';
     $row2 .= '</tr>'; 
-	
-   
 
 endwhile;
-    $row2 .= '</table>';
 
+$row2 .= '</table>';
 $row2 .= '</td>';
-		$row2 .= '</tr>';
-	$row2 .= '</table>';
+$row2 .= '</tr>';
+$row2 .= '</table>';
 $row2 .= '</div>';
 
 $row3_result = $db->sql_query("SELECT * FROM `".$prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT 6, ".$z."");
 
 $row3   = '<div align="center">';
-$row3  .= '<table bgcolor="'.$bgcolor4.'" border="0" width="200">';
+$row3  .= '<table class="tableVisotrLog">';
 $row3  .= '<tr>';
 $row3  .= '<td align="center">';
 
@@ -252,7 +247,7 @@ while($whosbeen = $db->sql_fetchrow($row3_result)):
 	
 	
 	$row3 .= '<td align="center" width="45px"><a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">'.$avatar.'</a></td>';
-    $row3 .= '<td align="left"><a class="turdball" style="text-decoration: none;" href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">
+    $row3 .= '<td align="left"><a class="visitorName" style="text-decoration: none;" href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">
 	<strong>&nbsp;&nbsp;'.UsernameColor($whosbeen['username']).'<br />&nbsp;&nbsp;<a style="text-decoration: none;" href="modules.php?name=Private_Messages&mode=post&u='.$whosbeen['user_id'].'"><font size="5" color="orange"><i class="bi bi-envelope"></i><font color="gold" size="5"><i class="bi bi-arrow-right-short"></i><i class="bi bi-mailbox"></i></font></font>
 	
 	<br />
@@ -261,21 +256,19 @@ while($whosbeen = $db->sql_fetchrow($row3_result)):
 	$row3 .= '<td align="center"><div align="top" style="padding-left:10px;">'.get_titanium_timeago($whosbeen['last_visit']).'</div>';
     $row3 .= '</td>';
     $row3 .= '</tr>'; 
-	
-   
 
 endwhile;
-    $row3 .= '</table>';
 
+$row3 .= '</table>';
 $row3 .= '</td>';
-		$row3 .= '</tr>';
-	$row3 .= '</table>';
+$row3 .= '</tr>';
+$row3 .= '</table>';
 $row3 .= '</div>';
 
 $row4_result = $db->sql_query("SELECT * FROM `".$prefix."_users_who_been` as whb, `".USERS_TABLE."` as u WHERE whb.username = u.username AND whb.username != '".$userinfo['username']."' ORDER BY `last_visit` DESC LIMIT 9, ".$z."");
 
 $row4   = '<div align="center">';
-$row4  .= '<table bgcolor="'.$bgcolor4.'" border="0" width="200">';
+$row4  .= '<table class="tableVisotrLog">';
 $row4  .= '<tr>';
 $row4  .= '<td align="center">';
 
@@ -334,7 +327,7 @@ while($whosbeen = $db->sql_fetchrow($row4_result)):
 	
 	
 	$row4 .= '<td align="center" width="45px"><a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">'.$avatar.'</a></td>';
-    $row4 .= '<td align="left"><a class="turdball" style="text-decoration: none;" href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">
+    $row4 .= '<td align="left"><a class="visitorName" style="text-decoration: none;" href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">
 	<strong>&nbsp;&nbsp;'.UsernameColor($whosbeen['username']).'<br />&nbsp;&nbsp;<a style="text-decoration: none;" href="modules.php?name=Private_Messages&mode=post&u='.$whosbeen['user_id'].'"><font size="5" color="orange"><i class="bi bi-envelope"></i><font color="gold" size="5"><i class="bi bi-arrow-right-short"></i><i class="bi bi-mailbox"></i></font></font>
 	
 	<br />
@@ -347,19 +340,18 @@ while($whosbeen = $db->sql_fetchrow($row4_result)):
    
 
 endwhile;
-    $row4 .= '</table>';
 
+$row4 .= '</table>';
 $row4 .= '</td>';
-		$row4 .= '</tr>';
-	$row4 .= '</table>';
+$row4 .= '</tr>';
+$row4 .= '</table>';
 $row4 .= '</div>';
-
 
 global $screen_width;
 $content = '<div align="center">';
 
 if($screen_width < 1920):
-$content .= '<table bgcolor="'.$bgcolor4.'" border="1" width="100%">';
+$content .= '<table class="tableVisotrLog">';
 $content .= '	<tr>';
 $content .= '		<td width="251" valign="top">'.$row1.'</td>';
 $content .= '		<td width="251" valign="top">'.$row2.'</td>';
@@ -375,7 +367,7 @@ $content .= '</table>';
 endif;
 
 if($screen_width >= 1920):
-$content .= '<table bgcolor="'.$bgcolor4.'" border="1" width="100%">';
+$content .= '<table class="tableVisotrLog">';
 $content .= '	<tr>';
 $content .= '		<td width="25%" valign="top">'.$row1.'</td>';
 $content .= '		<td width="25%" valign="top">'.$row2.'</td>';
