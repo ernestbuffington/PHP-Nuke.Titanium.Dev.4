@@ -43,7 +43,7 @@ while($whosbeen = $db->sql_fetchrow($row1_result)):
 	if(!is_admin())
 	if($whosbeen['user_allow_viewonline'] == 0):
 	$whosbeen['username'] = 'Ghost Mode';
-	$whosbeen['user_avatar'] = 'invisible.png';
+	$whosbeen['user_avatar_type'] = 4;
 	$whosbeen['user_id'] = -1;
 	endif;
 	
@@ -73,6 +73,7 @@ while($whosbeen = $db->sql_fetchrow($row1_result)):
 		case USER_AVATAR_UPLOAD:
 		$avatar = ''.( $board_config['allow_avatar_upload'] ) 
 		? '<img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_path'] . '/' . $whosbeen['user_avatar'] . '" alt="" />' : '';
+	
 		break;
 		# user_allowavatar = 2
 		case USER_AVATAR_REMOTE:
@@ -83,9 +84,17 @@ while($whosbeen = $db->sql_fetchrow($row1_result)):
 		$avatar = ''. ( $board_config['allow_avatar_local'] ) 
 		? '<img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.png' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" />' : '';
 		break;
+		# user_allowavatar = 4
+		case 4:
+		$avatar = '<img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/invisible.png" alt="" />';
+		break;
 
 	   }
 	}
+	
+	
+	
+	
 	
 	$row1 .= '<tr>';
 	$row1 .= '<td width="81" rowspan="3" align="center"><a href="modules.php?name=Profile&mode=viewprofile&u='.$whosbeen['user_id'].'">'.$avatar.'</a></td>';
@@ -127,7 +136,7 @@ while($whosbeen = $db->sql_fetchrow($row2_result)):
 	if(!is_admin())
 	if($whosbeen['user_allow_viewonline'] == 0):
 	$whosbeen['username'] = 'Ghost Mode';
-	$whosbeen['user_avatar'] = 'invisible.png';
+	$whosbeen['user_avatar_type'] = 4;
 	$whosbeen['user_id'] = -1;
 	endif;
 	
@@ -156,6 +165,7 @@ while($whosbeen = $db->sql_fetchrow($row2_result)):
 		case USER_AVATAR_UPLOAD:
 		$avatar = ''.( $board_config['allow_avatar_upload'] ) 
 		? '<img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_path'] . '/' . $whosbeen['user_avatar'] . '" alt="" />' : '';
+	
 		break;
 		# user_allowavatar = 2
 		case USER_AVATAR_REMOTE:
@@ -165,6 +175,10 @@ while($whosbeen = $db->sql_fetchrow($row2_result)):
 		case USER_AVATAR_GALLERY:
 		$avatar = ''. ( $board_config['allow_avatar_local'] ) 
 		? '<img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.png' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" />' : '';
+		break;
+		# user_allowavatar = 4
+		case 4:
+		$avatar = '<img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/invisible.png" alt="" />';
 		break;
 
 	   }
@@ -210,7 +224,7 @@ while($whosbeen = $db->sql_fetchrow($row3_result)):
 	if(!is_admin())
 	if($whosbeen['user_allow_viewonline'] == 0):
 	$whosbeen['username'] = 'Ghost Mode';
-	$whosbeen['user_avatar'] = 'invisible.png';
+	$whosbeen['user_avatar_type'] = 4;
 	$whosbeen['user_id'] = -1;
 	endif;
 	
@@ -239,6 +253,7 @@ while($whosbeen = $db->sql_fetchrow($row3_result)):
 		case USER_AVATAR_UPLOAD:
 		$avatar = ''.( $board_config['allow_avatar_upload'] ) 
 		? '<img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_path'] . '/' . $whosbeen['user_avatar'] . '" alt="" />' : '';
+	
 		break;
 		# user_allowavatar = 2
 		case USER_AVATAR_REMOTE:
@@ -248,6 +263,10 @@ while($whosbeen = $db->sql_fetchrow($row3_result)):
 		case USER_AVATAR_GALLERY:
 		$avatar = ''. ( $board_config['allow_avatar_local'] ) 
 		? '<img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.png' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" />' : '';
+		break;
+		# user_allowavatar = 4
+		case 4:
+		$avatar = '<img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/invisible.png" alt="" />';
 		break;
 
 	   }
@@ -293,7 +312,7 @@ while($whosbeen = $db->sql_fetchrow($row4_result)):
 	if(!is_admin())
 	if($whosbeen['user_allow_viewonline'] == 0):
 	$whosbeen['username'] = 'Ghost Mode';
-	$whosbeen['user_avatar'] = 'invisible.png';
+	$whosbeen['user_avatar_type'] = 4;
 	$whosbeen['user_id'] = -1;
 	endif;
 	
@@ -322,6 +341,7 @@ while($whosbeen = $db->sql_fetchrow($row4_result)):
 		case USER_AVATAR_UPLOAD:
 		$avatar = ''.( $board_config['allow_avatar_upload'] ) 
 		? '<img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_path'] . '/' . $whosbeen['user_avatar'] . '" alt="" />' : '';
+	
 		break;
 		# user_allowavatar = 2
 		case USER_AVATAR_REMOTE:
@@ -331,6 +351,10 @@ while($whosbeen = $db->sql_fetchrow($row4_result)):
 		case USER_AVATAR_GALLERY:
 		$avatar = ''. ( $board_config['allow_avatar_local'] ) 
 		? '<img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($whosbeen['user_avatar'] == 'blank.png' || $whosbeen['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $whosbeen['user_avatar']) . '" alt="" />' : '';
+		break;
+		# user_allowavatar = 4
+		case 4:
+		$avatar = '<img class="visitors rounded-corners-last-vistors" style="max-height: '.$max_height.'px; max-width: '.$max_width.'px;" src="' . $board_config['avatar_gallery_path'] . '/invisible.png" alt="" />';
 		break;
 
 	   }
