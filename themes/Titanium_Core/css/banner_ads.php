@@ -64,21 +64,24 @@ animation: blinker-two 1.4s linear infinite;
 
 .marquee_one {
   width: 484px;
-  height: 20px;
+  height: 23px;
   overflow: hidden;
-  border: 1px solid #404040;
-  background: black;
-  color: rgb(104, 182, 4);
+  border: 1px solid #8c7c4e;
+  background: #000000;
+  color: #d1d8da;
+  font-weight: bold;
+  border-radius: 4px;
 }
 
 .marquee_two {
   width: 484px;
-  height: 20px;
+  height: 23px;
   overflow: hidden;
-  border: 1px solid #404040;
-  background: black;
-  color: rgb(104, 182, 4);
-
+  border: 1px solid #8c7c4e;
+  background: #000000;
+  color: #d1d8da;
+  font-weight: bold;
+  border-radius: 4px;
 }
 
 /*

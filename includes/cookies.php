@@ -1,8 +1,10 @@
 <?php 
 /*========================================================================
- PHP-Nuke Titanium: Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium: Enhanced and Advanced
  ========================================================================*/
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) exit('Access Denied');
+if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])): 
+ exit('Access Denied');
+endif;
 
 global $screen_res, $screen_width, $screen_height;
 
@@ -41,6 +43,7 @@ function writeCookie()
   document.cookie=the_cookie
 }
 writeCookie();
+location.reload();
 //-->
 </script>
 <?
@@ -59,41 +62,4 @@ $_COOKIE["titanium_resolution_width"] = $screen_width;
 $_COOKIE["titanium_resolution_height"] = $screen_height;
 endif;
 
-// MY CELL PHONE
-if ($screen_width == "360")
-{
-
-}
-
-// DADS TV
-if ($screen_width == "1421")
-{
-
-}
-
-
-// DADS LAPTOP
-if ($screen_width == "1537")
-{
-
-}
-
-
-//TESTED
-if ($screen_width == "1680")
-{
-
-}
-
-//TESTED LORI
-if ($screen_width == "1366")
-{
-
-}
-
-//TESTED ERNIE WORKING
-if ($screen_width == "1920")
-{
-
-}
 ?>

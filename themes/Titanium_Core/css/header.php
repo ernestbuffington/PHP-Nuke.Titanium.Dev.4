@@ -89,6 +89,44 @@ q:before, q:after {
 	content: none;
 }
 
+.hover_effect {
+  height: auto;
+  width: 64px;
+  cursor: pointer; 
+}
+ 
+.hover_effect:hover {
+  height: auto;
+  width: 64px;
+  cursor: pointer;
+  animation: wiggle 2s linear infinite;
+}
+
+/* Keyframes */
+@keyframes wiggle {
+  0%, 7% {
+    transform: rotateZ(0);
+  }
+  15% {
+    transform: rotateZ(-15deg);
+  }
+  20% {
+    transform: rotateZ(10deg);
+  }
+  25% {
+    transform: rotateZ(-10deg);
+  }
+  30% {
+    transform: rotateZ(6deg);
+  }
+  35% {
+    transform: rotateZ(-4deg);
+  }
+  40%, 100% {
+    transform: rotateZ(0);
+  }
+}
+
 mark {
 	background-color: #ff9;
 	color: #000;

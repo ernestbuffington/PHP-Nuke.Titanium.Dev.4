@@ -23,84 +23,26 @@ if(!defined("SQL_LAYER"))
 {
 
 define("SQL_LAYER","mysqli");
-define('SQL_NUM', MYSQL_NUM);
-define('SQL_BOTH', MYSQL_BOTH);
-define('SQL_ASSOC', MYSQL_ASSOC);
-define('END_TRANSACTION', 2);
+define("SQL_NUM", "MYSQL_NUM");
+define("SQL_BOTH", "MYSQL_BOTH");
+define("SQL_ASSOC", "MYSQL_ASSOC");
+define('END_TRANSACTION', "2");
 
 class sql_db
 {
-	/*!
-	 * @public var $mysql_version
-	 * The current MySQL server version
-	 */
 	var $mysql_version;
-
-	/*!
-	 * @public var $db_connect_id
-	 * The unique indentifier for the current database connection
-	 */
 	var $db_connect_id;
-
 	var $query_result;
 	var $row = array();
 	var $rowset = array();
-
-	/*!
-	 * @public var $num_queries
-	 * Total number of queries that were processed by this instance of the
-	 * database connection
-	 */
 	var $num_queries = 0;
-
-	/*!
-	 * @public var $time
-	 * Total time in miliseconds it took to run all the queries by this instance
-	 * of the database connection
-	 */
     var $time;
-
-    /*!
-	 * @public var $debug
-	 * Can be used to check for invalid MySQL queries once they have been run
-	 */
     var $debug = 0;
-
-    /*!
-	 * @public var $saved
-	 * Storage for MySQL query debugging
-	 */
     var $saved = '';
-    
     var $connect_id;
-
-    /*!
-	 * @public var $querylist
-	 *
-	 * A cached list of queries that can be stored internally by Nuke
-	 */
 	var $querylist = array();
-
-	/*!
-	 * @public var $file
-	 *
-	 * A string that represents a cache file
-	 */
 	var $file;
-
-	/*!
-	 * @public var $line
-	 *
-	 * General use throughout the instance of this class
-	 */
 	var $line;
-
-	/*!
-	 * @public var $qtime
-	 *
-	 * An array that stores the total time it took for each MySQL query to
-	 * complete
-	 */	
 	var $qtime;
 
 	function _backtrace_log($query, $failed=false, $queryid=0)
@@ -146,12 +88,13 @@ class sql_db
 		$this->dbname = $database;
 		
 		if ($this->dbname != '') {
-			$this->db_connect_id = @mysqli_connect($this->server, $this->user, $this->password, $this->dbname);
+			//$this->db_connect_id = mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+			$this->db_connect_id = mysqli_connect($this->server, $this->user, $this->password, $this->dbname);
 
 			if ($this->db_connect_id)
 			{
 				# Determine what version we are using and if it natively supports UNICODE
-				$this->mysql_version = mysqli_get_server_info($this->db_connect_id);
+				//$this->mysql_version = mysqli_get_server_info($this->db_connect_id);
 
 				# not sure why this was removed i see no explanation, Thanks Dick!
 				/*if (version_compare($this->mysql_version, '4.1.3', '>='))

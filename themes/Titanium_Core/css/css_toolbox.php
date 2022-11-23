@@ -159,7 +159,7 @@ a.googleminds:hover {
 {
     opacity: 0.9;
     background: url(<?php echo BOOKMARKS_BACKGROUND; ?>);
-	<?php echo CONTAIN; ?> 	
+	<?php echo BOOKMARKS_CONTAIN; ?> 	
 }
 
 /*

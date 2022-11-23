@@ -65,6 +65,7 @@ else
 	  $newmessages = sprintf(_YOUHAVE_NO_MSGS,'(<a href="modules.php?name=Private_Messages">'.has_new_or_unread_private_messages().'</a>)');
 	}
 }
+
 #chrome canary 64bit 91.0.4446.3 NIGHTLY BUILDS
 if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '109.0.0.0') // Chrome Canary Last Version for Windows 7 / 8.1 (x64bit) version as of 11/19/2022
 $scrollmsg .= "<img align=\"absmiddle\" height=\"15\" src=\"images/browsers/current-channel-logo@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome Canary (64-bit)... We are glad you keep up with the times! You have been updating your browser and now unfortunately you must update your OS. This is the last release verion of Chrome that will work on Windows 7 and Windows 8.1 - It;s been fun and we wanted windows 7 to last forever but it's not going to happen... Windows 7 was our friend to the END!~!~!</strong>";
@@ -89,11 +90,25 @@ if($titanium_browser->getBrowser() == Browser::BROWSER_FIREFOX && $titanium_brow
 $scrollmsg .= '<img src="images/browsers/mozilla-firefox-icon-15.png" align="top" height="16"><strong>Thanks for using FireFox (64bit) <span 
 class="blink-one">BEWARE!</strong></span> Firfox sometimes breaks websites. There has been a lot of discussion lately about the decline of the Firefox browser and numerous articles about it losing 50 Million users in the last two years. But the real decline has been over the last 12 years with a total loss of half a Billion users and 75% of the market share it once held. Are screen shot utils and text to speech worth it?? Some say No!';
 }
+if($titanium_browser->getBrowser() == Browser::BROWSER_OPERA && $titanium_browser->getVersion() == '93.0.0.0') // Official Opera Release -  11/19/2022
+{
+$scrollmsg .= '<img src="images/browsers/opera.png" align="top" height="16"> Thanks for using Opera (64bit)  <span 
+class="blink-one">Opera Rocks!</span> ::: This browser is hauling ass and about to catch up with Chrome... :::';
+}
+
+$scrollmsg .= ' Ezekiel 25,17. "The path of the righteous man is beset of all sides by the iniquities of the selfish and the tyranny of evil me. Blessed is he who, in the name of the charity and goodwill, shepherds the weak through the valley of darkness, for he is truly his brother’s keeper and the finder of lost children. And I will strike down upon thee with great vengeance and furious anger those who attempt to poison and destroy my brothers. And you will know my name is the Lord when I lay my vengeance upon thee.” ::: ';
+
+$scrollmsg .= 'The current Beta release of PHP-Nuke Titanium is v'.NUKE_TITANIUM.' ::: ';
 
 global $connected;
 
 $moreuser_info .= '';
 $moreuser_info .= '';
+
+
+//if($titanium_browser->getBrowser() == Browser::PLATFORM_WINDOWS && $titanium_browser->version() == '10.0'):
+// $scrollmsg .= 'HERE WINDOWS 10 HERE'; 
+//endif; 
 
 # check to see if user is logged into facebook
 if(isset($_COOKIE['fbsr_' . $appID])):
@@ -201,14 +216,14 @@ echo "\n<!-- HEADER Loading Logo -->\n";
 echo '<div style="padding-top:26px;"></div>'."\n\n"; //Set the padding - how far down the logo sits
 ?>
 <div style="margin: auto;">
- <img width="64" src="images/brands/png/github-active.png" />&nbsp;&nbsp;
- <img width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-plain.svg" />
- <img width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" />
- <img width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" />
- <img width="64" src="images/brands/svg/mariadb_white.svg" />
- <img width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original-wordmark.svg" />
- <img width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/zend/zend-plain-wordmark.svg" />&nbsp;&nbsp;
- <img width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jquery/jquery-plain-wordmark.svg" />
+<a href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><img class="hover_effect" width="64" src="images/brands/png/github-active.png" /></a>&nbsp;&nbsp;
+<a href="https://3v4l.org/kuLmD#v7.4.33" target="_blank"><img class="hover_effect" width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-plain.svg" /></a>
+<a href="https://html-css-js.com/html/generator/" target="_blank"><img class="hover_effect" width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" /></a>
+<a href="https://html-css-js.com/css/generator/" target="_blank"><img class="hover_effect" width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" /></a>
+<a href="https://mariadb.com/resources/blog/developer-quickstart-php-mysqli-and-mariadb/" target="_blank"><img class="hover_effect" width="64" src="images/brands/svg/mariadb_white.svg" /></a>
+<a href="https://htmlcheatsheet.com/js/" target="_blank"><img class="hover_effect" width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original-wordmark.svg" /></a>
+<a href="https://framework.zend.com/downloads" target="_blank"><img class="hover_effect" width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/zend/zend-plain-wordmark.svg" /></a>&nbsp;&nbsp;
+<a href="https://html-css-js.com/css/generator/" target="_blank"><img class="hover_effect" width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jquery/jquery-plain-wordmark.svg" /></a>
 </div>
 <? 
 # logo end
@@ -244,29 +259,18 @@ echo '</tr>';
 
 echo '<tr>';
 # left marquee START
-echo '<td class="undermarqueeLT"><div class="marquee_one"><span color="#008000" size="2"><strong>'.$marquee_one.'</strong></span></div></td>';
+echo '<td class="undermarqueeLT"><div class="marquee_one">'.$marquee_one.'</div></td>';
 # right marquee START
-echo '<td class="undermarqueeRT"><div class="marquee_two"><span color="#008000" size="2"><strong>'.$marquee_two.'</strong></span></div></td>';
+echo '<td class="undermarqueeRT"><div class="marquee_two">'.$marquee_two.'</div></td>';
 echo '</tr>';
 
 echo '<tr>';
 echo '<td class="undermarqueeLT">';
-//echo '<img class="githubicon" id="githubicon" src="images/brands/png/github-active.png">';
 echo '</td>';
-
 echo '<td class="undermarqueeRT"></td>';
 echo '</tr>';
 
 echo '</table>';
-
-if (!is_user()):
-echo '<div align="center">';
-echo '<div class="alert alert-danger fade in alert-dismissible role="alert">';
-echo '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>';
-echo '  <strong>Alert!</strong> You are not logged in, please <a style="cursor:help" class="redalert" href="modules.php?name=Your_Account&op=new_user">create an account</a> or <a style="cursor:help" class="redalert" href="modules.php?name=Your_Account">login!</a>';
-echo '</div>';
-echo '</div>';
-endif;
 
 echo '<div align="center" style="padding-top:1px;">';
 echo '</div>';

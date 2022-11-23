@@ -384,6 +384,7 @@ include_once(NUKE_INCLUDE_DIR . 'abstract/abstract.exception.php');
 
 # Include the required files
 @require_once(NUKE_DB_DIR.'db.php');
+@require_once(NUKE_DB_DIR.'MysqliDb.php');
 # $db->debug = true;
 # Include Error Logger and identify class
 @require_once(NUKE_CLASSES_DIR.'class.identify.php');
@@ -986,10 +987,10 @@ function blocks($side, $count=false)
     return;
 } 
 
-function blockfileinc($blockfiletitle, $blockfile, $side=1, $bid) 
+function blockfileinc(string $blockfiletitle, $blockfile = null, $side = 1, $bid) 
 {
     global $debug, $collapse;
-
+    #Required parameter $bid follows optional parameter $blockfile
     # if ($debug == 0)
 	# echo '<div align="center">'.$blockfile.'</div>';
 
