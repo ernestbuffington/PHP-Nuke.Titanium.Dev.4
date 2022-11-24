@@ -314,7 +314,7 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: normal;
 }
 h1 { font-size: 30px; line-height: 1; margin-bottom: 5px; }
-h2 { font-size: 20px; margin-bottom: 7.5px; }
+h2 { font-size: 20px; margin-bottom: 5.5px; }
 h3 { font-size: 15px; line-height: 1; margin-bottom: 10px; }
 h4 { font-size: 12px; line-height: 1.25; margin-bottom: 12.5px; }
 h5 { font-size: 10px; font-weight: bold; margin-bottom: 15px; }
@@ -1054,10 +1054,16 @@ td.extra {
 	border: 0 solid #000;
 }
 
-/* The Outline Round the Main Forum Tables */
+/* The Outline Round the Main Forum Tables UPDATED */
 .forumline {
-	background: <?=$bgcolor5?>;
-	border: #222 0px solid;
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-color: <?=$bgcolor5?>;
+  background: <?=$bgcolor5?>;
+  border: #222 0px solid;
 }
 
 /* Main table cell colours and backgrounds */
