@@ -230,10 +230,10 @@ vertical-align: middle;
  */
 table.rounded-corners {
  /* Change these properties */
- --border: 1px solid black;
+ --border: 0px solid inherit;
  border-radius: 10px;
  /* Don't change these properties */
- border-spacing: 0;
+ border-spacing: 0px;
  border-collapse: separate;
  border: var(--border);
  overflow: hidden;
