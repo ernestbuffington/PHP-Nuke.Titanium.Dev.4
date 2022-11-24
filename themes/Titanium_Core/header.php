@@ -100,6 +100,11 @@ $scrollmsg .= ' Ezekiel 25,17. "The path of the righteous man is beset of all si
 
 $scrollmsg .= 'The current Beta release of PHP-Nuke Titanium is v'.NUKE_TITANIUM.' ::: ';
 
+$scrollmsg .= 'It\'s nice to see you using '.$titanium_browser->getPlatform().' :::';
+
+//if($titanium_browser->getVersion() == '93.0.0.0') // Official Opera Release -  11/19/2022
+
+
 global $connected;
 
 $moreuser_info .= '';
