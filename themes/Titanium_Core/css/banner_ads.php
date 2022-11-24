@@ -69,7 +69,7 @@ animation: blinker-two 1.4s linear infinite;
   border: 1px solid #8c7c4e;
   background: #000000;
   color: #d1d8da;
-  font-weight: bold;
+  font-family: 'Roboto Mono', monospace;
   border-radius: 4px;
 }
 
@@ -80,7 +80,7 @@ animation: blinker-two 1.4s linear infinite;
   border: 1px solid #8c7c4e;
   background: #000000;
   color: #d1d8da;
-  font-weight: bold;
+  font-family: 'Roboto Mono', monospace;
   border-radius: 4px;
 }
 

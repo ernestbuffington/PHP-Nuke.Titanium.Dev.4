@@ -62,7 +62,7 @@ print '<td width="100%">'."\n";
 echo "\n<!-- SIDEBOX CONTENT START -->\n";
 print '<table class="table100">'."\n";
 print '<tr>'."\n";
-print '<td width="100%" bgcolor="'.$bgcolor4.'">'."\n";
+print '<td width="100%" style="background-color:'.$bgcolor4.'">'."\n";
 
 echo '<div align="left" id="text" style="padding-top:6px;">';
 echo ''.$content.'</div>';

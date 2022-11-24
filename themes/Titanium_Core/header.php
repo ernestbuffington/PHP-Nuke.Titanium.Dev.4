@@ -251,10 +251,8 @@ echo '</td>';
 echo '</tr>';
 
 echo '<tr>';
-echo '<td class="abovemarqueeLT">&nbsp;<span style="color:#b8a265"><strong>Welcome to PHP-Nuke Titanium, Please Enjoy Your Visit...</strong></span></td>';
-
-echo '<td class="abovemarqueeRT">&nbsp;<span style="color:#b8a265"><strong>This is the Sponsor Tron for the PHP-Nuke Titanium Project...</strong></span></td>';
-
+echo '<td class="abovemarqueeLT"><span style="color:#b8a265"><strong>Welcome to PHP-Nuke Titanium, Please Enjoy Your Visit...</strong></span></td>';
+echo '<td class="abovemarqueeRT"><span style="color:#b8a265"><strong>This is the Sponsor Tron for the PHP-Nuke Titanium Project...</strong></span></td>';
 echo '</tr>';
 
 echo '<tr>';

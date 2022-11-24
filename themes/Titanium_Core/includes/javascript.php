@@ -9,4 +9,7 @@
 <script src="assets/bootstrap-3.4.1/js/bootstrap.min.js"></script>
 <!-- Load Ajax Animate CSS Version - 4.1.1 -->
 <link rel="stylesheet" href="includes/ajax/libs/animate.min.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200&display=swap" rel="stylesheet">
 
