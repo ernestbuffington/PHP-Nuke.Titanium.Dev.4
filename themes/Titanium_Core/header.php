@@ -227,7 +227,7 @@ echo '<div style="padding-top:26px;"></div>'."\n\n"; //Set the padding - how far
 <a href="https://mariadb.com/resources/blog/developer-quickstart-php-mysqli-and-mariadb/" target="_blank"><img class="hover_effect" width="64" src="images/brands/svg/mariadb_white.svg" /></a>
 <a href="https://htmlcheatsheet.com/js/" target="_blank"><img class="hover_effect" width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original-wordmark.svg" /></a>
 <a href="https://framework.zend.com/downloads" target="_blank"><img class="hover_effect" width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/zend/zend-plain-wordmark.svg" /></a>&nbsp;&nbsp;
-<a href="https://html-css-js.com/css/generator/" target="_blank"><img class="hover_effect" width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jquery/jquery-plain-wordmark.svg" /></a>
+<a href="https://htmlcheatsheet.com/jquery/" target="_blank"><img class="hover_effect" width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jquery/jquery-plain-wordmark.svg" /></a>
 </div>
 <? 
 # logo end
