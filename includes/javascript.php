@@ -88,7 +88,7 @@ if(!defined('FORUM_ADMIN'))
 /*****[BEGIN]******************************************
  [ Mod:     Facebook Mod                       v1.0.0 ]
  ******************************************************/
-global $fb, $portaladmin, $appID, $api_version, $appSecret, $my_url, $connected;
+global $appID, $api_version, $appSecret, $my_url, $connected;
 if ($appID > 0) { # This will not load if there is not a facebook app id.
 echo "\n<script>\n";
 echo "<!--\n";
