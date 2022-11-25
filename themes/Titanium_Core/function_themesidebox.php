@@ -18,7 +18,7 @@ if ($invisble_facebook_block == true):
  $invisble_facebook_block =  false;
 else:
 # check for invisible facebook blocks END
- # This stays no matter what END
+# This stays no matter what END
 #
 #
 #
@@ -26,11 +26,11 @@ else:
 #################################################################################################################################################################
 #################################################################################################################################################################
 #################################################################################################################################################################
+
 # Top of center table START (this is where you edit for each theme design)
-global $theme_name;	
-global $bgcolor4;
+global $theme_name, $side_block_width, $bgcolor4;	
 # top half of center table START
-print '<table class="tableSB_width_defined" width="295px">'."\n";
+print '<table class="tableSB_width_defined" width="'.$side_block_width.'">'."\n";
 # invisble image spacer for top right table image!
 print '<tr><td class="tableSB_width_definedLT">'."\n";
 # top left corner of center table
@@ -50,6 +50,7 @@ print '<td class="tableSB_width_definedLSM">'."\n";
 print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/CENTERBLOCKS/left_side_middle_151515.png" width="39px" height="3px"></td>'."\n";
 print '<td width="100%">'."\n";
 # Top of center table END  (this is where you edit for each theme design)
+
 #################################################################################################################################################################
 #################################################################################################################################################################
 #################################################################################################################################################################
@@ -59,6 +60,7 @@ print '<td width="100%">'."\n";
 #
 #
 # This stays no matter what START ---------------------------------------------------------------------------------------------------------------------------------
+
 echo "\n<!-- SIDEBOX CONTENT START -->\n";
 print '<table class="table100">'."\n";
 print '<tr>'."\n";
@@ -73,6 +75,7 @@ print '</td>';
 print '</tr>';
 print '</table>';
 echo "\n\n<!-- SIDEBOX CONTENT END -->\n\n";
+
 # This stays no matter what END	---------------------------------------------------------------------------------------------------------------------------------
 #
 #
@@ -82,6 +85,7 @@ echo "\n\n<!-- SIDEBOX CONTENT END -->\n\n";
 #################################################################################################################################################################
 #################################################################################################################################################################
 #################################################################################################################################################################
+
 # bottome of center table START (this is where you edit for each theme design)
 print '</td>';
 print '<td class="tableSB_width_definedRSM">'."\n";
@@ -103,6 +107,7 @@ print '<img src="'.HTTPS.'themes/'.$theme_name.'/images/SIDEBLOCKS/bottom_right_
 print '</tr>'."\n";
 print '</table>'."\n";
 # bottome of center table END (this is where you edit for each theme design)
+
 #################################################################################################################################################################
 #################################################################################################################################################################
 #################################################################################################################################################################
@@ -113,7 +118,7 @@ print '</table>'."\n";
 #
 #
 #
- # This stays no matter what START ---------------------------------------------------------------------------------------------------------------------------------	
+# This stays no matter what START ---------------------------------------------------------------------------------------------------------------------------------	
 # check for invisible facebook blocks START
 endif;
 # check for invisible facebook blocks END
@@ -122,7 +127,8 @@ endif;
 print '<div align="center" style="padding-top:6px;">';
 print '</div>';
 # This sets the space between center tables listed END -------------------------------------------------------------------------------------------------------------
- # This stays no matter what END	
+# This stays no matter what END	
 echo "<!-- END function themesidebox -->\n\n";	
 }
+
 ?>
