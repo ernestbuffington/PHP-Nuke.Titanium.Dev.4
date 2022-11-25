@@ -619,6 +619,10 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 		                       $som_hr = $row['hr'];
 		                   $som_center = $row['center'];
 		                  $som_bgcolor = $row['bgcolor'];
+						  
+						  if(empty($som_bgcolor))
+						  $som_bgcolor = 'transparent';
+						  
 		    $invisible[$classpointer] = $row['invisible'];
 		$categoryclass[$classpointer] = $row['class'];
 		                     $som_bold = $row['bold'];
@@ -700,19 +704,19 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 			
 			if($horizontal == 1) 
 			{
-				$content .= "<td style=\"background-color:$som_bgcolor\" width=\"4\"></td><td style=\"background-color:$som_bgcolor\" class=\"menunowrap\" valign=\"top\"><table class=\"table100 menunowrap\"><tr><td $action_somgroupmenu>\n";
+				$content .= "<td style=\"background-color:$som_bgcolor;\" width=\"4\"></td><td style=\"background-color:$som_bgcolor;\" class=\"menunowrap\" valign=\"top\"><table class=\"table100 menunowrap\"><tr><td $action_somgroupmenu>\n";
 			}
 			else 
 			{
 				$positioningtd = ($div == 1) ? "" : "" ;
 			    
-				$content .= "<tr style=\"background-color:$som_bgcolor\">\n";
+				$content .= "<tr style=\"background-color:$som_bgcolor;\">\n";
 				
 				$content .= "<td height=\"4\" width=\"100%\"></td><td id=\"menu_divsublevel$key\"></td>\n";
 				
 				$content .= "</tr>\n";
 			    
-				$content .= "<tr><td style=\"background-color:$som_bgcolor\" class=\"menunowrap\" width=\"100%\" $action_somgroupmenu>\n";
+				$content .= "<tr><td style=\"background-color:$som_bgcolor;\" class=\"menunowrap\" width=\"100%\" $action_somgroupmenu>\n";
 			}
 			
 			if($som_center == "on") 
@@ -856,18 +860,18 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 		{ 
 			if($horizontal == 1) 
 			{
-				$content .= "</table></td><td width=\"4\" style=\"background-color:$som_bgcolor\"></td>";
+				$content .= "</table></td><td width=\"4\" style=\"background-color:$som_bgcolor;\"></td>";
 			}
 			else 
 			{
-				$content .= "<tr style=\"background-color:$som_bgcolor\"><td height=\"4\"></td></tr>";
+				$content .= "<tr style=\"background-color:$som_bgcolor;\"><td height=\"4\"></td></tr>";
 			}
 		}
 		elseif($som_groupmenu != 99 && isset($moduleinthisgroup[$som_groupmenu]['0'])) 
 		{
 		     if($som_listbox == "on") 
 		     {
-			   $content .= "<tr><td style=\"background-color:$som_bgcolor\"><span id=\"menu-$som_groupmenu\"></span>";
+			   $content .= "<tr><td style=\"background-color:$som_bgcolor;\"><span id=\"menu-$som_groupmenu\"></span>";
 			   $aenlever = "menu_showhide\('menu-".$som_groupmenu."','nok','menuupdown-".$som_groupmenu."'\);";
 			   $total_actions = str_replace("$aenlever", "" , $total_actions);
 			
@@ -894,7 +898,7 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 			}
 			else 
 			{
-				$content .= "<tr id=\"menu-$som_groupmenu\"><td style=\"background-color:$som_bgcolor\" width=\"100\">";
+				$content .= "<tr id=\"menu-$som_groupmenu\"><td style=\"background-color:$som_bgcolor;\" width=\"100\">";
 			}
 			
 			$content .= "<table class=\"table100 menunowrap\">";
@@ -1542,11 +1546,11 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 			
 		if($horizontal==1) 
 		{
-			$content.="</table></td><td width=\"4\" style=\"background-color:$som_bgcolor\"></td>";
+			$content.="</table></td><td width=\"4\" style=\"background-color:$som_bgcolor;\"></td>";
 		}
 		else 
 		{
-			$content.="<tr style=\"background-color:$som_bgcolor\"><td height=\"4\"></td></tr>";
+			$content.="<tr style=\"background-color:$som_bgcolor;\"><td height=\"4\"></td></tr>";
 		}
 		}
 	
