@@ -1730,7 +1730,7 @@ $lang['Birthday_popup'] = '%s would like to wish you a very happy birthday!';
  ******************************************************/
 $lang['thankful'] = 'Thankful People';
 $lang['thanks_to'] = 'Thanks';
-$lang['thanks_end'] = 'for his/her post';
+$lang['thanks_end'] = 'for this post';
 $lang['thanks_alt'] = 'Thank Post';
 $lang['thanked_before'] = 'You have already thanked this topic';
 $lang['thanks_add'] = 'Your thanks has been given';

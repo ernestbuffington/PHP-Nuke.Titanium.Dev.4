@@ -44,7 +44,7 @@ addJSToHead('//rawgithub.com/tobia/Pause/master/jquery.pause.js','file');
 echo "<!-- Loading jquery.marquee.min.js v1.3.1 from CDN includes/js/jquery.php -->\n";
 addJSToHead('//cdn.jsdelivr.net/jquery.marquee/1.3.1/jquery.marquee.min.js','file');
 
-echo "<!-- Loading Marquee JavaScript from includes/js/jquery.php -->\n";
+echo "<!-- Loading Marquee inline JavaScript from includes/js/jquery.php -->\n";
 $JStoHead  = '<script>//<![CDATA['.PHP_EOL;
 $JStoHead .= '$(window).on("load", function() {'.PHP_EOL;
 $JStoHead .= '$(function () {'.PHP_EOL;
@@ -113,30 +113,46 @@ add_css_to_head(NUKE_CSS_DIR.'cookieconsent.min.css','file');
 echo "<!-- Loading cookieconsent.min.js v0 from includes/js/jquery.php -->\n";
 add_js_to_head(NUKE_JQUERY_SCRIPTS_DIR.'cookieconsent.min.js','file');
 
+echo "<!-- Loading jquery.paging.js from includes/js/jquery_paging/ -->\n";
+add_js_to_head(NUKE_JQUERY_INCLUDE_DIR.'jquery_paging/jquery.paging.js','file');
+
+echo "<!-- Loading jquery.easy-paging.js from includes/js/jquery_paging/example/ -->\n";
+add_js_to_head(NUKE_JQUERY_INCLUDE_DIR.'jquery_paging/example/jquery.easy-paging.js','file');
+
+echo "<!-- Loading jQuery Paging INLINE JavaScript from includes/js/jquery.php -->\n";
+$easy_paging_inline  = '<script>'.PHP_EOL;
+$easy_paging_inline .= '$("#paging").easyPaging(1000, {'.PHP_EOL;
+$easy_paging_inline .= 'onSelect: function(page) {'.PHP_EOL;
+$easy_paging_inline .= '$("#output").html("You are on page " + page + " and you will select elements "+(this.slice[0]+1) + "-" + this.slice[1]+"!!!");'.PHP_EOL;
+$easy_paging_inline .= '}'.PHP_EOL;
+$easy_paging_inline .= '});'.PHP_EOL;
+$easy_paging_inline .= '</script>'.PHP_EOL;
+add_js_to_head($easy_paging_inline,'inline');
+
 echo "<!-- Loading Cookie Consent JavaScript from includes/js/jquery.php -->\n";
-$cookieconsent_inline  = '<script>';
-$cookieconsent_inline .= 'window.addEventListener("load", function(){';
-$cookieconsent_inline .= 'window.cookieconsent.initialise({';
-$cookieconsent_inline .= '"palette": {';
-$cookieconsent_inline .= '"popup": {';
-$cookieconsent_inline .= '"background": "#000",';
-$cookieconsent_inline .= '"text": "#0f0"';
-$cookieconsent_inline .= '},';
-$cookieconsent_inline .= '"button": {';
-$cookieconsent_inline .= '"background": "#0f0"';
-$cookieconsent_inline .= '}';
-$cookieconsent_inline .= '},';
-$cookieconsent_inline .= '"theme": "classic"';
-$cookieconsent_inline .= '})});';
-$cookieconsent_inline .= '</script>';
+$cookieconsent_inline  = '<script>'.PHP_EOL;
+$cookieconsent_inline .= 'window.addEventListener("load", function(){'.PHP_EOL;
+$cookieconsent_inline .= 'window.cookieconsent.initialise({'.PHP_EOL;
+$cookieconsent_inline .= '"palette": {'.PHP_EOL;
+$cookieconsent_inline .= '"popup": {'.PHP_EOL;
+$cookieconsent_inline .= '"background": "#000",'.PHP_EOL;
+$cookieconsent_inline .= '"text": "#0f0"'.PHP_EOL;
+$cookieconsent_inline .= '},'.PHP_EOL;
+$cookieconsent_inline .= '"button": {'.PHP_EOL;
+$cookieconsent_inline .= '"background": "#0f0"'.PHP_EOL;
+$cookieconsent_inline .= '}'.PHP_EOL;
+$cookieconsent_inline .= '},'.PHP_EOL;
+$cookieconsent_inline .= '"theme": "classic"'.PHP_EOL;
+$cookieconsent_inline .= '})});'.PHP_EOL;
+$cookieconsent_inline .= '</script>'.PHP_EOL;
 add_js_to_head($cookieconsent_inline,'inline');
 
 echo "<!-- Loading Progress Bar JavaScript from includes/js/jquery.php -->\n";
 $progress_bar_loading  = '<script>'.PHP_EOL;
-$progress_bar_loading .= 'nuke_jq(function($)';
-$progress_bar_loading .= '{';
-$progress_bar_loading .= '$(".progress-bar > span").each(function() {$(this).width(0).animate({width: $(this).data("percentage")+"%"}, 1200);});';
-$progress_bar_loading .= '});';
+$progress_bar_loading .= 'nuke_jq(function($)'.PHP_EOL;
+$progress_bar_loading .= '{'.PHP_EOL;
+$progress_bar_loading .= '$(".progress-bar > span").each(function() {$(this).width(0).animate({width: $(this).data("percentage")+"%"}, 1200);});'.PHP_EOL;
+$progress_bar_loading .= '});'.PHP_EOL;
 $progress_bar_loading .= '</script>'.PHP_EOL;
 add_js_to_body($progress_bar_loading,'inline');
 

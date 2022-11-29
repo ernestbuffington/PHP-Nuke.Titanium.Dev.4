@@ -1,6 +1,6 @@
 <?php
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])): 
-exit('Access Denied');
+  exit('Access Denied');
 endif;
 
              global $locked_width, 

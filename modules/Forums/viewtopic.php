@@ -1577,27 +1577,32 @@ for($i = 0; $i < $total_posts; $i++):
               $images['icon_hidden'] = (isset($images['icon_hidden'])) ? $images['icon_hidden'] : '';
               $images['icon_offline'] = (isset($images['icon_offline'])) ? $images['icon_offline'] : '';
               $online_color = (isset($online_color)) ? $online_color : '';
-
-              if($postrow[$i]['user_allow_viewonline']):
-                  $online_status_img = '<a href="'.append_sid("viewonline.$phpEx").'"><img 
-				  src="'.$images['icon_online'].'" alt="'.sprintf($lang['is_online'], $poster).'" title="'.sprintf($lang['is_online'], $poster).'" /></a>&nbsp;';
-                  
-				  $online_status = '<a href="'.append_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_online'], $poster).'"'.$online_color.'>'.$lang['Online'].'</a>';
-              elseif($is_auth['auth_mod'] || $userdata['user_id'] == $poster_id):
-                $online_status_img = '<a href="'.append_sid("viewonline.$phpEx").'"><img 
-				src="'.$images['icon_hidden'].'" alt="'.sprintf($lang['is_hidden'], $poster).'" title="'.sprintf($lang['is_hidden'], $poster).'" /></a>&nbsp;';
-                
-				$online_status = '<em><a href="'.append_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_hidden'], $poster).'"'.$hidden_color.'>'.$lang['Hidden'].'</a></em>';
-              else:
-                 $online_status_img = '<img src="'.$images['icon_offline'].'" alt="'.sprintf($lang['is_offline'], $poster).'" title="'.sprintf($lang['is_offline'], $poster).'" />&nbsp;';
-                 $online_status = '<span title="'.sprintf($lang['is_offline'], $poster).'"'.$offline_color.'>'.$lang['Offline'].'</span>';
-              endif;
-           else:
-             $online_status_img = '<img src="'.$images['icon_offline'].'" alt="'.sprintf($lang['is_offline'], $poster).'" title="'.sprintf($lang['is_offline'], $poster).'" />&nbsp;';
-             $online_status = '<span title="'.sprintf($lang['is_offline'], $poster).'"'.$offline_color.'>'.$lang['Offline'].'</span>';
            endif;
-		   # Mod: Online/Offline/Hidden v2.2.7 END
-        
+		   
+	       # Mod: Online/Offline/Hidden v2.2.7 START
+	       if(!$postrow[$i]['user_allow_viewonline']):
+	       
+		   $online_status_img = '<img class="tooltip-html copyright" alt="Hidden" title="Hidden" alt="Hidden" width="30" height="30" src="themes/'.$theme_name.'/forums/images/status/icons8-invisible-512.png" />';
+           $online_status = '<em><a href="'.append_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_hidden'], $poster).'"'.$hidden_color.'>'.$lang['Hidden'].'</a></em>';
+	   
+	       elseif($postrow[$i]['user_session_time'] >= (time()-$board_config['online_time'])):
+	       
+		   $theme_name = get_theme();
+	       
+		   $online_status_img = '<a class="tooltip-html copyright" href="'.append_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_online'],$row['username']).'"'.$online_color.'><img 
+	       alt="online" src="themes/'.$theme_name.'/forums/images/status/online_bgcolor_one.gif" /></a>';
+	   
+	       $online_status = '<a href="'.append_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_online'], $poster).'"'.$online_color.'>'.$lang['Online'].'</a>';
+	   
+	       else:
+           
+		   $online_status_img = '<span class="tooltip-html copyright" title="'.sprintf($lang['is_offline'],$row['username']).'"'.$offline_color.'><img 
+	       alt="online" src="themes/'.$theme_name.'/forums/images/status/offline_bgcolor_one.gif" /></span>';
+	   
+	       $online_status = '<span title="'.sprintf($lang['is_offline'], $poster).'"'.$offline_color.'>'.$lang['Offline'].'</span>';
+           endif;
+           # Mod: Online/Offline/Hidden v2.2.7 END
+		
         else:
         
            $profile_url = '';
@@ -2268,8 +2273,7 @@ for($i = 0; $i < $total_posts; $i++):
       else:
       $template->assign_block_vars('postrow.switch_spacer', array());
      endif;
-
-# Mod: Log Actions Mod - Topic View v2.0.0 END
+     # Mod: Log Actions Mod - Topic View v2.0.0 END
 
      # Mod: Attachment Mod v2.4.1 START
      display_post_attachments($postrow[$i]['post_id'], $postrow[$i]['post_attachment']);

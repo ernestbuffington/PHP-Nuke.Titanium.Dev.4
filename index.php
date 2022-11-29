@@ -41,7 +41,7 @@ require_once(dirname(__FILE__).'/mainfile.php');
 /*****[BEGIN]******************************************
  [ Mod:    Banner Ads                          v1.0.0 ]
  ******************************************************/
-global $prefix, $db, $admin_file, $httpref, $httprefmax;
+global $prefix, $db, $admin_file, $httpref, $httprefmax, $module_name;
 if (isset($_GET['op'])):
 	if($_GET['op'] == 'ad_click' && isset($_GET['bid'])):
         $bid = intval($_GET['bid']);

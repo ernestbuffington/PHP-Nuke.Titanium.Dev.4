@@ -356,7 +356,11 @@ switch ($op)
 
         if($neconfig["columns"] == 1) // DUAL BLOG
 		{ 
-            if ($a ==1) { echo "<td width='50%'>&nbsp;</td></tr>\n"; } else { echo "</tr>\n"; }
+            if ($a ==1) { echo "<td width='50%'>&nbsp;</td></tr>\n"; } 
+			else 
+			{ 
+			  echo "</tr>\n"; 
+			}
             echo "</table>\n";
         }
         
@@ -375,33 +379,61 @@ switch ($op)
 		else 
             $articlepages = $articlepagesint;
 
-        if ($articlepages!=1 && $articlepages!=0) 
+        if ($articlepages !=1 && $articlepages !=0) 
 		{
-            //echo "<br />\n";
-        
 		    OpenTable();
-        
-		    $counter = 1;
+			print '<div align="center" style="padding-top:20px;">';
+            print '</div>';
+
+            print '<div align="center">';        
+		    
+			if ( defined('pagination') ):
+
+			print '<div class="pagination_section">';
+
+			while ($counter <= $articlepages ) 
+			{
+                $cpage = $counter;
+                $mintemp = ($storynum * $counter) - $storynum;
+                
+				global $name;
+				
+				if(($mintemp >= 0) && ($name != 'Blogs')):
+				 echo '<a style="text-shadow:none;" href="index.php?min='.$mintemp.'">'.$counter.'</a>&nbsp;';
+				 elseif($mintemp >= 0):
+				 echo '<a style="text-shadow:none;" href="modules.php?name='.$module_name.'&amp;min='.$mintemp.'">'.$counter.'</a>&nbsp;';
+				endif;
+                
+				$counter++;
+            }
+           print '</div></div>';
+
+			else:
+
+			$counter = 1;
             $currentpage = ($max / $storynum);
-        
 		    echo "<div align=\"center\"><form action='modules.php?name=$module_name' method='post'>\n";
             echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
             echo "<tr>\n<td><strong>"._BLOG_SELECT." </strong><select name='min' onChange='top.location.href=this.options[this.selectedIndex].value'>\n";
-        
+            
 		    while ($counter <= $articlepages ) 
 			{
                 $cpage = $counter;
                 $mintemp = ($storynum * $counter) - $storynum;
             
-			    if ($counter == $currentpage) 
+			    global $name;
+				
+			    if ($counter == $currentpage): 
                     echo "<option selected>$counter</option>\n";
-				else 
-				{
-                    if($module_name == $main_module) 
+				else: 
+				
+                    //if($module_name == $main_module) 
+					if(($mintemp >= 0) && ($name != 'Blogs')):
                       echo "<option value='index.php?min=$mintemp'>$counter</option>\n";
-					else 
+					else: 
                       echo "<option value='modules.php?name=$module_name&amp;min=$mintemp'>$counter</option>\n";
-                }
+					endif;
+                endif;
                 
 				$counter++;
             }
@@ -409,8 +441,17 @@ switch ($op)
             echo "</select> "._BLOG_OF." $articlepages "._BLOG_PAGES."</td>\n</tr>\n";
             echo "</table>\n";
             echo "</form></div>\n";
-
-            CloseTable();
+            
+			endif;
+			
+			if ( defined('pagination') ):
+			
+			else:
+			  print '<div align="center" style="padding-bottom:16px;">';
+              print '</div>';
+			endif;
+			
+ 			CloseTable();
         }
 
         echo "<!-- CLOSE PAGING -->\n";

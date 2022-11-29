@@ -1660,17 +1660,7 @@ if(!function_exists('themeindex'))
 
 if(!function_exists('OpenTableModule')) 
 {
-    function OpenTableModule($title, $content) 
-	{
-		OpenTable();
-        echo '<strong>'.$title.'</strong><br /><br />';
-    
-	    if (!empty($content)) 
-		{
-            echo '<br /><br />'.$content;
-        }
-		CloseTable();
-    }
+  OpenTable();
 }
 
 if(!function_exists('themeindex')) 

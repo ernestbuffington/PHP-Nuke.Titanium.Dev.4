@@ -91,13 +91,10 @@ function head()
 	if (@file_exists(TITANIUM_INCLUDE_DIR . 'cookies.php'))  #            Added by Ernest Buffington
 	include(TITANIUM_INCLUDE_DIR . 'cookies.php');           #----------- Load the custom cookies file if it exist COOKIE CONTROL
     ##########################################################            Jan 1st 2012 
+	echo "\n<!-- Loadiing includes/javascript.php from header.php -->\n";
 	include_once(NUKE_INCLUDE_DIR.'javascript.php');         #------ Javascript Loader 09/21/2019
     ########################################################## 
 
-	if (@file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php')): # CHECK FOR THEME JAVASCRIPT Added by Ernest Buffington 3/16/2021 10:58am
-	  echo "\n<!-- Loadiing themes/".$ThemeSel."/includes/javascript.php from header.php -->\n\n";
-      include_once(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php');
-	endif;
 
 	global $titanium_browser;
     $titanium_browser = new Browser();
@@ -108,10 +105,16 @@ function head()
 	addPHPCSSToHead(NUKE_BASE_DIR.'includes/css/cms_css.php','file');
     # FlyKit Mod v1.0.0 END
 
+	if (@file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php')): # CHECK FOR THEME JAVASCRIPT Added by Ernest Buffington 3/16/2021 10:58am
+	  echo "\n<!-- Loadiing themes/".$ThemeSel."/includes/javascript.php from header.php -->\n\n";
+      include_once(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php');
+	endif;
+
     # START Load current theme. - 09/07/2019
 	echo "\n<!-- Loadiing themes/".$ThemeSel."/theme.php from header.php -->\n";
     include_once(NUKE_THEMES_DIR.$ThemeSel.'/theme.php');
 	# START Load current theme. - 09/07/2019
+
 
 	echo "\n<!-- Loadiing favicon from header.php -->\n\n";
     if ((($favicon = $cache->load('favicon', 'config')) === false) || empty($favicon)): 
