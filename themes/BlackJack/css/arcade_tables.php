@@ -89,14 +89,14 @@ td.arcadeCat, td.arcadeCatHead, td.arcadeCatBottom {
 
 /* Arcade Center Top Title Bar*/
 th.arcadeThHead, th.arcadeThSides, th.arcadeThTop, th.arcadeThLeft, th.arcadeThRight, th.arcadeThBottom, th.arcadeThCornerL, th.arcadeThCornerR {
-	color: #F1F1F1;
+	color: #000000;
 	font-size: 14px;
-	background-color: #97834f;
-	background: #97834f;
+	background-color: #000000;
+	background: #151515;
 	white-space: nowrap;
-	border: 3px solid #c9b06d;
+	border: 3px solid #151515;
 	padding: 4px;
-    box-shadow: inset 1px 1px 3px #000;
+    box-shadow: inset 1px 1px 3px #000000;
 }
 
 /* Forum_Body.tpl - Last Column */
