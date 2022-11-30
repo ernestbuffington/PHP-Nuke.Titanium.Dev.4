@@ -39,17 +39,17 @@ td.whoisplaying_row {
 }
 
 td.arcadeRow1 {
-	background: #988653;
-    background-color: #988653;
-	border: 3px solid #c9b06d;
+	background: #000000;
+    background-color: #000000;
+	border: 3px solid #151515;
 	padding: 4px;
     box-shadow: inset 1px 1px 3px #000;
 }
 
 td.arcadeRow2 {
-	background: #645838;
-    background-color: #645838;
-	border: 3px solid #c9b06d;
+	background: #151515;
+    background-color: #151515;
+	border: 3px solid #151515;
 	padding: 4px;
     box-shadow: inset 1px 1px 3px #000;
 }

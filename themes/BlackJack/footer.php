@@ -83,7 +83,11 @@ echo '</table>'.PHP_EOL;
 
 
 # do not remove anything from here down when making a theme! The theme will not show up correctly
-//echo '</table>'.PHP_EOL;
+
+//echo '</tr>';            # opacity overlay table END (start is in theme header) 
+//echo '</td>';            # opacity overlay table END (start is in theme header) 
+//echo '</table>'.PHP_EOL; # opacity overlay table END (start is in theme header) 
+
 echo '</div>'.PHP_EOL;
 echo '</section>'.PHP_EOL;
 echo '<!-- FOOTER END -->'.PHP_EOL.PHP_EOL;

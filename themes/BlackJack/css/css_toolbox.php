@@ -201,7 +201,7 @@ border-radius: 11px;
 background-color: black;
 }
 
-#borderOpenTable {
+#borderFunctionOpenTable {
 margin-left: 6px;
 margin-right: 6px;
 border: 4px solid <?=$bgcolor5?>;
@@ -356,10 +356,7 @@ background-color: black;
 }
 
 body {
-  background-color: black !important;
-  display: flex;
-  justify-content: center;
-  min-height: 100vh;
+
 }
 input[type='submit'] {
     transition: all .5s ease;

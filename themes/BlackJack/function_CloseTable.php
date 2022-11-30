@@ -9,7 +9,7 @@ function CloseTable()
 {
   global $theme_name, $title, $bgcolor1, $bgcolor2, $theme_name, $textcolor1, $textcolor2, $pagetitle; 
 	
-print '<div align="center" style="padding-top:20px;">';
+print '<div align="center" style="padding-top:20px;"></div>';
 print '</div>';
 }
 

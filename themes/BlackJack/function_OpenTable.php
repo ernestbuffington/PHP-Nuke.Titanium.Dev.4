@@ -10,7 +10,7 @@ function OpenTable()
 {
 global $theme_name, $bgcolor4;
 
-print '<div id="borderOpenTable">'."\n";
+print '<div id="borderFunctionOpenTable">'."\n";
 
 }
 ?>

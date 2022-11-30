@@ -157,7 +157,7 @@ input[type='checkbox']
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color: black;
+    background-color: transparent;
 }
 
 #flex-item {
@@ -231,9 +231,8 @@ body {
 	text-rendering: optimizeLegibility;
     overflow-y: scroll; /* Show vertical scrollbar */
     /* overflow-x: scroll;  Show horizontal scrollbar */
-    background-color: black;
+    background-color: black !important;
 }
-
 
 
 a {

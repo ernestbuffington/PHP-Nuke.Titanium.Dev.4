@@ -147,11 +147,11 @@ $marquee_two = '
               <strong>::: <span style="color:'.$textcolor2.'"><a href="https://bigcountryradio.net" target="_blank">Sponsor: Big Country Radio - The EJ Morning Show</a></span> :::</strong>';
 
 # This is where we set the poster background and full screen video START
-echo '<div class="fullscreen-bg">'."\n";
+//echo '<div class="fullscreen-bg">'."\n";
 # echo '<video muted loop autoplay poster="themes/'.$theme_name.'/blackjack/main_background/black_background.png" class="fullscreen-bg__video">'."\n";
 # echo '<source src="themes/'.$theme_name.'/video/aqua_fresh.mp4" type="video/mp4">'."\n"; ### 1 to 10  This is a 10 ### BEST SO FAR
 # echo '</video>'."\n";
-echo '</div>'."\n";
+//echo '</div>'."\n";
 # This is where we set the poster background and full screen video END
 
 # This is the flex container used to resize the layout START
@@ -163,9 +163,9 @@ echo '<div class="container" style="width: '.$locked_width.'">'."\n";
 //echo '<div style="padding-top:6px;"></div>'."\n";
 
 # This stays always
-//echo '<table class="header_table_opacity">'."\n";
-//echo '<tr>'."\n";
-//echo '<td>'."\n";
+//echo '<table class="header_table_opacity">'."\n"; # opacity overlay table START (end is in theme footer) 
+//echo '<tr>'."\n";                                 # opacity overlay table START (end is in theme footer) 
+//echo '<td>'."\n";                                 # opacity overlay table START (end is in theme footer) 
 
 # add the top of your tabel here
 echo "\n<!-- HEADER (START)-->\n";

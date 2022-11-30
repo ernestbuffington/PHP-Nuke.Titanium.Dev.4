@@ -54,8 +54,13 @@
       SiteMap Mod                              v1.0.0       04/26/2021
 	  Dynamic CSS, JS and PHPCSS               v1.0.0       04/29/2021
  ************************************************************************/
-if((defined('NUKE_EVO')) || (defined('NUKE_TITANIUM')))return;
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))exit('Access Denied');
+if((defined('NUKE_EVO')) || (defined('NUKE_TITANIUM'))):
+  return;
+endif;
+
+if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])):
+ exit('Access Denied');
+endif;
 
 # Define File
 define_once('NUKE_EVO', '2.0.9e');
@@ -1660,7 +1665,11 @@ if(!function_exists('themeindex'))
 
 if(!function_exists('OpenTableModule')) 
 {
-  OpenTable();
+   function OpenTableModule() 
+   {
+      global $theme_name, $bgcolor4;
+      print '<div id="borderFunctionOpenTable">'."\n";
+   }
 }
 
 if(!function_exists('themeindex')) 
