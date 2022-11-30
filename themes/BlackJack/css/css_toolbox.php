@@ -551,16 +551,6 @@ a.SMALLbuttonlink:hover {
   margin-right: 0px;
 }
 
-td.linkUStable{
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  margin-left: 8px;
-  margin-right: 8px;
-}
 
 .linkUStable{
   padding-left: 6px;
@@ -571,6 +561,19 @@ td.linkUStable{
   margin-bottom: 6px;
   margin-left: 6px;
   margin-right: 6px;
+}
+
+td.HeightController{
+  height: 205px !important;
+  overflow: hidden;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 <?
