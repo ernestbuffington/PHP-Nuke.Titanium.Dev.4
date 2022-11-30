@@ -89,16 +89,7 @@ animation: blinker-two 1.4s linear infinite;
  *----------------------------------------
  */
 
-.fit-top-center 
-{
-  object-position: top center;
-}
-.fitted-image 
-{
-  width: 100%;
-  height: 100vh;
-  object-fit: cover; 
-}
+
 
 .banner_left {
 position: absolute;

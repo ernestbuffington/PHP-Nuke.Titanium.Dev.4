@@ -520,4 +520,57 @@ a.SMALLbuttonlink:hover {
     transition: opacity .5s;
 }
 
+.fit-top-center 
+{
+  object-position: top center;
+}
+.fitted-image 
+{
+  width: 100%;
+  height: 100vh;
+  object-fit: cover; 
+}
+
+.linkUSlegend{
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  
+  
+}
+
+#linkUSfieldset{
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+td.linkUStable{
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.linkUStable{
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
 <?

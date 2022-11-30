@@ -75,19 +75,24 @@ if ($config['button_standard'] == 1){
 			{
 
                 if ($num == 0) { echo "<tr>"; }
-                echo "<td width='50%' valign='top'>";
-                //OpenTable();
+                echo "<td class='linkUStable' width='50%' valign='top'>";
+                
+				//OpenTable();
 				
 				global $fieldset_color, $fieldset_border_width; 
-                echo '<fieldset style="color: '.$fieldset_color,'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
-                echo '<legend align="center" id="Legend6" runat="server" visible="true" style="width:auto; margin-bottom: 0px; color: #cecece; font-size: 18px; font-weight: bold;">
-				<a href="modules.php?name='.$module_name.'&amp;op=visit&amp;id='.$id.'" target="_blank"><i class="bi bi-link"></i></i> '.set_smilies(decode_bbcode(stripslashes($site_name), 1, true)).' <i class="bi bi-link"></i></i></a></legend>';				
+                
+				echo '<fieldset class="linkUSfieldset" style="color: '.$fieldset_color,'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
+                
+				echo '<legend class="linkUSlegend" align="center" visible="true" style="width:auto; margin-bottom: 0px; color: #cecece; font-size: 18px; font-weight: bold;">
+				<a href="modules.php?name='.$module_name.'&amp;op=visit&amp;id='.$id.'" target="_blank"><i class="bi bi-link"></i></i> '
+				.set_smilies(decode_bbcode(stripslashes($site_name), 1, true)).' <i class="bi bi-link"></i></i></a></legend>';				
                 
 				#set font color
-				print '<font color="white" style="opacity: 1.0;">';
+				print '<span style="color: white; opacity: 1.0;">';
                 
-				print '<table height="114" border="0">';
-                print '<tr>';
+				print '<table class="linkUStable" height="114" border="0">';
+                
+				print '<tr>';
 
                 print "<td rowspan=\"2\" width=\"110\" align=\"center\" valign=\"top\"><a href='modules.php?name=".$module_name."&amp;op=visit&amp;id=".$id."' target='_blank'><img height=\"31\" src='".$site_image."' ".$settings." /></a></a>";
 
@@ -115,13 +120,14 @@ if ($config['button_standard'] == 1){
 
                print '<tr>';
 			   print '<td height="150" width="100%" colspan="2" align="left" valign="top">';
-			   print '<strong><i class="bi bi-info-square"></i>
-&nbsp;</strong>'.set_smilies(decode_bbcode(stripslashes($site_description),1, true)).'</font></td>';
+			   print '<strong><i class="bi bi-info-square"></i>&nbsp;</strong>'.set_smilies(decode_bbcode(stripslashes($site_description),1, true)).'</span></td>';
 
               print '</tr>';
               print '</table>';
+			  
               echo"</fieldset>";
-              echo"<br/>";
+              
+			  //echo"<br/>";
 				//CloseTable();
                 echo "</td>";
                 $num++;
