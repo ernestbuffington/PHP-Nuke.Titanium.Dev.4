@@ -100,13 +100,6 @@ animation: blinker-two 1.4s linear infinite;
   object-fit: cover; 
 }
 
-.banner_box
-{
-z-index: 780;
-color: rgb(104, 182, 4);
-opacity: 9.0;
-}
-
 .banner_left {
 position: absolute;
 margin: 0px 0px 0px 82px;

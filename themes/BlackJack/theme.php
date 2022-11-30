@@ -127,10 +127,10 @@ $menu_text_color = 'white';
 echo "<!-- Setting THEME Menu Text to ".$digits_color." in themes/".$theme_name."/theme.php -->\n";
 
 $fieldset_border_width = '1px'; 
-echo "<!-- Setting THEME filedset border width to ".$fieldset_border_width." in themes/".$theme_name."/theme.php -->\n";
+echo "<!-- Setting THEME fieldset border width to ".$fieldset_border_width." in themes/".$theme_name."/theme.php -->\n";
 
 $fieldset_color = '#4e4e4e';
-echo "<!-- Setting THEME filedset color to ".$fieldset_color." in themes/".$theme_name."/theme.php -->\n";
+echo "<!-- Setting THEME fieldset color to ".$fieldset_color." in themes/".$theme_name."/theme.php -->\n";
 
 $define_theme_xtreme_209e = false;
 echo "<!-- Setting THEME Xtreme Conversion to FALSE in themes/".$theme_name."/theme.php -->\n";

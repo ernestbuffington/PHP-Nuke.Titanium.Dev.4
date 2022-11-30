@@ -1499,18 +1499,18 @@ else
 		{
 			# user_allowavatar = 1
 			case USER_AVATAR_UPLOAD:
-				$avatar_img = ( $board_config['allow_avatar_upload'] ) ? '<img class="rounded-corners-last-vistors" style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . $board_config['avatar_path'] . '/' . $user_avatar . '" alt="" border="0" />' : '';
+				$avatar_img = ( $board_config['allow_avatar_upload'] ) ? '<img class="rounded-corners-usercp_register" style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . $board_config['avatar_path'] . '/' . $user_avatar . '" alt="" border="0" />' : '';
 				break;
 
 			# user_allowavatar = 2
 			case USER_AVATAR_REMOTE:
 				// $avatar_img = resize_avatar($user_avatar);
-				$avatar_img = '<img class="rounded-corners-last-vistors" style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . resize_avatar($user_avatar) . '" alt="" border="0" />';
+				$avatar_img = '<img class="rounded-corners-usercp_register" style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . resize_avatar($user_avatar) . '" alt="" border="0" />';
 				break;
 
 			# user_allowavatar = 3
 			case USER_AVATAR_GALLERY:
-				$avatar_img = ( $board_config['allow_avatar_local'] ) ? '<img class="rounded-corners-last-vistors" style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($user_avatar == 'blank.png' || $user_avatar == 'gallery/blank.png') ? 'blank.png' : $user_avatar) . '" alt="" border="0" />' : '';
+				$avatar_img = ( $board_config['allow_avatar_local'] ) ? '<img class="rounded-corners-usercp_register" style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '.$board_config['avatar_max_width'].'px;" src="' . $board_config['avatar_gallery_path'] . '/' . (($user_avatar == 'blank.png' || $user_avatar == 'gallery/blank.png') ? 'blank.png' : $user_avatar) . '" alt="" border="0" />' : '';
 				break;
 		}
 	}

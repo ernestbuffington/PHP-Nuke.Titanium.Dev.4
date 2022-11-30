@@ -828,6 +828,12 @@ img.rounded-corners-arcade-center_block {
   width: 80px; 
 }
 
+
+img.rounded-corners-usercp_register {
+  border-radius: 9px;
+  width: 150px; 
+}
+
 /*
  * W3 Settings
  *----------------------------------------
