@@ -24,6 +24,7 @@ endif;
 			             $opacity,
         $make_xtreme_avatar_small,
                  $poweredby_color,
+		   $poweredby_hover_color,
 	           $menu_image_height,
 			    $side_block_width,
                               $db;
@@ -120,8 +121,11 @@ echo "<!-- Setting THEME digits text color to ".$digits_txt_color." in themes/".
 $digits_color ='#FF0000';     # How many reads
 echo "<!-- Setting THEME digits color to ".$digits_color." in themes/".$theme_name."/theme.php -->\n";
 
-$poweredby_color = '#337ab7';
-echo "<!-- Setting THEME Powered By Text color to ".$digits_color." in themes/".$theme_name."/theme.php -->\n";
+$poweredby_color = 'grey';
+echo "<!-- Setting THEME Powered By Text color to ".$poweredby_color." in themes/".$theme_name."/theme.php -->\n";
+
+$poweredby_hover_color = '#337ab7';
+echo "<!-- Setting THEME Powered By Text Hover color to ".$poweredby_hover_color." in themes/".$theme_name."/theme.php -->\n";
 
 $menu_text_color = 'white';
 echo "<!-- Setting THEME Menu Text to ".$digits_color." in themes/".$theme_name."/theme.php -->\n";
