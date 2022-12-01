@@ -454,7 +454,7 @@ $a++;
 }
     // Banner in the middle of the site
 
-    if (blocks_visible('right') && !defined('ADMIN_FILE')) {
+    if (blocks_visible('right')) {
         echo "</td>\n";
         echo "        <td style=\"width: 10px;\" valign=\"top\"><img src=\"themes/".$theme_name."/images/spacer.gif\" alt=\"\" width=\"10\" height=\"1\" /></td>\n";
         echo "       <td style=\"width: 168px;\" valign=\"top\">\n";

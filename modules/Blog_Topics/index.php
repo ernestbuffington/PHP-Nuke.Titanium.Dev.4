@@ -118,8 +118,6 @@ else
 {
   echo "<i>"._NONEWSYET."</i>";
 }
-echo "<br /><br /><br /><br />";
-
 CloseTable();
 
 include_once(NUKE_BASE_DIR.'footer.php');
