@@ -159,6 +159,7 @@ echo '<section id="flex-container">'."\n";
 //echo '<div class="container" style="width: '.theme_width.'">';
 echo '<div class="container" style="width: '.$locked_width.'">'."\n";
 
+echo '<div align="center">';
 # space at the top of the page
 //echo '<div style="padding-top:6px;"></div>'."\n";
 

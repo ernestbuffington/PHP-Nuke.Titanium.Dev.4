@@ -113,22 +113,6 @@ add_css_to_head(NUKE_CSS_DIR.'cookieconsent.min.css','file');
 echo "<!-- Loading cookieconsent.min.js v0 from includes/js/jquery.php -->\n";
 add_js_to_head(NUKE_JQUERY_SCRIPTS_DIR.'cookieconsent.min.js','file');
 
-echo "<!-- Loading jquery.paging.js from includes/js/jquery_paging/ -->\n";
-add_js_to_head(NUKE_JQUERY_INCLUDE_DIR.'jquery_paging/jquery.paging.js','file');
-
-echo "<!-- Loading jquery.easy-paging.js from includes/js/jquery_paging/example/ -->\n";
-add_js_to_head(NUKE_JQUERY_INCLUDE_DIR.'jquery_paging/example/jquery.easy-paging.js','file');
-
-echo "<!-- Loading jQuery Paging INLINE JavaScript from includes/js/jquery.php -->\n";
-$easy_paging_inline  = '<script>'.PHP_EOL;
-$easy_paging_inline .= '$("#paging").easyPaging(1000, {'.PHP_EOL;
-$easy_paging_inline .= 'onSelect: function(page) {'.PHP_EOL;
-$easy_paging_inline .= '$("#output").html("You are on page " + page + " and you will select elements "+(this.slice[0]+1) + "-" + this.slice[1]+"!!!");'.PHP_EOL;
-$easy_paging_inline .= '}'.PHP_EOL;
-$easy_paging_inline .= '});'.PHP_EOL;
-$easy_paging_inline .= '</script>'.PHP_EOL;
-add_js_to_head($easy_paging_inline,'inline');
-
 echo "<!-- Loading Cookie Consent JavaScript from includes/js/jquery.php -->\n";
 $cookieconsent_inline  = '<script>'.PHP_EOL;
 $cookieconsent_inline .= 'window.addEventListener("load", function(){'.PHP_EOL;
