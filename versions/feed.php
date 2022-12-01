@@ -9,6 +9,22 @@
 <div align="center"><strong>PHP-Nuke Titanium Repsoitory</strong> (Nightly Builds)</div>
 <div align="center"><a class="titaniumbutton" href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><i class="bi bi-github"></i> Visit GitHub Repository</a></div>
 <hr>
+<strong><i class="bi bi-calendar3"></i> Nov 30th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Link Us Module<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Nov 29th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Google Site Map<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Nov 28th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Created BlackJack Theme v1.0<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Nov 27th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Copyright System<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Nov 26th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Profile Edit Avatar<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Nov 25th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Visitor Log Center<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Nov 24th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Cleaned Up Theme Template Code<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Nov 23rd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Doctype/MimeType System<br />
+<hr>
 <strong><i class="bi bi-calendar3"></i> Nov 22nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Top 10 Links Block<br />
 <strong><i class="bi bi-calendar3"></i> Nov 22nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Link Us Block<br />
 <strong><i class="bi bi-calendar3"></i> Nov 22nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Shout Block<br />

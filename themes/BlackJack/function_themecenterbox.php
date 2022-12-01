@@ -27,7 +27,7 @@ function themecenterbox($title, $content)
   
   endif;
   
-  print '<div align="center" style="padding-top:20px;">'.PHP_EOL;
+  print '<div align="center" style="padding:10px;">'.PHP_EOL;
   print '</div>'.PHP_EOL;
   
   print "<!-- CENTER BLOCK CONTENT END -->\n\n";  

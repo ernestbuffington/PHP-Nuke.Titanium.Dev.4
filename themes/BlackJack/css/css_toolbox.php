@@ -340,9 +340,7 @@ background-color: black;
   box-shadow: inset 0 0 0 1px 1px;
 }
 
-.btn {
-  background: none;
-  border: none;
+.btn86 {
   cursor: pointer;
   line-height: 1.5;
   font: 700 1.2rem "Roboto Slab", sans-serif;
@@ -350,7 +348,7 @@ background-color: black;
   letter-spacing: 0.05rem;
   border-radius: 6px;
 }
-.btn:focus {
+.btn86:focus {
   outline: 2px dotted #55d7dc;
   border-radius: 6px;
 }

@@ -38,7 +38,9 @@
       Display Writes                           v1.0.0       10/14/2005
 	  Titanium Patched                         v3.0.0       08/26/2019
  ************************************************************************/
-if (!defined('MODULE_FILE')) die('You can\'t access this file directly...');
+if(!defined('MODULE_FILE')): 
+  die('You can\'t access this file directly...');
+endif;
 
 global $storyhome, $topicname, $topicimage, $topictext, $datetime, $user, $cookie, $prefix, $multilingual, $currentlang, $db, $articlecomm, $module_name, $userinfo;
 
@@ -46,7 +48,7 @@ $module_name = basename(dirname(__FILE__));
 
 get_lang($module_name);
 
-@include_once(NUKE_INCLUDE_DIR."functions_blog.php");
+include_once(NUKE_INCLUDE_DIR."functions_blog.php");
 
 $neconfig = get_blog_configs();
 
@@ -56,8 +58,9 @@ $categories = 1;
 
 automated_blogs();
 
-if ($catid == 0 OR empty($catid)) 
-redirect("modules.php?name=$module_name"); 
+if($catid == 0 || empty($catid)): 
+  redirect("modules.php?name=$module_name"); 
+endif;
 
 switch ($op) 
 {
@@ -91,7 +94,7 @@ switch ($op)
 		{
             echo "<script>\n";
             echo "<!-- Begin\n";
-            echo "function NewsReadWindow(mypage, myname, w, h, scroll) {\n";
+            echo "function BlogsReadWindow(mypage, myname, w, h, scroll) {\n";
             echo "var winl = (screen.width - w) / 2;\n";
             echo "var wint = (screen.height - h) / 2;\n";
             echo "winprops = 'height='+h+',width='+w+',top='+wint+',left='+winl+',scrollbars='+scroll+''\n";
@@ -182,7 +185,7 @@ switch ($op)
               $the_icons .= '&nbsp;<a href="'.$admin_file.'.php?op=RemoveBlog&amp;sid='.$artinfo["sid"].'"><i class="fa fa-times-circle"></i></a>';
             }
 			
-			$read_link = "<a href='modules.php?name=$module_name&amp;file=read_article&amp;sid=".$artinfo["sid"]."$r_options' onclick=\"NewsReadWindow(this.href,'ReadArticle','600','400','yes');return false;\">";
+			$read_link = "<a href='modules.php?name=$module_name&amp;file=read_article&amp;sid=".$artinfo["sid"]."$r_options' onclick=\"BlogsReadWindow(this.href,'ReadArticle','600','400','yes');return false;\">";
             $story_link = "<a href='modules.php?name=$module_name&amp;file=article&amp;sid=".$artinfo["sid"]."$r_options'>";
             $morelink = "( ";
 

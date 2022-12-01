@@ -49,7 +49,7 @@ $theme_business = 'Brandon Maintenance Management, LLC';
 echo "<!-- Setting THEME Business to ".$theme_business," in themes/".$theme_name."/theme.php -->\n";
 
 # Theme Name
-$theme_title = '<u>GoldBar Theme v3.0 &copy; 2022</u>';
+$theme_title = '<u>BlackJack Theme v1.0 &copy; 2022</u>';
 echo "<!-- Setting THEME name to ".$theme_title," in themes/".$theme_name."/theme.php -->\n";
 define('THEME', $theme_title);
 
@@ -63,7 +63,7 @@ echo "<!-- Setting THEME Author to ".$theme_author," in themes/".$theme_name."/t
 define('THEME_AUTHOR', $theme_author);
 
 # Theme creation date
-$theme_date = '11/01/2022';
+$theme_date = '11/29/2022';
 echo "<!-- Setting THEME DATE to ".$theme_date," in themes/".$theme_name."/theme.php -->\n";
 define('THEME_DATE', $theme_date);
 
@@ -120,7 +120,7 @@ echo "<!-- Setting THEME digits text color to ".$digits_txt_color." in themes/".
 $digits_color ='#FF0000';     # How many reads
 echo "<!-- Setting THEME digits color to ".$digits_color." in themes/".$theme_name."/theme.php -->\n";
 
-$poweredby_color = 'goldenrod';
+$poweredby_color = '#337ab7';
 echo "<!-- Setting THEME Powered By Text color to ".$digits_color." in themes/".$theme_name."/theme.php -->\n";
 
 $menu_text_color = 'white';

@@ -76,7 +76,7 @@ print '</div>'.PHP_EOL;
 # This stays no matter what END
 
 # This sets the space between blogs listed START
-print '<div align="center" style="padding-top:20px;">'.PHP_EOL;
+print '<div align="center" style="padding:10px;">'.PHP_EOL;
 print '</div>'.PHP_EOL;
 # This sets the space between blogs listed END
 

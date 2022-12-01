@@ -61,6 +61,51 @@ animation: blinker-two 1.4s linear infinite;
  * 2. Marquee Settings
  *----------------------------------------
  */
+.above_banner_left {
+position: absolute;
+margin: 0px 0px 0px 82px;
+left: 0;
+display:inline;
+z-index: 9999;
+}
+
+.above_banner_right {
+position: absolute;
+margin: 0px 82px 0px 0px;
+right: 0;
+display:inline;
+z-index: 9999;
+}
+
+.above_marquee_one {
+  width: 484px;
+  height: 23px;
+  overflow: hidden;
+  color: #d1d8da;
+  font-family: 'Roboto Mono', monospace;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: 900;
+  text-shadow: 2px 2px #000000;
+}
+
+.above_marquee_two {
+  width: 484px;
+  height: 23px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 97px;
+  margin-right: 0px;
+  overflow: hidden;
+  color: #d1d8da;
+  font-family: 'Roboto Mono', monospace;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: 900;
+  text-shadow: 2px 2px #000000;
+}
 
 .marquee_one {
   width: 484px;
@@ -74,6 +119,10 @@ animation: blinker-two 1.4s linear infinite;
 }
 
 .marquee_two {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 97px;
+  margin-right: 0px;
   width: 484px;
   height: 23px;
   overflow: hidden;
@@ -98,6 +147,20 @@ animation: blinker-two 1.4s linear infinite;
   width: 100%;
   height: 100vh;
   object-fit: cover; 
+}
+
+td.marquee_left {
+display: inline-block;
+margin-top: 20px;
+margin-bottom: 0px;
+margin-left: 0px;
+margin-right: 0px;
+}
+
+td.marquee_right {
+display: inline-block;
+margin-top: 20px;
+margin-left: 29px;
 }
 
 .banner_left {

@@ -203,7 +203,7 @@ echo '<td align="center" class="bannerLeftSide" height="auto" width="33.3%"><div
 echo ''.PHP_EOL;
 echo '</td>'.PHP_EOL;
 
-echo '<td valign="top" height="auto" width="33.3%">'.PHP_EOL;
+echo '<td class="stacklogos" valign="top">'.PHP_EOL;
 echo '<div align="center" style="padding-top: 10px; vertical-align: top;">'.PHP_EOL;
 echo '<a href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><img class="hover_effect" width="64" src="images/brands/png/github-active.png" /></a>&nbsp;&nbsp;'.PHP_EOL;
 echo '<a href="https://3v4l.org/kuLmD#v7.4.33" target="_blank"><img class="hover_effect" width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-plain.svg" /></a>'.PHP_EOL;
@@ -214,15 +214,23 @@ echo '<a href="https://htmlcheatsheet.com/js/" target="_blank"><img class="hover
 echo '<a href="https://framework.zend.com/downloads" target="_blank"><img class="hover_effect" width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/zend/zend-plain-wordmark.svg" /></a>&nbsp;&nbsp;'.PHP_EOL;
 echo '<a href="https://htmlcheatsheet.com/jquery/" target="_blank"><img class="hover_effect" width="64" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jquery/jquery-plain-wordmark.svg" /></a>'.PHP_EOL;
 echo '<div align="center" style="padding-top: 10px; vertical-align: top;"></div>'.PHP_EOL;
-include(theme_dir.'css3_menu.php');
+//include(theme_dir.'css3_menu.php');
 echo '</div>'.PHP_EOL;
 echo '</td>'.PHP_EOL;
 
 echo '<td align="center" class="bannerRightSide" height="auto" width="33.3%"><div align="right">'.network_ads(0).'</div>'.PHP_EOL;
 echo '</td>'.PHP_EOL;
-echo '<tr><td valign="top" height="auto" width="33.3%"><div class="marquee_one banner_left">'.$marquee_one.'</div></td>'.PHP_EOL;
-echo '<td valign="top" height="auto" width="33.3%"></td>'.PHP_EOL;
-echo '<td valign="top" height="auto" width="33.3%"><div class="marquee_two banner_right">'.$marquee_two.'</div></td></tr>'.PHP_EOL;
+
+echo '<tr><td style="height: 23px !important; width: 33.3%;"><div class="above_marquee_one" align="center">We are running PHP-Nuke Titanium v'.NUKE_TITANIUM.'</div></td>'.PHP_EOL;
+echo '<td style="height: 23px !important; width: 33.3%;"><div align="center"></div></td>'.PHP_EOL;
+echo '<td style="height: 23px !important; width: 33.3%;"><div class="above_marquee_two" align="center">Sponsor Tron for PHP-Nuke Titanium</div></td></tr>'.PHP_EOL;
+
+# marquees for left and right side
+echo '<tr><td style="height: 23px !important; width: 33.3%;"><div align="center" class="marquee_one">'.$marquee_one.'</div></td>'.PHP_EOL;
+echo '<td style="height: 23px !important; width: 33.3%;">'.PHP_EOL;
+include(theme_dir.'css3_menu.php');
+echo '</td>'.PHP_EOL;
+echo '<td style="height: 23px !important; width: 33.3%;"><div align="center" class="marquee_two">'.$marquee_two.'</div></td></tr>'.PHP_EOL;
 
 echo '</tr>'.PHP_EOL;
 echo '</table>'.PHP_EOL;

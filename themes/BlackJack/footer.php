@@ -49,15 +49,23 @@ if(blocks_visible('right'))
   blocks('right');
 }
 
+
+
 echo "</td>\n";
 echo "<td style=\"padding-right: 6px;\" valign=\"top\"></td>\n"; # set the space between the right side of the main body table and the blocks
 echo "</tr>\n";
 echo "</table>\n\n";
 
-print '<div align="center" style="padding-top:20px;">';
-print '</div>';
+//print '<div align="center" style="padding-top:20px;">';
+//print '</div>';
     
 echo "<!-- Top Footer START -->\n";
+
+echo '<div align="center">';
+OpenTable();
+footmsg();
+CloseTable();
+echo '</div>';
 
 echo '</td>'.PHP_EOL; # Middle Of The Page TEXT AREA
 

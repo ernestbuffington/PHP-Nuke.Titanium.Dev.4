@@ -65,7 +65,7 @@ switch ($op) {
         if($neconfig["readmore"] == 1) {
             echo "<script>\n";
             echo "<!-- Begin\n";
-            echo "function NewsReadWindow(mypage, myname, w, h, scroll) {\n";
+            echo "function BlogsReadWindow(mypage, myname, w, h, scroll) {\n";
             echo "var winl = (screen.width - w) / 2;\n";
             echo "var wint = (screen.height - h) / 2;\n";
             echo "winprops = 'height='+h+',width='+w+',top='+wint+',left='+winl+',scrollbars='+scroll+''\n";
@@ -135,7 +135,7 @@ switch ($op) {
               $the_icons .= '&nbsp;<a href="'.$admin_file.'.php?op=RemoveBlog&amp;sid='.$artinfo["sid"].'"><i class="fa fa-times-circle"></i></a>';
             }
 			
-            $read_link = "<a href='modules.php?name=$module_name&amp;file=read_article&amp;sid=".$artinfo["sid"]."$r_options' onclick=\"NewsReadWindow(this.href,'ReadArticle','600','400','yes');return false;\">";
+            $read_link = "<a href='modules.php?name=$module_name&amp;file=read_article&amp;sid=".$artinfo["sid"]."$r_options' onclick=\"BlogsReadWindow(this.href,'ReadArticle','600','400','yes');return false;\">";
             $story_link = "<a href='modules.php?name=$module_name&amp;file=article&amp;sid=".$artinfo["sid"]."$r_options'>";
             $morelink = "( ";
 

@@ -682,7 +682,7 @@ td.bannerLeftSide
   width: 25%;
   height: 79px;
   border-collapse: collapse;
-  padding-top: 0px;
+  padding-top: 8px;
   padding-bottom: 0px;
   padding-left: 0px;
   padding-right: 0px;
@@ -697,6 +697,22 @@ td.bannerLeftSide
   /* 50% {opacity: 1.0;} */
   /* 100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;} */
 
+}
+
+td.stacklogos
+{
+  table-layout: auto;
+  width: 33.3%;
+  height: auto;
+  border-collapse: collapse;
+  padding-top: 10px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-spacing: 0px;
+  background-color: transparent;
+  text-align: center;
+  vertical-align: top;
 }
 
 .banneradRT
@@ -720,7 +736,7 @@ td.bannerRightSide
   width: 25%;
   height: 79px;
   border-collapse: collapse;
-  padding-top: 0px;
+  padding-top: 8px;
   padding-bottom: 0px;
   padding-left: 0px;
   padding-right: 0px;

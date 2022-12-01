@@ -37,9 +37,13 @@
       Display Topic Icon                       v1.0.0       06/27/2005
       Display Writes                           v1.0.0       10/14/2005
 	  Titanium Patched                         v3.0.0       08/26/2019
+-=[LAst Updated]=-
+      11/20/2022 1:01 pm Ernest Allen Buffington	  
  ************************************************************************/
  
-if (!defined('MODULE_FILE')) die('You can\'t access this file directly...');
+if(!defined('MODULE_FILE')): 
+  die('You can\'t access this file directly...');
+endif;
 
 define('INDEX_FILE', true);
 
@@ -70,55 +74,56 @@ get_lang($module_name);
  
 automated_blogs();
 
-if (isset($new_topic)) 
-redirect("modules.php?name=$module_name&file=topics&topic=$new_topic"); 
+if(isset($new_topic)): 
+  redirect("modules.php?name=$module_name&file=topics&topic=$new_topic"); 
+endif;
 
 $main_module = main_module();
 
 $op = (isset($op)) ? $op : '';
-$neconfig["homenumber"] = 0;
-switch ($op) 
-{
+$neconfig["homenumber"] = (isset($neconfig["homenumber"])) ? $neconfig["homenumber"] : '0';
+
+switch ($op): 
     default:
-        if($neconfig["homenumber"] == 0) 
-		{
-            if (isset($userinfo['storynum'])) 
-                $storynum = $userinfo['storynum'];
-			else 
+        if($neconfig["homenumber"] == 0): 
+            if(isset($userinfo['storynum'])): 
+              $storynum = $userinfo['storynum'];
+			else: 
               $storynum = $storyhome;
-        } 
-		else 
-        $storynum = $neconfig["homenumber"];
+			endif;
+		else: 
+          $storynum = $neconfig["homenumber"];
+		endif;
 
-        if (!isset($min)) 
-	    $min = 0; 
+        if(!isset($min)): 
+	      $min = 0; 
+		endif;
         
-		if (!isset($max)) 
-		$max = $min + $storynum; 
+		if(!isset($max)): 
+		  $max = $min + $storynum; 
+		endif;
 
-        if ($multilingual == 1) 
-		{
-          if(defined('HOME_FILE')) 
+        if($multilingual == 1): 
+          if(defined('HOME_FILE')): 
             $querylang = "WHERE (alanguage='$currentlang' OR alanguage='') AND ihome='0'";
-		  else 
+		  else: 
             $querylang = "WHERE (alanguage='$currentlang' OR alanguage='')";
-        } 
-		else 
-		{
+			endif;
+		else: 
           if(defined('HOME_FILE')) 
             $querylang = "WHERE ihome='0'";
 		  else 
             $querylang = "";
-        }
+        endif;
 
         include_once(NUKE_BASE_DIR."header.php");
-        title($sitename.' '.$pagetitle);
         
-		if($neconfig["readmore"] == 1) 
-		{
+		title($sitename.' '.$pagetitle);
+        
+		if($neconfig["readmore"] == 1): 
             echo "<script>\n";
             echo "<!-- Begin\n";
-            echo "function NewsReadWindow(mypage, myname, w, h, scroll) {\n";
+            echo "function BlogsReadWindow(mypage, myname, w, h, scroll) {\n";
             echo "var winl = (screen.width - w) / 2;\n";
             echo "var wint = (screen.height - h) / 2;\n";
             echo "winprops = 'height='+h+',width='+w+',top='+wint+',left='+winl+',scrollbars='+scroll+''\n";
@@ -127,15 +132,15 @@ switch ($op)
             echo "}\n";
             echo "//  End -->\n";
             echo "</script>\n";
-        }
+        endif;
         
-		if($neconfig["hometopic"] > 0 AND define('HOME_FILE', true)) // One Topic on Home
-		{ 
-            if(empty($querylang)) 
+		if($neconfig["hometopic"] > 0 AND define('HOME_FILE', true)): # One Topic on Home
+            if(empty($querylang)): 
                 $querylang = "WHERE topic='".$neconfig["hometopic"]."'";
-			else 
+			else: 
                 $querylang .= " AND topic='".$neconfig["hometopic"]."'";
-        }
+			endif;
+        endif;
 
         $result = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".$prefix."_stories $querylang");
 
@@ -146,18 +151,20 @@ switch ($op)
         $querylang = (!isset($querylang) || empty($querylang)) ? 'WHERE `datePublished` <= now()' : $querylang . ' AND `datePublished` <= now()';
         $result = $db->sql_query("SELECT * FROM ".$prefix."_stories $querylang ORDER BY sid DESC LIMIT $min,$storynum");
 
-        if($neconfig["columns"] == 1) // DUAL BLOG
-        echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
-        
+        if($neconfig["columns"] == 1): # DUAL BLOG
+          echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
+        endif;
+		
 		$a = 0;
         
-		while ($artinfo = $db->sql_fetchrow($result)) 
-		{
+		while ($artinfo = $db->sql_fetchrow($result)): 
+		
             $artinfo["datePublished"] = formatTimestamp($artinfo["datePublished"]);
         
-		    if(!empty($subject))
-            $subject = stripslashes(check_html($subject, "nohtml"));
-            
+		    if(!empty($subject)):
+              $subject = stripslashes(check_html($subject, "nohtml"));
+            endif;
+			
 			$artinfo["hometext"] =  decode_bbcode(set_smilies(stripslashes($artinfo["hometext"])), 1, true);
             $artinfo["hometext"] = evo_img_tag_to_resize($artinfo["hometext"]);
             $artinfo["notes"] = stripslashes($artinfo["notes"]);
@@ -177,137 +184,132 @@ switch ($op)
 
             getTopics($artinfo["sid"]);
 
-            if($neconfig["texttype"] == 0) 
-			{
+            if($neconfig["texttype"] == 0): 
                 $introcount = strlen($artinfo["hometext"]);
                 $fullcount = strlen($artinfo["bodytext"]);
-            } 
-			else 
-			{
+			else: 
                 $introcount = strlen(strip_tags($artinfo["hometext"], "<br />"));
                 $fullcount = strlen($artinfo["bodytext"]);
-            }
+            endif;
             
 			$totalcount = $introcount + $fullcount;
             $r_options = "";
             
-			if (isset($userinfo['umode'])) 
+			if(isset($userinfo['umode'])): 
 			  $r_options .= "&amp;mode=".$userinfo['umode']; 
-			else 
+			else: 
 			  $r_options .= "&amp;mode=thread"; 
+			endif;
             
-			if (isset($userinfo['uorder'])) 
-			$r_options .= "&amp;order=".$userinfo['uorder']; 
-			else 
-			$r_options .= "&amp;order=0"; 
+			if(isset($userinfo['uorder'])): 
+			  $r_options .= "&amp;order=".$userinfo['uorder']; 
+			else: 
+			  $r_options .= "&amp;order=0"; 
+			endif;
             
-			if (isset($userinfo['thold'])) 
-			$r_options .= "&amp;thold=".$userinfo['thold']; 
-			else 
-			$r_options .= "&amp;thold=0"; 
+			if(isset($userinfo['thold'])): 
+			  $r_options .= "&amp;thold=".$userinfo['thold']; 
+			else: 
+			  $r_options .= "&amp;thold=0"; 
+			endif;
             
 			$the_icons = "";
 
             # show the user buttons
-			if (is_user()) 
-            {
+			if(is_user()): 
                 $the_icons .= ' | <a href="modules.php?name='.$module_name.'&amp;file=print&amp;sid='.$artinfo["sid"].'"><i class="fa fa-print"></i></a>'.PHP_EOL;
                 $the_icons .= '&nbsp;<a href="modules.php?name='.$module_name.'&amp;file=friend&amp;op=FriendSend&amp;sid='.$artinfo["sid"].'"><i class="fa fa-envelope"></i></a>';
-            }
+            endif;
 			
-            # show thw admin buttons
-			if (is_mod_admin($module_name)) 
-            {
+            # show the admin buttons
+			if(is_mod_admin($module_name)): 
                 $the_icons .= ' | <a href="'.$admin_file.'.php?op=EditBlog&amp;sid='.$artinfo["sid"].'"><i class="fa fa-pen"></i></a>'.PHP_EOL;
                 $the_icons .= '&nbsp;<a href="'.$admin_file.'.php?op=RemoveBlog&amp;sid='.$artinfo["sid"].'"><i class="fa fa-times-circle"></i></a>';
-            }
+            endif;
 
-            $read_link = "<a href='modules.php?name=$module_name&amp;file=read_article&amp;sid=".$artinfo["sid"]."$r_options' onclick=\"NewsReadWindow(this.href,'ReadArticle','600','400','yes');return false;\">";
+            $read_link = "<a href='modules.php?name=$module_name&amp;file=read_article&amp;sid=".$artinfo["sid"]."$r_options' onclick=\"BlogsReadWindow(this.href,'ReadArticle','600','400','yes');return false;\">";
             $story_link = "<a href='modules.php?name=$module_name&amp;file=article&amp;sid=".$artinfo["sid"]."$r_options'>";
             
 			
             $seperator = " )&nbsp;( ";
 			$morelink = "( "; // added a space here as that is how it belongs!  Ernest Buffington 08/09/2019
-
-            
 			
-			if($neconfig["texttype"] == 0) 
-			{
-                if ($fullcount > 0 OR $artinfo["comments"] > 0 OR $articlecomm == 0 OR $artinfo["acomm"] == 1) 
-				{
-                    if($neconfig["readmore"] == 1) 
+			if($neconfig["texttype"] == 0): 
+                if($fullcount > 0 OR $artinfo["comments"] > 0 OR $articlecomm == 0 OR $artinfo["acomm"] == 1): 
+                    if($neconfig["readmore"] == 1): 
                         $morelink .= "$read_link<strong>"._READMORE."</strong></a> | ";
-					else 
+					else:
                         $morelink .= "$story_link<strong>"._READMORE."</strong></a> | ";
-                } 
-				else 
+					endif;
+				else: 
 				$morelink .= ""; 
-            } 
-			else 
-			{
-                if ($introcount > 255 OR $fullcount > 0 OR $artinfo["comments"] > 0 OR $articlecomm == 0 OR $artinfo["acomm"] == 1) 
-				{
-                    if($neconfig["readmore"] == 1) 
-                        $morelink .= "$read_link<strong>"._READMORE."</strong></a> | ";
-					else 
-                        $morelink .= "$story_link<strong>"._READMORE."</strong></a> | ";
-                } 
-				else 
-				$morelink .= ""; 
+				endif;
+			else: 
+                if($introcount > 255 OR $fullcount > 0 OR $artinfo["comments"] > 0 OR $articlecomm == 0 OR $artinfo["acomm"] == 1): 
+                    if($neconfig["readmore"] == 1): 
+                      $morelink .= "$read_link<strong>"._READMORE."</strong></a> | ";
+					else: 
+                      $morelink .= "$story_link<strong>"._READMORE."</strong></a> | ";
+					endif;
+				else: 
+				  $morelink .= ""; 
+				endif;
                 
-				if ($introcount > 255) 
-				{
+				if($introcount > 255): 
                     $artinfo["hometext"] = strip_tags($artinfo["hometext"], "<br />");
                     $artinfo["hometext"] = substr($artinfo["hometext"], 0, 255);
-                }
-            }
+                endif;
+            endif;
 
-            if ($fullcount > 0) 
-			$morelink .= "$totalcount "._BYTESMORE." | "; 
-            
-			if ($articlecomm == 1 AND $artinfo["acomm"] == 0) 
-			{
-				
-                if ($artinfo["comments"] == 0): 
+            if($fullcount > 0): 
+			  $morelink .= "$totalcount "._BYTESMORE." | "; 
+            endif;
+			
+			if($articlecomm == 1 AND $artinfo["acomm"] == 0): 
+                if($artinfo["comments"] == 0): 
 				    $morelink .= "$story_link"._COMMENTSQ."</a>$seperator";
 				elseif ($artinfo["comments"] == 1): 
                     $morelink .= "$story_link".$artinfo["comments"]." "._COMMENT."</a>";
 				elseif ($artinfo["comments"] > 1): 
                     $morelink .= "$story_link".$artinfo["comments"]." "._COMMENTS."</a>";
 			    endif;
-            }
+            endif;
             
 			$morelink .= "$the_icons";
             $sid = $artinfo["sid"];
 
-            if ($artinfo["catid"] != 0) 
-			{
+            if ($artinfo["catid"] != 0): 
                 $result3 = $db->sql_query("SELECT title FROM ".$prefix."_stories_cat WHERE catid='".$artinfo["catid"]."'");
                 $catinfo = $db->sql_fetchrow($result3);
                 $db->sql_freeresult($result3);
                 $morelink .= " | <a href='modules.php?name=$module_name&amp;file=categories&amp;op=newindex&amp;catid=".$artinfo["catid"]."'>".$catinfo["title"]."</a>";
-            }
+            endif;
             
-			if ($artinfo["score"] != 0) 
-                $rated = substr($artinfo["score"] / $artinfo["ratings"], 0, 4);
-			else 
-			    $rated = 0; 
+			if($artinfo["score"] != 0): 
+              $rated = substr($artinfo["score"] / $artinfo["ratings"], 0, 4);
+			else: 
+			  $rated = 0; 
+			endif;
             
 			$morelink .= " | "._SCORE." $rated";
-            $morelink .= " )"; // added a space here as that is how it belongs! Ernest Buffington 08/09/2019
+            $morelink .= " )"; # added a space here as that is how it belongs! Ernest Buffington 08/09/2019
             $morelink = str_replace(" |  | ", " | ", $morelink);
 
-            if($artinfo["ticon"] == 1) 
-            $topicimage = '';
+            if($artinfo["ticon"] == 1): 
+              $topicimage = '';
+			endif;
 
-            if($artinfo["writes"] == 0) 
-            define_once('WRITES', true);
-            $informant = UsernameColor($artinfo["informant"]);
+            if($artinfo["writes"] == 0): 
+              define_once('WRITES', true);
+            endif;
+			
+			$informant = UsernameColor($artinfo["informant"]);
 
-            if($neconfig["columns"] == 1) // DUAL
-			{ 
-                if ($a == 0) 
-			    echo "<tr>"; 
+            if($neconfig["columns"] == 1): # DUAL
+			 
+                if($a == 0): 
+			      echo "<tr>";
+				endif; 
                 
 				echo "<td valign='top' width='50%'>";
             
@@ -326,17 +328,17 @@ switch ($op)
 							    $topictext);
             
 			    echo "</td>\n";
-                $a++;
+                
+				$a++;
             
-			    if ($a == 2)
-				{ 
+			    if($a == 2):
 				   echo "</tr>"; 
 				   $a = 0; 
-				}
-				else 
-				echo "<td>&nbsp;</td>"; 
-            } 
-			else // SINGLE BLOG
+				else: 
+				  echo "<td>&nbsp;</td>"; 
+				endif;
+             
+			else: # SINGLE BLOG
             themeindex($artinfo["aid"], 
 			                $informant, 
 							 $datetime,
@@ -350,51 +352,50 @@ switch ($op)
 							$topicname, 
 						   $topicimage, 
 						    $topictext);
-        }
+		    endif;
+        endwhile;
         
 		$db->sql_freeresult($result);
 
-        if($neconfig["columns"] == 1) // DUAL BLOG
-		{ 
-            if ($a ==1) { echo "<td width='50%'>&nbsp;</td></tr>\n"; } 
-			else 
-			{ 
+        if($neconfig["columns"] == 1): # DUAL BLOG
+            if($a ==1): 
+			  echo "<td width='50%'>&nbsp;</td></tr>\n"; 
+			else: 
 			  echo "</tr>\n"; 
-			}
+			endif;
             echo "</table>\n";
-        }
+        endif;
         
 		echo "\n<!-- PAGING -->\n";
         
 		$articlepagesint = ($totalarticles / $storynum);
-        $articlepageremain = ($totalarticles % $storynum);
         
-		if ($articlepageremain != 0) 
-		{
+		$articlepageremain = ($totalarticles % $storynum);
+        
+		if($articlepageremain != 0): 
             $articlepages = ceil($articlepagesint);
-        
-		    if ($totalarticles < $storynum) 
-			$articlepageremain = 0; 
-        } 
-		else 
+		    if($totalarticles < $storynum): 
+			  $articlepageremain = 0; 
+			endif;
+		else: 
             $articlepages = $articlepagesint;
+		endif;
 
-        if ($articlepages !=1 && $articlepages !=0) 
-		{
+        if($articlepages !=1 && $articlepages !=0): 
+		
 		    OpenTable();
-			print '<div align="center" style="padding-top:20px;">';
-            print '</div>';
-
+			
             print '<div align="center">';        
 		    
-			if ( defined('pagination') ):
+		if(defined('pagination')):
 
 			print '<div class="pagination_section">';
 
-			while ($counter <= $articlepages ) 
-			{
+			while($counter <= $articlepages): 
+			
                 $cpage = $counter;
-                $mintemp = ($storynum * $counter) - $storynum;
+                
+				$mintemp = ($storynum * $counter) - $storynum;
                 
 				global $name;
 				
@@ -405,38 +406,34 @@ switch ($op)
 				endif;
                 
 				$counter++;
-            }
+            endwhile;
            print '</div></div>';
 
-			else:
+		else:
 
 			$counter = 1;
-            $currentpage = ($max / $storynum);
-		    echo "<div align=\"center\"><form action='modules.php?name=$module_name' method='post'>\n";
+            
+			$currentpage = ($max / $storynum);
+		    
+			echo "<div align=\"center\"><form action='modules.php?name=$module_name' method='post'>\n";
             echo "<table align='center' border='0' cellpadding='2' cellspacing='2'>\n";
             echo "<tr>\n<td><strong>"._BLOG_SELECT." </strong><select name='min' onChange='top.location.href=this.options[this.selectedIndex].value'>\n";
             
-		    while ($counter <= $articlepages ) 
-			{
+		    while($counter <= $articlepages): 
                 $cpage = $counter;
                 $mintemp = ($storynum * $counter) - $storynum;
-            
 			    global $name;
-				
-			    if ($counter == $currentpage): 
+			    if($counter == $currentpage): 
                     echo "<option selected>$counter</option>\n";
 				else: 
-				
-                    //if($module_name == $main_module) 
 					if(($mintemp >= 0) && ($name != 'Blogs')):
                       echo "<option value='index.php?min=$mintemp'>$counter</option>\n";
 					else: 
                       echo "<option value='modules.php?name=$module_name&amp;min=$mintemp'>$counter</option>\n";
 					endif;
                 endif;
-                
 				$counter++;
-            }
+            endwhile;
 
             echo "</select> "._BLOG_OF." $articlepages "._BLOG_PAGES."</td>\n</tr>\n";
             echo "</table>\n";
@@ -444,7 +441,7 @@ switch ($op)
             
 			endif;
 			
-			if ( defined('pagination') ):
+			if(defined('pagination')):
 			
 			else:
 			  print '<div align="center" style="padding-bottom:16px;">';
@@ -452,58 +449,50 @@ switch ($op)
 			endif;
 			
  			CloseTable();
-        }
+        endif;
 
         echo "<!-- CLOSE PAGING -->\n";
-        include(NUKE_BASE_DIR."footer.php");
+        
+		include(NUKE_BASE_DIR."footer.php");
     break;
 
     case "rate_article":
-        
 		$score = intval($score);
-        
-		if ($score) 
-		{
-            if ($score > 5) 
-		    $score = 5; 
+
+		if($score): 
+            if($score > 5): 
+		      $score = 5; 
+			endif;
             
-			if ($score < 1) 
-		    $score = 1; 
+			if($score < 1): 
+		      $score = 1; 
+			endif;
             
-			if ($score != 1 AND $score != 2 AND $score != 3 AND $score != 4 AND $score != 5) 
-			{
+			if($score != 1 AND $score != 2 AND $score != 3 AND $score != 4 AND $score != 5): 
                 redirect("index.php");
                 exit;
-            }
+            endif;
 
-            if (isset($ratecookie)) 
-			{
+            if(isset($ratecookie)): 
                 $rcookie = base64_decode($ratecookie);
                 $r_cookie = explode(":", $rcookie);
-            }
+            endif;
             
-			//for ($i=0; $i < count($r_cookie); $i++) <-- This was going to cause problems in future version of PHP
-			for($i=0; $i < count(array($r_cookie)); $i++) 
-			{ 
+			for($i=0; $i < count(array($r_cookie)); $i++): 
 			   if ($r_cookie[$i] == $sid) 
 			   $a = 1; 
-		    }
+		    endfor;
             
-			if ($a == 1) 
-			{
+			if($a == 1): 
                 redirect("modules.php?name=$module_name&op=rate_complete&sid=$sid&rated=1");
-            } 
-			else 
-			{
+			else: 
                 $result = $db->sql_query("update ".$prefix."_stories set score=score+$score, ratings=ratings+1 where sid='$sid'");
                 $db->sql_freeresult($result);
                 $info = base64_encode("$rcookie$sid:");
                 setcookie("ratecookie","$info",time()+86400);
                 redirect("modules.php?name=Blogs&op=rate_complete&sid=$sid&score=$score");
-            }
-        } 
-		else 
-		{
+            endif;
+		else: 
             include_once(NUKE_BASE_DIR."header.php");
 
             OpenTable();
@@ -513,40 +502,50 @@ switch ($op)
 
             CloseTable();
 
-            @include_once("footer.php");
-        }
+            include_once("footer.php");
+        endif;
     break;
-
     case "rate_complete":
 
         $r_options = "";
 
-        if (is_user()) 
-		{
-            if (isset($userinfo['umode'])) { $r_options .= "&amp;mode=".$userinfo['umode']; } else { $r_options .= "&amp;mode=thread"; }
-            if (isset($userinfo['uorder'])) { $r_options .= "&amp;order=".$userinfo['uorder']; } else { $r_options .= "&amp;order=0"; }
-            if (isset($userinfo['thold'])) { $r_options .= "&amp;thold=".$userinfo['thold']; } else { $r_options .= "&amp;thold=0"; }
-        }
+        if(is_user()): 
+
+          if(isset($userinfo['umode'])): 
+		    $r_options .= "&amp;mode=".$userinfo['umode']; 
+		  else: 
+		    $r_options .= "&amp;mode=thread"; 
+		  endif;
+          
+		  if(isset($userinfo['uorder'])): 
+		    $r_options .= "&amp;order=".$userinfo['uorder']; 
+		  else: 
+		    $r_options .= "&amp;order=0"; 
+		  endif;
+          
+		  if(isset($userinfo['thold'])): 
+		    $r_options .= "&amp;thold=".$userinfo['thold']; 
+		  else: 
+		    $r_options .= "&amp;thold=0"; 
+		  endif;
+
+        endif;
         
 		include_once(NUKE_BASE_DIR."header.php");
         
         OpenTable();
         
-		if ($rated == 0) 
-		{
+		if($rated == 0): 
             echo "<br /><br /><div align=\"center\"><strong>"._THANKSVOTEARTICLE."</strong><br /><br />";
             echo "[ <a href='modules.php?name=$module_name&amp;file=article&amp;sid=$sid$r_options'>"._BACKTOARTICLEPAGE."</a> ]</div><br /><br />";
-        } 
-		else
-		if ($rated == 1) 
-		{
+		elseif($rated == 1): 
             echo "<br /><br /><div align=\"center\"><strong>"._ALREADYVOTEDARTICLE."</strong><br /><br />";
             echo "[ <a href='modules.php?name=$module_name&amp;file=article&amp;sid=$sid$r_options'>"._BACKTOARTICLEPAGE."</a> ]</div><br /><br />";
-        }
+        endif;
         
 		CloseTable();
         
-		@include_once("footer.php");
+		include_once("footer.php");
     break;
-}
+endswitch;
 ?>

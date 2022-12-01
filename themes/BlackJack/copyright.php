@@ -39,7 +39,7 @@ echo '</div>'."\n";
 echo '</div>'."\n";
 echo '</div>'."\n";
 echo '<div class="modal-footer">'."\n";
-echo '<button type="button" class="btn btn-success" data-dismiss="modal">Close</button>'."\n";
+echo '<button type="button" class="btn btn86 btn-primary" data-dismiss="modal">Close</button>'."\n";
 echo '</div>'."\n";
 echo '</div>'."\n";
 echo '</div>'."\n";

@@ -27,7 +27,7 @@ function themesidebox($title, $content, $bid = 0)
 
 endif;
 # This sets the space between center tables listed START
-print '<div align="center" style="padding-top:20px;">'.PHP_EOL;
+print '<div align="center" style="padding:10px;">'.PHP_EOL;
 print '</div>'.PHP_EOL;
 
 print "<!-- SIDE BLOCK CONTENT END -->\n\n";
