@@ -7,17 +7,32 @@
 -=[Base]=-
       Nuke Patched                             v3.1.0       09/29/2005
  ************************************************************************/
-
 if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
-
     exit('Access Denied');
-
 }
 
 global $ThemeInfo, $sitename;
+global $user, $cookie, $prefix, $sitekey, $db, $name, $banners, $theme_name;
+echo "<body>\n";
 
+//FORUM POSTS
+$count = 1;
+$amount = 18;
+$content1 = "<A name= \"scrollingCode\"></A>";
+$content1 .="<div style=\"padding-top:12px;\"><font size=\"1\" color=\"#FFFFFF\" face=\"verdana\"><MARQUEE behavior= \"scroll\" align= \"left\" direction= \"up\" width=\"140\" height=\"100\" scrollamount= \"1\" scrolldelay= \"90\" onmouseover='this.stop()' onmouseout='this.start()'>";
+$result1 = $db->sql_query("SELECT topic_id, topic_last_post_id, topic_title FROM ".$prefix."_bbtopics ORDER BY topic_last_post_id DESC LIMIT $amount");
+$content .= "<br />";
+while(list($topic_id, $topic_last_post_id, $topic_title) = $db->sql_fetchrow($result1)) {
+$result2 = $db->sql_query("SELECT topic_id, poster_id, FROM_UNIXTIME(post_time,'%b %d, %Y at %T') as post_time FROM ".$prefix."_bbposts where post_id='$topic_last_post_id'");
+list($topic_id, $poster_id, $post_time)=$db->sql_fetchrow($result2);
 
+$result3 = $db->sql_query("SELECT username, user_id FROM ".$prefix."_users where user_id='$poster_id'");
+list($username, $user_id)=$db->sql_fetchrow($result3);
 
+$content1 .= "<br />&raquo;&nbsp;<a href=\"modules.php?name=Forums&amp;file=viewtopic&amp;p=$topic_last_post_id#$topic_last_post_id\"STYLE=\"font-family: verdana; font-size: 9px;\"><strong>$topic_title</strong></a>&nbsp;<br />";
+$count = $count + 1;
+}
+$content1 .="</center></MARQUEE></font></div></center>\n";
 
 echo "<table width=\"" . $ThemeInfo['sitewidth'] . "\" align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"\"><tr><td>";
 echo "<table width=\"100%\" align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"headerexpand\"><tr><td>";
@@ -75,4 +90,21 @@ echo "</table>\n";
 </table></td>
 </tr>
 </table></center>
+<?php
+    echo "\n<table width=\"" . $ThemeInfo['sitewidth'] . "\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\">\n";
+  //  echo "\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\">\n";
+    echo "        <tr valign=\"top\">\n";
+    echo "        <td style=\"width: 42px; background-image: url(themes/SimpleBlackV2/images/left.png)\" valign=\"top\"><img src=\"themes/".$theme_name."/images/spacer.gif\" width=\"42\" height=\"11\" border=\"0\" alt=\"\" /></td>\n";
+    echo "        <td valign=\"top\">\n";
+
+    if(blocks_visible('left')) {
+        blocks('left');
+        echo "    </td>\n";
+        echo " <td style=\"width: 10px;\" valign =\"top\"><img src=\"themes/".$theme_name."/images/spacer.gif\" alt=\"\" width=\"10\" height=\"1\" border=\"0\" /></td>\n";
+        echo " <td width=\"100%\">\n";
+    } else {
+        echo "    </td>\n";
+        echo " <td style=\"width: 1px;\" valign =\"top\"><img src=\"themes/".$theme_name."/images/spacer.gif\" alt=\"\" width=\"1\" height=\"1\" border=\"0\" /></td>\n";
+        echo " <td width=\"100%\">\n";
+    }
 

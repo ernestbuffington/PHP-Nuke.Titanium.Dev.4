@@ -46,11 +46,26 @@ if (!empty($topicimage))
 $posted .= '<strong>Posted by '.get_author($aid).' '.$datetime.'</strong>'.PHP_EOL;
 $reads = '(<span style="color: '.$digits_txt_color.';"> Reads :</span> <span style="color: '.$digits_color.';"><strong>'.$counter.'</strong></span> )'.PHP_EOL;
 
-print '<div align="center" id="borderThemeArticle">'.PHP_EOL;
+echo '<table width="100%" border="0" cellspacing="0" cellpadding="0">'.PHP_EOL;
+echo '<tr>'.PHP_EOL;
+echo '<td>'.PHP_EOL;
+echo '<table width="100%" border="0" cellspacing="0" cellpadding="0">'.PHP_EOL;
+echo '<tr>'.PHP_EOL;
+echo '<td width="15"><img src="themes/SimpleBlackV2/images/blk/blk_03.png" width="15" height="26" alt="DFG"></td>'.PHP_EOL;
 
-echo '<div align="center" id="text"><strong>'.$topictext.'</strong></div>'.PHP_EOL;
+echo '<td valign="top" style="background-image:url(themes/SimpleBlackV2/images/blk/blk_04.png)"><div align="center" 
+style="color:#000000; padding-top:5px"><span style="color:#CCCCCC;"><strong>'.$topictext.'</strong></span></div></td>'.PHP_EOL;
 
-print '<div align="center" style="padding-top:1px;"><strong>'.$title.'</strong></div>'.PHP_EOL;
+echo '<td width="15"><img src="themes/SimpleBlackV2/images/blk/blk_06.png" width="15" height="26" alt="DFG"></td>'.PHP_EOL;
+echo '</tr>'.PHP_EOL;
+echo '</table>'.PHP_EOL;
+echo '<table width="100%" border="0" cellspacing="0" cellpadding="0">'.PHP_EOL;
+echo '<tr>'.PHP_EOL;
+echo '<td width="10" style="background-image:url(themes/SimpleBlackV2/images/blk/blk_08.png)"><img src="themes/SimpleBlackV2/images/blk/blk_08.png" width="10" height="1" alt="DFG"></td>'.PHP_EOL;
+echo '<td style="padding-left: 18px; padding-right: 18px; background-color:#0a0a0a">'.PHP_EOL;
+
+
+print '<div align="center"><strong>'.$title.'</strong></div>'.PHP_EOL;
 
 print '<div align="left" id="text">'.$posted.'</div>'.PHP_EOL;
 
@@ -69,12 +84,24 @@ facebook_likes();
 facebook_comments();
 
 echo '<div valign="bottom" align="right">'.$reads.'</div>'.PHP_EOL;
-
 print '<div align="center" style="padding-top:14px;"></div>'.PHP_EOL;
 
-print '</div>'.PHP_EOL;
+echo '</td>'.PHP_EOL;
+echo '<td width="10" style="background-image:url(themes/SimpleBlackV2/images/blk/blk_11.png)"><img src="themes/SimpleBlackV2/images/blk/blk_11.png" width="10" height="1" alt="DFG"></td>'.PHP_EOL;
+echo '</tr>'.PHP_EOL;
+echo '</table>'.PHP_EOL;
+echo '<table width="100%" border="0" cellspacing="0" cellpadding="0">'.PHP_EOL;
+echo '<tr>'.PHP_EOL;
+echo '<td width="15"><img src="themes/SimpleBlackV2/images/blk/blk_14.png" width="15" height="14" alt="DFG"></td>'.PHP_EOL;
+echo '<td style="background-image:url(themes/SimpleBlackV2/images/blk/blk_15.png)"><img src="themes/SimpleBlackV2/images/blk/blk_15.png" width="1" height="14" alt="DFG"></td>'.PHP_EOL;
+echo '<td width="15"><img src="themes/SimpleBlackV2/images/blk/blk_16.png" width="15" height="14" alt="DFG"></td>'.PHP_EOL;
+echo '</tr>'.PHP_EOL;
+echo '</table>'.PHP_EOL;
+echo '</td>'.PHP_EOL;
+echo '</tr>'.PHP_EOL;
+echo '</table>'.PHP_EOL;
 
-print '<div align="center" style="padding:10px;">'.PHP_EOL;
+print '<div align="center" style="padding:6px;">'.PHP_EOL;
 print '</div>'.PHP_EOL;
 
 print "<!-- THEME ARTICAL CONTENT END -->\n\n";

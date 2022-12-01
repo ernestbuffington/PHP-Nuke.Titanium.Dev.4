@@ -573,5 +573,50 @@ td.HeightController{
   margin-left: 8px;
   margin-right: 8px;
 }
+ul.sb-navigation {
+	list-style: none; 
+	padding: 0; 
+	margin: 0; 
+	display: flex; 
+	justify-content: center;
+}
+
+ul.sb-navigation li.sb-nav-item {
+	/*margin: 0 20px 0 20px;*/
+	width:130px;
+	text-align: center;
+}
+
+ul.sb-navigation li.sb-nav-item a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 42px;
+	margin-top:1px;
+	margin-bottom: 1px;
+
+	border-top-width: 1px;
+	border-top-color: transparent;
+	border-top-style: solid;
+
+	border-bottom-width: 1px;
+	border-bottom-color: transparent;
+	border-bottom-style: solid;
+}
+
+ul.sb-navigation li.sb-nav-item a.active,
+ul.sb-navigation li.sb-nav-item a:hover {
+	/*height: 42px;*/
+	background: rgba(0,0,0,0.2);
+	border-top-width: 1px;
+	border-top-color: #1f7097;
+	border-top-style: solid;
+
+	border-bottom-width: 1px;
+	border-bottom-color: #1f7097;
+	border-bottom-style: solid;
+	/*transition: 0.5s*/
+
+}
 
 <?

@@ -274,12 +274,11 @@ echo "<!-- Setting Loading themes/".$theme_name."/includes/js/Hover.js in themes
 
 addPHPCSSToHead(theme_phpstyle_dir.'jquery_floating_admin.php','file');  
 echo "<!-- Setting Loading themes/".$theme_name."/css/jquery_floating_admin.php in themes/".$theme_name."/theme.php (PHP FlyKit v1.0 Mod) -->\n";
-
 /************************************************************/
 /* OpenTable Functions                                      */
 /************************************************************/
 
-addCSSToHead( 'themes/'.$theme_name.'/style/style.css', 'file' );
+//addCSSToHead( 'themes/'.$theme_name.'/style/style.css', 'file' );
 
 function OpenTable() {
     global $bgcolor1, $bgcolor2, $theme_name;
@@ -325,6 +324,9 @@ echo "</table>\n";
 echo "</td>\n";
 echo "</tr>\n";
 echo "</table>\n";
+
+print '<div align="center" style="padding:6px;">'.PHP_EOL;
+print '</div>'.PHP_EOL;
 
 }
 
@@ -471,113 +473,22 @@ $a++;
 /* Function themeindex()                                    */
 /* This function format the stories on the Homepage         */
 /************************************************************/
-function themeindex ($aid, $informant, $time, $title, $counter, $topic, $thetext, $notes, $morelink, $topicname, $topicimage, $topictext) {
-    global $anonymous, $tipath, $theme_name, $sid;
-
-    $ThemeSel = get_theme();
-    if(!empty($topicimage)) {
-        if (file_exists("themes/$ThemeSel/images/topics/$topicimage")) {
-            $t_image = "themes/$ThemeSel/images/topics/$topicimage";
-        } else {
-            $t_image = "$tipath$topicimage";
-        }
-        $topic_img = "<td width=\"25%\" align=\"center\" class=\"extra\"><a href=\"modules.php?name=News&amp;new_topic=".$topic."\"><img src=\"".$t_image."\" border=\"0\" alt=\"$topictext\" /></a></td>";
-    } else {
-        $topic_img = "";
-    }
-    if (!empty($notes)) {
-        $notes = "<br /><br /><strong>"._NOTE."</strong> $notes\n";
-    } else {
-        $notes = "";
-    }
-    $content = '';
-    if ($aid == $informant) {
-        $content = "$thetext$notes\n";
-    } else {
-        if(defined('WRITES')) {
-            if(!empty($informant)) {
-                if(is_array($informant)) {
-                    $content = "<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$informant[0]\">$informant[1]</a> ";
-                } else {
-                    $content = "<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$informant\">$informant</a> ";
-                }
-            } else {
-                $content = "$anonymous ";
-            }
-            $content .= _WRITES." \"$thetext\"$notes\n";
-        } else {
-            $content .= "$thetext$notes\n";
-        }
-    }
-    $posted = _POSTEDBY." ";
-    $posted .= get_author($aid);
-    $posted .= " "._ON." $time  ";
-    $datetime = substr($morelink, 0, strpos($morelink, "|") - strlen($morelink));
-    $morelink = substr($morelink, strlen($datetime) + 2);
-    $tmpl_file = NUKE_THEMES_DIR.$theme_name."/story_home.html";
-    $thefile = implode("", file($tmpl_file));
-    $thefile = addslashes($thefile);
-    $thefile = "\$r_file=\"".$thefile."\";";
-    eval($thefile);
-    print $r_file;
-}
-
+#--------------------#
+# News Index Section #
+#--------------------#
+include_once(theme_dir.'function_themeindex.php');
 /************************************************************/
 /* Function themearticle()                                  */
 /************************************************************/
-function themearticle ($aid, $informant, $datetime, $title, $thetext, $topic, $topicname, $topicimage, $topictext) {
-    global $admin, $sid, $tipath, $theme_name;
-
-    $ThemeSel = get_theme();
-    if(!empty($topicimage)) {
-        if (file_exists("themes/$ThemeSel/images/topics/$topicimage")) {
-            $t_image = "themes/$ThemeSel/images/topics/$topicimage";
-        } else {
-            $t_image = "$tipath$topicimage";
-        }
-        $topic_img = "<td width=\"25%\" align=\"center\" class=\"extra\"><a href=\"modules.php?name=News&amp;new_topic=".$topic."\"><img src=\"".$t_image."\" border=\"0\" alt=\"$topictext\" /></a></td>";
-    } else {
-        $topic_img = "";
-    }
-    $posted = _POSTEDON." $datetime "._BY." ";
-    $posted .= get_author($aid);
-    if (!empty($notes)) {
-        $notes = "<br /><br /><strong>"._NOTE."</strong> <i>$notes</i>\n";
-    } else {
-        $notes = "";
-    }
-    $content = '';
-    if ($aid == $informant) {
-        $content = "$thetext$notes\n";
-    } else {
-        if(defined('WRITES')) {
-            if(!empty($informant)) {
-                if(is_array($informant)) {
-                    $content = "<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$informant[0]\">$informant[1]</a> ";
-                } else {
-                    $content = "<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$informant\">$informant</a> ";
-                }
-            } else {
-                $content = "$anonymous ";
-            }
-            $content .= ""._WRITES." <i>\"$thetext\"</i>$notes\n";
-        } else {
-            $content .= "$thetext$notes\n";
-        }
-    }
-    $tmpl_file = NUKE_THEMES_DIR.$theme_name."/story_page.html";
-    $thefile = implode("", file($tmpl_file));
-    $thefile = addslashes($thefile);
-    $thefile = "\$r_file=\"".$thefile."\";";
-    eval($thefile);
-    print $r_file;
-}
+#----------------------#
+# News Article Section #
+#----------------------#
+include_once(theme_dir.'function_themearticle.php');
 
 function themecenterbox($title, $content) {
     OpenTable();
     echo '<center><span class="option"><strong>'.$title.'</strong></span></center><br />'.$content;
     CloseTable();
-    echo '<br />';
 }
 
 function themepreview($title, $hometext, $bodytext='', $notes='') {

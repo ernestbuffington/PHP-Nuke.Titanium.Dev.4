@@ -412,7 +412,7 @@ h6 { font-size: 10px; font-weight: bold; }
   padding-right: 0px;
   border-spacing: 0px;
   text-align: center;
-  background-color: #151515; 
+  background-color: #000000; 
 }
 
 td.table1_width_definedLSM

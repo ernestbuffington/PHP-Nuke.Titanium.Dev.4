@@ -16,6 +16,44 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 }
 
 global $ThemeInfo;
+global $index, $user, $cookie, $banners, $prefix, $db, $admin,  $adminmail, $nukeurl, $theme_name;
+
+    $maxshow = 0;        // Number of downloads to display in the block.
+
+    $a = 1;
+    $result = $db->sql_query("SELECT did, title, hits FROM ".$prefix."_file_repository_items ORDER BY date DESC limit 0,$maxshow", $dbi);
+    while(list($did, $title, $hits) = $db->sql_fetchrow($result)) 
+    {
+        $title2 = str_replace("_", " ", "<b>$title</b>");
+        $show2 .= $a.': <a href="modules.php?name=File_Repository&amp;action=view&amp;did='.$did.'#'.$did.'">'.$title2.'&nbsp;</a>'.$hits.'<br>';
+        $showdownloads = " <A name= \"scrollingCodedownloads\"></A><MARQUEE behavior= \"scroll\" align= \"up\" direction= \"up\" width=\"130\" height=\"63\" scrollamount= \"1\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'><table width=\"100%\"><tr>           <td></td></tr>$show2</table></marquee>";
+        $a++;
+    }
+
+$maxshow = 0;        // Number of weblinks to dispaly in the block.
+$a = 1;
+
+$result = $db->sql_query("select lid, title, hits from ".$prefix."_links_links order by date DESC limit 0,$maxshow", $dbi);
+while(list($lid, $title, $hits) = $db->sql_fetchrow($result, $dbi)) {
+$title2 = ereg_replace("_", " ", "<b>$title</b>");
+$show .= " $a: <a href=\"tblules.php?name=Web_Links&l_op=viewlinkdetails&lid=$lid&ttitle=$title\">&nbsp$title2&nbsp;</a><b><font class=\"content\">$hits</b><font class=\"copyright\"><br>";
+$showlinks = " <A name= \"scrollingCode\"></A><MARQUEE behavior= \"scroll\" align= \"up\" direction= \"up\" width=\"130\" height=\"63\" scrollamount= \"1\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'>$show";
+$a++;
+
+}
+    // Banner in the middle of the site
+
+    if (blocks_visible('right') && !defined('ADMIN_FILE')) {
+        echo "</td>\n";
+        echo "        <td style=\"width: 10px;\" valign=\"top\"><img src=\"themes/".$theme_name."/images/spacer.gif\" alt=\"\" width=\"10\" height=\"1\" /></td>\n";
+        echo "       <td style=\"width: 168px;\" valign=\"top\">\n";
+        blocks('right');
+    }
+    echo "        </td>\n";
+    echo "        <td style=\"width: 42px; background-image: url(themes/SimpleBlackV2/images/right.png)\" valign=\"top\"><img src=\"themes/".$theme_name."/images/spacer.gif\" alt=\"\"  width=\"42\" height=\"11\" /></td>\n";
+    echo "        </tr>\n";
+    echo "</table>\n\n\n";
+
 echo "<table width=\"" . $ThemeInfo['sitewidth'] . "\" align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"\"><tr><td>";
 echo "<table width=\"100%\" align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"headerexpand\"><tr><td>";
 echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n";
@@ -53,4 +91,5 @@ echo "</table>\n";
 echo "</td>\n";
 echo "</tr>\n";
 echo "</table></center>\n";
+
 ?>
