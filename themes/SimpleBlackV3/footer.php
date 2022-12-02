@@ -36,7 +36,7 @@ echo '<td class="ft06" width="43"><img src="themes/'.$theme_name.'/images/ft/ft_
 
 echo '<td width="144" style="background-image:url(themes/'.$theme_name.'/images/ft/ft_07.png)"><div align="center">'.$showdownloads.'</div></td>'.PHP_EOL;
 
-echo '<td class="ft08" width="8"><img src="themes/'.$theme_name.'/images/ft/ft_08.png" width="8" height="200px" alt="DFG"></td>'.PHP_EOL;
+echo '<td class="ft08"></td>'.PHP_EOL;
 # COPYRIGHT: DO NOT REMOVE, EDIT, MODIFY, OR DELETE, MUST STAY INTACT
 echo '<td class="ft09">'.PHP_EOL;
 
@@ -46,7 +46,8 @@ echo '</div>';
 
 echo '<td>'.PHP_EOL;
 
-echo '<td width="8"><img src="themes/'.$theme_name.'/images/ft/ft_11.png" width="8" height="200px" alt="DFG"></td>'.PHP_EOL;
+echo '<td class="ft11"></td>'.PHP_EOL;
+
 echo '<td width="144" style="background-image:url(themes/'.$theme_name.'/images/ft/ft_12.png)"><div align="center">'.$showlinks.'</div></td>'.PHP_EOL;
 echo '<td width="43"><img src="themes/'.$theme_name.'/images/ft/ft_13.png" width="43" height="200px" alt="DFG"></td>'.PHP_EOL;
 echo '</tr>'.PHP_EOL;

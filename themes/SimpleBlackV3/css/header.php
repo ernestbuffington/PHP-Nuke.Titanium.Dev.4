@@ -576,6 +576,22 @@ td.ft06
   background-image: url('themes/<?=$theme_name?>/images/ft/ft_06.png');
 }
 
+td.ft11
+{
+  table-layout: auto;
+  width: 8px;
+  height: 200px;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-image: url('themes/<?=$theme_name?>/images/ft/ft_11.png');
+  background-repeat: repeat-x;
+  background-position: center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+}
 
 td.ft08
 {
@@ -586,7 +602,7 @@ td.ft08
   padding: 0px;
   border-spacing: 0px;
   background-image: url('themes/<?=$theme_name?>/images/ft/ft_08.png');
- background-repeat: no-repeat;
+  background-repeat: repeat-x;
   background-position: center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
