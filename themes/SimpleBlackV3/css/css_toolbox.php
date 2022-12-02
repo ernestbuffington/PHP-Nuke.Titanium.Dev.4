@@ -141,6 +141,23 @@ a.googleminds:hover {
   font-weight: 100 400;
 }
 
+.scrollingCode{
+  font-size:8px; !important;
+  font-weight: 100 400;
+
+}
+
+a.scrollingCode:link{
+  font-size:8px; !important;
+  font-weight: 100 400;
+
+}
+
+a.scrollingCode:hover{
+  font-size:8px; !important;
+  font-weight: 100 400;
+}
+
 /*
  * 2. Bookmarks Code
  *----------------------------------------

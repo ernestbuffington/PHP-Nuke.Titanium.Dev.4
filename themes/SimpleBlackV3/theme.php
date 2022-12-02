@@ -53,13 +53,15 @@ include(NUKE_THEMES_DIR.$theme_name.'/theme_info.php');
 # Theme Copyright Information #
 #-----------------------------#
 //$locked_width = "1890px"; The is the only size this theme supports
-$locked_width = "100%";
+$locked_width = "1890px";
 echo "<!-- Setting locked THEME width to ".$locked_width," in themes/".$theme_name."/theme.php -->\n";
+
+$ThemeInfo['sitewidth'] = $locked_width;
 
 $side_block_width = "295px";
 echo "<!-- Setting Side Block THEME width to ".$side_block_width," in themes/".$theme_name."/theme.php -->\n";
 
-$theme_business = 'Brandon Maintenance Management, LLC';
+$theme_business = 'DarkForge Graphics';
 echo "<!-- Setting THEME Business to ".$theme_business," in themes/".$theme_name."/theme.php -->\n";
 
 # Theme Name
@@ -72,7 +74,7 @@ echo "<!-- Setting Features to ".$theme_overview," in themes/".$theme_name."/the
 define('THEME_OVERVIEW', $theme_overview);
 
 # Theme Author
-$theme_author = 'Ernest Allen Buffington';
+$theme_author = 'Killigan';
 echo "<!-- Setting THEME Author to ".$theme_author," in themes/".$theme_name."/theme.php -->\n";
 define('THEME_AUTHOR', $theme_author);
 
@@ -385,56 +387,58 @@ function FormatStory($thetext, $notes, $aid, $informant) {
 /* Function themeheader()                                   */
 /************************************************************/
 function themeheader() {
-    global $user, $cookie, $prefix, $sitekey, $db, $name, $banners, $theme_name;
 
-    echo "<body>\n";
-/*****[BEGIN]************************************************/
-/* [ Base:    Theme Management                   v1.0.2 ]	*/
-/* **********************************************************/
-//$ftm = $ThemeInfo['ftm'];
-/*****[END]**************************************************/
-/* [ Base:    Theme Management                   v1.0.2 ]	*/
-/* **********************************************************/
+global $user, $cookie, $prefix, $sitekey, $db, $name, $banners, $theme_name;
 
-//FORUM POSTS
-$count = 1;
-$amount = 18;
-$content1 = "<A name= \"scrollingCode\"></A>";
-$content1 .="<div style=\"padding-top:12px;\"><font size=\"1\" color=\"#FFFFFF\" face=\"verdana\"><MARQUEE behavior= \"scroll\" align= \"left\" direction= \"up\" width=\"140\" height=\"100\" scrollamount= \"1\" scrolldelay= \"90\" onmouseover='this.stop()' onmouseout='this.start()'>";
-$result1 = $db->sql_query("SELECT topic_id, topic_last_post_id, topic_title FROM ".$prefix."_bbtopics ORDER BY topic_last_post_id DESC LIMIT $amount");
-$content .= "<br />";
-while(list($topic_id, $topic_last_post_id, $topic_title) = $db->sql_fetchrow($result1)) {
-$result2 = $db->sql_query("SELECT topic_id, poster_id, FROM_UNIXTIME(post_time,'%b %d, %Y at %T') as post_time FROM ".$prefix."_bbposts where post_id='$topic_last_post_id'");
-list($topic_id, $poster_id, $post_time)=$db->sql_fetchrow($result2);
+echo "<body>\n";
+    
+include_once(theme_dir.'copyright.php');
 
-$result3 = $db->sql_query("SELECT username, user_id FROM ".$prefix."_users where user_id='$poster_id'");
-list($username, $user_id)=$db->sql_fetchrow($result3);
+   # MARQUEE UP FORUM POSTS
+   $count = 1;
 
-$content1 .= "<br />&raquo;&nbsp;<a href=\"modules.php?name=Forums&amp;file=viewtopic&amp;p=$topic_last_post_id#$topic_last_post_id\"STYLE=\"font-family: verdana; font-size: 9px;\"><strong>$topic_title</strong></a>&nbsp;<br />";
-$count = $count + 1;
-}
-$content1 .="</center></MARQUEE></font></div></center>\n";
+   $amount = 18;
 
+   $content1 .="<div style=\"padding-top:0px; overflow: hidden;\"><span style=\"color:#FFFFFF;\"><marquee behavior= \"scroll\" align= \"left\" direction= \"up\" 
+   width=\"140\" height=\"100\" scrollamount= \"1\" scrolldelay= \"90\" onmouseover='this.stop()' onmouseout='this.start()'>";
 
+   $result1 = $db->sql_query("SELECT topic_id, topic_last_post_id, topic_title FROM ".$prefix."_bbtopics ORDER BY topic_last_post_id DESC LIMIT $amount");
+
+   while(list($topic_id, $topic_last_post_id, $topic_title) = $db->sql_fetchrow($result1)): 
+
+    $result2 = $db->sql_query("SELECT topic_id, poster_id, FROM_UNIXTIME(post_time,'%b %d, %Y at %T') as post_time FROM ".$prefix."_bbposts where post_id='$topic_last_post_id'");
+  
+    list($topic_id, $poster_id, $post_time)=$db->sql_fetchrow($result2);
+
+    $result3 = $db->sql_query("SELECT username, user_id FROM ".$prefix."_users where user_id='$poster_id'");
+  
+    list($username, $user_id)=$db->sql_fetchrow($result3);
+
+    $content1 .= "&raquo;&nbsp;<a class=\"scrollingCode\" href=\"modules.php?name=Forums&amp;file=viewtopic&amp;p=$topic_last_post_id#$topic_last_post_id\" 
+    style=\"font-family: verdana;\"><strong>$topic_title</strong></a>&nbsp;<br />";
+
+    $count = $count + 1;
+
+    endwhile;
+    $content1 .="</marquee></span></div>\n";
 
     include_once(NUKE_THEMES_DIR.$theme_name."/header.php");
 
-    echo "\n<table width=\"1890px\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\">\n";
-  //  echo "\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\">\n";
-    echo "        <tr valign=\"top\">\n";
-    echo "        <td style=\"width: 42px; background-image: url(themes/SimpleBlackV3/images/left.png)\" valign=\"top\"><img src=\"themes/".$theme_name."/images/spacer.gif\" width=\"42\" height=\"11\" border=\"0\" alt=\"\" /></td>\n";
-    echo "        <td valign=\"top\">\n";
+    echo '<table width="'.$ThemeInfo['sitewidth'].'" cellpadding="0" cellspacing="0" border="0" align="center">'.PHP_EOL;
+    echo '<tr valign="top">'.PHP_EOL;
+    echo '<td class="table1_width_definedLSMtop"</td>'.PHP_EOL;
+    echo '<td valign="top">'.PHP_EOL;
 
-    if(blocks_visible('left')) {
+    if(blocks_visible('left')):
         blocks('left');
-        echo "    </td>\n";
-        echo " <td style=\"width: 10px;\" valign =\"top\"><img src=\"themes/".$theme_name."/images/spacer.gif\" alt=\"\" width=\"10\" height=\"1\" border=\"0\" /></td>\n";
-        echo " <td width=\"100%\">\n";
-    } else {
-        echo "    </td>\n";
-        echo " <td style=\"width: 1px;\" valign =\"top\"><img src=\"themes/".$theme_name."/images/spacer.gif\" alt=\"\" width=\"1\" height=\"1\" border=\"0\" /></td>\n";
-        echo " <td width=\"100%\">\n";
-    }
+        echo '</td>'.PHP_EOL;
+        echo '<td style="width: 10px;" valign="top"><img src="themes/'.$theme_name.'/images/spacer.gif" alt="" width="10" height="1" border="0" /></td>'.PHP_EOL;
+        echo '<td width="100%">'.PHP_EOL;
+    else:
+        echo '</td>'.PHP_EOL;
+        echo '<td style="width: 1px;" valign="top"><img src="themes/'.$theme_name.'/images/spacer.gif" alt="" width="1" height="1" /></td>'.PHP_EOL;
+        echo '<td width=\"100%\">'.PHP_EOL;
+    endif;
 }
 
 /************************************************************/
@@ -448,36 +452,48 @@ function themefooter()
 
     $a = 1;
     $result = $db->sql_query("SELECT did, title, hits FROM ".$prefix."_file_repository_items ORDER BY date DESC limit 0,$maxshow", $dbi);
-    while(list($did, $title, $hits) = $db->sql_fetchrow($result)) 
-    {
-        $title2 = str_replace("_", " ", "<b>$title</b>");
+    
+	while(list($did, $title, $hits) = $db->sql_fetchrow($result)): 
+    
+        $title2 = str_replace("_", " ", "<strong>$title</strong>");
         $show2 .= $a.': <a href="modules.php?name=File_Repository&amp;action=view&amp;did='.$did.'#'.$did.'">'.$title2.'&nbsp;</a>'.$hits.'<br>';
-        $showdownloads = " <A name= \"scrollingCodedownloads\"></A><MARQUEE behavior= \"scroll\" align= \"up\" direction= \"up\" width=\"130\" height=\"63\" scrollamount= \"1\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'><table width=\"100%\"><tr>           <td></td></tr>$show2</table></marquee>";
-        $a++;
-    }
+        $showdownloads = "<a class=\"scrollingCodedownloads\"></a><marquee behavior= \"scroll\" align= \"up\" direction= \"up\" width=\"130\" 
+		height=\"63\" scrollamount= \"1\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'><table width=\"100%\"><tr><td></td></tr>$show2</table></marquee>";
+        
+		$a++;
+    
+	endwhile;
 
-$maxshow = 0;        // Number of weblinks to dispaly in the block.
-$a = 1;
+    $maxshow = 0;        # Number of weblinks to dispaly in the block.
+    $a = 1;
 
-$result = $db->sql_query("select lid, title, hits from ".$prefix."_links_links order by date DESC limit 0,$maxshow", $dbi);
-while(list($lid, $title, $hits) = $db->sql_fetchrow($result, $dbi)) {
-$title2 = ereg_replace("_", " ", "<b>$title</b>");
-$show .= " $a: <a href=\"tblules.php?name=Web_Links&l_op=viewlinkdetails&lid=$lid&ttitle=$title\">&nbsp$title2&nbsp;</a><b><font class=\"content\">$hits</b><font class=\"copyright\"><br>";
-$showlinks = " <A name= \"scrollingCode\"></A><MARQUEE behavior= \"scroll\" align= \"up\" direction= \"up\" width=\"130\" height=\"63\" scrollamount= \"1\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'>$show";
-$a++;
+    $result = $db->sql_query("select lid, title, hits from ".$prefix."_links_links order by date DESC limit 0,$maxshow", $dbi);
 
-}
-    // Banner in the middle of the site
+    while(list($lid, $title, $hits) = $db->sql_fetchrow($result, $dbi)): 
+    
+      $title2 = ereg_replace("_", " ", "<b>$title</b>");
+      $show .= " $a: <a href=\"modules.php?name=Web_Links&l_op=viewlinkdetails&lid=$lid&ttitle=$title\">&nbsp$title2&nbsp;</a><b><font class=\"content\">$hits</b><font class=\"copyright\"><br>";
+      $showlinks = " <a class=\"scrollingCode\"></a><marquee behavior= \"scroll\" align= \"up\" direction= \"up\" width=\"130\" 
+      height=\"63\" scrollamount= \"1\" scrolldelay= \"20\" onmouseover='this.stop()' onmouseout='this.start()'>$show";
+  
+      $a++;
+    
+	endwhile;
 
-    if (blocks_visible('right')) {
-        echo "</td>\n";
-        echo "        <td style=\"width: 10px;\" valign=\"top\"><img src=\"themes/".$theme_name."/images/spacer.gif\" alt=\"\" width=\"10\" height=\"1\" /></td>\n";
-        echo "       <td style=\"width: 168px;\" valign=\"top\">\n";
-        blocks('right');
-    }
-    echo "        </td>\n";
-    echo "        <td style=\"width: 42px; background-image: url(themes/SimpleBlackV3/images/right.png)\" valign=\"top\"><img src=\"themes/".$theme_name."/images/spacer.gif\" alt=\"\"  width=\"42\" height=\"11\" /></td>\n";
-    echo "        </tr>\n";
+    # Banner in the middle of the site
+    if (blocks_visible('right')):
+    
+	    echo "</td>\n";
+        echo "<td style=\"width: 10px;\" valign=\"top\"><img src=\"themes/".$theme_name."/images/spacer.gif\" alt=\"\" width=\"10\" height=\"1\" /></td>\n";
+        echo "<td style=\"width: 168px;\" valign=\"top\">\n";
+        
+		blocks('right');
+    
+	endif;
+	
+    echo "</td>\n";
+    echo '<td class="table1_width_definedRSMtop"></td>'.PHP_EOL;
+    echo "</tr>\n";
     echo "</table>\n\n\n";
 
     include_once(NUKE_THEMES_DIR.$theme_name."/footer.php");
@@ -486,18 +502,13 @@ $a++;
 
 /************************************************************/
 /* Function themeindex()                                    */
-/* This function format the stories on the Homepage         */
+/* This function format the Blogs on the Homepage           */
 /************************************************************/
-#--------------------#
-# News Index Section #
-#--------------------#
 include_once(theme_dir.'function_themeindex.php');
+
 /************************************************************/
 /* Function themearticle()                                  */
 /************************************************************/
-#----------------------#
-# News Article Section #
-#----------------------#
 include_once(theme_dir.'function_themearticle.php');
 
 #-------------------#

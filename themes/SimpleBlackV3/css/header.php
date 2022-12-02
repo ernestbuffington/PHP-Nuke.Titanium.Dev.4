@@ -2,7 +2,7 @@
 global $theme_name;
 echo "/* Loading themes/".$theme_name."/css/header.php Fly Kit for PHP-Nuke Titanium - Design Themes On The Fly */\n"; 
 echo "/* When we are done we will move this code to style.css */\n"; 
-global $screen_width, $screen_height, $textcolor1, $textcolor2, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $bgcolor5, $fieldset_border_width, $locked_width;
+global $ThemeInfo, $screen_width, $screen_height, $textcolor1, $textcolor2, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4, $bgcolor5, $fieldset_border_width, $locked_width;
 $bgcolor5 ='#262525';
 ?>
 /**
@@ -152,19 +152,6 @@ input[type='checkbox']
  * 2. Primary page styles
  *----------------------------------------
  */
-
-#flex-container {
-
-}
-
-#flex-item {
-
-}
-
-.container {
- max-width: 1890px;
-  margin: auto;
-}
 
 input[type="radio"]{
     vertical-align: bottom;
@@ -413,18 +400,32 @@ h6 { font-size: 10px; font-weight: bold; }
   background-color: #000000; 
 }
 
-td.table1_width_definedLSM
+td.table1_width_definedLSMtop
 {
   table-layout: auto;
-  width: 39px;
-  height: 100%;
+  width: 42px !important;
+  height: 11px !important;
   border-collapse: collapse;
   padding-top: 0px;
   padding-bottom: 0px;
   padding-left: 0px;
-  padding-right: 0px;
+  padding-right: 43px;
   border-spacing: 0px;
-  background-image: url('themes/<?=$theme_name?>/images/TABLES/left_side_middle_151515.png');
+  background-image: url('themes/<?=$theme_name?>/images/left.png');
+}
+
+td.table1_width_definedRSMtop
+{
+  table-layout: auto;
+  width: 42px !important;
+  height: 11px !important;
+  border-collapse: collapse;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 41px;
+  border-spacing: 0px;
+  background-image: url('themes/<?=$theme_name?>/images/right.png');
 }
 
 td.table1_width_definedRSM
@@ -439,6 +440,18 @@ td.table1_width_definedRSM
   padding-right: 0px;
   border-spacing: 0px;
   background-image: url('themes/<?=$theme_name?>/images/TABLES/right_side_middle_151515.png');
+}
+
+.footerSITEwidth{
+  table-layout: auto;
+  width: <?=$ThemeInfo['sitewidth']?>;
+  border-collapse: collapse;
+  border-spacing: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  text-align: center; 
 }
 
 td.table1_width_definedBM
@@ -543,16 +556,62 @@ td.td1725
   background-image: url('themes/<?=$theme_name?>/blackjack/main_background/page_template_r6_c4.png');
 }
 
-td.td65
+td.ft06
 {
   table-layout: auto;
-  width: 65px;
-  height: 83px;
+  width: 43px;
   border-collapse: collapse;
   padding: 0px;
   border-spacing: 0px;
-  background-image: url('themes/<?=$theme_name?>/blackjack/main_background/PHP-CarterPhone_left_bottom_corner_04.png');
+  background-image: url('themes/<?=$theme_name?>/images/ft/ft_06.png');
 }
+
+td.ft06
+{
+  table-layout: auto;
+  width: 43px;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-image: url('themes/<?=$theme_name?>/images/ft/ft_06.png');
+}
+
+
+td.ft08
+{
+  table-layout: auto;
+  width: 8px;
+  height: 200px;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-image: url('themes/<?=$theme_name?>/images/ft/ft_08.png');
+ background-repeat: no-repeat;
+  background-position: center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+}
+
+
+td.ft09
+{
+  table-layout: auto;
+  width: 100%;
+  height: 200px;
+  border-collapse: collapse;
+  padding: 0px;
+  border-spacing: 0px;
+  background-image: url('themes/<?=$theme_name?>/images/ft/ft_09.png');
+  background-repeat: repeat-x;
+  background-position: center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+}
+
 
 td.td69
 {
@@ -728,21 +787,18 @@ td.stacklogos
   /* filter: drop-shadow(1px 1px 6px #87774b); */
 }
 
-td.bannerRightSide
+div.bannerRightSide
 {
-  table-layout: auto;
-  width: 25%;
-  height: 79px;
-  border-collapse: collapse;
-  padding-top: 8px;
+  width: 484px !important;
+  height: 74px !importantpx;
+  padding-top: 0px;
   padding-bottom: 0px;
   padding-left: 0px;
   padding-right: 0px;
   border-spacing: 0px;
   background-color: transparent;
-  text-align: right;
   vertical-align: top;
-  -webkit-border-radius: 6px;
+  -webkit-border-radius: 0px;
   -webkit-animation: pulsate 1s ease-in;
   -webkit-animation-iteration-count: 1; 
   0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;}
