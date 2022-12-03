@@ -30,14 +30,17 @@
  ************************************************************************/
 define('MODULE_FILE', true);
 
-if(isset($_GET['file']) && $_GET['file'] == 'posting') 
-define('MEDIUM_SECURITY', true);
+if(isset($_GET['file']) && $_GET['file'] == 'posting'): 
+  define('MEDIUM_SECURITY', true);
+endif;
 
-if(isset($_GET['Action']) && $_GET['Action'] == 'AJAX')
-define('MEDIUM_SECURITY', true);
+if(isset($_GET['Action']) && $_GET['Action'] == 'AJAX'):
+  define('MEDIUM_SECURITY', true);
+endif;
 
-if(isset($_POST['tos_text']) && isset($_POST['op']) && $_POST['op'] == 'editTOS')
-define('MEDIUM_SECURITY', true);
+if(isset($_POST['tos_text']) && isset($_POST['op']) && $_POST['op'] == 'editTOS'):
+  define('MEDIUM_SECURITY', true);
+endif;
 
 require_once(dirname(__FILE__) . '/mainfile.php');
 
@@ -53,8 +56,9 @@ if($name):
 	&& ($name != 'Profile' 
 	&& $mode == 'register' 
 	&& (isset($check_num) 
-	|| isset($HTTP_POST_VARS['submit'])))) 
-    include(NUKE_MODULES_DIR.'Your_Account/index.php');
+	|| isset($HTTP_POST_VARS['submit'])))): 
+	  include(NUKE_MODULES_DIR.'Your_Account/index.php');
+	endif;
     # Mod: Lock Modules v1.0.0 END
 
     $module = $db->sql_ufetchrow('SELECT `title`, `active`, `view`, `blocks`, `custom_title`, `groups` FROM `'.$prefix.'_modules` WHERE `title`="'.Fix_Quotes($name).'"');
@@ -70,27 +74,34 @@ if($name):
 	endif;
 	
 	if($module['active'] || is_mod_admin($module_name)):
-      if (!isset($file) OR $file != $_REQUEST['file']) 
+      
+	  if(!isset($file) OR $file != $_REQUEST['file']): 
 		$file='index';
-	     if (isset($open)) 
-          if ($open != $_REQUEST['open']) 
-		   $open = '';
+	  endif;
+	  
+	  if(isset($open)): 
+	    if($open != $_REQUEST['open']): 
+		  $open = '';
+		endif;
+	  endif;
         
 		if((isset($file) 
 		&& stristr($file,"..")) 
 		|| (isset($mop) 
 		&& stristr($mop,"..")) 
 		|| (isset($open) 
-		&& stristr($open,".."))) 
-		die('You are so cool...');
+		&& stristr($open,".."))): 
+		  die('You are so cool...');
+		endif;
 		
 		$showblocks = $module['blocks'];
 		$module_title = ($module['custom_title'] != '') ? $module['custom_title'] : str_replace('_', ' ', $module_name);
         $modpath = isset($module['title']) ? NUKE_MODULES_DIR.$module['title']."/$file.php" : NUKE_MODULES_DIR.$name."/$file.php";
         $groups = (!empty($module['groups'])) ? $groups = explode('-', $module['groups']) : '';
         
-		if(!empty($open)) 
-        $modpath = isset($module['title']) ? NUKE_MODULES_DIR.$module['title']."/$open.php" : NUKE_MODULES_DIR.$name."/$open.php";
+		if(!empty($open)): 
+         $modpath = isset($module['title']) ? NUKE_MODULES_DIR.$module['title']."/$open.php" : NUKE_MODULES_DIR.$name."/$open.php";
+		endif;
         		
 		unset($module, $error);
 		
@@ -111,22 +122,27 @@ if($name):
 			    global $userinfo;
 
 			    foreach($groups as $group): 
-    			     if(isset($userinfo['groups'][$group])):
+    	
+				     if(isset($userinfo['groups'][$group])):
 					 $ingroup = true;
                  	 # Group Cookie Control START
 					 list($groupname) = $db->sql_ufetchrow("SELECT `group_name` FROM ".$prefix."_bbgroups WHERE `group_id`=".$group."", SQL_NUM);
    			         $groupcookie = str_replace(" ", "_", $groupname);
-					 if(!isset($_COOKIE[$groupcookie]))
-					 setcookie($groupcookie, $group, time()+2*24*60*60);
+		
+					 if(!isset($_COOKIE[$groupcookie])):
+					   setcookie($groupcookie, $group, time()+2*24*60*60);
+					 endif;
 			         # Group Cookie Control END
 					 endif;
+		
 			    endforeach;
 
-			    if(!$ingroup)
+			    if(!$ingroup):
                   $result = $db->sql_query('SELECT `group_name`
 			                                FROM  '.$prefix.'_bbgroups 
 											WHERE group_id = '.$group.'
 				                            ORDER BY group_id'); 
+				endif;
 				 
 				  if($db->sql_numrows($result)): 
 	              
@@ -182,12 +198,13 @@ if($name):
 			endif;
 		endif;
 		
-        if(isset($error)) 
-            DisplayError($error);
-		elseif(file_exists($modpath)) 
-            include($modpath);
-		else 
+        if(isset($error)): 
+          DisplayError($error);
+		elseif(file_exists($modpath)): 
+          include($modpath);
+		else: 
             DisplayError(_MODULEDOESNOTEXIST);
+		endif;
      
 	else: 
         DisplayError(_MODULENOTACTIVE."<br /><br />"._GOBACK);
