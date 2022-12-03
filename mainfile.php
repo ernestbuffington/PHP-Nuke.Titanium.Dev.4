@@ -71,16 +71,16 @@ define_once('CUR_EVO', 'NUKE_EVO');
 define_once('CUR_TITANIUM', 'NUKE_TITANIUM');
 define_once('EVO_EDITION', 'Xtreme');
 define_once('TITANIUM_EDITION', 'AN602');
-define('PHPVERS', @phpversion());
+define('PHPVERS', phpversion());
 define_once('EVO_VERSION', NUKE_EVO . ' ' . EVO_EDITION);
 define_once('TITANIUM_VERSION', NUKE_TITANIUM . ' ' . TITANIUM_EDITION);
 define('PHP_5', version_compare(PHPVERS, '5.0.0', '>='));
 
 if (!ini_get('register_globals')): 
 	$import = true;
-	//Need register_globals so try the built in import function
+	# Need register_globals so try the built in import function
 	if (function_exists('import_request_variables')):
-		@import_request_variables('GPC');
+		import_request_variables('GPC');
 	else: 
 		function pnt_import_globals($array)
 		{
@@ -331,81 +331,84 @@ if(CAN_MOD_INI):
 endif;
 
 # Vendor Autoload - only if vendor directory exists with an autoload file! START
-if (@file_exists(NUKE_VENDOR_DIR.'autoload.php')):
-@require_once(NUKE_VENDOR_DIR.'autoload.php');
+if(file_exists(NUKE_VENDOR_DIR.'autoload.php')):
+  require_once(NUKE_VENDOR_DIR.'autoload.php');
 endif;  
 # Vendor Autoload - only if vendor directory exists with an autoload file! END
 
 # Enable 86it Network Support START
-if (@file_exists(NUKE_BASE_DIR.'nconfig.php')):  
-@require_once(NUKE_BASE_DIR.'nconfig.php');
+if (file_exists(NUKE_BASE_DIR.'nconfig.php')):  
+  require_once(NUKE_BASE_DIR.'nconfig.php');
 global $dbpass2, $dbhost2, $dbname2, $dbuname2, $db2, $network_prefix;
   if(defined('network')):
-  if(!isset($dbname2) || empty($dbname2)) 
-  die('$dbname2 <- your network database name is not configured in your ROOT nbconfig.php file!');
+    if(!isset($dbname2) || empty($dbname2)) 
+    die('$dbname2 <- your network database name is not configured in your ROOT nbconfig.php file!');
   if(!isset($dbuname2) || empty($dbuname2)) 
-  die('$dbuname2 <- your network database user name is not configured in your ROOT nbconfig.php file!');
+    die('$dbuname2 <- your network database user name is not configured in your ROOT nbconfig.php file!');
   if(!isset($dbpass2) || empty($dbpass2)) 
-  die('$dbpass2 <- your network database password is not configured in your ROOT nbconfig.php file!');
+    die('$dbpass2 <- your network database password is not configured in your ROOT nbconfig.php file!');
   if(!isset($network_prefix) || empty($network_prefix)) 
-  die('$network_prefix <- your network prefix is not configured in your ROOT nbconfig.php file!');
+    die('$network_prefix <- your network prefix is not configured in your ROOT nbconfig.php file!');
   endif;
 endif;
 # Enable 86it Network Support END 
 
 # facebook SDK Mod START
-if (@file_exists(NUKE_BASE_DIR.'fbconfig.php')):  
-@require_once(NUKE_BASE_DIR.'fbconfig.php');
-  if ( defined('facebook') ):
-  global $fb, $appID, $api_version, $appSecret, $my_url;
-  if(!isset($my_url) || empty($my_url)) 
-  die('$my_url <- your domain is not set in your ROOT fbconfig.php file!');
-  if(!isset($appSecret) || empty($appSecret)) 
-  die('$appSecret <- your facebook appSecret is not defined in your ROOT fbconfig.php file!');
-  if(!isset($appID) || empty($appID)) 
-  die('$appID <- your facebook appID is not defined in your ROOT fbconfig.php file!');
-  if(!isset($api_version) || empty($api_version)) 
-  die('$api_version <- your facebook api_version is not defined in your ROOT fbconfig.php file!');
+if (file_exists(NUKE_BASE_DIR.'fbconfig.php')):  
+  require_once(NUKE_BASE_DIR.'fbconfig.php');
+  if(defined('facebook')):
+    global $fb, $appID, $api_version, $appSecret, $my_url;
+    if(!isset($my_url) || empty($my_url)) 
+      die('$my_url <- your domain is not set in your ROOT fbconfig.php file!');
+    if(!isset($appSecret) || empty($appSecret)) 
+      die('$appSecret <- your facebook appSecret is not defined in your ROOT fbconfig.php file!');
+    if(!isset($appID) || empty($appID)) 
+      die('$appID <- your facebook appID is not defined in your ROOT fbconfig.php file!');
+    if(!isset($api_version) || empty($api_version)) 
+      die('$api_version <- your facebook api_version is not defined in your ROOT fbconfig.php file!');
   endif;
 endif;
 # facebook SDK Mod END
 
 # Include config file
-@require_once(NUKE_BASE_DIR.'config.php');
+require_once(NUKE_BASE_DIR.'config.php');
 
-if(!$directory_mode)
-$directory_mode = 0777;
-else
-$directory_mode = 0755;
+if(!$directory_mode):
+  $directory_mode = 0777;
+else:
+  $directory_mode = 0755;
+endif;
 
-if (!$file_mode)
-$file_mode = 0666;
-else
-$file_mode = 0644;
+if(!$file_mode):
+  $file_mode = 0666;
+else:
+  $file_mode = 0644;
+endif;
 
 # Core exceptions handler
 include_once(NUKE_INCLUDE_DIR . 'exception.php');
 include_once(NUKE_INCLUDE_DIR . 'abstract/abstract.exception.php');
 
 # Include the required files
-@require_once(NUKE_DB_DIR.'db.php');
-@require_once(NUKE_DB_DIR.'MysqliDb.php');
+require_once(NUKE_DB_DIR.'db.php');
+require_once(NUKE_DB_DIR.'MysqliDb.php');
 # $db->debug = true;
 # Include Error Logger and identify class
-@require_once(NUKE_CLASSES_DIR.'class.identify.php');
+require_once(NUKE_CLASSES_DIR.'class.identify.php');
 global $agent;
 
 $identify = new identify();
 $agent = $identify->identify_agent();
 
-@require_once(NUKE_INCLUDE_DIR.'log.php');
+require_once(NUKE_INCLUDE_DIR.'log.php');
 
-if (ini_get('output_buffering') && !isset($agent['bot'])):
-    ob_end_clean();
-    header('Content-Encoding: none');
+if(ini_get('output_buffering') && !isset($agent['bot'])):
+  ob_end_clean();
+  header('Content-Encoding: none');
 endif;
 
 $do_gzip_compress = false;
+
 if (GZIPSUPPORT && !ini_get('zlib.output_compression') 
 && isset($_SERVER['HTTP_ACCEPT_ENCODING']) 
 && preg_match('/gzip/i', $_SERVER['HTTP_ACCEPT_ENCODING'])):
@@ -423,11 +426,15 @@ else:
 endif;
 
 include_once(NUKE_INCLUDE_DIR.'constants.php');
-@require_once(NUKE_CLASSES_DIR.'class.cache.php');
-@require_once(NUKE_CLASSES_DIR.'class.debugger.php');
+
+require_once(NUKE_CLASSES_DIR.'class.cache.php');
+
+require_once(NUKE_CLASSES_DIR.'class.debugger.php');
+
 include_once(NUKE_CLASSES_DIR.'class.zip.php');
 
 require_once(NUKE_INCLUDE_DIR.'functions_database.php');
+
 require_once(NUKE_INCLUDE_DIR.'functions_cache.php');
 
 # Network Support START
@@ -440,6 +447,7 @@ require_once(NUKE_INCLUDE_DIR.'functions_titanium_custom.php');
 
 require_once(NUKE_INCLUDE_DIR.'functions_evo.php');
 require_once(NUKE_INCLUDE_DIR.'functions_evo_custom.php');
+
 include_once(NUKE_INCLUDE_DIR.'validation.php');
 
 # We globalize the $cookie and $userinfo variables,
@@ -482,16 +490,12 @@ $AllowableHTML = array('p'=>1,'b'=>1, 'i'=>1, 'a'=>2, 'em'=>1, 'br'=>1, 'strong'
 $nukeconfig = load_nukeconfig();
 
 foreach($nukeconfig as $var => $value):
-    $$var = $value;
+  $$var = $value;
 endforeach;
 
-/*****[BEGIN]******************************************
- [ Base:    Language Selector                  v3.0.0 ]
- ******************************************************/
-@require_once(NUKE_INCLUDE_DIR.'language.php');
-/*****[END]********************************************
- [ Base:    Language Selector                  v3.0.0 ]
- ******************************************************/
+# Base: Language Selector v3.0.0 START
+require_once(NUKE_INCLUDE_DIR.'language.php');
+# Base: Language Selector v3.0.0 END
  
 $adminmail = stripslashes($adminmail);
 $foot1 = stripslashes($foot1);
@@ -517,29 +521,27 @@ $httpref = intval($httpref);
 $httprefmax = intval($httprefmax);
 $domain = str_replace('http://', '', $nukeurl);
 
-if(isset($default_Theme)) 
-$Default_Theme = $default_Theme;
+if(isset($default_Theme)): 
+  $Default_Theme = $default_Theme;
+endif;
 
-if (CAN_MOD_INI) ini_set('sendmail_from', $adminmail);
+if (CAN_MOD_INI): 
+  ini_set('sendmail_from', $adminmail);
+endif;
 
-/*****[BEGIN]******************************************
- [ Base:     Evolution Functions               v1.5.0 ]
- ******************************************************/
+# Base: Evolution Functions v1.5.0 START
 $evoconfig = load_evoconfig();
 $board_config = load_board_config();
-/*****[END]********************************************
- [ Base:     Evolution Functions               v1.5.0 ]
- ******************************************************/
-/*****[BEGIN]******************************************
- [ Mod:     Lock Modules                       v1.0.0 ]
- [ Mod:     Queries Count                      v2.0.0 ]
- [ Other:   SSL Administration                 v1.0.0 ]
- [ Base:    Censor                             v1.0.0 ]
- [ Base:    Caching System                     v3.0.0 ]
- [ Mod:     Color Toggle                       v1.0.0 ]
- [ Mod:     Lazy Google Tap                    v1.0.0 ]
- [ Base:    Switch Content Script              v2.0.0 ]
- ******************************************************/
+# Base: Evolution Functions v1.5.0 END
+
+# Mod: Lock Modules v1.0.0 START
+# Mod: Queries Count v2.0.0 START
+# Other: SSL Administration v1.0.0 START
+# Base: Censor v1.0.0 START
+# Base: Caching System  v3.0.0 START
+# Mod: Color Toggle v1.0.0 START
+# Mod: Lazy Google Tap v1.0.0 START
+# Base: Switch Content Script v2.0.0 START
 $lock_modules = intval($evoconfig['lock_modules']);
 $queries_count = intval($evoconfig['queries_count']);
 $adminssl = intval($evoconfig['adminssl']);
@@ -559,63 +561,53 @@ $module_collapse = intval($evoconfig['module_collapse']);
 $evouserinfo_ec = intval($evoconfig['evouserinfo_ec']);
 $analytics = $evoconfig['analytics'];
 $html_auth = $evoconfig['html_auth'];
-
 $more_js = '';
 $more_styles = '';
-/*****[END]********************************************
- [ Mod:     Lock Modules                       v1.0.0 ]
- [ Mod:     Queries Count                      v2.0.0 ]
- [ Other:   SSL Administration                 v1.0.0 ]
- [ Base:    Censor                             v1.0.0 ]
- [ Base:    Caching System                     v3.0.0 ]
- [ Mod:     Color Toggle                       v1.0.0 ]
- [ Mod:     Lazy Google Tap                    v1.0.0 ]
- [ Base:    Switch Content Script              v2.0.0 ]
- ******************************************************/
+# Mod: Lock Modules v1.0.0 END
+# Mod: Queries Count v2.0.0 END
+# Other: SSL Administration v1.0.0 END
+# Base: Censor v1.0.0 END
+# Base: Caching System  v3.0.0 END
+# Mod: Color Toggle v1.0.0 END
+# Mod: Lazy Google Tap v1.0.0 END
+# Base: Switch Content Script v2.0.0 END
 
-/*****[BEGIN]******************************************
- [ Mod:     Lazy Google Tap                    v1.0.0 ]
- [ Base:    Theme Management                   v1.0.2 ]
- [ Base:    NukeSentinel                      v2.5.08 ]
- [ Mod:     Custom Text Area                   v1.0.0 ]
- ******************************************************/
+# Mod: Browsers v1.0 START
+# Mod: Lazy Google Tap v1.0.0 START
+# Base: Theme Management v1.0.2 START
+# Base: NukeSentinel v2.5.08 START
+# Mod: Custom Text Area v1.0.0 START
 require_once(NUKE_INCLUDE_DIR.'functions_browser.php');
 require_once(NUKE_INCLUDE_DIR.'themes.php');
 include_once(NUKE_INCLUDE_DIR.'functions_tap.php');
-
-if(!defined('NO_SENTINEL')) 
-require_once(NUKE_INCLUDE_DIR.'nukesentinel.php');
-
+if(!defined('NO_SENTINEL')): 
+  require_once(NUKE_INCLUDE_DIR.'nukesentinel.php');
+endif;
 require_once(NUKE_CLASSES_DIR.'class.variables.php');
 include_once(NUKE_CLASSES_DIR.'class.wysiwyg.php');
-/*****[END]********************************************
- [ Mod:     Lazy Google Tap                    v1.0.0 ]
- [ Base:    Theme Management                   v1.0.2 ]
- [ Base:    NukeSentinel                      v2.5.08 ]
- [ Mod:     Custom Text Area                   v1.0.0 ]
- ******************************************************/
+# Mod: Browsers v1.0 END
+# Mod: Lazy Google Tap v1.0.0 END
+# Base: Theme Management v1.0.2 END
+# Base: NukeSentinel v2.5.08 END
+# Mod: Custom Text Area v1.0.0 END
+
 include_once(NUKE_INCLUDE_DIR.'json.php');
 $json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
 
-/*****[BEGIN]******************************************
- [ Mod:    Shoutbox                            v8.5.2 ]
- ******************************************************/
+# Mod: Shoutbox v8.5.2 START
 include_once(NUKE_MODULES_DIR.'Shout_Box/shout.php');
-/*****[END]********************************************
- [ Mod:    Shoutbox                            v8.5.2 ]
- ******************************************************/
+# Mod: Shoutbox v8.5.2 END
 
-if (file_exists(NUKE_INCLUDE_DIR.'custom_files/custom_mainfile.php'))
-require_once(NUKE_INCLUDE_DIR.'custom_files/custom_mainfile.php');
-
-if(!defined('FORUM_ADMIN') && !isset($ThemeSel) && !defined('RSS_FEED')):
-    $ThemeSel = get_theme();
-    include_once(NUKE_THEMES_DIR . $ThemeSel . '/theme.php');
+if(file_exists(NUKE_INCLUDE_DIR.'custom_files/custom_mainfile.php')):
+  require_once(NUKE_INCLUDE_DIR.'custom_files/custom_mainfile.php');
 endif;
 
-/*****[BEGIN]******************************************
- [ Base:    Admin File Check                   v3.0.0 ]
- ******************************************************/
+if(!defined('FORUM_ADMIN') && !isset($ThemeSel) && !defined('RSS_FEED')):
+  $ThemeSel = get_theme();
+  include_once(NUKE_THEMES_DIR . $ThemeSel . '/theme.php');
+endif;
+
+# Base: Admin File Check v3.0.0 START
 if(!defined('FORUM_ADMIN')):
     global $admin_file;
     if(!isset($admin_file) || empty($admin_file)): 
@@ -624,34 +616,35 @@ if(!defined('FORUM_ADMIN')):
         die('The $admin_file you defined in config.php does not exist');
     endif;
 endif;
+# Base: Admin File Check v3.0.0 END
 
-/*****[END]********************************************
- [ Base:    Admin File Check                   v3.0.0 ]
- ******************************************************/
 function define_once($constant, $value) 
 {
-    if(!defined($constant)) 
-    define($constant, $value);
+    if(!defined($constant)): 
+      define($constant, $value);
+	endif;
 }
 
 function is_admin($trash=0) 
 {
     static $adminstatus;
     
-	if(isset($adminstatus)) 
-	return $adminstatus;
+	if(isset($adminstatus)): 
+	  return $adminstatus;
+	endif;
     
 	$admincookie = isset($_COOKIE['admin']) ? $_COOKIE['admin'] : false;
     
-	if (!$admincookie) 
-	return $adminstatus = 0; 
+	if(!$admincookie): 
+	  return $adminstatus = 0; 
+	endif;
     
 	$admincookie = (!is_array($admincookie)) ? explode(':', base64_decode($admincookie)) : $admincookie;
     $aid = $admincookie[0];
     $pwd = $admincookie[1];
     $aid = substr(addslashes($aid), 0, 25);
 
-    if (!empty($aid) && !empty($pwd)):
+    if(!empty($aid) && !empty($pwd)):
         if (!function_exists('get_admin_field')):
             global $db, $prefix;
             $pass = $db->sql_ufetchrow("SELECT `pwd` FROM `" . $prefix . "_authors` WHERE `aid` = '" .  str_replace("\'", "''", $aid) . "'", SQL_ASSOC);
@@ -675,7 +668,7 @@ function is_god_admin($trash=0)
 
     $godadmincookie = isset($_COOKIE['admin']) ? $_COOKIE['admin'] : false;
     
-	if (!$godadmincookie): 
+	if(!$godadmincookie): 
 	  return $godadminstatus = 0; 
     endif;
 	
@@ -684,7 +677,7 @@ function is_god_admin($trash=0)
     $pwd = $godadmincookie[1];
     $godaid = substr(addslashes($aid), 0, 25);
 
-    if (!empty($godaid) && !empty($pwd)):
+    if(!empty($godaid) && !empty($pwd)):
         if (!function_exists('get_admin_field')):
             global $db;
             $pass    = $db->sql_ufetchrow("SELECT `pwd` FROM `" . _AUTHOR_TABLE."` WHERE `aid` = '" .  str_replace("\'", "''", $godaid) . "'", SQL_ASSOC);
@@ -711,7 +704,7 @@ function is_user($trash=0)
     
 	$usercookie = isset($_COOKIE['user']) ? $_COOKIE['user'] : false;
     
-	if (!$usercookie): 
+	if(!$usercookie): 
 	  return $userstatus = 0; 
 	endif;
     
@@ -720,9 +713,9 @@ function is_user($trash=0)
     $pwd = $usercookie[2];
     $uid = intval($uid);
 
-    if (!empty($uid) AND !empty($pwd)):
+    if(!empty($uid) AND !empty($pwd)):
         $user_password = get_user_field('user_password', $uid);
-        if ($user_password == $pwd && !empty($user_password)):
+        if($user_password == $pwd && !empty($user_password)):
           return $userstatus = 1;
 		endif;
     endif;
@@ -742,7 +735,7 @@ function cookiedecode($trash=0)
     $rcookie = (!is_array($usercookie)) ? explode(':', base64_decode($usercookie)) : $usercookie;
     $pass = get_user_field('user_password', $rcookie[1], true);
 
-    if ($rcookie[2] == $pass && !empty($pass)):
+    if($rcookie[2] == $pass && !empty($pass)):
       return $cookie = $rcookie;
 	endif;
     
@@ -755,7 +748,7 @@ function title($text)
   global $name;
 
     # Opera Hack as images were not showing up
-    if ($name == 'Advertising'):
+    if($name == 'Advertising'):
       $icon = img('AdvertisngFixed.png', $name); 
     # Opera Hack as images were not showing up
     elseif ($name == 'Network_Advertising'):
@@ -784,11 +777,11 @@ function is_active($module)
     global $prefix, $db, $cache;
     static $active_modules;
     
-	if (is_array($active_modules)): 
+	if(is_array($active_modules)): 
       return(isset($active_modules[$module]) ? 1 : 0);
 	endif;
     
-	if ((($active_modules = $cache->load('active_modules', 'config')) === false) || empty($active_modules)):
+	if((($active_modules = $cache->load('active_modules', 'config')) === false) || empty($active_modules)):
 		$active_modules = array();
         $result = $db->sql_query('SELECT `title` FROM `'.$prefix.'_modules` WHERE `active`="1"');
 		
@@ -808,7 +801,7 @@ function render_blocks($side, $block)
 	define_once('BLOCK_FILE', true);
     
 	# Include the block lang files
-    if (file_exists(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php')): 
+    if(file_exists(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php')): 
       include_once(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php');
     else:
       include_once(NUKE_LANGUAGE_DIR.'blocks/lang-english.php');
@@ -817,7 +810,7 @@ function render_blocks($side, $block)
      [ Mod:     Switch Content Script              v2.0.0 ]
      ******************************************************/
     if($collapse): 
-        if (!$collapsetype):
+        if(!$collapsetype):
             $block['title'] = $block['title']."&nbsp;&nbsp;&nbsp;<img src=\"".$plus_minus_images['minus']
 			."\" class=\"showstate\" name=\"minus\" width=\"9\" height=\"9\" border=\"0\" onclick=\"expandcontent(this, 'block".$block['bid']."')\" alt=\"\" style=\"cursor: pointer;\" />";
         else: 
@@ -852,7 +845,7 @@ function blocks_visible($side)
     $side = strtolower($side[0]);
 
     # If there are no blocks for this module && not admin file
-    if (!$showblocks && !defined('ADMIN_FILE')): 
+    if(!$showblocks && !defined('ADMIN_FILE')): 
 	  return false;
 	endif;
 
@@ -862,7 +855,7 @@ function blocks_visible($side)
 	endif;
 
     # If set to 3 its all blocks
-    if ($showblocks == 3): 
+    if($showblocks == 3): 
 	  return true;
 	endif;
 
@@ -870,12 +863,12 @@ function blocks_visible($side)
     $blocks = blocks($side, true);
 
     # If there are no blocks
-    if (!$blocks):
+    if(!$blocks):
       return false;
 	endif;
 
     # Check for blocks to show
-    if (($showblocks == 1 && $side == 'l') || ($showblocks == 2 && $side == 'r')): 
+    if(($showblocks == 1 && $side == 'l') || ($showblocks == 2 && $side == 'r')): 
       return true;
 	endif;
 
@@ -885,153 +878,103 @@ function blocks_visible($side)
 function blocks($side, $count=false) 
 {
     global $prefix, $multilingual, $currentlang, $db, $userinfo, $cache;
-    static $blocks;
-
+	static $blocks;
     $querylang = ($multilingual) ? 'AND (`blanguage`="'.$currentlang.'" OR `blanguage`="")' : '';
-    $side = strtolower($side[0]);
-
-    if((($blocks = $cache->load('blocks', 'config')) === false) || !isset($blocks)) 
-	{
+	$side = strtolower($side[0]);
+    if((($blocks = $cache->load('blocks', 'config')) === false) || !isset($blocks)): 
         $sql = 'SELECT * FROM `'.$prefix.'_blocks` WHERE `active`="1" '.$querylang.' ORDER BY `weight` ASC';
         $result = $db->sql_query($sql);
-    
-	    while($row = $db->sql_fetchrow($result, SQL_ASSOC)) 
-		{
+	    while($row = $db->sql_fetchrow($result, SQL_ASSOC)): 
             $blocks[$row['bposition']][] = $row;
-        }
-        
+        endwhile;
 		$db->sql_freeresult($result);
         $cache->save('blocks', 'config', $blocks);
-    }
-    
-	if($count) 
-	{
+    endif;
+	if($count): 
         return (isset($blocks[$side]) ? count($blocks[$side]) : 0);
-    }
-    
+    endif;
 	$blockrow = (isset($blocks[$side])) ? $blocks[$side] : array();
-    
-	for($i=0,$j = count($blockrow); $i < $j; $i++) 
-	{
+	for($i=0,$j = count($blockrow); $i < $j; $i++): 
         $bid = intval($blockrow[$i]['bid']);
         $view = $blockrow[$i]['view'];
-    
-	    if(isset($blockrow[$i]['expire'])) 
-		{
+	    if(isset($blockrow[$i]['expire'])): 
             $expire = intval($blockrow[$i]['expire']);
-        } 
-		else 
-		{
+		else: 
             $expire = '';
-        }
-        
-		if(isset($blockrow[$i]['action'])) 
-		{
+        endif;
+		if(isset($blockrow[$i]['action'])): 
             $action = $blockrow[$i]['action'];
             $action = substr($action, 0,1);
-        } 
-		else 
-		{
+		else: 
             $action = '';
-        }
-        
+        endif;
 		$now = time();
-        
-		if ($expire != 0 AND $expire <= $now) 
-		{
-            if ($action == 'd') 
-			{
+		if($expire != 0 AND $expire <= $now): 
+            if($action == 'd'): 
                 $db->sql_query('UPDATE `'.$prefix.'_blocks` SET `active`="0", `expire`="0" WHERE `bid`="'.$bid.'"');
                 $cache->delete('blocks', 'config');
                 return;
-            } 
-			elseif($action == 'r') 
-			{
+			elseif($action == 'r'): 
                 $db->sql_query('DELETE FROM `'.$prefix.'_blocks` WHERE `bid`="'.$bid.'"');
                 $cache->delete('blocks', 'config');
                 return;
-            }
-        }
-		
-		if (empty($blockrow[$i]['bkey'])) 
-		{
-            if ( ($view == '0' || $view == '1') ||
-               ( ($view == '3' AND is_user()) ) ||
-               ( $view == '4' AND is_admin()) ||
-               ( ($view == '2' AND !is_user())) ) {
+            endif;
+        endif;
+		if(empty($blockrow[$i]['bkey'])): 
+            if(($view == '0' || $view == '1') ||
+              (($view == '3' AND is_user())) ||
+              ($view == '4' AND is_admin()) ||
+              (($view == '2' AND !is_user()))): 
                 render_blocks($side, $blockrow[$i]);
-            } 
-			else 
-			{
-                if (substr($view, strlen($view)-1) == '-') 
-				{
+			else: 
+                if(substr($view, strlen($view)-1) == '-'): 
                     $ingroups = explode('-', $view);
-                
-				  if (is_array($ingroups)) 
-				  {
+				  if(is_array($ingroups)): 
                         $cnt = 0;
-                    
-					    foreach ($ingroups as $group) 
-						{
-                            if (isset($userinfo['groups'][($group)])) 
-							{
+					    foreach($ingroups as $group): 
+                            if(isset($userinfo['groups'][($group)])): 
                               $cnt++;
-                            }
-                          }
-                    
-					if ($cnt != 0)
-					{
+                            endif;
+                        endforeach;
+					if($cnt != 0):
                       render_blocks($side, $blockrow[$i]);
-                    }
-                  }
-                }
-            }
-        }
-    }
-	
+                    endif;
+                  endif;
+                endif;
+            endif;
+        endif;
+    endfor;
     return;
 } 
 
 function blockfileinc(string $blockfiletitle, $blockfile = null, $side = 1, $bid) 
 {
     global $debug, $collapse;
-    #Required parameter $bid follows optional parameter $blockfile
+    # Required parameter $bid follows optional parameter $blockfile
     # if ($debug == 0)
 	# echo '<div align="center">'.$blockfile.'</div>';
 
-    if (!file_exists(NUKE_BLOCKS_DIR.$blockfile)) 
-	{
+    if(!file_exists(NUKE_BLOCKS_DIR.$blockfile)): 
         $content = _BLOCKPROBLEM;
-    } 
-	else 
-	{
+	else: 
         include(NUKE_BLOCKS_DIR.$blockfile);
-    }
+    endif;
     
-	if (empty($content)) 
-	{
+	if(empty($content)): 
         $content = _BLOCKPROBLEM2;
-    }
+    endif;
     
-	/*****[BEGIN]******************************************
-     [ Mod:     Switch Content Script              v2.0.0 ]
-     ******************************************************/
-    if($collapse) 
-	{
+    # Mod: Switch Content Script v2.0.0 START
+    if($collapse): 
         $content = "&nbsp;<div id=\"block".$bid."\" class=\"switchcontent\">".$content."</div>";
-    }
-    /*****[END]********************************************
-     [ Mod:     Switch Content Script              v2.0.0 ]
-     ******************************************************/
+    endif;
+    # Mod: Switch Content Script v2.0.0 END
     
-	if ($side == 'r' || $side == 'l') 
-	{
+	if($side == 'r' || $side == 'l'): 
 		themesidebox($blockfiletitle, $content, $bid);
-    } 
-	else 
-	{
+	else: 
         themecenterbox($blockfiletitle, $content);
-    }
+    endif;
 }
 
 function rss_content($url) 
@@ -1064,49 +1007,75 @@ function headlines($bid, $side=0, $row='')
 {
     global $prefix, $db, $my_headlines, $cache;
 
-    if(!$my_headlines) 
-	return;
+    if(!$my_headlines): 
+	  return;
+	endif;
     
 	$bid = intval($bid);
     
-	if (!is_array($row)) 
-    $row = $db->sql_ufetchrow('SELECT `title`, `content`, `url`, `refresh`, `time` FROM `'.$prefix.'_blocks` WHERE `bid`='.$bid, SQL_ASSOC);
-    
+	if(!is_array($row)): 
+      $row = $db->sql_ufetchrow('SELECT `title`, `content`, `url`, `refresh`, `time` FROM `'.$prefix.'_blocks` WHERE `bid`='.$bid, SQL_ASSOC);
+    endif;
+	
 	$content =& trim($row['content']);
 
-    if ($row['time'] < (time()-$row['refresh']) || empty($content)):
+    if($row['time'] < (time()-$row['refresh']) || empty($content)):
         $content = rss_content($row['url']);
         $btime = time();
         $db->sql_query("UPDATE `".$prefix."_blocks` SET `content`='".Fix_Quotes($content)."', `time`='$btime' WHERE `bid`='$bid'");
         $cache->delete('blocks', 'config');
     endif;
 
-    if (empty($content)) 
-    $content = _RSSPROBLEM.' ('.$row['title'].')';
+    if(empty($content)): 
+      $content = _RSSPROBLEM.' ('.$row['title'].')';
+	endif;
     
     $content = '<span class="content">'.$content.'</span>';
     
-	if ($side == 'c' || $side == 'd') 
-        themecenterbox($row['title'], $content);
-     else 
-        themesidebox($row['title'], $content, $bid);
+	if($side == 'c' || $side == 'd'): 
+      themecenterbox($row['title'], $content);
+    else: 
+      themesidebox($row['title'], $content, $bid);
+    endif;
 }
 
 function blog_ultramode() 
 {
     global $db, $prefix, $multilingual, $currentlang;
-    $querylang = ($multilingual == 1) ? "AND (s.alanguage='".$currentlang."' OR s.alanguage='')" : "";
-    $sql = "SELECT s.sid, s.catid, s.aid, s.title, s.datePublished, s.dateModified, s.hometext, s.comments, s.topic, s.ticon, t.topictext, t.topicimage FROM `".$prefix."_stories` s LEFT JOIN `".$prefix."_topics` t ON t.topicid = s.topic WHERE s.ihome = '0' ".$querylang." ORDER BY s.datePublished DESC LIMIT 0,10";
-    $result = $db->sql_query($sql);
     
-	while ($row = $db->sql_fetchrow($result, SQL_ASSOC)): 
+	$querylang = ($multilingual == 1) ? "AND (s.alanguage='".$currentlang."' OR s.alanguage='')" : "";
+    
+	$sql = "SELECT s.sid, 
+	             s.catid, 
+				   s.aid, 
+				 s.title, 
+		 s.datePublished, 
+		  s.dateModified, 
+		      s.hometext, 
+			  s.comments, 
+			     s.topic, 
+				 s.ticon, 
+		     t.topictext, 
+		    t.topicimage 
+			
+	FROM `".$prefix."_stories` s 
+	
+	LEFT JOIN `".$prefix."_topics` t 
+	
+	ON t.topicid = s.topic 
+	
+	WHERE s.ihome = '0' ".$querylang." 
+	
+	ORDER BY s.datePublished DESC LIMIT 0,10";
+    
+	$result = $db->sql_query($sql);
+    
+	while($row = $db->sql_fetchrow($result, SQL_ASSOC)): 
         $rsid = $row['sid'];
         $raid = $row['aid'];
         $rtitle = htmlspecialchars(stripslashes($row['title']));
-        
 		$rtime = $row['datePublished'];
 		$rmodified = $row['dateModified'];
-		
         $rcomments = $row['comments'];
         $topictext = $row['topictext'];
         $topicimage = ($row['ticon']) ? stripslashes($row['topicimage']) : '';
@@ -1116,7 +1085,7 @@ function blog_ultramode()
 	
     $db->sql_freeresult($result);
     
-	if (file_exists(NUKE_BASE_DIR."ultramode.txt") && is_writable(NUKE_BASE_DIR."ultramode.txt")): 
+	if(file_exists(NUKE_BASE_DIR."ultramode.txt") && is_writable(NUKE_BASE_DIR."ultramode.txt")): 
         $file = fopen(NUKE_BASE_DIR."ultramode.txt", "w");
         fwrite($file, "General purpose self-explanatory file with headlines\n".$content);
         fclose($file);
@@ -1132,17 +1101,37 @@ function ultramode()
 
     $querylang = ($multilingual == 1) ? "AND (s.alanguage='".$currentlang."' OR s.alanguage='')" : "";
 
-    $sql = "SELECT s.sid, s.catid, s.aid, s.title, s.datePublished, s.dateModified, s.hometext, s.comments, s.topic, s.ticon, t.topictext, t.topicimage FROM `".$prefix."_stories` s LEFT JOIN `".$prefix."_topics` t ON t.topicid = s.topic WHERE s.ihome = '0' ".$querylang." ORDER BY s.datePublished DESC LIMIT 0,10";
-    $result = $db->sql_query($sql);
+    $sql = "SELECT s.sid, 
+	             s.catid, 
+				   s.aid, 
+				 s.title, 
+		 s.datePublished, 
+		  s.dateModified, 
+		      s.hometext, 
+			  s.comments, 
+			     s.topic, 
+				 s.ticon, 
+		     t.topictext, 
+			t.topicimage 
+			
+	FROM `".$prefix."_stories` s 
+	
+	LEFT JOIN `".$prefix."_topics` t 
+	
+	ON t.topicid = s.topic 
+	
+	WHERE s.ihome = '0' ".$querylang." 
+	
+	ORDER BY s.datePublished DESC LIMIT 0,10";
+    
+	$result = $db->sql_query($sql);
 
     while ($row = $db->sql_fetchrow($result, SQL_ASSOC)):
         $rsid = $row['sid'];
         $raid = $row['aid'];
         $rtitle = htmlspecialchars(stripslashes($row['title']));
-		
         $rtime = $row['datePublished'];
 		$rmodified = $row['dateModified'];
-        
 		$rcomments = $row['comments'];
         $topictext = $row['topictext'];
         $topicimage = ($row['ticon']) ? stripslashes($row['topicimage']) : '';
@@ -1152,7 +1141,7 @@ function ultramode()
 	
     $db->sql_freeresult($result);
 
-    if (file_exists(NUKE_BASE_DIR."ultramode.txt") && is_writable(NUKE_BASE_DIR."ultramode.txt")):
+    if(file_exists(NUKE_BASE_DIR."ultramode.txt") && is_writable(NUKE_BASE_DIR."ultramode.txt")):
         $file = fopen(NUKE_BASE_DIR."ultramode.txt", "w");
         fwrite($file, "General purpose self-explanatory file with headlines\n".$content);
         fclose($file);
@@ -1167,14 +1156,18 @@ function ultramode()
 # $nohtml: strip PHP+HTML tags, false=no, true=yes, default=false
 function Fix_Quotes($str, $nohtml=false) 
 {
-    if ($nohtml) $str = strip_tags($str);
-    return $str;
+    if($nohtml): 
+	  $str = strip_tags($str);
+	endif;
+    
+	return $str;
 }
 
 function Remove_Slashes($str) 
 {
     global $_GETVAR;
-    return $_GETVAR->stripSlashes($str);
+    
+	return $_GETVAR->stripSlashes($str);
 }
 
 # check_words function by ReOrGaNiSaTiOn
@@ -1182,18 +1175,20 @@ function check_words($message)
 {
     global $censor_words;
 
-    if(empty($message)) 
-    return '';
+    if(empty($message)): 
+      return '';
+	endif;
     
-	if(empty($censor_words)) 
-    return $message;
+	if(empty($censor_words)): 
+      return $message;
+	endif;
     
 	$orig_word = array();
     $replacement_word = array();
     
-	foreach( $censor_words as $word => $replacement ): 
-        $orig_word[] = '#\b(' . str_replace('\*', '\w*?', preg_quote($word, '#')) . ')\b#i';
-        $replacement_word[] = $replacement;
+	foreach($censor_words as $word => $replacement ): 
+      $orig_word[] = '#\b(' . str_replace('\*', '\w*?', preg_quote($word, '#')) . ')\b#i';
+      $replacement_word[] = $replacement;
     endforeach;
     
 	$return_message = @preg_replace($orig_word, $replacement_word, $message);
@@ -1208,9 +1203,7 @@ function check_html($str, $strip='')
           $str = Fix_Quotes($str, !empty($strip));
           return $str;
 		endif;
-    /*****[BEGIN]******************************************
-    [ Base:    PHP Input Filter                   v1.2.2 ]
-    ******************************************************/
+    # Base: PHP Input Filter v1.2.2 START
     if(defined('INPUT_FILTER')): 
 		if ($strip == 'nohtml')
         global $AllowableHTML;
@@ -1226,17 +1219,14 @@ function check_html($str, $strip='')
         $html_filter = new InputFilter($html, "", 0, 0, 1);
         $str = $html_filter->process($str);
 	else: 
-    /*****[END]********************************************
-     [ Base:    PHP Input Filter                   v1.2.2 ]
-     ******************************************************/
+    # Base: PHP Input Filter v1.2.2 END
+
         $str = Fix_Quotes($str, !empty($strip));
-    /*****[BEGIN]******************************************
-     [ Base:    PHP Input Filter                   v1.2.2 ]
-     ******************************************************/
+
+    # Base: PHP Input Filter v1.2.2 START
     endif;
-    /*****[END]********************************************
-     [ Base:    PHP Input Filter                   v1.2.2 ]
-     ******************************************************/
+    # Base: PHP Input Filter v1.2.2 START
+
     return $str;
 }
 
@@ -1258,38 +1248,39 @@ function formatTimestamp($time, $format='', $dateonly='')
 {
     global $datetime, $locale, $userinfo, $board_config;
 
-    if (empty($format)): 
-        if (isset($userinfo['user_dateformat']) && !empty($userinfo['user_dateformat'])) 
-            $format = $userinfo['user_dateformat'];
-		else 
-		if (isset($board_config['default_dateformat']) && !empty($board_config['default_dateformat'])) 
-            $format = $board_config['default_dateformat'];
-		else 
-            $format = 'D M d, Y g:i a';
+    if(empty($format)): 
+        if(isset($userinfo['user_dateformat']) && !empty($userinfo['user_dateformat'])): 
+          $format = $userinfo['user_dateformat'];
+		elseif (isset($board_config['default_dateformat']) && !empty($board_config['default_dateformat'])): 
+          $format = $board_config['default_dateformat'];
+		else: 
+          $format = 'D M d, Y g:i a';
+		endif;
     endif;
     
-	if (!empty($dateonly)): 
-	
-        $replaces = array('a', 'A', 'B', 'c', 'D', 'g', 'G', 'h', 'H', 'i', 'I', 'O', 'r', 's', 'U', 'Z', ':');
-        $format = str_replace($replaces, '', $format);
+	if(!empty($dateonly)): 
+      $replaces = array('a', 'A', 'B', 'c', 'D', 'g', 'G', 'h', 'H', 'i', 'I', 'O', 'r', 's', 'U', 'Z', ':');
+      $format = str_replace($replaces, '', $format);
     endif;
     
-	if ((isset($userinfo['user_timezone']) && !empty($userinfo['user_timezone'])) && $userinfo['user_id'] != 1) 
-        $tz = $userinfo['user_timezone'];
-	elseif (isset($board_config['board_timezone']) && !empty($board_config['board_timezone'])) 
-        $tz = $board_config['board_timezone'];
-	else 
-        $tz = '10';
+	if((isset($userinfo['user_timezone']) && !empty($userinfo['user_timezone'])) && $userinfo['user_id'] != 1): 
+      $tz = $userinfo['user_timezone'];
+	elseif (isset($board_config['board_timezone']) && !empty($board_config['board_timezone'])): 
+      $tz = $board_config['board_timezone'];
+	else: 
+      $tz = '10';
+	endif;
 
     setlocale(LC_TIME, $locale);
     
-	if (!is_numeric($time)): 
-        preg_match('/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/', $time, $datetime);
-        $time = gmmktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
+	if(!is_numeric($time)): 
+      preg_match('/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/', $time, $datetime);
+      $time = gmmktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
     endif;
     
 	$datetime = EvoDate($format, $time, $tz);
-    return $datetime;
+    
+	return $datetime;
 }
 
 function get_microtime() 
@@ -1298,15 +1289,13 @@ function get_microtime()
     return ($usec + $sec);
 }
 
-/*****[BEGIN]******************************************
- [ Mod:    Blog Signature                      v1.0.0 ]
- ******************************************************/
+# Mod: Blog Signature v1.0.0 START
 function blog_signature($aid) 
 {
     global $user_prefix, $db;
     static $users;
 
-    if (is_array($users[$aid])):
+    if(is_array($users[$aid])):
         $row = $users[$aid];
     else:
         $row = get_admin_field('*', $aid);
@@ -1350,9 +1339,7 @@ function blog_signature($aid)
     
 	return $aid;
 }
-/*****[END]********************************************
- [ Mod:    Blog Signature                      v1.0.0 ]
- ******************************************************/
+# Mod: Blog Signature v1.0.0 END
 
 
 function get_author($aid) 
@@ -1360,7 +1347,7 @@ function get_author($aid)
     global $user_prefix, $db;
     static $users;
 
-    if (is_array($users[$aid])): 
+    if(is_array($users[$aid])): 
         $row = $users[$aid];
 	else: 
         $row = get_admin_field('*', $aid);
@@ -1370,18 +1357,17 @@ function get_author($aid)
     $result = $db->sql_query('SELECT `user_id` from `'.$user_prefix.'_users` WHERE `username`="'.$aid.'"');
     $userid = $db->sql_fetchrow($result);
     $db->sql_freeresult($result);
-    /*****[BEGIN]******************************************
-     [ Mod:    Advanced Username Color             v1.0.5 ]
-     ******************************************************/
-    if (isset($userid[0])) 
-     $aid = "<a href=\"modules.php?name=Profile&amp;mode=viewprofile&amp;u=".$userid[0]."\">".UsernameColor($aid)."</a>";
-	elseif (isset($row['url']) && $row['url'] != 'http://') 
-     $aid = "<a href=\"".$row['url']."\">".UsernameColor($aid)."</a>";
-	else 
-     $aid = UsernameColor($aid);
-    /*****[END]********************************************
-     [ Mod:    Advanced Username Color             v1.0.5 ]
-     ******************************************************/
+    
+	# Mod: Advanced Username Color v1.0.5 START
+    if (isset($userid[0])): 
+      $aid = "<a href=\"modules.php?name=Profile&amp;mode=viewprofile&amp;u=".$userid[0]."\">".UsernameColor($aid)."</a>";
+	elseif (isset($row['url']) && $row['url'] != 'http://'): 
+      $aid = "<a href=\"".$row['url']."\">".UsernameColor($aid)."</a>";
+	else: 
+      $aid = UsernameColor($aid);
+	endif;
+	# Mod: Advanced Username Color v1.0.5 END
+
     return $aid;
 }
 

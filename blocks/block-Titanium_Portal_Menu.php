@@ -518,7 +518,7 @@ $modules_attach = $db->sql_query($sql);
 	}
 
 $content = "";
-echo "<!--  START Titanium Portal Menu Javascript Functions v1.0 -->\n";
+echo "<!-- START Titanium Portal Menu Javascript Functions v1.0 -->\n";
 ?>
 <script >
 function menu_listbox(page) 

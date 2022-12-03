@@ -25,13 +25,13 @@ global $ThemeInfo, $sitename, $theme_name;
 
 echo '<div align="center">';
 
-echo '<table width="' . $ThemeInfo['sitewidth'] . '" align="center" border="0" cellpadding="0" cellspacing="0" bgcolor=""><tr><td>'.PHP_EOL;
-echo '<table class="table100"><tr><td>'.PHP_EOL;
-echo '<table class="table100">'.PHP_EOL;
+echo '<table width="'. $ThemeInfo['sitewidth'].'" align="center" border="0" cellpadding="0" cellspacing="0" bgcolor=""><tr><td>'.PHP_EOL;
+echo '<table width="'. $ThemeInfo['sitewidth'].'" class="table100"><tr><td>'.PHP_EOL;
+echo '<table width="'. $ThemeInfo['sitewidth'].'" class="table100">'.PHP_EOL;
 echo '<tr>'.PHP_EOL;
 echo '<td>'.PHP_EOL;
 
-echo '<table class="table100">'.PHP_EOL;
+echo '<table width="'. $ThemeInfo['sitewidth'].'" class="table100">'.PHP_EOL;
 echo '<tr>'.PHP_EOL;
 echo '<td width="87"><img src="themes/'.$theme_name.'/images/hd/hd_01.png" width="87" height="20" alt="DFG"></td>'.PHP_EOL;
 echo '<td style="width:1; height:20; background-image:url(themes/'.$theme_name.'/images/hd/hd_02.png)"><img src="themes/'.$theme_name.'/images/hd/hd_02.png" width="1" height="20" alt="DFG"></td>'.PHP_EOL;
@@ -39,7 +39,7 @@ echo '<td width="87"><img src="themes/'.$theme_name.'/images/hd/hd_04.png" width
 echo '</tr>'.PHP_EOL;
 echo '</table>'.PHP_EOL;
 
-echo '<table class="table100">'.PHP_EOL;
+echo '<table width="'. $ThemeInfo['sitewidth'].'" class="table100">'.PHP_EOL;
 echo '<tr>'.PHP_EOL;
 echo '<td width="42"><img src="themes/'.$theme_name.'/images/hd/hd_05.png" width="42" height="119" alt="DFG"></td>'.PHP_EOL;
 //echo '<td width="144px" style="background-image:url(themes/'.$theme_name.'/images/hd/hd_06.png)" height="119">'.$content1.'</td>'.PHP_EOL;
@@ -76,7 +76,7 @@ echo '<td width="60"><img src="themes/'.$theme_name.'/images/hd/hd_11.png" width
 echo '</tr>'.PHP_EOL;
 echo '</table>'.PHP_EOL;
 
-echo '<table width="100%" border="0" cellspacing="0" cellpadding="0">'.PHP_EOL;
+echo '<table width="'. $ThemeInfo['sitewidth'].'" width="100%" border="0" cellspacing="0" cellpadding="0">'.PHP_EOL;
 echo '<tr>'.PHP_EOL;
 echo '<td width="87"><img src="themes/'.$theme_name.'/images/hd/hd_12_2.png" width="87" height="48" alt="DFG"></td>'.PHP_EOL;
 echo '<td style="background-image:url(themes/'.$theme_name.'/images/hd/hd_17_2.png)">'.PHP_EOL;
@@ -93,7 +93,7 @@ echo '</td>'.PHP_EOL;
 echo '<td width="87"><img src="themes/'.$theme_name.'/images/hd/hd_18_2.png" width="87" height="48" alt="DFG"></td>'.PHP_EOL;
 echo '</tr>'.PHP_EOL;
 echo '</table>'.PHP_EOL;
-echo '<table width="100%" border="0" cellspacing="0" cellpadding="0">'.PHP_EOL;
+echo '<table width="'. $ThemeInfo['sitewidth'].'" width="100%" border="0" cellspacing="0" cellpadding="0">'.PHP_EOL;
 echo '<tr>'.PHP_EOL;
 echo '<td width="42"><img src="themes/'.$theme_name.'/images/hd/hd_19.png" width="42" height="17" alt="DFG"></td>'.PHP_EOL;
 echo '<td style="background-image:url(themes/'.$theme_name.'/images/hd/hd_20.png)"><img src="themes/'.$theme_name.'/images/hd/hd_20.png" width="1" height="17" alt="DFG"></td>'.PHP_EOL;

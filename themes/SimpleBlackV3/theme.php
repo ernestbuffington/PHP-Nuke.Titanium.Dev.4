@@ -7,8 +7,7 @@
 /* For more commercial and public themes, custom graphics and photoshop tutorials        */
 /* visit www.darkforgegfx.com                                                            */
 /*****************************************************************************************/
-/* For support of this great CMS visit Nuke-Evolution http://www.nuke-evolution.com      */
-/* For Nuke Evolution blocks, mods and addons, please visit http://darkforgegfx.com      */
+/* For blocks, mods and addons, please visit http://darkforgegfx.com                     */
 /*****************************************************************************************/
 /* PHP-Nuke Copyright (c) 2005 by Francisco Burzi http://phpnuke.org                     */
 /*****************************************************************************************/
@@ -79,7 +78,7 @@ echo "<!-- Setting THEME Author to ".$theme_author," in themes/".$theme_name."/t
 define('THEME_AUTHOR', $theme_author);
 
 # Theme creation date
-$theme_date = '11/29/2022';
+$theme_date = '9/14/2019';
 echo "<!-- Setting THEME DATE to ".$theme_date," in themes/".$theme_name."/theme.php -->\n";
 define('THEME_DATE', $theme_date);
 

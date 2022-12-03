@@ -15,14 +15,14 @@ global $ThemeInfo, $theme_name;
 
 echo '<!-- FOOTER START -->'.PHP_EOL;
 
-echo '<table class="footerSITEwidth"><tr><td>'.PHP_EOL;
+echo '<table width="'. $ThemeInfo['sitewidth'].'" class="footerSITEwidth"><tr><td>'.PHP_EOL;
 
-echo '<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="headerexpand"><tr><td>'.PHP_EOL;
+echo '<table width="'. $ThemeInfo['sitewidth'].'" align="center" border="0" cellpadding="0" cellspacing="0" class="headerexpand"><tr><td>'.PHP_EOL;
 
-echo '<table width="100%" border="0" cellspacing="0" cellpadding="0">'.PHP_EOL;
+echo '<table width="'. $ThemeInfo['sitewidth'].'" border="0" cellspacing="0" cellpadding="0">'.PHP_EOL;
 echo '<tr>'.PHP_EOL;
 echo '<td>'.PHP_EOL;
-echo '<table width="100%" border="0" cellspacing="0" cellpadding="0">'.PHP_EOL;
+echo '<table width="'. $ThemeInfo['sitewidth'].'" border="0" cellspacing="0" cellpadding="0">'.PHP_EOL;
 
 echo '<tr>'.PHP_EOL;
 echo '<td width="43"><img src="themes/'.$theme_name.'/images/ft/ft_02.png" width="43" height="30" alt="DFG"></td>'.PHP_EOL;
@@ -31,7 +31,7 @@ echo '<td width="43"><img src="themes/'.$theme_name.'/images/ft/ft_05.png" width
 echo '</tr>'.PHP_EOL;
 echo '</table>'.PHP_EOL;
 
-echo '<table width="100%" border="0" cellspacing="0" cellpadding="0">'.PHP_EOL;
+echo '<table width="'. $ThemeInfo['sitewidth'].'" border="0" cellspacing="0" cellpadding="0">'.PHP_EOL;
 echo '<tr>'.PHP_EOL;
 
 echo '<td class="ft06" width="43"><img src="themes/'.$theme_name.'/images/ft/ft_06.png" width="43" height="200px" alt="DFG"></td>'.PHP_EOL;
