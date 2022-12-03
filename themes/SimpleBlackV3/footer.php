@@ -13,6 +13,8 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 
 global $ThemeInfo, $theme_name;
 
+echo '<!-- FOOTER START -->'.PHP_EOL;
+
 echo '<table class="footerSITEwidth"><tr><td>'.PHP_EOL;
 
 echo '<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="headerexpand"><tr><td>'.PHP_EOL;
@@ -40,7 +42,7 @@ echo '<td class="ft08"></td>'.PHP_EOL;
 # COPYRIGHT: DO NOT REMOVE, EDIT, MODIFY, OR DELETE, MUST STAY INTACT
 echo '<td class="ft09">'.PHP_EOL;
 
-echo '<div align="center">';
+echo '<div style="padding-bottom: 15px;" align="center">';
 footmsg();
 echo '</div>';
 

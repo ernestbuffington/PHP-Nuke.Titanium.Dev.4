@@ -610,6 +610,20 @@ td.ft08
   background-size: contain;
 }
 
+td.header_logo
+{
+  table-layout: auto;
+  border-collapse: collapse;
+  border-spacing: 0px;
+  background-image: url('themes/<?=$theme_name?>/images/hd/hd_09.png');
+  padding-top: 25px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  text-align: center; 
+
+}
+
 
 td.ft09
 {
