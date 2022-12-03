@@ -1276,14 +1276,21 @@ function amp_replace($string)
     return $string;
 }
 
-function evo_site_up($url) 
+function web_site_up($url) 
 {
-    //Set the address
+    # Set the address
     $address = parse_url($url);
     $host = $address['host'];
-    if (!($ip = @gethostbyname($host))) return false;
-    if (@fsockopen($host, 80, $errno, $errdesc, 10) === false) return false;
-    return true;
+    
+	if(!($ip = gethostbyname($host))): 
+	  return false;
+	endif;
+    
+	if(fsockopen($host, 80, $errno, $errdesc, 10) === false): 
+	  return false;
+	endif;
+    
+	return true;
 }
 
 function evo_mail($to, $subject, $content, $header='', $params='', $batch=false) 
