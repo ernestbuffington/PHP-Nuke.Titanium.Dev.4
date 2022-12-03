@@ -7,9 +7,9 @@
 -=[Base]=-
       Nuke Patched                             v3.1.0       09/29/2005
  ************************************************************************/
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
-    exit('Access Denied');
-}
+if(realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])):
+  exit('Access Denied');
+endif;
 
 global $ThemeInfo, $theme_name;
 
@@ -39,10 +39,11 @@ echo '<td class="ft06" width="43"><img src="themes/'.$theme_name.'/images/ft/ft_
 echo '<td width="144" style="background-image:url(themes/'.$theme_name.'/images/ft/ft_07.png)"><div align="center">'.$showdownloads.'</div></td>'.PHP_EOL;
 
 echo '<td class="ft08"></td>'.PHP_EOL;
-# COPYRIGHT: DO NOT REMOVE, EDIT, MODIFY, OR DELETE, MUST STAY INTACT
+
 echo '<td class="ft09">'.PHP_EOL;
 
 echo '<div style="padding-bottom: 15px;" align="center">';
+# COPYRIGHT: DO NOT REMOVE, EDIT, MODIFY, OR DELETE, MUST STAY INTACT
 footmsg();
 echo '</div>';
 
@@ -67,4 +68,5 @@ echo '</table></div>'.PHP_EOL;
 
 echo '</div>'.PHP_EOL;
 echo '<!-- FOOTER END -->'.PHP_EOL.PHP_EOL;
+
 ?>

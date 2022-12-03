@@ -29,7 +29,7 @@ function themecenterbox($title, $content)
   
   CloseTable();
   
-  print '<div align="center" style="padding:10px;">'.PHP_EOL;
+  print '<div align="center" style="padding:0px;">'.PHP_EOL;
   print '</div>'.PHP_EOL;
   
   print "<!-- CENTER BLOCK CONTENT END -->\n\n";  

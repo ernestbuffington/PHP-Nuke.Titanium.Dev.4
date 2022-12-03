@@ -2,7 +2,9 @@
 /*=======================================================================
  Nuke-Evolution Basic: Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
-echo '<link rel="preload" as="image" href="images/brands/png/github-active.png">'.PHP_EOL;
+echo PHP_EOL.'<!-- Preload Logo Images START -->'.PHP_EOL;
+
+echo PHP_EOL.'<link rel="preload" as="image" href="images/brands/png/github-active.png">'.PHP_EOL;
 echo '<link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-plain.svg">'.PHP_EOL;
 echo '<link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg">'.PHP_EOL;
 echo '<link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg">'.PHP_EOL;
@@ -10,6 +12,7 @@ echo '<link rel="preload" as="image" href="images/brands/svg/mariadb_white.svg">
 echo '<link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original-wordmark.svg">'.PHP_EOL;
 echo '<link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jquery/jquery-plain-wordmark.svg">'.PHP_EOL;
 
+echo PHP_EOL.'<!-- Preload Logo Images END -->'.PHP_EOL.PHP_EOL;
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       09/29/2005
@@ -44,14 +47,11 @@ echo '<td width="42"><img src="themes/'.$theme_name.'/images/hd/hd_05.png" width
 
 $ads = ads(0);
 
-if(empty($ads)) 
-{
+if(empty($ads)): 
   echo '<td width="233"><img src="themes/'.$theme_name.'/images/hd/hd_08.png" width="233" height="119" alt="DFG"></td>'.PHP_EOL;
-} 
-else 
-{
+else: 
   echo '<td style="padding-left: 20px; background-image:url(themes/'.$theme_name.'/images/hd/hd_09.png)" width="233"><div style="padding-bottom: 4px;" align="right">'.$ads.'</div></td>'.PHP_EOL;
-}
+endif;
 
 echo '<td class="header_logo" style="background-image:url(themes/'.$theme_name.'/images/hd/hd_09.png)" width="100%" valign="top">'.PHP_EOL;
 echo '<a href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><img class="hover_effect" width="64" src="images/brands/png/github-active.png" /></a>&nbsp;&nbsp;'.PHP_EOL;
@@ -66,14 +66,11 @@ echo '</td>'.PHP_EOL;
 
 $network_ads = network_ads(0);
 
-if(empty($network_ads)) 
-{
+if(empty($network_ads)): 
   echo '<td style="background-image:url(themes/'.$theme_name.'/images/hd/hd_09.png)"><img src="themes/'.$theme_name.'/images/hd/hd_09.png" width="1" height="119" alt="DFG"></td>'.PHP_EOL;
-} 
-else 
-{
+else: 
   echo '<td style="background-image: url(themes/'.$theme_name.'/images/hd/hd_09.png)"><div align="right"><div class="bannerRightSide" style="padding-bottom: 4px;">'.$network_ads.'</div></div></td>'.PHP_EOL;
-}
+endif;
 
 echo '<td width="60"><img src="themes/'.$theme_name.'/images/hd/hd_11.png" width="60" height="119" alt="DFG"></td>'.PHP_EOL;
 echo '</tr>'.PHP_EOL;
@@ -106,4 +103,5 @@ echo '</table></td>'.PHP_EOL;
 echo '</tr>'.PHP_EOL;
 echo '</table>'.PHP_EOL;
 
+echo '<!-- THEME HEADER END -->'.PHP_EOL.PHP_EOL;
 ?>

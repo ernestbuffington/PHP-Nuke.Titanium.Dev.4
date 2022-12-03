@@ -297,91 +297,37 @@ $ThemeInfo['link6text'] = 'MEMBERS';
 $ThemeInfo['link7'] = 'modules.php?name=FAQ';
 $ThemeInfo['link7text'] = 'FAQ';
 
-function OpenTable() {
-    global $bgcolor1, $bgcolor2, $theme_name;
+#-------------------#
+# OpenTable Section #
+#-------------------#
+include_once(theme_dir.'function_OpenTable.php');
+echo "<!-- Loading function_OpenTable.php from themes/".$theme_name."/theme.php -->\n";
 
+include_once(theme_dir.'function_CloseTable.php');
+echo "<!-- Loading function_CloseTable.php from themes/".$theme_name."/theme.php -->\n\n";
 
-echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n";
-echo "  <tr>\n";
-echo "  <td>\n";
-echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n";
-echo "  <tr>\n";
-echo "    <td width=\"17\"><img src=\"themes/SimpleBlackV3/images/tbl/tbl_03.png\" width=\"17\" height=\"27\" alt=\"DFG\"></td>\n";
-echo "    <td style=\"background-image:url(themes/SimpleBlackV3/images/tbl/tbl_04.png)\"><img src=\"themes/SimpleBlackV3/images/tbl/tbl_04.png\" width=\"1\" height=\"27\" alt=\"DFG\"></td>\n";
-echo "    <td width=\"17\"><img src=\"themes/SimpleBlackV3/images/tbl/tbl_06.png\" width=\"17\" height=\"27\" alt=\"DFG\"></td>\n";
-echo "  </tr>\n";
-echo "</table>\n";
-echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n";
-echo "  <tr>\n";
-echo "    <td width=\"8\" style=\"background-image:url(themes/SimpleBlackV3/images/tbl/tbl_08.png)\"><img src=\"themes/SimpleBlackV3/images/tbl/tbl_08.png\" width=\"8\" height=\"1\" alt=\"DFG\"></td>\n";
-echo "          <td style=\"background-color: #010101;\">";
-}
+include_once(theme_dir.'function_OpenTable2.php');
+echo "<!-- Loading function_OpenTable2.php from themes/".$theme_name."/theme.php -->\n";
 
-function OpenTable2() {
-    global $bgcolor1, $bgcolor2;
+include_once(theme_dir.'function_CloseTable2.php');
+echo "<!-- Loading function_CloseTable2.php from themes/".$theme_name."/theme.php -->\n";
 
-    echo "<table border=\"0\" cellspacing=\"1\" cellpadding=\"0\" align=\"center\"><tr><td class=\"extras\">\n";
-    echo "<table border=\"0\" cellspacing=\"1\" cellpadding=\"8\" ><tr><td>\n";
-}
+include_once(theme_dir.'function_OpenTable3.php');
+echo "<!-- Loading function_OpenTable3.php from themes/".$theme_name."/theme.php -->\n";
 
-function CloseTable() {
-    global $theme_name;
-    echo "</td>\n";
-echo "    <td width=\"8\" style=\"background-image:url(themes/SimpleBlackV3/images/tbl/tbl_11.png)\"><img src=\"themes/SimpleBlackV3/images/tbl/tbl_11.png\" width=\"8\" height=\"1\" alt=\"DFG\"></td>\n";
-echo "  </tr>\n";
-echo "</table>\n";
-echo "\n";
-echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n";
-echo "  <tr>\n";
-echo "    <td width=\"17\"><img src=\"themes/SimpleBlackV3/images/tbl/tbl_14.png\" width=\"17\" height=\"27\" alt=\"DFG\"></td>\n";
-echo "    <td style=\"background-image:url(themes/SimpleBlackV3/images/tbl/tbl_15.png)\"><img src=\"themes/SimpleBlackV3/images/tbl/tbl_15.png\" width=\"1\" height=\"27\" alt=\"DFG\"></td>\n";
-echo "    <td width=\"17\"><img src=\"themes/SimpleBlackV3/images/tbl/tbl_16.png\" width=\"17\" height=\"27\" alt=\"DFG\"></td>\n";
-echo "  </tr>\n";
-echo "</table>\n";
-echo "</td>\n";
-echo "</tr>\n";
-echo "</table>\n";
+include_once(theme_dir.'function_CloseTable3.php');
+echo "<!-- Loading function_CloseTable3.php from themes/".$theme_name."/theme.php -->\n\n";
 
-print '<div align="center" style="padding:6px;">'.PHP_EOL;
-print '</div>'.PHP_EOL;
+include_once(theme_dir.'function_OpenTable4.php');
+echo "<!-- Loading function_OpenTable4.php from themes/".$theme_name."/theme.php -->\n";
 
-}
+include_once(theme_dir.'function_CloseTable4.php');
+echo "<!-- Loading function_CloseTable4.php from themes/".$theme_name."/theme.php -->\n\n";
 
-function CloseTable2() {
-    echo "</td></tr></table></td></tr></table>\n";
-}
-
-/************************************************************/
-/* Function FormatStory()                                   */
-/************************************************************/
-function FormatStory($thetext, $notes, $aid, $informant) {
-    global $anonymous;
-    if (!empty($notes)) {
-        $notes = "<br /><br /><strong>"._NOTE."</strong> <i>$notes</i>\n";
-    } else {
-        $notes = "";
-    }
-    if ($aid == $informant) {
-        echo "<span class=\"content\" color=\"#505050\">$thetext$notes</span>\n";
-    } else {
-        if(defined('WRITES')) {
-            if(!empty($informant)) {
-                if(is_array($informant)) {
-                    $boxstuff = "<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$informant[0]\">$informant[1]</a> ";
-                } else {
-                    $boxstuff = "<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$informant\">$informant</a> ";
-                }
-            } else {
-                $boxstuff = "$anonymous ";
-            }
-            $boxstuff .= ""._WRITES." <i>\"$thetext\"</i>$notes\n";
-        } else {
-            $boxstuff .= "$thetext$notes\n";
-        }
-
-        echo "<span class=\"content\" color=\"#505050\">$boxstuff</span>\n";
-    }
-}
+#---------------------#
+# FormatStory Section #
+#---------------------#
+include_once(theme_dir.'function_FormatStory.php');
 
 /************************************************************/
 /* Function themeheader()                                   */
@@ -390,9 +336,9 @@ function themeheader() {
 
 global $user, $cookie, $prefix, $sitekey, $db, $name, $banners, $theme_name;
 
-echo "<body>\n";
-    
 include_once(theme_dir.'copyright.php');
+
+   echo PHP_EOL.'<!-- THEME HEADER START -->'.PHP_EOL;
 
    # MARQUEE UP FORUM POSTS
    $count = 1;
@@ -448,7 +394,7 @@ function themefooter()
 {
     global $index, $user, $cookie, $banners, $prefix, $db, $admin,  $adminmail, $nukeurl, $theme_name;
 
-    $maxshow = 0;        // Number of downloads to display in the block.
+    $maxshow = 0;        # Number of downloads to display in the block.
 
     $a = 1;
     $result = $db->sql_query("SELECT did, title, hits FROM ".$prefix."_file_repository_items ORDER BY date DESC limit 0,$maxshow", $dbi);
