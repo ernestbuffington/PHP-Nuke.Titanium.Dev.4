@@ -1719,12 +1719,12 @@ if(!function_exists('themecenterbox'))
 function addPHPCSSToHead($content, $type='file')
 {
     global $headPHPCSS;
-    if (($type == 'file') 
+    if(($type == 'file') 
 	&& (is_array($headPHPCSS) 
 	&& count($headPHPCSS) > 0) 
-	&& (in_array(array($type, $content), $headPHPCSS))) 
+	&& (in_array(array($type, $content), $headPHPCSS))): 
 	return;
-    
+	endif;
 	$headPHPCSS[] = array($type, $content);
     return;
 }
