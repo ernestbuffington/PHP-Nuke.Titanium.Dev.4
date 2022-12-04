@@ -25,19 +25,16 @@
       Nuke Patched                             v3.1.0       09/20/2005
 	  PHP-Nuke Titanium Patched                v4.0.3       10/27/2022
  ************************************************************************/
-
-if (!defined('MODULE_FILE')) {
+if(!defined('MODULE_FILE')):
   die('You can\'t access this file directly...');
-}
+endif;
 
-if ($popup != "1"){
+if($popup != "1"):
   $module_name = basename(dirname(__FILE__));
   require("modules/".$module_name."/nukebb.php");
-}
-else
-{
+else:
   $phpbb_root_path = NUKE_FORUMS_DIR;
-}
+endif;
 
 define('IN_PHPBB', true);
 
@@ -75,13 +72,13 @@ $header_location = (@preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOF
 
 $sql = "SELECT * FROM " . GAMES_TABLE . " WHERE game_id = '$gid'";
 
-if (!($result = $db->sql_query($sql))) {
+if(!($result = $db->sql_query($sql))):
   message_die(GENERAL_ERROR, "Could not read from the games table", '', __LINE__, __FILE__, $sql);
-}
+endif;
 
-if (!($row = $db->sql_fetchrow($result))) {
+if(!($row = $db->sql_fetchrow($result))):
   message_die(GENERAL_ERROR, "Game does not exist.");
-}
+endif;
 
 $hashoffset = get_var_gf(array('name'=>'hashoffset', 'default'=>''));
 
@@ -99,43 +96,43 @@ $sid = get_var_gf(array('name'=>'sid', 'default'=>''));
 
 $valid = get_var_gf(array('name'=>'valid', 'default'=>''));
 
-if ($row['game_type'] == 0) {
+if($row['game_type'] == 0):
   message_die(GENERAL_ERROR, "Game Type no longer supported, please contact the admin and have him/her delete it.");
-}
+endif;
 
-if ($row['game_type'] == 1) {
+if($row['game_type'] == 1):
   message_die(GENERAL_ERROR, "Game Type no longer supported, please contact the admin and have him/her delete it.");
-}
+endif;
 
-if ($row['game_type'] == 2) {
+if($row['game_type'] == 2):
   message_die(GENERAL_ERROR, "Game Type no longer supported, please contact the admin and have him/her delete it.");
-}
+endif;
 
-if ($row['game_type'] == 3) {
+if($row['game_type'] == 3):
   $gamehash_id = substr($newhash , $hashoffset , 32) . substr($newhash , 0 , $hashoffset);
   $vpaver = ($gpaver == "GFARV2") ? '100B2' : '';
   $vscore = $row['game_scorevar'];
   $score = get_var_gf(array('name'=>$vscore, 'intval'=>true, 'default'=>''));
-}
+endif;
 
-if ($row['game_type'] == 4 or $row['game_type'] == 5) {
+if($row['game_type'] == 4 or $row['game_type'] == 5):
   $gamehash_id = md5($user_ip);
   $vpaver = ($gpaver == "GFARV2") ? '100B2' : '';
   $score = $HTTP_POST_VARS['vscore'];
   $settime = $_COOKIE['timestarted'];
-}
+endif;
 
 $vscore = $score;
 
-if (!$userdata['session_logged_in']  && ($valid=='')) {
+if(!$userdata['session_logged_in']  && ($valid=='')):
   header($header_location . "modules.php?name=Forums&file=proarcade&$vscore=$score&gid=$gid&valid=X&newhash=$newhash&gamehash_id=$gamehash_id&gamehash=$gamehash&hashoffset=$hashoffset&settime=$settime&sid=$sid&vpaver=$vpaver");
   exit;
-}
+endif;
 
-if (!$userdata['session_logged_in']) {
+if(!$userdata['session_logged_in']):
   header($header_location . "modules.php?name=Your_Account");
   exit;
-}
+endif;
 
 if ($row['game_type'] != 4 or $row['game_type'] != 5) {
   
