@@ -110,13 +110,19 @@ RewriteRule ^.*$ http://127.0.0.1 [R,L]
     Satisfy All
 </files>
 
-# Network Titanium SDK v5
-# Disable fbconfig.php viewing from browser
+# Vimeo
+# Disable vconfig.php viewing from browser
+<files ~ "\vconfig.php$">
+    deny from all
+</files>
+
+# 86it Network Config
+# Disable nconfig.php viewing from browser
 <files ~ "\nconfig.php$">
     deny from all
 </files>
 
-# facebook Titanium SDK v5
+# facebook Config
 # Disable fbconfig.php viewing from browser
 <files ~ "\fbconfig.php$">
     deny from all
