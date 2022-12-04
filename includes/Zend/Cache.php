@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Cache
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Cache.php 16 2010-02-12 00:38:19Z Technocrat $
+ * @version    $Id$
  */
 
 
@@ -161,7 +161,7 @@ abstract class Zend_Cache
      * @param boolean $autoload
      * @return Zend_Cache_Core|Zend_Cache_Frontend
      */
-    public static function _makeFrontend($frontend, $frontendOptions = array(), $customFrontendNaming = false, $autoload = false)
+    public static function _makeFrontend($frontend, $frontendOptions = [], $customFrontendNaming = false, $autoload = false)
     {
         if (!$customFrontendNaming) {
             $frontend = self::_normalizeName($frontend);
@@ -204,7 +204,7 @@ abstract class Zend_Cache
     public static function throwException($msg, Exception $e = null)
     {
         // For perfs reasons, we use this dynamic inclusion
-        require_once(NUKE_ZEND_DIR.'Cache/Exception.php');
+        require_once 'Zend/Cache/Exception.php';
         throw new Zend_Cache_Exception($msg, 0, $e);
     }
 
@@ -217,9 +217,13 @@ abstract class Zend_Cache
     protected static function _normalizeName($name)
     {
         $name = ucfirst(strtolower($name));
-        $name = str_replace(array('-', '_', '.'), ' ', $name);
+        $name = str_replace(['-', '_', '.'], ' ', $name);
         $name = ucwords($name);
         $name = str_replace(' ', '', $name);
+        if (stripos($name, 'ZendServer') === 0) {
+            $name = 'ZendServer_' . substr($name, strlen('ZendServer'));
+        }
+
         return $name;
     }
 

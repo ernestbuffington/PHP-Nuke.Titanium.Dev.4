@@ -40,6 +40,8 @@ if (!defined('CACHE_PREFIX')) {
 
 //Cache
 require_once(NUKE_ZEND_DIR.'Cache.php');
+//require_once(NUKE_ZENDF1_DIR.'Cache.php');
+
 
 class cache 
 {
@@ -51,7 +53,7 @@ class cache
     var $zend;
 
     // constructor
-    function cache($use_cache) {
+    function __construct($use_cache) {
         $this->type = $use_cache;
         $this->valid = ($this->type == CACHE_OFF || ($this->type == FILE_CACHE && (!is_writable(NUKE_CACHE_DIR) || ini_get('safe_mode')))) ? false : (($this->type == FILE_CACHE || $this->type == SQL_CACHE || $this->type == XCACHE || $this->type == APC_CACHE || $this->type == MEMCACHED) ? true : false);
         if($this->type == FILE_CACHE) {

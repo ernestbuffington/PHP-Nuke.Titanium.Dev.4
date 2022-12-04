@@ -1,6 +1,7 @@
 <?php
 /**
  * Zend Framework
+ * ZF1 is Now Version 1.21
  *
  * LICENSE
  *
@@ -15,9 +16,9 @@
  * @category   Zend
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Backend
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Backend.php 16 2010-02-12 00:38:19Z Technocrat $
+ * @version    $Id$
  */
 
 
@@ -41,18 +42,19 @@ class Zend_Cache_Backend
      *
      * @var array directives
      */
-    protected $_directives = array(
+    protected $_directives = [
         'lifetime' => 3600,
         'logging'  => false,
         'logger'   => null
-    );
+    ];
 
     /**
      * Available options
      *
      * @var array available options
      */
-    protected $_options = array();
+	##protected $_options = array();
+    protected $_options = [];
 
     /**
      * Constructor
@@ -61,13 +63,18 @@ class Zend_Cache_Backend
      * @throws Zend_Cache_Exception
      * @return void
      */
-    public function __construct(array $options = array())
+    ##public function __construct(array $options = array())
+    ##{
+    ##    while (list($name, $value) = each($options)) {
+    ##        $this->setOption($name, $value);
+    ##    }
+    ##}
+    public function __construct(array $options = [])
     {
-        while (list($name, $value) = each($options)) {
+        foreach ($options as $name => $value) {
             $this->setOption($name, $value);
         }
     }
-
     /**
      * Set the frontend directives
      *
@@ -78,7 +85,7 @@ class Zend_Cache_Backend
     public function setDirectives($directives)
     {
         if (!is_array($directives)) Zend_Cache::throwException('Directives parameter must be an array');
-        while (list($name, $value) = each($directives)) {
+        foreach ($directives as $name => $value) {
             if (!is_string($name)) {
                 Zend_Cache::throwException("Incorrect option name : $name");
             }
@@ -112,6 +119,28 @@ class Zend_Cache_Backend
     }
 
     /**
+     * Returns an option
+     *
+     * @param string $name Optional, the options name to return
+     * @throws Zend_Cache_Exceptions
+     * @return mixed
+     */
+    public function getOption($name)
+    {
+        $name = strtolower($name);
+
+        if (array_key_exists($name, $this->_options)) {
+            return $this->_options[$name];
+        }
+
+        if (array_key_exists($name, $this->_directives)) {
+            return $this->_directives[$name];
+        }
+
+        Zend_Cache::throwException("Incorrect option name : {$name}");
+    }
+	
+    /**
      * Get the life time
      *
      * if $specificLifetime is not false, the given specific life time is used
@@ -140,7 +169,6 @@ class Zend_Cache_Backend
     {
         return true;
     }
-
     /**
      * Determine system TMP directory and detect if we have read access
      *
@@ -149,13 +177,13 @@ class Zend_Cache_Backend
      * @return string
      * @throws Zend_Cache_Exception if unable to determine directory
      */
-    public function getTmpDir()
+   public function getTmpDir()
     {
-        $tmpdir = array();
-        foreach (array($_ENV, $_SERVER) as $tab) {
-            foreach (array('TMPDIR', 'TEMP', 'TMP', 'windir', 'SystemRoot') as $key) {
-                if (isset($tab[$key])) {
-                    if (($key == 'windir') or ($key == 'SystemRoot')) {
+        $tmpdir = [];
+        foreach ([$_ENV, $_SERVER] as $tab) {
+            foreach (['TMPDIR', 'TEMP', 'TMP', 'windir', 'SystemRoot'] as $key) {
+                if (isset($tab[$key]) && is_string($tab[$key])) {
+                    if (($key == 'windir') || ($key == 'SystemRoot')) {
                         $dir = realpath($tab[$key] . '\\temp');
                     } else {
                         $dir = realpath($tab[$key]);
@@ -212,7 +240,6 @@ class Zend_Cache_Backend
         }
         return false;
     }
-
     /**
      * Make sure if we enable logging that the Zend_Log class
      * is available.
@@ -235,9 +262,11 @@ class Zend_Cache_Backend
         }
 
         // Create a default logger to the standard output stream
-        require_once(NUKE_ZEND_DIR.'Log.php');
-        require_once(NUKE_ZEND_DIR.'Log/Writer/Stream.php');
+        require_once 'Zend/Log.php';
+        require_once 'Zend/Log/Writer/Stream.php';
+        require_once 'Zend/Log/Filter/Priority.php';
         $logger = new Zend_Log(new Zend_Log_Writer_Stream('php://output'));
+        $logger->addFilter(new Zend_Log_Filter_Priority(Zend_Log::WARN, '<='));
         $this->_directives['logger'] = $logger;
     }
 

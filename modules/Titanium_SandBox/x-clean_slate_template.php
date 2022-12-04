@@ -116,6 +116,16 @@ print "</div><hr />";
       $_SESSION['isMobile'] = $detect->isMobile();
     }
     # end SIMPLE CODE TEST
+	
+	$gamename = 'asteroids';
+	
+	$result = $db->sql_query("SELECT `game_id` FROM `".$prefix."_bbgames` WHERE `game_scorevar`='$gamename'");
+	
+	$row = $db->sql_fetchrow($result);
+    $gid = intval($row['game_id']);
+	
+	echo 'Game ID for Asteroids '.$gid.'';
+	
 ###########################################################################################################################################################################			
 # TEST CODE GOES HERE - END
 #################################################[ SandBox Example Source Code ]###########################################################################################

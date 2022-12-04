@@ -303,6 +303,7 @@ define('NUKE_FORUMS_DIR', (defined("IN_ADMIN") ? './../' : 'modules/Forums/'));
 define('NUKE_CACHE_DIR', NUKE_INCLUDE_DIR . 'cache/');
 define('NUKE_CLASSES_DIR', NUKE_INCLUDE_DIR . 'classes/');
 define('NUKE_ZEND_DIR', NUKE_INCLUDE_DIR . 'Zend/');
+define('NUKE_ZENDF1_DIR', NUKE_INCLUDE_DIR . 'zf1-future/library/Zend/');
 define('NUKE_CLASS_EXCEPTION_DIR',  NUKE_CLASSES_DIR . 'exceptions/');
 
 # define the INCLUDE PATH

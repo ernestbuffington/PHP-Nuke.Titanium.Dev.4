@@ -1,0 +1,53 @@
+name: PHPUnit-9
+
+on: [push, pull_request]
+
+jobs:
+  phpunit-php82:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Download phpunit
+        run: |
+          wget -O phpunit https://phar.phpunit.de/phpunit-9.5.26.phar
+          chmod +x phpunit
+        shell: bash
+      - name: PHPUnit 9 on php 8.2
+        uses: docker://php:8.2-rc-cli-alpine
+        with:
+          args: -d memory_limit=-1 ./phpunit --bootstrap tests/TestHelper.php tests/Zend/AllTests.php
+  phpunit-php81:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Prevent entrypoint issue on load docker image jakzal/phpqa:php
+        run: mv composer.json composer.json.bk
+      - name: PHPUnit 9 on php 8.1
+        uses: docker://jakzal/phpqa:php8.1-alpine
+        with:
+          args: /tools/phpunit --bootstrap tests/TestHelper.php tests/Zend/AllTests.php
+  phpunit-php80:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Prevent entrypoint issue on load docker image jakzal/phpqa:php
+        run: mv composer.json composer.json.bk
+      - name: PHPUnit 9 on php 8.0
+        uses: docker://jakzal/phpqa:php8.0-alpine
+        with:
+          args: /tools/phpunit --bootstrap tests/TestHelper.php tests/Zend/AllTests.php
+  phpunit-php74:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Prevent entrypoint issue on load docker image jakzal/phpqa:php
+        run: mv composer.json composer.json.bk
+      - name: PHPUnit 9 on php 7.4
+        uses: docker://jakzal/phpqa:php7.4-alpine
+        with:
+          args: /tools/phpunit --bootstrap tests/TestHelper.php tests/Zend/AllTests.php
+          
