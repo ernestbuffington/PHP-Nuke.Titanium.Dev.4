@@ -9,6 +9,11 @@
 <div align="center"><strong>PHP-Nuke Titanium Repsoitory</strong> (Nightly Builds)</div>
 <div align="center"><a class="titaniumbutton" href="https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4" target="_blank"><i class="bi bi-github"></i> Visit GitHub Repository</a></div>
 <hr>
+<strong><i class="bi bi-calendar3"></i> Dec 4th 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updating Zend for PHP 8.x<br />
+<hr>
+<strong><i class="bi bi-calendar3"></i> Dec 3rd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updated Code for MariaDB 5.5.5-10.3.37<br />
+<strong><i class="bi bi-calendar3"></i> Dec 3rd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Updating Zend for PHP 8.x<br />
+<hr>
 <strong><i class="bi bi-calendar3"></i> Dec 2nd 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Finished BlackJack Theme v1<br />
 <hr>
 <strong><i class="bi bi-calendar3"></i> Dec 1st 2022 </strong>&nbsp;&nbsp;<i class="bi bi-info-square"></i> Ported SimpleBlack Theme v3<br />
