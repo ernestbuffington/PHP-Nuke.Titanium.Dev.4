@@ -14,7 +14,7 @@
     <!-- BEGIN avatar_row -->
     <tr> 
     <!-- BEGIN avatar_column -->
-        <td class="row1" align="center"><img src="{avatar_row.avatar_column.AVATAR_IMAGE}" /></td>
+        <td class="row1" align="center"><img class="rounded-corners-user-info" style="max-width: 150px;" src="{avatar_row.avatar_column.AVATAR_IMAGE}" /></td>
     <!-- END avatar_column -->
     </tr>
     <tr>
