@@ -15,7 +15,7 @@ class error_handler {
     var $file;
     var $line;
 
-    function error_handler($debug=false) {
+    function __construct($debug=false) {
         if (!is_bool($debug) && $debug == 'full') {
             if(is_admin()) {
                 error_reporting(E_ALL); # report all errors
