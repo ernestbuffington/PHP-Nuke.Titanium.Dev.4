@@ -28,7 +28,9 @@
  ************************************************************************/
  echo "\n<!-- Loading blocks/block-Titanium_Portal_Menu.php -->\n";
 
- if(!defined('NUKE_EVO')) exit;
+ if(!defined('NUKE_EVO')): 
+   exit;
+ endif;
 
        global $db, 
 		   $admin, 
@@ -46,21 +48,24 @@
       global $user_prefix, $def_module, $currentlang, $cache;			 
 
 
-if(file_exists(NUKE_LANGUAGE_DIR.'Menu/lang-'.$currentlang.'.php')) 
-include_once(NUKE_LANGUAGE_DIR.'Menu/lang-'.$currentlang.'.php');
-else 
-include_once(NUKE_LANGUAGE_DIR.'Menu/lang-english.php');
+if(file_exists(NUKE_LANGUAGE_DIR.'Menu/lang-'.$currentlang.'.php')): 
+  include_once(NUKE_LANGUAGE_DIR.'Menu/lang-'.$currentlang.'.php');
+else: 
+  include_once(NUKE_LANGUAGE_DIR.'Menu/lang-english.php');
+endif;
 
 $userpoints=intval($userpoints); 
+
 global $menu_image_height;
+
 $gestiongroupe = 1; 
+
 $managment_group = 1; 
 
 $detectPM = 1; # Put 0 to deactivate the detection of the Private Messages.  (gains 1 SQL query)
-$detectMozilla = (preg_match("/Mozilla/i",$_SERVER['HTTP_USER_AGENT']) && !preg_match("/MSIE/i",$_SERVER['HTTP_USER_AGENT']) && !preg_match("/Opera/i",$_SERVER['HTTP_USER_AGENT']) && !preg_match("/Konqueror/i",$_SERVER['HTTP_USER_AGENT'])) ? 1 : 0 ;
-$detectMozilla = 0;
 
 $horizontal = 0;
+
 $div = 0;
 
 /*****[BEGIN]******************************************
@@ -89,73 +94,70 @@ $uid = $cookie[0];
 
 global $use_theme_image_dir_for_portal_menu;
 
-if ($use_theme_image_dir_for_portal_menu == true)
-$path_icon = "themes/$ThemeSel/images/menu";
-else
-$path_icon = "images/menu";
+if ($use_theme_image_dir_for_portal_menu == true):
+  $path_icon = "themes/$ThemeSel/images/menu";
+else:
+  $path_icon = "images/menu";
+endif;
 
 $imgnew = "new.gif";
 
-if(($is_user == 1) && ($detectPM == 1))
-{
+if(($is_user == 1) && ($detectPM == 1)):
   $uid=intval($uid); 
   $newpms = $db->sql_fetchrow($db->sql_query("SELECT COUNT(*) FROM " . $prefix . "_bbprivmsgs 
   WHERE privmsgs_to_userid='$uid' AND (privmsgs_type='5' OR privmsgs_type='1')")); 
-}
+endif;
 
 # START Caching System
-   if ($managment_group==1)
+    if($managment_group==1):
      $sql = "SELECT * FROM ".$prefix."_modules WHERE active='1' AND inmenu='1' AND `title` NOT LIKE '~l~%' ORDER BY custom_title ASC";
-   else
+    else:
      $sql = "SELECT * FROM ".$prefix."_modules WHERE active='1' AND inmenu='1' AND `title` NOT LIKE '~l~%' ORDER BY custom_title ASC";   
+	endif;
    
    $modules_attach = $db->sql_query($sql);
 
-   while($tempo = $db->sql_fetchrow($modules_attach)) 
-   {
+   while($tempo = $db->sql_fetchrow($modules_attach)): 
         $tempoA[] = $tempo;
-    }
-
+   endwhile;
 # END Caching System
 	
 $counter = 0;
     
-if (is_array($tempoA)) 
-{
-   foreach($tempoA as $tempo) 
-   {
+if(is_array($tempoA)): 
+   foreach($tempoA as $tempo): 
       $module[$counter] = $tempo['title'];
       $customtitle[$counter] = $tempo['custom_title'];
       $view[$counter] = $tempo['view'];
       $active[$row['title']] = $tempo['active'];
       $mod_group[$counter] = ($managment_group==1) ? $tempo['groups'] : "";
       $counter++;
-        
-      if ($tempo['view'] == 3) 
-	  $gestionsubscription = "yes";
-   }
-}
+      if ($tempo['view'] == 3): 
+	    $gestionsubscription = "yes";
+	  endif;
+   endforeach;
+endif;
 
 # Not entirely sure what the fuck is going on here?
-if (file_exists("themes/$ThemeSel/module.php")) 
-{
+if(file_exists("themes/$ThemeSel/module.php")): 
+
     include("themes/$ThemeSel/module.php");
 
     $is_active = ($active[$default_module]!=0) ? 1 : 0 ; 
     
-	if($is_active == 1 AND file_exists("modules/$default_module/index.php")) 
-	{
-        $main_module = $default_module;
-    }
-}
+	if($is_active == 1 AND file_exists("modules/$default_module/index.php")): 
+      $main_module = $default_module;
+	endif;
+    
+endif;
 
 $total_actions = "";
 
 $flagmenu = 0;  
 
 # START Caching System
-if (!($row2A = $cache->load('menu_row2', 'block'))) 
-{
+if(!($row2A = $cache->load('menu_row2', 'block'))): 
+
     $sql2= "SELECT groupmenu, 
 	                  module, 
 					     url, 
@@ -167,13 +169,12 @@ if (!($row2A = $cache->load('menu_row2', 'block')))
 
     $result2 = $db->sql_query($sql2);
 
-    while($row2 = $db->sql_fetchrow($result2)) 
-	{
+    while($row2 = $db->sql_fetchrow($result2)): 
         $row2A[] = $row2;
-    } 
+    endwhile; 
 
    $cache->save('menu_row2', 'block', $row2A);
-}
+endif;
 # END Caching System
  
                                    $counter = 0;
@@ -182,35 +183,31 @@ if (!($row2A = $cache->load('menu_row2', 'block')))
    $moduleinthisgroup[$categorie][$counter] = $row2A[0]['module'];
      $linkinthisgroup[$categorie][$counter] = $row2A[0]['url'];
  $linktextinthisgroup[$categorie][$counter] = $row2A[0]['url_text'];
- 
     $imageinthisgroup[$categorie][$counter] = $row2A[0]['image'];
- 
       $newinthisgroup[$categorie][$counter] = $row2A[0]['new'];
   $newdaysinthisgroup[$categorie][$counter] = $row2A[0]['new_days'];
     $classinthisgroup[$categorie][$counter] = $row2A[0]['class'];
      $grasinthisgroup[$categorie][$counter] = $row2A[0]['bold'];
        $totalcategorymodules[$totalcounter] = $row2A[0]['module']; 
                                   $counter2 = $categorie;
-                              $total_actions = "menu_showhide('menu-".$row2A[0]['groupmenu']."','nok','menuupdown-".$row2A[0]['groupmenu']."');";
+                             $total_actions = "menu_showhide('menu-".$row2A[0]['groupmenu']."','nok','menuupdown-".$row2A[0]['groupmenu']."');";
                               $totalcounter = 1;
 
 unset($row2A[0]);
 
-    if (is_array($row2A)) 
-	{
-      foreach($row2A as $row2) 
-	  { 
+    if(is_array($row2A)): 
+	
+      foreach($row2A as $row2): 
         $categorie = $row2['groupmenu'];
         $totalcategorymodules[$totalcounter] = $row2['module'];
         $totalcounter++;
 
-        if ($counter2 == $categorie) 
+        if($counter2 == $categorie): 
         $counter++;
-        else 
-		{
+        else :
             $total_actions = $total_actions."menu_showhide('menu-".$row2['groupmenu']."','nok','menuupdown-".$row2['groupmenu']."');";
             $counter = 0;
-        }
+        endif;
         
 		  $moduleinthisgroup[$categorie][$counter] = $row2['module'];
             $linkinthisgroup[$categorie][$counter] = $row2['url'];
@@ -223,8 +220,8 @@ unset($row2A[0]);
            $classinthisgroup[$categorie][$counter] = $row2['class'];
             $grasinthisgroup[$categorie][$counter] = $row2['bold'];
                                          $counter2 = $categorie;
-      }
-    }
+      endforeach;
+    endif;
 
 $content ="\n\n\n\n\n<!-- Titanium Menu v5.01 -->\n\n\n\n\n";
  
@@ -236,19 +233,20 @@ $sql="SELECT t1.invisible,
     $main_module = $row['main_module'];
  $type_invisible = $row['invisible'];
 
-if($managment_group == 1) 
-$managment_group = ($row['invisible'] == "4" || $row['invisible'] == "5") ? 1 : 0 ;
-else 
-$managment_group = 0;
+if($managment_group == 1): 
+  $managment_group = ($row['invisible'] == "4" || $row['invisible'] == "5") ? 1 : 0 ;
+else: 
+  $managment_group = 0;
+endif;
 
 # this is the start of the Portal menu
 $sql = "SELECT * FROM ".$prefix."_modules WHERE active='1' AND inmenu='1' ORDER BY custom_title ASC";
 	
 $modules_attach = $db->sql_query($sql);
-  $menu_counter = 0;
+
+$menu_counter = 0;
 	
-	while ($tempo = $db->sql_fetchrow($modules_attach)) 
-	{
+	while($tempo = $db->sql_fetchrow($modules_attach)): 
 		   $module[$menu_counter] = $tempo['title'];
 	  $customtitle[$menu_counter] = (stripslashes($tempo['custom_title'])); //strip the fucking slashes
 		     $view[$menu_counter] = $tempo['view'];
@@ -259,14 +257,14 @@ $modules_attach = $db->sql_query($sql);
 	
 		$menu_counter++;
 	
-		if($tempo['view'] == 3) 
-	    $gestionsubscription = "yes";
-	}
+		if($tempo['view'] == 3): 
+	      $gestionsubscription = "yes";
+		endif;
+	endwhile;
 
     $ferme_sublevels = "";
       $total_actions = "";
            $flagmenu = 0;  
-				
 	
 	$sql2= "SELECT groupmenu, 
 	                  module, 
@@ -292,8 +290,8 @@ $modules_attach = $db->sql_query($sql);
 	
 	$now=time(); 
 	
-	while ($row2 = $db->sql_fetchrow($result2)) 
-	{
+	while($row2 = $db->sql_fetchrow($result2)): 
+	
 	   if(strpos($row2['days'],'8')!== false || $now<$row2['date_debut'] || ($row2['date_fin'] > 0 && $now>$row2['date_fin'])) 
 	   {
 			if($menu_counter2 != $row2['groupmenu']) 
@@ -515,7 +513,7 @@ $modules_attach = $db->sql_query($sql);
 			
 			$menu_counter2 = $categorie;
 		}
-	}
+	endwhile;
 
 $content = "";
 echo "<!-- START Titanium Portal Menu Javascript Functions v1.0 -->\n";
@@ -1622,7 +1620,7 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
 	
 	$content.="</table>";
 	
-	if($general_dynamic==1 && $detectMozilla!=1) 
+	if($general_dynamic == 1) 
 	{ 
 		if(isset($categorieouverte)) 
 		{

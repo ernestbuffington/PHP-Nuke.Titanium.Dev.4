@@ -266,7 +266,7 @@ echo '  <tr><!-- PHP-Carterfone row 5 -->'.PHP_EOL;
 
 echo '   <td id="pitch" class="td746LT"></td>'.PHP_EOL; # LEFT SIDE
 
-echo '   <td class="td1802textArea" colspan="5">'.PHP_EOL;
+echo '   <td class="td1802headerTD" colspan="5">'.PHP_EOL;
 
 
 # space between header tabled and main page

@@ -1441,28 +1441,30 @@ function bbcode_array_push(&$stack, $value)
 }
 
 /**
- * This function does exactly what the PHP4 function array_pop() does
- * however, to keep phpBB compatable with PHP 3 we had to come up with our own
- * method of doing it.
- * This function was deprecated in phpBB 2.0.18
+ * This function does exactly what the PHP4 function array_pop() did!
+ * Last modified 12/07/2021 by Ernest Allen Buffington
  */
 function bbcode_array_pop(&$stack)
 {
-   $arrSize = count($stack);
+   $tmpArr = [];
+   
+   $return_val = null;
+   
+   $arrSize = is_countable($stack) ? count($stack) : 0;
+   
    $x = 1;
 
-   while(list($key, $val) = each($stack))
-   {
-      if($x < count($stack))
-      {
-             $tmpArr[] = $val;
-      }
-      else
-      {
-             $return_val = $val;
-      }
-      $x++;
-   }
+   foreach ($stack as $key => $val):
+
+     if($x < (is_countable($stack) ? count($stack) : 0)):
+       $tmpArr[] = $val;
+     else:
+       $return_val = $val;
+     endif;
+       $x++;
+
+   endforeach;
+   
    $stack = $tmpArr;
 
    return($return_val);

@@ -121,20 +121,26 @@ class DB {
                  $index[$kname][] = $row['Column_name'];
             }
             $db->sql_freeresult($result);
-        while(list($x, $columns) = @each($index)) {
-                 $schema_create .= ",$crlf";
-                 if($x == "PRIMARY")
-                     $schema_create .= "   PRIMARY KEY (" . implode($columns, ", ") . ")";
-                 elseif (substr($x,0,6) == "UNIQUE")
-                    $schema_create .= "   UNIQUE ".substr($x,7)." (" . implode($columns, ", ") . ")";
-                 elseif (substr($x,0,8) == "FULLTEXT")
-                    $schema_create .= "   FULLTEXT ".substr($x,9)." (" . implode($columns, ", ") . ")";
-                 else
-                    $schema_create .= "   KEY $x (" . implode($columns, ", ") . ")";
-            }
+         
+		 foreach($index as $x => $columns):
+            			
+			$schema_create .= ",$crlf";
+            
+			if($x == "PRIMARY"):
+                $schema_create .= "   PRIMARY KEY (" . implode($columns, ", ") . ")";
+            elseif (substr((string) $x,0,6) == "UNIQUE"):
+               $schema_create .= "   UNIQUE ".substr((string) $x,7)." (" . implode($columns, ", ") . ")";
+            elseif (substr((string) $x,0,8) == "FULLTEXT"):
+               $schema_create .= "   FULLTEXT ".substr((string) $x,9)." (" . implode($columns, ", ") . ")";
+            else:
+               $schema_create .= "   KEY $x (" . implode($columns, ", ") . ")";
+			endif;
+        
+		endforeach;
         
             $schema_create .= "$crlf)";
-            return (stripslashes($schema_create));
+            
+			return (stripslashes($schema_create));
         }
 
     // Get the content of $table as a series of INSERT statements.

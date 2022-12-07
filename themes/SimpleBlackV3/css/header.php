@@ -689,7 +689,7 @@ td.td746RT
   background-image: url('themes/<?=$theme_name?>/blackjack/main_background/PHP-CarterPhone_right_middle_14.png');
 }
 
-td.td1802textArea
+td.td1802headerTD
 {
   table-layout: auto;
   width: 1802px;

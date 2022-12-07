@@ -43,6 +43,9 @@ class Wysiwyg
 		if($name == 'Private_Messages')
 		$wysiwyg = 'sceditor';
 
+		if($name == 'Reviews')
+		$wysiwyg = 'sceditor';
+
 		if((!isset($wysiwyg) || empty($wysiwyg)) && ($name != 'Forums'))
 		$wysiwyg = 'ckeditor';
 		
@@ -94,6 +97,9 @@ class Wysiwyg
 		if($name == 'Private_Messages')
 		$wysiwyg = 'sceditor';
 		
+		if($name == 'Reviews')
+		$wysiwyg = 'sceditor';
+
 		if((!isset($wysiwyg) || empty($wysiwyg)) && ($name != 'Forums'))
 		$wysiwyg = 'ckeditor';
 
@@ -115,6 +121,9 @@ class Wysiwyg
 		//$dir = 'ckeditor';
 
 		if($name == 'Private_Messages')
+		$dir = 'sceditor';
+
+		if($name == 'Reviews')
 		$dir = 'sceditor';
 		
 		if((!isset($dir) || empty($dir)) && ($name != 'Forums'))
