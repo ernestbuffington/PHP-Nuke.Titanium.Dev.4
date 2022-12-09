@@ -81,22 +81,19 @@ function smtpmail($mail_to, $subject, $message, $headers = '')
                 @reset($header_array);
 
                 $headers = '';
-                while(list(, $header) = each($header_array))
-                {
-                        if (preg_match('#^cc:#si', $header))
-                        {
-                                $cc = preg_replace('#^cc:(.*)#si', '\1', $header);
-                        }
-                        else if (preg_match('#^bcc:#si', $header))
-                        {
-                                $bcc = preg_replace('#^bcc:(.*)#si', '\1', $header);
-                                $header = '';
-                        }
-                        $headers .= ($header != '') ? $header . "\r\n" : '';
-                }
+                foreach($header_array as $header): 
+                   if(preg_match('#^cc:#si', (string) $header)):
+                     $cc = preg_replace('#^cc:(.*)#si', '\1', (string) $header);
+                  elseif(preg_match('#^bcc:#si', (string) $header)):
+                     $bcc = preg_replace('#^bcc:(.*)#si', '\1', (string) $header);
+                     $header = '';
+                  endif;
+                 $headers .= ($header != '') ? $header . "\r\n" : '';
+               endforeach;
 
-                $headers = chop($headers);
-        $cc = explode(', ', $cc);
+               $headers = chop($headers);
+        
+		$cc = explode(', ', $cc);
         $bcc = explode(', ', $bcc);
         }
 
