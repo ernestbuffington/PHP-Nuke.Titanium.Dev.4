@@ -241,10 +241,11 @@ $mode == 'register' ):
 					   'password_confirm' => 'password_confirm', 
 					          'signature' => 'signature');
 
-	while(list($var, $param) = @each($trim_var_list)):
-		if(!empty($HTTP_POST_VARS[$param]))
-		$$var = trim($HTTP_POST_VARS[$param]);
-	endwhile;
+	foreach($trim_var_list as $var => $param): 
+      if(!empty($_POST[$param])):
+  		${$var} = trim((string) $_POST[$param]);
+  	  endif;
+    endforeach;
 
 	$signature = (isset($signature)) ? str_replace('<br />', "\n", $signature) : '';
 	$signature_bbcode_uid = '';
