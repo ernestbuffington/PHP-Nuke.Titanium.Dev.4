@@ -1230,15 +1230,12 @@ if ( $error )
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
 	@reset($xdata);
-	while ( list($code_name, $value) = each($xdata) )
-	{
-		$xdata[$code_name] = stripslashes($value);
-
-		if ($xd_meta[$code_name]['allow_bbcode'])
-		{
-			$xdata[$code_name] = ($signature_bbcode_uid != '') ? preg_replace("/:(([a-z0-9]+:)?)$signature_bbcode_uid(=|\])/si", '\\3', $value) : $value;
-		}
-	}
+    foreach($xdata as $code_name => $value): 
+      $xdata[$code_name] = stripslashes((string) $value);
+	  if($xd_meta[$code_name]['allow_bbcode']):
+  		$xdata[$code_name] = ($signature_bbcode_uid != '') ? preg_replace("/:(([a-z0-9]+:)?)$signature_bbcode_uid(=|\])/si", '\\3', (string) $value) : $value;
+  	  endif;
+    endforeach;
 /*****[END]********************************************
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
