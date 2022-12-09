@@ -166,16 +166,15 @@ function smtpmail($mail_to, $subject, $message, $headers = '')
         endforeach;        
 
 		reset($cc);
-        while(list(, $cc_address) = each($cc))
-        {
-                // Add an additional bit of error checking to cc header
-                $cc_address = trim($cc_address);
-                if (preg_match('#[^ ]+\@[^ ]+#', $cc_address))
-                {
-                        fputs($socket, "RCPT TO: <$cc_address>\r\n");
-                        server_parse($socket, "250", __LINE__);
-                }
-        }
+        foreach($cc as $cc_address): 
+          # Add an additional bit of error checking to cc header
+          $cc_address = trim((string) $cc_address);
+          
+		  if(preg_match('#[^ ]+\@[^ ]+#', $cc_address)):
+            fputs($socket, "RCPT TO: <$cc_address>\r\n");
+            server_parse($socket, "250", __LINE__);
+          endif;
+        endforeach;
 
         // Ok now we tell the server we are ready to start sending data
         fputs($socket, "DATA\r\n");
