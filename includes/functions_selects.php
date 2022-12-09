@@ -175,16 +175,13 @@ function quick_reply_select($default, $select_name = "show_quickreply")
 
     $sqr_select = '<select class="form-control" name="' . $select_name . '" id="' . $select_name . '">';
 
-    while( list($value, $mode) = @each($lang['sqr']) )
-    {
-        $selected = ( $value == $default ) ? ' selected="selected"' : '';
-        $sqr_select .= '<option value="' . $value . '"' . $selected . '>' . $mode . '</option>';
-    }
-
+    foreach($lang['sqr'] as $value => $mode): 
+      $selected = ( $value == $default ) ? ' selected="selected"' : '';
+      $sqr_select .= '<option value="' . $value . '"' . $selected . '>' . $mode . '</option>';
+    endforeach;
     $sqr_select .= '</select>';
 
     return $sqr_select;
-
 }
 /*****[END]********************************************
  [ Mod:     Super Quick Reply                  v1.3.0 ]
