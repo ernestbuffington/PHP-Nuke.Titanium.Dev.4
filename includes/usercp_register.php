@@ -1730,117 +1730,89 @@ else
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
 	$xd_meta = get_xd_metadata();
-	while ( list($code_name, $info) = each($xd_meta) )
+	foreach ($xd_meta as $code_name => $info) 
 	{
+      if(xdata_auth($code_name, $userdata['user_id']) || intval($userdata['user_level']) == ADMIN)
+   	  {
+   		if ($info['display_register'] == XD_DISPLAY_NORMAL)
+   		{
+   				$template->assign_block_vars('xdata', ['CODE_NAME' => $code_name, 'NAME' => $info['field_name'], 'DESCRIPTION' => $info['field_desc'], 'VALUE' => isset($xdata[$code_name]) ? str_replace('"', '&quot;', (string) $xdata[$code_name]) : '', 'MAX_LENGTH' => ( $info['field_length'] > 0) ? ( $info['field_length'] ) : '']
+   				);
 
-		if ( xdata_auth($code_name, $userdata['user_id']) || intval($userdata['user_level']) == ADMIN )
-		{
-			if ($info['display_register'] == XD_DISPLAY_NORMAL)
-			{
-				$template->assign_block_vars('xdata', array(
-					'CODE_NAME' => $code_name,
-					'NAME' => $info['field_name'],
-					'DESCRIPTION' => $info['field_desc'],
-					'VALUE' => isset($xdata[$code_name]) ? str_replace('"', '&quot;', $xdata[$code_name]) : '',
-					'MAX_LENGTH' => ( $info['field_length'] > 0) ? ( $info['field_length'] ) : ''
-					)
-				);
+   				switch ($info['field_type'])
+   				{
+   					case 'text':
+   						$template->assign_block_vars('xdata.switch_type_text', []);
+   						break;
 
-				switch ($info['field_type'])
-				{
-					case 'text':
-						$template->assign_block_vars('xdata.switch_type_text', array());
-						break;
+   					case 'checkbox':
+   					   $template->assign_block_vars('xdata.switch_type_checkbox', ['CHECKED' => ($xdata[$code_name] == 1) ? ' checked="checked"' : '']);
+   					   break;
 
-					case 'checkbox':
-					   $template->assign_block_vars('xdata.switch_type_checkbox', array( 'CHECKED' => ($xdata[$code_name] == 1) ? ' checked="checked"' : ''  ));
-					   break;
+   					case 'textarea':
+   						$template->assign_block_vars('xdata.switch_type_textarea', []);
+   						break;
 
-					case 'textarea':
-						$template->assign_block_vars('xdata.switch_type_textarea', array());
-						break;
+   					case 'radio':
+   						$template->assign_block_vars('xdata.switch_type_radio', []);
 
-					case 'radio':
-						$template->assign_block_vars('xdata.switch_type_radio', array());
+   						foreach ($info['values_array'] as $option) {
+             $template->assign_block_vars('xdata.switch_type_radio.options', ['OPTION' => $option, 'CHECKED' => ($xdata[$code_name] == $option) ? 'checked="checked"' : '']
+      							);
+         }
+   						break;
 
-						while ( list( , $option) = each($info['values_array']) )
-						{
-							$template->assign_block_vars('xdata.switch_type_radio.options', array(
-								'OPTION' => $option,
-								'CHECKED' => ($xdata[$code_name] == $option) ? 'checked="checked"' : ''
-								)
-							);
-						}
-						break;
+   					case 'select':
+   						$template->assign_block_vars('xdata.switch_type_select', []);
 
-					case 'select':
-						$template->assign_block_vars('xdata.switch_type_select', array());
+   						foreach ($info['values_array'] as $option) {
+             $template->assign_block_vars('xdata.switch_type_select.options', ['OPTION' => $option, 'SELECTED' => ($xdata[$code_name] == $option) ? 'selected="selected"' : '']
+      							);
+         }
+   						break;
+   /*****[ANFANG]*****************************************
+    [ Mod:    XData Date Conversion               v0.1.1 ]
+    ******************************************************/
+   					case 'date':
+   						$template->assign_block_vars('xdata.switch_type_date', []);
+   						break;
 
-						while ( list( , $option) = each($info['values_array']) )
-						{
-							$template->assign_block_vars('xdata.switch_type_select.options', array(
-								'OPTION' => $option,
-								'SELECTED' => ($xdata[$code_name] == $option) ? 'selected="selected"' : ''
-								)
-							);
-						}
-						break;
-/*****[ANFANG]*****************************************
- [ Mod:    XData Date Conversion               v0.1.1 ]
- ******************************************************/
-					case 'date':
-						$template->assign_block_vars('xdata.switch_type_date', array());
-						break;
+   /*****[ENDE]*******************************************
+    [ Mod:    XData Date Conversion               v0.1.1 ]
+    ******************************************************/
+   				}
+   			}
+   			elseif ($info['display_register'] == XD_DISPLAY_ROOT)
+   			{
+   				$template->assign_block_vars('xdata',
+   					['CODE_NAME' => $code_name, 'NAME' => $xd_meta[$code_name]['field_name'], 'DESCRIPTION' => $xd_meta[$code_name]['field_desc'], 'VALUE' => isset($xdata[$code_name]) ? str_replace('"', '&quot;', (string) $xdata[$code_name]) : ''] );
+   				$template->assign_block_vars('xdata.switch_is_'.$code_name, []);
 
-/*****[ENDE]*******************************************
- [ Mod:    XData Date Conversion               v0.1.1 ]
- ******************************************************/
-				}
-			}
-			elseif ($info['display_register'] == XD_DISPLAY_ROOT)
-			{
-				$template->assign_block_vars('xdata',
-					array(
-						'CODE_NAME' => $code_name,
-						'NAME' => $xd_meta[$code_name]['field_name'],
-						'DESCRIPTION' => $xd_meta[$code_name]['field_desc'],
-						'VALUE' => isset($xdata[$code_name]) ? str_replace('"', '&quot;', $xdata[$code_name]) : ''
-					) );
-				$template->assign_block_vars('xdata.switch_is_'.$code_name, array());
+   				switch ($info['field_type'])
+   				{
+   					case 'checkbox':
+   						$template->assign_block_vars('xdata.switch_type_checkbox', ['CHECKED' => ($xdata[$code_name] == $lang['true']) ? ' checked="checked"' : '']);
+   						break;
 
-				switch ($info['field_type'])
-				{
-					case 'checkbox':
-						$template->assign_block_vars('xdata.switch_type_checkbox', array( 'CHECKED' => ($xdata[$code_name] == $lang['true']) ? ' checked="checked"' : ''  ));
-						break;
+   					case 'radio':
 
-					case 'radio':
+   						foreach ($info['values_array'] as $option) {
+             $template->assign_block_vars('xdata.switch_is_'.$code_name.'.options', ['OPTION' => $option, 'CHECKED' => ($xdata[$code_name] == $option) ? 'checked="checked"' : '']
+      							);
+         }
+   						break;
 
-						while ( list( , $option) = each($info['values_array']) )
-						{
-							$template->assign_block_vars('xdata.switch_is_'.$code_name.'.options', array(
-								'OPTION' => $option,
-								'CHECKED' => ($xdata[$code_name] == $option) ? 'checked="checked"' : ''
-								)
-							);
-						}
-						break;
+   					case 'select':
 
-					case 'select':
-
-						while ( list( , $option) = each($info['values_array']) )
-						{
-							$template->assign_block_vars('xdata.switch_is_'.$code_name.'.options', array(
-								'OPTION' => $option,
-								'SELECTED' => ($xdata[$code_name] == $option) ? 'selected="selected"' : ''
-								)
-							);
-						}
-						break;
-				}
-			}
-		}
-	}
+   						foreach ($info['values_array'] as $option) {
+             $template->assign_block_vars('xdata.switch_is_'.$code_name.'.options', ['OPTION' => $option, 'SELECTED' => ($xdata[$code_name] == $option) ? 'selected="selected"' : '']
+      							);
+         }
+   						break;
+   				}
+   			}
+   		}
+ }
 /*****[END]********************************************
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
