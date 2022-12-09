@@ -149,26 +149,21 @@ function tz_select($default, $select_name = 'timezone')
 {
         global $sys_timezone, $lang;
 
-        if ( !isset($default) )
-        {
-                $default == $sys_timezone;
-        }
+        if(!isset($default)):
+          $default == $sys_timezone;
+        endif;
+
         $tz_select = '<select class="form-control" name="' . $select_name . '" id="' . $select_name . '">';
 
-        while( list($offset, $zone) = @each($lang['tz']) )
-        {
-                $selected = ( $offset == $default ) ? ' selected="selected"' : '';
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Time Management            v2.2.0 ]
- ******************************************************/
-                $tz_select .= '<option value="' . $offset . '"' . $selected . '>' . str_replace('GMT', 'UTC', $zone) . '</option>';
-/*****[END]********************************************
- [ Mod:    Advanced Time Management            v2.2.0 ]
- ******************************************************/
-        }
-        $tz_select .= '</select>';
+        foreach($lang['tz'] as $offset => $zone): 
+		  $selected = ( $offset == $default ) ? ' selected="selected"' : '';
+	      # Mod: Advanced Time Management v2.2.0 START
+          $tz_select .= '<option value="' . $offset . '"' . $selected . '>' . str_replace('GMT', 'UTC', (string) $zone) . '</option>';
+	      # Mod: Advanced Time Management v2.2.0 START
+       endforeach;
+	   $tz_select .= '</select>';
 
-        return $tz_select;
+   return $tz_select;
 }
 
 /*****[BEGIN]******************************************
