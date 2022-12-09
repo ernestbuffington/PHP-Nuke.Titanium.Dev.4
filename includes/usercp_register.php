@@ -667,52 +667,42 @@ if(isset($HTTP_POST_VARS['submit'])):
 	endif;
 
         # Mod: XData v1.0.3 START
-		$xd_meta = get_xd_metadata();
-		while(list($code_name, $meta) = each($xd_meta)):
-		
-			if($meta['field_type'] == 'checkbox')
-			$xdata[$code_name] = ( isset($xdata[$code_name]) ) ? 1 : 0;
-
-			if($meta['handle_input'] 
-			&& (($mode == 'register' 
-			&& $meta['default_auth'] == XD_AUTH_ALLOW) 
-			|| ($mode != 'register' ? xdata_auth($code_name, $user_id) : 0) || $userdata['user_level'] == ADMIN )):
-			
-				if(($meta['field_length'] > 0) && (strlen($xdata[$code_name]) > $meta['field_length'])):
-					$error = TRUE;
-					$error_msg .=  ( ( isset($error_msg) ) ? '<br />' : '' ) . sprintf($lang['XData_too_long'], $meta['field_name']);
-				endif;
-
-				if((count($meta['values_array']) > 0) && (! in_array($xdata[$code_name], $meta['values_array']))):
-					$error = TRUE;
-					$error_msg .=  ((isset($error_msg)) ? '<br />' : '' ).sprintf($lang['XData_invalid'], $meta['field_name']);
-				endif;
-
-				if($meta['manditory'] && (strlen($xdata[$code_name]) < 1)):
-					$error = TRUE;
-					$error_msg .=  ((isset($error_msg)) ? '<br />' : '').sprintf($lang['XData_invalid'],$meta['field_name']);
-				endif;
-
-				if((strlen($meta['field_regexp']) > 0) && (! preg_match($meta['field_regexp'],$xdata[$code_name])) && (strlen($xdata[$code_name]) > 0)):
-					$error = TRUE;
-					$error_msg .=  ( ( isset($error_msg) ) ? '<br />' : '' ) . sprintf($lang['XData_invalid'], $meta['field_name']);
-				endif;
-
-				if($meta['allow_bbcode']):
-					if(!$userdata['xdata_bbcode'] && $mode != 'register'): 
-						$xdata_bbcode_uid = ( $allowbbcode ) ? make_bbcode_uid() : '';
-						
-						if ($allowbbcode && !empty($xdata_bbcode_uid)): 
-						$db->sql_query('UPDATE `'.USERS_TABLE.'` SET xdata_bbcode="'.$xdata_bbcode_uid.'" WHERE `user_id` ='.$userdata['user_id']);
-						endif;
-				    else: 
-					    $xdata_bbcode_uid = $userdata['xdata_bbcode'];
-					endif;
-				endif;
-
-				$xdata[$code_name] = prepare_message($xdata[$code_name], $meta['allow_html'], $meta['allow_bbcode'], $meta['allow_smilies'], $xdata_bbcode_uid);
-			endif;
-		endwhile;
+        $xd_meta = get_xd_metadata();
+		foreach($xd_meta as $code_name => $meta): 
+          if($meta['field_type'] == 'checkbox'):
+   			$xdata[$code_name] = ( isset($xdata[$code_name]) ) ? 1 : 0;
+   		  endif;
+		  if($meta['handle_input'] && ( ($mode == 'register' && $meta['default_auth'] == XD_AUTH_ALLOW) || ($mode != 'register' ? xdata_auth($code_name, $user_id) : 0) || $userdata['user_level'] == ADMIN )):
+   		  
+   			 if(($meta['field_length'] > 0) && (strlen((string) $xdata[$code_name]) > $meta['field_length'])):
+   				$error = TRUE;
+   				$error_msg .=  ( ( isset($error_msg) ) ? '<br />' : '' ) . sprintf($lang['XData_too_long'], $meta['field_name']);
+   			 endif;
+   			 if(((is_countable($meta['values_array']) ? count($meta['values_array']) : 0) > 0 ) && ( ! in_array($xdata[$code_name], $meta['values_array']))):
+   			    $error = TRUE;
+   				$error_msg .=  ( ( isset($error_msg) ) ? '<br />' : '' ) . sprintf($lang['XData_invalid'], $meta['field_name']);
+   			 endif;
+  			 if($meta['manditory'] && (strlen((string) $xdata[$code_name]) < 1)):
+   				$error = TRUE;
+   				$error_msg .=  ( ( isset($error_msg) ) ? '<br />' : '' ) . sprintf($lang['XData_invalid'], $meta['field_name']);
+   			 endif;
+   			 if((strlen((string) $meta['field_regexp']) > 0 ) && ( ! preg_match($meta['field_regexp'], (string) $xdata[$code_name]) ) && (strlen((string) $xdata[$code_name]) > 0)):
+   				$error = TRUE;
+   				$error_msg .=  ( ( isset($error_msg) ) ? '<br />' : '' ) . sprintf($lang['XData_invalid'], $meta['field_name']);
+   			 endif;
+   			 if($meta['allow_bbcode']):
+   				if (!$userdata['xdata_bbcode'] && $mode != 'register'): 
+   				  $xdata_bbcode_uid = ( $allowbbcode ) ? make_bbcode_uid() : '';
+					if($allowbbcode && !empty($xdata_bbcode_uid)): 
+   					  $db->sql_query('UPDATE `'.USERS_TABLE.'` SET xdata_bbcode="'.$xdata_bbcode_uid.'" WHERE `user_id` ='.$userdata['user_id']);
+   					endif;
+				else: 
+   					$xdata_bbcode_uid = $userdata['xdata_bbcode'];
+   				endif;
+   			 endif;
+   				$xdata[$code_name] = prepare_message($xdata[$code_name], $meta['allow_html'], $meta['allow_bbcode'], $meta['allow_smilies'], $xdata_bbcode_uid);
+   			endif;
+       endforeach;
        # Mod: XData v1.0.3 END
 
     # Mod: Force Word Wrapping - Configurator v1.0.16 START
