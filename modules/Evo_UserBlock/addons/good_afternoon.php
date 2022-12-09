@@ -41,7 +41,7 @@ function evouserinfo_create_date($format, $gmepoch, $tz)
 
     if ( empty($translate) && $board_config['default_lang'] != 'english' && is_array($lang['datetime']))
     {
-        @reset($lang['datetime']);
+        reset($lang['datetime']);
     
 	    foreach($lang['datetime'] as $match => $replace): 
           $translate[$match] = $replace;
