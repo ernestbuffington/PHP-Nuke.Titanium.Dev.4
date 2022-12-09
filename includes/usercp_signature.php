@@ -36,13 +36,12 @@ $params = array('submit' => 'save', 'preview' => 'preview', 'mode' => 'mode');
     endforeach;
 	
 $trim_var_list = array('signature' => 'signature');
-while( list($var, $param) = @each($trim_var_list) )
-{
-    if ( !empty($HTTP_POST_VARS[$param]) )
-    {
-        $$var = trim($HTTP_POST_VARS[$param]);
-    }
-}
+    
+	foreach($trim_var_list as $var => $param): 
+      if(!empty($_POST[$param])):
+        ${$var} = trim((string) $_POST[$param]);
+     endif;
+   endforeach;
 
 $signature = str_replace('<br />', "\n", $signature);
 
