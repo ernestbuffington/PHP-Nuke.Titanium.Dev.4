@@ -155,19 +155,17 @@ function smtpmail($mail_to, $subject, $message, $headers = '')
     }
 
         // Ok now do the CC and BCC fields...
-        @reset($bcc);
-        while(list(, $bcc_address) = each($bcc))
-        {
-                // Add an additional bit of error checking to bcc header...
-                $bcc_address = trim($bcc_address);
-                if (preg_match('#[^ ]+\@[^ ]+#', $bcc_address))
-                {
-                        fputs($socket, "RCPT TO: <$bcc_address>\r\n");
-                        server_parse($socket, "250", __LINE__);
-                }
-        }
+        reset($bcc);
+        foreach($bcc as $bcc_address): 
+          # Add an additional bit of error checking to bcc header...
+          $bcc_address = trim((string) $bcc_address);
+          if(preg_match('#[^ ]+\@[^ ]+#', $bcc_address)):
+            fputs($socket, "RCPT TO: <$bcc_address>\r\n");
+            server_parse($socket, "250", __LINE__);
+          endif;
+        endforeach;        
 
-        @reset($cc);
+		reset($cc);
         while(list(, $cc_address) = each($cc))
         {
                 // Add an additional bit of error checking to cc header
