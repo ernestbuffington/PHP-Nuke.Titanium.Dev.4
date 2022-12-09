@@ -230,11 +230,11 @@ $mode == 'register' ):
 	# Strip all tags from data ... may p**s some people off, bah, strip_tags is
 	# doing the job but can still break HTML output ... have no choice, have
 	# to use htmlspecialchars ... be prepared to be moaned at.
-	while(list($var, $param) = @each($strip_var_list)):
-	  if(!empty($HTTP_POST_VARS[$param]))
-	  $$var = trim(htmlspecialchars($HTTP_POST_VARS[$param]));
-	endwhile;
-
+    foreach($strip_var_list as $var => $param): 
+      if(!empty($_POST[$param])):
+  		${$var} = trim((string) htmlspecialchars((string) $_POST[$param]));
+  	  endif;
+    endforeach;
 	$username = (!empty($HTTP_POST_VARS['username'])) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
 	$trim_var_list = array('cur_password' => 'cur_password', 
 	                       'new_password' => 'new_password', 
