@@ -43,10 +43,9 @@ function evouserinfo_create_date($format, $gmepoch, $tz)
     {
         @reset($lang['datetime']);
     
-	    while ( list($match, $replace) = @each($lang['datetime']) )
-        {
-            $translate[$match] = $replace;
-        }
+	    foreach($lang['datetime'] as $match => $replace): 
+          $translate[$match] = $replace;
+        endforeach;
     }
 
 
