@@ -269,11 +269,10 @@ global $lang;
 
     $g_select = '<select class="form-control" name="logs_view_level" id="logs_view_level">';
 
-    while( list($value, $text) = @each($lang['logs_view_level']) )
-    {
-        $selected = ( $value == $default ) ? ' selected="selected"' : '';
-        $g_select .= '<option value="' . $value . '"' . $selected . '>' . $text . '</option>';
-    }
+    foreach($lang['logs_view_level'] as $value => $text): 
+      $selected = ( $value == $default ) ? ' selected="selected"' : '';
+      $g_select .= '<option value="' . $value . '"' . $selected . '>' . $text . '</option>';
+    endforeach;
 
     $g_select .= '</select>';
 
