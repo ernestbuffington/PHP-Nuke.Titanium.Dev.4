@@ -657,49 +657,40 @@ include_once('includes/bbcode.'.$phpEx);
 
 $xd_meta = get_xd_metadata();
 $xdata = get_user_xdata($HTTP_GET_VARS[POST_USERS_URL]);
-while ( list($code_name, $info) = each($xd_meta) )
-{
-    $value = isset($xdata[$code_name]) ? $xdata[$code_name] : null;
-/*****[ANFANG]*****************************************
- [ Mod:    XData Date Conversion               v0.1.1 ]
- ******************************************************/
-		if ($info['field_type'] == 'date')
-		{
-				$value = create_date($userdata['user_dateformat'], $value, $userdata['user_timezone']);
-		}
-/*****[ENDE]*******************************************
- [ Mod:    XData Date Conversion               v0.1.1 ]
- ******************************************************/
+foreach ($xd_meta as $code_name => $info) {
+    $value = $xdata[$code_name] ?? null;
+    /*****[ANFANG]*****************************************
+     [ Mod:    XData Date Conversion               v0.1.1 ]
+     ******************************************************/
+    if ($info['field_type'] == 'date')
+  		{
+  				$value = create_date($userdata['user_dateformat'], $value, $userdata['user_timezone']);
+  		}
+    /*****[ENDE]*******************************************
+     [ Mod:    XData Date Conversion               v0.1.1 ]
+     ******************************************************/
     if ( !$info['allow_html'] )
     {
-        $value = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $value);
+        $value = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", (string) $value);
     }
-
     if ( $info['allow_bbcode'] && $profiledata['user_sig_bbcode_uid'] != '')
     {
         $value = bbencode_second_pass($value, $profiledata['xdata_bbcode']);
     }
-
     if ($info['allow_bbcode'])
     {
         $value = make_clickable($value);
     }
-
     if ( $info['allow_smilies'] )
     {
         $value = smilies_pass($value);
     }
-
-    $value = str_replace("\n", "\n<br />\n", $value);
-
+    $value = str_replace("\n", "\n<br />\n", (string) $value);
     if ( $info['display_viewprofile'] == XD_DISPLAY_NORMAL )
     {
         if ( isset($xdata[$code_name]) )
         {
-            $template->assign_block_vars('xdata', array(
-                'NAME' => $info['field_name'],
-                'VALUE' => $value
-                )
+            $template->assign_block_vars('xdata', ['NAME' => $info['field_name'], 'VALUE' => $value]
             );
         }
     }
@@ -707,12 +698,12 @@ while ( list($code_name, $info) = each($xd_meta) )
     {
         if ( isset($xdata[$code_name]) )
         {
-            $template->assign_vars( array( $code_name => $value ) );
-            $template->assign_block_vars( "switch_$code_name", array() );
+            $template->assign_vars( [$code_name => $value] );
+            $template->assign_block_vars( "switch_$code_name", [] );
         }
         else
         {
-            $template->assign_block_vars( "switch_no_$code_name", array() );
+            $template->assign_block_vars( "switch_no_$code_name", [] );
         }
     }
 }
