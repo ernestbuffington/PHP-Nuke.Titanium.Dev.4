@@ -426,11 +426,11 @@ $mode == 'register' ):
 		$user_dateformat = stripslashes($user_dateformat);
 
         # Mod: XData v1.0.3 START
-		@reset($xdata);
-		while(list($code_name, $value) = each($xdata)):
-			$xdata[$code_name] = stripslashes($value);
-		endwhile;
-        # Mod: XData v1.0.3 END
+		reset($xdata);
+        foreach($xdata as $code_name => $value): 
+          $xdata[$code_name] = stripslashes((string) $value);
+        endforeach;        
+		# Mod: XData v1.0.3 END
 
 		if(!isset($HTTP_POST_VARS['cancelavatar'])):
 			$user_avatar = $user_avatar_category . '/' . $user_avatar_local;
