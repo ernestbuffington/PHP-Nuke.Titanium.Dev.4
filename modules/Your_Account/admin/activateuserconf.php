@@ -68,7 +68,7 @@ list($uname, $realname, $email, $upass, $ureg) = $db->sql_fetchrow($db->sql_quer
             'Reply-To: '.$adminmail,
             'Return-Path: '.$adminmail
         );
-        evo_phpmailer( $email, $subject, $message, $headers );
+        phpmailer( $email, $subject, $message, $headers );
     }
     $db->sql_query("DELETE FROM ".$user_prefix."_users_temp WHERE user_id='$act_uid'");
 

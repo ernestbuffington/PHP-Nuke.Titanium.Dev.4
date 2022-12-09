@@ -316,12 +316,12 @@ if (!defined('SQL_LAYER')) {
 				'block_modules' => $db->prefix . '_modules'
 			);
 
-	        while (list($file, $table) = each($tables)) {
-	            if (stristr($query, $table)) {
-					$cache->delete($file, 'config');
+            foreach ($tables as $file => $table) {
+            
+			  if (stristr((string) $query, (string) $table)) {
+				$cache->delete($file, 'config');
 	            }
-	        }
-
+            }
 	        return;
 	    }
 

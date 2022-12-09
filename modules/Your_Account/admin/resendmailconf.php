@@ -55,7 +55,7 @@ if(is_mod_admin($module_name)) {
             'Reply-To: '.$adminmail,
             'Return-Path: '.$adminmail
         );
-        evo_phpmailer( $email, $subject, $message, $headers );
+        phpmailer( $email, $subject, $message, $headers );
     }
     $db->sql_query("UPDATE ".$user_prefix."_users_temp SET time='$time' WHERE user_id='$rsn_uid'");
     $pagetitle = ": "._USERADMIN." - "._RESENTMAIL;

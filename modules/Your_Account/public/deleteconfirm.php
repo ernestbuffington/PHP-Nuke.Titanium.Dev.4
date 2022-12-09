@@ -53,7 +53,7 @@ if (!defined('CNBYA')) {
                 'Reply-To: '.$email,
                 'Return-Path: '.$email
             );
-            evo_phpmailer( $adminmail, $subject, $message, $headers );
+            phpmailer( $adminmail, $subject, $message, $headers );
             
         }
         $db->sql_query("UPDATE ".$user_prefix."_users SET name='"._MEMDEL."', user_email='', user_password='', user_website='', user_sig='', user_regdate='Non 0, 0000', user_level='-1', user_active='0', user_allow_pm='0' WHERE user_id='$uid'");

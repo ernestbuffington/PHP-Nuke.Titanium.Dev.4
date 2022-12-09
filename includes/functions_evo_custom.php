@@ -18,7 +18,7 @@
  * @param string|array $attachments Optional. Files to attach.
  * @return bool Whether the email contents were sent successfully.
  */
-function evo_phpmailer($to, $subject, $message, $headers = '', $attachments = array())
+function phpmailer($to, $subject, $message, $headers = '', $attachments = array())
 {
 	global $mail, $board_config, $nukeconfig;
 

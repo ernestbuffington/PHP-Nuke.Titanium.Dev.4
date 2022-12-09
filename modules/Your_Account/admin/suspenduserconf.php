@@ -56,7 +56,7 @@ if(is_mod_admin($module_name)) {
             'Reply-To: '.$adminmail,
             'Return-Path: '.$adminmail
         );
-        evo_phpmailer( $email, $subject, $message, $headers );
+        phpmailer( $email, $subject, $message, $headers );
     }
     $db->sql_query("UPDATE ".$user_prefix."_users SET user_level='0', user_active='0' WHERE user_id='$sus_uid'");
     $pagetitle = ": "._USERADMIN." - "._ACCTSUSPEND;

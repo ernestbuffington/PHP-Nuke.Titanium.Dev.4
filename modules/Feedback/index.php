@@ -112,7 +112,7 @@ if ( $_POST['action'] == 'submit' ):
     	/*
     	 *	OK, Now the headers are set, we can send the email.
     	 */
-      	evo_phpmailer($adminmail, $subject, $msg, $headers);
+      	phpmailer($adminmail, $subject, $msg, $headers);
 
         echo '<div class="acenter"><p>'.$lang_new[$module_name]['email_sent'].'</p></div>';
         echo '<div class="acenter"><p>'.$lang_new[$module_name]['thanks'].'</p></div>';

@@ -55,7 +55,7 @@ if(is_mod_admin($module_name)) {
             'Reply-To: '.$adminmail,
             'Return-Path: '.$adminmail
         );
-        evo_phpmailer( $email, $subject, $message, $headers );
+        phpmailer( $email, $subject, $message, $headers );
     }
     $db->sql_query("UPDATE ".$user_prefix."_users SET name='"._MEMDEL."', username='"._NAMEDEL."', user_password='', user_website='', user_sig='', user_level='-1', user_active='0', user_allow_pm='0', points='0' WHERE user_id='$del_uid'");
     $pagetitle = ": "._USERADMIN." - "._ACCTDELETE;

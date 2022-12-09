@@ -307,7 +307,7 @@ elseif(isset($_POST['joingroup']) && $group_id)
 	  $headers = array('Content-Type: text/html; charset=UTF-8', 'From: '.$board_config['board_email'], 'Reply-To: '.$board_config['board_email'], 'Return-Path: '.
 	  $board_config['board_email']);
       
-	  evo_phpmailer( $moderator['user_email'], $subject, $content, $headers );
+	  phpmailer( $moderator['user_email'], $subject, $content, $headers );
     endif;
     
     $template->assign_vars(array(
@@ -528,7 +528,7 @@ elseif($group_id)
                     
 					$headers = array('Content-Type: text/html; charset=UTF-8', 'From: '.$board_config['board_email'], 'Reply-To: '.$board_config['board_email'], 'Return-Path: '
 					.$board_config['board_email']);
-                    evo_phpmailer($row['user_email'],$subject,$content,$headers);
+                    phpmailer($row['user_email'],$subject,$content,$headers);
                  
                 else: 
                     $template->assign_vars(array(
@@ -714,7 +714,7 @@ elseif($group_id)
                             $headers[] = 'Content-Type: text/html; charset=UTF-8';
                             $headers[] = 'Reply-To: '.$board_config['board_email'];
                             $headers[] = 'Return-Path: '.$board_config['board_email'];
-                            evo_phpmailer( $addbcc, $subject, $content, $headers );
+                            phpmailer( $addbcc, $subject, $content, $headers );
                         endfor;
                     endif;
                 endif;

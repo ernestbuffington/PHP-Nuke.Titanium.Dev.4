@@ -412,12 +412,14 @@ class Evo_Variables
     function unsetVariables($force=false) {
         static $run;
 
-        if ($run && !$force) return ;
+        if($run && !$force) 
+		return;
 
         $run = true;
 
         //If registered globals is on
-        if ((@ini_get('register_globals') == '1' || strtolower(@ini_get('register_globals')) == 'on') || $force) {
+        if ((@ini_get('register_globals') == '1' || strtolower(@ini_get('register_globals')) == 'on') || $force) 
+		{
             //Code from phpbb v3
           $not_unset = array(
                             'phpEx',
@@ -442,19 +444,21 @@ class Evo_Variables
 
           // Merge all into one extremely huge array; unset this later
           $input = array_merge(
-                              $_GET,
-                                $_POST,
-                                $_COOKIE,
-                                $_SERVER,
-                                $_SESSION,
-                                $_ENV,
-                                $_FILES);
+                               $_GET,
+                              $_POST,
+                            $_COOKIE,
+                            $_SERVER,
+                           $_SESSION,
+                               $_ENV,
+                             $_FILES);
 
             unset($input['input']);
             unset($input['not_unset']);
 
-            while (list($var,) = @each($input)) {
-              if (!in_array($var, $not_unset)) {
+            while(list($var,) = @each($input)) 
+			{
+              if (!in_array($var, $not_unset)) 
+			  {
                 unset($$var);
               }
             }

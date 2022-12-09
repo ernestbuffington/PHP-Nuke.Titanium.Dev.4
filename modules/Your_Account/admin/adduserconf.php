@@ -155,7 +155,7 @@ if(is_mod_admin($module_name)) {
                     'Reply-To: '.$adminmail,
                     'Return-Path: '.$adminmail
                 );
-                evo_phpmailer( $user_email, $subject, $message, $headers );
+                phpmailer( $user_email, $subject, $message, $headers );
             }
             if (isset($min)) { $xmin = "&min=$min"; }
             if (isset($xop)) { $xxop = "&op=$xop"; }

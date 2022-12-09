@@ -221,13 +221,15 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on,
                 if(!empty($poll_options))
                 {
                         $temp_option_text = array();
-                        while(list($option_id, $option_text) = @each($poll_options))
-                        {
-                                $option_text = trim($option_text);
-                                if (!empty($option_text))
-                                {
-                                        $temp_option_text[intval($option_id)] = htmlspecialchars($option_text);
-                                }
+                        
+						foreach ($poll_options as $option_id => $option_text) 
+						{
+                          $option_text = trim((string) $option_text);
+                          
+						  if (!empty($option_text))
+                          {
+                             $temp_option_text[intval($option_id)] = htmlspecialchars($option_text);
+                          }
                         }
                         $option_text = $temp_option_text;
 
@@ -495,39 +497,61 @@ if ($mode == 'newtopic')
                         $poll_id = $db->sql_nextid();
                 }
 
-                @reset($poll_options);
+                reset($poll_options);
 
                 $poll_option_id = 1;
-                while (list($option_id, $option_text) = each($poll_options))
-                {
-                        if (!empty($option_text))
-                        {
-                                $option_text = str_replace("\'", "''", htmlspecialchars($option_text));
-                                $poll_result = ($mode == "editpost" && isset($old_poll_result[$option_id])) ? $old_poll_result[$option_id] : 0;
+                
+                foreach($poll_options as $option_id => $option_text) 
+				{
+                
+				  if (!empty($option_text))
+                  {
+                    $option_text = str_replace("\'", "''", htmlspecialchars((string) $option_text));
+                    $poll_result = ($mode == "editpost" && isset($old_poll_result[$option_id])) ? $old_poll_result[$option_id] : 0;
 
-                                $sql = ($mode != "editpost" || !isset($old_poll_result[$option_id])) ? "INSERT INTO " . VOTE_RESULTS_TABLE . " (vote_id, vote_option_id, vote_option_text, vote_result) VALUES ('$poll_id', '$poll_option_id', '$option_text', '$poll_result')" : "UPDATE " . VOTE_RESULTS_TABLE . " SET vote_option_text = '$option_text', vote_result = '$poll_result' WHERE vote_option_id = '$option_id' AND vote_id = '$poll_id'";
-                                if (!$db->sql_query($sql))
-                                {
-                                        message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
-                                }
-                                $poll_option_id++;
-                        }
+                    $sql = ($mode != "editpost" || !isset($old_poll_result[$option_id])) ? "INSERT INTO " . VOTE_RESULTS_TABLE . " (vote_id, 
+				                                                                                                             vote_option_id, 
+																														   vote_option_text, 
+																														        vote_result) 
+				    VALUES ('$poll_id', 
+				     '$poll_option_id', 
+				        '$option_text', 
+					    '$poll_result')" : "UPDATE " . VOTE_RESULTS_TABLE . " 
+						
+					SET vote_option_text = '$option_text', vote_result = '$poll_result' 
+					
+					WHERE vote_option_id = '$option_id' 
+					
+					AND vote_id = '$poll_id'";
+            
+			        if (!$db->sql_query($sql))
+                    {
+                      message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
+                    }
+                    $poll_option_id++;
+                  }
                 }
-
-                if ($delete_option_sql != '')
+                
+				if ($delete_option_sql != '')
                 {
                         $sql = "DELETE FROM " . VOTE_RESULTS_TABLE . "
-                                WHERE vote_option_id IN ($delete_option_sql)
-                                        AND vote_id = '$poll_id'";
-                        if (!$db->sql_query($sql))
+                        
+						WHERE vote_option_id 
+						
+						IN ($delete_option_sql)
+                                        
+						AND vote_id = '$poll_id'";
+                        
+						if (!$db->sql_query($sql))
                         {
-                                message_die(GENERAL_ERROR, 'Error deleting pruned poll options', '', __LINE__, __FILE__, $sql);
+                          message_die(GENERAL_ERROR, 'Error deleting pruned poll options', '', __LINE__, __FILE__, $sql);
                         }
                 }
         }
 
-        $meta = '<meta http-equiv="refresh" content="3;url=' . append_sid("viewtopic.$phpEx?" . POST_POST_URL . "=" . $post_id) . '#' . $post_id . '">';
-        $message = $lang['Stored'] . '<br /><br />' . sprintf($lang['Click_view_message'], '<a href="' . append_sid("viewtopic.$phpEx?" . POST_POST_URL . "=" . $post_id) . '#' . $post_id . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$forum_id") . '">', '</a>');
+        $meta = '<meta http-equiv="refresh" content="3; url='.append_sid("viewtopic.$phpEx?".POST_POST_URL."=".$post_id).'#'.$post_id.'">';
+        
+		$message = $lang['Stored'] . '<br /><br />' . sprintf($lang['Click_view_message'], '<a href="' . append_sid("viewtopic.$phpEx?" . POST_POST_URL . "=" . $post_id) . '#' . $post_id . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_forum'], '<a href="' . append_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$forum_id") . '">', '</a>');
 
         return false;
 }
@@ -991,20 +1015,22 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                                     $content = str_replace( '{U_STOP_WATCHING_TOPIC}', '<a href="'.$email_data['stop_watching'].'">'.$email_data['stop_watching'].'</a>', $content );
                                     $content = str_replace( '{EMAIL_SIG}', $email_data['signature'], $content );
 
-                                    while (list($user_lang, $bcc_list) = each($bcc_list_ary))
-                                    {
-                                        $name_list = $user_name[$user_lang];
-                                        $headers[] = 'From: '.$email_data['from'];
-                                        for ($i = 0; $i < count($bcc_list); $i++):
-                                            $headers[] = 'Bcc: '.$bcc_list[$i];
-                                            $addbcc[] = $bcc_list[$i];
+                                    foreach ($bcc_list_ary as $user_lang => $bcc_list): 
+									
+                                      $name_list = $user_name[$user_lang];
+                                      $headers[] = 'From: '.$email_data['from'];
+                                   
+								        for ($i = 0; $i < (is_countable($bcc_list) ? count($bcc_list) : 0); $i++):
+                                          $headers[] = 'Bcc: '.$bcc_list[$i];
+                                          $addbcc[] = $bcc_list[$i];
                                         endfor;
-
-                                        $headers[] = 'Reply-To: '.$email_data['reply_to'];
-                                        $headers[] = 'Content-Type: '.$email_data['content_type'].'; charset='.$email_data['charset'];
-                                        evo_phpmailer( $addbcc, $email_data['subject'], $content, $headers );
-                                    }
-                                }
+                                   
+								      $headers[] = 'Reply-To: '.$email_data['reply_to'];
+                                      $headers[] = 'Content-Type: '.$email_data['content_type'].'; charset='.$email_data['charset'];
+                                      phpmailer( $addbcc, $email_data['subject'], $content, $headers );
+                                   
+								   endforeach;
+                             }
                         }
                         $db->sql_freeresult($result);
 
@@ -1112,35 +1138,32 @@ function generate_smilies($mode, $page_id)
                         $row = 0;
                         $col = 0;
 
-                        while (list($smile_url, $data) = @each($rowset))
-                        {
-                                if (!$col)
-                                {
-                                        $template->assign_block_vars('smilies_row', array());
-                                }
-
-                                $template->assign_block_vars('smilies_row.smilies_col', array(
-                                        'SMILEY_CODE' => $data['code'],
-                                        'SMILEY_IMG' => $board_config['smilies_path'] . '/' . $smile_url,
-                                        'SMILEY_DESC' => $data['emoticon'])
-                                );
-
-                                $s_colspan = max($s_colspan, $col + 1);
-
-                                if ($col == $smilies_split_row)
-                                {
-                                        if ($mode == 'inline' && $row == $inline_rows - 1)
-                                        {
-                                                break;
-                                        }
-                                        $col = 0;
-                                        $row++;
-                                }
-                                else
-                                {
-                                        $col++;
-                                }
-                        }
+                        foreach ($rowset as $smile_url => $data) {
+                        
+						  if (!$col)
+                          {
+                            $template->assign_block_vars('smilies_row', []);
+                          }
+                         
+						 $template->assign_block_vars('smilies_row.smilies_col', ['SMILEY_CODE' => $data['code'], 'SMILEY_IMG' => $board_config['smilies_path'] . '/' . $smile_url, 'SMILEY_DESC' => $data['emoticon']]
+                         );
+                         
+						 $s_colspan = max($s_colspan, $col + 1);
+                         
+						 if ($col == $smilies_split_row)
+                         {
+                            if ($mode == 'inline' && $row == $inline_rows - 1)
+                            {
+                               break;
+                            }
+            $col = 0;
+            $row++;
+    }
+    else
+    {
+            $col++;
+    }
+}
 
                         if ($mode == 'inline' && $num_smilies > $inline_rows * $inline_columns)
                         {

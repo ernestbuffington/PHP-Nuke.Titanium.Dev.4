@@ -198,7 +198,7 @@ include(NUKE_BASE_DIR. 'header.php');
                     'Return-Path: '.$adminmail
                 );
 
-                evo_phpmailer( $ya_user_email, $subject, $message, $headers );
+                phpmailer( $ya_user_email, $subject, $message, $headers );
             }
             title(_USERREGLOGIN);
             OpenTable();
@@ -245,7 +245,7 @@ include(NUKE_BASE_DIR. 'header.php');
                     'Return-Path: '.$ya_user_email
                 );
 
-                evo_phpmailer( $adminmail, $subject, $message, $headers );
+                phpmailer( $adminmail, $subject, $message, $headers );
             }
 /*****[BEGIN]******************************************
  [ Mod:     Welcome PM                         v2.0.0 ]

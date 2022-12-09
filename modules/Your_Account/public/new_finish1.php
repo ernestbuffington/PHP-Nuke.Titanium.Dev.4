@@ -98,7 +98,7 @@ if (!defined('CNBYA')) {
                     'Reply-To: '.$adminmail,
                     'Return-Path: '.$adminmail
                 );
-                evo_phpmailer( $ya_user_email, $subject, $message, $headers );
+                phpmailer( $ya_user_email, $subject, $message, $headers );
             }
             title(_USERAPPLOGIN);
             OpenTable();
@@ -125,7 +125,7 @@ if (!defined('CNBYA')) {
                     'Reply-To: '.$ya_user_email,
                     'Return-Path: '.$ya_user_email
                 );
-                evo_phpmailer( $adminmail, $subject, $message, $headers );
+                phpmailer( $adminmail, $subject, $message, $headers );
             }
         }
     } else {

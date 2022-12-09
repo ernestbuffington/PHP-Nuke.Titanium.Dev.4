@@ -82,25 +82,27 @@ function request_var($var_name, $default, $multibyte = false)
 {
 	if (!isset($_REQUEST[$var_name]) || (is_array($_REQUEST[$var_name]) && !is_array($default)) || (is_array($default) && !is_array($_REQUEST[$var_name])))
 	{
-		return (is_array($default)) ? array() : $default;
+		return (is_array($default)) ? [] : $default;
 	}
 
 	$var = $_REQUEST[$var_name];
 	if (!is_array($default))
 	{
-		$type = gettype($default);
+	  $type = gettype($default);
 	}
 	else
 	{
-		list($key_type, $type) = each($default);
-		$type = gettype($type);
-		$key_type = gettype($key_type);
+      $key_type = key($default);
+      $type = current($default);
+      next($default);
+	  $type = gettype($type);
+	  $key_type = gettype($key_type);
 	}
 
 	if (is_array($var))
 	{
 		$_var = $var;
-		$var = array();
+		$var = [];
 
 		foreach ($_var as $k => $v)
 		{
@@ -1148,11 +1150,10 @@ function setup_style($style)
         //$img_lang = ( file_exists(@phpbb_realpath($phpbb_root_path . $current_template_path . '/images/lang_' . $board_config['default_lang'])) ) ? $board_config['default_lang'] : 'english';
         $img_lang = ( file_exists(@phpbb_realpath($current_template_path . '/images/lang_' . $board_config['default_lang'])) ) ? $board_config['default_lang'] : 'english';
 
-        while( list($key, $value) = @each($images) )
-        {
+        foreach ($images as $key => $value) {
             if ( !is_array($value) )
             {
-                $images[$key] = str_replace('{LANG}', 'lang_' . $img_lang, $value);
+                $images[$key] = str_replace('{LANG}', 'lang_' . $img_lang, (string) $value);
             }
         }
     }
@@ -1188,9 +1189,8 @@ function create_date($format, $gmepoch, $tz)
 
     if ( empty($translate) && $board_config['default_lang'] != 'english' )
     {
-        @reset($lang['datetime']);
-        while ( list($match, $replace) = @each($lang['datetime']) )
-        {
+        reset($lang['datetime']);
+        foreach ($lang['datetime'] as $match => $replace) {
             $translate[$match] = $replace;
         }
     }

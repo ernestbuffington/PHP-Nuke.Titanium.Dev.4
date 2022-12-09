@@ -1857,7 +1857,7 @@ if ( $inbox_info['inbox_items'] >= $max_inbox )
 
                             $headers[] = 'From: '.$board_config['sitename'].' <'.$board_config['board_email'].'>';
                             $headers[] = 'Content-Type: text/html; charset=utf-8';
-                            evo_phpmailer( $to_userdata['user_email'], $lang['Notification_subject'], $content, $headers );
+                            phpmailer( $to_userdata['user_email'], $lang['Notification_subject'], $content, $headers );
                         }
 
                     }

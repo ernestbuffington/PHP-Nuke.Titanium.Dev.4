@@ -54,13 +54,13 @@ function get_related_topics($topic_id)
 	$is_auth = auth(AUTH_READ, AUTH_LIST_ALL, $userdata);
 
 	$forum_ids = array(0);
-	while( list($forum_id, $forum_auth) = @each($is_auth) )
-	{
-		if( $forum_auth['auth_read'] )
-		{
-			$forum_ids[] = $forum_id;
-		}
-	}
+
+    foreach($is_auth as $forum_id => $forum_auth):
+      if($forum_auth['auth_read']):
+  			$forum_ids[] = $forum_id;
+  		endif;
+    endforeach;
+
 	$forum_id_sql = implode(', ', $forum_ids);
 
 	$sql = 'SELECT DISTINCT(t.topic_id)

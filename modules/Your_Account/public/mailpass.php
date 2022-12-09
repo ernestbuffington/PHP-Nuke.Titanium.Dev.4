@@ -114,7 +114,7 @@ if (!defined('CNBYA')) {
                         'Content-Type: text/html; charset=UTF-8'
                     );
 
-                    evo_phpmailer( $email_data['email'], $email_data['subject'], $content, $headers );
+                    phpmailer( $email_data['email'], $email_data['subject'], $content, $headers );
 /*****[BEGIN]******************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
@@ -166,7 +166,7 @@ if (!defined('CNBYA')) {
                         'Content-Type: text/html; charset=UTF-8'
                     );
 
-                    evo_phpmailer( $email_data['email'], $email_data['subject'], $content, $headers );
+                    phpmailer( $email_data['email'], $email_data['subject'], $content, $headers );
                     include_once(NUKE_BASE_DIR.'header.php');
                     OpenTable();
                     echo "<center><strong>"._CODEFOR." ";

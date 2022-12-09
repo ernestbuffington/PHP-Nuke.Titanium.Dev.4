@@ -204,18 +204,16 @@ class emailer
 
                 // Set vars
                 reset ($this->vars);
-                while (list($key, $val) = each($this->vars))
-                {
-                        $$key = $val;
+                foreach ($this->vars as $key => $val) {
+                    ${$key} = $val;
                 }
 
                 eval("\$this->msg = '$this->msg';");
 
                 // Clear vars
                 reset ($this->vars);
-                while (list($key, $val) = each($this->vars))
-                {
-                        unset($$key);
+                foreach ($this->vars as $key => $val) {
+                    unset(${$key});
                 }
 
                 // We now try and pull a subject from the email body ... if it exists,

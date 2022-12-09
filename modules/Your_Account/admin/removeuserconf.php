@@ -51,7 +51,7 @@ if(is_mod_admin($module_name)) {
             'Reply-To: '.$adminmail,
             'Return-Path: '.$adminmail
         );
-        evo_phpmailer( $email, $subject, $message, $headers );
+        phpmailer( $email, $subject, $message, $headers );
         // $from  = "From: $adminmail\n";
         // $from .= "Reply-To: $adminmail\n";
         // $from .= "Return-Path: $adminmail\n";

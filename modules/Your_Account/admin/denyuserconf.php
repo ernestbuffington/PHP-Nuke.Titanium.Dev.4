@@ -56,7 +56,7 @@ if(is_mod_admin($module_name)) {
             'Reply-To: '.$adminmail,
             'Return-Path: '.$adminmail
         );
-        evo_phpmailer( $email, $subject, $message, $headers );
+        phpmailer( $email, $subject, $message, $headers );
     }
     $db->sql_query("DELETE FROM ".$user_prefix."_users_temp WHERE user_id='$dny_uid'");
     $db->sql_query("DELETE FROM ".$user_prefix."_cnbya_value_temp WHERE uid='$dny_uid'");

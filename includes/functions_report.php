@@ -219,7 +219,7 @@ function email_report($forum_id, $post_id, $topic_title, $comments)
         // $addbcc[] = $bcc_list[$i]; 
     }
 
-    evo_phpmailer( $board_config['board_email'], $subject, $content, $headers );
+    phpmailer( $board_config['board_email'], $subject, $content, $headers );
 
     return;
 }
@@ -439,13 +439,11 @@ function get_forums_auth_mod()
     // create an array to store the moderated forums
     $forums_auth = array();
 
-    while ( list($forum) = each($auth) )
-    {
-        if ( $auth[$forum]['auth_mod'] )
-        {
-            $forums_auth[] = $forum;
-        }
-    }
+    foreach (array_keys($auth) as $forum):
+      if($auth[$forum]['auth_mod']):
+        $forums_auth[] = $forum;
+      endif;
+    endforeach;
 
     return $forums_auth;
 }

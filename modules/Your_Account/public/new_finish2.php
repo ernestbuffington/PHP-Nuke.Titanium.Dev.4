@@ -97,7 +97,7 @@ include_once(NUKE_BASE_DIR.'header.php');
                 $message .= _FOLLOWINGMEM."<br />"._UNICKNAME." $ya_username<br />"._UPASSWORD." $user_password";
                 $subject = _ACTIVATIONSUB;
                 $headers = array( 'Content-Type: text/html; charset=UTF-8', 'Reply-To: '.$adminmail, 'Return-Path: '.$adminmail );
-                evo_phpmailer( $ya_user_email, $subject, $message, $headers );
+                phpmailer( $ya_user_email, $subject, $message, $headers );
                 if ($ya_config['sendaddmail'] == 1) 
                 {
                     $subject = "$sitename - "._MEMACT;
@@ -113,7 +113,7 @@ include_once(NUKE_BASE_DIR.'header.php');
                         'Return-Path: '.$ya_user_email
                     );
 
-                    evo_phpmailer( $adminmail, $subject, $message, $headers );
+                    phpmailer( $adminmail, $subject, $message, $headers );
                 }
             }
             title(_USERREGLOGIN);

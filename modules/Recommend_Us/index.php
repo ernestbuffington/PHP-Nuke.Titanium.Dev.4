@@ -165,7 +165,7 @@ function SendSite()
     	/*
     	 *	OK, Now the headers are set, we can send the email.
     	 */
-      	evo_phpmailer($fmail, $subject, $message, $headers);
+      	phpmailer($fmail, $subject, $message, $headers);
 
       	/*
     	 *	OK, we are done here, redirewct the user back to the homepage.

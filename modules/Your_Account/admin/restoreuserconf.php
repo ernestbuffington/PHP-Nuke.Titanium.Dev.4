@@ -51,7 +51,7 @@ if(is_mod_admin($module_name)) {
             'Reply-To: '.$adminmail,
             'Return-Path: '.$adminmail
         );
-        evo_phpmailer( $email, $subject, $message, $headers );
+        phpmailer( $email, $subject, $message, $headers );
     }
     $db->sql_query("UPDATE ".$user_prefix."_users SET user_level='1', user_active='1' WHERE user_id='$res_uid'");
     $pagetitle = ": "._USERADMIN." - "._ACCTRESTORE;

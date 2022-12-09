@@ -152,7 +152,7 @@ if (is_mod_admin('super')) {
                     'Reply-To: '.$adminmail,
                     'Return-Path: '.$adminmail
                 );
-                evo_phpmailer( $add_email, $subject, $message, $headers );
+                phpmailer( $add_email, $subject, $message, $headers );
             }
             CloseTable();
             include_once(NUKE_BASE_DIR.'footer.php');

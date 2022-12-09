@@ -3,6 +3,18 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
+/************************************************************************
+PHP-Nuke Titanium: Evolution Functions
+============================================
+Copyright (c) 2022 by The PHP-Nuke Titanium Group
+
+Filename      : functions_evo.php
+Author        : The Nuke-Evolution Team
+Version       : 1.5.0
+Date          : 12.09.2021 (mm.dd.yyyy)
+
+Notes         : Miscellaneous functions
+************************************************************************/
 
 /************************************************************************
 Nuke-Evolution: Evolution Functions
@@ -371,7 +383,7 @@ function update_modules()
     $handle=opendir(NUKE_MODULES_DIR);
     $modlist = array();
     while (false !== ($file = readdir($handle))) {
-        if ( @is_dir(NUKE_MODULES_DIR . $file) && ($file != '.') && ($file != '..') ) {
+        if ( is_dir(NUKE_MODULES_DIR . $file) && ($file != '.') && ($file != '..') ) {
             $modlist[] = $file;
         }
     }
@@ -445,7 +457,6 @@ function UpdateCookie()
         $configresult = $db->sql_query("SELECT config_name, config_value FROM ".$prefix."_cnbya_config", true);
         while (list($config_name, $config_value) = $db->sql_fetchrow($configresult, SQL_NUM)) 
         {
-            // if (!get_magic_quotes_gpc()) { $config_value = stripslashes($config_value); }
             $ya_config[$config_name] = $config_value;
         }
         $db->sql_freeresult($configresult);
@@ -473,12 +484,12 @@ function UpdateCookie()
     $cookiedata = base64_encode("$uid:$username:$pass:$storynum:$umode:$uorder:$thold:$noscore:$ublockon:$theme:$commentmax");
     if ($ya_config['cookietimelife'] != '-') {
         if (trim($ya_config['cookiepath']) != '') {
-            @setcookie('user',$cookiedata,time()+$ya_config['cookietimelife'],$ya_config['cookiepath']);
+            setcookie('user',$cookiedata,time()+$ya_config['cookietimelife'],$ya_config['cookiepath']);
         } else {
-            @setcookie('user',$cookiedata,time()+$ya_config['cookietimelife']);
+            setcookie('user',$cookiedata,time()+$ya_config['cookietimelife']);
         }
     } else {
-        @setcookie('user',$cookiedata);
+        setcookie('user',$cookiedata);
     };
 }
 
@@ -513,7 +524,7 @@ function avatar_resize($avatar_url)
     static $loaded_avatars;
     if(!isset($loaded_avatars[$avatar_url])) {
         $loaded_avatars[$avatar_url] = array();
-        list($avatar_width, $avatar_height) = @getimagesize($avatar_url);
+        list($avatar_width, $avatar_height) = getimagesize($avatar_url);
         if ($avatar_width > $board_config['avatar_max_width'] && $avatar_height <= $board_config['avatar_max_height']) {
             $cons_width  = $board_config['avatar_max_width'];
             $cons_height = round((($board_config['avatar_max_width'] * $avatar_height) / $avatar_width), 0);
@@ -566,11 +577,11 @@ if (!function_exists('array_combine'))
 if(!function_exists('file_get_contents')) 
 {
     function file_get_contents($filename, $use_include_path = 0) {
-        $file = @fopen($filename, 'rb', $use_include_path);
+        $file = fopen($filename, 'rb', $use_include_path);
         $data = '';
         if ($file) {
             while (!feof($file)) $data .= fread($file, 1024);
-            @fclose($file);
+            fclose($file);
         }
         return $data;
     }
@@ -596,31 +607,34 @@ function EvoDate($format, $gmepoch, $tz)
     global $board_config, $lang, $userdata, $pc_dateTime, $userinfo;
 	getusrinfo();
 	static $translate;
-	    if ( empty($translate) && $board_config['default_lang'] != 'english' )
+	
+	if(empty($translate) && $board_config['default_lang'] != 'english' )
     {
-    		@include(NUKE_FORUMS_DIR.'language/lang_'.$lang.'/lang_time.php');
-    		if (!(empty($langtime['datetime'])))
-    		{
-        	while ( list($match, $replace) = @each($langtime['datetime']) )
-        	{
-            $translate[$match] = $replace;
-        	}
+    	  include(NUKE_FORUMS_DIR.'language/lang_'.$lang.'/lang_time.php');
+    	  
+		  if(!(empty($langtime['datetime'])))
+    	  {
+        	foreach ($langtime['datetime'] as $match => $replace) 
+			{
+               $translate[$match] = $replace;
+            }
         }
     }
+	
 	if ( $userinfo['user_id'] != 1 )
 	{
 		switch ( $userinfo['user_time_mode'] )
 		{
 			case 1:
 				$dst_sec = $userinfo['user_dst_time_lag'] * 60;
-				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : @gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
+				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
 				break;
 			case 2:
 				$dst_sec = date('I', $gmepoch) * $userdata['user_dst_time_lag'] * 60;
-				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : @gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
+				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
 				break;
 			case 3:
-				return ( !empty($translate) ) ? strtr(@date($format, $gmepoch), $translate) : @date($format, $gmepoch);
+				return ( !empty($translate) ) ? strtr(date($format, $gmepoch), $translate) : date($format, $gmepoch);
 				break;
 			case 4:
 				if ( isset($pc_dateTime['pc_timezoneOffset']) )
@@ -631,7 +645,7 @@ function EvoDate($format, $gmepoch, $tz)
 					$user_pc_timeOffsets = explode("/", $userinfo['user_pc_timeOffsets']);
 					$tzo_sec = $user_pc_timeOffsets[0];
 				}
-				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
+				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + $tzo_sec), $translate) : gmdate($format, $gmepoch + $tzo_sec);
 				break;
 			case 6:
 				if ( isset($pc_dateTime['pc_timeOffset']) )
@@ -642,10 +656,10 @@ function EvoDate($format, $gmepoch, $tz)
 					$user_pc_timeOffsets = explode("/", $userinfo['user_pc_timeOffsets']);
 					$tzo_sec = $user_pc_timeOffsets[1];
 				}
-				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
+				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + $tzo_sec), $translate) : gmdate($format, $gmepoch + $tzo_sec);
 				break;
 			default:
-				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + (3600 * $tz)), $translate) : @gmdate($format, $gmepoch + (3600 * $tz));
+				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + (3600 * $tz)), $translate) : gmdate($format, $gmepoch + (3600 * $tz));
 				break;
 		}
 	} else
@@ -654,14 +668,14 @@ function EvoDate($format, $gmepoch, $tz)
 		{
 			case 1:
 				$dst_sec = $board_config['default_dst_time_lag'] * 60;
-				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : @gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
+				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
 				break;
 			case 2:
 				$dst_sec = date('I', $gmepoch) * $board_config['default_dst_time_lag'] * 60;
-				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : @gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
+				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
 				break;
 			case 3:
-				return ( !empty($translate) ) ? strtr(@date($format, $gmepoch), $translate) : @date($format, $gmepoch);
+				return ( !empty($translate) ) ? strtr(date($format, $gmepoch), $translate) : date($format, $gmepoch);
 				break;
 			case 4:
 				if ( isset($pc_dateTime['pc_timezoneOffset']) )
@@ -671,7 +685,7 @@ function EvoDate($format, $gmepoch, $tz)
 				{
 					$tzo_sec = 0;
 				}
-				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
+				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + $tzo_sec), $translate) : gmdate($format, $gmepoch + $tzo_sec);
 				break;
 			case 6:
 				if ( isset($pc_dateTime['pc_timeOffset']) )
@@ -681,10 +695,10 @@ function EvoDate($format, $gmepoch, $tz)
 				{
 					$tzo_sec = 0;
 				}
-				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
+				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + $tzo_sec), $translate) : gmdate($format, $gmepoch + $tzo_sec);
 				break;
 			default:
-				return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + (3600 * $tz)), $translate) : @gmdate($format, $gmepoch + (3600 * $tz));
+				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + (3600 * $tz)), $translate) : gmdate($format, $gmepoch + (3600 * $tz));
 				break;
 		}
 	}
@@ -1184,7 +1198,7 @@ function referer()
 function ord_crypt_decode($data) 
 {
     $result = '';
-    $data =  @pack("H" . strlen($data), $data);
+    $data =  pack("H" . strlen($data), $data);
 
     for($i=0; $i<strlen($data); $i++) {
         $char = substr($data, $i, 1);
@@ -1393,29 +1407,29 @@ function evo_image($imgfile='', $mymodule='')
         return($evoimage[$ThemeSel][$currentlang][$cache_imgfile]);
     }
 
-    if (@file_exists('themes/'. $ThemeSel . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) {
+    if (file_exists('themes/'. $ThemeSel . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) {
         $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$ThemeSel."/images/$mymodule/lang_".$currentlang."/$imgfile";
-    } elseif (@file_exists('themes/'. $ThemeSel . '/images/lang_' . $currentlang . '/' . $imgfile)) {
+    } elseif (file_exists('themes/'. $ThemeSel . '/images/lang_' . $currentlang . '/' . $imgfile)) {
         $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$ThemeSel."/images/lang_".$currentlang."/$imgfile";
-    } elseif (@file_exists('themes/'. $ThemeSel . '/images/' . $mymodule . '/' . $imgfile)) {
+    } elseif (file_exists('themes/'. $ThemeSel . '/images/' . $mymodule . '/' . $imgfile)) {
         $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$ThemeSel."/images/$mymodule/$imgfile";
-    } elseif (@file_exists('themes/'. $ThemeSel . '/images/' . $imgfile)) {
+    } elseif (file_exists('themes/'. $ThemeSel . '/images/' . $imgfile)) {
         $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$ThemeSel."/images/$imgfile";
-    } elseif (@file_exists('themes/'. $Default_Theme . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) {
+    } elseif (file_exists('themes/'. $Default_Theme . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) {
         $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$Default_Theme."/images/$mymodule/lang_".$currentlang."/$imgfile";
-    } elseif (@file_exists('themes/'. $Default_Theme . '/images/lang_' . $currentlang . '/' . $imgfile)) {
+    } elseif (file_exists('themes/'. $Default_Theme . '/images/lang_' . $currentlang . '/' . $imgfile)) {
         $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$Default_Theme."/images/lang_".$currentlang."/$imgfile";
-    } elseif (@file_exists('themes/'. $Default_Theme . '/images/' . $mymodule . '/' . $imgfile)) {
+    } elseif (file_exists('themes/'. $Default_Theme . '/images/' . $mymodule . '/' . $imgfile)) {
         $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$Default_Theme."/images/$mymodule/$imgfile";
-    } elseif (@file_exists('themes/'. $Default_Theme . '/images/' . $imgfile)) {
+    } elseif (file_exists('themes/'. $Default_Theme . '/images/' . $imgfile)) {
         $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$Default_Theme."/images/$imgfile";
-    } elseif (@file_exists('modules/'.  $mymodule . '/images/lang_' . $currentlang . '/' . $imgfile)) {
+    } elseif (file_exists('modules/'.  $mymodule . '/images/lang_' . $currentlang . '/' . $imgfile)) {
         $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'modules/'.  $mymodule ."/images/lang_".$currentlang."/$imgfile";
-    } elseif (@file_exists('modules/'.  $mymodule . '/images/' . $imgfile)) {
+    } elseif (file_exists('modules/'.  $mymodule . '/images/' . $imgfile)) {
         $evoimage[$ThemeSel][$currentlang][$cache_imgfile] =  'modules/'. $mymodule ."/images/$imgfile";
-    } elseif (@file_exists(NUKE_IMAGES_DIR . $mymodule . '/' . $imgfile)) {
+    } elseif (file_exists(NUKE_IMAGES_DIR . $mymodule . '/' . $imgfile)) {
         $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = NUKE_IMAGES_BASE_DIR . $mymodule ."/$imgfile";
-    } elseif (@file_exists(NUKE_IMAGES_DIR . $imgfile)) {
+    } elseif (file_exists(NUKE_IMAGES_DIR . $imgfile)) {
         $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = NUKE_IMAGES_BASE_DIR . $imgfile;
     } else {
         $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = '';
@@ -1477,7 +1491,7 @@ function select_gallery($name='default', $gallery='', $img_show = FALSE, $select
                         </script>';
             define('GALLERY_JAVASCRIPT', TRUE);
         }
-        $opendir = @opendir($gallery);
+        $opendir = opendir($gallery);
         if ( $img_show == TRUE ) {
             $select .= '<select class="set" name="'.$name.'" id="'.$name."\" onchange=\"update_gallery(this.options[selectedIndex].value);\">\n";
         } else {
@@ -1488,7 +1502,7 @@ function select_gallery($name='default', $gallery='', $img_show = FALSE, $select
         } else {
             $select .= "<option value=\"". NUKE_IMAGES_BASE_DIR . "evo/spacer.gif\" >"._NONE."</option>\n";
         }
-        while (false !== ($entry = @readdir($opendir))) {
+        while (false !== ($entry = readdir($opendir))) {
             if( preg_match('/(\.gif$|\.png$|\.jpg|\.jpeg)$/is', $entry)) {
                 if( $entry != '.' && $entry != '..' && is_file($dir . '/' . $entry) && !is_link($dir . '/' . $entry) ) {
                     $extension = substr($entry, strrpos($entry, '.'));
@@ -1500,7 +1514,7 @@ function select_gallery($name='default', $gallery='', $img_show = FALSE, $select
                 }
             }
         }
-        @closedir($dir);
+        closedir($dir);
     } else {
         $select = '<select class="set" name="'.$name.'" id="'.$name."\">\n";
         $select .= "<option value=\"".FALSE."\" >"._NONE."</option>\n";
