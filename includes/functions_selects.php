@@ -196,12 +196,10 @@ global $lang;
 
     $g_select = '<select class="form-control" name="' . $select_name . '" id="' . $select_name . '">';
 
-    while( list($value, $text) = @each($lang['show_glance_option']) )
-    {
-        $selected = ( $value == $default ) ? ' selected="selected"' : '';
-        $g_select .= '<option value="' . $value . '"' . $selected . '>' . $text . '</option>';
-    }
-
+    foreach($lang['show_glance_option'] as $value => $text): 
+      $selected = ( $value == $default ) ? ' selected="selected"' : '';
+      $g_select .= '<option value="' . $value . '"' . $selected . '>' . $text . '</option>';
+    endforeach;
     $g_select .= '</select>';
 
     return $g_select;
