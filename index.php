@@ -38,7 +38,8 @@ define('MODULE_FILE', true);
 
 $_SERVER['PHP_SELF'] = 'modules.php';
 
-require_once(dirname(__FILE__).'/mainfile.php');
+//require_once(dirname(__FILE__).'/mainfile.php');
+require_once(__DIR__.'/mainfile.php');
 
 /*****[BEGIN]******************************************
  [ Mod:    Banner Ads                          v1.0.0 ]
@@ -49,8 +50,9 @@ if (isset($_GET['op'])):
 
 	if($_GET['op'] == 'ad_click' && isset($_GET['bid'])):
         $bid = intval($_GET['bid']);
-
-        list($clickurl) = $db->sql_ufetchrow("SELECT `clickurl` FROM `".$prefix."_banner` WHERE `bid`='$bid'", SQL_NUM);
+        
+		//list($clickurl) = $db->sql_ufetchrow("SELECT `clickurl` FROM `".$prefix."_banner` WHERE `bid`='$bid'", SQL_NUM);
+        [$clickurl] = $db->sql_ufetchrow("SELECT `clickurl` FROM `".$prefix."_banner` WHERE `bid`='$bid'", SQL_NUM);
 
         if(!is_admin()):
         $db->sql_query("UPDATE `".$prefix."_banner` SET `clicks`=clicks+1 WHERE `bid`='$bid'");
@@ -76,7 +78,8 @@ if (isset($_GET['op'])):
 	if($_GET['op'] == 'ad_network_click' && isset($_GET['bid'])):
         $bid = intval($_GET['bid']);
     
-	    list($clickurl) = $db2->sql_ufetchrow("SELECT `clickurl` FROM `".$network_prefix."_banner` WHERE `bid`='$bid'", SQL_NUM);
+ 	    //list($clickurl) = $db2->sql_ufetchrow("SELECT `clickurl` FROM `".$network_prefix."_banner` WHERE `bid`='$bid'", SQL_NUM);
+	    [$clickurl] = $db2->sql_ufetchrow("SELECT `clickurl` FROM `".$network_prefix."_banner` WHERE `bid`='$bid'", SQL_NUM);
     
 	    if(!is_admin()):
           $db2->sql_query("UPDATE `".$network_prefix."_banner` SET `clicks`=clicks+1 WHERE `bid`='$bid'");
@@ -100,9 +103,13 @@ $arcade = get_query_var('act', 'get');
 $newscore = get_query_var('do', 'get');
 
 if($arcade == 'Arcade' && $newscore='newscore'):
-     $gamename = str_replace("\'","''",$HTTP_POST_VARS['gname']);
-     $gamename = preg_replace(array('#&(?!(\#[0-9]+;))#', '#<#', '#>#'), array('&amp;', '&lt;', '&gt;'),$gamename);
-     $gamescore = intval($HTTP_POST_VARS['gscore']);
+     //$gamename = str_replace("\'","''",$HTTP_POST_VARS['gname']);
+     //$gamename = preg_replace(array('#&(?!(\#[0-9]+;))#', '#<#', '#>#'), array('&amp;', '&lt;', '&gt;'),$gamename);
+     //$gamescore = intval($HTTP_POST_VARS['gscore']);
+	 
+	 $gamename = str_replace("\'","''",$_POST['gname']);
+     $gamename = preg_replace(['#&(?!(\#[0-9]+;))#', '#<#', '#>#'], ['&amp;', '&lt;', '&gt;'],$gamename);
+     $gamescore = intval($_POST['gscore']);
 
       //Get Game ID
       $row = $db->sql_ufetchrow("SELECT `game_id` FROM `".$prefix."_bbgames` WHERE `game_scorevar`='$gamename'");
