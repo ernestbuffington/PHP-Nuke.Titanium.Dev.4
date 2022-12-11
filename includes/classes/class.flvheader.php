@@ -29,7 +29,22 @@
  */
 class FLVMetaData {
     private $buffer;
-    private $metaData;
+    private $metaData = array(
+    "duration"=>null,
+    "size"=>null,
+    "framerate"=>null,
+    "width"=>null,
+    "height"=>null,
+    "videodatarate"=>null,
+    "audiodatarate"=>null,
+    "audiodelay"=>null,
+    "audiosamplesize"=>null,
+    "audiosamplerate"=>null,
+    "audiocodecid"=>null,
+    "videocodecid"=>null,
+    "version"=>null,
+    "headersize"=>0
+    );
     private $fileName;
     private $typeFlagsAudio;
     private $typeFlagsVideo;
@@ -65,22 +80,6 @@ class FLVMetaData {
  */
     public function  __construct($flv) {
         $this->fileName = $flv;
-        $this->metaData = array(
-        "duration"=>null,
-        "size"=>null,
-        "framerate"=>null,
-        "width"=>null,
-        "height"=>null,
-        "videodatarate"=>null,
-        "audiodatarate"=>null,
-        "audiodelay"=>null,
-        "audiosamplesize"=>null,
-        "audiosamplerate"=>null,
-        "audiocodecid"=>null,
-        "videocodecid"=>null,
-        "version"=>null,
-        "headersize"=>0
-        );
     }
 
 /**
