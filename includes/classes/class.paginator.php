@@ -70,7 +70,7 @@ class Paginator {
 			//ahead of the current page.  For example if there were a possiblity of
 			//20 numbered links and this was set to 5 and the current link was 10
 			//the result would be this 5 6 7 8 9 10 11 12 13 14 15.
-			
+
 			function set_Links($prev_next=5)
 			{
 			    $this->prev_next = $prev_next;
@@ -182,7 +182,7 @@ class Paginator {
          $top = $top;
 	       $top_range = $this->getCurrent() + $top;
 	       } else { $top = $this->prev_next; $top_range = $this->getCurrent() + $top; }
-				 
+
 				//gets the bottom range
 	     $bottom = $this->getCurrent() -1;
        if($bottom <= $this->prev_next)
@@ -190,7 +190,7 @@ class Paginator {
 	       $bottom = $bottom;
 	       $bottom_range = $this->getCurrent() - $bottom;
 	       } else { $bottom = $this->prev_next; $bottom_range = $this->getCurrent() - $bottom; } 
-	 
+
 	       $j=0;
        foreach(range($bottom_range, $top_range) as $i)
 	       {
@@ -199,6 +199,6 @@ class Paginator {
 		     }
 		   return $this->link_arr;
       }
-			
+
 	}//ends Paginator class
 	?>

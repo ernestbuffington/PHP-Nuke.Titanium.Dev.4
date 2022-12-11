@@ -112,7 +112,7 @@ if(defined('SHOW_ONLINE'))
 	            u.user_level, 
 		 s.session_logged_in, 
 		        s.session_ip
-           
+
 		   FROM ".USERS_TABLE." u, ".SESSIONS_TABLE." s
            WHERE u.user_id = s.session_user_id
            AND s.session_time >= ".(time() - $board_config['online_time'])."
@@ -162,7 +162,7 @@ if(defined('SHOW_ONLINE'))
 
         if(empty($online_userlist))
         $online_userlist = $lang['None'];
-        
+
         $online_userlist = ((isset($forum_id)) ? $lang['Browsing_forum'] : $lang['Registered_users']).' '.$online_userlist;
         $total_online_users = $logged_visible_online + $logged_hidden_online + $guests_online;
 
@@ -229,7 +229,7 @@ $sql = "SELECT user_id,
  user_allow_viewonline, 
             user_level, 
 	 user_session_time
-     
+
 	    FROM ".USERS_TABLE."
         WHERE user_id > 0
         ORDER BY IF(user_level=1,3,user_level) DESC, username ASC";
@@ -250,8 +250,9 @@ while($row = $db->sql_fetchrow($result)):
       # Mod: Advanced Username Color v1.0.5 START
 	  $user_day_link = '<a href="'.append_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=".$row['user_id']).'"><i>'.UsernameColor($row['username']).'</i></a>';
       # Mod: Advanced Username Color v1.0.5 END
+      # Mod: Advanced Username Color v1.0.5 END
 	endif;
-	
+
 	if($row['user_allow_viewonline'] || $userdata['user_level'] == ADMIN):
 		if($row['user_session_time'] >= (time() - $users_list_delay * 3600 )):
 			$day_userlist .= ( $day_userlist <> '' ) ? ', ' . $user_day_link : $user_day_link;
@@ -484,7 +485,7 @@ $template->assign_vars(array(
         'CURRENT_TIME' => sprintf($lang['Current_time'], create_date($board_config['default_dateformat'], time(), $board_config['board_timezone'])),
         'TOTAL_USERS_ONLINE' => $l_online_users,
         'LOGGED_IN_USER_LIST' => $online_userlist,
-        
+
 		# Mod: Users of the day v2.1.0 START
 	    'USERS_OF_THE_DAY_LIST' => $day_userlist,
 		# Mod: Users of the day v2.1.0 END
@@ -494,12 +495,12 @@ $template->assign_vars(array(
 			   create_date($board_config['default_dateformat'], 
 			               $board_config['record_online_date'], 
 						     $board_config['board_timezone'])),
-        
+
 		'PRIVATE_MESSAGE_INFO' => $l_privmsgs_text,
         'PRIVATE_MESSAGE_INFO_UNREAD' => $l_privmsgs_text_unread,
         'PRIVATE_MESSAGE_NEW_FLAG' => $s_privmsg_new,
         'PRIVMSG_IMG' => $icon_pm,
-        
+
 		# Mod: Disable Board Admin Override v0.1.1 START
         'L_Board_Currently_Disabled' => $lang['Board_Currently_Disabled'],
 		# Mod: Disable Board Admin Override v0.1.1 END
@@ -519,7 +520,7 @@ $template->assign_vars(array(
         'L_MEMBERLIST' => $lang['Memberlist'],
         'L_FAQ' => $lang['FAQ'],
         'L_LEGEND' => $lang['Legend'],
-        
+
 		# Mod: Forum Statistics v3.0.0 START
         'L_STATISTICS' => $lang ['Statistics'],
 		# Mod: Forum Statistics v3.0.0 END
@@ -530,7 +531,7 @@ $template->assign_vars(array(
         'L_SEARCH_SELF' => $lang['Search_your_posts'],
         'L_WHOSONLINE_ADMIN' => sprintf($lang['Admin_online_color'], '<span style="color:#' . $theme['fontcolor3'] . '">', '</span>'),
         'L_WHOSONLINE_MOD' => sprintf($lang['Mod_online_color'], '<span style="color:#' . $theme['fontcolor2'] . '">', '</span>'),
-        
+
 		# Mod: Resize Posted Images v2.4.5 START
         'IMAGE_RESIZE_WIDTH' => $board_config['image_resize_width'],
         'IMAGE_RESIZE_HEIGHT' => $board_config['image_resize_height'],
@@ -549,16 +550,16 @@ $template->assign_vars(array(
         'U_PROFILE' => append_sid('profile.'.$phpEx.'?mode=editprofile'),
         'U_PRIVATEMSGS' => append_sid('privmsg.'.$phpEx.'?folder=inbox'),
         'U_PRIVATEMSGS_POPUP' => append_sid('privmsg.'.$phpEx.'?mode=newpm&popup=1',true),
-        
+
 		# Mod: Birthdays v3.0.0 START
 		'U_BIRTHDAYS_POPUP' => append_sid('profile.'.$phpEx.'?mode=birthday_popup=1',true),
 		# Mod: Birthdays v3.0.0 END
-		
+
         'U_SEARCH' => append_sid('search.'.$phpEx),
         'U_MEMBERLIST' => append_sid('memberlist.'.$phpEx),
         'U_MODCP' => append_sid('modcp.'.$phpEx),
         'U_FAQ' => append_sid('faq.'.$phpEx),
-        
+
 		# Mod: Forum Statistics v3.0.0 START
         'U_STATISTICS' => append_sid('statistics.'.$phpEx),
 		# Mod: Forum Statistics v3.0.0 END
@@ -567,7 +568,7 @@ $template->assign_vars(array(
         'U_LOGIN_LOGOUT' => append_sid($u_login_logout),
         'U_MEMBERSLIST' => append_sid('memberlist.'.$phpEx),
         'U_GROUP_CP' => append_sid('groupcp.'.$phpEx),
-        
+
 		# Mod: Users Reputations Systems v1.0.0 START
         'L_REPUTATION' => $lang['Reputation'],
         'U_REPUTATION' => append_sid('reputation.'.$phpEx),
@@ -743,7 +744,7 @@ header ('Pragma: no-cache');
         'L_RULES' => $lang['Rules'],
         'I_STATISTICS' => '<img src="' . $images['Statistics'] . '" width="12" height="13" border="0" alt="' . $lang['Statistics'] . '" hspace="3" />',
         'I_MINI_LOGIN_LOGOUT' => '<img src="' . $images['Mini_Login_Logout'] . '" width="12" height="13" border="0" alt="' . $lang['Login_Logout'] . '" hspace="3" />',
-        
+
 		# Mod: Theme Simplifications (Arcade) v1.0.0 START
         'I_MINI_ARCADE' => '<img src="' . $images['Mini_Arcade'] . '" width="12" height="13" border="0" alt="' . $lang['lib_arcade'] . '" hspace="3" />',
         'U_ARCADE' => append_sid("arcade.$phpEx"),

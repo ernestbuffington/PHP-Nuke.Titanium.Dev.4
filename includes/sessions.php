@@ -223,7 +223,7 @@ function select_session_url($session_page, $url_qs, $url_ps, $specific, $level, 
             $new_url     = explode('.', $url_ps);
             $page        = str_replace('/', '', $new_url[0]);
             $location    = ($location) ? $location : '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">'. ucwords(strtolower($page)) .'</a>';
-            
+
 			#==== End: Integration For Other Mods
             }
 

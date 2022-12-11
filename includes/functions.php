@@ -843,7 +843,7 @@ function make_jumpbox_ref($action, $match_forum_id, &$forums_list)
 									'url' => append_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=" . $forum_rows[$k]['forum_id']),
 									'title' => $forum_rows[$k]['forum_name']
 								);
-								
+
 							}
 						}
 /*****[END]********************************************

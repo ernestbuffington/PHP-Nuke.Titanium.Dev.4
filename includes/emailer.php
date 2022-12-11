@@ -246,7 +246,7 @@ class emailer
                 }
 
         $to = $this->addresses['to'];
-        
+
         if ( is_array( $this->addresses['cc'] ) ) 
             $cc = (count($this->addresses['cc'])) ? implode(', ', $this->addresses['cc']) : '';
         else

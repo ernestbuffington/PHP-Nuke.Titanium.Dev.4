@@ -112,7 +112,7 @@ class InputFilter {
         
 		# clean all elements in this array
         if (is_array($source)) {
-        
+
 		    foreach($source as $key => $value)
             {
                 # filter element for XSS and other 'bad' code etc.
@@ -302,7 +302,7 @@ class InputFilter {
                     {
                         $preTag .= ' ' . $attrSet[$i];
                     }
-                    
+
 					# reformat single tags to XHTML
                     if (strpos($fromTagOpen, "</" . $tagName)) {
                         $preTag .= '>';
@@ -310,7 +310,7 @@ class InputFilter {
                     else {
                         $preTag .= ' />';
                     }
-                
+
 				# just the tagname
                 } else {
                     $preTag .= '</' . $tagName . '>';
@@ -476,7 +476,7 @@ class InputFilter {
 		# clean all elements in this array
         if (is_array($source)) 
 		{
-        
+
 		    foreach($source as $key => $value)
 		        # filter element for SQL injection
                 if (is_string($value)) $source[$key] = $this->quoteSmart($this->decode($value), $connection);

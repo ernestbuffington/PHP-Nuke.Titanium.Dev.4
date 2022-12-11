@@ -126,11 +126,11 @@ function phpmailer($to, $subject, $message, $headers = '', $attachments = array(
 								$from_name = str_replace( '"', '', $from_name );
 								$from_name = trim( $from_name );
 							}
- 
+
 							$from_email = substr( $content, $bracket_pos + 1 );
 							$from_email = str_replace( '>', '', $from_email );
 							$from_email = trim( $from_email );
- 
+
 						// Avoid setting an empty $from_email.
 						} elseif ( '' !== trim( $content ) ) {
 							$from_email = trim( $content );
@@ -146,7 +146,7 @@ function phpmailer($to, $subject, $message, $headers = '', $attachments = array(
 								$boundary = trim( str_replace( array( 'BOUNDARY=', 'boundary=', '"' ), '', $charset_content ) );
 								$charset = '';
 							}
- 
+
 						// Avoid setting an empty $content_type.
 						} elseif ( '' !== trim( $content ) ) {
 							$content_type = trim( $content );

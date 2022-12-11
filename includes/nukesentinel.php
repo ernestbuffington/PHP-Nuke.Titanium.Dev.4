@@ -1390,6 +1390,16 @@ function write_mail($banip, $blocker_row, $abmatch="")
 		$data = str_replace("status = \"Done!\";", "\n", $data);
 	  }
 	  $message .= strip_tags($data);*/
+	  // Copyright 2004(c) NukeScripts
+	  /*if(!@file_get_contents("http://dnsstuff.com/tools/whois.ch?ip=".$nsnst_const['remote_ip'])) {
+		$data = 'Unable to query WhoIs information for '.$nsnst_const['remote_ip'].'.';
+	  } else {
+		$data = @file_get_contents("http://dnsstuff.com/tools/whois.ch?email=on&ip=".$nsnst_const['remote_ip']);
+		$data = str_replace("</H1><H5>", "\n", $data);
+		$data = str_replace("status = \"Getting WHOIS results...\";", "\n", $data);
+		$data = str_replace("status = \"Done!\";", "\n", $data);
+	  }
+	  $message .= strip_tags($data);*/
 	endif;
 	for($i=0, $maxi=count($admincontact); $i < $maxi; $i++) {
 	  $adminmail = $nuke_config['adminmail'];

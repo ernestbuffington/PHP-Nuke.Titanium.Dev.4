@@ -67,7 +67,7 @@ print '</h1>';
 print '</td></tr>';
 print '<tr><td align="center">';
 print '<h1 class="myclass">';
-	
+
 exit("<br /><br /><div align='center'><img src='images/logo.png'><br /><br /><strong>There seems to be a problem with the MariaDB server, sorry for the inconvenience.<br /><br />We should be back shortly...</strong></div>");
 
 print '</h1>';

@@ -108,12 +108,12 @@ function language_select($default, $select_name = "language", $dirname="modules/
         @reset($lang);
 
         $lang_select = '<select class="form-control" name="' . $select_name . '" id="'.$select_name.'">';
- 
+
         foreach ($lang as $displayname => $filename): 
           $selected = ( strtolower((string) $default) == strtolower((string) $filename) ) ? ' selected="selected"' : '';
           $lang_select .= '<option value="' . $filename . '"' . $selected . '>' . ucwords((string) $displayname) . '</option>';
         endforeach;
-        
+
 		$lang_select .= '</select>';
 
         return $lang_select;
@@ -281,7 +281,7 @@ global $lang;
 /*****[END]********************************************
  [ Mod:     Log Actions Mod - Topic View       v2.0.0 ]
  ******************************************************/
- 
+
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/

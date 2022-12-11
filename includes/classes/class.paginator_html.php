@@ -11,9 +11,9 @@
 	//  and what your using it for. [ pesoto74@soltec.net]
 	//
 // ==================================================================
-      
+
 			class Paginator_html extends Paginator { 
-			
+
 			  //outputs a link set like this 1 of 4 of 25 First | Prev | Next | Last |              
 				function firstLast()
 			  {				
@@ -25,13 +25,13 @@
 		         {
 		         $prev = "<a href=\"" .  $this->getPageName() . "?op=ws_submemb&page=" . $this->getPrevious() . "\">Prev</a> | ";
 		         } else { $prev="Prev | "; }
-		
+
 	         if($this->getNext())
 		         {
 		         $next = "<a href=\"" . $this->getPageName() . "?op=ws_submemb&page=" . $this->getNext() . "\">Next</a> | ";
 		         } else { $next="Next | "; }
-		
-		
+
+
 		       if($this->getLast())
 		         {
 		         $last = "<a href=\"" . $this->getPageName() . "?op=ws_submemb&page=" . $this->getLast() . "\">Last</a> | ";

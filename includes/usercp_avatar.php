@@ -178,6 +178,7 @@ function user_avatar_upload($mode, $avatar_mode, &$current_avatar, &$current_typ
 
 		$imageFilesize = filesize( $avatar_filename );
 		// $imageMime     = $avatar_image['mime'];
+		// $imageMime     = $avatar_image['mime'];
 
 	endif;
 

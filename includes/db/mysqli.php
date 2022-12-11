@@ -61,7 +61,7 @@ class sql_db
 			}
 		}
 	}
-	
+
 	function _backtrace()
 	{
 		$this->file = 'unknown';
@@ -86,7 +86,7 @@ class sql_db
 		$this->password = $sqlpassword;
 		$this->server = $sqlserver;
 		$this->dbname = $database;
-		
+
 		if ($this->dbname != '') {
 			//$this->db_connect_id = mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 			$this->db_connect_id = mysqli_connect($this->server, $this->user, $this->password, $this->dbname);
@@ -178,7 +178,7 @@ class sql_db
 
 		// Remove any pre-existing queries
 		if (isset($this->query_result)) unset($this->query_result);
-		
+
 		if ($query != '')
 		{
             if(SQL_LAYER == 'mysqli') {
@@ -190,7 +190,7 @@ class sql_db
             $this->num_queries++;
 			$this->query_result = @mysqli_query($this->db_connect_id, $query);
 		}
-		
+
 		if ($this->query_result)
 		{
 		    //Check query to clear cache?
@@ -230,7 +230,7 @@ class sql_db
 			return ( $transaction == END_TRANSACTION ) ? true : false;
 		}
 	}
-	
+
     function sql_uquery($query)
     {
         return $this->sql_query($query, true);
@@ -502,24 +502,24 @@ class sql_db
 			return false;
 		}
 	}
-    
+
 	function sql_escapestring($string)
     {
         return $this->sql_addq($string);
     }
-    
+
 	function sql_addq($string)
     {
         static $magic_quotes;
         if ($magic_quotes) $string = stripslashes($string);
         return (version_compare(phpversion(), '4.3.0', '>=')) ? mysqli_real_escape_string($this->db_connect_id, $string) : mysqli_escape_string($this->db_connect_id, $string);
     }
-    
+
 	function sql_error($query_id = 0)
     {
         return array('message' => @mysqli_error($this->db_connect_id), 'code' => @mysqli_errno($this->db_connect_id));
     }
-    
+
 	function sql_ufetchrow($query = "", $type=SQL_BOTH)
     {
         $query_id = $this->sql_query($query, true);
@@ -527,7 +527,7 @@ class sql_db
         $this->sql_freeresult($query_id);
         return $result;
     }
-    
+
 	function sql_optimize($table_name="")
     {
         global $dbname;
@@ -549,7 +549,7 @@ class sql_db
         $this->sql_freeresult($result);
 		return ((!$error) ? true : false);
     }
-    
+
 	/*!
 	* Performs a search on the current/chosen database and returns all tables
 	* associated with it
@@ -576,7 +576,7 @@ class sql_db
         $this->sql_freeresult($result);
         return $tables;
     }
-    
+
 	function sql_fetchdatabases()
     {
         $result = $this->sql_query('SHOW DATABASES');
@@ -587,13 +587,13 @@ class sql_db
         $this->sql_freeresult($result);
         return $databases;
     }
-	
+
     function sql_ufetchrowset($query = '', $type=SQL_BOTH)
     {
         $query_id = $this->sql_query($query, true);
         return $this->sql_fetchrowset($query_id, $type);
     }
-   
+
     # print debug
     function print_debug() {
         if ($this->debug) {
@@ -601,7 +601,7 @@ class sql_db
         }
         return '';
     }
-    
+
 	# added by Ernest Allen Buffington 4/29/2021 Thursday 9:05pm
     function mariadb_version()
 	{

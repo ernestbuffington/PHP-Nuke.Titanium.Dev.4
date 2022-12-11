@@ -607,11 +607,11 @@ function EvoDate($format, $gmepoch, $tz)
     global $board_config, $lang, $userdata, $pc_dateTime, $userinfo;
 	getusrinfo();
 	static $translate;
-	
+
 	if(empty($translate) && $board_config['default_lang'] != 'english' )
     {
     	  include(NUKE_FORUMS_DIR.'language/lang_'.$lang.'/lang_time.php');
-    	  
+
 		  if(!(empty($langtime['datetime'])))
     	  {
         	foreach ($langtime['datetime'] as $match => $replace) 
@@ -620,7 +620,7 @@ function EvoDate($format, $gmepoch, $tz)
             }
         }
     }
-	
+
 	if ( $userinfo['user_id'] != 1 )
 	{
 		switch ( $userinfo['user_time_mode'] )
@@ -770,7 +770,7 @@ function group_selectbox($fieldname, $current=0, $mvanon=false, $all=true)
     if (!isset($groups)):
 
         global $db, $prefix, $customlang;
-        
+
         $result = $db->sql_query('SELECT `group_id`, `group_name` FROM `'.GROUPS_TABLE.'` WHERE `group_single_user` = 0', true);
         while (list($group_ID, $group_name) = $db->sql_fetchrow($result)):
             $forum_groups[($group_ID+3)] = $group_name;
@@ -814,11 +814,11 @@ function select_box_forum($name, $default, $options, $multiple=false, $condition
                 $selectboxforum .= '<option value="'.$key.'"'.(($key == $default) ? ' selected="selected"' : '').'>'.$value.'</option>';
 
             if (is_array($value)):
-            
+
                 foreach( $value as $key2 => $value2):
                     $selectboxforum .= '<option value="'.$key2.'"'.(($key2 == $default) ? ' selected="selected"' : '').'>'.$value2.'</option>';
                 endforeach;
-            
+
             endif;
 
             if (is_array($value))
@@ -844,11 +844,11 @@ function select_box($name, $default, $options, $multiple=false, $conditions=arra
                 $selectbox .= '<option value="'.$key.'"'.(($key == $default) ? ' selected="selected"' : '').'>'.$value.'</option>';
 
             if (is_array($value)):
-            
+
                 foreach( $value as $key2 => $value2):
                     $selectbox .= '<option value="'.$key2.'"'.(($key2 == $default) ? ' selected="selected"' : '').'>'.$value2.'</option>';
                 endforeach;
-            
+
             endif;
 
             if (is_array($value))

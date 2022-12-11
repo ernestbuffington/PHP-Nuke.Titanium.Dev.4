@@ -298,7 +298,7 @@ $mode == 'register' ):
 		$allowhtml = (isset($HTTP_POST_VARS['allowhtml'])) ? ((intval($HTTP_POST_VARS['allowhtml'])) ? TRUE : 0) : $board_config['allow_html'];
 		$allowbbcode = (isset($HTTP_POST_VARS['allowbbcode'])) ? ((intval($HTTP_POST_VARS['allowbbcode'])) ? TRUE : 0) : $board_config['allow_bbcode'];
 		$allowsmilies = (isset($HTTP_POST_VARS['allowsmilies'])) ? ((intval($HTTP_POST_VARS['allowsmilies'])) ? TRUE : 0) : $board_config['allow_smilies'];
-        
+
 		# Mod: View/Disable Avatars/Signatures v1.1.2 START
 		$showavatars = (isset($HTTP_POST_VARS['showavatars'])) ? (($HTTP_POST_VARS['showavatars']) ? TRUE : 0) : TRUE;
 		$showsignatures = (isset($HTTP_POST_VARS['showsignatures'])) ? (($HTTP_POST_VARS['showsignatures']) ? TRUE : 0) : TRUE;
@@ -322,6 +322,7 @@ $mode == 'register' ):
         # Mod: View/Disable Avatars/Signatures v1.1.2 START
 		$showavatars = (isset($HTTP_POST_VARS['showavatars'])) ? (($HTTP_POST_VARS['showavatars']) ? TRUE : 0) : $userdata['user_showavatars'];
 		$showsignatures = (isset($HTTP_POST_VARS['showsignatures'])) ? (($HTTP_POST_VARS['showsignatures']) ? TRUE : 0) : $userdata['user_showsignatures'];
+        # Mod: View/Disable Avatars/Signatures v1.1.2 END
         # Mod: View/Disable Avatars/Signatures v1.1.2 END
 	endif;
 
@@ -520,19 +521,19 @@ if(isset($HTTP_POST_VARS['submit'])):
 			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Password_long'];
 		
 		else:
-		
+
 			if($mode == 'editprofile'):
-			
+
 				$sql = "SELECT user_password
 				FROM " . USERS_TABLE . "
 				WHERE user_id = '$user_id'";
-				
+
 				if(!($result = $db->sql_query($sql)))
 				message_die(GENERAL_ERROR, 'Could not obtain user_password information', '', __LINE__, __FILE__, $sql);
 
 				$row = $db->sql_fetchrow($result);
 				$db->sql_freeresult($result);
-                
+
 				# Base: Evolution Functions v1.5.0 START
 				if($row['user_password'] != md5($cur_password)):
 					$error = TRUE;
@@ -540,12 +541,13 @@ if(isset($HTTP_POST_VARS['submit'])):
 				endif;
 				# Base: Evolution Functions v1.5.0 END
 			endif;
-            
+
 			# Base: Evolution Functions v1.5.0 START
 			if(!$error):
 			  if($mode != 'register') { $new_password = md5($new_password); }
 			  $passwd_sql = "user_password = '$new_password', ";
 			endif;
+			# Base: Evolution Functions v1.5.0 END
 			# Base: Evolution Functions v1.5.0 END
 		endif;
 	
@@ -568,13 +570,13 @@ if(isset($HTTP_POST_VARS['submit'])):
 			$sql = "SELECT user_password
 			FROM " . USERS_TABLE . "
 			WHERE user_id = '$user_id'";
-			
+
 			if(!($result = $db->sql_query($sql)))
 			message_die(GENERAL_ERROR, 'Could not obtain user_password information', '', __LINE__, __FILE__, $sql);
 
 			$row = $db->sql_fetchrow($result);
 			$db->sql_freeresult($result);
-            
+
 			# Base: Evolution Functions v1.5.0 START
 			if($row['user_password'] != md5($cur_password)):
 				$email = $userdata['user_email'];
@@ -842,7 +844,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 
 			# Commented code below for testing purposes only.
 			if(!$user_active):
-			
+
 				# The users account has been deactivated, send them an email with a new activation key
 				include("includes/emailer.php");
 				$emailer = new emailer($board_config['smtp_delivery']);
@@ -910,7 +912,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 				$message = $lang['Profile_updated_inactive'].'<br /><br />'.sprintf($lang['Click_return_index'],  '<a href="'.append_sid("index.$phpEx").'">', '</a>');
 				else 
 				$message = $lang['Profile_updated_inactive'].'<br /><br />'.sprintf($lang['Click_return_index'],  '<a href="index.php">', '</a>');
-			
+
 			else:
 				if(is_active("Forums")): 
 					$message = $lang['Profile_updated'] . '<br /><br />'.sprintf($lang['Click_return_index'],  '<a href="'.append_sid("index.$phpEx").'">', '</a>');
@@ -920,9 +922,10 @@ if(isset($HTTP_POST_VARS['submit'])):
 					$message = $lang['Profile_updated'].'<br /><br />'.sprintf($lang['Click_return_index'],  '<a href="index.php">', '</a>');
 				endif;
 				# redirect(append_sid('profile.php?mode=viewprofile&amp;u='.$userdata['user_id']));
+				# redirect(append_sid('profile.php?mode=viewprofile&amp;u='.$userdata['user_id']));
 			endif;
 
-			
+
 			# Coding added for use with the responsive theme breadcrumb navigation.
 			if ( defined( 'BOOTSTRAP' ) ):
 				$message_title = $lang['Profile'];
@@ -1012,7 +1015,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 											     user_gender, 
 												 user_active, 
 												 user_actkey)
-			
+
 			VALUES ('$user_id', '".str_replace("\'", "''", $username)."', '".$reg_date."', 
 			                    '".str_replace("\'", "''", $new_password) . "', 
 								'".str_replace("\'", "''", $email)."', $user_birthday, 
@@ -1025,14 +1028,14 @@ if(isset($HTTP_POST_VARS['submit'])):
 								'" . str_replace("\'", "''", $interests) . "', 
 								'" . str_replace("\'", "''", $glance_show) . "', 
 								'" . str_replace("\'", "''", $signature) . "', 
-								
+
 								'$signature_bbcode_uid', 
 								         '$user_avatar', 
 									'$user_avatar_type', 
 									       '$viewemail', 
-								
+
 								'" . str_replace("\'", "''", $facebook)."', 
-								
+
 								   '$attachsig', 
 								'$allowsmilies', 
 								 '$showavatars', 
@@ -1047,18 +1050,18 @@ if(isset($HTTP_POST_VARS['submit'])):
 								'$user_timezone', 
 								    '$time_mode', 
 								 '$dst_time_lag', 
-								 
+
 								 '" . str_replace("\'", "''", $user_dateformat)."', 
-								 
+
 								 '$user_show_quickreply', 
 								 '$user_quickreply_mode', 
-								 
+
 								 '" . str_replace("\'", "''", $user_wordwrap)."', $user_open_quickreply, 
 								 '".str_replace("\'", "''", $user_lang)."', '$user_style', '1', '1', 
 								 '".$realname."', 
 								 '".$newsletter."', 
 								 '".$extra_info."', 
-								 
+
 								 '$hide_images', 
 								      '$gender', ";
 /*****[END]********************************************

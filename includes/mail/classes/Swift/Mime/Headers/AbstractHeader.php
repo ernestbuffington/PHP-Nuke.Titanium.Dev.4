@@ -384,13 +384,13 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
             $value .= $firstChar;
             $token = substr($token, 1);
         }
-        
+
         if (-1 == $usedLength)
         {
           $usedLength = strlen($header->getFieldName() . ': ') + strlen($value);
         }
         $value .= $this->getTokenAsEncodedWord($token, $usedLength);
-        
+
         $header->setMaxLineLength(76); //Forefully override
       }
       else

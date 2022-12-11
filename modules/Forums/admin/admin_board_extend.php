@@ -84,8 +84,8 @@ $sub_sort = array();
 
 // process
 @reset($mods);
-while ( list($menu_name, $menu) = each($mods) )
-{
+while ( list($menu_name, $menu) = each($mods) ):
+
 	// check if there is some config fields in the mods under this menu
 	$found = false;
 
@@ -178,7 +178,7 @@ while ( list($menu_name, $menu) = each($mods) )
 		}
 		@array_multisort($mod_sort[$i], $mod_keys[$i], $sub_sort[$i], $sub_keys[$i]);
 	}
-}
+endwhile;
 @array_multisort($menu_sort, $menu_keys, $mod_sort, $mod_keys, $sub_sort, $sub_keys);
 
 // fix menu id

@@ -6,7 +6,7 @@
 function facebook_likes() {
     if (defined('facebook')):
         global $sid, $appID, $my_url;
-		
+
 		# IFRAME LOADER
 		#echo '<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.php-nuke-titanium.86it.us%2Fmodules.php%3Fname%3DBlogs%26file%3Darticle%26sid%3D' . $sid . '%26mode%3Dnested%26order%3D0%26thold%3D0&tabs=timeline&width=180&height=70&small_header=false&adapt_container_width=true&hide_cover=true&show_facepile=true&appId=' . $appID . '" width="180" height="70" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>';
         # NORMAL LOADER
@@ -103,7 +103,10 @@ function title_and_meta_tags() {
                 $facebookimage_alt = '<meta property="og:image:alt" content="Google Site Map Module v1.0">' . "\n";
                 $facebook_ogurl = '<meta property="og:url" content="' . HTTPS . 'modules.php?name=' . $name . '">' . "\n";
             # PHP-Nuke Titanium Google Site Map Module v1.0 --------------------------------------------------------------------------------------------
-            
+
+            # PHP-Nuke Arcade v4.0 --------------------------------------------------------------------------------------------
+            # PHP-Nuke Titanium Google Site Map Module v1.0 --------------------------------------------------------------------------------------------
+
             # PHP-Nuke Arcade v4.0 --------------------------------------------------------------------------------------------
             elseif ($module_name == "Forums"):
               if (($file == 'arcade') && isset($file)):
@@ -127,8 +130,9 @@ function title_and_meta_tags() {
                 $facebook_ogimage_height = '<meta property="og:image:height" content="628">' . "\n";
                 $facebookimage_alt = '<meta property="og:image:alt" content="Titanium Arcade v4.0">' . "\n";
                 $facebook_ogurl = '<meta property="og:url" content="' . HTTPS . 'modules.php?name=' . $name . '&file=arcade">' . "\n";
-                
+
               endif;
+            # PHP-Nuke Arcade v4.0 --------------------------------------------------------------------------------------------
             # PHP-Nuke Arcade v4.0 --------------------------------------------------------------------------------------------
 
                 else:

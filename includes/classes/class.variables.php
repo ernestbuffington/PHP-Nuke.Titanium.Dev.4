@@ -180,24 +180,24 @@ function deepPurifier($data)
 	{
         return $data;
     }
-	
+
 	if(!isset($config) || empty($config)) 
 	{
 		# This was changed because we added the repo and loaded it accordingly!
         # Guy like me gets it done! TheGhost 9/20/2022 2:42pm
         require_once(NUKE_INCLUDE_DIR.'purifier/library/HTMLPurifier.auto.php');
-    	
+
 		$config = HTMLPurifier_Config::createDefault();
-		
+
 		$config->set('Core.Encoding', 'UTF-8');
 		$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
-		
+
         if(!is_god($admin) || (is_god($admin) && !$html_auth)) 
 		{
 			$config->set('HTML.Trusted', true);
 			$config->set('HTML.SafeObject', true);
 			$config->set('HTML.SafeEmbed', true);
-			
+
 			//$config->set('HTML.SafeIframe', true); # Add Safe Iframe
             //$config->set('URI.SafeIframeRegexp', '%^(https?:)?//(www\.youtube(?:-nocookie)?\.com/embed/|player\.vimeo\.com/video/)%'); # allow YouTube and Vimeo
             # This line is important allow iframe in allowed elements or it will not work    
@@ -208,10 +208,10 @@ function deepPurifier($data)
 			//$config->set('Filter.Custom', array(new HTMLPurifier_Filter_MyIframe()));
 			$config->set('Filter.Custom', array( new HTMLPurifier_Filter_YouTube() ));
         }
-        
+
 		$def = $config->getHTMLDefinition(true);
         $def->addAttribute('iframe', 'allowfullscreen', 'Bool');
-        
+
 		$purifier = new HTMLPurifier($config);
     }
 
@@ -252,7 +252,7 @@ function deepPurifier($data)
                 if (!is_god($admin) || (is_god($admin) && !$html_auth)) {
 					$data[$k] = $purifier->purify($v);
 				}
-				
+
                 $data[$k] = str_replace('\n', "\n", $data[$k]);
                 //Get the registered globals also
                 global $$k;
@@ -262,7 +262,7 @@ function deepPurifier($data)
             }
         }
     }
-	
+
     return $data;
 }
 
