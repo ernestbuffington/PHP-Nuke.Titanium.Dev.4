@@ -83,7 +83,7 @@ return static function (RectorConfig $rectorConfig): void {
 		// done fixed __DIR__ . '/includes/page_header.php',
 		// done fixed __DIR__ . '/modules/Forums/glance.php',
 		//__DIR__ . '/includes/functions.php',
-		__DIR__ . '/modules/Forums/arcade.php',
+		__DIR__ . '/modules/Forums/search.php',
        
         //
     ]);
