@@ -966,9 +966,9 @@ if($total_forums)
 	if(!($result = $db->sql_query($sql,false,true)))
 	message_die(GENERAL_ERROR, 'Could not query forum moderator information', '', __LINE__, __FILE__, $sql);
 
-	while($row = $db->sql_fetchrow($result))
+	while($row = $db->sql_fetchrow($result)):
 		$subforum_moderators[$row['forum_id']][] = '<a href="' . append_sid("groupcp.$phpEx?" . POST_GROUPS_URL . "=" . $row['group_id']) . '">' . 	GroupColor($row['group_name']) . '</a>';
-	emdwhile;
+	endwhile;
 	$db->sql_freeresult($result);
 
 	# show subforums
