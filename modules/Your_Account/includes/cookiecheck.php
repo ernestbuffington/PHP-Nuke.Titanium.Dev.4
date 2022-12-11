@@ -199,7 +199,8 @@ function ShowCookies()
     
 	if (is_array($CookieArray) && !empty($CookieArray)) 
 	{
-        while(list($cName,$cValue) = each($CookieArray)) 
+        //while(list($cName,$cValue) = each($CookieArray))
+		foreach ($CookieArray as $cName => $cValue) 
 		{
             $cName     = str_replace(" ","",$cName); 
             if (empty($cValue)) $cValue = "(empty)";
