@@ -14,7 +14,7 @@ return static function (RectorConfig $rectorConfig): void {
         __DIR__ . '/assets',
         __DIR__ . '/blocks',
         __DIR__ . '/install',
-		__DIR__ . '/modules/Forums',
+		//__DIR__ . '/modules/Forums',
 		__DIR__ . '/modules/Advertising',
 		__DIR__ . '/modules/Arcade_Tweaks',
 		__DIR__ . '/modules/Blog_Submit',
@@ -62,7 +62,7 @@ return static function (RectorConfig $rectorConfig): void {
 		
 		
 		__DIR__ . '/admin',
-		__DIR__ . '/includes',
+		//__DIR__ . '/includes',
 		__DIR__ . '/themes',
 		__DIR__ . '/dev_modules',
 		__DIR__ . '/cgi-bin',
@@ -78,17 +78,22 @@ return static function (RectorConfig $rectorConfig): void {
         //__DIR__ . '/images',
         //
         
-        __DIR__ . '/index.php',
+        //__DIR__ . '/index.php',
+		// done fixed __DIR__ . '/includes/db/mysqli.php',
+		// done fixed __DIR__ . '/includes/page_header.php',
+		// done fixed __DIR__ . '/modules/Forums/glance.php',
+		__DIR__ . '/modules/Your_Account/includes/cookiecheck.php',
        
         //
     ]);
 
     // register a single rule
     $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);
-    
-	$rectorConfig->phpVersion(PhpVersion::PHP_80);
+	
+	$rectorConfig->phpVersion(PhpVersion::PHP_81);
      //define sets of rules
         $rectorConfig->sets([
-            LevelSetList::UP_TO_PHP_80
+            LevelSetList::UP_TO_PHP_81
+			
         ]);
 };
