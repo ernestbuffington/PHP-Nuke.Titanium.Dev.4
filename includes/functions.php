@@ -1202,7 +1202,7 @@ if ( $userdata['user_id'] != ANONYMOUS )
             return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + $tzo_sec), $translate) : gmdate($format, $gmepoch + $tzo_sec);
             break;
         default:
-            return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + (3600 * $tz)), $translate) : gmdate($format, $gmepoch + (3600 * $tz));
+                return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + (3600 * $tz)), $translate) : gmdate($format, $gmepoch + (3600 * $tz));
             break;
     }
 } else
@@ -1211,7 +1211,7 @@ if ( $userdata['user_id'] != ANONYMOUS )
     {
         case MANUAL_DST:
             $dst_sec = $board_config['default_dst_time_lag'] * 60;
-            return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : @gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
+            return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
             break;
         case SERVER_SWITCH:
             if (!empty($gmepoch) && is_long($gmepoch)) {
@@ -1219,10 +1219,10 @@ if ( $userdata['user_id'] != ANONYMOUS )
             } else {
                 $dst_sec = date('I') * $userdata['user_dst_time_lag'] * 60;
             }
-            return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : @gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
+            return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
             break;
         case FULL_SERVER:
-            return ( !empty($translate) ) ? strtr(@date($format, $gmepoch), $translate) : @date($format, $gmepoch);
+            return ( !empty($translate) ) ? strtr(date($format, $gmepoch), $translate) : @date($format, $gmepoch);
             break;
         case SERVER_PC:
             if ( isset($pc_dateTime['pc_timezoneOffset']) )
@@ -1232,7 +1232,7 @@ if ( $userdata['user_id'] != ANONYMOUS )
             {
                 $tzo_sec = 0;
             }
-            return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
+            return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
             break;
         case FULL_PC:
             if ( isset($pc_dateTime['pc_timeOffset']) )
@@ -1242,10 +1242,10 @@ if ( $userdata['user_id'] != ANONYMOUS )
             {
                 $tzo_sec = 0;
             }
-            return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + $tzo_sec), $translate) : @gmdate($format, $gmepoch + $tzo_sec);
+            return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + $tzo_sec), $translate) : gmdate($format, $gmepoch + $tzo_sec);
             break;
         default:
-            return ( !empty($translate) ) ? strtr(@gmdate($format, $gmepoch + (3600 * $tz)), $translate) : @gmdate($format, $gmepoch + (3600 * $tz));
+            return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + (3600 * $tz)), $translate) : gmdate($format, $gmepoch + (3600 * $tz));
             break;
     }
 }
