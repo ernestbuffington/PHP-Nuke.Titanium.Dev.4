@@ -30,20 +30,20 @@ define('END_TRANSACTION', "2");
 
 class sql_db
 {
-	var $mysql_version;
-	var $db_connect_id;
-	var $query_result;
-	var $row = array();
-	var $rowset = array();
-	var $num_queries = 0;
-    var $time;
-    var $debug = 0;
-    var $saved = '';
-    var $connect_id;
-	var $querylist = array();
-	var $file;
-	var $line;
-	var $qtime;
+	public $mysql_version;
+	public $db_connect_id;
+	public $query_result;
+	public $row = [];
+	public $rowset = [];
+	public $num_queries = 0;
+    public $time;
+    public $debug = 0;
+    public $saved = '';
+    public $connect_id;
+	public $querylist = [];
+	public $file;
+	public $line;
+	public $qtime;
 
 	function _backtrace_log($query, $failed=false, $queryid=0)
 	{
@@ -122,9 +122,9 @@ class sql_db
 		{
 			if($this->query_result)
 			{
-				@mysqli_free_result($this->query_result);
+				//mysqli_free_result($this->query_result); # removed for php 8
 			}
-			$result = @mysqli_close($this->db_connect_id);
+			$result = mysqli_close($this->db_connect_id);
 			return $result;
 		}
 		else
@@ -136,14 +136,13 @@ class sql_db
     function check_query($query) {
         global $prefix, $cache;
         if (!stristr($query, "UPDATE") && !stristr($query, "INSERT") && !stristr($query, "DELETE")) { return; }
-        $tables = array(
-                      'nukeconfig' => $prefix . '_config',
-                      'evoconfig' => $prefix . '_evolution',
-                      'board_config' => $prefix . '_bbconfig',
-                      'blocks' => $prefix . '_blocks',
-                      'ya_config' => $prefix . '_cnbya_config',
-                      'block_modules' => $prefix . '_modules',
-                       );
+        $tables = ['nukeconfig' => $prefix . '_config', 
+		           'evoconfig' => $prefix . '_evolution', 
+				   'board_config' => $prefix . '_bbconfig', 
+				   'blocks' => $prefix . '_blocks', 
+				   'ya_config' => $prefix . '_cnbya_config', 
+				   'block_modules' => $prefix . '_modules'];
+				   
         foreach( $tables as $file => $table )
         {
             if (stristr($query, $table)) {
@@ -159,7 +158,7 @@ class sql_db
             # SPLIT when theres 'UNION (ALL|DISTINT|SELECT)'
             $query_parts = preg_split('/(union)([\s\ \*\/]+)(all|distinct|select)/i', $query, -1, PREG_SPLIT_NO_EMPTY);
             # and then merge the query_parts:
-            if (count($query_parts) > 1) {
+            if ((is_countable($query_parts) ? count($query_parts) : 0) > 1) {
                 $query = '';
                 foreach($query_parts AS $part) {
                     $query .= 'UNI0N SELECT'; // A Zero
@@ -188,7 +187,7 @@ class sql_db
                 $this->saved .= $query . "<br />";
             }
             $this->num_queries++;
-			$this->query_result = @mysqli_query($this->db_connect_id, $query);
+			$this->query_result = mysqli_query($this->db_connect_id, $query);
 		}
 
 		if ($this->query_result)
@@ -208,12 +207,7 @@ class sql_db
             $sqlerror = $this->sql_error();
 
             $this->_backtrace();
-            $logdata = array('File: '. $this->file,
-                             'Line: '. $this->line,
-                             'Message: ' . $sqlerror['message'],
-                             'Code: ' . $sqlerror['code'],
-                             'Query: ' . $query
-                            );
+            $logdata = ['File: '. $this->file, 'Line: '. $this->line, 'Message: ' . $sqlerror['message'], 'Code: ' . $sqlerror['code'], 'Query: ' . $query];
             //Log error
             if (function_exists('log_write')) {
                 //Log error
@@ -245,7 +239,7 @@ class sql_db
 	 * @param array $options List of options: group by, order by, order direction, limit, limit start.
 	 * @return mysqli_result The query data.
 	 */
-    function sql_simple_select($table, $fields="*", $conditions="", $options=array())
+    function sql_simple_select($table, $fields="*", $conditions="", $options=[])
 	{
 		$query = "SELECT ".$fields." FROM ".$table;
 
@@ -280,7 +274,7 @@ class sql_db
 		return $this->sql_query($query);
 	}
 
-	function sql_usimple_select($table, $fields="*", $conditions="", $options=array(), $type=SQL_BOTH)
+	function sql_usimple_select($table, $fields="*", $conditions="", $options=[], $type=SQL_BOTH)
 	{
 		$query = "SELECT ".$fields." FROM ".$table;
 
@@ -327,7 +321,7 @@ class sql_db
 		}
 		if($query_id)
 		{
-			$result = @mysqli_num_rows($query_id);
+			$result = mysqli_num_rows($query_id);
 			return $result;
 		}
 		else
@@ -344,7 +338,7 @@ class sql_db
 	{
 		if($this->db_connect_id)
 		{
-			$result = @mysqli_affected_rows($this->db_connect_id);
+			$result = mysqli_affected_rows($this->db_connect_id);
 			return $result;
 		}
 		else
@@ -361,7 +355,7 @@ class sql_db
 		}
 		if($query_id)
 		{
-			$result = @mysqli_num_fields($query_id);
+			$result = mysqli_num_fields($query_id);
 			return $result;
 		}
 		else
@@ -378,7 +372,7 @@ class sql_db
 		}
 		if($query_id)
 		{
-			$result = @mysqli_fetch_field_direct($query_id, $offset);
+			$result = mysqli_fetch_field_direct($query_id, $offset);
 			return $result;
 		}
 		else
@@ -395,7 +389,7 @@ class sql_db
 		}
 		if($query_id)
 		{
-			$result = @mysqli_fetch_field_direct($query_id, $offset);
+			$result = mysqli_fetch_field_direct($query_id, $offset);
 			return $result;
 		}
 		else
@@ -413,7 +407,7 @@ class sql_db
 		if($query_id)
 		{
 		    $stime = get_microtime();
-			$this->row[(int) $this->num_queries] = @mysqli_fetch_array($query_id);
+			$this->row[(int) $this->num_queries] = mysqli_fetch_array($query_id);
 			$this->time += (get_microtime()-$stime);
 			return $this->row[(int) $this->num_queries];
 		}
@@ -435,7 +429,7 @@ class sql_db
 			if (isset($this->rowset[(int) $this->num_queries])) unset($this->rowset[(int) $this->num_queries]);
 			if (isset($this->row[(int) $this->num_queries])) unset($this->row[(int) $this->num_queries]);
 			$result = null;
-			while($this->rowset[$this->num_queries] = @mysqli_fetch_array($query_id))
+			while($this->rowset[$this->num_queries] = mysqli_fetch_array($query_id))
 			{
 				$result[] = $this->rowset[(int) $this->num_queries];
 			}
@@ -460,7 +454,7 @@ class sql_db
 		}
 		if($query_id)
 		{
-			$result = @mysqli_data_seek($query_id, $rownum);
+			$result = mysqli_data_seek($query_id, $rownum);
 			return $result;
 		}
 		else
@@ -472,7 +466,7 @@ class sql_db
 	function sql_nextid(){
 		if($this->db_connect_id)
 		{
-			$result = @mysqli_insert_id($this->db_connect_id);
+			$result = mysqli_insert_id($this->db_connect_id);
 			return $result;
 		}
 	    return false;
@@ -486,12 +480,16 @@ class sql_db
 
 		if ( $query_id )
 		{
-		    if (isset($this->row[(int) $this->num_queries])) unset($this->row[(int) $this->num_queries]);
-			if (isset($this->rowset[(int) $this->num_queries])) unset($this->rowset[(int) $this->num_queries]);
+		    if (isset($this->row[(int) $this->num_queries])) 
+			unset($this->row[(int) $this->num_queries]);
 
-			@mysqli_free_result($this->num_queries);
+			if (isset($this->rowset[(int) $this->num_queries])) 
+			unset($this->rowset[(int) $this->num_queries]);
 
-			if (isset($this->querylist[$this->file][(int)$this->num_queries])) {
+			//mysqli_free_result($this->num_queries); # removed for php 8
+
+			if (isset($this->querylist[$this->file][(int)$this->num_queries])) 
+			{
 			    $this->querylist[$this->file][(int)$this->num_queries] .= '<span style="color: #0000FF; font-weight: bold;"> *</span>';
 			}
 
@@ -517,7 +515,7 @@ class sql_db
 
 	function sql_error($query_id = 0)
     {
-        return array('message' => @mysqli_error($this->db_connect_id), 'code' => @mysqli_errno($this->db_connect_id));
+        return ['message' => mysqli_error($this->db_connect_id), 'code' => mysqli_errno($this->db_connect_id)];
     }
 
 	function sql_ufetchrow($query = "", $type=SQL_BOTH)
@@ -530,6 +528,7 @@ class sql_db
 
 	function sql_optimize($table_name="")
     {
+        $result = null;
         global $dbname;
         $error = false;
         if (empty($table_name)) {
@@ -563,8 +562,8 @@ class sql_db
     {
         global $prefix;
         $result = $this->sql_query(empty($database) ? 'SHOW TABLES' : 'SHOW TABLES FROM '.$database);
-        $tables = array();
-        while (list($name) = $this->sql_fetchrow($result)) {
+        $tables = [];
+        while ([$name] = $this->sql_fetchrow($result)) {
             if ($nuke_only) {
                 if(stristr($name, $prefix.'_')) {
                     $tables[$name] = $name;
@@ -580,8 +579,8 @@ class sql_db
 	function sql_fetchdatabases()
     {
         $result = $this->sql_query('SHOW DATABASES');
-        $databases = array();
-        while (list($name) = $this->sql_fetchrow($result)) {
+        $databases = [];
+        while ([$name] = $this->sql_fetchrow($result)) {
             $databases[$name] = $name;
         }
         $this->sql_freeresult($result);
@@ -591,7 +590,7 @@ class sql_db
     function sql_ufetchrowset($query = '', $type=SQL_BOTH)
     {
         $query_id = $this->sql_query($query, true);
-        return $this->sql_fetchrowset($query_id, $type);
+        return $this->sql_fetchrowset($query_id);
     }
 
     # print debug
@@ -608,7 +607,7 @@ class sql_db
 	  if($this->db_connect_id):
 	  $result  = '<div class="poweredby"> <a class="poweredby" href="http://www.php-nuke-titanium.86it.us/" target="_blank">Powered by PHP-Nuke Titanium v'.NUKE_TITANIUM.' | &copy; 2005, 2022 PHP-Nuke Titanium Group</a></div>';
 	  $result .= 'MySQL Database Server: ';
-	  $result .= @mysqli_get_server_info($this->db_connect_id);
+	  $result .= mysqli_get_server_info($this->db_connect_id);
 	  return $result;
 		else:
 			return false;
