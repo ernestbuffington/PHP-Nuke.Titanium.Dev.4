@@ -805,6 +805,8 @@ $template->set_filenames(array(
 );
 # Mod: Super Quick Reply v1.3.2 END
 # Mod: Super Quick Reply v1.3.2 END
+# Mod: Super Quick Reply v1.3.2 END
+# Mod: Super Quick Reply v1.3.2 END
 endif;
 # Mod: Printer Topic v1.0.8 END
 
@@ -1360,29 +1362,32 @@ $already_processed = array();
 for($i = 0; $i < $total_posts; $i++):
 
   # Mod: Display Poster Information Once v2.0.0 START
-  $leave_out['show_sig_once'] = false;
-  $leave_out['show_avatar_once'] = false;
-  $leave_out['show_rank_once'] = false;
-  $leave_out['main'] = false;
-  if($postrow[$i]['user_id'] != ANONYMOUS):
-  	reset($already_processed);
-	while( list(, $v) = each($already_processed)):
-        if($v == $postrow[$i]['user_id']):
-        # We've already processed a post by this user on this page
-        global $board_config;
-    	$leave_out['show_sig_once']     = $board_config['show_sig_once'];
-    	$leave_out['show_avatar_once']  = $board_config['show_avatar_once'];
-    	$leave_out['show_rank_once']    = $board_config['show_rank_once'];
-    	$leave_out['main'] = true;
-    	continue 1;
-    	endif;
-    endwhile;
+$leave_out['show_sig_once'] = false;
+    	$leave_out['show_avatar_once'] = false;
+    	$leave_out['show_rank_once'] = false;
+    	$leave_out['main'] = false;
+    	if( $postrow[$i]['user_id'] != ANONYMOUS )
+    	{
+    		reset($already_processed);
+    		foreach ($already_processed as $v) {
+    if( $v == $postrow[$i]['user_id'] )
+ 			{
+ 				// We've already processed a post by this user on this page
+ 				global $board_config;
+ 				$leave_out['show_sig_once']     = $board_config['show_sig_once'];
+ 				$leave_out['show_avatar_once']  = $board_config['show_avatar_once'];
+ 				$leave_out['show_rank_once']    = $board_config['show_rank_once'];
+ 				$leave_out['main'] = true;
+ 				continue 1;
+ 			}
+}
 
-    if(!$leave_out['main'] )
-    # We're about to process the first post by a user on this page
-    $already_processed[] = $postrow[$i]['user_id'];
-
- endif;
+    		if( !$leave_out['main'] )
+    		{
+    			// We're about to process the first post by a user on this page
+    			$already_processed[] = $postrow[$i]['user_id'];
+    		}
+    	}
     # Mod: Display Poster Information Once v2.0.0 START
     $poster_id = $postrow[$i]['user_id'];
     $poster = ( $poster_id == ANONYMOUS ) ? $lang['Guest'] : $postrow[$i]['username'];
@@ -1631,6 +1636,8 @@ for($i = 0; $i < $total_posts; $i++):
            $online_status = '';
            # Mod: Online/Offline/Hidden v2.2.7 END
            # Mod: Online/Offline/Hidden v2.2.7 END
+           # Mod: Online/Offline/Hidden v2.2.7 END
+           # Mod: Online/Offline/Hidden v2.2.7 END
 
 		endif;
 
@@ -1784,12 +1791,14 @@ for($i = 0; $i < $total_posts; $i++):
 			. $message . '<'), 1, -1)); */
 
           # Mod: XData v1.0.3 START
-          @reset($poster_xd);
-          while(list($code_name,) = each($poster_xd)):
+          reset($poster_xd);
+          //while(list($code_name,) = each($poster_xd))
+		  foreach (array_keys($poster_xd) as $code_name)
+		  {
              /*$poster_xd[$code_name] = str_replace('\"', '"', substr(preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', 
 		     "preg_replace(\$orig_word, \$replacement_word, '\\0')", '>' . $poster_xd[$code_name] . '<'), 1, -1));*/
 		    $poster_xd[$code_name] = preg_replace($orig_word, $replacement_word, $poster_xd[$code_name]);
-          endwhile;
+		  }
           # Mod: XData v1.0.3 END
         endif;
 
@@ -1947,7 +1956,8 @@ for($i = 0; $i < $total_posts; $i++):
        $xd_root = array();
        $xd_block = array();
        $xd_meta = get_xd_metadata();
-	   while(list($code_name, $meta) = each($xd_meta)):
+	   //while(list($code_name, $meta) = each($xd_meta)):
+	   foreach ($xd_meta as $code_name => $meta):
          if(isset($poster_xd[$code_name])):
 		   $value = $poster_xd[$code_name];
            if(!$meta['allow_html'])
@@ -1971,7 +1981,7 @@ for($i = 0; $i < $total_posts; $i++):
            elseif($meta['display_posting'] == XD_DISPLAY_NORMAL && $meta['viewtopic'])
              $xd_block[$code_name] = $value;
          endif;
-       endwhile;
+       endforeach;
        # Mod: XData v1.0.3 END
 
        # Mod: Super Quick Reply v1.3.2 START
@@ -2282,21 +2292,23 @@ for($i = 0; $i < $total_posts; $i++):
      # Mod: Attachment Mod v2.4.1 END
 
      # Mod: XData v1.0.3 START
-     @reset($xd_block);
-     while(list($code_name, $value) = each($xd_block)):
+     reset($xd_block);
+     //while(list($code_name, $value) = each($xd_block)):
+	 foreach ($xd_block as $code_name => $value):
          $template->assign_block_vars( 'postrow.xdata', array(
              'NAME' => $xd_meta[$code_name]['field_name'],
              'VALUE' => $value
              )
          );
-     endwhile;
-     @reset($xd_meta);
-     while(list($code_name, $value) = each($xd_meta)):
-       if (isset($xd_root[$code_name]))
+     endforeach;
+     reset($xd_meta);
+     //while(list($code_name, $value) = each($xd_meta)):
+     foreach ($xd_meta as $code_name => $value):
+	   if (isset($xd_root[$code_name]))
        $template->assign_block_vars( "postrow.switch_$code_name", array() );
        else
        $template->assign_block_vars( "postrow.switch_no_$code_name", array() );
-     endwhile;
+     endforeach;
      # Mod: XData v1.0.3 START
 
 endfor;
