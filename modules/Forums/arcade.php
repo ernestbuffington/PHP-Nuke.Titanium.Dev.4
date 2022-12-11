@@ -275,9 +275,13 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
   endif;
 
   while($row = $db->sql_fetchrow($result)):
-    if (is_countable($liste_jeux[ $row[ 'arcade_catid' ] ]) && count($liste_jeux[ $row[ 'arcade_catid' ] ]) > 0)
-	$nbjeux = sizeof( $liste_jeux[ $row[ 'arcade_catid' ] ] );
-
+    
+	if (is_countable($liste_jeux[ $row[ 'arcade_catid' ] ]) && count($liste_jeux[ $row[ 'arcade_catid' ] ]) > 0):
+	  $nbjeux = sizeof( $liste_jeux[ $row[ 'arcade_catid' ] ] );
+    else:
+	  continue;
+	endif;
+	
     if($nbjeux > 0 ):
       $template->assign_block_vars( 'cat_row', array(
     

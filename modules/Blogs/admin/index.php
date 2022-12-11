@@ -2854,10 +2854,11 @@ function postAdminBlog($automated,
 	// Copyright (c) 2000-2005 by NukeScripts Network
     if($Version_Num >= 6.6) 
 	{ 
-	  for ($i=0; $i<count($assotop); $i++) 
-	  { 
-	    $associated .= "$assotop[$i]-"; 
-	  } 
+	  if (is_countable($assotop) && count($assotop) > 0):
+	    for ($i=0; $i<count($assotop); $i++): 
+	      $associated .= "$assotop[$i]-"; 
+	    endfor; 
+	  endif;
 	}
 
     // Copyright (c) 2000-2005 by NukeScripts Network
