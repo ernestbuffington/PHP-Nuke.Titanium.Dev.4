@@ -10,12 +10,12 @@ use Rector\Core\ValueObject\PhpVersion;
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
         //__DIR__ . '/admin',
-        //__DIR__ . '/blocks',
+        __DIR__ . '/blocks',
         //__DIR__ . '/images',
         //__DIR__ . '/includes',
         //__DIR__ . '/install',
         //__DIR__ . '/language',
-        __DIR__ . '/modules/Forums',
+       //done  __DIR__ . '/modules/Forums',
         //__DIR__ . '/themes',
     ]);
 
