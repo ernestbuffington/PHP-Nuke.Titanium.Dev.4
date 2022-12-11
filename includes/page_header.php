@@ -62,24 +62,23 @@ else
 include_once($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_adv_time.' . $phpEx);
 if(($userdata['user_id'] != ANONYMOUS && $userdata['user_time_mode'] >= 4)
 || ($userdata['user_id'] == ANONYMOUS && $board_config['default_time_mode'] >= 4)):
-    global $pc_dateTime, $HTTP_SESSION_VARS, $HTTP_GET_VARS;
-    if(!isset($pc_dateTime['pc_timezoneOffset']) && !isset($HTTP_GET_VARS['pc_tzo'])):
-        $template->assign_block_vars('switch_send_pc_dateTime', array());
+    global $pc_dateTime, $_SESSION, $_GET;
+    if(!isset($pc_dateTime['pc_timezoneOffset']) && !isset($_GET['pc_tzo'])):
+        $template->assign_block_vars('switch_send_pc_dateTime', []);
 		if($userdata['user_pc_timeOffsets'] != '0'):
-        $template->assign_block_vars('switch_valid_time', array());
+        $template->assign_block_vars('switch_valid_time', []);
 		endif;
 	else:
-        $template->assign_block_vars('switch_valid_time', array());
+        $template->assign_block_vars('switch_valid_time', []);
     endif;
 else:
-    $template->assign_block_vars('switch_valid_time', array());
+    $template->assign_block_vars('switch_valid_time', []);
 endif;
 # Mod: Advanced Time Management v2.2.0 END
 
 
 # Parse and show the overall header.
-$template->set_filenames(array(
-  'overall_header' => ( empty($gen_simple_header) ) ? 'overall_header.tpl' : 'simple_header.tpl')
+$template->set_filenames(['overall_header' => ( empty($gen_simple_header) ) ? 'overall_header.tpl' : 'simple_header.tpl']
 );
 
 # Generate logged in/logged out status
@@ -124,8 +123,8 @@ if(defined('SHOW_ONLINE'))
    if(!($result = $db->sql_query($sql)))
    message_die(GENERAL_ERROR, 'Could not obtain user/online information', '', __LINE__, __FILE__, $sql);
 
-   $userlist_ary = array();
-   $userlist_visible = array();
+   $userlist_ary = [];
+   $userlist_visible = [];
 
    $prev_user_id = 0;
    $prev_user_ip = $prev_session_ip = '';
@@ -250,7 +249,6 @@ while($row = $db->sql_fetchrow($result)):
       # Mod: Advanced Username Color v1.0.5 START
 	  $user_day_link = '<a href="'.append_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=".$row['user_id']).'"><i>'.UsernameColor($row['username']).'</i></a>';
       # Mod: Advanced Username Color v1.0.5 END
-      # Mod: Advanced Username Color v1.0.5 END
 	endif;
 
 	if($row['user_allow_viewonline'] || $userdata['user_level'] == ADMIN):
@@ -315,22 +313,25 @@ endif;
 
 # Generate HTML required for Mozilla Navigation bar
 if(!isset($nav_links))
-$nav_links = array();
+$nav_links = [];
 
 $nav_links_html = '';
 
 $nav_link_proto = '<link rel="%s" href="%s" title="%s" />' . "\n";
 
-  while(list($nav_item, $nav_array) = @each($nav_links)):
-    if(!empty($nav_array['url'])):
-      $nav_links_html .= sprintf($nav_link_proto, $nav_item, append_sid($nav_array['url']), $nav_array['title']);
-    else:
-     # We have a nested array, used for items like <link rel='chapter'> that can occur more than once.
-     while( list(,$nested_array) = each($nav_array)):
-       $nav_links_html .= sprintf($nav_link_proto, $nav_item, $nested_array['url'], $nested_array['title']);
-     endwhile;
-    endif;
-  endwhile;
+foreach ($nav_links as $nav_item => $nav_array) {
+    if ( !empty($nav_array['url']) )
+    {
+            $nav_links_html .= sprintf($nav_link_proto, $nav_item, append_sid($nav_array['url']), $nav_array['title']);
+    }
+    else
+    {
+            // We have a nested array, used for items like <link rel='chapter'> that can occur more than once.
+            foreach ($nav_array as $nested_array) {
+                $nav_links_html .= sprintf($nav_link_proto, $nav_item, $nested_array['url'], $nested_array['title']);
+            }
+    }
+}
 
 # Mod: Online/Offline/Hidden v2.2.7 START
 $online_color = ' style="color: #' . $theme['online_color'] . '"';
@@ -344,8 +345,7 @@ $l_timezone = (count($l_timezone) > 1 && $l_timezone[count($l_timezone)-1] != 0)
 ? $lang[sprintf('%.1f', $board_config['board_timezone'])] : $lang[number_format($board_config['board_timezone'])];
 
 # Mod: Advanced Username Color v1.0.5 START
-$template->assign_block_vars('colors',array(
-    'GROUPS'    => substr(trim(GetColorGroups()), 0, -1))
+$template->assign_block_vars('colors',['GROUPS'    => substr(trim(GetColorGroups()), 0, -1)]
 );
 # Mod: Advanced Username Color v1.0.5 END
 
@@ -357,7 +357,7 @@ if(!$result = $db->sql_query($sql))
 message_die(GENERAL_ERROR, "Couldn't obtain quick search data", "", __LINE__, __FILE__, $sql);
 
 $search_count = $db->sql_numrows($result);
-$search_rows = array();
+$search_rows = [];
 $search_rows = $db->sql_fetchrowset($result);
 $db->sql_freeresult($result);
 $search_list = '<option value="forum_search" selected="selected">'.$board_config['sitename'].'</option>';
@@ -396,18 +396,13 @@ $l_advanced_forum_search = sprintf($lang['Forum_advanced_search'], $board_config
 
 # Is Quick Search enabled? If so, assign our vars for the template.
 if($board_config['quick_search_enable'] == 1):
-    $template->assign_block_vars('switch_quick_search', array(
-        'L_QUICK_SEARCH_FOR' => $lang['Quick_search_for'],
-        'L_QUICK_SEARCH_AT' => $lang['Quick_search_at'],
-        'L_ADVANCED_FORUM_SEARCH' => $l_advanced_forum_search,
-        'CHECKSEARCH' => $checkSearch,
-        'SEARCHLIST' => $search_list)
+    $template->assign_block_vars('switch_quick_search', ['L_QUICK_SEARCH_FOR' => $lang['Quick_search_for'], 'L_QUICK_SEARCH_AT' => $lang['Quick_search_at'], 'L_ADVANCED_FORUM_SEARCH' => $l_advanced_forum_search, 'CHECKSEARCH' => $checkSearch, 'SEARCHLIST' => $search_list]
     );
 endif;
 # Mod: Quick Search v3.0.1 END
 
 # Mod: Advanced Security Code Control v1.0.0 START
-$gfxchk = array(2,4,5,7);
+$gfxchk = [2, 4, 5, 7];
 $gfx = "<br />".security_code($gfxchk, 'small')."<br />";
 # Mod: Advanced Security Code Control v1.0.0 END
 
@@ -471,207 +466,184 @@ $server_url = $server_protocol.$server_name.$server_port."modules.php?name=Forum
 # The following assigns all _common_ variables that may be used at any point
 # in a template.
 if(!isset($page_title)) 
-$page_title = basename(dirname(__FILE__));
+$page_title = basename(__DIR__);
 
 if(!isset($day_userlist)) 
 $day_userlist = '';
 
-$template->assign_vars(array(
-        'THEME_NAME' => $ThemeSel,
-        'SITENAME' => $board_config['sitename'],
-        'SITE_DESCRIPTION' => $board_config['site_desc'],
-        'PAGE_TITLE' => $page_title,
-        'LAST_VISIT_DATE' => sprintf($lang['You_last_visit'], $s_last_visit),
-        'CURRENT_TIME' => sprintf($lang['Current_time'], create_date($board_config['default_dateformat'], time(), $board_config['board_timezone'])),
-        'TOTAL_USERS_ONLINE' => $l_online_users,
-        'LOGGED_IN_USER_LIST' => $online_userlist,
-
-		# Mod: Users of the day v2.1.0 START
-	    'USERS_OF_THE_DAY_LIST' => $day_userlist,
-		# Mod: Users of the day v2.1.0 END
-
-        'RECORD_USERS' => sprintf($lang['Record_online_users'], 
+$template->assign_vars([
+    'THEME_NAME' => $ThemeSel,
+    'SITENAME' => $board_config['sitename'],
+    'SITE_DESCRIPTION' => $board_config['site_desc'],
+    'PAGE_TITLE' => $page_title,
+    'LAST_VISIT_DATE' => sprintf($lang['You_last_visit'], $s_last_visit),
+    'CURRENT_TIME' => sprintf($lang['Current_time'], create_date($board_config['default_dateformat'], time(), $board_config['board_timezone'])),
+    'TOTAL_USERS_ONLINE' => $l_online_users,
+    'LOGGED_IN_USER_LIST' => $online_userlist,
+    # Mod: Users of the day v2.1.0 START
+    'USERS_OF_THE_DAY_LIST' => $day_userlist,
+    # Mod: Users of the day v2.1.0 END
+    'RECORD_USERS' => sprintf($lang['Record_online_users'], 
 		                  $board_config['record_online_users'], 
 			   create_date($board_config['default_dateformat'], 
 			               $board_config['record_online_date'], 
 						     $board_config['board_timezone'])),
-
-		'PRIVATE_MESSAGE_INFO' => $l_privmsgs_text,
-        'PRIVATE_MESSAGE_INFO_UNREAD' => $l_privmsgs_text_unread,
-        'PRIVATE_MESSAGE_NEW_FLAG' => $s_privmsg_new,
-        'PRIVMSG_IMG' => $icon_pm,
-
-		# Mod: Disable Board Admin Override v0.1.1 START
-        'L_Board_Currently_Disabled' => $lang['Board_Currently_Disabled'],
-		# Mod: Disable Board Admin Override v0.1.1 END
-
-        'L_USERNAME' => $lang['Username'],
-        'L_PASSWORD' => $lang['Password'],
-        'L_LOGIN_LOGOUT' => $l_login_logout,
-        'L_LOGIN' => $lang['Login'],
-        'L_LOG_ME_IN' => $lang['Log_me_in'],
-        'L_AUTO_LOGIN' => $lang['Log_me_in'],
-		'L_INDEX' => sprintf($lang['Forum_Index'], $board_config['sitename']),
-        'L_REGISTER' => $lang['Register'],
-        'L_PROFILE' => $lang['Edit_profile'],
-        'L_SEARCH' => $lang['Search'],
-        'L_PRIVATEMSGS' => $lang['Private_Messages'],
-        'L_WHO_IS_ONLINE' => $lang['Who_is_Online'],
-        'L_MEMBERLIST' => $lang['Memberlist'],
-        'L_FAQ' => $lang['FAQ'],
-        'L_LEGEND' => $lang['Legend'],
-
-		# Mod: Forum Statistics v3.0.0 START
-        'L_STATISTICS' => $lang ['Statistics'],
-		# Mod: Forum Statistics v3.0.0 END
-
-        'L_USERGROUPS' => $lang['Usergroups'],
-        'L_SEARCH_NEW' => $lang['Search_new'],
-        'L_SEARCH_UNANSWERED' => $lang['Search_unanswered'],
-        'L_SEARCH_SELF' => $lang['Search_your_posts'],
-        'L_WHOSONLINE_ADMIN' => sprintf($lang['Admin_online_color'], '<span style="color:#' . $theme['fontcolor3'] . '">', '</span>'),
-        'L_WHOSONLINE_MOD' => sprintf($lang['Mod_online_color'], '<span style="color:#' . $theme['fontcolor2'] . '">', '</span>'),
-
-		# Mod: Resize Posted Images v2.4.5 START
-        'IMAGE_RESIZE_WIDTH' => $board_config['image_resize_width'],
-        'IMAGE_RESIZE_HEIGHT' => $board_config['image_resize_height'],
-		# Mod: Resize Posted Images v2.4.5 END
-
-        # Base: Recent Topics v1.2.4 START
-        'U_RECENT' => append_sid("recent.$phpEx"),
-        'L_RECENT' => $lang['Recent_topics'],
-        # Base: Recent Topics v1.2.4 END
-
-        'U_SEARCH_UNANSWERED' => append_sid('search.'.$phpEx.'?search_id=unanswered'),
-        'U_SEARCH_SELF' => append_sid('search.'.$phpEx.'?search_id=egosearch'),
-        'U_SEARCH_NEW' => append_sid('search.'.$phpEx.'?search_id=newposts'),
-        'U_INDEX' => append_sid('index.'.$phpEx),
-        'U_REGISTER' => append_sid('profile.'.$phpEx.'?mode=register'),
-        'U_PROFILE' => append_sid('profile.'.$phpEx.'?mode=editprofile'),
-        'U_PRIVATEMSGS' => append_sid('privmsg.'.$phpEx.'?folder=inbox'),
-        'U_PRIVATEMSGS_POPUP' => append_sid('privmsg.'.$phpEx.'?mode=newpm&popup=1',true),
-
-		# Mod: Birthdays v3.0.0 START
-		'U_BIRTHDAYS_POPUP' => append_sid('profile.'.$phpEx.'?mode=birthday_popup=1',true),
-		# Mod: Birthdays v3.0.0 END
-
-        'U_SEARCH' => append_sid('search.'.$phpEx),
-        'U_MEMBERLIST' => append_sid('memberlist.'.$phpEx),
-        'U_MODCP' => append_sid('modcp.'.$phpEx),
-        'U_FAQ' => append_sid('faq.'.$phpEx),
-
-		# Mod: Forum Statistics v3.0.0 START
-        'U_STATISTICS' => append_sid('statistics.'.$phpEx),
-		# Mod: Forum Statistics v3.0.0 END
-
-        'U_VIEWONLINE' => append_sid('viewonline.'.$phpEx),
-        'U_LOGIN_LOGOUT' => append_sid($u_login_logout),
-        'U_MEMBERSLIST' => append_sid('memberlist.'.$phpEx),
-        'U_GROUP_CP' => append_sid('groupcp.'.$phpEx),
-
-		# Mod: Users Reputations Systems v1.0.0 START
-        'L_REPUTATION' => $lang['Reputation'],
-        'U_REPUTATION' => append_sid('reputation.'.$phpEx),
-		# Mod: Users Reputations Systems v1.0.0 END
-
-        # Mod: Multiple Ranks And Staff View v2.0.3 START
-		'L_RANKS' => $lang['Rank_Header'],
-		'L_STAFF' => $lang['Staff'],
-		'U_RANKS' => append_sid('ranks.' . $phpEx),
-		'U_STAFF' => append_sid('memberlist.' . $phpEx . '?mode=staff'),
-        # Mod: Multiple Ranks And Staff View v2.0.3 END
-
-        # Mod: Advanced Time Management v2.2.0 START
-        'U_SELF' => $server_url,
-        # Mod: Advanced Time Management v2.2.0 END
-
-        # Mod: Staff Site v2.0.3 START
-        'U_STAFF' => append_sid('staff.'.$phpEx),
-        'L_STAFF' => $lang['Staff'],
-        # Mod: Staff Site v2.0.3 END
-
-        'S_CONTENT_DIRECTION' => $lang['DIRECTION'],
-        'S_CONTENT_ENCODING' => $lang['ENCODING'],
-        'S_CONTENT_DIR_LEFT' => $lang['LEFT'],
-        'S_CONTENT_DIR_RIGHT' => $lang['RIGHT'],
-
-        # Mod: Advanced Time Management v2.2.0 START
-        'S_TIMEZONE' => $time_message,
-        # Mod: Advanced Time Management v2.2.0 END
-
-        # Mod: CNBYA Modifications v1.0.0 START
-        'S_LOGIN_ACTION' => 'modules.php?name=Your_Account',
-        'GFX' => $gfx,
-        # Mod: CNBYA Modifications v1.0.0 END
-
-        'T_HEAD_STYLESHEET' => $theme['head_stylesheet'],
-        'T_BODY_BACKGROUND' => $theme['body_background'],
-        'T_BODY_BGCOLOR' => '#'.$theme['body_bgcolor'],
-        'T_BODY_TEXT' => '#'.$theme['body_text'],
-        'T_BODY_LINK' => '#'.$theme['body_link'],
-        'T_BODY_VLINK' => '#'.$theme['body_vlink'],
-        'T_BODY_ALINK' => '#'.$theme['body_alink'],
-        'T_BODY_HLINK' => '#'.$theme['body_hlink'],
-        'T_TR_COLOR1' => '#'.$theme['tr_color1'],
-        'T_TR_COLOR2' => '#'.$theme['tr_color2'],
-        'T_TR_COLOR3' => '#'.$theme['tr_color3'],
-        'T_TR_CLASS1' => $theme['tr_class1'],
-        'T_TR_CLASS2' => $theme['tr_class2'],
-        'T_TR_CLASS3' => $theme['tr_class3'],
-        'T_TH_COLOR1' => '#'.$theme['th_color1'],
-        'T_TH_COLOR2' => '#'.$theme['th_color2'],
-        'T_TH_COLOR3' => '#'.$theme['th_color3'],
-        'T_TH_CLASS1' => $theme['th_class1'],
-        'T_TH_CLASS2' => $theme['th_class2'],
-        'T_TH_CLASS3' => $theme['th_class3'],
-        'T_TD_COLOR1' => '#'.$theme['td_color1'],
-        'T_TD_COLOR2' => '#'.$theme['td_color2'],
-        'T_TD_COLOR3' => '#'.$theme['td_color3'],
-        'T_TD_CLASS1' => $theme['td_class1'],
-        'T_TD_CLASS2' => $theme['td_class2'],
-        'T_TD_CLASS3' => $theme['td_class3'],
-        'T_FONTFACE1' => $theme['fontface1'],
-        'T_FONTFACE2' => $theme['fontface2'],
-        'T_FONTFACE3' => $theme['fontface3'],
-        'T_FONTSIZE1' => $theme['fontsize1'],
-        'T_FONTSIZE2' => $theme['fontsize2'],
-        'T_FONTSIZE3' => $theme['fontsize3'],
-        'T_FONTCOLOR1' => '#'.$theme['fontcolor1'],
-        'T_FONTCOLOR2' => '#'.$theme['fontcolor2'],
-        'T_FONTCOLOR3' => '#'.$theme['fontcolor3'],
-        'T_SPAN_CLASS1' => $theme['span_class1'],
-        'T_SPAN_CLASS2' => $theme['span_class2'],
-        'T_SPAN_CLASS3' => $theme['span_class3'],
-
-        # Mod: Online/Offline/Hidden v2.2.7 START
-        # Not used, but can help you...
-        'T_ONLINE_COLOR' => '#' . $theme['online_color'],
-        'T_OFFLINE_COLOR' => '#' . $theme['offline_color'],
-        'T_HIDDEN_COLOR' => '#' . $theme['hidden_color'],
-        # Mod: Online/Offline/Hidden v2.2.7 END
-
-        'NAV_LINKS' => $nav_links_html)
+    'PRIVATE_MESSAGE_INFO' => $l_privmsgs_text,
+    'PRIVATE_MESSAGE_INFO_UNREAD' => $l_privmsgs_text_unread,
+    'PRIVATE_MESSAGE_NEW_FLAG' => $s_privmsg_new,
+    'PRIVMSG_IMG' => $icon_pm,
+    # Mod: Disable Board Admin Override v0.1.1 START
+    'L_Board_Currently_Disabled' => $lang['Board_Currently_Disabled'],
+    # Mod: Disable Board Admin Override v0.1.1 END
+    'L_USERNAME' => $lang['Username'],
+    'L_PASSWORD' => $lang['Password'],
+    'L_LOGIN_LOGOUT' => $l_login_logout,
+    'L_LOGIN' => $lang['Login'],
+    'L_LOG_ME_IN' => $lang['Log_me_in'],
+    'L_AUTO_LOGIN' => $lang['Log_me_in'],
+    'L_INDEX' => sprintf($lang['Forum_Index'], $board_config['sitename']),
+    'L_REGISTER' => $lang['Register'],
+    'L_PROFILE' => $lang['Edit_profile'],
+    'L_SEARCH' => $lang['Search'],
+    'L_PRIVATEMSGS' => $lang['Private_Messages'],
+    'L_WHO_IS_ONLINE' => $lang['Who_is_Online'],
+    'L_MEMBERLIST' => $lang['Memberlist'],
+    'L_FAQ' => $lang['FAQ'],
+    'L_LEGEND' => $lang['Legend'],
+    # Mod: Forum Statistics v3.0.0 START
+    'L_STATISTICS' => $lang ['Statistics'],
+    # Mod: Forum Statistics v3.0.0 END
+    'L_USERGROUPS' => $lang['Usergroups'],
+    'L_SEARCH_NEW' => $lang['Search_new'],
+    'L_SEARCH_UNANSWERED' => $lang['Search_unanswered'],
+    'L_SEARCH_SELF' => $lang['Search_your_posts'],
+    'L_WHOSONLINE_ADMIN' => sprintf($lang['Admin_online_color'], '<span style="color:#' . $theme['fontcolor3'] . '">', '</span>'),
+    'L_WHOSONLINE_MOD' => sprintf($lang['Mod_online_color'], '<span style="color:#' . $theme['fontcolor2'] . '">', '</span>'),
+    # Mod: Resize Posted Images v2.4.5 START
+    'IMAGE_RESIZE_WIDTH' => $board_config['image_resize_width'],
+    'IMAGE_RESIZE_HEIGHT' => $board_config['image_resize_height'],
+    # Mod: Resize Posted Images v2.4.5 END
+    # Base: Recent Topics v1.2.4 START
+    'U_RECENT' => append_sid("recent.$phpEx"),
+    'L_RECENT' => $lang['Recent_topics'],
+    # Base: Recent Topics v1.2.4 END
+    'U_SEARCH_UNANSWERED' => append_sid('search.'.$phpEx.'?search_id=unanswered'),
+    'U_SEARCH_SELF' => append_sid('search.'.$phpEx.'?search_id=egosearch'),
+    'U_SEARCH_NEW' => append_sid('search.'.$phpEx.'?search_id=newposts'),
+    'U_INDEX' => append_sid('index.'.$phpEx),
+    'U_REGISTER' => append_sid('profile.'.$phpEx.'?mode=register'),
+    'U_PROFILE' => append_sid('profile.'.$phpEx.'?mode=editprofile'),
+    'U_PRIVATEMSGS' => append_sid('privmsg.'.$phpEx.'?folder=inbox'),
+    'U_PRIVATEMSGS_POPUP' => append_sid('privmsg.'.$phpEx.'?mode=newpm&popup=1',true),
+    # Mod: Birthdays v3.0.0 START
+    'U_BIRTHDAYS_POPUP' => append_sid('profile.'.$phpEx.'?mode=birthday_popup=1',true),
+    # Mod: Birthdays v3.0.0 END
+    'U_SEARCH' => append_sid('search.'.$phpEx),
+    'U_MEMBERLIST' => append_sid('memberlist.'.$phpEx),
+    'U_MODCP' => append_sid('modcp.'.$phpEx),
+    'U_FAQ' => append_sid('faq.'.$phpEx),
+    # Mod: Forum Statistics v3.0.0 START
+    'U_STATISTICS' => append_sid('statistics.'.$phpEx),
+    # Mod: Forum Statistics v3.0.0 END
+    'U_VIEWONLINE' => append_sid('viewonline.'.$phpEx),
+    'U_LOGIN_LOGOUT' => append_sid($u_login_logout),
+    'U_MEMBERSLIST' => append_sid('memberlist.'.$phpEx),
+    'U_GROUP_CP' => append_sid('groupcp.'.$phpEx),
+    # Mod: Users Reputations Systems v1.0.0 START
+    'L_REPUTATION' => $lang['Reputation'],
+    'U_REPUTATION' => append_sid('reputation.'.$phpEx),
+    # Mod: Users Reputations Systems v1.0.0 END
+    # Mod: Multiple Ranks And Staff View v2.0.3 START
+    'L_RANKS' => $lang['Rank_Header'],
+    'L_STAFF' => $lang['Staff'],
+    'U_RANKS' => append_sid('ranks.' . $phpEx),
+    'U_STAFF' => append_sid('memberlist.' . $phpEx . '?mode=staff'),
+    # Mod: Multiple Ranks And Staff View v2.0.3 END
+    # Mod: Advanced Time Management v2.2.0 START
+    'U_SELF' => $server_url,
+    # Mod: Advanced Time Management v2.2.0 END
+    # Mod: Staff Site v2.0.3 START
+    'U_STAFF' => append_sid('staff.'.$phpEx),
+    'L_STAFF' => $lang['Staff'],
+    # Mod: Staff Site v2.0.3 END
+    'S_CONTENT_DIRECTION' => $lang['DIRECTION'],
+    'S_CONTENT_ENCODING' => $lang['ENCODING'],
+    'S_CONTENT_DIR_LEFT' => $lang['LEFT'],
+    'S_CONTENT_DIR_RIGHT' => $lang['RIGHT'],
+    # Mod: Advanced Time Management v2.2.0 START
+    'S_TIMEZONE' => $time_message,
+    # Mod: Advanced Time Management v2.2.0 END
+    # Mod: CNBYA Modifications v1.0.0 START
+    'S_LOGIN_ACTION' => 'modules.php?name=Your_Account',
+    'GFX' => $gfx,
+    # Mod: CNBYA Modifications v1.0.0 END
+    'T_HEAD_STYLESHEET' => $theme['head_stylesheet'],
+    'T_BODY_BACKGROUND' => $theme['body_background'],
+    'T_BODY_BGCOLOR' => '#'.$theme['body_bgcolor'],
+    'T_BODY_TEXT' => '#'.$theme['body_text'],
+    'T_BODY_LINK' => '#'.$theme['body_link'],
+    'T_BODY_VLINK' => '#'.$theme['body_vlink'],
+    'T_BODY_ALINK' => '#'.$theme['body_alink'],
+    'T_BODY_HLINK' => '#'.$theme['body_hlink'],
+    'T_TR_COLOR1' => '#'.$theme['tr_color1'],
+    'T_TR_COLOR2' => '#'.$theme['tr_color2'],
+    'T_TR_COLOR3' => '#'.$theme['tr_color3'],
+    'T_TR_CLASS1' => $theme['tr_class1'],
+    'T_TR_CLASS2' => $theme['tr_class2'],
+    'T_TR_CLASS3' => $theme['tr_class3'],
+    'T_TH_COLOR1' => '#'.$theme['th_color1'],
+    'T_TH_COLOR2' => '#'.$theme['th_color2'],
+    'T_TH_COLOR3' => '#'.$theme['th_color3'],
+    'T_TH_CLASS1' => $theme['th_class1'],
+    'T_TH_CLASS2' => $theme['th_class2'],
+    'T_TH_CLASS3' => $theme['th_class3'],
+    'T_TD_COLOR1' => '#'.$theme['td_color1'],
+    'T_TD_COLOR2' => '#'.$theme['td_color2'],
+    'T_TD_COLOR3' => '#'.$theme['td_color3'],
+    'T_TD_CLASS1' => $theme['td_class1'],
+    'T_TD_CLASS2' => $theme['td_class2'],
+    'T_TD_CLASS3' => $theme['td_class3'],
+    'T_FONTFACE1' => $theme['fontface1'],
+    'T_FONTFACE2' => $theme['fontface2'],
+    'T_FONTFACE3' => $theme['fontface3'],
+    'T_FONTSIZE1' => $theme['fontsize1'],
+    'T_FONTSIZE2' => $theme['fontsize2'],
+    'T_FONTSIZE3' => $theme['fontsize3'],
+    'T_FONTCOLOR1' => '#'.$theme['fontcolor1'],
+    'T_FONTCOLOR2' => '#'.$theme['fontcolor2'],
+    'T_FONTCOLOR3' => '#'.$theme['fontcolor3'],
+    'T_SPAN_CLASS1' => $theme['span_class1'],
+    'T_SPAN_CLASS2' => $theme['span_class2'],
+    'T_SPAN_CLASS3' => $theme['span_class3'],
+    # Mod: Online/Offline/Hidden v2.2.7 START
+    # Not used, but can help you...
+    'T_ONLINE_COLOR' => '#' . $theme['online_color'],
+    'T_OFFLINE_COLOR' => '#' . $theme['offline_color'],
+    'T_HIDDEN_COLOR' => '#' . $theme['hidden_color'],
+    # Mod: Online/Offline/Hidden v2.2.7 END
+    'NAV_LINKS' => $nav_links_html,
+]
 );
 
 # Mod: Disable Board Admin Override v0.1.1 START
 if($userdata['user_level'] == ADMIN): 
   if($board_config['board_disable'] == 1) 
-  $template->assign_block_vars('boarddisabled', array());
+  $template->assign_block_vars('boarddisabled', []);
 endif;
 # Mod: Disable Board Admin Override v0.1.1 END
 
 # Login box?
 if(!$userdata['session_logged_in']):
-    $template->assign_block_vars('switch_user_logged_out', array());
+    $template->assign_block_vars('switch_user_logged_out', []);
     # Allow autologin?
     if(!isset($board_config['allow_autologin']) || $board_config['allow_autologin']):
-        $template->assign_block_vars('switch_allow_autologin', array());
-        $template->assign_block_vars('switch_user_logged_out.switch_allow_autologin', array());
+        $template->assign_block_vars('switch_allow_autologin', []);
+        $template->assign_block_vars('switch_user_logged_out.switch_allow_autologin', []);
     endif;
 else:
-    $template->assign_block_vars('switch_user_logged_in', array());
+    $template->assign_block_vars('switch_user_logged_in', []);
     if(!empty($userdata['user_popup_pm']))
-    $template->assign_block_vars('switch_enable_pm_popup', array());
+    $template->assign_block_vars('switch_enable_pm_popup', []);
 endif;
 
 # Mod: Birthdays v3.0.0 START
@@ -694,9 +666,7 @@ if($userdata['birthday_greeting'] != 0 && ($userdata['user_next_birthday'] < gmd
  	  $emailer->use_template('user_birthday',stripslashes($userdata['user_lang']));
 	  $emailer->set_subject($lang['View_Birthdays']);
 	  $emailer->email_address($userdata['user_email']);
-	  $emailer->assign_vars(array(
-	  'SITENAME' => $board_config['sitename'],
-	  'EMAIL_SIG' => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : '')
+	  $emailer->assign_vars(['SITENAME' => $board_config['sitename'], 'EMAIL_SIG' => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : '']
 	  );
 	  $emailer->send();
 	  $emailer->reset();
@@ -705,7 +675,7 @@ if($userdata['birthday_greeting'] != 0 && ($userdata['user_next_birthday'] < gmd
 	  # PM support is not currently enabled.
 	  break;
 	  case BIRTHDAY_POPUP:
-	  $template->assign_block_vars('switch_birthday_popup',array());
+	  $template->assign_block_vars('switch_birthday_popup',[]);
 	endswitch;
 endif;
 # Mod: Birthdays v3.0.0 END
@@ -715,7 +685,7 @@ endif;
 
 # Work around for "current" Apache 2 + PHP module which seems to not
 # cope with private cache control setting
-if (!empty($HTTP_SERVER_VARS['SERVER_SOFTWARE']) && strstr($HTTP_SERVER_VARS['SERVER_SOFTWARE'], 'Apache/2'))
+if (!empty($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache/2'))
 header ('Cache-Control: no-cache, pre-check=0, post-check=0');
 else
 header ('Cache-Control: private, pre-check=0, post-check=0, max-age=0');
@@ -724,11 +694,10 @@ header ('Expires: 0');
 header ('Pragma: no-cache');
 
 # Mod: Ranks summarize v1.0.4 START
-    $template->assign_vars(array(
+    $template->assign_vars([
         'I_RANKS' => '<img src="' . $images['Ranks'] . '" width="12" height="13" border="0" alt="' . $lang['Ranks'] . '" hspace="3" />',
         'U_RANKS' => append_sid("ranks.$phpEx"),
         'L_RANKS' => $lang['Ranks'],
-
         # Mod: Theme Simplifications v1.0.0 START
         'I_MINI_INDEX' => '<img src="' . $images['Mini_Index'] . '" width="12" height="13" border="0" alt="' . $board_config['sitename'] . ' Forum Index" hspace="3" />',
         'L_MINI_INDEX' => $lang['Mini_Index'],
@@ -744,15 +713,11 @@ header ('Pragma: no-cache');
         'L_RULES' => $lang['Rules'],
         'I_STATISTICS' => '<img src="' . $images['Statistics'] . '" width="12" height="13" border="0" alt="' . $lang['Statistics'] . '" hspace="3" />',
         'I_MINI_LOGIN_LOGOUT' => '<img src="' . $images['Mini_Login_Logout'] . '" width="12" height="13" border="0" alt="' . $lang['Login_Logout'] . '" hspace="3" />',
-
-		# Mod: Theme Simplifications (Arcade) v1.0.0 START
+        # Mod: Theme Simplifications (Arcade) v1.0.0 START
         'I_MINI_ARCADE' => '<img src="' . $images['Mini_Arcade'] . '" width="12" height="13" border="0" alt="' . $lang['lib_arcade'] . '" hspace="3" />',
         'U_ARCADE' => append_sid("arcade.$phpEx"),
         'L_ARCADE' => $lang['lib_arcade'],
-		# Mod: Theme Simplifications (Arcade) v1.0.0 END
-        # Mod: Theme Simplifications v1.0.0 END
-
-        )
+    ]
 
     );
 # Mod: Ranks summarize v1.0.4 END
