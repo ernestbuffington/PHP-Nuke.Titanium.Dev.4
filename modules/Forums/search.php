@@ -1,4 +1,4 @@
-    <?php
+<?php
 /*======================================================================= 
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
@@ -660,9 +660,9 @@ if ($mode == 'searchuser') {
     if ($search_results != '') {
         if ($show_results == 'posts') {
             /*****[BEGIN]******************************************
-            
+
             [ Mod:    Advanced Username Color             v1.0.5 ]
-            
+
             ******************************************************/
             $sql = "SELECT pt.post_text, pt.bbcode_uid, pt.post_subject, p.*, f.forum_id, f.forum_name, t.*, u.username, u.user_id, u.user_color_gc, u.user_sig, u.user_sig_bbcode_uid
 
@@ -678,15 +678,15 @@ if ($mode == 'searchuser') {
 
      AND p.poster_id = u.user_id";
             /*****[END]********************************************
-            
+
             [ Mod:    Advanced Username Color             v1.0.5 ]
-            
+
             ******************************************************/
         } else {
             /*****[BEGIN]******************************************
-            
+
             [ Mod:    Advanced Username Color             v1.0.5 ]
-            
+
             ******************************************************/
             $sql = "SELECT t.*, f.forum_id, f.forum_name, u.username, u.user_id, u.user_color_gc as color1, u2.user_color_gc as color2, u2.username as user2, u2.user_id as id2, p.post_username, p2.post_username AS post_username2, p2.post_time
 
@@ -704,9 +704,9 @@ if ($mode == 'searchuser') {
 
      AND u2.user_id = p2.poster_id";
             /*****[END]********************************************
-            
+
             [ Mod:    Advanced Username Color             v1.0.5 ]
-            
+
             ******************************************************/
         }
         $per_page = ($show_results == 'posts') ? $board_config['posts_per_page'] : $board_config['topics_per_page'];
@@ -1178,18 +1178,18 @@ for ($i = 0;$i < count($list);$i++) {
     if (!$list[$i]['forum_parent']) {
         $row = $list[$i];
         /*****[END]********************************************
-        
+
         [ Mod:    Simple Subforums                    v1.0.1 ]
-        
+
         ******************************************************/
         $s_forums.= '<option value="' . $row['forum_id'] . '">' . $row['forum_name'] . '</option>';
         if (empty($list_cat[$row['cat_id']])) {
             $list_cat[$row['cat_id']] = $row['cat_title'];
         }
         /*****[BEGIN]******************************************
-        
+
         [ Mod:    Simple Subforums                    v1.0.1 ]
-        
+
         ******************************************************/
         $parent_id = $row['forum_id'];
         for ($j = 0;$j < count($list);$j++) {
@@ -1199,9 +1199,9 @@ for ($i = 0;$i < count($list);$i++) {
             }
         }
         /*****[END]********************************************
-        
+
         [ Mod:    Simple Subforums                    v1.0.1 ]
-        
+
         ******************************************************/
     }
 }

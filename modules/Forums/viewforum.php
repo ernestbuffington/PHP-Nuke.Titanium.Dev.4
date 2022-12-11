@@ -602,10 +602,10 @@ $template->assign_vars(array(
 
 if($total_topics):
    for($i = 0; $i < $total_topics; $i++):
-   
+
      $topic_id = $topic_rowset[$i]['topic_id'];
      $topic_title = ( count($orig_word) ) ? preg_replace($orig_word, $replacement_word, $topic_rowset[$i]['topic_title']) : $topic_rowset[$i]['topic_title'];
-     
+
 	 # Mod: Smilies in Topic Titles v1.0.0 START
      # Mod: Smilies in Topic Titles Toggle v1.0.0 START
      $topic_title = ($board_config['smilies_in_titles']) ? smilies_pass($topic_title) : $topic_title;
@@ -636,11 +636,11 @@ if($total_topics):
 
     if($topic_rowset[$i]['topic_status'] == TOPIC_MOVED):
        $topic_id = $topic_rowset[$i]['topic_moved_id'];
-	   
+
 	   # Mod: Customized Topic Status v1.0.0 START
        $topic_title = "" . $board_config['moved_view_open'] . " " . $topic_title . "" . $board_config['moved_view_close'] . "";
 	   # Mod: Customized Topic Status v1.0.0 END
-       
+
 	   $folder_image =  $images['folder'];
        $folder_alt = $lang['Topics_Moved'];
        $newest_post_img = '';
@@ -679,10 +679,10 @@ if($total_topics):
        $newest_post_img = '';
 
        if($userdata['session_logged_in']):
-       
+
          if($topic_rowset[$i]['post_time'] > $userdata['user_lastvisit']):
             if(!empty($tracking_topics) || !empty($tracking_forums) || isset($HTTP_COOKIE_VARS[$board_config['cookie_name'] . '_f_all'])):
-            
+
                $unread_topics = true;
 
                   if(!empty($tracking_topics[$topic_id])):
@@ -711,7 +711,7 @@ if($total_topics):
                     $newest_post_img = '';
                   endif;
             else:
-            
+
                $folder_image = $folder_new;
                $folder_alt = ($topic_rowset[$i]['topic_status'] == TOPIC_LOCKED ) ? $lang['Topic_locked'] : $lang['New_posts'];
                $newest_post_img = '<a href="'.append_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;view=newest").'"><img 
@@ -730,7 +730,7 @@ if($total_topics):
     endif;
 
     if(($replies + 1) > $board_config['posts_per_page']):
-    
+
        $total_pages = ceil(($replies + 1) / $board_config['posts_per_page']);
        $goto_page = ' [ <img src="'.$images['icon_gotopost'].'" alt="'.$lang['Goto_page'].'" title="'.$lang['Goto_page'].'" />'.$lang['Goto_page'].': ';
        $times = 1;
@@ -746,9 +746,9 @@ if($total_topics):
          endif;
          $times++;
 	   endfor;
-	   
+
        $goto_page .= ' ] ';
-    
+
     else:
       $goto_page = '';
     endif;
@@ -761,21 +761,21 @@ if($total_topics):
 
     $view_topic_url = append_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id");
     $topic_author = ($topic_rowset[$i]['user_id'] != ANONYMOUS) ? '<a href="'.append_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL.'='.$topic_rowset[$i]['user_id']).'">' : '';
-    
+
 	$topic_author .= ($topic_rowset[$i]['user_id'] != ANONYMOUS) ? $topic_rowset[$i]['username'] : (($topic_rowset[$i]['post_username'] != '') 
 	? $topic_rowset[$i]['post_username'] : $lang['Guest']);
-    
+
 	$topic_author .= ($topic_rowset[$i]['user_id'] != ANONYMOUS) ? '</a>' : '';
     $first_post_time = create_date($board_config['default_dateformat'], $topic_rowset[$i]['topic_time'], $board_config['board_timezone']);
     $last_post_time = create_date($board_config['default_dateformat'], $topic_rowset[$i]['post_time'], $board_config['board_timezone']);
-    
+
 	$last_post_author = ($topic_rowset[$i]['id2'] == ANONYMOUS) ? (($topic_rowset[$i]['post_username2'] != '') 
 	? $topic_rowset[$i]['post_username2'].' ' : $lang['Guest'].' ' ) : '<a 
 	href="'. append_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL.'='.$topic_rowset[$i]['id2']).'">'.$topic_rowset[$i]['user2'].'</a>';
-    
+
 	$last_post_url = '<a href="'.append_sid("viewtopic.$phpEx?".POST_POST_URL.'='.$topic_rowset[$i]['topic_last_post_id']).'#'.$topic_rowset[$i]['topic_last_post_id'].'"><i 
 	class="fa fa-arrow-right tooltip-html-side-interact" aria-hidden="true" title="'.$lang['View_latest_post'].'"></i></a>';
-    
+
 	$views = $topic_rowset[$i]['topic_views'];
     $row_color = (!($i % 2)) ? $theme['td_color1'] : $theme['td_color2'];
     $row_class = (!($i % 2)) ? $theme['td_class1'] : $theme['td_class2'];
@@ -785,7 +785,7 @@ if($total_topics):
 	   'ICON' => $icon,
 	   'ICON_ID' => $icon_ID,
        # Mod: Post Icons v1.0.1 END
- 
+
        'ROW_COLOR' => $row_color,
        'ROW_CLASS' => $row_class,
        'FORUM_ID' => $forum_id,
@@ -795,7 +795,7 @@ if($total_topics):
        'GOTO_PAGE' => $goto_page,
        'REPLIES' => $replies,
        'NEWEST_POST_IMG' => $newest_post_img,
-       
+
 	   # Mod: Attachment Mod v2.4.1 START
        'TOPIC_ATTACHMENT_IMG' => topic_attachment_image($topic_rowset[$i]['topic_attachment']),
 	   # Mod: Attachment Mod v2.4.1 END

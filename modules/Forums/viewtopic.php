@@ -136,16 +136,16 @@ message_die(GENERAL_MESSAGE, 'Topic_post_not_exist');
 if(isset($HTTP_GET_VARS['view']) && empty($HTTP_GET_VARS[POST_POST_URL])):
 
    if($HTTP_GET_VARS['view'] == 'newest'):
-   
+
       if(isset($HTTP_COOKIE_VARS[$board_config['cookie_name'].'_sid']) || isset($HTTP_GET_VARS['sid'])):
-      
+
          $session_id = isset($HTTP_COOKIE_VARS[$board_config['cookie_name'] . '_sid']) ? $HTTP_COOKIE_VARS[$board_config['cookie_name'] . '_sid'] : $HTTP_GET_VARS['sid'];
 
          if (!preg_match('/^[A-Za-z0-9]*$/', $session_id))
          $session_id = '';
 
          if($session_id):
-         
+
             # Mod: 'View Newest Post'-Fix v1.0.2 START
             $tracking_topics = (isset($HTTP_COOKIE_VARS[$board_config['cookie_name'].'_t']) ) ? unserialize($HTTP_COOKIE_VARS[$board_config['cookie_name'].'_t']) : array();
             $tracking_forums = (isset($HTTP_COOKIE_VARS[$board_config['cookie_name'].'_f']) ) ? unserialize($HTTP_COOKIE_VARS[$board_config['cookie_name'].'_f']) : array();
@@ -188,9 +188,9 @@ if(isset($HTTP_GET_VARS['view']) && empty($HTTP_GET_VARS[POST_POST_URL])):
       endif;
 
       redirect(append_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id",true));
-   
+
    elseif($HTTP_GET_VARS['view'] == 'next' || $HTTP_GET_VARS['view'] == 'previous'):
-   
+
       $sql_condition = ( $HTTP_GET_VARS['view'] == 'next' ) ? '>' : '<';
       $sql_ordering = ( $HTTP_GET_VARS['view'] == 'next' ) ? 'ASC' : 'DESC';
 
@@ -203,7 +203,7 @@ if(isset($HTTP_GET_VARS['view']) && empty($HTTP_GET_VARS[POST_POST_URL])):
       AND t.topic_last_post_id $sql_condition t2.topic_last_post_id
       ORDER BY t.topic_last_post_id $sql_ordering
       LIMIT 1";
-      
+
 	  if(!($result = $db->sql_query($sql)))
       message_die(GENERAL_ERROR, "Could not obtain newer/older topic information", '', __LINE__, __FILE__, $sql);
 
@@ -274,7 +274,7 @@ $sql = "SELECT t.topic_id,
 		f.auth_pollcreate, 
 		      f.auth_vote, 
 	   f.auth_attachments ".$count_sql." FROM ".TOPICS_TABLE." t, ".FORUMS_TABLE." f".$join_sql_table." WHERE $join_sql AND f.forum_id = t.forum_id $order_sql";
-				
+
 # Mod: Attachment Mod v2.4.1 START
 attach_setup_viewtopic_auth($order_sql, $sql);
 # Mod: Attachment Mod v2.4.1 END
@@ -296,7 +296,7 @@ $topic_id = intval($forum_topic_data['topic_id']);
 $sql = "SELECT `forum_thank` 
 		FROM ".FORUMS_TABLE." 
 		WHERE forum_id =$forum_id";
-		
+
 if ( !($result = $db->sql_query($sql)) )
 message_die(GENERAL_ERROR, "Could not obtain forum information", '', __LINE__, __FILE__, $sql);
 
@@ -394,7 +394,7 @@ if($userdata['session_logged_in']):
 
     # Mod: Report Posts v1.0.2 START
     if ( isset($HTTP_GET_VARS['report']) || isset($HTTP_POST_VARS['report'])):
-    
+
         include("includes/functions_report.php");
 
         $comments = ( !empty($HTTP_POST_VARS['comments']) ) ? htmlspecialchars(trim($HTTP_POST_VARS['comments'])) : '';
@@ -447,21 +447,21 @@ if($userdata['session_logged_in']):
                 FROM ".TOPICS_WATCH_TABLE."
                 WHERE topic_id = '$topic_id'
                 AND user_id = ".$userdata['user_id'];
-        
+
 		if(!($result = $db->sql_query($sql)))
         message_die(GENERAL_ERROR, "Could not obtain topic watch information", '', __LINE__, __FILE__, $sql);
 
         if($row = $db->sql_fetchrow($result)):
-        
+
            if(isset($HTTP_GET_VARS['unwatch'])):
-           
+
               if($HTTP_GET_VARS['unwatch'] == 'topic'):
                  $is_watching_topic = 0;
                  $sql_priority = (SQL_LAYER == "mysql" || SQL_LAYER == "mysqli") ? "LOW_PRIORITY" : '';
                  $sql = "DELETE $sql_priority FROM ".TOPICS_WATCH_TABLE."
                  WHERE topic_id = '$topic_id'
                  AND user_id = " . $userdata['user_id'];
-                 
+
 				 if(!($result = $db->sql_query($sql)))
                  message_die(GENERAL_ERROR, "Could not delete topic watch information", '', __LINE__, __FILE__, $sql);
               endif;
@@ -479,7 +479,7 @@ if($userdata['session_logged_in']):
                  SET notify_status = '0'
                  WHERE topic_id = '$topic_id'
                  AND user_id = ".$userdata['user_id'];
-                 
+
 				 if ( !($result = $db->sql_query($sql)) )
                  message_die(GENERAL_ERROR, "Could not update topic watch information", '', __LINE__, __FILE__, $sql);
               endif;
@@ -542,11 +542,11 @@ if(!empty($HTTP_POST_VARS['postdays']) || !empty($HTTP_GET_VARS['postdays'])):
                 WHERE t.topic_id = '$topic_id'
                 AND p.topic_id = t.topic_id
                 AND p.post_time >= '$min_post_time'";
- 
+
         if(!($result = $db->sql_query($sql))):
         message_die(GENERAL_ERROR, "Could not obtain limited topics count information", '', __LINE__, __FILE__, $sql);
         endif;
-       
+
 	    $total_replies = ($row = $db->sql_fetchrow($result)) ? intval($row['num_posts']) : 0;
 
         $limit_posts_time = "AND p.post_time >= $min_post_time ";
@@ -632,7 +632,7 @@ $sql = "SELECT u.username,
 		  pt.post_subject, 
 		    pt.bbcode_uid, 
 		u.user_reputation
-        
+
 		FROM (".POSTS_TABLE." p, ".USERS_TABLE." u, ".POSTS_TEXT_TABLE." pt)
         WHERE p.topic_id = '$topic_id'
                 $limit_posts_time
@@ -804,6 +804,7 @@ $template->set_filenames(array(
     'body' => 'viewtopic_body.tpl')
 );
 # Mod: Super Quick Reply v1.3.2 END
+# Mod: Super Quick Reply v1.3.2 END
 endif;
 # Mod: Printer Topic v1.0.8 END
 
@@ -875,13 +876,13 @@ if($is_auth['auth_mod']):
 
         $topic_mod .= '<a href="'.append_sid("modcp.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;mode=delete").'"><img 
 		src="'.$images['topic_mod_delete'].'" alt="'.$lang['Delete_topic'].'" title="'. $lang['Delete_topic'].'" border="0" /></a>&nbsp;';
-		
+
         $delete_topic_url = append_sid("modcp.$phpEx?" . POST_TOPIC_URL . "=$topic_id&amp;mode=delete");
         $delete_topic_btn = $lang['Delete_topic'];
 
         $topic_mod .= '<a href="'.append_sid("modcp.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;mode=move").'"><img 
 		src="'.$images['topic_mod_move'].'" alt="'.$lang['Move_topic'].'" title="'.$lang['Move_topic'].'" border="0" /></a>&nbsp;';
-        
+
 		$move_topic_url = append_sid("modcp.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;mode=move");
         $move_topic_btn = $lang['Move_topic'];
 
@@ -889,7 +890,7 @@ if($is_auth['auth_mod']):
 		src="'.$images['topic_mod_lock'].'" alt="'.$lang['Lock_topic'].'" title="'.$lang['Lock_topic'].'" border="0" /></a>&nbsp;' : '<a 
 		href="'.append_sid("modcp.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;mode=unlock").'"><img 
 		src="'.$images['topic_mod_unlock'].'" alt="'.$lang['Unlock_topic'].'" title="'.$lang['Unlock_topic'].'" border="0" /></a>&nbsp;';
-        
+
 		if($forum_topic_data['topic_status'] == TOPIC_UNLOCKED):
         	$lock_topic_url = append_sid("modcp.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;mode=lock");
         	$lock_topic_btn = $lang['Lock_topic'];
@@ -902,14 +903,14 @@ if($is_auth['auth_mod']):
 
         $topic_mod .= '<a href="'.append_sid("modcp.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;mode=split").'"><img 
 		src="'.$images['topic_mod_split'].'" alt="'.$lang['Split_topic'].'" title="'. $lang['Split_topic'].'" border="0" /></a>&nbsp;';
-        
+
 		$split_topic_url = append_sid("modcp.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;mode=split");
         $split_topic_btn = $lang['Split_topic'];
-		
+
         # Mod: Simply Merge Threads v1.0.1 START
         $topic_mod .= '<a href="' . append_sid("merge.$phpEx?" . POST_TOPIC_URL . '=' . $topic_id) . '"><img 
 		src="' . $images['topic_mod_merge'] . '" alt="' . $lang['Merge_topics'] . '" title="' . $lang['Merge_topics'] . '" border="0" /></a>&nbsp;';
-        
+
 		$merge_topic_url = append_sid("merge.$phpEx?" . POST_TOPIC_URL . '=' . $topic_id);
         $merge_topic_btn = $lang['Merge_topics'];
         # Mod: Simply Merge Threads v1.0.1 END 
@@ -921,16 +922,16 @@ $s_watching_topic = $s_watching_topic_url = $s_watching_topic_text = $s_watching
 if($can_watch_topic):
   if($is_watching_topic):
      $s_watching_topic = '<a href="' . append_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;unwatch=topic&amp;start=$start").'">'.$lang['Stop_watching_topic'].'</a>';
-     
+
 	 $s_watching_topic_img = (isset($images['Topic_un_watch']) ) ? '<a href="'.append_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;unwatch=topic&amp;start=$start").'"><img 
 	 src="'.$images['Topic_un_watch'].'" alt="'.$lang['Stop_watching_topic'].'" title="'.$lang['Stop_watching_topic'].'" border="0"></a>' : '';
 
      $s_watching_topic_url = append_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;unwatch=topic&amp;page=$start");
      $s_watching_topic_text = $lang['Stop_watching_topic'];
      $s_watching_topic_state = 1;
-        
+
   else:
-        
+
   $s_watching_topic = '<a href="'.append_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;watch=topic&amp;start=$start").'">'.$lang['Start_watching_topic'].'</a>';
   $s_watching_topic_img = ( isset($images['Topic_watch']) ) ? '<a href="' . append_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;watch=topic&amp;start=$start").'"><img 
   src="'.$images['Topic_watch'].'" alt="'.$lang['Stop_watching_topic'].'" title="'.$lang['Start_watching_topic'].'" border="0"></a>' : '';
@@ -1009,7 +1010,7 @@ $template->assign_vars(array(
         'TOPIC_TIME' => create_date($board_config['default_dateformat'], $topic_time, $board_config['board_timezone']),
         'PAGINATION' => str_replace('&amp;&amp;', '&amp;', $pagination),
         'PAGINATION_BOOTSTRAP' => get_bootstrap_pagination($pagination_variables),
-        
+
 		# Mod: Printer Topic v1.0.8 START
         'PAGE_NUMBER' => sprintf($lang['Page_of'], (floor($start / $pagination_ppp ) + 1 ), ceil($total_replies / $pagination_ppp)),
 		# Mod: Printer Topic v1.0.8 END
@@ -1042,7 +1043,7 @@ $template->assign_vars(array(
         'L_VIEW_PREVIOUS_TOPIC' => $lang['View_previous_topic'],
         'L_POST_NEW_TOPIC' => $post_alt,
         'L_POST_REPLY_TOPIC' => $reply_alt,
-         
+
 		 # Mod: Printer Topic v1.0.8 START
         'L_PRINTER_TOPIC' => $printer_alt,
 		 # Mod: Printer Topic v1.0.8 END
@@ -1074,7 +1075,7 @@ $template->assign_vars(array(
         'S_TOPIC_SPLIT_BTN' => $split_topic_btn,
         'S_TOPIC_MERGE_URL' => $merge_topic_url,
         'S_TOPIC_MERGE_BTN' => $merge_topic_btn,
-         
+
 		 # Mod: Email topic to friend v1.0.0 START
         'S_EMAIL_TOPIC' => $s_email_topic,
         'S_EMAIL_URL' => $s_email_url,
@@ -1093,7 +1094,7 @@ $template->assign_vars(array(
         'U_VIEW_OLDER_TOPIC' => $view_prev_topic_url,
         'U_VIEW_NEWER_TOPIC' => $view_next_topic_url,
         'U_POST_NEW_TOPIC' => $new_topic_url,
-        
+
 		 # Mod: Printer Topic v1.0.8 START
         'U_PRINTER_TOPIC' => $printer_topic_url,
 		 # Mod: Printer Topic v1.0.8 END
@@ -1116,17 +1117,17 @@ if(!empty($forum_topic_data['topic_vote'])):
                 WHERE vd.topic_id = '$topic_id'
                         AND vr.vote_id = vd.vote_id
                 ORDER BY vr.vote_option_id ASC";
-        
+
 		if(!($result = $db->sql_query($sql)))
         message_die(GENERAL_ERROR, "Could not obtain vote data for this topic", '', __LINE__, __FILE__, $sql);
 
         if($vote_info = $db->sql_fetchrowset($result)):
-        
+
                 $db->sql_freeresult($result);
                 $vote_options = count($vote_info);
 
                 $vote_id = $vote_info[0]['vote_id'];
-                
+
 				# Mod: Smilies in Topic Titles v1.0.0 START
                 $vote_title = smilies_pass($vote_info[0]['vote_text']);
 				# Mod: Smilies in Topic Titles v1.0.0 END
@@ -1139,7 +1140,7 @@ if(!empty($forum_topic_data['topic_vote'])):
                         FROM ".VOTE_USERS_TABLE."
                         WHERE vote_id = '$vote_id'
                         AND vote_user_id = " . intval($userdata['user_id']);
-                
+
 				if(!($result = $db->sql_query($sql)))
                 message_die(GENERAL_ERROR, "Could not obtain user vote data for this topic", '', __LINE__, __FILE__, $sql);
 
@@ -1154,7 +1155,7 @@ if(!empty($forum_topic_data['topic_vote'])):
                 $poll_expired = ($vote_info[0]['vote_length']) ? (($vote_info[0]['vote_start'] + $vote_info[0]['vote_length'] < time()) ? TRUE : 0) : 0;
 
                 if ($user_voted || $view_result || $poll_expired || !$is_auth['auth_vote'] || $forum_topic_data['topic_status'] == TOPIC_LOCKED):
-                
+
                      # Mod: Must first vote to see Results v1.0.0 START
                      # If poll is over, allow results to be viewed by all.
                      if (!$user_voted && !$poll_view_toggle && $view_result && !$poll_expired) 
@@ -1175,7 +1176,7 @@ if(!empty($forum_topic_data['topic_vote'])):
                     // $vote_graphic_max = count($images['voting_graphic']);
 
                     for($i = 0; $i < $vote_options; $i++):
-                    
+
                        $vote_percent = ($vote_results_sum > 0) ? $vote_info[$i]['vote_result'] / $vote_results_sum : 0;
 
                        // $vote_graphic_length = round($vote_percent * $board_config['vote_graphic_length']);
@@ -1186,7 +1187,7 @@ if(!empty($forum_topic_data['topic_vote'])):
                        $vote_info[$i]['vote_option_text'] = preg_replace($orig_word, $replacement_word, $vote_info[$i]['vote_option_text']);
 
                       $template->assign_block_vars("poll_option", array(
-                       
+
 					   # Mod: Smilies in Topic Titles v1.0.0 START
                       'POLL_OPTION_CAPTION' => smilies_pass($vote_info[$i]['vote_option_text']),
 					   # Mod: Smilies in Topic Titles v1.0.0 END
@@ -1196,7 +1197,7 @@ if(!empty($forum_topic_data['topic_vote'])):
                       // 'POLL_OPTION_PERCENT_VALUE' => sprintf("%.1d%%", ($vote_percent * 100)),
 
                       'POLL_OPTION_PERCENT_VALUE' => sprintf("%.1d%%", round(($vote_percent * 100),0,PHP_ROUND_HALF_UP)),
-                                        
+
                       // 'POLL_OPTION_RESULT' => $vote_info[$i]['vote_result'],
                       // 'POLL_OPTION_PERCENT' => sprintf("%.1d%%", ($vote_percent * 100)),
                       // 'POLL_OPTION_PERCENT_VALUE' => ($vote_percent * 100),
@@ -1211,9 +1212,9 @@ if(!empty($forum_topic_data['topic_vote'])):
                                 'TOTAL_VOTES' => $vote_results_sum)
                         );
 
-                
+
                 else:
-                
+
                         $template->set_filenames(array(
                                 'pollbox' => 'viewtopic_poll_ballot.tpl')
                         );
@@ -1301,7 +1302,7 @@ if ($show_thanks == FORUM_THANKABLE):
 		# Make thanker profile link
 		$thanker_profile[$i] = append_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=$thanker_id[$i]");   
 		$thanks .= '<a href="'.$thanker_profile[$i].'">'.UsernameColor($thanker_name[$i]).'</a> ('.$thanks_date[$i].'), ';
-		
+
 		if ($userdata['user_id'] == $thanksrow[$i]['user_id'])
 	    $thanked = TRUE;
 	endfor;
@@ -1322,7 +1323,7 @@ if ($show_thanks == FORUM_THANKABLE):
 
 	# Create button switch
 	if ($userdata['user_id'] != $autor['0']['user_id'] && !$thanked):
-	
+
 		$template->assign_block_vars('thanks_button', array(
 			 'THANK_IMG' => $thank_img,
 			 'U_THANK_TOPIC' => $thank_topic_url,
@@ -1380,7 +1381,7 @@ for($i = 0; $i < $total_posts; $i++):
     if(!$leave_out['main'] )
     # We're about to process the first post by a user on this page
     $already_processed[] = $postrow[$i]['user_id'];
-    
+
  endif;
     # Mod: Display Poster Information Once v2.0.0 START
     $poster_id = $postrow[$i]['user_id'];
@@ -1392,11 +1393,11 @@ for($i = 0; $i < $total_posts; $i++):
 
     $poster_from = ( $postrow[$i]['user_from'] && $postrow[$i]['user_id'] != ANONYMOUS ) ? $lang['Location'] . ': '.$postrow[$i]['user_from'] : '';
     // $poster_from = str_replace(".gif", "", $poster_from);
-    
+
 	# Mod: Member Country Flags               v2.0.7 START
 	$poster_from_flag = ( $postrow[$i]['user_from_flag'] 
 	&& $postrow[$i]['user_id'] != ANONYMOUS ) ? '<span class="countries '.str_replace('.png','',$postrow[$i]['user_from_flag']).'" style="float: right;"></span>' : '';
-	
+
     # Mod: Member Country Flags v2.0.7 END
     $poster_joined = ( $postrow[$i]['user_id'] != ANONYMOUS ) ? $postrow[$i]['user_regdate'] : '';
 
@@ -1411,7 +1412,7 @@ for($i = 0; $i < $total_posts; $i++):
     if($postrow[$i]['user_avatar_type'] && $poster_id != ANONYMOUS && $postrow[$i]['user_allowavatar'] && $userdata['user_showavatars'] && !$leave_out['show_avatar_once']):
     # Mod: View/Disable Avatars/Signatures v1.1.2 END 
     # Mod: Display Poster Information Once v2.0.0 END
-    
+
         switch($postrow[$i]['user_avatar_type']): 
             case USER_AVATAR_UPLOAD:
                 $poster_avatar = ($board_config['allow_avatar_upload']) 
@@ -1429,7 +1430,7 @@ for($i = 0; $i < $total_posts; $i++):
                 break;
         endswitch;
     endif;
-   
+
     # Mod: Default avatar v1.1.0 START
     if((!$poster_avatar) && ($board_config['default_avatar_set'] != 3)):
         if(($board_config['default_avatar_set'] == 0) && ($poster_id == -1) && ($board_config['default_avatar_guests_url'])):
@@ -1437,7 +1438,7 @@ for($i = 0; $i < $total_posts; $i++):
         elseif(($board_config['default_avatar_set'] == 1) && ($poster_id != -1) && ($board_config['default_avatar_users_url'])):
             $poster_avatar = '<img class="forum-avatar" src="'.$board_config['default_avatar_users_url'].'" alt="" border="0" />';
         elseif ($board_config['default_avatar_set'] == 2):
-		
+
             if(($poster_id == -1) && ($board_config['default_avatar_guests_url']))
                 $poster_avatar = '<img class="forum-avatar" src="'.$board_config['default_avatar_guests_url'].'" alt="" border="0" />';
             elseif(($poster_id != -1) && ($board_config['default_avatar_users_url']))
@@ -1448,14 +1449,14 @@ for($i = 0; $i < $total_posts; $i++):
 
         $images['default_avatar'] = "modules/Forums/images/avatars/gallery/blank.png";
         $images['guest_avatar'] = "modules/Forums/images/avatars/gallery/blank.png";
-        
+
         # Mod: Default avatar v1.1.0 START
         if(empty($poster_avatar) && $poster_id != ANONYMOUS)
         $poster_avatar = '<img class="forum-avatar" src="'.$images['default_avatar'].'" alt="" border="0" />';
         if($poster_id == ANONYMOUS) 
         $poster_avatar = '<img class="forum-avatar" src="'.$images['guest_avatar'].'" alt="" border="0" />';
         # Mod: Default avatar v1.1.0 END
-        
+
         # Define the little post icon
         if($userdata['session_logged_in'] && $postrow[$i]['post_time'] > $userdata['user_lastvisit'] && $postrow[$i]['post_time'] > $topic_last_read):
             $mini_post_img = $images['icon_minipost_new'];
@@ -1466,7 +1467,7 @@ for($i = 0; $i < $total_posts; $i++):
         endif;
 
         $mini_post_url = append_sid("viewtopic.$phpEx?".POST_POST_URL.'='.$postrow[$i]['post_id']).'#'.$postrow[$i]['post_id'];
-		
+
         # Mod: Gender v1.2.6 START
         $gender_image = ''; 
         # Mod: Gender v1.2.6 END
@@ -1511,14 +1512,14 @@ for($i = 0; $i < $total_posts; $i++):
           $profile = '<a href="'.$temp_url.'">'.$lang['Read_profile'].'</a>';
 
           $temp_url = append_sid("privmsg.$phpEx?mode=post&amp;".POST_USERS_URL."=$poster_id");
-          
+
 		  if (is_active("Private_Messages")): 
            	 $pm_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_pm'].'" 
 			 alt="'.sprintf($lang['Send_private_message'],$postrow[$i]['username']).'" title="'.sprintf($lang['Send_private_message'],$postrow[$i]['username']).'" border="0" /></a>';
                 	$pm = '<a href="'.$temp_url.'">'.$lang['Send_private_message'].'</a>';
                   $pm_alt = sprintf($lang['Send_private_message'],$postrow[$i]['username']);
           endif;
-				
+
           # Mod: Gender v1.2.6 START
           switch ($postrow[$i]['user_gender']):
             case 1:
@@ -1543,7 +1544,7 @@ for($i = 0; $i < $total_posts; $i++):
             $email = '';
             $email_alt = '';
          endif;
-		 
+
            // if (( $postrow[$i]['user_website'] == "http:///") || ( $postrow[$i]['user_website'] == "http://")){
            //     $postrow[$i]['user_website'] =  "";
            // }
@@ -1553,24 +1554,24 @@ for($i = 0; $i < $total_posts; $i++):
 
            $www_img = ($postrow[$i]['user_website']) ? '<a href="'.$postrow[$i]['user_website'].'" target="_userwww"><img 
 		   src="'.$images['icon_www'].'" alt="'.$lang['Visit_website'].'" title="'.$lang['Visit_website'].'" border="0" /></a>' : '';
-           
+
 		   $www = ($postrow[$i]['user_website']) ? '<a href="'.$postrow[$i]['user_website'].'" target="_userwww">'.$lang['Visit_website'].'</a>' : '';
-				
+
            # Mod: Birthdays v3.0.0 START
 	       $bday_month_day = floor($postrow[$i]['user_birthday'] / 10000);
 		   $bday_year_age = ($postrow[$i]['birthday_display'] != BIRTHDAY_NONE && $postrow[$i]['birthday_display'] != BIRTHDAY_DATE ) ? $postrow[$i]['user_birthday'] - 10000*$bday_month_day : 0;
 		   $fudge = (gmdate('md') < $bday_month_day ) ? 1 : 0;
 		   $age = ($bday_year_age) ? gmdate('Y')-$bday_year_age-$fudge : false;
            # Mod: Birthdays v3.0.0 END
-		
+
 		   # Mod: Facebook v1.0.0 START		
            $facebook_img = ($postrow[$i]['user_facebook']) ? '<a href="http://www.facebook.com/'.$postrow[$i]['user_facebook'].'" target="_userwww"><img 
 		   src="'.$images['icon_facebook'].'" alt="'.$lang['Visit_facebook'].': '. 
-			
+
 		   $postrow[$i]['user_facebook'].'" title="'.$lang['Visit_facebook'].'" border="0" /></a>' : '';
 		   $facebook = ( $postrow[$i]['user_facebook'] ) ? '<a href="'.$temp_url.'">'.$lang['FACEBOOK'].'</a>' : '';
 		   # Mod: Facebook v1.0.0 END		
-           
+
 		   # Mod: Online/Offline/Hidden v2.2.7 START
            if($postrow[$i]['user_session_time'] >= (time()-$board_config['online_time'])):
               $images['icon_online'] = (isset($images['icon_online'])) ? $images['icon_online'] : '';
@@ -1578,33 +1579,33 @@ for($i = 0; $i < $total_posts; $i++):
               $images['icon_offline'] = (isset($images['icon_offline'])) ? $images['icon_offline'] : '';
               $online_color = (isset($online_color)) ? $online_color : '';
            endif;
-		   
+
 	       # Mod: Online/Offline/Hidden v2.2.7 START
 	       if(!$postrow[$i]['user_allow_viewonline']):
-	       
+
 		   $online_status_img = '<img class="tooltip-html copyright" alt="Hidden" title="Hidden" alt="Hidden" width="30" height="30" src="themes/'.$theme_name.'/forums/images/status/icons8-invisible-512.png" />';
            $online_status = '<em><a href="'.append_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_hidden'], $poster).'"'.$hidden_color.'>'.$lang['Hidden'].'</a></em>';
-	   
+
 	       elseif($postrow[$i]['user_session_time'] >= (time()-$board_config['online_time'])):
-	       
+
 		   $theme_name = get_theme();
-	       
+
 		   $online_status_img = '<a class="tooltip-html copyright" href="'.append_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_online'],$row['username']).'"'.$online_color.'><img 
 	       alt="online" src="themes/'.$theme_name.'/forums/images/status/online_bgcolor_one.gif" /></a>';
-	   
+
 	       $online_status = '<a href="'.append_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_online'], $poster).'"'.$online_color.'>'.$lang['Online'].'</a>';
-	   
+
 	       else:
-           
+
 		   $online_status_img = '<span class="tooltip-html copyright" title="'.sprintf($lang['is_offline'],$row['username']).'"'.$offline_color.'><img 
 	       alt="online" src="themes/'.$theme_name.'/forums/images/status/offline_bgcolor_one.gif" /></span>';
-	   
+
 	       $online_status = '<span title="'.sprintf($lang['is_offline'], $poster).'"'.$offline_color.'>'.$lang['Offline'].'</span>';
            endif;
            # Mod: Online/Offline/Hidden v2.2.7 END
-		
+
         else:
-        
+
            $profile_url = '';
            $$profile_lang = '';
            $profile_img = '';
@@ -1619,7 +1620,7 @@ for($i = 0; $i < $total_posts; $i++):
            # Mod: Birthdays v3.0.0 START
            $age = false;
            # Mod: Birthdays v3.0.0 END
- 
+
 		   # Mod: Facebook v1.0.0 START		
 		   $facebook_img = '';
 		   $facebook = '';
@@ -1629,7 +1630,8 @@ for($i = 0; $i < $total_posts; $i++):
            $online_status_img = '';
            $online_status = '';
            # Mod: Online/Offline/Hidden v2.2.7 END
-        
+           # Mod: Online/Offline/Hidden v2.2.7 END
+
 		endif;
 
         $temp_url = append_sid("posting.$phpEx?mode=quote&amp;".POST_POST_URL."=".$postrow[$i]['post_id']);
@@ -1638,10 +1640,10 @@ for($i = 0; $i < $total_posts; $i++):
 
         // $temp_url = "modules.php?name=Search&search_author=" . urlencode($postrow[$i]['username'] . "&amp;showresults=posts");
         $temp_url = "modules.php?name=Forums&file=search&search_author=".urlencode($postrow[$i]['username']);
-        
+
 		$search_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_search'].'" alt="'.sprintf($lang['Search_user_posts'], $postrow[$i]['username']).'" 
 		title="'.sprintf($lang['Search_user_posts'], $postrow[$i]['username']).'" border="0" /></a>';
-        
+
 		$search = '<a href="'.$temp_url.'">'.sprintf($lang['Search_user_posts'], $postrow[$i]['username']).'</a>';
         $search_alt = sprintf($lang['Search_user_posts'], $postrow[$i]['username']);
 
@@ -1716,16 +1718,16 @@ for($i = 0; $i < $total_posts; $i++):
 		  $user_sig = "&nbsp;";		    # Leaves out signature
 		  $user_sig_image = "&nbsp;";	# Leaves out sig image (for Signature panel)
 	    endif;
-	 
+
 	    if($leave_out['show_rank_once']): 
 	      $poster_rank = "&nbsp;";		# Leaves out rank title
 		  $rank_image = "&nbsp;";		# Leaves out rank images
 	    endif;
-	
+
 	    if( $leave_out['show_avatar_once']) 
 	    $poster_avatar = "&nbsp;";
         # Mod: Display Poster Information Once v2.0.0 END
-        
+
         # If the board has HTML off but the post has HTML
         # on then we process it, else leave it alone
         if(!$board_config['allow_html'] || !$userdata['user_allowhtml']):
@@ -1741,7 +1743,7 @@ for($i = 0; $i < $total_posts; $i++):
 		  $user_sig = ($board_config['allow_bbcode']) ? bbencode_second_pass($user_sig, $user_sig_bbcode_uid) : preg_replace("/\:$user_sig_bbcode_uid/si", '', $user_sig);
 		  $user_sig = bbencode_third_pass($user_sig, $user_sig_bbcode_uid, $valid);
 		endif;
-	
+
 		if($bbcode_uid != ''):
 			$message = ($board_config['allow_bbcode']) ? bbencode_second_pass($message, $bbcode_uid) : preg_replace("/\:$bbcode_uid/si", '', $message);
 		  	$message = bbencode_third_pass($message, $bbcode_uid, $valid);
@@ -1750,7 +1752,7 @@ for($i = 0; $i < $total_posts; $i++):
 
         if(!empty($user_sig))
         $user_sig = make_clickable($user_sig);
-        
+
         $message = make_clickable($message);
 
         # Parse smilies
@@ -1760,23 +1762,23 @@ for($i = 0; $i < $total_posts; $i++):
           if ( $postrow[$i]['enable_smilies'] )
             $message = smilies_pass($message);
         endif;
-        
+
         # Highlight active words (primarily for search)
         if($highlight_match)
         # This has been back-ported from 3.0 CVS
         $message = preg_replace('#(?!<.*)(?<!\w)(' . $highlight_match . ')(?!\w|[^<>]*>)#i', '<span style="color:#'.$theme['fontcolor3'].'">\1</span>', $message);
-        
+
 
         # Replace naughty words for fuckfaces that abuse free speech
         if(count($orig_word)):
-        
+
           $post_subject = preg_replace($orig_word, $replacement_word, $post_subject);
 
           if(!empty($user_sig)):
              /*$user_sig = str_replace('\"', '"', substr(@preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "@preg_replace(\$orig_word, \$replacement_word, '\\0')", '>' 
 			 . $user_sig . '<'), 1, -1));*/
           endif;
-          
+
 		  $message = preg_replace($orig_word, $replacement_word, $message);
             /* $message = str_replace('\"', '"', substr(@preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "@preg_replace(\$orig_word, \$replacement_word, '\\0')", '>' 
 			. $message . '<'), 1, -1)); */
@@ -1823,49 +1825,49 @@ for($i = 0; $i < $total_posts; $i++):
 		else: 
           $l_edited_by = '';
         endif;
-        
+
 		# Mod: Users Reputations Systems v1.0.0 START
         $reputation = '';
-        
+
 		if($postrow[$i]['user_id'] != ANONYMOUS):
-        
+
           if($rep_config['rep_disable'] == 0):
-          
+
             if($postrow[$i]['user_reputation'] == 0):
               $reputation = $lang['Zero_reputation'];
 			else:
               if($rep_config['graphic_version'] == 0):
                 # Text version
                 $reputation = $lang['Reputation'].": ";
-                
+
 				if($postrow[$i]['user_reputation'] > 0)
                   $reputation .= "<strong><font color=\"green\">" . round($postrow[$i]['user_reputation'],1) . "</font></strong>";
 				else 
                   $reputation .= "<strong><font color=\"red\">" . round($postrow[$i]['user_reputation'],1) . "</font></strong>";
-                
+
 				$reputation_add = '';
               else:
                 # Graphic version
                 get_reputation_medals($postrow[$i]['user_reputation']);
               endif;
             endif;
-            
+
 			$reputation .=  " <a href=\"".append_sid("reputation.$phpEx?a=add&amp;".POST_USERS_URL."=".$postrow[$i]['user_id'])."&"
 			.POST_POST_URL."=".$postrow[$i]['post_id']."&c=".substr(md5($bbcode_uid),0,8)."\" target=\"_blank\" onClick=\"popupWin = 
 			window.open(this.href, '".$lang['Reputation']."', 'location,width=700,height=400,top=0,scrollbars=yes'); popupWin.focus(); 
 			return false;\"><img src=\"modules/Forums/images/reputation_add_plus.gif\" alt=\"\" border=\"0\"><img src=\"modules/Forums/images/reputation_add_minus.gif\" alt=\"\" border=\"0\"></a>";
-            
+
 			$sql = "SELECT COUNT(user_id) AS count_reps
                 FROM " . REPUTATION_TABLE . " AS r
                 WHERE r.user_id = " . $postrow[$i]['user_id'] . "
                 GROUP BY user_id";
-            
+
 			if(!($result = $db->sql_query($sql)))
             message_die(GENERAL_ERROR, "Could not obtain reputation stats for this user", '', __LINE__, __FILE__, $sql);
-            
-            
+
+
 			$row_rep = $db->sql_fetchrow($result);
-            
+
 			if($row_rep):
               $reputation .= "<br /><a href=\"".append_sid("reputation.$phpEx?a=stats&amp;".POST_USERS_URL."=" 
 			  .$postrow[$i]['user_id'])."\" target=\"_blank\" onClick=\"popupWin = window.open(this.href, '".$lang['Reputation']."', 'location,width=700,
@@ -1879,7 +1881,7 @@ for($i = 0; $i < $total_posts; $i++):
 		$post_subject = get_icon_title($postrow[$i]['post_icon']).'&nbsp;'.$post_subject;
         # Mod: Post Icons v1.0.1 END
 
-        
+
         # Again this will be handled by the templating
         # code at some point
         $row_color = ( !($i % 2) ) ? $theme['td_color1'] : $theme['td_color2'];
@@ -1895,16 +1897,16 @@ for($i = 0; $i < $total_posts; $i++):
 		  || ($board_config['ad_who'] == ANONYMOUS 
 		  && $userdata['user_id'] == ANONYMOUS) 
 		  || ($board_config['ad_who'] == USER && $userdata['user_id'] != ANONYMOUS);
-          
+
 		  $ad_no_forums = explode(",", $board_config['ad_no_forums']);
-        
+
 		  for ($a=0; $a < count($ad_no_forums); $a++):
             if ($forum_id == $ad_no_forums[$a]):
               $display_ad = false;
               break;
             endif;
           endfor;
-        
+
 	      if ($board_config['ad_no_groups'] != ''):
               $ad_no_groups = explode(",", $board_config['ad_no_groups']);
               $sql = "SELECT 1
@@ -1919,12 +1921,12 @@ for($i = 0; $i < $total_posts; $i++):
 		      if ($row = $db->sql_fetchrow($result))
               $display_ad = false;
           endif;
-		  
+
 		  if ($userdata['user_id'] != ANONYMOUS && ($board_config['ad_post_threshold'] != '') && ($userdata['user_posts'] >= $board_config['ad_post_threshold']))
           $display_ad = false;
-        
+
 		endif;
-	  
+
         # check once more, for server performance
         if ($display_ad):
           $sql = "SELECT a.ad_code
@@ -2036,11 +2038,11 @@ for($i = 0; $i < $total_posts; $i++):
                 'REPORT_URL' => $report_url,
                 'REPORT_IMG' => $report_img,
                 'REPORT_ALT' => $report_alt,
-				
+
                 # Mod: Report Posts v1.0.2 START
                 'ROW_COLOR' => '#' . $row_color,
                 'ROW_CLASS' => $row_class,
-                
+
 				# Mod: Advanced Username Color v1.0.5 START
                 'POSTER_NAME' => UsernameColor($poster),
                 # Mod: Advanced Username Color v1.0.5 END
@@ -2063,14 +2065,14 @@ for($i = 0; $i < $total_posts; $i++):
                 # Mod: Multiple Ranks And Staff View v2.0.3 END
 
                 'POSTER_JOINED' => $poster_joined,
-                
+
 				# Mod: Birthdays v3.0.0 START
 				'POSTER_AGE' => ($age !== false) ? sprintf($lang['Age'], $age) : '',
 				# Mod: Birthdays v3.0.0 END
 
                 'POSTER_POSTS' => $poster_posts,
                 'POSTER_FROM' => $poster_from,
-                
+
 				# Mod: Users Reputations Systems v1.0.0 START
                 'REPUTATION_ADD' => $reputation_add,
                 'REPUTATION' => $reputation,
@@ -2118,7 +2120,7 @@ for($i = 0; $i < $total_posts; $i++):
                 'EMAIL_ALT' => $email_alt,
                 'WWW_IMG' => $www_img,
                 'WWW' => $www,
-		        
+
 				# Mod: Facebook v1.0.0 START		
 		        'FACEBOOK_IMG' => $facebook_img,
 	            'FACEBOOK' => $facebook,
@@ -2145,12 +2147,12 @@ for($i = 0; $i < $total_posts; $i++):
                 'DELETE_IMG' => $delpost_img,
                 'DELETE_ALT' => $delpost_alt,
                 'DELETE' => $delpost,
-			
+
                 # Mod: Inline Banner Ad v1.2.3 START
                 'L_SPONSOR' => $lang['Sponsor'],
                 'INLINE_AD' => $inline_ad_code,
                 # Mod: Inline Banner Ad v1.2.3 END
-				
+
                 # Mod: Gender v1.2.6 START
                 'L_GENDER' => $lang['Gender'],
                 # Mod: Gender v1.2.6 END
@@ -2162,7 +2164,7 @@ for($i = 0; $i < $total_posts; $i++):
 
         # Mod: XData v1.0.3 END
         );
-        
+
 		# Mod: Inline Banner Ad v1.2.3 START
         if ($display_ad):
           if (!$board_config['ad_old_style'] && $display_ad)
@@ -2202,7 +2204,7 @@ for($i = 0; $i < $total_posts; $i++):
 
         if(!$result = $db->sql_query($sql))
         message_die(GENERAL_ERROR, 'Could not get moved type', '', __LINE__, __FILE__, $sql);
-        
+
 		$row = $db->sql_fetchrow($result);
         $moved_type = $row['mode'];
         $select = '';
@@ -2314,7 +2316,7 @@ if(!isset($HTTP_GET_VARS['printertopic'])):
    endif;
    # Mod: Super Quick Reply v1.3.2 START
 endif;
- 
+
 # Mod: Related Topics v0.12 START
 include(NUKE_INCLUDE_DIR.'/functions_related.'.$phpEx);
 get_related_topics($topic_id);

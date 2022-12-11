@@ -185,7 +185,7 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 		for($j = 0; $j < $total_forums; $j++)
 		{
 			$forum_id = $forum_rows[$j]['forum_id'];
-			
+
 			if ($forum_rows[$j]['cat_id'] == $cat_id)
 			{
 
@@ -208,7 +208,7 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 					'AUTH_DOWNLOAD_IMG' => $forum_auth_images[$forum_rows[$j]['auth_download']],
 				));
 			}// if ... forumid == catid
-			
+
 		} // for ... forums
 
 	} // for ... categories

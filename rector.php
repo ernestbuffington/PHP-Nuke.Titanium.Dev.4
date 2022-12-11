@@ -12,10 +12,10 @@ return static function (RectorConfig $rectorConfig): void {
         //__DIR__ . '/admin',
         //__DIR__ . '/blocks',
         //__DIR__ . '/images',
-        __DIR__ . '/includes',
+        //__DIR__ . '/includes',
         //__DIR__ . '/install',
         //__DIR__ . '/language',
-        //__DIR__ . '/modules',
+        __DIR__ . '/modules/Forums',
         //__DIR__ . '/themes',
     ]);
 

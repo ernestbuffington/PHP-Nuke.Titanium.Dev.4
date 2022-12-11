@@ -2975,7 +2975,7 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
 										'NUM_POSTS' => ($forum_rows[$j]['forum_link_icon'] && $forum_rows[$j]['title_is_link']) ? '' : $forum_rows[$j]['forum_posts'],
 
-					
+
 
 										'U_VIEWFORUM' => ($forum_rows[$j]['title_is_link']) ? $forum_rows[$j]['weblink'] : ("../../../modules.php?name=Forums&file=viewforum&amp;" . POST_FORUM_URL . "=$forum_id"),
 
@@ -3041,7 +3041,7 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
 											'STYLE' => ' style="padding-left: 20px;" ',
 
-					
+
 
 											'U_VIEWFORUM' => ("../../../modules.php?name=Forums&file=viewforum&amp;" . POST_FORUM_URL . "=$forum_id2"),
 
@@ -3057,11 +3057,11 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
 										);
 
-				
+
 
 									}
 
-									
+
 
 								} // for ... forums
 

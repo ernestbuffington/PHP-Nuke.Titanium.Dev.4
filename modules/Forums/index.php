@@ -328,7 +328,7 @@ if( ( $total_categories = count($category_rows) ) )
                 $forum_moderators[$row['forum_id']][] = '<a href="' . append_sid("groupcp.$phpEx?" . POST_GROUPS_URL . "=" . $row['group_id']) . '">' . GroupColor($row['group_name']) . '</a>';
         }
         $db->sql_freeresult($result);
-		
+
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
@@ -348,7 +348,7 @@ if( ( $total_categories = count($category_rows) ) )
 			{
 				message_die(GENERAL_ERROR, 'Could not query members birthday information', '', __LINE__, __FILE__, $sql);
 			}
-	
+
 			$user_birthdays = array();
 			while ( $row = $db->sql_fetchrow($result) )
 			{
@@ -368,11 +368,11 @@ if( ( $total_categories = count($category_rows) ) )
 				$user_birthdays[] = '<a href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id']) . '"' . $color . '>' . UsernameColor($row['username']) . '</a>' . $age;
 			}
 			$db->sql_freeresult($result);
-	
+
 			$birthdays = (!empty($user_birthdays)) ?
 				sprintf($lang['Congratulations'],implode(', ',$user_birthdays)) :
 				$lang['No_birthdays'];
-	
+
 			if ( $board_config['bday_lookahead'] != -1 )
 			{
 				$start = gmdate('md9999',strtotime('+'.$board_config['bday_lookahead'].' day') + (3600 * $board_config['board_timezone']));
@@ -409,12 +409,12 @@ if( ( $total_categories = count($category_rows) ) )
 						}
 					$upcoming_birthdays[] = '<a href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id']) . '"' . $color . '>' . UsernameColor($row['username']) . '</a>' . $age;
 				}
-	
+
 				$upcoming = (!empty($upcoming_birthdays)) ?
 					sprintf($lang['Upcoming_birthdays'],$board_config['bday_lookahead'],implode(', ',$upcoming_birthdays)) :
 					sprintf($lang['No_upcoming'],$board_config['bday_lookahead']);
 			}
-	
+
 			if ( !empty($user_birthdays) || !empty($upcoming_birthdays) || $board_config['bday_show'] )
 			{
 				$template->assign_block_vars('birthdays',array());
@@ -458,7 +458,7 @@ if( ( $total_categories = count($category_rows) ) )
  ******************************************************/
                 'TOTAL_USERS' => sprintf($l_total_user_s, $total_users),
                 'NEWEST_USER' => sprintf($lang['Newest_user'], '<a href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$newest_uid") . '">', $newest_user, '</a>'),
-				
+
 /*****[BEGIN]******************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
@@ -467,7 +467,7 @@ if( ( $total_categories = count($category_rows) ) )
 /*****[END]********************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
-				
+
 /*****[BEGIN]******************************************
  [ Mod:    Scrolling Global Announcement        v1.0.1]
  ******************************************************/       
@@ -577,7 +577,7 @@ if( ( $total_categories = count($category_rows) ) )
 /*****[END]********************************************
  [ Mod:    DHTML Collapsible Forum Index MOD     v1.1.1]
  ******************************************************/
-                                
+
                             'CAT_ID' => $cat_id,
                             'CAT_DESC' => $category_rows[$i]['cat_title'],
                             'U_VIEWCAT' => append_sid("index.$phpEx?" . POST_CAT_URL . "=$cat_id"))
