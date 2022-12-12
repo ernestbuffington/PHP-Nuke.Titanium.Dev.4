@@ -1150,7 +1150,7 @@ function create_date($format, $gmepoch, $tz)
             $translate[$match] = $replace;
         endforeach;
 		
-		unset($replace);
+		unset($replace); // break the reference with the last element
     endif;
 
    if($userdata['user_id'] != ANONYMOUS):
