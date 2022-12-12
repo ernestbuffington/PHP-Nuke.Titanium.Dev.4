@@ -398,6 +398,19 @@ input[type='button']:hover {
     font-weight: bold;
 }
 
+input[type='password'] {
+    color: <?=$textcolor1?>;
+    border: 1px solid silver;
+    font-family:'Montserrat', sans-serif;
+    text-align: left;
+    line-height: 1;
+    font-size: 12px;
+    background-color : <?=$button_border_color?>;
+    padding: 6px;
+    outline: none;
+    border-radius: 6px;
+ }
+
 input[type='text'] {
     color: <?=$textcolor1?>;
     border: 1px solid silver;
