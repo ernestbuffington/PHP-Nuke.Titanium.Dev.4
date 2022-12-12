@@ -58,7 +58,7 @@ return static function (RectorConfig $rectorConfig): void {
 		__DIR__ . '/modules/Surveys',
 		__DIR__ . '/modules/Titanium_SandBox',
 		__DIR__ . '/modules/Web_Links',
-		__DIR__ . '/modules/Your_Account',
+		//__DIR__ . '/modules/Your_Account',
 		
 		
 		__DIR__ . '/admin',
@@ -83,8 +83,8 @@ return static function (RectorConfig $rectorConfig): void {
 		// done fixed __DIR__ . '/includes/page_header.php',
 		// done fixed __DIR__ . '/modules/Forums/glance.php',
 		//__DIR__ . '/includes/functions.php',
-		__DIR__ . '/modules/Forums/search.php',
-       
+		// done fixed __DIR__ . '/modules/Forums/search.php',
+       __DIR__ . '/modules/Your_Account/public/new_user3.php',
         //
     ]);
 
