@@ -10,7 +10,7 @@
    Copyright (c) 2005 by The Nuke-Evolution Team
    Copyright (c) 2022 by The PHP-Nuke Titanium Group
 
-   Filename      : avatar.php
+   Filename      : good_afternoon.php
    Author(s)     : Ernest Allen Buffington, Technocrat
    Version       : 4.0.3
    Date          : 05.19.2005 (mm.dd.yyyy)
