@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /*********************************************************************************/
 /* CNB Your Account: An Advanced User Management System for phpnuke             */
 /* ============================================                                 */
@@ -27,7 +26,9 @@
       Nuke Patched                             v3.1.0       06/26/2005
 -=[Mod]=-
       Password Strength Meter                  v1.0.0       07/12/2005
-      XData                                    v0.1.1       08/09/2005
+      XData
+-=[Last Updated]=-
+      12/12/2022 11:33 am Ernest Allen Buffington
  ************************************************************************/
 
 if (!defined('MODULE_FILE')) {
