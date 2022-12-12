@@ -1,34 +1,44 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium v3.0.0 : Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium : Nuke-Evolution | Enhanced and Advnanced
  =======================================================================*/
 
 /************************************************************************
-   Nuke-Evolution: Server Info Administration
+   Nuke-Evolution    : Server Info Administration
+   PHP-Nuke Titanium : Server Info Administration
    ============================================
    Copyright (c) 2005 by The Nuke-Evolution Team
+   Copyright (c) 2022 by The PHP-Nuke Titanium Group
 
    Filename      : online.php
-   Author(s)     : Technocrat (www.Nuke-Evolution.com)
-   Version       : 1.0.0
+   Author(s)     : Ernest Allen Buffington, Technocrat
+   Version       : 4.0.3
    Date          : 05.19.2005 (mm.dd.yyyy)
+   Last Update   : 12.12.2022 (mm.dd.yyyy)
 
    Notes         : Evo User Block Online Administration
 ************************************************************************/
 
-if (!defined('ADMIN_FILE')) {
-   die ("Illegal File Access");
-}
+if(!defined('ADMIN_FILE')):
+ die("Illegal File Access");
+endif;
 
 include_once(NUKE_BASE_DIR.'header.php');
+
 OpenTable();
+
 echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=evo-userinfo\">" .$lang_evo_userblock['ADMIN']['ADMIN_HEADER']. "</a></div>\n";
 echo "<br /><br />";
 echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" .$lang_evo_userblock['ADMIN']['ADMIN_RETURN']. "</a> ]</div>\n";
+
 CloseTable();
+
 echo "<br />";
+
 title(_EVO_USERINFO. "&nbsp;-&nbsp;" .$lang_evo_userblock['ONLINE']['ONLINE']);
+
 OpenTable();
+
 if(!empty($_POST)) 
 {
   
