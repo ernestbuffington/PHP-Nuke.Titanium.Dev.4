@@ -47,6 +47,8 @@ $_SESSION['YA1'] = true;
 
 function tz_select($default, $select_name = 'timezone')
 {
+        $lang = [];
+        $sys_timezone = null;
         $lang['tz']['-12'] = 'GMT - 12 Hours';
         $lang['tz']['-11'] = 'GMT - 11 Hours';
         $lang['tz']['-10'] = 'GMT - 10 Hours';
@@ -86,10 +88,11 @@ function tz_select($default, $select_name = 'timezone')
         }
         $tz_select = '<select name="user_timezone">';
 
-        while( list($offset, $zone) = @each($lang['tz']) )
+        //while( [$offset, $zone] = @each($lang['tz']) )
+		foreach ($lang['tz'] as $offset => $zone)
         {
                 $selected = ( $offset == $default ) ? ' selected="selected"' : '';
-                $tz_select .= '<option value="' . $offset . '"' . $selected . '>' . str_replace('GMT', 'UTC', $zone) . '</option>';
+                $tz_select .= '<option value="' . $offset . '"' . $selected . '>' . str_replace('GMT', 'UTC', (string) $zone) . '</option>';
         }
         $tz_select .= '</select>';
 
@@ -139,9 +142,9 @@ function tz_select($default, $select_name = 'timezone')
 
     $result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field WHERE (need = '2') OR (need = '3') ORDER BY pos");
         while ($sqlvalue = $db->sql_fetchrow($result)) {
-          $t = $sqlvalue[fid];
-          $value2 = explode("::", $sqlvalue[value]);
-          if (substr($sqlvalue[name],0,1)=='_') eval( "\$name_exit = $sqlvalue[name];"); else $name_exit = $sqlvalue[name];
+          $t = $sqlvalue[\FID];
+          $value2 = explode("::", (string) $sqlvalue[\VALUE]);
+          if (substr((string) $sqlvalue[\NAME],0,1)=='_') eval( "\$name_exit = $sqlvalue[name];"); else $name_exit = $sqlvalue[\NAME];
           if (count($value2) == 1) {
             echo "<tr><td bgcolor='$bgcolor2'>$name_exit</td><td bgcolor='$bgcolor3'>";
             echo "<input type='text' name='nfield[$t]' size='20' maxlength='$sqlvalue[size]'>\n";
@@ -153,7 +156,7 @@ function tz_select($default, $select_name = 'timezone')
                 }
               echo "</select>";
           }
-            if (($sqlvalue[need]) > 1) echo"&nbsp;<span class='tiny'>"._REQUIRED."</span>";
+            if (($sqlvalue[\NEED]) > 1) echo"&nbsp;<span class='tiny'>"._REQUIRED."</span>";
               echo "</td></tr>\n";
         }
 
@@ -179,81 +182,78 @@ function tz_select($default, $select_name = 'timezone')
  [ Mod:     XData                              v0.1.1 ]
  ******************************************************/
     $xd_meta = get_xd_metadata();
-    while ( list($code_name, $info) = each($xd_meta) )
-    {
-            if ($info['display_register'] == XD_DISPLAY_NORMAL && $info['signup'])
-            {
-                $value = isset($xdata[$code_name]) ? str_replace('"', '&quot;', $xdata[$code_name]) : '';
-                $length = ( $info['field_length'] > 0) ? ( $info['field_length'] ) : '';
+    foreach ($xd_meta as $code_name => $info) {
+        if ($info['display_register'] == XD_DISPLAY_NORMAL && $info['signup'])
+        {
+            $value = isset($xdata[$code_name]) ? str_replace('"', '&quot;', (string) $xdata[$code_name]) : '';
+            $length = ( $info['field_length'] > 0) ? ( $info['field_length'] ) : '';
 
-                switch ($info['field_type'])
-                {
-                    case 'text':
-                        $value = isset($xdata[$code_name]) ? str_replace('"', '&quot;', $xdata[$code_name]) : '';
-                        $length = ( $info['field_length'] > 0) ? ( $info['field_length'] ) : '';
-                        echo '<tr><td bgcolor="'.$bgcolor2.'"><div class="textbold">'.$info['field_name'].':</div>'.$info['field_desc'].'</td>
+            switch ($info['field_type'])
+            {
+                case 'text':
+                    $value = isset($xdata[$code_name]) ? str_replace('"', '&quot;', (string) $xdata[$code_name]) : '';
+                    $length = ( $info['field_length'] > 0) ? ( $info['field_length'] ) : '';
+                    echo '<tr><td bgcolor="'.$bgcolor2.'"><div class="textbold">'.$info['field_name'].':</div>'.$info['field_desc'].'</td>
                                 <td bgcolor="'.$bgcolor1.'"><input type="text" class="post"style="width: 200px" name="'.$code_name.'" size="35" maxlength="'.$length .'" value="'.$value.'" /></td></tr>';
-                        break;
+                    break;
 
-                    case 'textarea':
-                        echo '<tr><td bgcolor="'.$bgcolor2.'"><div class="textbold">'.$info['field_name'].':</div>'.$info['field_desc'].'</td>
+                case 'textarea':
+                    echo '<tr><td bgcolor="'.$bgcolor2.'"><div class="textbold">'.$info['field_name'].':</div>'.$info['field_desc'].'</td>
                                 <td bgcolor="'.$bgcolor1.'"><textarea name="'.$code_name.'"style="width: 300px"  rows="6" cols="30" class="post">'.$value.'</textarea></td></tr>';
-                        break;
+                    break;
 
-                    case 'radio':
-                        echo '<tr><td bgcolor="'.$bgcolor2.'"><div class="textbold">'.$info['field_name'].':</div>'.$info['field_desc'].'</td><td bgcolor="'.$bgcolor1.'">';
-                        while ( list( , $option) = each($info['values_array']) )
-                        {
-                            $select = ($xdata[$code_name] == $option) ? 'selected="selected"' : '';
-                            echo '<input type="radio" name="'.$code_name.'" value="'.$option.'" '.$select.' /> <span class="gen">'.$option.'</span><br />';
-                        }
-                        echo '</td></tr>';
-                        break;
+                case 'radio':
+                    echo '<tr><td bgcolor="'.$bgcolor2.'"><div class="textbold">'.$info['field_name'].':</div>'.$info['field_desc'].'</td><td bgcolor="'.$bgcolor1.'">';
+                    foreach ($info['values_array'] as $option) {
+                        $select = ($xdata[$code_name] == $option) ? 'selected="selected"' : '';
+                        echo '<input type="radio" name="'.$code_name.'" value="'.$option.'" '.$select.' /> <span class="gen">'.$option.'</span><br />';
+                    }
+                    echo '</td></tr>';
+                    break;
 
-                    case 'select':
-                        echo '<tr><td bgcolor="'.$bgcolor2.'"><div class="textbold">'.$info['field_name'].':</div>'.$info['field_desc'].'</td><td bgcolor="'.$bgcolor1.'">';
-                        echo '<select name="'.$code_name.'">';
-                        while ( list( , $option) = each($info['values_array']) )
-                        {
-                            $select = ($xdata[$code_name] == $option) ? 'selected="selected"' : '';
-                            echo '<option value="'.$option.'" '.$select.'>'.$option.'</option>';
-                        }
-                        echo '</select></td></tr>';
-                        break;
-                }
+                case 'select':
+                    echo '<tr><td bgcolor="'.$bgcolor2.'"><div class="textbold">'.$info['field_name'].':</div>'.$info['field_desc'].'</td><td bgcolor="'.$bgcolor1.'">';
+                    echo '<select name="'.$code_name.'">';
+                    foreach ($info['values_array'] as $option) {
+                        $select = ($xdata[$code_name] == $option) ? 'selected="selected"' : '';
+                        echo '<option value="'.$option.'" '.$select.'>'.$option.'</option>';
+                    }
+                    echo '</select></td></tr>';
+                    break;
             }
-            elseif ($info['display_register'] == XD_DISPLAY_ROOT)
-            {
-                switch ($code_name) {
-                    case "icq":
-                        echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._YICQ.":</div>"._OPTIONAL."</td><td bgcolor='$bgcolor1'><input type='text' name='user_icq' size='30' maxlength='100'></td></tr>\n";
-                    break;
-                    case "aim":
-                        echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._YAIM.":</div>"._OPTIONAL."</td><td bgcolor='$bgcolor1'><input type='text' name='user_aim' size='30' maxlength='100'></td></tr>\n";
-                    break;
-                    case "msn":
-                        echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._YMSNM.":</div>"._OPTIONAL."</td><td bgcolor='$bgcolor1'><input type='text' name='user_msnm' size='30' maxlength='100'></td></tr>\n";
-                    break;
-                    case "yim":
-                        echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._YYIM.":</div>"._OPTIONAL."</td><td bgcolor='$bgcolor1'><input type='text' name='user_yim' size='30' maxlength='100'></td></tr>\n";
-                    break;
-                    case "website":
-                        echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._YOURHOMEPAGE.":</div>"._OPTIONAL."</td><td bgcolor='$bgcolor1'><input type='text' name='user_website' size='40' maxlength='255'></td></tr>\n";
-                    break;
-                    case "location":
-                        echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._YLOCATION.":</div>"._OPTIONAL."</td><td bgcolor='$bgcolor1'><input type='text' name='user_from' size='30' maxlength='100'></td></tr>\n";
-                    break;
-                    case "occupation":
-                        echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._YOCCUPATION.":</div>"._OPTIONAL."</td><td bgcolor='$bgcolor1'><input type='text' name='user_occ' size='30' maxlength='100'></td></tr>\n";
-                    break;
-                    case "interests":
-                        echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._YINTERESTS.":</div>"._OPTIONAL."</td><td bgcolor='$bgcolor1'><input type='text' name='user_interests' size='30' maxlength='100'></td></tr>\n";
-                    break;
-                    case "signature":
-                        echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._SIGNATURE.":</div>"._OPTIONAL."<br />"._NOHTML."</td><td bgcolor='$bgcolor1'><textarea cols='50' rows='5' name='user_sig'></textarea><br />"._255CHARMAX."</td></tr>\n";
-                    break;
-                }
+        }
+        elseif ($info['display_register'] == XD_DISPLAY_ROOT)
+        {
+            switch ($code_name) {
+                case "icq":
+                    echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._YICQ.":</div>"._OPTIONAL."</td><td bgcolor='$bgcolor1'><input type='text' name='user_icq' size='30' maxlength='100'></td></tr>\n";
+                break;
+                case "aim":
+                    echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._YAIM.":</div>"._OPTIONAL."</td><td bgcolor='$bgcolor1'><input type='text' name='user_aim' size='30' maxlength='100'></td></tr>\n";
+                break;
+                case "msn":
+                    echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._YMSNM.":</div>"._OPTIONAL."</td><td bgcolor='$bgcolor1'><input type='text' name='user_msnm' size='30' maxlength='100'></td></tr>\n";
+                break;
+                case "yim":
+                    echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._YYIM.":</div>"._OPTIONAL."</td><td bgcolor='$bgcolor1'><input type='text' name='user_yim' size='30' maxlength='100'></td></tr>\n";
+                break;
+                case "website":
+                    echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._YOURHOMEPAGE.":</div>"._OPTIONAL."</td><td bgcolor='$bgcolor1'><input type='text' name='user_website' size='40' maxlength='255'></td></tr>\n";
+                break;
+                case "location":
+                    echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._YLOCATION.":</div>"._OPTIONAL."</td><td bgcolor='$bgcolor1'><input type='text' name='user_from' size='30' maxlength='100'></td></tr>\n";
+                break;
+                case "occupation":
+                    echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._YOCCUPATION.":</div>"._OPTIONAL."</td><td bgcolor='$bgcolor1'><input type='text' name='user_occ' size='30' maxlength='100'></td></tr>\n";
+                break;
+                case "interests":
+                    echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._YINTERESTS.":</div>"._OPTIONAL."</td><td bgcolor='$bgcolor1'><input type='text' name='user_interests' size='30' maxlength='100'></td></tr>\n";
+                break;
+                case "signature":
+                    echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._SIGNATURE.":</div>"._OPTIONAL."<br />"._NOHTML."</td><td bgcolor='$bgcolor1'><textarea cols='50' rows='5' name='user_sig'></textarea><br />"._255CHARMAX."</td></tr>\n";
+                break;
             }
+        }
     }
 /*****[END]********************************************
  [ Mod:     XData                              v0.1.1 ]
@@ -268,7 +268,7 @@ function tz_select($default, $select_name = 'timezone')
     echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._FORUMSDATE.":</div>"._FORUMSDATEMSG."</td><td bgcolor='$bgcolor1'><input type='text' name='user_dateformat' value='D M d, Y g:i a' size='15' maxlength='14'></td></tr>\n";
     echo "<tr><td bgcolor='$bgcolor2'><div class=\"textbold\">"._EXTRAINFO.":</div>"._OPTIONAL."<br />"._NOHTML."</td><td bgcolor='$bgcolor1'><textarea cols='50' rows='5' name='bio'></textarea><br />"._CANKNOWABOUT."</td></tr>\n";
 
-    $gfxchk = array(3,4,6,7);
+    $gfxchk = [3, 4, 6, 7];
     $gfx = security_code($gfxchk, 'normal'); //Size - compact || normal
     if(!empty($gfx)) {
         echo "<tr><td bgcolor='$bgcolor2' colspan='2'><center>".$gfx."</center></td></tr>";
