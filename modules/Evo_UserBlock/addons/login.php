@@ -1,31 +1,38 @@
 <?php
-/*======================================================================= 
-  PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
+/*=======================================================================
+ PHP-Nuke Titanium : Nuke-Evolution | Enhanced and Advnanced
  =======================================================================*/
+
 /************************************************************************
-   PHP-Nuke Titanium : Server Info Administration
    Nuke-Evolution    : Server Info Administration
+   PHP-Nuke Titanium : Server Info Administration
    ============================================
    Copyright (c) 2005 by The Nuke-Evolution Team
+   Copyright (c) 2022 by The PHP-Nuke Titanium Group
 
-   Filename      : login.php
-   Author(s)     : Technocrat, TheGhost
-   Version       : 1.0.0
-   Date          : 05.19.2005 - 11/20/2022 (mm.dd.yyyy)
-
+   Filename      : avatar.php
+   Author(s)     : Ernest Allen Buffington, Technocrat
+   Version       : 4.0.3
+   Date          : 05.19.2005 (mm.dd.yyyy)
+   Last Update   : 12.12.2022 (mm.dd.yyyy)
+   
    Notes         : User Block Login Module
 ************************************************************************/
-if(!defined('NUKE_EVO')) 
-exit ("Illegal File Access");
+
+if(!defined('NUKE_EVO')): 
+  exit("Illegal File Access");
+endif;
 
 global $evouserinfo_login, $lang_evo_userblock, $appID;
 
-function evouserinfo_login () {
+function evouserinfo_login () 
+{
    global $lang_evo_userblock, $evouserinfo_login;
    
     mt_srand ((double)microtime()*1000000);
     $maxran = 1000000;
     $random_num = mt_rand(0, $maxran);
+	
     $evouserinfo_login  = "<form action=\"modules.php?name=Your_Account\" method=\"post\">\n";
     $evouserinfo_login .= "<table border=\"0\" style=\"margin: auto\">";
     $evouserinfo_login .= "<tr><td>\n";
@@ -35,33 +42,36 @@ function evouserinfo_login () {
     $evouserinfo_login .= "<a href=\"modules.php?name=Your_Account&amp;op=pass_lost\">".$lang_evo_userblock['BLOCK']['LOGIN']['LOST']."</a>\n";
     $evouserinfo_login .= "</td></tr>\n<tr><td align=\"center\">\n";
     
-    //Login
+    # Login
     $evouserinfo_login .= $lang_evo_userblock['BLOCK']['LOGIN']['USERNAME']."<br /><input class=\"evo-login-username-field\" 
 	type=\"text\" name=\"username\" size=\"15\" maxlength=\"25\"></td></tr>\n";
     
 	$evouserinfo_login .= "<tr><td align=\"center\">".$lang_evo_userblock['BLOCK']['LOGIN']['PASSWORD']."<br /><input 
 	class=\"evo-login-password-field\" type=\"password\" name=\"user_password\" size=\"15\" maxlength=\"20\" autocomplete=\"on\">\n";
-    /*****[BEGIN]******************************************
-    [ Mod:     Advanced Security Code Control     v1.0.0 ]
-    ******************************************************/
+    
+    # Mod: Advanced Security Code Control v1.0.0 START
     $gfxchk = array(2,4,5,7);
     $evouserinfo_login .= security_code($gfxchk, 'compact', '1'); //Size - compact || normal  //Scale Adjustment - 0.90 = 90% scaledown.
-    /*****[END]********************************************
-    [ Mod:     Advanced Security Code Control     v1.0.0 ]
-    ******************************************************/
-    $evouserinfo_login .= "</td><td align=\"center\">";
-    if(!empty($redirect)) {
+    # Mod: Advanced Security Code Control v1.0.0 END
+    
+	$evouserinfo_login .= "</td><td align=\"center\">";
+    
+	if(!empty($redirect)):
        $evouserinfo_login .= "<input type=\"hidden\" name=\"redirect\" value=\"$redirect\">\n";
-    }
-    if(!empty($mode)) {
+    endif;
+	
+    if(!empty($mode)):
        $evouserinfo_login .= "<input type=\"hidden\" name=\"mode\" value=\"$mode\">\n";
-    }
-    if(!empty($f)) {
+    endif;
+	
+    if(!empty($f)):
        $evouserinfo_login .= "<input type=\"hidden\" name=\"f\" value=\"$f\">\n";
-    }
-    if(!empty($t)) {
+    endif;
+	
+    if(!empty($t)):
        $evouserinfo_login .= "<input type=\"hidden\" name=\"t\" value=\"$t\">\n";
-    }
+    endif;
+	
     $evouserinfo_login .= "<input type=\"hidden\" name=\"op\" value=\"login\"></td></tr>\n";
     $evouserinfo_login .= "<tr><td align=\"center\"><input class=\"titaniumbutton evo-login-submit\" type=\"submit\" value=\"".$lang_evo_userblock['BLOCK']['LOGIN']['LOGIN']."\"></td></tr></table></form>\n";
 }
@@ -158,4 +168,5 @@ else
 	
 	endif;
 }
+
 ?>
