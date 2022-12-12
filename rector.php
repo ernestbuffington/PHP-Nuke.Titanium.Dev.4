@@ -84,7 +84,7 @@ return static function (RectorConfig $rectorConfig): void {
 		// done fixed __DIR__ . '/modules/Forums/glance.php',
 		//__DIR__ . '/includes/functions.php',
 		// done fixed __DIR__ . '/modules/Forums/search.php',
-       __DIR__ . '/modules/Your_Account/public/new_user3.php',
+       __DIR__ . '/modules/Your_Account/public/new_user2.php',
         //
     ]);
 
