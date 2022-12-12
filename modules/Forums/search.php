@@ -4,60 +4,39 @@
  =======================================================================*/
 
 /***************************************************************************
-
      *                                search.php
-
      *                            -------------------
-
      *   begin                : Saturday, Feb 13, 2001
-
      *   copyright            : (C) 2001 The phpBB Group
-
      *   email                : support@phpbb.com
-
      *
-
      *   Id: search.php,v 1.72.2.16 2005/03/15 18:34:34 acydburn Exp
-
      *
-
      ***************************************************************************/
+
 /***************************************************************************
-
      *
-
      *   This program is free software; you can redistribute it and/or modify
-
      *   it under the terms of the GNU General Public License as published by
-
      *   the Free Software Foundation; either version 2 of the License, or
-
      *   (at your option) any later version.
-
      *
-
      ***************************************************************************/
+
 /*****[CHANGES]**********************************************************
-
     -=[Base]=-
-
           Nuke Patched                             v3.1.0       06/26/2005
-
     -=[Mod]=-
-
           Advanced Username Color                  v1.0.5       06/11/2005
-
           Global Announcements                     v1.2.8       06/13/2005
-
           Search Only Subject                      v0.9.1       06/15/2005
-
           Smilies in Topic Titles                  v1.0.0       07/29/2005
-
           Smilies in Topic Titles Toggle           v1.0.0       09/10/2005
-
           Hide BBCode                              v1.2.0
-
+    -=[Last Update]=-
+	      12/12/2022 10:56 am Ernest Allen Buffington
      ************************************************************************/
+
 if (!defined('MODULE_FILE')) {
     die("You can't access this file directly...");
 }
