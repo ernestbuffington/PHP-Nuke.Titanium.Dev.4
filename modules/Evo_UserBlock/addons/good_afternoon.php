@@ -31,14 +31,14 @@ function evouserinfo_create_date($format, $gmepoch, $tz)
     
 	static $translate;
     
-    if (!defined('ANONYMOUS')) :
-        define('ANONYMOUS', 1);
-        define('MANUAL', 0);
-        define('MANUAL_DST', 1);
-        define('SERVER_SWITCH', 2);
-        define('FULL_SERVER', 3);
-        define('SERVER_PC', 4);
-        define('FULL_PC', 6);
+    if (!defined('ANONYMOUS')):
+        define('ANONYMOUS',1);
+        define('MANUAL',0);
+        define('MANUAL_DST',1);
+        define('SERVER_SWITCH',2);
+        define('FULL_SERVER',3);
+        define('SERVER_PC',4);
+        define('FULL_PC',6);
     endif;
 
     if(empty($translate) && $board_config['default_lang'] != 'english' && is_array($lang['datetime'])):
