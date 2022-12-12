@@ -1081,4 +1081,5 @@ $template->pparse('body');
 
 # Page footer
 include("includes/page_tail.$phpEx");
+
 ?>
