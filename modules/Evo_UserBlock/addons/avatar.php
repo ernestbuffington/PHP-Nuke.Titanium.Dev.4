@@ -22,15 +22,20 @@
 if(!defined('NUKE_EVO')): 
    die ("Illegal File Access");
 endif;
+
 global $avatar_overide_size, $make_xtreme_avatar_small, $board_config, $userinfo;
+
 # START - this was added for the very whimpy small themes that have no block width! by Ernest Buffington 08/06/2019
 if($make_xtreme_avatar_small === true):
   $board_config['avatar_max_height'] = '';
   $board_config['avatar_max_width'] = $avatar_overide_size;
 endif;
 # END - this was added for the very whimpy small themes that have no block width! by Ernest Buffington 08/06/2019
+
 $evouserinfo_avatar = '<div style="text-align:center">';
+
 if(is_user() && $userinfo['user_avatar']):
+
 	switch($userinfo['user_avatar_type']):
 		# user_allowavatar = 1
 		case USER_AVATAR_UPLOAD:
@@ -50,10 +55,12 @@ if(is_user() && $userinfo['user_avatar']):
 			== 'gallery/blank.png') ? 'blank.png' : $userinfo['user_avatar']) . '" alt="" border="0" />' : '';
 			break;
    endswitch;
+
 else:
 $evouserinfo_avatar .= '<img class="rounded-corners-user-info" style="max-height: '.$board_config['avatar_max_height'].'px; max-width: '
 .$board_config['avatar_max_width'].'px;" src="'.$board_config['default_avatar_users_url'].'" alt="" border="0" />';
 endif;
+
 $evouserinfo_avatar .= '</div>';
 
 ?>
