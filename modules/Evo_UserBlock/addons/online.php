@@ -1,23 +1,28 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium v3.0.0 : Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium : Nuke-Evolution | Enhanced and Advnanced
  =======================================================================*/
+
 /************************************************************************
-   Nuke-Evolution: Server Info Administration
+   Nuke-Evolution    : Server Info Administration
+   PHP-Nuke Titanium : Server Info Administration
    ============================================
    Copyright (c) 2005 by The Nuke-Evolution Team
+   Copyright (c) 2022 by The PHP-Nuke Titanium Group
 
-   Filename      : online.php
-   Author(s)     : Technocrat (www.Nuke-Evolution.com)
-   Version       : 1.0.0
+   Filename      : avatar.php
+   Author(s)     : Ernest Allen Buffington, Technocrat
+   Version       : 4.0.3
    Date          : 05.19.2005 (mm.dd.yyyy)
+   Last Update   : 12.12.2022 (mm.dd.yyyy)
 
    Notes         : Evo User Block Who Is Online Module
 ************************************************************************/
-// ONLINE STATS
 
-if(!defined('NUKE_EVO')) 
-exit ("Illegal File Access");
+# ONLINE STATS
+if(!defined('NUKE_EVO')): 
+  exit("Illegal File Access");
+endif;
 
 global $evouserinfo_addons, $evouserinfo_online;
 
@@ -60,7 +65,7 @@ function evouserinfo_get_members_online()
     $out['text'] = '';
     
 	while ($session = $db->sql_fetchrow($result)) 
-    {                                   # spacer
+    {   # spacer
         $num 			= ($i < 10) ? ''.'0'.$i : $i;
 		$uname 			= $session['uname'];
         $uname_color 	= UsernameColor($session['uname']);
@@ -73,23 +78,23 @@ function evouserinfo_get_members_online()
         $user_from 		= $session['user_from'];
         $user_flag 		= str_replace('.png','',$session['user_from_flag']);
         
-		if ($evouserinfo_addons['online_country_flag'] == 'yes'):
-        $user_flag = (($session['user_from_flag']) ? '<span class="countries '.$user_flag.'" title="'.$user_from.'"></span>&nbsp;' : '');
+		if($evouserinfo_addons['online_country_flag'] == 'yes'):
+          $user_flag = (($session['user_from_flag']) ? '<span class="countries '.$user_flag.'" title="'.$user_from.'"></span>&nbsp;' : '');
         else:
-        $user_flag = '';
+          $user_flag = '';
         endif;
 
-        switch( $session['user_avatar_type'] ):
+        switch($session['user_avatar_type']):
         
             case USER_AVATAR_UPLOAD:
-            $poster_avatar = ( $board_config['allow_avatar_upload'] ) 
+            $poster_avatar = ( $board_config['allow_avatar_upload']) 
 			? '<img src="'.$board_config['avatar_path'].'/'.$session['user_avatar'].'" alt="" border="0" />' : '';
             break;
             case USER_AVATAR_REMOTE:
             $poster_avatar = '<img src="'.$session['user_avatar'].'" style="width: '.$board_config['avatar_max_width'].'; height: '.$board_config['avatar_max_height'].';" alt="" border="0" />';
             break;
             case USER_AVATAR_GALLERY:
-            $poster_avatar = ( $board_config['allow_avatar_local'] ) 
+            $poster_avatar = ( $board_config['allow_avatar_local']) 
 			? '<img src="'.$board_config['avatar_gallery_path'].'/'.$session['user_avatar'].'" alt="" border="0" />' : '';
             break;
         
@@ -123,21 +128,21 @@ function evouserinfo_get_members_online()
 			<a href="modules.php?name=Forums&amp;file=search&amp;search_author='.$uname.'">'.$session['user_posts'].'</a></span></div>';
 	        
 			# current users theme in tooltip view
-			$tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$lang_evo_userblock['BLOCK']['ONLINE']['THEME'].'<span>'.(($session['theme']) 
-			? $session['theme'] : $Default_Theme).'</span></div>';
+			$tooltip_userinfo_overlay .= '  </br><div class="user_tooltip">'.$lang_evo_userblock['BLOCK']['ONLINE']['THEME'].'<span>'.(($session['theme']) ? $session['theme'] : $Default_Theme).'</span></div>';
 	        
 			# what the person in the online list are viewing at the moment - should only be available for admins
 			if (is_admin()):
-			$tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$lang_evo_userblock['BLOCK']['ONLINE']['VIEWING'].'<span>'.(($session['module']) 
+			$tooltip_userinfo_overlay .= '  </br><div class="user_tooltip">'.$lang_evo_userblock['BLOCK']['ONLINE']['VIEWING'].'<span>'.(($session['module']) 
 			? '<a href="'.$session['url'].'">'.str_replace('_',' ',$session['module']).'</a>' : 
 			'<a href="'.$session['url'].'">'.$lang_evo_userblock['BLOCK']['ONLINE']['HOME'].'</a>').'</span></div>';
 	         endif;
 			 
 			 # ip address in tooltips for the person visting the website
 			 if (is_admin()):
-	         $tooltip_userinfo_overlay .= '  <div class="user_tooltip">'.$lang_evo_userblock['BLOCK']['ONLINE']['IP'].'<span>'.$session['host_addr'].'</span></div>';
+	         $tooltip_userinfo_overlay .= '  </br><div class="user_tooltip">'.$lang_evo_userblock['BLOCK']['ONLINE']['IP'].'<span>'.$session['host_addr'].'</span></div>';
 	         endif;
-	        $tooltip_userinfo_overlay .= '</div>';
+	        
+			$tooltip_userinfo_overlay .= '</div>';
 
 	        # add the overlay
 			$tooltip_userinfo = ' class="tooltip-html-side-interact" title="'.str_replace('"','\'',$tooltip_userinfo_overlay).'"';
