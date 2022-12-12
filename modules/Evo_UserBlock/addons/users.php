@@ -144,7 +144,7 @@ function evouserinfo_users()
 
     # newest user
     $evouserinfo_users .= '<div style="padding-left: 10px;">';
-    $evouserinfo_users .= '<span style="color: #33CC00;"><i class="fa fa-id-card-o" aria-hidden="true"></i>
+    $evouserinfo_users .= '<span style="color: #33CC00;"><i class="bi bi-person fa-lg" aria-hidden="true"></i>
 </span>&nbsp;'.$lang_evo_userblock['BLOCK']['USERS']['LATEST']
 	.'<span style="float:right"><a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$new_user_id.'">'.$new_user.'</a>&nbsp;&nbsp;</span>';
     $evouserinfo_users .= '</div>';
