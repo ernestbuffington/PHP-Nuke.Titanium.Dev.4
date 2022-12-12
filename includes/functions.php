@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /***************************************************************************
  *                               functions.php
  *                            -------------------
@@ -41,6 +40,8 @@
 	  Forumtitle as Weblink                    v1.2.2
 	  Thank You Mod                            v1.1.8
 	  Post Icons                               v1.0.1
+-=[Last Updated]=-
+      12/12/2022 10:51 am Ernest Allen Buffington      	  
  ************************************************************************/
 
 if (!defined('IN_PHPBB') && !defined('NUKE_EVO'))
@@ -266,7 +267,7 @@ function get_icon_title($icon, $empty=0, $topic_type=-1, $admin=false)
 				$res = '';
 				break;
 			case 1:
-				$res = '<img width="20" align="' . $align . '" src="' . $admin_path . $images['spacer'] . '" alt="" border="0">';
+				$res = '<img width="20" align="' . $align . '" src="' . $admin_path . $images['spacer'] . '" alt="">';
 				break;
 			case 2:
 				$res = $lang[ $icones[$icon_map]['alt'] ] ?? $icones[$icon_map]['alt'];
@@ -275,7 +276,7 @@ function get_icon_title($icon, $empty=0, $topic_type=-1, $admin=false)
 	}
 	else
 	{
-		$res = '<img align="' . $align . '" src="' . ( isset($images[ $icones[$icon_map]['img'] ]) ? $admin_path . $images[ $icones[$icon_map]['img'] ] : $admin_path . $icones[$icon_map]['img'] ) . '" alt="' . ( $lang[ $icones[$icon_map]['alt'] ] ?? $icones[$icon_map]['alt'] ) . '" border="0">';
+		$res = '<img align="' . $align . '" src="' . ( isset($images[ $icones[$icon_map]['img'] ]) ? $admin_path . $images[ $icones[$icon_map]['img'] ] : $admin_path . $icones[$icon_map]['img'] ) . '" alt="' . ( $lang[ $icones[$icon_map]['alt'] ] ?? $icones[$icon_map]['alt'] ) . '">';
 	}
 
 	return $res;
@@ -878,15 +879,15 @@ function init_userprefs($userdata)
 	global $db, $mods, $list_yes_no, $userdata;
 
 	//	get all the mods settings
-	$dir = @opendir(NUKE_INCLUDE_DIR . 'mods_settings');
-	while( $file = @readdir($dir) )
+	$dir = opendir(NUKE_INCLUDE_DIR . 'mods_settings');
+	while( $file = readdir($dir) )
 	{
 		if( preg_match("/^mod_.*?\." . $phpEx . "$/", $file) )
 		{
 			include_once(NUKE_INCLUDE_DIR . 'mods_settings/' . $file);
 		}
 	}
-	@closedir($dir);
+	closedir($dir);
 /*****[END]********************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
@@ -914,7 +915,7 @@ function init_userprefs($userdata)
 		$default_lang = phpbb_ltrim(basename((string) phpbb_rtrim($board_config['default_lang'])), "'");
 	}
 
-	if ( !file_exists(@phpbb_realpath($phpbb_root_path . 'language/lang_' . $default_lang . '/lang_main.'.$phpEx)) )
+	if ( !file_exists(phpbb_realpath($phpbb_root_path . 'language/lang_' . $default_lang . '/lang_main.'.$phpEx)) )
 	{
 		if ( $userdata['user_id'] != ANONYMOUS )
 		{
@@ -929,7 +930,7 @@ function init_userprefs($userdata)
 			$default_lang = 'english';
 		}
 
-		if ( !file_exists(@phpbb_realpath($phpbb_root_path . 'language/lang_' . $default_lang . '/lang_main.'.$phpEx)) )
+		if ( !file_exists(phpbb_realpath($phpbb_root_path . 'language/lang_' . $default_lang . '/lang_main.'.$phpEx)) )
 		{
 			message_die(CRITICAL_ERROR, 'Could not locate valid language pack');
 		}
@@ -971,7 +972,7 @@ function init_userprefs($userdata)
 
     if ( defined('IN_ADMIN') )
     {
-        if( !file_exists(@phpbb_realpath($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin.'.$phpEx)) )
+        if( !file_exists(phpbb_realpath($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin.'.$phpEx)) )
         {
             $board_config['default_lang'] = 'english';
         }
@@ -1101,7 +1102,7 @@ function setup_style($style)
         if (file_exists("themes/$ThemeSel/$template_name/index_body.tpl")) {
             include($template_path . $template_name . '/' . $template_name . '.cfg');
         } else {
-            @include($template_path . $template_name . '/' . $template_name . '.cfg');
+            include($template_path . $template_name . '/' . $template_name . '.cfg');
         }
 
         if ( !defined('TEMPLATE_CONFIG') )
@@ -1109,8 +1110,8 @@ function setup_style($style)
             message_die(CRITICAL_ERROR, "Could not open $template_name template config file", '', __LINE__, __FILE__);
         }
 
-        //$img_lang = ( file_exists(@phpbb_realpath($phpbb_root_path . $current_template_path . '/images/lang_' . $board_config['default_lang'])) ) ? $board_config['default_lang'] : 'english';
-        $img_lang = ( file_exists(@phpbb_realpath($current_template_path . '/images/lang_' . $board_config['default_lang'])) ) ? $board_config['default_lang'] : 'english';
+        //$img_lang = ( file_exists(phpbb_realpath($phpbb_root_path . $current_template_path . '/images/lang_' . $board_config['default_lang'])) ) ? $board_config['default_lang'] : 'english';
+        $img_lang = ( file_exists(phpbb_realpath($current_template_path . '/images/lang_' . $board_config['default_lang'])) ) ? $board_config['default_lang'] : 'english';
 
         foreach ($images as $key => $value) {
             if ( !is_array($value) )
@@ -1779,7 +1780,7 @@ function phpbb_realpath($path)
 {
     global $phpbb_root_path, $phpEx;
 
-    return (!@function_exists('realpath') || !@realpath($phpbb_root_path . 'includes/functions.'.$phpEx)) ? $path : @realpath($path);
+    return (!function_exists('realpath') || !realpath($phpbb_root_path . 'includes/functions.'.$phpEx)) ? $path : realpath($path);
 }
 
 // modded by Quake for NOT using $nukeuser
@@ -2016,4 +2017,5 @@ function password_box ($mode, $s_form_action)
 	$template->pparse('body');
 	include('includes/page_tail.php');
 }
+
 ?>
