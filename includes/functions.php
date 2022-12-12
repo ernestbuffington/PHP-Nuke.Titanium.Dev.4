@@ -1527,7 +1527,7 @@ function message_die($msg_code, $msg_text = '', $msg_title = '', $err_line = '',
 		//
 		OpenTable();
 		
-		$custom_error_message = 'Ooops, something has gone wrong that shout not have happended, please contact the %swebmaster%s about the errors you are getting.<br /><br />';
+		$custom_error_message = 'Ooops, something has gone wrong that should not have happended, please contact the %swebmaster%s about the errors you are getting.<br /><br />';
 		
 		if ( !empty($board_config) && !empty($board_config['board_email']) )
 		{
