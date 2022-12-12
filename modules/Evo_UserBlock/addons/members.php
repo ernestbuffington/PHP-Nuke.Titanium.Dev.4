@@ -1,29 +1,32 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium v3.0.0 : Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium : Nuke-Evolution | Enhanced and Advnanced
  =======================================================================*/
 
 /************************************************************************
-   Nuke-Evolution: Server Info Administration
+   Nuke-Evolution    : Server Info Administration
+   PHP-Nuke Titanium : Server Info Administration
    ============================================
    Copyright (c) 2005 by The Nuke-Evolution Team
+   Copyright (c) 2022 by The PHP-Nuke Titanium Group
 
-   Filename      : members.php
-   Author(s)     : Technocrat (www.Nuke-Evolution.com)
-   Version       : 1.0.0
+   Filename      : avatar.php
+   Author(s)     : Ernest Allen Buffington, Technocrat
+   Version       : 4.0.3
    Date          : 05.19.2005 (mm.dd.yyyy)
-
+   Last Update   : 12.12.2022 (mm.dd.yyyy)
+   
    Notes         : Evo User Block Members Module
 ************************************************************************/
 
-if(!defined('NUKE_EVO')) {
-   die ("Illegal File Access");
-}
+if(!defined('NUKE_EVO')):
+  die("Illegal File Access");
+endif;
 
 global $evouserinfo_addons, $evouserinfo_members;
 
 # group memberships
-function evouserinfo_members () 
+function evouserinfo_members() 
 {
     global $userinfo, $db, $prefix, $user_prefix, $evouserinfo_members, $lang_evo_userblock;
     
@@ -98,10 +101,10 @@ function evouserinfo_members ()
    }
 }
 
-if (is_user()):
-    evouserinfo_members();
+if(is_user()):
+  evouserinfo_members();
 else:
-    $evouserinfo_members = '';
+  $evouserinfo_members = '';
 endif;
-?>
 
+?>
