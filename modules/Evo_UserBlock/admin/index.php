@@ -34,24 +34,30 @@ define('NUKE_EVO_USERBLOCK_ADMIN_INCLUDES', NUKE_EVO_USERBLOCK_ADMIN . 'includes
 define('NUKE_EVO_USERBLOCK_ADMIN_ADDONS', NUKE_EVO_USERBLOCK_ADMIN . 'addons/');
 
 global $prefix, $db, $admin_file, $admdata, $lang_evo_userblock;
+
 $module_name = basename(dirname(dirname(__FILE__)));
 
-if (!is_mod_admin($module_name)) {
-    echo "Access Denied";
-    die();
-}
+if(!is_mod_admin($module_name)): 
+ echo "Access Denied";
+ die();
+endif;
 
 include_once(NUKE_EVO_USERBLOCK_ADMIN_INCLUDES . 'functions.php');
+
 include_once(NUKE_EVO_USERBLOCK_ADDONS.'core.php');
 
 require_once(NUKE_INCLUDE_DIR.'ajax/Sajax.php');
+
 global $Sajax;
 $Sajax = new Sajax();
+
 evouserinfo_addscripts();
+
 $Sajax->sajax_export("sajax_update");
 $Sajax->sajax_handle_client_request();
 
-function evouserinfo_drawlists () {
+function evouserinfo_drawlists() 
+{
     global $lang_evo_userblock, $admin_file, $Default_Theme, $module_name, $board_config, $userinfo, $evouserinfo_ec, $admlang;
 
     $active = evouserinfo_getactive();
@@ -59,14 +65,13 @@ function evouserinfo_drawlists () {
     
     $blocks = NUKE_THEMES_DIR.$Default_Theme."/blocks.html";
     
-    
     OpenTable();
     
-    //Config
-    OpenTable();
-    echo "<div align=\"center\">\n";
+    # Config
+	echo "<div align=\"center\">\n";
     echo "<form action=\"".$admin_file.".php?op=evo-userinfo\" method=\"post\">\n";
-    echo "<table border=\"0\" align=\"center\" cellspacing=\"1\" cellpadding=\"4\">\n";
+    
+	echo "<table border=\"0\" align=\"center\" cellspacing=\"1\" cellpadding=\"4\">\n";
     echo "<tr><td align=\"right\">\n";
     echo $lang_evo_userblock['ADMIN']['COLLAPSE'];
     echo "</td><td align=\"left\">\n";
@@ -74,35 +79,55 @@ function evouserinfo_drawlists () {
     echo "</td>\n";
     echo "</tr>\n";
     echo "</table>\n";
-    echo "<br />";
-    echo "<input type=\"submit\" value=\"".$admlang['global']['submit']."\" />";
+    
+	echo "<br />";
+    
+	echo "<input type=\"submit\" value=\"".$admlang['global']['submit']."\" />";
     echo "</form>\n";
     echo "</div>\n";
     CloseTable();
+	
+	OpenTable();
+
 	echo "<br />";
     echo "<div align=\"center\">";
-    echo "<table width=\"360\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\ align=\"center\">\n";
-    //Inactive
+    echo "<table width=\"460\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\ align=\"center\">\n";
+    
+	# Inactive
     echo "<tr><td>\n";
     echo "<ul id=\"left_col\" class=\"sortable boxy\">\n";
-    if(is_array($inactive)) {
+    
+	if(is_array($inactive)) 
+	{
         global $board_config;
-        foreach ($inactive as $element) {
-            if(!empty($element['image'])) {
-                echo "<li id=\"".$element['filename']."\" ondblclick=\"window.location.href='".$admin_file.".php?op=evo-userinfo&amp;file=".$element['filename']."'\"><center><img src=\"images/".$element['image']."\"></center></li>\n";
-            } else {
+    
+	    foreach ($inactive as $element) 
+		{
+            if(!empty($element['image'])) 
+			{
+                echo "<li id=\"".$element['filename']."\" ondblclick=\"window.location.href='".$admin_file.".php?op=evo-userinfo&amp;file=".$element['filename']."'\"><center><img 
+				src=\"images/".$element['image']."\"></center></li>\n";
+            } 
+			else 
+			{
                 $addon = evouserinfo_load_addon($element['filename']);
-                if(!empty($addon)) {
+            
+			    if(!empty($addon)) 
+				{
                     echo "<li id=\"".$element['filename']."\" ondblclick=\"window.location.href='".$admin_file.".php?op=evo-userinfo&amp;file=".$element['filename']."'\">".$addon."</li>\n";
-                } else {
+                } 
+				else 
+				{
                     echo "<li id=\"".$element['filename']."\" ondblclick=\"window.location.href='".$admin_file.".php?op=evo-userinfo&amp;file=".$element['filename']."'\">".$element['name']."</li>\n";
                 }
             }
         }
     }
-    //Breaks
+    
+	# Breaks
     $end = count($active);
-    for ($i = 0; $i < 5; $i++) {
+    for ($i = 0; $i < 5; $i++) 
+	{
         echo "<li id=\"".$lang_evo_userblock['ADMIN']['BREAK'].$i."\"><hr /></li>\n";
     }
     echo "</ul>\n";
@@ -110,24 +135,38 @@ function evouserinfo_drawlists () {
     echo "</td>\n";
     echo "<td>\n";
     
-    //Active
+    # Active
     $title = "Output";
     $content = "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\ align=\"center\">\n";
     $content .= "<tr><td>\n";
     $content .= "<ul id=\"center\" class=\"sortable boxy\">\n";
-    if(is_array($active)) {
-        foreach ($active as $element) {
-            if(!empty($element['image'])) {
-                $content .= "<li id=\"".$element['filename']."\" ondblclick=\"window.location.href='".$admin_file.".php?op=evo-userinfo&amp;file=".$element['filename']."'\"><center><img src=\"".$board_config['avatar_gallery_path']."/".$userinfo['user_avatar']."\"></center></li>\n";
-            } else {
-                if($element['filename'] != 'Break') {
+    
+	if(is_array($active)) 
+	{
+        foreach ($active as $element) 
+		{
+            if(!empty($element['image'])) 
+			{
+                $content .= "<li id=\"".$element['filename']."\" ondblclick=\"window.location.href='".$admin_file.".php?op=evo-userinfo&amp;file=".$element['filename']."'\"><div align=\"center\"><img 
+				src=\"".$board_config['avatar_gallery_path']."/".$userinfo['user_avatar']."\"></div></li>\n";
+            } 
+			else 
+			{
+                if($element['filename'] != 'Break') 
+				{
                     $addon = evouserinfo_load_addon($element['filename']);
-                    if(!empty($addon)) {
+                    
+					if(!empty($addon)) 
+					{
                         $content .= "<li id=\"".$element['filename']."\" ondblclick=\"window.location.href='".$admin_file.".php?op=evo-userinfo&amp;file=".$element['filename']."'\">".$addon."</li>\n";
-                    } else {
+                    } 
+					else 
+					{
                         $content .= "<li id=\"".$element['filename']."\" ondblclick=\"window.location.href='".$admin_file.".php?op=evo-userinfo&amp;file=".$element['filename']."'\">".$element['name']."</li>\n";
                     }
-                } else {
+                } 
+				else 
+				{
                     $content .= "<li id=\"".$element['filename']."\" ondblclick=\"window.location.href='".$admin_file.".php?op=evo-userinfo&amp;file=".$element['filename']."'\"><hr /></li>\n";
                 }
             }
@@ -136,37 +175,59 @@ function evouserinfo_drawlists () {
     $content .= "</ul>\n";
     $content .= "</td></tr>\n";
     $content .= "</table>";
-    if(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blocks.html")) {
+    
+	if(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blocks.html")) 
+	{
         $tmpl_file = NUKE_THEMES_DIR.$Default_Theme."/blocks.html";
-    } else if(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blockR.html")) {
+    } 
+	elseif(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blockR.html")) 
+	{
         $tmpl_file = NUKE_THEMES_DIR.$Default_Theme."/blockR.html";
-    } else if(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blockr.html")) {
+    }
+	elseif(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blockr.html")) 
+	{
         $tmpl_file = NUKE_THEMES_DIR.$Default_Theme."/blockr.html";
-    } else if(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blockL.html")) {
+    }
+	elseif(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blockL.html")) 
+	{
         $tmpl_file = NUKE_THEMES_DIR.$Default_Theme."/blockL.html";
-    } else if(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blockl.html")) {
+    }
+	elseif(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blockl.html")) 
+	{
         $tmpl_file = NUKE_THEMES_DIR.$Default_Theme."/blockl.html";
-    } else if(file_exists(NUKE_THEMES_DIR.$Default_Theme."/block.html")) {
+    }elseif(file_exists(NUKE_THEMES_DIR.$Default_Theme."/block.html")) 
+	{
         $tmpl_file = NUKE_THEMES_DIR.$Default_Theme."/block.html";
-    } else if(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blocks.htm")) {
+    }elseif(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blocks.htm")) 
+	{
         $tmpl_file = NUKE_THEMES_DIR.$Default_Theme."/blocks.htm";
-    } else if(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blocksR.htm")) {
+    } 
+	elseif(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blocksR.htm")) 
+	{
         $tmpl_file = NUKE_THEMES_DIR.$Default_Theme."/blocksR.htm";
-    } else if(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blocksL.htm")) {
+    }elseif(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blocksL.htm")) 
+	{
         $tmpl_file = NUKE_THEMES_DIR.$Default_Theme."/blocksL.htm";
-    } else if(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blocks-right.htm")) {
+    }elseif(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blocks-right.htm")) 
+	{
         $tmpl_file = NUKE_THEMES_DIR.$Default_Theme."/blocks-right.htm";
-    } else if(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blocks-left.htm")) {
+    }
+	elseif(file_exists(NUKE_THEMES_DIR.$Default_Theme."/blocks-left.htm")) 
+	{
         $tmpl_file = NUKE_THEMES_DIR.$Default_Theme."/blocks-left.htm";
     }
-    if(file_exists($tmpl_file)) {
-    $thefile = implode("", file($tmpl_file));
-    $thefile = addslashes($thefile);
-    $thefile = "\$r_file=\"".$thefile."\";";
-    $thefile = str_replace('168', '230', $thefile);
-    eval($thefile);
-    echo $r_file;
-	} else {
+    
+	if(file_exists($tmpl_file)) 
+	{
+      $thefile = implode("", file($tmpl_file));
+      $thefile = addslashes($thefile);
+      $thefile = "\$r_file=\"".$thefile."\";";
+      $thefile = str_replace('168', '230', $thefile);
+      eval($thefile);
+      echo $r_file;
+	} 
+	else 
+	{
 	echo $content;
 	}
     
@@ -284,18 +345,18 @@ if (!empty($file)){
     include_once(NUKE_BASE_DIR.'header.php');
 	    OpenTable();
         echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=evo-userinfo\">" .$lang_evo_userblock['ADMIN']['ADMIN_HEADER']. "</a></div>\n";
-        echo "<br /><br />";
+        //echo "<br /><br />";
         echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" .$lang_evo_userblock['ADMIN']['ADMIN_RETURN']. "</a> ]</div>\n";
         CloseTable();
-        echo "<br />";
-        title(_EVO_USERINFO);
+        //echo "<br />";
+        //title(_EVO_USERINFO);
         OpenTable();
         echo "<div align=\"center\">\n";
-        echo "<span style=\"font-size: large; font-weight: bold;\">".$lang_evo_userblock['ADMIN']['HELP']."</span>\n<br /><br />\n";
+        echo "<span style=\"font-size: large; font-weight: bold;\">".$lang_evo_userblock['ADMIN']['HELP']."</span>\n<br />\n";
         echo $lang_evo_userblock['ADMIN']['ADMIN_HELP'];
         echo "</div>";
         CloseTable();
-        echo "<br />\n";
+        //echo "<br />\n";
         evouserinfo_drawlists();
     include_once(NUKE_BASE_DIR.'footer.php');
 }
