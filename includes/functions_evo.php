@@ -618,6 +618,7 @@ function EvoDate($format, $gmepoch, $tz)
 			{
                $translate[$match] = $replace;
             }
+			unset($replace); // break the reference with the last element
         }
     }
 
@@ -627,14 +628,14 @@ function EvoDate($format, $gmepoch, $tz)
 		{
 			case 1:
 				$dst_sec = $userinfo['user_dst_time_lag'] * 60;
-				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
+				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec);
 				break;
 			case 2:
 				$dst_sec = date('I', $gmepoch) * $userdata['user_dst_time_lag'] * 60;
-				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
+				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec);
 				break;
 			case 3:
-				return ( !empty($translate) ) ? strtr(date($format, $gmepoch), $translate) : date($format, $gmepoch);
+				return ( !empty($translate) ) ? strtr(date((string)$format, (int)$gmepoch), (string)$translate) : date((string)$format, (int)$gmepoch);
 				break;
 			case 4:
 				if ( isset($pc_dateTime['pc_timezoneOffset']) )
@@ -645,7 +646,7 @@ function EvoDate($format, $gmepoch, $tz)
 					$user_pc_timeOffsets = explode("/", $userinfo['user_pc_timeOffsets']);
 					$tzo_sec = $user_pc_timeOffsets[0];
 				}
-				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + $tzo_sec), $translate) : gmdate($format, $gmepoch + $tzo_sec);
+				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec);
 				break;
 			case 6:
 				if ( isset($pc_dateTime['pc_timeOffset']) )
@@ -656,10 +657,10 @@ function EvoDate($format, $gmepoch, $tz)
 					$user_pc_timeOffsets = explode("/", $userinfo['user_pc_timeOffsets']);
 					$tzo_sec = $user_pc_timeOffsets[1];
 				}
-				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + $tzo_sec), $translate) : gmdate($format, $gmepoch + $tzo_sec);
+				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec);
 				break;
 			default:
-				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + (3600 * $tz)), $translate) : gmdate($format, $gmepoch + (3600 * $tz));
+				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz)), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz));
 				break;
 		}
 	} else
@@ -668,14 +669,14 @@ function EvoDate($format, $gmepoch, $tz)
 		{
 			case 1:
 				$dst_sec = $board_config['default_dst_time_lag'] * 60;
-				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
+				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec);
 				break;
 			case 2:
 				$dst_sec = date('I', $gmepoch) * $board_config['default_dst_time_lag'] * 60;
-				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec), $translate) : gmdate($format, $gmepoch + (3600 * $tz) + $dst_sec);
+				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec);
 				break;
 			case 3:
-				return ( !empty($translate) ) ? strtr(date($format, $gmepoch), $translate) : date($format, $gmepoch);
+				return ( !empty($translate) ) ? strtr(date((string)$format, (int)$gmepoch), (string)$translate) : date((string)$format, (int)$gmepoch);
 				break;
 			case 4:
 				if ( isset($pc_dateTime['pc_timezoneOffset']) )
@@ -685,7 +686,7 @@ function EvoDate($format, $gmepoch, $tz)
 				{
 					$tzo_sec = 0;
 				}
-				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + $tzo_sec), $translate) : gmdate($format, $gmepoch + $tzo_sec);
+				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec);
 				break;
 			case 6:
 				if ( isset($pc_dateTime['pc_timeOffset']) )
@@ -695,10 +696,10 @@ function EvoDate($format, $gmepoch, $tz)
 				{
 					$tzo_sec = 0;
 				}
-				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + $tzo_sec), $translate) : gmdate($format, $gmepoch + $tzo_sec);
+				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec);
 				break;
 			default:
-				return ( !empty($translate) ) ? strtr(gmdate($format, $gmepoch + (3600 * $tz)), $translate) : gmdate($format, $gmepoch + (3600 * $tz));
+				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz)), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz));
 				break;
 		}
 	}
