@@ -13,6 +13,7 @@
  *   Id: index.php,v 1.40.2.7 2005/02/21 18:37:02 acydburn Exp
  *
  ***************************************************************************/
+
 /***************************************************************************
  *
  *   This program is free software; you can redistribute it and/or modify
@@ -21,6 +22,7 @@
  *   (at your option) any later version.
  *
  ***************************************************************************/
+
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Caching System                           v1.0.0       10/24/2005
@@ -98,10 +100,10 @@ function inarray($needle, $haystack)
 if( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'left' )
 {
 
-    $dir = @opendir(".");
+    $dir = opendir(".");
 
     $setmodules = 1;
-    while( $file = @readdir($dir) )
+    while( $file = readdir($dir) )
     {
         if( preg_match("/^admin_.*?\." . $phpEx . "$/", $file) )
         {
@@ -109,7 +111,7 @@ if( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'left' )
         }
     }
 
-    @closedir($dir);
+    closedir($dir);
 
     unset($setmodules);
 
@@ -167,7 +169,8 @@ if( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'left' )
 /*****[END]********************************************
  [ Mod:     DHTML Slide Menu for ACP           v1.0.0 ]
  ******************************************************/
- while( list($cat, $action_array) = each($module) )
+//while( list($cat, $action_array) = each($module) )
+foreach ($module as $cat => $action_array)
 {
     $cat = ( !empty($lang[$cat]) ) ? $lang[$cat] : preg_replace("/_/", " ", $cat);
 
@@ -188,7 +191,8 @@ if( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'left' )
     ksort($action_array);
 
     $row_count = 0;
-    while( list($action, $file)   = each($action_array) )
+    //while( list($action, $file)   = each($action_array) )
+	foreach ($action_array as $action => $file)
     {
         $row_color = ( !($row_count%2) ) ? $theme['td_color1'] : $theme['td_color2'];
         $row_class = ( !($row_count%2) ) ? $theme['td_class1'] : $theme['td_class2'];
@@ -310,15 +314,15 @@ $sql = "SELECT COUNT(user_id) AS total
                     FROM " . USERS_TABLE . "
                     WHERE user_active = 0
                         AND user_id <> " . ANONYMOUS;
-                if ( !($result = $db->sql_query($sql)) )
+            if ( !($result = $db->sql_query($sql)) )
             {
                     message_die(GENERAL_ERROR,"Couldn't get statistic data!", __LINE__, __FILE__, $sql);
             }
-                if ( $row = $db->sql_fetchrow($result) )
+            if ( $row = $db->sql_fetchrow($result) )
             {
                     $total_deactivated_users = $row['total'];
             }
-                else
+            else
             {
                     message_die(GENERAL_ERROR,"Couldn't update pending information!", __LINE__, __FILE__, $sql);
             }
@@ -329,34 +333,35 @@ $sql = "SELECT COUNT(user_id) AS total
                     WHERE user_active = 0
                         AND user_id <> " . ANONYMOUS . "
                     ORDER BY username";
-                if ( !($result = $db->sql_query($sql)) )
+            if ( !($result = $db->sql_query($sql)) )
             {
                     message_die(GENERAL_ERROR,"Couldn't get statistic data!", __LINE__, __FILE__, $sql);
             }
-                while ( $row = $db->sql_fetchrow($result) )
+            
+			while ( $row = $db->sql_fetchrow($result) )
             {
                     $deactivated_names .= (($deactivated_names == '') ? '' : ', ') . UsernameColor($row['username']);
             }
                 $db->sql_freeresult($result);
-$sql = "SELECT COUNT(user_id) AS total
+                $sql = "SELECT COUNT(user_id) AS total
                     FROM " . USERS_TABLE . "
                     WHERE user_level = " . MOD . "
                         AND user_id <> " . ANONYMOUS;
-                if ( !($result = $db->sql_query($sql)) )
+            if ( !($result = $db->sql_query($sql)) )
             {
                     message_die(GENERAL_ERROR,"Couldn't get statistic data!", __LINE__, __FILE__, $sql);
             }
-                if ( $row = $db->sql_fetchrow($result) )
+            if ( $row = $db->sql_fetchrow($result) )
             {
                     $total_moderators = $row['total'];
             }
-                else
+            else
             {
                     message_die(GENERAL_ERROR,"Couldn't update pending information!", __LINE__, __FILE__, $sql);
             }
                 $db->sql_freeresult($result);
                 $moderator_names = '';
-            $sql = "SELECT username
+                $sql = "SELECT username
                     FROM " . USERS_TABLE . "
                     WHERE user_level = " . MOD . "
                         AND user_id <> " . ANONYMOUS . "
@@ -414,16 +419,16 @@ $sql = "SELECT COUNT(user_id) AS total
 
         $avatar_dir_size = 0;
 
-        if ($avatar_dir = @opendir(NUKE_BASE_DIR . $board_config['avatar_path']))
+        if ($avatar_dir = opendir(NUKE_BASE_DIR . $board_config['avatar_path']))
         {
-                while( $file = @readdir($avatar_dir) )
+                while( $file = readdir($avatar_dir) )
                 {
                         if( $file != "." && $file != ".." )
                         {
-                                $avatar_dir_size += @filesize(NUKE_BASE_DIR . $board_config['avatar_path'] . "/" . $file);
+                                $avatar_dir_size += filesize(NUKE_BASE_DIR . $board_config['avatar_path'] . "/" . $file);
                         }
                 }
-                @closedir($avatar_dir);
+                closedir($avatar_dir);
 
                 //
                 // This bit of code translates the avatar directory size into human readable format
@@ -1017,28 +1022,28 @@ $sql = "SELECT VERSION() AS mysql_version";
     $errno = 0;
     $errstr = $version_info = '';
 
-    if ($fsock = @fsockopen('www.phpbb.com', 80, $errno, $errstr, 10))
+    if ($fsock = fsockopen('www.phpbb.com', 80, $errno, $errstr, 10))
     {
-        @fputs($fsock, "GET /updatecheck/20x.txt HTTP/1.1\r\n");
-        @fputs($fsock, "HOST: www.phpbb.com\r\n");
-        @fputs($fsock, "Connection: close\r\n\r\n");
+        fputs($fsock, "GET /updatecheck/20x.txt HTTP/1.1\r\n");
+        fputs($fsock, "HOST: www.phpbb.com\r\n");
+        fputs($fsock, "Connection: close\r\n\r\n");
 
         $get_info = false;
-        while (!@feof($fsock))
+        while (!feof($fsock))
         {
             if ($get_info)
             {
-                $version_info .= @fread($fsock, 1024);
+                $version_info .= fread($fsock, 1024);
             }
             else
             {
-                if (@fgets($fsock, 1024) == "\r\n")
+                if (fgets($fsock, 1024) == "\r\n")
                 {
                     $get_info = true;
                 }
             }
         }
-        @fclose($fsock);
+        fclose($fsock);
 
         $version_info = explode("\n", $version_info);
         $latest_head_revision = (int) $version_info[0];
