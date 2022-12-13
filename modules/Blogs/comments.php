@@ -761,8 +761,12 @@ function reply($pid, $sid, $mode, $order, $thold)
     echo "<font class=\"option\"><strong>"._UCOMMENT.":</strong></font><br />"
         ."<textarea wrap=\"virtual\" cols=\"50\" rows=\"10\" name=\"comment\"></textarea><br />"
         ."<font class=\"content\">"._ALLOWEDHTML."<br />";
-    while (list($key)= each($AllowableHTML)) echo " &lt;".$key."&gt;";
-    echo "<br />";
+    
+	//while(list($key)= each($AllowableHTML))
+	foreach (array_keys($AllowableHTML) as $key) 
+	echo " &lt;".$key."&gt;";
+    
+	echo "<br />";
     if (is_user() AND ($anonpost == 1)) { echo "<input type=\"checkbox\" name=\"xanonpost\"> "._POSTANON."<br />"; }
     echo "<input type=\"hidden\" name=\"pid\" value=\"$pid\">\n"
             ."<input type=\"hidden\" name=\"sid\" value=\"$sid\">\n"
