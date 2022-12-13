@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /***************************************************************************
  *                            functions_post.php
  *                            -------------------
@@ -45,11 +44,11 @@ if (!defined('IN_PHPBB'))
     die('Hacking attempt');
 }
 
-$html_entities_match = array('#&(?!(\#[0-9]+;))#', '#<#', '#>#', '#"#');
-$html_entities_replace = array('&amp;', '&lt;', '&gt;', '&quot;');
+$html_entities_match = ['#&(?!(\#[0-9]+;))#', '#<#', '#>#', '#"#'];
+$html_entities_replace = ['&amp;', '&lt;', '&gt;', '&quot;'];
 
-$unhtml_specialchars_match = array('#&gt;#', '#&lt;#', '#&quot;#', '#&amp;#');
-$unhtml_specialchars_replace = array('>', '<', '"', '&');
+$unhtml_specialchars_match = ['#&gt;#', '#&lt;#', '#&quot;#', '#&amp;#'];
+$unhtml_specialchars_replace = ['>', '<', '"', '&'];
 
 //
 // This function will prepare a posted message for
@@ -68,7 +67,7 @@ function prepare_message($message, $html_on, $bbcode_on, $smile_on, $bbcode_uid 
         //
         // Clean up the message
         //
-        $message = trim($message);
+        $message = trim((string) $message);
 
         if ($html_on)
         {
@@ -77,7 +76,7 @@ function prepare_message($message, $html_on, $bbcode_on, $smile_on, $bbcode_uid 
          		// is going to get converted to HTML entities
          		$message = stripslashes($message);
          		$html_match = '#<[^\w<]*(\w+)((?:"[^"]*"|\'[^\']*\'|[^<>\'"])+)?>#';
-         		$matches = array();
+         		$matches = [];
 
          		$message_split = preg_split($html_match, $message);
          		preg_match_all($html_match, $message, $matches);
@@ -86,8 +85,8 @@ function prepare_message($message, $html_on, $bbcode_on, $smile_on, $bbcode_uid 
 
          		foreach ($message_split as $part)
          		{
-         			$tag = array(array_shift($matches[0]), array_shift($matches[1]), array_shift($matches[2]));
-        			$message .= preg_replace($html_entities_match, $html_entities_replace, $part) . clean_html($tag);
+         			$tag = [array_shift($matches[0]), array_shift($matches[1]), array_shift($matches[2])];
+        			$message .= preg_replace($html_entities_match, (string) $html_entities_replace, (string) $part) . clean_html($tag);
         		}
 
         		$message = addslashes($message);
@@ -107,7 +106,7 @@ function prepare_message($message, $html_on, $bbcode_on, $smile_on, $bbcode_uid 
 /*****[END]********************************************
  [ Mod:     adminHtml                          v1.0.3 ]
  ******************************************************/
-                $message = preg_replace($html_entities_match, $html_entities_replace, $message);
+                $message = preg_replace($html_entities_match, (string) $html_entities_replace, $message);
 /*****[BEGIN]******************************************
  [ Mod:     adminHtml                          v1.0.3 ]
  ******************************************************/
@@ -136,7 +135,7 @@ function unprepare_message($message)
 {
         global $unhtml_specialchars_match, $unhtml_specialchars_replace;
 
-        return preg_replace($unhtml_specialchars_match, $unhtml_specialchars_replace, $message);
+        return preg_replace($unhtml_specialchars_match, (string) $unhtml_specialchars_replace, (string) $message);
 }
 
 //
@@ -177,9 +176,9 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on,
 /*****[BEGIN]******************************************
  [ Mod:    Limit smilies per post              v1.0.2 ]
  ******************************************************/
-        if (substr_count(smilies_pass($message), '<img src="'. $board_config['smilies_path']) > $board_config['max_smilies'] )
+        if (substr_count((string) smilies_pass($message), '<img src="'. $board_config['smilies_path']) > $board_config['max_smilies'] )
         {
-            $to_much_smilies = substr_count(smilies_pass($message), '<img src="'. $board_config['smilies_path']) - $board_config['max_smilies'];
+            $to_much_smilies = substr_count((string) smilies_pass($message), '<img src="'. $board_config['smilies_path']) - $board_config['max_smilies'];
             $to_many_smilies = sprintf($lang['Max_smilies_per_post'], $board_config['max_smilies'], $to_much_smilies);
             $error_msg .= ( !empty($error_msg) ) ? '<br />' . $to_many_smilies : $to_many_smilies;
         }
@@ -188,7 +187,7 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on,
  ******************************************************/
         if (!empty($subject))
         {
-                $subject = htmlspecialchars(trim($subject));
+                $subject = htmlspecialchars(trim((string) $subject));
         }
         else if ($mode == 'newtopic' || ($mode == 'editpost' && $post_data['first_post']))
         {
@@ -199,7 +198,7 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on,
         if (!empty($message))
         {
                 $bbcode_uid = ($bbcode_on) ? make_bbcode_uid() : '';
-                $message = prepare_message(trim($message), $html_on, $bbcode_on, $smilies_on, $bbcode_uid);
+                $message = prepare_message(trim((string) $message), $html_on, $bbcode_on, $smilies_on, $bbcode_uid);
         }
         else if ($mode != 'delete' && $mode != 'poll_delete')
         {
@@ -215,12 +214,12 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on,
 
                 if (!empty($poll_title))
                 {
-                        $poll_title = htmlspecialchars(trim($poll_title));
+                        $poll_title = htmlspecialchars(trim((string) $poll_title));
                 }
 
                 if(!empty($poll_options))
                 {
-                        $temp_option_text = array();
+                        $temp_option_text = [];
                         
 						foreach ($poll_options as $option_id => $option_text) 
 						{
@@ -233,11 +232,11 @@ function prepare_post(&$mode, &$post_data, &$bbcode_on, &$html_on, &$smilies_on,
                         }
                         $option_text = $temp_option_text;
 
-                        if (count($poll_options) < 2)
+                        if ((is_countable($poll_options) ? count($poll_options) : 0) < 2)
                         {
                                 $error_msg .= (!empty($error_msg)) ? '<br />' . $lang['To_few_poll_options'] : $lang['To_few_poll_options'];
                         }
-                        else if (count($poll_options) > $board_config['max_poll_options'])
+                        else if ((is_countable($poll_options) ? count($poll_options) : 0) > $board_config['max_poll_options'])
                         {
                                 $error_msg .= (!empty($error_msg)) ? '<br />' . $lang['To_many_poll_options'] : $lang['To_many_poll_options'];
                         }
@@ -290,11 +289,12 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
         $is_auth = auth(AUTH_ALL, $forum_id, $userdata);
         $is_mod = $is_auth['auth_mod'];
 		
-        # TheGhost aka Erbest Buffington 10/14/2022 10:41am
+        # TheGhost aka Ernest Buffington 10/14/2022 10:41am
 		# if somehow the person is able to get more than 120 characters to submit in a post subject
 		# we just chop the mother fucker off!
-		if(strlen($post_subject) >  117)
-		$post_subject = substr($post_subject,0,117) . "...";
+		if(strlen((string) $post_subject) >  117):
+		  $post_subject = substr((string) $post_subject,0,117) . "...";
+		endif;
 
         if (($mode == 'newtopic' || $mode == 'reply' || $mode == 'editpost') && !$is_mod)
 /*****[END]********************************************
@@ -331,10 +331,10 @@ function submit_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
                 # TheGhost aka Erbest Buffington 10/14/2022 10:41am
 		        # if somehow the person is able to get more than 120 characters to submit in a post subject
 		        # we just chop the mother fucker off!
-		        if(strlen($post_subject) >  117)
-		        $post_subject = substr($post_subject,0,117) . "...";
+		        if(strlen((string) $post_subject) >  117)
+		        $post_subject = substr((string) $post_subject,0,117) . "...";
 
-                $topic_vote = (!empty($poll_title) && count($poll_options) >= 2) ? 1 : 0;
+                $topic_vote = (!empty($poll_title) && (is_countable($poll_options) ? count($poll_options) : 0) >= 2) ? 1 : 0;
 /*****[BEGIN]******************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
@@ -450,12 +450,12 @@ if ($mode == 'newtopic')
                 message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
         }
 
-        add_search_words('single', $post_id, stripslashes($post_message), stripslashes($post_subject));
+        add_search_words('single', $post_id, stripslashes((string) $post_message), stripslashes((string) $post_subject));
 
         //
         // Add poll
         //
-        if (($mode == 'newtopic' || ($mode == 'editpost' && $post_data['edit_poll'])) && !empty($poll_title) && count($poll_options) >= 2)
+        if (($mode == 'newtopic' || ($mode == 'editpost' && $post_data['edit_poll'])) && !empty($poll_title) && (is_countable($poll_options) ? count($poll_options) : 0) >= 2)
         {
 /*****[BEGIN]******************************************
  [ Mod:    Must first vote to see results      v1.0.0 ]
@@ -470,7 +470,7 @@ if ($mode == 'newtopic')
                 }
 
                 $delete_option_sql = '';
-                $old_poll_result = array();
+                $old_poll_result = [];
                 if ($mode == 'editpost' && $post_data['has_poll'])
                 {
                         $sql = "SELECT vote_option_id, vote_result
@@ -729,7 +729,8 @@ function update_post_stats(&$mode, &$post_data, &$forum_id, &$topic_id, &$post_i
 //
 function delete_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_id, &$post_id, &$poll_id)
 {
-/*****[BEGIN]******************************************
+$forum_update_sql = null;
+    /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
     global $cache;
@@ -841,6 +842,8 @@ function delete_post($mode, &$post_data, &$message, &$meta, &$forum_id, &$topic_
 //
 function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topic_id, &$post_id, &$notify_user)
 {
+        $row_attach = [];
+        $user_name = [];
         global $board_config, $lang, $db, $phpbb_root_path, $phpEx, $userdata, $user_ip;
 
         $current_time = time();
@@ -905,7 +908,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                         }
 
                         $update_watched_sql = '';
-                        $bcc_list_ary = array();
+                        $bcc_list_ary = [];
 
                         if ($row = $db->sql_fetchrow($result))
                         {
@@ -918,7 +921,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                                       $attachment ="\n------------------------------------------------------------------\n";
                                 }
                                 // Sixty second limit
-                                @set_time_limit(60);
+                                set_time_limit(60);
 
                                 do
                                 {
@@ -936,76 +939,38 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                                 //
                                 if (preg_match('/[c-z]:\\\.*/i', getenv('PATH')) && !$board_config['smtp_delivery'])
                                 {
-                                        $ini_val = (@phpversion() >= '4.0.0') ? 'ini_get' : 'get_cfg_var';
+                                        $ini_val = (phpversion() >= '4.0.0') ? 'ini_get' : 'get_cfg_var';
 
                                         // We are running on windows, force delivery to use our smtp functions
                                         // since php's are broken by default
                                         $board_config['smtp_delivery'] = 1;
-                                        $board_config['smtp_host'] = @$ini_val('SMTP');
+                                        $board_config['smtp_host'] = $ini_val('SMTP');
                                 }
 
                                 if (count($bcc_list_ary))
                                 {
-                                    $script_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim($board_config['script_path']));
+                                    $script_name = preg_replace('/^\/?(.*?)\/?$/', '\1', trim((string) $board_config['script_path']));
                                     $script_name = 'modules.php?name=Forums&file=viewtopic';
-                                    $server_name = trim($board_config['server_name']);
+                                    $server_name = trim((string) $board_config['server_name']);
                                     $server_protocol = ($board_config['cookie_secure']) ? 'https://' : 'http://';
-                                    $server_port = ($board_config['server_port'] <> 80) ? ':' . trim($board_config['server_port']) . '/' : '/';
+                                    $server_port = ($board_config['server_port'] <> 80) ? ':' . trim((string) $board_config['server_port']) . '/' : '/';
 
-                                    $orig_word = array();
-                                    $replacement_word = array();
+                                    $orig_word = [];
+                                    $replacement_word = [];
                                     obtain_word_list($orig_word, $replacement_word);
 
-                                    $topic_title = (count($orig_word)) ? preg_replace($orig_word, $replacement_word, unprepare_message($topic_title)) : unprepare_message($topic_title);
+                                    $topic_title = (count($orig_word)) ? preg_replace($orig_word, $replacement_word, (string) unprepare_message($topic_title)) : unprepare_message($topic_title);
 
-                                    @reset($bcc_list_ary);
-                                    @reset($user_name);
+                                    reset($bcc_list_ary);
+                                    reset($user_name);
 
-                                    $notify_body_pattern    = array(
-                                        '{USERNAME}',
-                                        '{TOPIC_TITLE}',
-                                        '{SITENAME}',
-                                        '{U_TOPIC}',
-                                        '{REPLY_BY}',
-                                        '{CONTENTS}',
-                                        '{ATTACHMENT}',
-                                        '{U_STOP_WATCHING_TOPIC}',
-                                        '{EMAIL_SIG}'
-                                    );
+                                    $notify_body_pattern    = ['{USERNAME}', '{TOPIC_TITLE}', '{SITENAME}', '{U_TOPIC}', '{REPLY_BY}', '{CONTENTS}', '{ATTACHMENT}', '{U_STOP_WATCHING_TOPIC}', '{EMAIL_SIG}'];
 
-                                    $notify_body_replace    = array(
-                                        $lang['From'].' '.$board_config['sitename'],
-                                        $topic_title,
-                                        $board_config['sitename'],
-                                        $server_protocol . $server_name . $server_port . $script_name . '&' . POST_POST_URL . "=$post_id#$post_id",
-                                        $poster_name,
-                                        $text,
-                                        $attachment,
-                                        $server_protocol . $server_name . $server_port . $script_name . '&' . POST_TOPIC_URL . "=$topic_id&unwatch=topic",
-                                        (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : ''
-                                    );
+                                    $notify_body_replace    = [$lang['From'].' '.$board_config['sitename'], $topic_title, $board_config['sitename'], $server_protocol . $server_name . $server_port . $script_name . '&' . POST_POST_URL . "=$post_id#$post_id", $poster_name, $text, $attachment, $server_protocol . $server_name . $server_port . $script_name . '&' . POST_TOPIC_URL . "=$topic_id&unwatch=topic", (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : ''];
 
-                                    $email_data = array(
-                                        'email'         => $row['user_email'],
-                                        'from'          => $board_config['board_email'],
-                                        'reply_to'      => $board_config['board_email'],
-                                        'subject'       => $lang['Topic_reply_notification'],
-                                        'signature'     => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : '',
-                                        'content_type'  => 'text/html',
-                                        'charset'       => 'UTF-8',
+                                    $email_data = ['email'         => $row['user_email'], 'from'          => $board_config['board_email'], 'reply_to'      => $board_config['board_email'], 'subject'       => $lang['Topic_reply_notification'], 'signature'     => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : '', 'content_type'  => 'text/html', 'charset'       => 'UTF-8', 'username'      => $lang['From'].' '.$board_config['sitename'], 'topic_title'   => $topic_title, 'sitename'      => $board_config['sitename'], 'topic_link'    => $server_protocol . $server_name . $server_port . $script_name . '&' . POST_POST_URL . "=$post_id#$post_id", 'reply_by'      => $poster_name, 'contents'      => $text, 'attachment'    => $attachment, 'stop_watching' => $server_protocol . $server_name . $server_port . $script_name . '&' . POST_TOPIC_URL . "=$topic_id&unwatch=topic", 'signature'     => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : ''];
 
-                                        'username'      => $lang['From'].' '.$board_config['sitename'],
-                                        'topic_title'   => $topic_title,
-                                        'sitename'      => $board_config['sitename'],
-                                        'topic_link'    => $server_protocol . $server_name . $server_port . $script_name . '&' . POST_POST_URL . "=$post_id#$post_id",
-                                        'reply_by'      => $poster_name,
-                                        'contents'      => $text,
-                                        'attachment'    => $attachment,
-                                        'stop_watching' => $server_protocol . $server_name . $server_port . $script_name . '&' . POST_TOPIC_URL . "=$topic_id&unwatch=topic",
-                                        'signature'     => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : ''
-                                    );
-
-                                    $content = str_replace( '{USERNAME}', $email_data['username'], $lang['topic_notify'] );
+                                    $content = str_replace( '{USERNAME}', $email_data['username'], (string) $lang['topic_notify'] );
                                     $content = str_replace( '{TOPIC_TITLE}', $email_data['topic_title'], $content );
                                     $content = str_replace( '{SITENAME}', $email_data['sitename'], $content );
                                     $content = str_replace( '{U_TOPIC}', '<a href="'.$email_data['topic_link'].'">'.$email_data['topic_link'].'</a>', $content );
@@ -1106,8 +1071,7 @@ function generate_smilies($mode, $page_id)
                 include("includes/page_header_review.php");
         }
 
-                $template->set_filenames(array(
-                        'smiliesbody' => 'posting_smilies.tpl')
+                $template->set_filenames(['smiliesbody' => 'posting_smilies.tpl']
                 );
         }
 
@@ -1117,12 +1081,12 @@ function generate_smilies($mode, $page_id)
         if ($result = $db->sql_query($sql))
         {
                 $num_smilies = 0;
-                $rowset = array();
+                $rowset = [];
                 while ($row = $db->sql_fetchrow($result))
                 {
                         if (empty($rowset[$row['smile_url']]))
                         {
-                                $rowset[$row['smile_url']]['code'] = str_replace("'", "\\'", str_replace('\\', '\\\\', $row['code']));
+                                $rowset[$row['smile_url']]['code'] = str_replace("'", "\\'", str_replace('\\', '\\\\', (string) $row['code']));
                                 $rowset[$row['smile_url']]['emoticon'] = $row['emoticon'];
                                 $num_smilies++;
                         }
@@ -1167,18 +1131,13 @@ function generate_smilies($mode, $page_id)
 
                         if ($mode == 'inline' && $num_smilies > $inline_rows * $inline_columns)
                         {
-                                $template->assign_block_vars('switch_smilies_extra', array());
+                                $template->assign_block_vars('switch_smilies_extra', []);
 
-                                $template->assign_vars(array(
-                                        'L_MORE_SMILIES' => $lang['More_emoticons'],
-                                        'U_MORE_SMILIES' => append_sid("posting.$phpEx?mode=smilies&popup=1"))
+                                $template->assign_vars(['L_MORE_SMILIES' => $lang['More_emoticons'], 'U_MORE_SMILIES' => append_sid("posting.$phpEx?mode=smilies&popup=1")]
                                 );
                         }
 
-                        $template->assign_vars(array(
-                                'L_EMOTICONS' => $lang['Emoticons'],
-                                'L_CLOSE_WINDOW' => $lang['Close_window'],
-                                'S_SMILIES_COLSPAN' => $s_colspan)
+                        $template->assign_vars(['L_EMOTICONS' => $lang['Emoticons'], 'L_CLOSE_WINDOW' => $lang['Close_window'], 'S_SMILIES_COLSPAN' => $s_colspan]
                         );
                 }
         }
@@ -1201,7 +1160,7 @@ function replace_double_spaces($message)
     $nbsp_replace = ' &nbsp;';
 
     // replace all instances of double-spaces with a single space + &nbsp;
-    $message = preg_replace($nbsp_match, $nbsp_replace, $message);
+    $message = preg_replace($nbsp_match, $nbsp_replace, (string) $message);
 
     return $message;
 }
@@ -1223,11 +1182,11 @@ function clean_html($tag)
 		return '';
 	}
 
-	$allowed_html_tags = preg_split('/, */', strtolower($board_config['allow_html_tags']));
+	$allowed_html_tags = preg_split('/, */', strtolower((string) $board_config['allow_html_tags']));
 	$disallowed_attributes = '/^(?:style|on)/i';
 
 	// Check if this is an end tag
-	preg_match('/<[^\w\/]*\/[\W]*(\w+)/', $tag[0], $matches);
+	preg_match('/<[^\w\/]*\/[\W]*(\w+)/', (string) $tag[0], $matches);
 	if (sizeof($matches))
 	{
 		if (in_array(strtolower($matches[1]), $allowed_html_tags))
@@ -1241,22 +1200,22 @@ function clean_html($tag)
 	}
 
 	// Check if this is an allowed tag
-	if (in_array(strtolower($tag[1]), $allowed_html_tags))
+	if (in_array(strtolower((string) $tag[1]), $allowed_html_tags))
 	{
 		$attributes = '';
 		if (!empty($tag[2]))
 		{
-			preg_match_all('/[\W]*?(\w+)[\W]*?=[\W]*?(["\'])((?:(?!\2).)*)\2/', $tag[2], $test);
+			preg_match_all('/[\W]*?(\w+)[\W]*?=[\W]*?(["\'])((?:(?!\2).)*)\2/', (string) $tag[2], $test);
 			for ($i = 0; $i < sizeof($test[0]); $i++)
 			{
-				if (preg_match($disallowed_attributes, $test[1][$i]))
+				if (preg_match($disallowed_attributes, (string) $test[1][$i]))
 				{
 					continue;
 				}
-				$attributes .= ' ' . $test[1][$i] . '=' . $test[2][$i] . str_replace(array('[', ']'), array('&#91;', '&#93;'), htmlspecialchars($test[3][$i])) . $test[2][$i];
+				$attributes .= ' ' . $test[1][$i] . '=' . $test[2][$i] . str_replace(['[', ']'], ['&#91;', '&#93;'], htmlspecialchars((string) $test[3][$i])) . $test[2][$i];
 			}
 		}
-		if (in_array(strtolower($tag[1]), $allowed_html_tags))
+		if (in_array(strtolower((string) $tag[1]), $allowed_html_tags))
 		{
 			return '<' . $tag[1] . $attributes . '>';
 		}
