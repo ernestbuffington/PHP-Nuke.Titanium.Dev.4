@@ -69,7 +69,7 @@ require(__DIR__ . "/../../../includes/functions_validate.php");
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-if ( !file_exists(@phpbb_realpath($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_adv_time.' . $phpEx)) )
+if ( !file_exists(phpbb_realpath($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_adv_time.' . $phpEx)) )
 {
     include_once($phpbb_root_path . 'language/lang_english/lang_adv_time.' . $phpEx);
 } else
@@ -642,7 +642,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
         				{
         					case $board_config['bday_year'] && (($empty_month !== $empty_day) || ($empty_day !== $empty_year)):
         					case !$board_config['bday_year'] && (($empty_month !== $empty_day) || ($empty_day && !$empty_year)):
-        					case !@checkdate( $temp_month, $temp_day, $temp_year ) && (!$board_config['bday_lock'] || $userdata['user_birthday'] == 0):
+        					case !checkdate( $temp_month, $temp_day, $temp_year ) && (!$board_config['bday_lock'] || $userdata['user_birthday'] == 0):
         						$error = TRUE;
         						$error_msg .= ( ( empty($error_msg) ) ? '' : '<br />' ) . $lang['Birthday_invalid'];
         				}
@@ -728,9 +728,9 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
             //
             $avatar_sql = "";
             if (isset($_POST['avatardel'])) {
-                if( $this_userdata['user_avatar_type'] == USER_AVATAR_UPLOAD && $this_userdata['user_avatar'] != "" && @file_exists(@phpbb_realpath('./../' . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar'])) )
+                if( $this_userdata['user_avatar_type'] == USER_AVATAR_UPLOAD && $this_userdata['user_avatar'] != "" && file_exists(phpbb_realpath('./../' . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar'])) )
                 {
-                        @unlink('./../' . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar']);
+                        unlink('./../' . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar']);
                 }
                 $avatar_sql = ", user_avatar = '', user_avatar_type = " . USER_AVATAR_NONE;
             } elseif (( $user_avatar_loc != "" || !empty($user_avatar_url) ) && !$error) {
@@ -748,7 +748,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
                         $error_msg .= $lang['Only_one_avatar'];
                 }
                 if ($user_avatar_loc != "") {
-                    if( file_exists(@phpbb_realpath($user_avatar_loc)) && preg_match("/\.(jpg|gif|png)$/i", (string) $user_avatar_name) )
+                    if( file_exists(phpbb_realpath($user_avatar_loc)) && preg_match("/\.(jpg|gif|png)$/i", (string) $user_avatar_name) )
                     {
                             if( $user_avatar_size <= $board_config['avatar_filesize'] && $user_avatar_size > 0)
                             {
@@ -781,7 +781,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 
                                     if( !$error )
                                     {
-                                            [$width, $height] = @getimagesize($user_avatar_loc);
+                                            [$width, $height] = getimagesize($user_avatar_loc);
 
                                             if( $width <= $board_config['avatar_max_width'] && $height <= $board_config['avatar_max_height'] )
                                             {
@@ -789,11 +789,11 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 
                                                     $avatar_filename = $user_id . $imgtype;
 
-                                                    if( $this_userdata['user_avatar_type'] == USER_AVATAR_UPLOAD && $this_userdata['user_avatar'] != "" && @file_exists(@phpbb_realpath("./../" . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar'])) )
+                                                    if( $this_userdata['user_avatar_type'] == USER_AVATAR_UPLOAD && $this_userdata['user_avatar'] != "" && file_exists(phpbb_realpath("./../" . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar'])) )
                                                     {
-                                                            @unlink("./../" . $board_config['avatar_path'] . "/". $this_userdata['user_avatar']);
+                                                            unlink("./../" . $board_config['avatar_path'] . "/". $this_userdata['user_avatar']);
                                                     }
-                                                    @copy($user_avatar_loc, "./../" . $board_config['avatar_path'] . "/$avatar_filename");
+                                                    copy($user_avatar_loc, "./../" . $board_config['avatar_path'] . "/$avatar_filename");
 
                                                     $avatar_sql = ", user_avatar = '$avatar_filename', user_avatar_type = " . USER_AVATAR_UPLOAD;
                                             }
@@ -830,7 +830,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
                     {
                             $port = (empty($url_ary[3])) ? 80 : $url_ary[3];
 
-                            $fsock = @fsockopen($url_ary[2], $port, $errno, $errstr);
+                            $fsock = fsockopen($url_ary[2], $port, $errno, $errstr);
                             if( $fsock )
                             {
                                     $base_get = "/" . $url_ary[4];
@@ -838,16 +838,16 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
                                     //
                                     // Uses HTTP 1.1, could use HTTP 1.0 ...
                                     //
-                                    @fwrite($fsock, "GET $base_get HTTP/1.1\r\n");
-                                    @fwrite($fsock, "HOST: " . $url_ary[2] . "\r\n");
-                                    @fwrite($fsock, "Connection: close\r\n\r\n");
+                                    fwrite($fsock, "GET $base_get HTTP/1.1\r\n");
+                                    fwrite($fsock, "HOST: " . $url_ary[2] . "\r\n");
+                                    fwrite($fsock, "Connection: close\r\n\r\n");
 
                                     unset($avatar_data);
-                                    while( !@feof($fsock) )
+                                    while( !feof($fsock) )
                                     {
-                                            $avatar_data .= @fread($fsock, $board_config['avatar_filesize']);
+                                            $avatar_data .= fread($fsock, $board_config['avatar_filesize']);
                                     }
-                                    @fclose($fsock);
+                                    fclose($fsock);
 
                                     if( preg_match("/Content-Length\\: (\\d+)[^\\/ ][\\s]+/i", (string) $avatar_data, $file_data1) && preg_match("/Content-Type\: image\/[x\-]*([a-z]+)[\s]+/i", (string) $avatar_data, $file_data2) )
                                     {
@@ -878,13 +878,13 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
                                                     $avatar_data = substr((string) $avatar_data, strlen((string) $avatar_data) - $file_size, $file_size);
 
                                                     $tmp_filename = tempnam ("/tmp", $this_userdata['user_id'] . "-");
-                                                    $fptr = @fopen($tmp_filename, "wb");
-                                                    $bytes_written = @fwrite($fptr, $avatar_data, $file_size);
-                                                    @fclose($fptr);
+                                                    $fptr = fopen($tmp_filename, "wb");
+                                                    $bytes_written = fwrite($fptr, $avatar_data, $file_size);
+                                                    fclose($fptr);
 
                                                     if( $bytes_written == $file_size )
                                                     {
-                                                            [$width, $height] = @getimagesize($tmp_filename);
+                                                            [$width, $height] = getimagesize($tmp_filename);
 
                                                             if( $width <= $board_config['avatar_max_width'] && $height <= $board_config['avatar_max_height'] )
                                                             {
@@ -892,12 +892,12 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 
                                                                     $avatar_filename = $user_id . $imgtype;
 
-                                                                    if( $this_userdata['user_avatar_type'] == USER_AVATAR_UPLOAD && $this_userdata['user_avatar'] != "" && file_exists(@phpbb_realpath("./../" . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar'])))
+                                                                    if( $this_userdata['user_avatar_type'] == USER_AVATAR_UPLOAD && $this_userdata['user_avatar'] != "" && file_exists(phpbb_realpath("./../" . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar'])))
                                                                     {
-                                                                            @unlink("./../" . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar']);
+                                                                            unlink("./../" . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar']);
                                                                     }
-                                                                    @copy($tmp_filename, "./../" . $board_config['avatar_path'] . "/$avatar_filename");
-                                                                    @unlink($tmp_filename);
+                                                                    copy($tmp_filename, "./../" . $board_config['avatar_path'] . "/$avatar_filename");
+                                                                    unlink($tmp_filename);
 
                                                                     $avatar_sql = ", user_avatar = '$avatar_filename', user_avatar_type = " . USER_AVATAR_UPLOAD;
                                                             }
@@ -914,7 +914,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
                                                             //
                                                             // Error writing file
                                                             //
-                                                            @unlink($tmp_filename);
+                                                            unlink($tmp_filename);
                                                             message_die(GENERAL_ERROR, "Could not write avatar file to local storage. Please contact the board administrator with this message", "", __LINE__, __FILE__);
                                                     }
                                             }
@@ -1309,19 +1309,19 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
                         $template->set_filenames(["body" => "admin/user_avatar_gallery.tpl"]
                         );
 
-                        $dir = @opendir("../" . $board_config['avatar_gallery_path']);
+                        $dir = opendir("../" . $board_config['avatar_gallery_path']);
 
                         $avatar_images = [];
-                        while( $file = @readdir($dir) )
+                        while( $file = readdir($dir) )
                         {
                                 if( $file != "." && $file != ".." && !is_file(phpbb_realpath("./../" . $board_config['avatar_gallery_path'] . "/" . $file)) && !is_link(phpbb_realpath("./../" . $board_config['avatar_gallery_path'] . "/" . $file)) )
                                 {
-                                        $sub_dir = @opendir("../" . $board_config['avatar_gallery_path'] . "/" . $file);
+                                        $sub_dir = opendir("../" . $board_config['avatar_gallery_path'] . "/" . $file);
 
                                         $avatar_row_count = 0;
                                         $avatar_col_count = 0;
 
-                                        while( $sub_file = @readdir($sub_dir) )
+                                        while( $sub_file = readdir($sub_dir) )
                                         {
                                                 if( preg_match("/(\.gif$|\.png$|\.jpg)$/is", $sub_file) )
                                                 {
@@ -1338,10 +1338,10 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
                                 }
                         }
 
-                        @closedir($dir);
+                        closedir($dir);
 
                         $category = isset($_POST['avatarcategory']) ? htmlspecialchars((string) $_POST['avatarcategory']) : key($avatar_images);
-                        @reset($avatar_images);
+                        reset($avatar_images);
 
                         $s_categories = "";
                         foreach (array_keys($avatar_images) as $key) {
@@ -1768,7 +1768,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
                 // us from doing file uploads....
                 //
                 $ini_val = ( phpversion() >= '4.0.0' ) ? 'ini_get' : 'get_cfg_var';
-                $form_enctype = ( !@$ini_val('file_uploads') || phpversion() == '4.0.4pl1' || !$board_config['allow_avatar_upload'] || ( phpversion() < '4.0.3' && @$ini_val('open_basedir') != '' ) ) ? '' : 'enctype="multipart/form-data"';
+                $form_enctype = ( !$ini_val('file_uploads') || phpversion() == '4.0.4pl1' || !$board_config['allow_avatar_upload'] || ( phpversion() < '4.0.3' && $ini_val('open_basedir') != '' ) ) ? '' : 'enctype="multipart/form-data"';
 /*****[BEGIN]******************************************
  [ Mod:     Member Country Flags               v2.0.7 ]
  ******************************************************/
@@ -2188,7 +2188,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
 
-                if( file_exists(@phpbb_realpath('./../' . $board_config['avatar_path'])) && ($board_config['allow_avatar_upload'] == TRUE) )
+                if( file_exists(phpbb_realpath('./../' . $board_config['avatar_path'])) && ($board_config['allow_avatar_upload'] == TRUE) )
                 {
                         if ( $form_enctype != '' )
                         {
@@ -2197,7 +2197,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
                         $template->assign_block_vars('avatar_remote_upload', [] );
                 }
 
-                if( file_exists(@phpbb_realpath('./../' . $board_config['avatar_gallery_path'])) && ($board_config['allow_avatar_local'] == TRUE) )
+                if( file_exists(phpbb_realpath('./../' . $board_config['avatar_gallery_path'])) && ($board_config['allow_avatar_local'] == TRUE) )
                 {
                         $template->assign_block_vars('avatar_local_gallery', [] );
                 }
