@@ -107,9 +107,7 @@ if(!$result = $db->sql_query($sql))
 
 # Create a hash to keep track of all the user that is using the uploaded avatar
 while($avatar_rowset = $db->sql_fetchrow($result)):
-    # Mod: Advanced Username Color v1.0.5 START
-    $avatar_usage[$avatar_rowset['user_avatar']] = UsernameColor($avatar_rowset['username']);
-    # Mod: Advanced Username Color v1.0.5 END
+    $avatar_usage[$avatar_rowset['user_avatar']] = $avatar_rowset['username'];
 endwhile;
 
 # This is the variable that points to the path of the avatars
@@ -164,6 +162,9 @@ switch($mode):
             
                 # This is where the script will filter out any file that doesn't match the patterns
                 if($file != "." && $file != ".." && preg_match("/\.(gif|jpg|webp|jpeg|png)$/i",$file)):
+				
+				if(($file === 'invisible.png') || ($file === 'no_avatar.png') || ($file === 'hidden.png') || ($file === 'blank.png'))
+				continue;
                 
                     $stats = stat($real_avatar_dir.'/'.$file);
 
