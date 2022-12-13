@@ -430,11 +430,11 @@ $sql = "SELECT COUNT(user_id) AS total
                 }
                 closedir($avatar_dir);
 
-                //
-                // This bit of code translates the avatar directory size into human readable format
-                // Borrowed the code from the PHP.net annoted manual, origanally written by:
-                // Jesse (jesse@jess.on.ca)
-                //
+                /*
+                 * This bit of code translates the avatar directory size into human readable format
+                 * Borrowed the code from the PHP.net annoted manual, origanally written by:
+                 * Jesse (jesse@jess.on.ca)
+                 */
                 if($avatar_dir_size >= 1048576)
                 {
                         $avatar_dir_size = round($avatar_dir_size / 1048576 * 100) / 100 . " MB";
