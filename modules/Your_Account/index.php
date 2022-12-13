@@ -418,7 +418,8 @@ switch($op):
              include(NUKE_MODULES_DIR.$module_name.'/public/new_user2.php');
 			 # if admin approval is not required and user activate is required 
 			 elseif ($ya_config['requireadmin'] == 0 AND $ya_config['useactivate'] == 1) 
-             include(NUKE_MODULES_DIR.$module_name.'/public/new_user3.php');
+             //include(NUKE_MODULES_DIR.$module_name.'/public/new_user3.php');
+			 include(NUKE_MODULES_DIR.$module_name.'/public/new_user_registration_no_validation.php');
           endif;
         endif;
       else: 
