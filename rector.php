@@ -57,7 +57,7 @@ return static function (RectorConfig $rectorConfig): void {
 		__DIR__ . '/modules/Shout_Box',
 		__DIR__ . '/modules/Spambot_Killer',
 		__DIR__ . '/modules/Statistics',
-		__DIR__ . '/modules/Surveys',
+		//__DIR__ . '/modules/Surveys',
 		__DIR__ . '/modules/Titanium_SandBox',
 		__DIR__ . '/modules/Web_Links',
 		//__DIR__ . '/modules/Your_Account',
@@ -85,7 +85,7 @@ return static function (RectorConfig $rectorConfig): void {
 		//__DIR__ . '/includes/usercp_avatar.php',
 		//__DIR__ . '/modules/Blogs/comments.php',
 		//__DIR__ . '/includes/functions.php',
-		__DIR__ . '/modules/Forums/admin/admin_user_ban.php',
+		__DIR__ . '/modules/Surveys/includes/pollblock.php',
        //__DIR__ . '/modules/Your_Account/public/new_user1.php',
         //
     ]);
