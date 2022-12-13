@@ -76,11 +76,11 @@ if ($db->sql_numrows($result) < 1) {
         $leftbar = file_exists("themes/$ThemeSel/images/survey_leftbar.gif") ? 'survey_leftbar.gif' : 'leftbar.gif';
         $mainbar = file_exists("themes/$ThemeSel/images/survey_mainbar.gif") ? 'survey_mainbar.gif' : 'mainbar.gif';
         $rightbar = file_exists("themes/$ThemeSel/images/survey_rightbar.gif") ? 'survey_rightbar.gif' : 'rightbar.gif';
-        $l_size = @getimagesize("themes/$ThemeSel/images/$leftbar");
-        $m_size = @getimagesize("themes/$ThemeSel/images/$mainbar");
-        $r_size = @getimagesize("themes/$ThemeSel/images/$rightbar");
+        $l_size = getimagesize("themes/$ThemeSel/images/$leftbar");
+        $m_size = getimagesize("themes/$ThemeSel/images/$mainbar");
+        $r_size = getimagesize("themes/$ThemeSel/images/$rightbar");
         if (file_exists("themes/$ThemeSel/images/survey_mainbar_d.gif")) $mainbar_d = 'survey_mainbar_d.gif';
-        if (isset($mainbar_d)) $m1_size = @getimagesize("themes/$ThemeSel/images/$mainbar_d");
+        if (isset($mainbar_d)) $m1_size = getimagesize("themes/$ThemeSel/images/$mainbar_d");
 
         foreach ($options as $option) {
             if($sum > 0):
