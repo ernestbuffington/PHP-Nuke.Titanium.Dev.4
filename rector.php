@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\Class_\InlineConstructorDefaultToPropertyRector;
 use Rector\Config\RectorConfig;
+use Rector\Set\ValueObject\SetList;
+use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Core\ValueObject\PhpVersion;
 
@@ -79,9 +81,9 @@ return static function (RectorConfig $rectorConfig): void {
         //
         
         //__DIR__ . '/index.php',
-		__DIR__ . '/includes/functions_post.php',
+		//__DIR__ . '/includes/functions_post.php',
 		//__DIR__ . '/includes/usercp_avatar.php',
-		// done fixed __DIR__ . '/modules/Forums/glance.php',
+		__DIR__ . '/modules/Blogs/comments.php',
 		//__DIR__ . '/includes/functions.php',
 		//__DIR__ . '/modules/Forums/admin/admin_avatar.php',
        //__DIR__ . '/modules/Your_Account/public/new_user1.php',
@@ -94,7 +96,10 @@ return static function (RectorConfig $rectorConfig): void {
 	$rectorConfig->phpVersion(PhpVersion::PHP_81);
      //define sets of rules
         $rectorConfig->sets([
-            LevelSetList::UP_TO_PHP_81
+            LevelSetList::UP_TO_PHP_81,
+			SetList::CODE_QUALITY,
 			
         ]);
+
+
 };
