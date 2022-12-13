@@ -112,7 +112,7 @@ define("_BROADCASTTEXT","You can send a <i>Public Message</i> from here (255 cha
 define("_BROWSEUSERS","Browse Users");
 define("_BYTESNOTE","bytes (1024 bytes = 1K)");
 define("_CANCEL","Cancel");
-define("_CANKNOWABOUT","(255 characters max. Type what others can know about yourself)");
+define("_CANKNOWABOUT","(255 characters max. Tell us about yourself)");
 define("_CHANGEHOME","Your Home");
 define("_CHANGEYOURINFO","Your Info");
 define("_CHARLONG","characters long");
