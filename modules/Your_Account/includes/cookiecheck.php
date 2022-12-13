@@ -22,12 +22,12 @@
 /* CNB Your Account it the official successor of NSN Your Account by Bob Marion    */
 /*********************************************************************************/
 
-/********************************************************/
+/*********************************************************/
 /* Coded by Richard van Oosterhout, the Netherlands      */
-/* (menelaos dot hetnet dot nl)                  */
-/* based on MyCookies Manager by A_Jelly_Doughnut       */
-/* and work by Josh Pettit of UBB.Threads          */
-/********************************************************/
+/* (menelaos dot hetnet dot nl)                          */
+/* based on MyCookies Manager by A_Jelly_Doughnut        */
+/* and work by Josh Pettit of UBB.Threads                */
+/*********************************************************/
 
 /*****[CHANGES]**********************************************************
 -=[Base]=-
