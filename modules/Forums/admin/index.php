@@ -470,12 +470,12 @@ $sql = "SELECT COUNT(user_id) AS total
                 $users_per_day = $total_users;
         }
 
-        //
-        // DB size ... MySQL only
-        //
-        // This code is heavily influenced by a similar routine
-        // in phpMyAdmin 2.2.0
-        //
+        /*
+         * DB size ... MySQL only
+         *
+         * This code is heavily influenced by a similar routine
+         * in phpMyAdmin 2.2.0
+         */
         if( preg_match("/^mysql/", SQL_LAYER) )
         {
                 $sql = "SELECT VERSION() AS mysql_version";
