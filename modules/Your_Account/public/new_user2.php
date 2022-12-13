@@ -27,7 +27,7 @@
 -=[Mod]=-
       Password Strength Meter                  v1.0.0       07/12/2005
  ************************************************************************/
-echo 'new_user2.php';
+//echo 'new_user2.php';
 if (!defined('MODULE_FILE')) {
    die ("You can't access this file directly...");
 }
@@ -169,7 +169,7 @@ if (!defined('CNBYA')) {
     $gfxchk = [3, 4, 6, 7];
     $gfx = security_code($gfxchk, 'normal'); //Size - compact || normal
     if(!empty($gfx)) {
-        echo "<tr><td bgcolor='$bgcolor2' colspan='2'><center>".$gfx."</center></td></tr>";
+        echo "<tr><td style=\"background-color: $bgcolor2;\" colspan='2'><div align=\"center\">".$gfx."</div></td></tr>";
     }
     # start Nuke Honeypot
 	if (file_exists('./includes/honeypot/hp_new_user2.php')) {
@@ -177,7 +177,7 @@ if (!defined('CNBYA')) {
 	}
 	# end Nuke Honeypot
     echo "<input type='hidden' name='op' value='new_confirm'>\n";
-    echo "<tr><td bgcolor='$bgcolor1' colspan='2' style='text-align: center'><input type='submit' value='"._YA_CONTINUE."'></td></tr>\n";
+    echo "<tr><td style=\"background-color: $bgcolor1;\" colspan='2' style='text-align: center'><input type='submit' value='"._YA_CONTINUE."'></td></tr>\n";
     echo "</table></form>\n";
     echo "<br />\n";
     echo "<div align=\"center\">"._YOUWILLRECEIVE."</div></br>\n";
