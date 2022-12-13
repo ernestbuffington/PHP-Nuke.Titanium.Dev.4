@@ -32,7 +32,7 @@ if (!defined('MODULE_FILE')) { die('You can\'t access this file directly...'); }
 
 global $cookie, $userinfo;
 
-@include_once(NUKE_INCLUDE_DIR.'counter.php');
+include_once(NUKE_INCLUDE_DIR.'counter.php');
 
 $module_name = basename(dirname(__FILE__));
 
@@ -117,7 +117,7 @@ $Theme_Sel = get_theme();
 echo "<html>\n";
 echo "<head>\n";
 
-@require_once("themes/".$Theme_Sel."/theme.php");
+require_once("themes/".$Theme_Sel."/theme.php");
 
 echo "<link href=\"themes/".$Theme_Sel."/style/style.css\" rel=\"stylesheet\" type=\"text/css\">";
 echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />";

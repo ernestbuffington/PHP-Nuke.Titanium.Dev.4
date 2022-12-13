@@ -22,8 +22,8 @@ include('includes/functions_arcade.' . $phpEx);
 require( $phpbb_root_path . 'gf_funcs/gen_funcs.' . $phpEx );
 include('includes/constants.php');
 
-$userdata = session_pagestart($user_ip, PAGE_GAME, $nukeuser);
-//init_userprefs($userdata);
+$userdata = session_pagestart($user_ip, PAGE_GAME);
+init_userprefs($userdata);
 
 $sessdo = get_var_gf(array('name'=>'sessdo', 'method'=>'POST', 'default'=>''));
 
@@ -36,7 +36,7 @@ if (!empty($sessdo))
   $fakekey = get_var_gf(array('name'=>'fakekey', 'method'=>'POST', 'default'=>''));
   $gametime = get_var_gf(array('name'=>'gametime', 'method'=>'POST', 'default'=>''));
   
-  $header_location = ( @preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOFTWARE")) ) ? "Refresh: 0; URL=" : "Location: ";
+  $header_location = ( preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOFTWARE")) ) ? "Refresh: 0; URL=" : "Location: ";
 
   switch($sessdo)
   {
@@ -84,7 +84,7 @@ if (!empty($sessdo))
      break;
      
     case 'burn' :
-        $header_location = ( @preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOFTWARE")) ) ? "Refresh: 0; URL=" : "Location: ";
+        $header_location = ( preg_match("/Microsoft|WebSTAR|Xitami/", getenv("SERVER_SOFTWARE")) ) ? "Refresh: 0; URL=" : "Location: ";
         $tbinfos = explode('|',$microone);
         $newhash = substr( $tbinfos[2] , 24 , 8 ) . substr( $tbinfos[2] , 0 , 24 ) ;
         header($header_location . "modules.php?name=Forums&file=proarcade&" . $tbinfos[1] . "=" . $tbinfos[0] . "&gid=$id&newhash=$newhash&hashoffset=8&settime=$gametime&gpaver=GFARV2");

@@ -123,7 +123,7 @@ if(preg_match('/IIS/', $_SERVER['SERVER_SOFTWARE']) && isset($_SERVER['SCRIPT_NA
 endif;
 
 # PHP5 with register_long_arrays off?
-if(PHP_5 && (!@ini_get('register_long_arrays') || @ini_get('register_long_arrays') == '0' || strtolower(@ini_get('register_long_arrays')) == 'off')):
+if(PHP_5 && (!ini_get('register_long_arrays') || ini_get('register_long_arrays') == '0' || strtolower(ini_get('register_long_arrays')) == 'off')):
     $HTTP_POST_VARS =& $_POST;
     $HTTP_GET_VARS =& $_GET;
     $HTTP_SERVER_VARS =& $_SERVER;
@@ -1278,7 +1278,7 @@ function check_words($message)
       $replacement_word[] = $replacement;
     endforeach;
     
-	$return_message = @preg_replace($orig_word, $replacement_word, $message);
+	$return_message = preg_replace($orig_word, $replacement_word, $message);
 
     return $return_message;
 }

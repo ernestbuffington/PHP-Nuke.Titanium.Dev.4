@@ -55,7 +55,7 @@ function head()
 	$ThemeSel = get_theme();
 	
 	echo "<!-- Loading Auto MimeType v1.0.0 from header.php -->\n";
-	if (@file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/mimetype.php')):  
+	if (file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/mimetype.php')):  
     include(NUKE_THEMES_DIR.$ThemeSel.'/includes/mimetype.php');
 	else: 
       echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" />'."\n";
@@ -83,12 +83,12 @@ function head()
 
 	#################################################################
 	echo "\n<!-- Loadiing class.browsers.php from header.php -->\n";#
-	if (@file_exists(TITANIUM_CLASSES_DIR . 'class.browsers.php'))  #      Added by Ernest Buffington
+	if (file_exists(TITANIUM_CLASSES_DIR . 'class.browsers.php'))  #      Added by Ernest Buffington
 	include(TITANIUM_CLASSES_DIR . 'class.browsers.php');           #----- Load Browser class - used for checking your browser types
     #                                                               #      Start date Jan 1st 2012 till Present - It is a work in progress!
     #################################################################
 	echo "\n<!-- Loadiing cookies.php from header.php -->\n";#
-	if (@file_exists(TITANIUM_INCLUDE_DIR . 'cookies.php'))  #            Added by Ernest Buffington
+	if (file_exists(TITANIUM_INCLUDE_DIR . 'cookies.php'))  #            Added by Ernest Buffington
 	include(TITANIUM_INCLUDE_DIR . 'cookies.php');           #----------- Load the custom cookies file if it exist COOKIE CONTROL
     ##########################################################            Jan 1st 2012 
 	echo "\n<!-- Loadiing includes/javascript.php from header.php -->\n";
@@ -105,7 +105,7 @@ function head()
 	addPHPCSSToHead(NUKE_BASE_DIR.'includes/css/cms_css.php','file');
     # FlyKit Mod v1.0.0 END
 
-	if (@file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php')): # CHECK FOR THEME JAVASCRIPT Added by Ernest Buffington 3/16/2021 10:58am
+	if (file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php')): # CHECK FOR THEME JAVASCRIPT Added by Ernest Buffington 3/16/2021 10:58am
 	  echo "\n<!-- Loadiing themes/".$ThemeSel."/includes/javascript.php from header.php -->\n\n";
       include_once(NUKE_THEMES_DIR.$ThemeSel.'/includes/javascript.php');
 	endif;

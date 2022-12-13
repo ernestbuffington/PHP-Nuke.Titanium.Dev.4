@@ -616,6 +616,7 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
         // end sticky shouts
 
         $i = 0;
+		$flag = [];
         while ($row = $db->sql_fetchrow($result)) {
             if ($flag == 1) { $bgcolor = $rowColor['blockColor1']; }
             if ($flag == 2) { $bgcolor = $rowColor['blockColor2']; }

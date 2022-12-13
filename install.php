@@ -26,7 +26,7 @@ include('install/functions.php');
 include('includes/functions_selects.php');
 
 $nuke_name = "PHP-Nuke Titanium Dev 4 (US Version) ";
-$sql_version = @mysqli_get_server_info();
+$sql_version = mysqli_get_server_info();
 
 if (!isset($_SESSION['language']) || $_SESSION['language'] == 'english'){
     $_SESSION['language'] = (isset($_POST['language'])) ? $_POST['language'] : 'english';
