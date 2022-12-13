@@ -79,11 +79,11 @@ return static function (RectorConfig $rectorConfig): void {
         //
         
         //__DIR__ . '/index.php',
-		// done fixed __DIR__ . '/includes/db/mysqli.php',
-		__DIR__ . '/includes/usercp_avatar.php',
+		__DIR__ . '/includes/functions_post.php',
+		//__DIR__ . '/includes/usercp_avatar.php',
 		// done fixed __DIR__ . '/modules/Forums/glance.php',
 		//__DIR__ . '/includes/functions.php',
-		// done fixed __DIR__ . '/modules/Forums/search.php',
+		//__DIR__ . '/modules/Forums/admin/admin_avatar.php',
        //__DIR__ . '/modules/Your_Account/public/new_user1.php',
         //
     ]);
