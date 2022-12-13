@@ -437,15 +437,15 @@ $sql = "SELECT COUNT(user_id) AS total
                  */
                 if($avatar_dir_size >= 1048576)
                 {
-                        $avatar_dir_size = round($avatar_dir_size / 1048576 * 100) / 100 . " MB";
+                  $avatar_dir_size = round($avatar_dir_size / 1048576 * 100) / 100 . " MB";
                 }
                 else if($avatar_dir_size >= 1024)
                 {
-                        $avatar_dir_size = round($avatar_dir_size / 1024 * 100) / 100 . " KB";
+                  $avatar_dir_size = round($avatar_dir_size / 1024 * 100) / 100 . " KB";
                 }
                 else
                 {
-                        $avatar_dir_size = $avatar_dir_size . " Bytes";
+                  $avatar_dir_size = $avatar_dir_size . " Bytes";
                 }
 
         }
