@@ -139,7 +139,7 @@ function tz_select($default, $select_name = 'timezone')
     
 	echo '<form action="modules.php?name='.$module_name.'" method="post" name="newuser">'.PHP_EOL;
 	
-    echo '<table class="rounded-corners" style="border: 0.1px solid '.$bgcolor2.'; padding: 1px 0.1px; margin:auto" cellpadding="4" cellspacing="4" border="1">'.PHP_EOL;
+    echo '<table class="rounded-corners" style="background-color: '.$bgcolor1.'; border: 0.1px solid '.$bgcolor3.'; padding: 1px 0.1px; margin:auto" cellpadding="4" cellspacing="4" border="1">'.PHP_EOL;
 	
     echo '<tr><td style="background-color: '.$bgcolor1.'; border: 0.1px solid '.$bgcolor2.'; text-align: center; border-collapse: collapse;" colspan="2"><div align="center"><h1>'._REGNEWUSER.'</h1></div></td></tr>'.PHP_EOL;
 	
@@ -354,7 +354,7 @@ function tz_select($default, $select_name = 'timezone')
     $gfx = security_code($gfxchk, 'normal'); //Size - compact || normal
     
 	if(!empty($gfx)): 
-        echo '<tr><td style="background-color: '.$bgcolor1.'; border: 0.1px solid '.$bgcolor2.';" colspan="2"><div align="center">'.$gfx.'</div></td></tr>'.PHP_EOL;
+        echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';" colspan="2"><div align="center">'.$gfx.'</div></td></tr>'.PHP_EOL;
     endif;
 
 	# Nuke Honeypot - CoRpSE START
