@@ -144,25 +144,15 @@ function tz_select($default, $select_name = 'timezone')
 	
     echo '<tr><td style="background-color: '.$bgcolor1.'; border: 0.1px solid '.$bgcolor2.'; text-align: center; border-collapse: collapse;" colspan="2"><div align="center"><h1>'._REGNEWUSER.'</h1></div></td></tr>'.PHP_EOL;
 	
-    echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;2</td></tr>'.PHP_EOL;	
-	
     echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><div class="textbold">&nbsp;&nbsp;'._NICKNAME.':</div><span 
 	     style="color: red; font-size: 13px; font-weight: bold; font-style: italic;">&nbsp;&nbsp;'._REQUIRED.'</span></td>
 	     <td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><input type="text" name="ya_username" size="15" id="username_input" 
 		 maxlength='.$ya_config['nick_max'].'>&nbsp;<span id="username_check_result"></span>&nbsp;<span style="color: red; font-size: 13px; font-weight: bold; 
-		 font-style: italic;">'._REQUIRED.'</span><br /><span style="color: white; font-size: 13px; font-style: italic;">('._YA_NICKLENGTH.')</span></td></tr>'.PHP_EOL;
-
-    echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;2</td></tr>'.PHP_EOL;	
-
+		 font-style: italic;">'._REQUIRED.'</span><br /><span style="color: '.$textcolor1.'; font-size: 13px; font-style: italic;">('._YA_NICKLENGTH.')</span></td></tr>'.PHP_EOL;
 
     echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><div class="textbold">&nbsp;&nbsp;'._UREALNAME.':</div><span style="color: lime; font-size: 13px; font-weight: bold; 
 		 font-style: italic;">&nbsp;&nbsp;'._OPTIONAL.'</span> </td><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><input type="text" name="ya_realname" 
 		 size="40" maxlength="60"></td></tr>'.PHP_EOL;
-
-    echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;2</td></tr>'.PHP_EOL;	
 
     echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><div class="textbold">&nbsp;&nbsp;'._EMAIL.':</div><span style="color: red; font-size: 13px; font-weight: bold; 
 		 font-style: italic;">&nbsp;&nbsp;'._REQUIRED.'</span></td><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><input type="text" name="ya_user_email" size="40" 
@@ -177,18 +167,12 @@ function tz_select($default, $select_name = 'timezone')
       echo '<input type="hidden" name="ya_user_email2" value="ya_user_email">'.PHP_EOL;
     endif;
 
-    echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.'; text-align: left;">&nbsp;2</td></tr>'.PHP_EOL;	
-
 	# Nuke Honeypot - CoRpSE START
 	# CoRpSE had this loading twice and I removed one of them...
 	if(file_exists('./includes/honeypot/hp_new_user1.php')):
 	  include_once './includes/honeypot/hp_new_user1.php';
 	endif;
     # Nuke Honeypot - CoRpSE END
-
-    echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;2</td></tr>'.PHP_EOL;	
 
     $result = $db->sql_query("SELECT * FROM ".$user_prefix."_cnbya_field WHERE (need = '2') OR (need = '3') ORDER BY pos");
 	
@@ -245,22 +229,17 @@ function tz_select($default, $select_name = 'timezone')
 	//echo _PSM_CLICK." <a href=\"javascript:strengthhelp()\">"._PSM_HERE."</a> "._PSM_HELP."<br />";
 	# Mod: Password Strength Meter v1.0.0 END
 
-    echo '<span style="color: white; font-size: 13px; font-style: italic;">('._BLANKFORAUTO.')</span><br /><span style="color: white; font-size: 13px; font-style: italic;">('._YA_PASSLENGTH.')</span></td></tr>'.PHP_EOL;
+    echo '<span style="color: '.$textcolor1.'; font-size: 13px; font-style: italic;">('._BLANKFORAUTO.')</span><br /><span style="color: '.$textcolor1.'; font-size: 13px; 
+	     font-style: italic;">('._YA_PASSLENGTH.')</span></td></tr>'.PHP_EOL;
 	
     echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.'; padding-top: 4; vertical-align: top;"><div class="textbold">&nbsp;&nbsp;'._RETYPEPASSWORD.':</div></td><td 
 	style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><input type="password" name="user_password2" size="10" maxlength="'.$ya_config['pass_max'].'"><br /><span 
-	style="color: white; font-size: 13px; font-style: italic;">('._BLANKFORAUTO.')</span><br /><span style="color: white; font-size: 13px; font-style: italic;">('._YA_PASSLENGTH.')</span></td></tr>'.PHP_EOL;
+	style="color: '.$textcolor1.'; font-size: 13px; font-style: italic;">('._BLANKFORAUTO.')</span><br /><span style="color: '.$textcolor1.'; font-size: 13px; font-style: italic;">('._YA_PASSLENGTH.')</span></td></tr>'.PHP_EOL;
 
-    echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;2</td></tr>'.PHP_EOL;	
-    
 	echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><div class="textbold">&nbsp;&nbsp;'._UFAKEMAIL.':</div><span style="color: lime; font-size: 13px; font-weight: bold; 
 		 font-style: italic;">&nbsp;&nbsp;'._OPTIONAL.'</span></td><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><input type="text" name="femail" size="40" 
-		 maxlength="255"><br /><span style="color: white; font-size: 13px; font-style: italic;">'._EMAILPUBLIC.'</span></td></tr>'.PHP_EOL;
+		 maxlength="255"><br /><span style="color: '.$textcolor1.'; font-size: 13px; font-style: italic;">'._EMAILPUBLIC.'</span></td></tr>'.PHP_EOL;
 
-    echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;2</td></tr>'.PHP_EOL;	
-    
 	# Mod: XData v0.1.1 START
     $xd_meta = get_xd_metadata();
     foreach($xd_meta as $code_name => $info): 
@@ -320,36 +299,27 @@ function tz_select($default, $select_name = 'timezone')
                     echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><div class="textbold">&nbsp;&nbsp;'._YOURHOMEPAGE.':</div><span 
 					      style="color: lime; font-size: 13px; font-weight: bold; font-style: italic;">&nbsp;&nbsp;'._OPTIONAL.'</span></td><td 
 					      style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><input type="text" name="user_website" size="40" maxlength="255"></td></tr>'.PHP_EOL;
-                    echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	                echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;2</td></tr>'.PHP_EOL;	
                 break;
                 case "location":
                     echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><div class="textbold">&nbsp;&nbsp;'._YLOCATION.':</div><span 
 					      style="color: lime; font-size: 13px; font-weight: bold; font-style: italic;">&nbsp;&nbsp;'._OPTIONAL.'</span></td><td 
 					      style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><input type="text" name="user_from" size="30" maxlength="100"></td></tr>'.PHP_EOL;
- 					echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	                echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;2</td></tr>'.PHP_EOL;	
                 break;
                 case "occupation":
                     echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><div class="textbold">&nbsp;&nbsp;'._YOCCUPATION.':</div><span 
 					      style="color: lime; font-size: 13px; font-weight: bold; font-style: italic;">&nbsp;&nbsp;'._OPTIONAL.'</span></td><td 
 					      style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><input type="text" name="user_occ" size="30" maxlength="100"></td></tr>'.PHP_EOL;
-					echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	                echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;2</td></tr>'.PHP_EOL;	
                 break;
                 case "interests":
                     echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><div class="textbold">&nbsp;&nbsp;'._YINTERESTS.':</div><span 
 					      style="color: lime; font-size: 13px; font-weight: bold; font-style: italic;">&nbsp;&nbsp;'._OPTIONAL.'</span></td><td 
 					      style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><input type="text" name="user_interests" size="30" maxlength="100"></td></tr>'.PHP_EOL;
-                    echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	                echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;2</td></tr>'.PHP_EOL;	
                 break;
                 case "signature":
                     echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><div class="textbold">&nbsp;&nbsp;'._SIGNATURE.':</div><span 
 					      style="color: lime; font-size: 13px; font-weight: bold; font-style: italic;">&nbsp;&nbsp;'._OPTIONAL.'</span><br />&nbsp;&nbsp;'._NOHTML.'</td><td 
-					      style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><textarea cols="50" rows="5" name="user_sig"></textarea><br />'._255CHARMAX.'</td></tr>'.PHP_EOL;
-					echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	                echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;2</td></tr>'.PHP_EOL;	
+					      style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><textarea cols="50" rows="5" name="user_sig"></textarea><br /><span 
+						  style="color: '.$textcolor1.'; font-size: 13px; font-style: italic;">'._255CHARMAX.'</span></td></tr>'.PHP_EOL;
                 break;
             endswitch;
         endif;
@@ -360,44 +330,26 @@ function tz_select($default, $select_name = 'timezone')
 	      style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><select name="newsletter"><option value="1" selected>'._YES.'</option><option 
 		  value="0">'._NO.'</option></select></td></tr>'.PHP_EOL;
 
-    echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;2</td></tr>'.PHP_EOL;	
-
     echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><div class="textbold">&nbsp;&nbsp;'._ALWAYSSHOWEMAIL.':</div></td><td 
 	      style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><select name="user_viewemail"><option value="1" selected>'._YES.'</option><option value="0">'._NO.'</option></select></td></tr>'.PHP_EOL;
-
-    echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;2</td></tr>'.PHP_EOL;	
 
     echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><div class="textbold">&nbsp;&nbsp;'._HIDEONLINE.':</div></td><td 
 	      style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><select name="user_allow_viewonline"><option value="0">'._YES.'</option><option 
 		  value="1" selected>'._NO.'</option></select></td></tr>'.PHP_EOL;
-
-    echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;2</td></tr>'.PHP_EOL;	
 
     echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><div class="textbold">&nbsp;&nbsp;'._FORUMSTIME.':</div></td><td 
 	      style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">'.PHP_EOL;
 	global $board_config;
     echo tz_select($board_config['board_timezone'], 'timezone');
     echo "</td></tr>\n";
-    
-    echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;2</td></tr>'.PHP_EOL;	
 	
 	echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><div class="textbold">&nbsp;&nbsp;'._FORUMSDATE.':</div></td><td 
 	      style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><input type="text" name="user_dateformat" 
 	      value="D M d, Y g:i a" size="15" maxlength="14">'._FORUMSDATEMSG.'</td></tr>'.PHP_EOL;
 	
-    echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;2</td></tr>'.PHP_EOL;	
-	
-    echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><div class="textbold">&nbsp;&nbsp;'._EXTRAINFO.':</div>&nbsp;&nbsp;
-	     '._OPTIONAL.'<br />&nbsp;&nbsp;'._NOHTML.'</td><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><textarea cols="50" rows="5" name="bio"></textarea><br />
-		 '._CANKNOWABOUT.'</td></tr>'.PHP_EOL;
-
-    echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;1</td>'.PHP_EOL;
-	echo '<td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';">&nbsp;2</td></tr>'.PHP_EOL;	
+    echo '<tr><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><div class="textbold">&nbsp;&nbsp;'._EXTRAINFO.':</div>&nbsp;
+	     <span style="color: lime; font-weight: bold; font-size: 13px; font-style: italic;">'._OPTIONAL.'</span><br />&nbsp;&nbsp;'._NOHTML.'</td><td style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';"><textarea cols="50" rows="5" name="bio"></textarea><br />
+		 <span style="color: '.$textcolor1.'; font-size: 13px; font-style: italic;">'._CANKNOWABOUT.'</span></td></tr>'.PHP_EOL;
 
     $gfxchk = [3, 4, 6, 7];
     $gfx = security_code($gfxchk, 'normal'); //Size - compact || normal
