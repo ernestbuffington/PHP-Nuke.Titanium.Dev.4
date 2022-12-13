@@ -32,18 +32,18 @@ if (!defined('NUKE_EVO')) {
 global $prefix, $db, $content, $pollcomm, $user, $userinfo, $cookie, $multilingual, $currentlang, $evoconfig, $cache, $identify;
 
 // Fetch random poll
-$make_random = intval($evoconfig['poll_random']);
+$make_random = (int) $evoconfig['poll_random'];
 
 // Fetch number of days in between voting per user
-$number_of_days = intval($evoconfig['poll_days']);
+$number_of_days = (int) $evoconfig['poll_days'];
 
 $querylang = ($multilingual == 1) ? "WHERE (planguage='$currentlang' OR planguage='') AND artid='0'" : "WHERE artid='0'";
-$queryorder = ($make_random) ? 'RAND()' : 'pollID DESC';
+$queryorder = ($make_random !== 0) ? 'RAND()' : 'pollID DESC';
 
 $pollID = (isset($_REQUEST['pollID'])) ? (int)$_REQUEST['pollID'] : '';
 
 if(isset($pollID) && is_numeric($pollID)) {
-    $result = $db->sql_query("SELECT pollID, pollTitle, voters FROM ".$prefix."_poll_desc WHERE `pollID`=".intval($pollID));
+    $result = $db->sql_query("SELECT pollID, pollTitle, voters FROM ".$prefix."_poll_desc WHERE `pollID`=".(int) $pollID);
 } else {
     $result = $db->sql_query("SELECT pollID, pollTitle, voters FROM ".$prefix."_poll_desc $querylang ORDER BY $queryorder LIMIT 1");
 }
@@ -51,9 +51,9 @@ if(isset($pollID) && is_numeric($pollID)) {
 if ($db->sql_numrows($result) < 1) {
     $content = "<br />"._NOSURVEYS."<br /><br />";
 } else {
-    list($pollID, $pollTitle, $voters) = $db->sql_fetchrow($result);
+    [$pollID, $pollTitle, $voters] = $db->sql_fetchrow($result);
     $db->sql_freeresult($result);
-    $pollTitle = stripslashes($pollTitle);
+    $pollTitle = stripslashes((string) $pollTitle);
     $url = "modules.php?name=Surveys&amp;op=results&amp;pollID=$pollID";
     $sum = "";
     $button = "";
@@ -68,7 +68,9 @@ if ($db->sql_numrows($result) < 1) {
     if ($db->sql_numrows($result) > 0) {
         while ($row = $db->sql_fetchrow($result2)) {
             $options[] = $row;
-            $sum += (int)$row['optionCount'];
+            if($sum > 0):
+			  $sum += (int)$row['optionCount'];
+			endif;
         }
         $ThemeSel = get_theme();
         $leftbar = file_exists("themes/$ThemeSel/images/survey_leftbar.gif") ? 'survey_leftbar.gif' : 'leftbar.gif';
@@ -81,17 +83,17 @@ if ($db->sql_numrows($result) < 1) {
         if (isset($mainbar_d)) $m1_size = @getimagesize("themes/$ThemeSel/images/$mainbar_d");
 
         foreach ($options as $option) {
-            $percent = @(100 / $sum * $option['optionCount']);
+            if($sum > 0):
+			  $percent = (100 / $sum * $option['optionCount']);
+			endif;
             $percentInt = (int)$percent * .85;
             $percent2 = (int)$percent;
             $content .= "<tr><td>$option[optionText]<br />";
             $content .= "<img src=\"themes/$ThemeSel/images/$leftbar\" height=\"$l_size[1]\" width=\"$l_size[0]\" alt=\"$percent2 %\" title=\"$percent2 %\">";
             if ($percent > 0) {
-                    $content .= "<img src=\"themes/$ThemeSel/images/$mainbar\" height=\"$m_size[1]\" width=\"$percentInt%\" alt=\"$percent2 %\" title=\"$percent2 %\">";
-            } else {
-                if (!isset($mainbar_d)) {
-                    $content .= "<img src=\"themes/$ThemeSel/images/$mainbar\" height=\"$m_size[1]\" width=\"$m_size[0]\" alt=\"$percent2 %\" title=\"$percent2 %\">";
-                }
+                $content .= "<img src=\"themes/$ThemeSel/images/$mainbar\" height=\"$m_size[1]\" width=\"$percentInt%\" alt=\"$percent2 %\" title=\"$percent2 %\">";
+            } elseif (!isset($mainbar_d)) {
+                $content .= "<img src=\"themes/$ThemeSel/images/$mainbar\" height=\"$m_size[1]\" width=\"$m_size[0]\" alt=\"$percent2 %\" title=\"$percent2 %\">";
             }
             $content .= "<img src=\"themes/$ThemeSel/images/$rightbar\" height=\"$r_size[1]\" width=\"$r_size[0]\" alt=\"$percent2 %\" title=\"$percent2 %\"><br />";
             $content .= "</td></tr>\n";
@@ -115,7 +117,7 @@ if ($db->sql_numrows($result) < 1) {
     <br />"._VOTES." <strong>$sum</strong>\n";
     if ($pollcomm) {
         $result = $db->sql_query("SELECT COUNT(*) FROM ".$prefix."_pollcomments WHERE pollID='$pollID'");
-        list($numcom) = $db->sql_fetchrow($result);
+        [$numcom] = $db->sql_fetchrow($result);
         $db->sql_freeresult($result);
         $content .= "<br /> "._PCOMMENTS." <strong>$numcom</strong>\n";
     }
