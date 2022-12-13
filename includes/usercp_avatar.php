@@ -36,6 +36,7 @@
 	  Gender                                   v1.2.6
 	  Birthdays                                v3.0.0
 -=[Last Update]=-
+      12/13/2022 2:17 am Ernest Allen Buffington	  
       10/05/2022 1:05 am Ernest Allen Buffington	  
  ************************************************************************/
 
@@ -351,7 +352,8 @@ function display_avatar_gallery($mode,
 
 		if( empty($category) )
 		{
-				list($category, ) = each($avatar_images);
+				//list($category, ) = each($avatar_images);
+				foreach (array_keys($avatar_images) as $category);
 		}
 		reset($avatar_images);
 
@@ -431,7 +433,8 @@ function display_avatar_gallery($mode,
 		}
 
 		$xd_meta = get_xd_metadata();
-		while ( list($code_name, ) = each($xd_meta) )
+		//while ( list($code_name, ) = each($xd_meta) )
+		foreach (array_keys($xd_meta) as $code_name)
 		{
 			if ( isset($xdata[$code_name]) )
 			{
