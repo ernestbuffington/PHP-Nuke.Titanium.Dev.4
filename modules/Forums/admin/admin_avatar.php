@@ -175,17 +175,14 @@ switch($mode):
 					  $alter = $alt1; 
 					endif;
                     
-					if(isset($avatar_usage[$file])):
+					//if(!empty($avatar_usage[$file])):
                     
                         # Since we need to supply a link with a valid sid later in html, let's build it now
                         $av_id = $avatar_usage[$file];
-                        $sql = "SELECT user_id FROM ".USERS_TABLE." WHERE username = ".$av_id;
-                        
-						if(!$result = $db->sql_query($sql)):
-                            $error = $db->sql_error();
-                            die("Could not get user information! $error[code] : $error[message]");
-                        endif;
-                        
+                        $sql = "SELECT user_id FROM ".USERS_TABLE." WHERE username = $av_id";
+                        //echo ''.$av_id.'</br>';
+                        $result = $db->sql_query($sql);
+
 						$av_uid = $db->sql_fetchrow($result);
                         $avatar_uid = $av_uid['user_id'];
                         $edit_url = append_sid("./admin_users.php?mode=edit&u=$avatar_uid");
@@ -195,10 +192,10 @@ switch($mode):
                                <td class=avatar_listing bgcolor=$alter>$stats[7] Bytes</td>
                                <td class=avatar_listing bgcolor=$alter>$avatar_usage[$file]</td>
                                <td class=avatar_listing bgcolor=$alter>
-                                                           <a href=\"$edit_url\"> Edit $avatar_usage[$file]</a></td></tr>\n";
+                               <a href=\"$edit_url\"> Edit $avatar_usage[$file]</a></td></tr>\n";
 
                     
-                    else:
+                    //else:
                         # Not used, safe to display delete link for admin
                         $delete_html = append_sid("./admin_avatar.php?mode=delete&target=$file");
                         print "<tr><td class=avatar_listing bgcolor=$alter><img height=\"200px\" src=$real_avatar_dir/$file><br />$file</td>
@@ -206,7 +203,7 @@ switch($mode):
                                <td class=avatar_listing bgcolor=$alter>Not Used<br /><a href=$delete_html onClick=\"if(confirm('Are you sure you want to delete: $file ?')) return true; else return false;\">Delete</a></td>
                                <td class=avatar_listing bgcolor=$alter>&nbsp;</td>
                                </tr>\n";
-                    endif;
+                    //endif;
                 endif;
 				
             endwhile;
