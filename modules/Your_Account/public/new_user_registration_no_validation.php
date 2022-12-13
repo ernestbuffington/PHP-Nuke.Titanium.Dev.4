@@ -1,7 +1,6 @@
 <?php 
-echo 'new_user_registration_no_validation.php';
 /*======================================================================= 
-  PHP-Nuke Titanium : Enhanced and Advanced
+  PHP-Nuke Titanium : Enhanced and Advanced JOHN 3:16
  =======================================================================*/
 
 /*======================================================================= 
@@ -365,13 +364,13 @@ function tz_select($default, $select_name = 'timezone')
     # Nuke Honeypot - CoRpSE END
 
     echo '<input type="hidden" name="op" value="new_confirm">'.PHP_EOL;
-    echo '<tr><td align="right" style="background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';" colspan="2"><input type="submit" value="'._YA_CONTINUE.'"></td></tr>'.PHP_EOL;
+    echo '<tr><td style="text-align: center; background-color: '.$bgcolor2.'; border: 0.1px solid '.$bgcolor1.';" colspan="2"><input type="submit" value="'._YA_CONTINUE.'"></td></tr>'.PHP_EOL;
     echo '</table></form>'.PHP_EOL;
     
    	print '<div align="center" style="padding-top:4px;">';
     print '</div>';
 
-	echo '<div align="center">'._COOKIEWARNING.'</div>'.PHP_EOL;
+	echo '<div align="center"><span style="color: red; font-size: 13px; font-style: italic;">'._COOKIEWARNING.'</span></div>'.PHP_EOL;
 
    	print '<div align="center" style="padding-top:4px;">';
     print '</div>';
