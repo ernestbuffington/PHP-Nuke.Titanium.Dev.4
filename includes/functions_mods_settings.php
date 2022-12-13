@@ -110,7 +110,7 @@ function init_board_config($mod_name, $config_fields, $sub_name='', $sub_sort=0,
 {
 	global $mods;
 
-	@reset($config_fields);
+	reset($config_fields);
 	// while ( list($config_key, $config_data) = each($config_fields) )
 	foreach( $config_fields as $config_key => $config_data )
 	{
