@@ -370,7 +370,7 @@ if ($mode == 'mod_edit') {
 	if (is_countable($added_groups['group_id']) && count($added_groups['group_id']) > 0) :
 	if (count($added_groups['group_id']) == 0)
     {
-        $group_added_select = $lang['No_groups_selected'];
+        $group_added_select = $lang['No_groups_selected']; // we never get here in PHP 8.1 so set No Group slected in advance! or just re-write! Ernest Allen Buffington
     }
     else
     {
