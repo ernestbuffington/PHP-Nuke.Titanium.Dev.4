@@ -66,9 +66,10 @@ if ( isset($HTTP_POST_VARS['submit']) )
         if ( isset($HTTP_POST_VARS['ban_ip']) )
         {
                 $ip_list_temp = explode(',', $HTTP_POST_VARS['ban_ip']);
-
-                for($i = 0; $i < count($ip_list_temp); $i++)
-                {
+                
+				if (is_countable($ip_list_temp) && count($ip_list_temp) > 0) :
+                for($i = 0; $i < count($ip_list_temp); $i++):
+                
                         if ( preg_match('/^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})[ ]*\-[ ]*([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$/', trim($ip_list_temp[$i]), $ip_range_explode) )
                         {
                                 //
@@ -131,7 +132,8 @@ if ( isset($HTTP_POST_VARS['submit']) )
                         else if ( preg_match('/^([\w\-_]\.?){2,}$/is', trim($ip_list_temp[$i])) )
                         {
                                 $ip = gethostbynamel(trim($ip_list_temp[$i]));
-
+                                
+								if (is_countable($ip) && count($ip) > 0) : 
                                 for($j = 0; $j < count($ip); $j++)
                                 {
                                         if ( !empty($ip[$j]) )
@@ -139,19 +141,22 @@ if ( isset($HTTP_POST_VARS['submit']) )
                                                 $ip_list[] = encode_ip($ip[$j]);
                                         }
                                 }
+								endif;
                         }
                         else if ( preg_match('/^([0-9]{1,3})\.([0-9\*]{1,3})\.([0-9\*]{1,3})\.([0-9\*]{1,3})$/', trim($ip_list_temp[$i])) )
                         {
                                 $ip_list[] = encode_ip(str_replace('*', '255', trim($ip_list_temp[$i])));
                         }
-                }
-        }
+                endfor;
+			endif;
+        
+		}
 
         $email_list = array();
         if ( isset($HTTP_POST_VARS['ban_email']) )
         {
                 $email_list_temp = explode(',', $HTTP_POST_VARS['ban_email']);
-
+                if (is_countable($email_list_temp) && count($email_list_temp) > 0) : 
                 for($i = 0; $i < count($email_list_temp); $i++)
                 {
                         //
@@ -164,6 +169,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
                                 $email_list[] = trim($email_list_temp[$i]);
                         }
                 }
+				endif;
         }
 
         $sql = "SELECT *
@@ -177,9 +183,11 @@ if ( isset($HTTP_POST_VARS['submit']) )
         $db->sql_freeresult($result);
 
         $kill_session_sql = '';
+		if (is_countable($user_list) && count($user_list) > 0) : 
         for($i = 0; $i < count($user_list); $i++)
         {
                 $in_banlist = false;
+				if (is_countable($current_banlist) && count($current_banlist) > 0) :
                 for($j = 0; $j < count($current_banlist); $j++)
                 {
                         if ( $user_list[$i] == $current_banlist[$j]['ban_userid'] )
@@ -187,7 +195,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
                                 $in_banlist = true;
                         }
                 }
-
+                endif;
                 if ( !$in_banlist )
                 {
                         $kill_session_sql .= ( ( $kill_session_sql != '' ) ? ' OR ' : '' ) . "session_user_id = " . $user_list[$i];
@@ -200,10 +208,13 @@ if ( isset($HTTP_POST_VARS['submit']) )
                         }
                 }
         }
-
-        for($i = 0; $i < count($ip_list); $i++)
+        endif;
+        
+		if (is_countable($ip_list) && count($ip_list) > 0) : 
+		for($i = 0; $i < count($ip_list); $i++)
         {
                 $in_banlist = false;
+				if (is_countable($current_banlist) && count($current_banlist) > 0) :
                 for($j = 0; $j < count($current_banlist); $j++)
                 {
                         if ( $ip_list[$i] == $current_banlist[$j]['ban_ip'] )
@@ -211,7 +222,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
                                 $in_banlist = true;
                         }
                 }
-
+                endif;
                 if ( !$in_banlist )
                 {
                         if ( preg_match('/(ff\.)|(\.ff)/is', chunk_split($ip_list[$i], 2, '.')) )
@@ -233,7 +244,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
                         }
                 }
         }
-
+        endif;
         //
         // Now we'll delete all entries from the session table with any of the banned
         // user or IP info just entered into the ban table ... this will force a session
@@ -248,17 +259,21 @@ if ( isset($HTTP_POST_VARS['submit']) )
                         message_die(GENERAL_ERROR, "Couldn't delete banned sessions from database", "", __LINE__, __FILE__, $sql);
                 }
         }
-
+        
+		if (is_countable($email_list) && count($email_list) > 0) :
         for($i = 0; $i < count($email_list); $i++)
         {
                 $in_banlist = false;
-                for($j = 0; $j < count($current_banlist); $j++)
+                
+				if (is_countable($current_banlist) && count($current_banlist) > 0) :
+				for($j = 0; $j < count($current_banlist); $j++)
                 {
                         if ( $email_list[$i] == $current_banlist[$j]['ban_email'] )
                         {
                                 $in_banlist = true;
                         }
                 }
+				endif;
 
                 if ( !$in_banlist )
                 {
@@ -270,13 +285,14 @@ if ( isset($HTTP_POST_VARS['submit']) )
                         }
                 }
         }
-
+        endif;
+		
         $where_sql = '';
 
         if ( isset($HTTP_POST_VARS['unban_user']) )
         {
                 $user_list = $HTTP_POST_VARS['unban_user'];
-
+                if (is_countable($user_list) && count($user_list) > 0) :
                 for($i = 0; $i < count($user_list); $i++)
                 {
                         if ( $user_list[$i] != -1 )
@@ -284,12 +300,13 @@ if ( isset($HTTP_POST_VARS['submit']) )
                                 $where_sql .= ( ( $where_sql != '' ) ? ', ' : '' ) . intval($user_list[$i]);
                         }
                 }
+				endif;
         }
 
         if ( isset($HTTP_POST_VARS['unban_ip']) )
         {
                 $ip_list = $HTTP_POST_VARS['unban_ip'];
-
+                if (is_countable($ip_list) && count($ip_list) > 0) :
                 for($i = 0; $i < count($ip_list); $i++)
                 {
                         if ( $ip_list[$i] != -1 )
@@ -297,12 +314,13 @@ if ( isset($HTTP_POST_VARS['submit']) )
                                 $where_sql .= ( ( $where_sql != '' ) ? ', ' : '' ) . str_replace("\'", "''", $ip_list[$i]);
                         }
                 }
+				endif;
         }
 
         if ( isset($HTTP_POST_VARS['unban_email']) )
         {
                 $email_list = $HTTP_POST_VARS['unban_email'];
-
+                if (is_countable($email_list) && count($email_list) > 0) :
                 for($i = 0; $i < count($email_list); $i++)
                 {
                         if ( $email_list[$i] != -1 )
@@ -310,6 +328,7 @@ if ( isset($HTTP_POST_VARS['submit']) )
                                 $where_sql .= ( ( $where_sql != '' ) ? ', ' : '' ) . str_replace("\'", "''", $email_list[$i]);
                         }
                 }
+				endif;
         }
 
         if ( $where_sql != '' )
@@ -373,11 +392,14 @@ else
         $db->sql_freeresult($result);
 
         $select_userlist = '';
+		
+		if (is_countable($user_list) && count($user_list) > 0) :
         for($i = 0; $i < count($user_list); $i++)
         {
                 $select_userlist .= '<option value="' . $user_list[$i]['ban_id'] . '">' . $user_list[$i]['username'] . '</option>';
                 $userban_count++;
         }
+		endif;
 
         if( $select_userlist == '' )
         {
@@ -398,7 +420,8 @@ else
 
         $select_iplist = '';
         $select_emaillist = '';
-
+        
+		if (is_countable($banlist) && count($banlist) > 0) :
         for($i = 0; $i < count($banlist); $i++)
         {
                 $ban_id = $banlist[$i]['ban_id'];
@@ -416,8 +439,9 @@ else
                         $emailban_count++;
                 }
         }
-
-        if ( $select_iplist == '' )
+        endif;
+        
+		if ( $select_iplist == '' )
         {
                 $select_iplist = '<option value="-1">' . $lang['No_banned_ip'] . '</option>';
         }
