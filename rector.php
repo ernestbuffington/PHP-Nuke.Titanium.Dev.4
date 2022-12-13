@@ -85,7 +85,7 @@ return static function (RectorConfig $rectorConfig): void {
 		//__DIR__ . '/includes/usercp_avatar.php',
 		//__DIR__ . '/modules/Blogs/comments.php',
 		//__DIR__ . '/includes/functions.php',
-		__DIR__ . '/modules/Forums/admin/admin_xdata_fields.php',
+		__DIR__ . '/modules/Forums/admin/admin_user_ban.php',
        //__DIR__ . '/modules/Your_Account/public/new_user1.php',
         //
     ]);
