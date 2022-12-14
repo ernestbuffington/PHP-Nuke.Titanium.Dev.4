@@ -793,6 +793,11 @@ function cookiedecode($trash=0)
     return false;
 }
 
+/* IMAGE HACK
+ * You can't run Rector on mainfile.php it has no earthly idea
+ * what to do when it gets to this function as it has never seen anything
+ * like this and is unable to factor or refactor from here!
+ */
 function title($text) 
 {
   return;	
