@@ -29,16 +29,17 @@ define('_EMPTY_MESSAGE','You must enter a message first');
 define('_YOUHAVE_1_MSGS','You Have <strong><span class="blink-one">%s</span></strong> New Private Message');
 define('_YOUHAVE_X_MSGS','You Have <strong><span class="blink-one">%s</span></strong> New Private Messages');
 define('_YOUHAVE_NO_MSGS','You Have <strong><span class="blink-one">0</span></strong> NEW Messages, Nobody Likes You!');
+
 // new common language defines.
 define('_S_ADMIN_PANEL','Admin Panel');
 define('_L_ADMIN_PANEL','Administration');
 define('_EDIT_PROFILE','Edit Profile');
-define('_YOUHAVE_X_MSGS','You Have <strong><span class="blink-one">%s</span></strong> New Private Messages');
 define('_WATCH_YOUTUBE','Watch this video on YouTube');
-define("_POSTEDBY","Posted by");
 define("_ON","on");
+
 define("_CHARSET","UTF-8");
 define("_LANG_DIRECTION","ltr");
+
 define('_INVISIBLEMODULES', 'Invisible Modules');
 define('_NOACTIVEMODULES', 'Inactive Modules');
 define('_NONE', 'None');
@@ -108,7 +109,6 @@ define("_POSTEDON","Posted on");
 define("_WELCOMETO","Welcome to");
 define("_POSTEDBY","Posted by");
 define("_BY","by");
-define("_ON","on");
 define("_WAITINGCONT","Waiting Content");
 define("_BLOG_SUBMISSIONS","Submissions");
 define("_WREVIEWS","Waiting Reviews");
@@ -209,7 +209,6 @@ define("_ADDITIONALYGRP","Additionaly this module belongs to the Users Group");
 define("_YOUHAVEPOINTS","Points you have by participating on the site's content:");
 define("_MVIEWSUBUSERS","View: Subscribed Users Only");
 define("_MODULESSUBSCRIBER","We are Sorry but this section of our site is for <i>Subscribed Users Only.</i>");
-define("_SUBHERE","You can subscribe to our services from <a href=\"$subscription_url\">here</a>");
 define("_SUBEXPIRED","Your Subscription Expired");
 define("_HELLO","Hello");
 define("_SUBSCRIPTIONAT","This is an automated message to let you know that your subscription at");
