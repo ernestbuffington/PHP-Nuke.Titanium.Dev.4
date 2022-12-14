@@ -105,6 +105,6 @@ End  Modules Block
 **********************************************/
 
 define("_NEWSLETTER","Newsletter");
-define("_THEMES_DEFAULT", "Default Theme");
+
 
 ?>
