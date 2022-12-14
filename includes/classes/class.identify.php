@@ -1,12 +1,11 @@
 <?php
-
 /*======================================================================= 
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
+/************************************************************************
 
-/*    MOO CMS, Copyright (c) 2005 The MOO Dev. Group. All rights reserved.
-
+    MOO CMS, Copyright (c) 2005 The MOO Dev. Group. All rights reserved.
     This source file is free software; you can redistribute it and/or
     modify it under the terms of the MOO Public License as published
     by the MOO Development Group; either version 1 of the License, or
@@ -14,7 +13,8 @@
 
     CVS: 1.26
     http://cvs.moocms.com/moo/moo_core/handlers/security.php
-*/
+
+************************************************************************/
 
 /************************************************************************
    Nuke-Evolution: Evolution Functions
@@ -29,7 +29,7 @@
    Notes         : IDs the users info
 ************************************************************************/
 
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
+if (realpath(__FILE__) === realpath($_SERVER['SCRIPT_FILENAME'])) {
     exit('Access Denied');
 }
 
@@ -50,34 +50,32 @@ class identify {
 	    if (!empty($visitor_ip)) 
 	    return $visitor_ip; 
         
-		$visitor_ip = (!empty($_SERVER['REMOTE_ADDR'])) ? $_SERVER['REMOTE_ADDR'] : $_ENV['REMOTE_ADDR'];
-        $ips = array();
+		$visitor_ip = (empty($_SERVER['REMOTE_ADDR'])) ? $_ENV['REMOTE_ADDR'] : $_SERVER['REMOTE_ADDR'];
+        $ips = [];
         
 		if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] != 'unknown') 
-        $ips = explode(', ', $_SERVER['HTTP_X_FORWARDED_FOR']);
+        $ips = explode(', ', (string) $_SERVER['HTTP_X_FORWARDED_FOR']);
         
 		if (!empty($_SERVER['HTTP_CLIENT_IP']) && $_SERVER['HTTP_CLIENT_IP'] != 'unknown') 
         $ips[] = $_SERVER['HTTP_CLIENT_IP'];
+  $ipsCount = count($ips);
         
-		for ($i = 0; $i < count($ips); $i++) 
+		for ($i = 0; $i < $ipsCount; $i++) 
 		{
-            $ips[$i] = trim($ips[$i]);
+            $ips[$i] = trim((string) $ips[$i]);
             
 			# IPv4
-            if (strstr($ips[$i], '.')) 
-			{
+            if (strstr($ips[$i], '.')) {
                 # check for a hybrid IPv4-compatible address
                 $pos = strrpos($ips[$i], ':');
                 if ($pos !== FALSE) { $ips[$i] = substr($ips[$i], $pos+1); }
                 # Don't assign local network ip's
-                if (preg_match('#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$#', $ips[$i]) && !preg_match('#^(10|127.0.0|172.(1[6-9]|2[0-9]|3[0-1])|192\.168)\.#', $ips[$i]))
+                if (preg_match('#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$#', $ips[$i]) && !preg_match('#^(10|127.0.0|172.(1[6-9]|2\d|3[0-1])|192\.168)\.#', $ips[$i]))
                 {
                     $visitor_ip = $ips[$i];
                     break;
                 }
-            }
-            # IPv6
-            else if (strpos($ips[$i], ':') !== FALSE) {
+            } elseif (str_contains($ips[$i], ':')) {
                 # fix shortened ip's
                 $c = substr_count($ips[$i], ':');
                 if ($c < 7) { $ips[$i] = str_replace('::', str_pad('::', 9-$c, ':'), $ips[$i]); }
@@ -96,12 +94,12 @@ class identify {
         static $data;
 
         if (!isset($data)) {
-            $data = array();
-        } else if (is_array($data)) {
+            $data = [];
+        } elseif (is_array($data)) {
             return $data;
         }
 
-        $pattern = array(
+        $pattern = [
             # Netscape
             '#^Mozilla/[34].[0-8]{1,2}( \[[a-zA-Z\-]{2,5}\])? \(([a-zA-Z0-9]+); [UI]#',
             # Gecko family: Netscape, Firefox, Thunderbird, Camino, Galeon, Epiphany, Linspire, MultiZilla, K-Meleon, WebWasher, Mozilla
@@ -127,16 +125,23 @@ class identify {
             # Voyager
             '#^Mozilla/4.0 \(compatible; (Voyager); (AmigaOS).*#',
             # Opera
-            '#^(Opera)/[67].[0-9]{1,2} \((.*?); U\)[\ ]{1,2}\[[a-zA-Z\-]{2,5}\]#', # Opera 6-7
-            '#^Mozilla/[45].0 \(compatible; MSIE [56].0; (.*?)\) (Opera) [567].[0-9]{1,2} \[[a-zA-Z\-]{2,5}\]#', # Opera 6-7 faking IE
-            '#^Mozilla/5.0 \((.*?); U\) (Opera) [67].[0-9]{1,2} \[[a-zA-Z\-]{2,5}\]#', # Opera 6-7 faking Gecko
-            '#^(Opera)/[89].[0-9]{1,2} \((.*?); U; [a-zA-Z\-]{2,5}\)#', # Opera 8-9
-            '#^Mozilla/4.0 \(compatible; MSIE 6.0; (.*?); [a-zA-Z\-]{2,5}\) (Opera) [89].[0-9]{1,2}#', # Opera 8-9 faking IE
-            '#^Mozilla/5.0 \((.*?); U; [a-zA-Z\-]{2,5}\) (Opera) [89].[0-9]{1,2}#', # Opera 8-9 faking Gecko
+            '#^(Opera)/[67].[0-9]{1,2} \((.*?); U\)[\ ]{1,2}\[[a-zA-Z\-]{2,5}\]#',
+            # Opera 6-7
+            '#^Mozilla/[45].0 \(compatible; MSIE [56].0; (.*?)\) (Opera) [567].[0-9]{1,2} \[[a-zA-Z\-]{2,5}\]#',
+            # Opera 6-7 faking IE
+            '#^Mozilla/5.0 \((.*?); U\) (Opera) [67].[0-9]{1,2} \[[a-zA-Z\-]{2,5}\]#',
+            # Opera 6-7 faking Gecko
+            '#^(Opera)/[89].[0-9]{1,2} \((.*?); U; [a-zA-Z\-]{2,5}\)#',
+            # Opera 8-9
+            '#^Mozilla/4.0 \(compatible; MSIE 6.0; (.*?); [a-zA-Z\-]{2,5}\) (Opera) [89].[0-9]{1,2}#',
+            # Opera 8-9 faking IE
+            '#^Mozilla/5.0 \((.*?); U; [a-zA-Z\-]{2,5}\) (Opera) [89].[0-9]{1,2}#',
+            # Opera 8-9 faking Gecko
             # IE
             '#^Mozilla/4.0 \([a-z]+; MSIE (4.0|5.0|5.5|6.0|7.0)[b1]?(; .*[^;])?; (Windows) [A-Z0-9\ \.]+[;)](.*)?#',
             '#^Mozilla/2.0 \(compatible; MSIE (3.0|4.0)[1]?(; .*[^;])?; (Windows) [A-Z0-9\ \.]+[;)](.*)?#',
-            '#^Mozilla/4.0 \(compatible; MSIE 5.[1-2][1-7]; Mac_PowerPC\)#', # 5.: 13, 16, 17, 21, 22, 23
+            '#^Mozilla/4.0 \(compatible; MSIE 5.[1-2][1-7]; Mac_PowerPC\)#',
+            # 5.: 13, 16, 17, 21, 22, 23
             # Dillo/0.8.5-i18n-misc
             '#^Dillo/[0-9\.]+.*#',
             # mobile phones
@@ -147,61 +152,61 @@ class identify {
             '#^SonyEricsson[a-zA-Z0-9]+/[A-Z0-9]+ (.*?)Profile/MIDP-[12]#',
             '#^BlackBerry[a-zA-Z0-9]+/[A-Z0-9\.]+ (.*?)Profile/MIDP-[A-Z0-9\.]+ Configuration/CLDC-[A-Z0-9\.]+#',
             # PlayStation
-            '#^Mozilla/4.0 \(PSP \(PlayStation Portable\); 2.00\)#'
-        );
+            '#^Mozilla/4.0 \(PSP \(PlayStation Portable\); 2.00\)#',
+        ];
         
-        $replacement = array(
+        $replacement = [
             # Netscape
-            array('Netscape', '$1', 'Gecko', ''),
+            ['Netscape', '$1', 'Gecko', ''],
             # Gecko family
-            array('$4', '$2', 'Gecko', ''),
-            array('$5', '$2', 'Gecko', ''),
-            array('Mozilla', '$2', 'Gecko', ''),
+            ['$4', '$2', 'Gecko', ''],
+            ['$5', '$2', 'Gecko', ''],
+            ['Mozilla', '$2', 'Gecko', ''],
             # Galeon
-            array('$1', '$3', '', ''),
+            ['$1', '$3', '', ''],
             # Konqueror
-            array('$1', '$3', 'KHTML', ''),
+            ['$1', '$3', 'KHTML', ''],
             # Lynx
-            array('$1', '', '', ''),
+            ['$1', '', '', ''],
             # Safari family
-            array('$2', 'Mac', 'Safari', ''),
-            array('$2', 'Mac', 'Safari', ''),
-            array('Safari', 'Win', 'Safari', ''),
+            ['$2', 'Mac', 'Safari', ''],
+            ['$2', 'Mac', 'Safari', ''],
+            ['Safari', 'Win', 'Safari', ''],
             # w3m
-            array('$1', '', '', ''),
+            ['$1', '', '', ''],
             # Links
-            array('$1', '$2', '', ''),
+            ['$1', '$2', '', ''],
             # ELinks
-            array('$1', '$2', '', ''),
+            ['$1', '$2', '', ''],
             # Voyager
-            array('$1', '$2', '', ''),
+            ['$1', '$2', '', ''],
             # Opera
-            array('$1', '$2', '', ''),
-            array('$1', '$2', '', ''),
-            array('$2', '$1', '', ''),
-            array('$1', '$2', '', ''),
-            array('$2', '$1', '', ''),
-            array('$2', '$1', '', ''),
+            ['$1', '$2', '', ''],
+            ['$1', '$2', '', ''],
+            ['$2', '$1', '', ''],
+            ['$1', '$2', '', ''],
+            ['$2', '$1', '', ''],
+            ['$2', '$1', '', ''],
             # IE
-            array('MSIE', '$3', '', '$4', '$1'),
-            array('MSIE', '$3', '', '$4', '$1'),
-            array('MSIE', 'Mac', '', '$4', '$1'),
+            ['MSIE', '$3', '', '$4', '$1'],
+            ['MSIE', '$3', '', '$4', '$1'],
+            ['MSIE', 'Mac', '', '$4', '$1'],
             # Dillo
-            array('Dillo', 'Linux', '', ''),
+            ['Dillo', 'Linux', '', ''],
             # mobile phones
-            array('WAP', '', '', 'KWC'),
-            array('WAP', '', '', 'LG'),
-            array('WAP', '', '', 'Nokia'),
-            array('WAP', '', '', 'SAMSUNG'),
-            array('WAP', '', '', 'SonyEricsson'),
-            array('WAP', '', '', 'BlackBerry'),
+            ['WAP', '', '', 'KWC'],
+            ['WAP', '', '', 'LG'],
+            ['WAP', '', '', 'Nokia'],
+            ['WAP', '', '', 'SAMSUNG'],
+            ['WAP', '', '', 'SonyEricsson'],
+            ['WAP', '', '', 'BlackBerry'],
             # PlayStation
-            array('PlayStation', '', '', 'Sony')
-        );
+            ['PlayStation', '', '', 'Sony'],
+        ];
         
         // Go through all the patterns and set the UA data for whichever matches
         foreach ($pattern as $k => $p) {
-            if (preg_match($p, $this->agent, $matches)) {
+            if (preg_match($p, (string) $this->agent, $matches)) {
                 $r = $replacement[$k];
 
                 // Go through all the replacement values and find the corresponding data to go with it
@@ -211,7 +216,7 @@ class identify {
                     }
                 }
 
-                $this->set_data($r[0], $r[1], $r[2], $r[3], $data, isset($r[4]) ? $r[4] : '');
+                $this->set_data($r[0], $r[1], $r[2], $r[3], $data, $r[4] ?? '');
                 break;
             }
         }
@@ -224,16 +229,15 @@ class identify {
             } else {
                 return $data;
             }
-        } else if ($data['ua'] === 'MSIE') {
-            preg_match_all('#(iRider|Crazy Browser|NetCaptor|Maxthon|Avant Browser)#s', $data['ext'], $regs);
-
+        } elseif ($data['ua'] === 'MSIE') {
+            preg_match_all('#(iRider|Crazy Browser|NetCaptor|Maxthon|Avant Browser)#s', (string) $data['ext'], $regs);
             if (!empty($regs[0])) {
-                $data['ua'] = str_replace(' Browser', '', $regs[0][count($regs[0]) - 1]);
+                $data['ua'] = str_replace(' Browser', '', (string) $regs[0][(is_countable($regs[0]) ? count($regs[0]) : 0) - 1]);
                 $data['ext'] = '';
             }
         }
 
-        preg_match('#(Win|Mac|Linux|FreeBSD|SunOS|IRIX|BeOS|OS/2|AIX|Amiga)#is', $data['os'], $regs);
+        preg_match('#(Win|Mac|Linux|FreeBSD|SunOS|IRIX|BeOS|OS/2|AIX|Amiga)#is', (string) $data['os'], $regs);
         $data['os'] = $regs[0];
         
         if ($data['os'] === 'Win') {
@@ -248,13 +252,7 @@ class identify {
             return false;
         }
 
-        $data = array(
-            'ua'        => $ua,
-            'os'        => $os,
-            'engine'    => empty($engine) ? $ua : $engine,
-            'ext'       => $extra,
-            'version'   => $version
-        );
+        $data = ['ua'        => $ua, 'os'        => $os, 'engine'    => empty($engine) ? $ua : $engine, 'ext'       => $extra, 'version'   => $version];
     }
 
     function detect_bot($where = false) {
@@ -263,16 +261,17 @@ class identify {
         $bot        = false;
         $where      = ($where ? "WHERE agent_name LIKE '$where%'" : '');
         $result     = $db->sql_query('SELECT agent_name, agent_fullname FROM '.$prefix.'_security_agents'.$where.' ORDER BY agent_name', true);
-        $find       = array('\\', '(', ')', '{', '}', '.', '$', '*');
-        $replace    = array('\\\\', '\(', '\)', '\{', '\}', '\.', '\$', '\*');
+        $find       = ['\\', '(', ')', '{', '}', '.', '$', '*'];
+        $replace    = ['\\\\', '\(', '\)', '\{', '\}', '\.', '\$', '\*'];
 
         while ($row = $db->sql_fetchrow($result)) 
         {
-            $row[1] = str_replace($find, $replace, $row[1]);
+            $row[1] = str_replace($find, $replace, (string) $row[1]);
+			
 
             if (!empty($row[1]) && $row[1] !== 'NULL') 
             {
-                if (stristr($this->agent, $row[1])) 
+                if (stristr((string) $this->agent, (string) $row[1])) 
                 {
                     $bot = $row[0];
                 } 
@@ -284,6 +283,6 @@ class identify {
         }
         
         $db->sql_freeresult($result);
-        return ($bot === false) ? false : array('ua' => 'bot', 'bot' => $bot, 'engine' => 'bot');
+        return ($bot === false) ? false : ['ua' => 'bot', 'bot' => $bot, 'engine' => 'bot'];
     }
 }
