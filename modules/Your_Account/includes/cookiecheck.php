@@ -32,6 +32,9 @@
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
+	  PHP 8.1 Patched                          v4.0.3       12/14/2022
+-=[Last Updated]=-
+      12/14/2022 1:10 am Ernest Allen Buffington	  
  ************************************************************************/
 
 if ((!defined('MODULE_FILE')) AND (!defined('ADMIN_FILE'))) 
@@ -254,7 +257,9 @@ OpenTable();
     echo "<span class=\"title\">"._YA_CURRENTCOOKIE."</span></td></tr>";
     echo "<tr><td nowrap=\"nowrap\"><strong>"._YA_COOKIENAME."</strong></td><td width=\"100%\"><strong>"._YA_COOKIESTAT."</strong></td></tr>";
     if (is_array($CookieArray) && !empty($CookieArray)) {
-        while(list($cName,$cValue) = each($CookieArray)) {
+        //while(list($cName,$cValue) = each($CookieArray)) {
+		foreach ($CookieArray as $cName => $cValue)
+		{	
             $cName = str_replace(" ","",$cName);
             // Multiple cookie paths used to expire cookies that are no longer in use as well.
             setcookie("$cName","1",time()-604800,"");                    // Directory only path
