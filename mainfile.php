@@ -1079,14 +1079,14 @@ function headlines($bid, $side=0, $row='')
     if(!$my_headlines): 
 	  return;
 	endif;
-    
-	$bid = intval($bid);
-    
+
+	$bid = (int) $bid;
+
 	if(!is_array($row)): 
       $row = $db->sql_ufetchrow('SELECT `title`, `content`, `url`, `refresh`, `time` FROM `'.$prefix.'_blocks` WHERE `bid`='.$bid, SQL_ASSOC);
     endif;
-	
-	$content =& trim($row['content']);
+
+	$content =& trim((string) $row['content']);
 
     if($row['time'] < (time()-$row['refresh']) || empty($content)):
       $content = rss_content($row['url']);
@@ -1098,9 +1098,9 @@ function headlines($bid, $side=0, $row='')
     if(empty($content)): 
       $content = _RSSPROBLEM.' ('.$row['title'].')';
 	endif;
-    
+
     $content = '<span class="content">'.$content.'</span>';
-    
+
 	if($side == 'c' || $side == 'd'): 
       themecenterbox($row['title'], $content);
     else: 
