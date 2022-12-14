@@ -48,14 +48,4 @@ if(!function_exists('mime_content_type'))
     }
 }
 
-global $browser, $agent;
-
-if($agent['engine'] == 'bot'):
-    $browser = 'Bot';
-elseif(!empty($agent['ua'])):
-    $browser = $agent['ua'];
-else:
-    $browser = 'Other';
-endif;
-
 ?>
