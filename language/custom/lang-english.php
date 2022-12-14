@@ -254,7 +254,6 @@ define("VALIDATE_EMAIL","email");
 define("VALIDATE_URL","URL");
 define("VALIDATE_INT","Number");
 define("VALIDATE_FLOAT","Number");
-define("VALIDATE_URL","URL");
 define("VALIDATE_SHORT","short");
 define("VALIDATE_LONG","long");
 define("VALIDATE_SMALL","small");
