@@ -143,38 +143,38 @@ if(isset($_COOKIE['DONATION'])):
 endif;
 
 # Absolute Path Mod - 01/01/2012 by Ernest Allen Buffington START
-$rel_path=array();
-$rel_path['file']   = str_replace('\\', "/", realpath(dirname(__FILE__)));
-$server_ary         = pathinfo(realpath(basename($_SERVER['PHP_SELF'])));
+$rel_path=[];
+$rel_path['file']   = str_replace('\\', "/", realpath(__DIR__));
+$server_ary         = pathinfo(realpath(basename((string) $_SERVER['PHP_SELF'])));
 $rel_path['server'] = str_replace('\\', "/", $server_ary['dirname']);
-$rel_path['uri']    = realpath(basename(substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?'))));
+$rel_path['uri']    = realpath(basename(substr((string) $_SERVER['REQUEST_URI'], 0, strpos((string) $_SERVER['REQUEST_URI'], '?'))));
 $script_abs_path    = pathinfo(realpath($_SERVER['SCRIPT_FILENAME']));
 $rel_path['script'] = str_replace('\\', "/",$script_abs_path['dirname']);
 
-if(($rel_path['file'] == $rel_path['script']) && (strlen($_SERVER['DOCUMENT_ROOT']) < strlen($script_abs_path['dirname']))): 
+if(($rel_path['file'] === $rel_path['script']) && (strlen((string) $_SERVER['DOCUMENT_ROOT']) < strlen($script_abs_path['dirname']))): 
 
     $href_path = '/'.str_replace($_SERVER['DOCUMENT_ROOT'], '', $rel_path['script']);
 
     if (substr($href_path, 0, 2) == '//'): 
     $href_path = substr($href_path, 1);
 	endif;
- 
-elseif(strlen($rel_path['file']) == (strlen($_SERVER['DOCUMENT_ROOT']) - 1)): 
+
+elseif(strlen($rel_path['file']) == (strlen((string) $_SERVER['DOCUMENT_ROOT']) - 1)): 
 
     $href_path = '';
 
-elseif(strlen($rel_path['script']) > strlen($_SERVER['DOCUMENT_ROOT']) && (strlen($_SERVER['DOCUMENT_ROOT']) > strlen($rel_path['file']))): 
+elseif(strlen($rel_path['script']) > strlen((string) $_SERVER['DOCUMENT_ROOT']) && (strlen((string) $_SERVER['DOCUMENT_ROOT']) > strlen($rel_path['file']))): 
 
     $href_path = '';
 
-elseif(strlen($rel_path['file']) > strlen($_SERVER['DOCUMENT_ROOT'])):
+elseif(strlen($rel_path['file']) > strlen((string) $_SERVER['DOCUMENT_ROOT'])):
 
 	$href_path = '/'.str_replace($_SERVER['DOCUMENT_ROOT'], '', $rel_path['file']);
-    
+
 	if(substr($href_path, 0, 2) == '//'): 
         $href_path = substr($href_path, 1);
 	endif;
- 
+
 else: 
 
     $href_path = 'https://'.$_SERVER['SERVER_NAME'];
@@ -187,7 +187,7 @@ unset ($server_ary);
 unset ($script_abs_path);
 
 # BASE Directory
-define('TITANIUM_BASE_DIR', dirname(__FILE__) . '/');
+define('TITANIUM_BASE_DIR', __DIR__ . '/');
 
 # HTTP & HTTPS
 define('HTTPS', $href_path . '/');
@@ -282,7 +282,7 @@ define('TITANIUM_STATS_DIR', TITANIUM_THEMES_DIR);
 
 # Inspired by phoenix-cms at website-portals.net
 # Absolute Nuke directory
-define('NUKE_BASE_DIR', dirname(__FILE__) . '/');
+define('NUKE_BASE_DIR', __DIR__ . '/');
 # Absolute Nuke directory + includes
 define('NUKE_BLOCKS_DIR', NUKE_BASE_DIR . 'blocks/');
 define('NUKE_CSS_DIR', 'includes/css/');
@@ -316,16 +316,16 @@ define('CAN_MOD_INI', !stristr(ini_get('disable_functions'), 'ini_set'));
 # If a class hasn't been loaded yet find the required file on the server and load
 # it in using the special autoloader detection built into PHP5+
 if(!function_exists('classAutoloader')): 
-  
+
     function classAutoloader($class) 
     {
         # Set the class file path
-        if(preg_match('/Exception/', $class)): 
-          $file = NUKE_CLASS_EXCEPTION_DIR . strtolower($class) . '.php';
+        if(preg_match('/Exception/', (string) $class)): 
+          $file = NUKE_CLASS_EXCEPTION_DIR . strtolower((string) $class) . '.php';
         else:
-          $file = NUKE_CLASSES_DIR . 'class.' . strtolower($class) . '.php';
+          $file = NUKE_CLASSES_DIR . 'class.' . strtolower((string) $class) . '.php';
 		endif;
-        
+
 		if(!class_exists($class, false) && file_exists($file)):
           require_once($file);
 		endif;
@@ -1029,34 +1029,31 @@ function blocks($side, $count=false)
     return;
 } 
 
-function blockfileinc(string $blockfiletitle, $blockfile = null, $side = 1, $bid) 
-{
-    global $debug, $collapse;
-    # Required parameter $bid follows optional parameter $blockfile
-    # if ($debug == 0)
-	# echo '<div align="center">'.$blockfile.'</div>';
+function blockfileinc($blockfiletitle, $blockfile, $side=1, $bid) {
+    global $collapse;
 
-    if(!file_exists(NUKE_BLOCKS_DIR.$blockfile)): 
-      $content = _BLOCKPROBLEM;
-	else: 
-      include(NUKE_BLOCKS_DIR.$blockfile);
-    endif;
-    
-	if(empty($content)): 
-      $content = _BLOCKPROBLEM2;
-    endif;
-    
-    # Mod: Switch Content Script v2.0.0 START
-    if($collapse): 
-      $content = "&nbsp;<div id=\"block".$bid."\" class=\"switchcontent\">".$content."</div>";
-    endif;
-    # Mod: Switch Content Script v2.0.0 END
-    
-	if($side == 'r' || $side == 'l'): 
-	  themesidebox($blockfiletitle, $content, $bid);
-	else: 
-      themecenterbox($blockfiletitle, $content);
-    endif;
+    if (!file_exists(NUKE_BLOCKS_DIR.$blockfile)) {
+        $content = _BLOCKPROBLEM;
+    } else {
+        include(NUKE_BLOCKS_DIR.$blockfile);
+    }
+    if (empty($content)) {
+        $content = _BLOCKPROBLEM2;
+    }
+/*****[BEGIN]******************************************
+ [ Mod:     Switch Content Script              v2.0.0 ]
+ ******************************************************/
+    if($collapse) {
+        $content = "&nbsp;<div id=\"block".$bid."\" class=\"switchcontent\">".$content."</div>";
+    }
+/*****[END]********************************************
+ [ Mod:     Switch Content Script              v2.0.0 ]
+ ******************************************************/
+    if ($side == 'r' || $side == 'l') {
+        themesidebox($blockfiletitle, $content, $bid);
+    } else {
+        themecenterbox($blockfiletitle, $content);
+    }
 }
 
 function rss_content($url) 
