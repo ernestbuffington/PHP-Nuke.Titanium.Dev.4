@@ -77,7 +77,7 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
     $SBpos = $db->sql_query($sql);
     $SBpos = $db->sql_fetchrow($SBpos);
     
-	if ($SBpos['bposition'] == 'c' || $SBpos['bposition'] == 'd') 
+	if (!empty($SBpos['bposition']) && $SBpos['bposition'] == 'c' || $SBpos['bposition'] == 'd') 
 	{
         $SBpos = 'center';
         $SBborder = 1;
@@ -507,10 +507,18 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
             $showBackground = 'no';
         }
 
+			$up_img = '<i class="bi bi-caret-up"></i>';
+			$down_img = '<i class="bi bi-caret-down"></i>';
+			//$pause_img = '<i class="bi bi-pause"></i>';
+
+			/*
+
         if (!empty($themeRow['blockArrowColor'])) {
+			
             if (file_exists(NUKE_MODULES_DIR.'Shout_Box/images/up/'.$themeRow['blockArrowColor'])) {
                 $up_img = 'modules/Shout_Box/images/up/'.$themeRow['blockArrowColor'];
             } else {
+				
                 $up_img = 'modules/Shout_Box/images/up/Black.gif';
             }
             if (file_exists(NUKE_MODULES_DIR.'Shout_Box/images/down/'.$themeRow['blockArrowColor'])) {
@@ -528,7 +536,8 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
             $down_img = 'modules/Shout_Box/images/down/Black.gif';
             $pause_img = 'modules/Shout_Box/images/pause/Black.gif';
         }
-
+        */
+		
         $sql = "SELECT * FROM `".$prefix."_shoutbox_shouts` ORDER BY `id` DESC LIMIT $conf[number]";
         $result = $db->sql_query($sql);
 
@@ -623,7 +632,7 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
             if ($showBackground == 'yes') {
                 $tempContent[$i] = "<tr><td>";
             } else {
-                $tempContent[$i] = "<tr><td style=\"background-color: $bgcolor;\">";
+                $tempContent[$i] = "<tr><td style=\"background-color: $bgcolor1;\">";
             }
             $ShoutComment = str_replace('src=', 'src="', $row['comment']);
             $ShoutComment = str_replace('.gif>', '.gif" alt="" />', $ShoutComment);
@@ -731,14 +740,11 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
         if ($conf['anonymouspost'] == 'no' && $username == 'Anonymous') 
 		{
             $bottom_content .= "<div style=\"padding: 1px;\" align=\"center\" class=\"content\"><a href=\"modules.php?name=Shout_Box\">"._SHOUTHISTORY."</a>";
-            $bottom_content .= "&nbsp;<span style=\"cursor: pointer;\" onmouseover=\"SBspeed=4\" onmouseout=\"SBspeed=1\"><img src=\"$up_img\" 
-			border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
+            $bottom_content .= "&nbsp;<span style=\"cursor: pointer;\" onmouseover=\"SBspeed=4\" onmouseout=\"SBspeed=1\">$up_img</span>";
             
-			$bottom_content .= "&nbsp;<span style=\"cursor: pointer;\" onmouseover=\"SBspeed=1-5\" onmouseout=\"SBspeed=1\"><img 
-			src=\"$down_img\" border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
+			$bottom_content .= "&nbsp;<span style=\"cursor: pointer;\" onmouseover=\"SBspeed=1-5\" onmouseout=\"SBspeed=1\">$down_img</span>";
             
-			$bottom_content .= "&nbsp;<span style=\"cursor: wait;\" onmouseover=\"SBspeed=0\" onmouseout=\"SBspeed=1\"><img 
-			src=\"$pause_img\" border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
+			//$bottom_content .= "&nbsp;<span style=\"cursor: wait;\" onmouseover=\"SBspeed=0\" onmouseout=\"SBspeed=1\">$pause_img</span>";
             
 			$bottom_content .= "</div><div style=\"padding: 1px; text-align: center;\" class=\"content\"><br />"._ONLYREGISTERED." <a 
 			href=\"modules.php?name=Your_Account\">"._SHOUTLOGIN."</a> "._OR." <a href=\"modules.php?name=Your_Account&amp;op=new_user\">"._CREATEANACCT."</a>.</div>";
@@ -752,14 +758,11 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
 			&& $username == 'Anonymous') ? '3' : '2')."\" style=\"padding: 5px 0;\"" : '') . ">";
             
 			$bottom_content .= "<div align=\"center\"><a href=\"modules.php?name=Shout_Box\">"._SHOUTHISTORY."</a></div>";
-            $bottom_content .= "<span style=\"cursor: pointer;\" onmouseover=\"SBspeed=4\" onmouseout=\"SBspeed=1\"><img 
-			src=\"$up_img\" border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
+            $bottom_content .= "<span style=\"cursor: pointer;\" onmouseover=\"SBspeed=4\" onmouseout=\"SBspeed=1\">$up_img</span>";
             
-			$bottom_content .= "<span style=\"cursor: pointer;\" onmouseover=\"SBspeed=1-5\" onmouseout=\"SBspeed=1\"><img 
-			src=\"$down_img\" border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
+			$bottom_content .= "<span style=\"cursor: pointer;\" onmouseover=\"SBspeed=1-5\" onmouseout=\"SBspeed=1\">$down_img</span>";
             
-			$bottom_content .= "<span style=\"cursor: wait;\" onmouseover=\"SBspeed=0\" onmouseout=\"SBspeed=1\"><img 
-			src=\"$pause_img\" border=\"0\" alt=\"\" width=\"9\" height=\"5\" /></span>";
+			//$bottom_content .= "<span style=\"cursor: wait;\" onmouseover=\"SBspeed=0\" onmouseout=\"SBspeed=1\">$pause_img</span>";
             
 			$bottom_content .= "</td>";
             $bottom_content .= "</tr>\n";
