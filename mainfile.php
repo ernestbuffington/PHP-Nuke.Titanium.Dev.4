@@ -775,7 +775,7 @@ function is_user($trash=0)
 function cookiedecode($trash=0) 
 {
     global $cookie;
-    
+
 	static $rcookie;
 
     if(isset($rcookie)): 
@@ -783,13 +783,13 @@ function cookiedecode($trash=0)
 	endif;
 
     $usercookie = $_COOKIE['user'];
-    $rcookie = (!is_array($usercookie)) ? explode(':', base64_decode($usercookie)) : $usercookie;
+    $rcookie = (is_array($usercookie)) ? $usercookie : explode(':', base64_decode((string) $usercookie));
     $pass = get_user_field('user_password', $rcookie[1], true);
 
     if($rcookie[2] == $pass && !empty($pass)):
       return $cookie = $rcookie;
 	endif;
-    
+
     return false;
 }
 
