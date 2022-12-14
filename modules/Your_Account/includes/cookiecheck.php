@@ -36,35 +36,27 @@
       12/14/2022 1:10 am Ernest Allen Buffington	  
  ************************************************************************/
 
-if ((!defined('MODULE_FILE')) AND (!defined('ADMIN_FILE'))) 
-{
-   die ('Access Denied');
-}
+if((!defined('MODULE_FILE')) AND (!defined('ADMIN_FILE'))): 
+  die ('Access Denied');
+endif;
 
-if (!defined('CNBYA')) 
-{
-    die('CNBYA protection');
-}
+if(!defined('CNBYA')): 
+  die('CNBYA protection');
+endif;
 
 $module_name = basename (dirname(dirname (__FILE__)) );
 
 global $currentlang, $language;
 
-if (file_exists(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$currentlang.'.php')) {
-	include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$currentlang.'.php');
-} 
-else
-if (file_exists(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$language.'.php')) {
-	include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$language.'.php');
-} 
-else
-if (file_exists(NUKE_MODULES_DIR.$module_name.'/language/lang-english.php')) {
-	include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-english.php');
-} 
+if(file_exists(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$currentlang.'.php')):
+  include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$currentlang.'.php');
+elseif(file_exists(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$language.'.php')):
+  include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-'.$language.'.php');
+elseif(file_exists(NUKE_MODULES_DIR.$module_name.'/language/lang-english.php')):
+  include_once(NUKE_MODULES_DIR.$module_name.'/language/lang-english.php');
+endif; 
 
-/*************************************************************************************/
-// function yacookiecheck()
-/*************************************************************************************/
+# function yacookiecheck()
 function yacookiecheck()
 {
   global $ya_config;
@@ -74,9 +66,7 @@ function yacookiecheck()
   setcookie("CNB_test4","value4",time()+3600,"$ya_config[cookiepath]"); 
 }
 
-/*************************************************************************************/
-// function yacookiecheckresults()
-/*************************************************************************************/
+# function yacookiecheckresults()
 function yacookiecheckresults()
 {
   global $ya_config,$module_name;
