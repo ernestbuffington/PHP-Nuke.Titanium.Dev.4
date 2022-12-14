@@ -828,25 +828,25 @@ function is_active($module)
 {
     global $prefix, $db, $cache;
     static $active_modules;
-    
+
 	if(is_array($active_modules)): 
       return(isset($active_modules[$module]) ? 1 : 0);
 	endif;
-    
+
 	if((($active_modules = $cache->load('active_modules', 'config')) === false) || empty($active_modules)):
-	
-		$active_modules = array();
+
+		$active_modules = [];
         $result = $db->sql_query('SELECT `title` FROM `'.$prefix.'_modules` WHERE `active`="1"');
-		
-		while(list($title) = $db->sql_fetchrow($result, SQL_NUM)):
+
+		while([$title] = $db->sql_fetchrow($result, SQL_NUM)):
             $active_modules[$title] = 1;
         endwhile;
-		
+
 		$db->sql_freeresult($result);
         $cache->save('active_modules', 'config', $active_modules);
-    
+
 	endif;
-	
+
 	return (isset($active_modules[$module]) ? 1 : 0);
 }
 
