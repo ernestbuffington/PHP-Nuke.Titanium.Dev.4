@@ -242,16 +242,6 @@ endif;
 	
 	echo $footmsg;
     $has_echoed = 1;
-
-
-echo "\n<!-- START facebook connector -->\n";
-if(defined('facebook')):
-echo '<div id="status">'.PHP_EOL;
-echo '</div>'.PHP_EOL;
-echo '<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>'.PHP_EOL;
-endif;
-echo "<!-- END facebook connector -->\n\n";
-
 }
 
 # START Admin Icon/Link Pos v1.0.0

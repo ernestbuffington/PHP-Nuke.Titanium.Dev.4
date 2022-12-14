@@ -371,32 +371,6 @@ if (file_exists(NUKE_BASE_DIR.'nconfig.php')):
 endif;
 # Enable 86it Network Support END 
 
-# facebook SDK Mod START
-if(file_exists(NUKE_BASE_DIR.'fbconfig.php')):  
-  global $fb, $appID, $api_version, $appSecret, $my_url;
-  require_once(NUKE_BASE_DIR.'fbconfig.php');
-  
-  if(defined('facebook')):
-    if(!isset($my_url) || empty($my_url)): 
-      die('$my_url <- your domain is not set in your ROOT fbconfig.php file!');
-	endif;
-    
-	if(!isset($appSecret) || empty($appSecret)): 
-      die('$appSecret <- your facebook appSecret is not defined in your ROOT fbconfig.php file!');
-	endif;
-    
-	if(!isset($appID) || empty($appID)): 
-      die('$appID <- your facebook appID is not defined in your ROOT fbconfig.php file!');
-	endif;
-    
-	if(!isset($api_version) || empty($api_version)): 
-      die('$api_version <- your facebook api_version is not defined in your ROOT fbconfig.php file!');
-	endif;
-  
-  endif;
-endif;
-# facebook SDK Mod END
-
 # Include config file
 require_once(NUKE_BASE_DIR.'config.php');
 
@@ -1014,7 +988,7 @@ function blocks($side, $count=false)
     return;
 } 
 
-function blockfileinc($blockfiletitle, $blockfile, $side=1, $bid) {
+function blockfileinc($blockfiletitle, $blockfile, $side=1,$bid = 0) {
     global $collapse;
 
     if (!file_exists(NUKE_BLOCKS_DIR.$blockfile)) {

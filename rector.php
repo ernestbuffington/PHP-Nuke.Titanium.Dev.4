@@ -81,7 +81,7 @@ return static function (RectorConfig $rectorConfig): void {
         //
         //__DIR__ . '/mainfile.php',
         //__DIR__ . '/index.php',
-		__DIR__ . '/includes/bbcode.php',
+		__DIR__ . '/includes/Facebook/FacebookApp.php',
 		//__DIR__ . '/includes/usercp_avatar.php',
 		//__DIR__ . '/modules/Blogs/comments.php',
 		//__DIR__ . '/includes/functions.php',

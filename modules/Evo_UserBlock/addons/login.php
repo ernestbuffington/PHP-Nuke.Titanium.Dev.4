@@ -76,30 +76,9 @@ function evouserinfo_login ()
     $evouserinfo_login .= "<tr><td align=\"center\"><input class=\"titaniumbutton evo-login-submit\" type=\"submit\" value=\"".$lang_evo_userblock['BLOCK']['LOGIN']['LOGIN']."\"></td></tr></table></form>\n";
 }
 
-?>
-<style>
-.myFblogin{
-	text-align:center;
-}
-</style>
-<?
 if (!is_user()) 
 {
     evouserinfo_login();
-
-    if(defined('facebook')): 
-    
-	  if(isset($_COOKIE['fbsr_'.$appID])):
-	  // do nothing
-	  else:
-	    $evouserinfo_login .= '<div class="myFblogin">';
-        $evouserinfo_login .= 'Login to our facebook app';
-        $evouserinfo_login .= '<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>';
-	    $evouserinfo_login .= '</div>';
-	  endif;
-	
-	endif;
-
 } 
 else 
 {
@@ -153,20 +132,6 @@ else
     $evouserinfo_login .= '<div style="padding-left: 11px;">';
 	$evouserinfo_login .= $link8."";
 	$evouserinfo_login .= '</div>';
-
-    if(defined('facebook')): 
-	  
-	  if(isset($_COOKIE['fbsr_'.$appID])):
-	  // do nothing
-	  else:
-        $evouserinfo_login .= '<hr>';
-	    $evouserinfo_login .= '<div class="myFblogin">';
-        $evouserinfo_login .= 'Login to our facebook app';
-        $evouserinfo_login .= '<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>';
-	    $evouserinfo_login .= '</div>';
-	  endif;
-	
-	endif;
 }
 
 ?>
