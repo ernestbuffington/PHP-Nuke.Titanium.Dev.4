@@ -58,7 +58,7 @@ if((defined('NUKE_EVO')) || (defined('NUKE_TITANIUM'))):
   return;
 endif;
 
-if(realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])):
+if(realpath(__FILE__) === realpath($_SERVER['SCRIPT_FILENAME'])):
  exit('Access Denied');
 endif;
 
@@ -85,36 +85,36 @@ if(!ini_get('register_globals')):
 		function pnt_import_globals($array)
 		{
 			foreach ($array as $k => $v):
-			  global $$k;
-			  $$k = $v;
+			  global ${$k};
+			  ${$k} = $v;
 			endforeach;
 		}
-		if(!empty($_GET)):
+		if($_GET !== []):
 		  pnt_import_globals($_GET);
 		endif;
-		if(!empty($_POST)):
+		if($_POST !== []):
 		  pnt_import_globals($_POST);
 		endif;
-		if(!empty($_COOKIE)):
+		if($_COOKIE !== []):
 		  pnt_import_globals($_COOKIE);
 		endif;
 	endif;
 endif;
 
-$admin = (isset($_COOKIE['admin'])) ? $_COOKIE['admin'] : false;
-$user = (isset($_COOKIE['user'])) ? $_COOKIE['user'] : false;
+$admin = $_COOKIE['admin'] ?? false;
+$user = $_COOKIE['user'] ?? false;
 
 if((isset($_POST['name']) && !empty($_POST['name'])) && (isset($_GET['name']) && !empty($_GET['name']))): 
-  $name = (isset($_GET['name']) && !stristr($_GET['name'],'..') && !stristr($_GET['name'],'://')) ? addslashes(trim($_GET['name'])) : false;
+  $name = (isset($_GET['name']) && !stristr((string) $_GET['name'],'..') && !stristr((string) $_GET['name'],'://')) ? addslashes(trim((string) $_GET['name'])) : false;
 else: 
-  $name = (isset($_REQUEST['name']) && !stristr($_REQUEST['name'],'..') && !stristr($_REQUEST['name'],'://')) ? addslashes(trim($_REQUEST['name'])) : false;
+  $name = (isset($_REQUEST['name']) && !stristr((string) $_REQUEST['name'],'..') && !stristr((string) $_REQUEST['name'],'://')) ? addslashes(trim((string) $_REQUEST['name'])) : false;
 endif;
 
 $start_mem = function_exists('memory_get_usage') ? memory_get_usage() : 0;
 $start_time = get_microtime();
 
 # Stupid handle to create REQUEST_URI for IIS 5 servers
-if(preg_match('/IIS/', $_SERVER['SERVER_SOFTWARE']) && isset($_SERVER['SCRIPT_NAME'])):
+if(preg_match('/IIS/', (string) $_SERVER['SERVER_SOFTWARE']) && isset($_SERVER['SCRIPT_NAME'])):
     $requesturi = $_SERVER['SCRIPT_NAME'];
     if (isset($_SERVER['QUERY_STRING'])):
       $requesturi .= '?'.$_SERVER['QUERY_STRING'];
@@ -124,21 +124,21 @@ endif;
 
 # PHP5 with register_long_arrays off?
 if(PHP_5 && (!ini_get('register_long_arrays') || ini_get('register_long_arrays') == '0' || strtolower(ini_get('register_long_arrays')) == 'off')):
-    $HTTP_POST_VARS =& $_POST;
-    $HTTP_GET_VARS =& $_GET;
-    $HTTP_SERVER_VARS =& $_SERVER;
-    $HTTP_COOKIE_VARS =& $_COOKIE;
-    $HTTP_ENV_VARS =& $_ENV;
-    $HTTP_POST_FILES =& $_FILES;
+    $_POST =& $_POST;
+    $_GET =& $_GET;
+    $_SERVER =& $_SERVER;
+    $_COOKIE =& $_COOKIE;
+    $_ENV =& $_ENV;
+    $_FILES =& $_FILES;
     if(isset($_SESSION)): 
-	  $HTTP_SESSION_VARS =& $_SESSION;
+	  $_SESSION =& $_SESSION;
 	endif;
 endif;
 
 if(isset($_COOKIE['DONATION'])):
-  setcookie('DONATION', null, time()-3600);
-  $type = preg_match('/IIS|Microsoft|WebSTAR|Xitami/', $_SERVER['SERVER_SOFTWARE']) ? 'Refresh: 0; URL=' : 'Location: ';
-  $url = str_replace('&amp;', "&", $url);
+  setcookie('DONATION', '', ['expires' => time()-3600]);
+  $type = preg_match('/IIS|Microsoft|WebSTAR|Xitami/', (string) $_SERVER['SERVER_SOFTWARE']) ? 'Refresh: 0; URL=' : 'Location: ';
+  $url = str_replace('&amp;', "&", (string) $url);
   header($type . 'modules.php?name=Donations&op=thankyou');
 endif;
 
@@ -350,23 +350,23 @@ if (file_exists(NUKE_BASE_DIR.'nconfig.php')):
   require_once(NUKE_BASE_DIR.'nconfig.php');
 
   if(defined('network')):
-  
+
     if(!isset($dbname2) || empty($dbname2)): 
       die('$dbname2 <- your network database name is not configured in your ROOT nbconfig.php file!');
 	endif;
-    
+
 	if(!isset($dbuname2) || empty($dbuname2)): 
       die('$dbuname2 <- your network database user name is not configured in your ROOT nbconfig.php file!');
 	endif;
-    
+
 	if(!isset($dbpass2) || empty($dbpass2)): 
       die('$dbpass2 <- your network database password is not configured in your ROOT nbconfig.php file!');
 	endif;
-    
+
 	if(!isset($network_prefix) || empty($network_prefix)): 
       die('$network_prefix <- your network prefix is not configured in your ROOT nbconfig.php file!');
 	endif;
-  
+
   endif;
 endif;
 # Enable 86it Network Support END 
@@ -375,24 +375,24 @@ endif;
 if(file_exists(NUKE_BASE_DIR.'fbconfig.php')):  
   global $fb, $appID, $api_version, $appSecret, $my_url;
   require_once(NUKE_BASE_DIR.'fbconfig.php');
-  
+
   if(defined('facebook')):
     if(!isset($my_url) || empty($my_url)): 
       die('$my_url <- your domain is not set in your ROOT fbconfig.php file!');
 	endif;
-    
+
 	if(!isset($appSecret) || empty($appSecret)): 
       die('$appSecret <- your facebook appSecret is not defined in your ROOT fbconfig.php file!');
 	endif;
-    
+
 	if(!isset($appID) || empty($appID)): 
       die('$appID <- your facebook appID is not defined in your ROOT fbconfig.php file!');
 	endif;
-    
+
 	if(!isset($api_version) || empty($api_version)): 
       die('$api_version <- your facebook api_version is not defined in your ROOT fbconfig.php file!');
 	endif;
-  
+
   endif;
 endif;
 # facebook SDK Mod END
@@ -400,17 +400,9 @@ endif;
 # Include config file
 require_once(NUKE_BASE_DIR.'config.php');
 
-if(!$directory_mode):
-  $directory_mode = 0777;
-else:
-  $directory_mode = 0755;
-endif;
+$directory_mode = $directory_mode ? 0755 : 0777;
 
-if(!$file_mode):
-  $file_mode = 0666;
-else:
-  $file_mode = 0644;
-endif;
+$file_mode = $file_mode ? 0644 : 0666;
 
 # Core exceptions handler
 include_once(NUKE_INCLUDE_DIR . 'exception.php');
@@ -438,8 +430,8 @@ $do_gzip_compress = false;
 
 if (GZIPSUPPORT && !ini_get('zlib.output_compression') 
 && isset($_SERVER['HTTP_ACCEPT_ENCODING']) 
-&& preg_match('/gzip/i', $_SERVER['HTTP_ACCEPT_ENCODING'])):
-    
+&& preg_match('/gzip/i', (string) $_SERVER['HTTP_ACCEPT_ENCODING'])):
+
 	if (version_compare(PHPVERS, '4.3.0', '>=')): # PHP 4.2.x seems to give memleak
         ob_start('ob_gzhandler');
     else:
@@ -499,8 +491,8 @@ if (is_array($userinfo) && isset($userinfo['user_active'])
   die();
 endif;
 
-if(stristr($_SERVER['REQUEST_URI'], '.php/')):
-  redirect(str_replace('.php/', '.php', $_SERVER['REQUEST_URI']));
+if(stristr((string) $_SERVER['REQUEST_URI'], '.php/')):
+  redirect(str_replace('.php/', '.php', (string) $_SERVER['REQUEST_URI']));
 endif;
 
 include_once(NUKE_MODULES_DIR.'Your_Account/includes/mainfileend.php');
@@ -522,13 +514,13 @@ $AllowableHTML = ['p'=>1, 'b'=>1, 'i'=>1, 'a'=>2, 'em'=>1, 'br'=>1, 'strong'=>1,
 $nukeconfig = load_nukeconfig();
 
 foreach($nukeconfig as $var => $value):
-  $$var = $value;
+  ${$var} = $value;
 endforeach;
 
 # Base: Language Selector v3.0.0 START
 require_once(NUKE_INCLUDE_DIR.'language.php');
 # Base: Language Selector v3.0.0 END
- 
+
 $adminmail = stripslashes((string) $adminmail);
 $foot1 = stripslashes((string) $foot1);
 $foot2 = stripslashes((string) $foot2);
@@ -775,7 +767,7 @@ function is_user($trash=0)
 function cookiedecode($trash=0) 
 {
     global $cookie;
-    
+
 	static $rcookie;
 
     if(isset($rcookie)): 
@@ -783,20 +775,21 @@ function cookiedecode($trash=0)
 	endif;
 
     $usercookie = $_COOKIE['user'];
-    $rcookie = (!is_array($usercookie)) ? explode(':', base64_decode($usercookie)) : $usercookie;
+    $rcookie = (is_array($usercookie)) ? $usercookie : explode(':', base64_decode((string) $usercookie));
     $pass = get_user_field('user_password', $rcookie[1], true);
 
     if($rcookie[2] == $pass && !empty($pass)):
       return $cookie = $rcookie;
 	endif;
-    
+
     return false;
 }
 
 function title($text) 
 {
+  $icon = null;
   return;	
-  
+
   global $name;
 
     # Opera Hack as images were not showing up
@@ -804,14 +797,11 @@ function title($text)
       $icon = img('AdvertisngFixed.png', $name); 
     # Opera Hack as images were not showing up
     elseif ($name == 'Network_Advertising'):
-      $icon = img('NetworkAdvertisingFixed.png', $name); 
+      $icon = img('NetworkAdvertisingFixed.png', $name); elseif (!isset($name) || empty($name)) {
+        # Index Hack as images were not showing up
+    } 
     else:
-
-	   if(!isset($name) || empty($name)):
-       # Index Hack as images were not showing up	   
-	   else:
-	   $icon = img($name.'.png', $name); 
-	   endif;
+	   $icon = img($name.'.png', $name);
 
 	endif;
 
@@ -828,58 +818,58 @@ function is_active($module)
 {
     global $prefix, $db, $cache;
     static $active_modules;
-    
+
 	if(is_array($active_modules)): 
       return(isset($active_modules[$module]) ? 1 : 0);
 	endif;
-    
+
 	if((($active_modules = $cache->load('active_modules', 'config')) === false) || empty($active_modules)):
-	
-		$active_modules = array();
+
+		$active_modules = [];
         $result = $db->sql_query('SELECT `title` FROM `'.$prefix.'_modules` WHERE `active`="1"');
-		
-		while(list($title) = $db->sql_fetchrow($result, SQL_NUM)):
+
+		while([$title] = $db->sql_fetchrow($result, SQL_NUM)):
             $active_modules[$title] = 1;
         endwhile;
-		
+
 		$db->sql_freeresult($result);
         $cache->save('active_modules', 'config', $active_modules);
-    
+
 	endif;
-	
+
 	return (isset($active_modules[$module]) ? 1 : 0);
 }
 
 function render_blocks($side, $block) 
 {
 	global $plus_minus_images, $currentlang, $collapse, $collapsetype;
-	
+
 	define_once('BLOCK_FILE', true);
-    
+
 	# Include the block lang files
     if(file_exists(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php')): 
       include_once(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php');
     else:
       include_once(NUKE_LANGUAGE_DIR.'blocks/lang-english.php');
 	endif;
-    
+
 	# Mod: Switch Content Script v2.0.0 START
     if($collapse): 
-        
+
 		if(!$collapsetype):
             $block['title'] = $block['title']."&nbsp;&nbsp;&nbsp;<img src=\"".$plus_minus_images['minus']
 			."\" class=\"showstate\" name=\"minus\" width=\"9\" height=\"9\" border=\"0\" onclick=\"expandcontent(this, 'block".$block['bid']."')\" alt=\"\" style=\"cursor: pointer;\" />";
         else: 
             $block['title'] = "<a href=\"javascript:expandcontent(this, 'block".$block['bid']."')\">".$block['title']."</a>";
         endif;
-        
+
 		$block['content'] = "<div id=\"block".$block['bid']."\" class=\"switchcontent\">".$block['content']."</div>";
-    
+
 	endif;
 	# Mod: Switch Content Script v2.0.0 END
 
     if (empty($block['url'])): 
-        
+
 		if (empty($block['blockfile'])): 
             if ($side == 'c' || $side == 'd'): 
                 themecenterbox($block['title'], decode_bbcode($block['content'], 1, true));
@@ -889,19 +879,19 @@ function render_blocks($side, $block)
 		else: 
             blockfileinc($block['title'], $block['blockfile'], $side, $block['bid']);
 		endif;
-	
+
 	else: 
         headlines($block['bid'], $side, $block);
 	endif;
 }
 
-function blocks_visible($side) 
+function blocks_visible($side): bool 
 {
     global $showblocks;
 
     $showblocks = ($showblocks == null) ? 3 : $showblocks;
 
-    $side = strtolower($side[0]);
+    $side = strtolower((string) $side[0]);
 
     # If there are no blocks for this module && not admin file
     if(!$showblocks && !defined('ADMIN_FILE')): 
@@ -925,107 +915,87 @@ function blocks_visible($side)
     if(!$blocks):
       return false;
 	endif;
-
     # Check for blocks to show
-    if(($showblocks == 1 && $side == 'l') || ($showblocks == 2 && $side == 'r')): 
-      return true;
-	endif;
-
-    return false;
+    return ($showblocks == 1 && $side == 'l') || ($showblocks == 2 && $side == 'r');
 }
 
 function blocks($side, $count=false) 
 {
     global $prefix, $multilingual, $currentlang, $db, $userinfo, $cache;
-	
+
 	static $blocks;
-    
+
 	$querylang = ($multilingual) ? 'AND (`blanguage`="'.$currentlang.'" OR `blanguage`="")' : '';
-	
-	$side = strtolower($side[0]);
-    
+
+	$side = strtolower((string) $side[0]);
+
 	if((($blocks = $cache->load('blocks', 'config')) === false) || !isset($blocks)): 
-    
+
 	    $sql = 'SELECT * FROM `'.$prefix.'_blocks` WHERE `active`="1" '.$querylang.' ORDER BY `weight` ASC';
         $result = $db->sql_query($sql);
-	
+
 	    while($row = $db->sql_fetchrow($result, SQL_ASSOC)): 
             $blocks[$row['bposition']][] = $row;
         endwhile;
-	
+
 		$db->sql_freeresult($result);
         $cache->save('blocks', 'config', $blocks);
-    
+
 	endif;
-	
+
 	if($count): 
         return (isset($blocks[$side]) ? count($blocks[$side]) : 0);
     endif;
-	
-	$blockrow = (isset($blocks[$side])) ? $blocks[$side] : array();
-	
-	for($i=0,$j = count($blockrow); $i < $j; $i++): 
-    
-	    $bid = intval($blockrow[$i]['bid']);
-        $view = $blockrow[$i]['view'];
-	
-	    if(isset($blockrow[$i]['expire'])): 
-            $expire = intval($blockrow[$i]['expire']);
-		else: 
-            $expire = '';
-        endif;
-	
-		if(isset($blockrow[$i]['action'])): 
-            $action = $blockrow[$i]['action'];
-            $action = substr($action, 0,1);
-		else: 
-            $action = '';
-        endif;
-	
-		$now = time();
-	
-		if($expire != 0 AND $expire <= $now): 
-    
-	        if($action == 'd'): 
-                $db->sql_query('UPDATE `'.$prefix.'_blocks` SET `active`="0", `expire`="0" WHERE `bid`="'.$bid.'"');
-                $cache->delete('blocks', 'config');
-                return;
-			elseif($action == 'r'): 
-                $db->sql_query('DELETE FROM `'.$prefix.'_blocks` WHERE `bid`="'.$bid.'"');
-                $cache->delete('blocks', 'config');
-                return;
-            endif;
-    
-	    endif;
-	
-		if(empty($blockrow[$i]['bkey'])): 
-    
-	        if(($view == '0' || $view == '1') ||
-              (($view == '3' AND is_user())) ||
-              ($view == '4' AND is_admin()) ||
-              (($view == '2' AND !is_user()))): 
-                render_blocks($side, $blockrow[$i]);
-			else: 
-                if(substr($view, strlen($view)-1) == '-'): 
-                    $ingroups = explode('-', $view);
-	
-				  if(is_array($ingroups)): 
-                        $cnt = 0;
-						foreach($ingroups as $group): 
-                            if(isset($userinfo['groups'][($group)])): 
-                              $cnt++;
-                            endif;
-                        endforeach;
-					if($cnt != 0):
-                      render_blocks($side, $blockrow[$i]);
-                    endif;
-	              endif;
-                
 
-				endif;
-            endif;
-        endif;
-    endfor;
+	$blockrow = $blocks[$side] ?? [];
+
+	foreach ($blockrow as $i => $singleBlockrow) {
+     $bid = (int) $singleBlockrow['bid'];
+     $view = $singleBlockrow['view'];
+     $expire = isset($singleBlockrow['expire']) ? (int) $singleBlockrow['expire'] : '';
+     if(isset($singleBlockrow['action'])): 
+               $action = $singleBlockrow['action'];
+               $action = substr((string) $action, 0,1);
+   		else: 
+               $action = '';
+           endif;
+     $now = time();
+     if($expire != 0 && $expire <= $now): 
+
+   	        if($action == 'd'): 
+                   $db->sql_query('UPDATE `'.$prefix.'_blocks` SET `active`="0", `expire`="0" WHERE `bid`="'.$bid.'"');
+                   $cache->delete('blocks', 'config');
+                   return;
+   			elseif($action == 'r'): 
+                   $db->sql_query('DELETE FROM `'.$prefix.'_blocks` WHERE `bid`="'.$bid.'"');
+                   $cache->delete('blocks', 'config');
+                   return;
+               endif;
+
+   	    endif;
+     if(empty($singleBlockrow['bkey'])): 
+
+   	        if (($view == '0' || $view == '1') ||
+                 (($view == '3' && is_user())) ||
+                 ($view == '4' && is_admin()) ||
+                 (($view == '2' && !is_user()))) {
+                render_blocks($side, $singleBlockrow);
+            } elseif (substr((string) $view, strlen((string) $view)-1) == '-') {
+                $ingroups = explode('-', (string) $view);
+                if(is_array($ingroups)): 
+                                  $cnt = 0;
+          						foreach($ingroups as $group): 
+                                      if(isset($userinfo['groups'][($group)])): 
+                                        $cnt++;
+                                      endif;
+                                  endforeach;
+          					if($cnt != 0):
+                                render_blocks($side, $singleBlockrow);
+                              endif;
+          	              endif;
+            }
+           endif;
+ }
     return;
 } 
 
@@ -1061,29 +1031,29 @@ function rss_content($url)
     if(!web_site_up($url)): 
 	  return false;
 	endif;
-    
+
 	require_once(NUKE_CLASSES_DIR.'class.rss.php');
-    
+
 	if ($rss = RSS::read($url)):
-      
+
 	    $items =& $rss['items'];
         $site_link =& $rss['link'];
         $content = '';
-    
-	    for($i=0,$j = count($items);$i <$j;$i++):
-          $link = $items[$i]['link'];
-          $title2 = $items[$i]['title'];
-          $content .= "<strong><big>&middot;</big></strong> <a href=\"$link\" target=\"new\">$title2</a><br />\n";
-        endfor;
-    
+
+	    foreach ($items as $i => $item) {
+         $link = $item['link'];
+         $title2 = $item['title'];
+         $content .= "<strong><big>&middot;</big></strong> <a href=\"$link\" target=\"new\">$title2</a><br />\n";
+     }
+
 	    if(!empty($site_link)): 
           $content .= "<br /><a href=\"$site_link\" target=\"_blank\"><strong>"._HREADMORE.'</strong></a>';
 		endif;
-        
+
         return $content;
-    
+
 	endif;
-  
+
   return false;
 }
 
@@ -1094,14 +1064,14 @@ function headlines($bid, $side=0, $row='')
     if(!$my_headlines): 
 	  return;
 	endif;
-    
-	$bid = intval($bid);
-    
+
+	$bid = (int) $bid;
+
 	if(!is_array($row)): 
       $row = $db->sql_ufetchrow('SELECT `title`, `content`, `url`, `refresh`, `time` FROM `'.$prefix.'_blocks` WHERE `bid`='.$bid, SQL_ASSOC);
     endif;
-	
-	$content =& trim($row['content']);
+
+	$content =& trim((string) $row['content']);
 
     if($row['time'] < (time()-$row['refresh']) || empty($content)):
       $content = rss_content($row['url']);
@@ -1113,9 +1083,9 @@ function headlines($bid, $side=0, $row='')
     if(empty($content)): 
       $content = _RSSPROBLEM.' ('.$row['title'].')';
 	endif;
-    
+
     $content = '<span class="content">'.$content.'</span>';
-    
+
 	if($side == 'c' || $side == 'd'): 
       themecenterbox($row['title'], $content);
     else: 
@@ -1125,10 +1095,11 @@ function headlines($bid, $side=0, $row='')
 
 function blog_ultramode() 
 {
+    $content = null;
     global $db, $prefix, $multilingual, $currentlang;
-    
+
 	$querylang = ($multilingual == 1) ? "AND (s.alanguage='".$currentlang."' OR s.alanguage='')" : "";
-    
+
 	$sql = "SELECT s.sid, 
 	             s.catid, 
 				   s.aid, 
@@ -1141,34 +1112,34 @@ function blog_ultramode()
 				 s.ticon, 
 		     t.topictext, 
 		    t.topicimage 
-			
+
 	FROM `".$prefix."_stories` s 
-	
+
 	LEFT JOIN `".$prefix."_topics` t 
-	
+
 	ON t.topicid = s.topic 
-	
+
 	WHERE s.ihome = '0' ".$querylang." 
-	
+
 	ORDER BY s.datePublished DESC LIMIT 0,10";
-    
+
 	$result = $db->sql_query($sql);
-    
+
 	while($row = $db->sql_fetchrow($result, SQL_ASSOC)): 
       $rsid = $row['sid'];
       $raid = $row['aid'];
-      $rtitle = htmlspecialchars(stripslashes($row['title']));
+      $rtitle = htmlspecialchars(stripslashes((string) $row['title']));
 	  $rtime = $row['datePublished'];
 	  $rmodified = $row['dateModified'];
       $rcomments = $row['comments'];
       $topictext = $row['topictext'];
-      $topicimage = ($row['ticon']) ? stripslashes($row['topicimage']) : '';
+      $topicimage = ($row['ticon']) ? stripslashes((string) $row['topicimage']) : '';
       $rtime = formatTimestamp($rtime, 'l, F d');
       $content .= "%%\n".$rtitle."\n/modules.php?name=Blogs&file=article&sid=".$rsid."\n".$rtime."\n".$raid."\n".$topictext."\n".$rcomments."\n".$topicimage."\n";
     endwhile;
-	
+
     $db->sql_freeresult($result);
-    
+
 	if(file_exists(NUKE_BASE_DIR."ultramode.txt") && is_writable(NUKE_BASE_DIR."ultramode.txt")): 
       $file = fopen(NUKE_BASE_DIR."ultramode.txt", "w");
       fwrite($file, "General purpose self-explanatory file with headlines\n".$content);
@@ -1181,6 +1152,7 @@ function blog_ultramode()
 
 function ultramode() 
 {
+    $content = null;
     global $db, $prefix, $multilingual, $currentlang;
 
     $querylang = ($multilingual == 1) ? "AND (s.alanguage='".$currentlang."' OR s.alanguage='')" : "";
@@ -1197,32 +1169,32 @@ function ultramode()
 				 s.ticon, 
 		     t.topictext, 
 			t.topicimage 
-			
+
 	FROM `".$prefix."_stories` s 
-	
+
 	LEFT JOIN `".$prefix."_topics` t 
-	
+
 	ON t.topicid = s.topic 
-	
+
 	WHERE s.ihome = '0' ".$querylang." 
-	
+
 	ORDER BY s.datePublished DESC LIMIT 0,10";
-    
+
 	$result = $db->sql_query($sql);
 
     while ($row = $db->sql_fetchrow($result, SQL_ASSOC)):
       $rsid = $row['sid'];
       $raid = $row['aid'];
-      $rtitle = htmlspecialchars(stripslashes($row['title']));
+      $rtitle = htmlspecialchars(stripslashes((string) $row['title']));
       $rtime = $row['datePublished'];
 	  $rmodified = $row['dateModified'];
 	  $rcomments = $row['comments'];
       $topictext = $row['topictext'];
-      $topicimage = ($row['ticon']) ? stripslashes($row['topicimage']) : '';
+      $topicimage = ($row['ticon']) ? stripslashes((string) $row['topicimage']) : '';
       $rtime = formatTimestamp($rtime, 'l, F d');
       $content .= "%%\n".$rtitle."\n/modules.php?name=News&file=article&sid=".$rsid."\n".$rtime."\n".$raid."\n".$topictext."\n".$rcomments."\n".$topicimage."\n";
     endwhile;
-	
+
     $db->sql_freeresult($result);
 
     if(file_exists(NUKE_BASE_DIR."ultramode.txt") && is_writable(NUKE_BASE_DIR."ultramode.txt")):
@@ -1241,16 +1213,16 @@ function ultramode()
 function Fix_Quotes($str, $nohtml=false) 
 {
     if($nohtml): 
-	  $str = strip_tags($str);
+	  $str = strip_tags((string) $str);
 	endif;
-    
+
 	return $str;
 }
 
 function Remove_Slashes($str) 
 {
     global $_GETVAR;
-    
+
 	return $_GETVAR->stripSlashes($str);
 }
 
@@ -1262,63 +1234,62 @@ function check_words($message)
     if(empty($message)): 
       return '';
 	endif;
-    
+
 	if(empty($censor_words)): 
       return $message;
 	endif;
-    
-	$orig_word = array();
-    $replacement_word = array();
-    
+
+	$orig_word = [];
+    $replacement_word = [];
+
 	foreach($censor_words as $word => $replacement ): 
-      $orig_word[] = '#\b(' . str_replace('\*', '\w*?', preg_quote($word, '#')) . ')\b#i';
+      $orig_word[] = '#\b(' . str_replace('\*', '\w*?', preg_quote((string) $word, '#')) . ')\b#i';
       $replacement_word[] = $replacement;
     endforeach;
-    
-	$return_message = preg_replace($orig_word, $replacement_word, $message);
 
-    return $return_message;
+    return preg_replace($orig_word, $replacement_word, (string) $message);
 }
 
 function check_html($str, $strip='') 
 {
    # do not filter strings for the admins! (Test This Later)        
 	if(is_mod_admin('super')):
-      $str = Fix_Quotes($str, !empty($strip));
-      return $str;
+      return Fix_Quotes($str, !empty($strip));
 	endif;
-    
+
 	# Base: PHP Input Filter v1.2.2 START
     if(defined('INPUT_FILTER')): 
-	
+
 		if($strip == 'nohtml'):
           global $AllowableHTML;
 		endif;
-	
+
 	    if(!is_array($AllowableHTML)): 
-        
-		  $html = '';
-		
+
+		  $html = [];
+
 		else: 
-          
-		  $html = '';
-          
+
+		  $html = [];
+
 		  foreach($AllowableHTML as $type => $key):
-          
+
 		  if($key == 1): 
             $html[] = $type;
 		  endif;
-          
+
 		  endforeach;
-        
+
 		endif;
-        
+
 		$html_filter = new InputFilter($html, "", 0, 0, 1);
         $str = $html_filter->process($str);
 	else: 
     # Base: PHP Input Filter v1.2.2 END
 
     $str = Fix_Quotes($str, !empty($strip));
+
+    # Base: PHP Input Filter v1.2.2 START
 
     # Base: PHP Input Filter v1.2.2 START
     endif;
@@ -1329,15 +1300,13 @@ function check_html($str, $strip='')
 
 function filter_text($Message, $strip='') {
     $Message = check_words($Message);
-    $Message = check_html($Message, $strip);
-    return $Message;
+    return check_html($Message, $strip);
 }
 
 # actualTime function by ReOrGaNiSaTiOn
 function actualTime() {
   $date = date('Y-m-d H:i:s');
-  $actualTime_tempdate = formatTimestamp($date, $format='Y-m-d H:i:s');
-  return $actualTime_tempdate;
+  return formatTimestamp($date, $format='Y-m-d H:i:s');
 }
 
 # formatTimestamp function by ReOrGaNiSaTiOn
@@ -1354,12 +1323,12 @@ function formatTimestamp($time, $format='', $dateonly='')
           $format = 'D M d, Y g:i a';
 		endif;
     endif;
-    
+
 	if(!empty($dateonly)): 
-      $replaces = array('a', 'A', 'B', 'c', 'D', 'g', 'G', 'h', 'H', 'i', 'I', 'O', 'r', 's', 'U', 'Z', ':');
-      $format = str_replace($replaces, '', $format);
+      $replaces = ['a', 'A', 'B', 'c', 'D', 'g', 'G', 'h', 'H', 'i', 'I', 'O', 'r', 's', 'U', 'Z', ':'];
+      $format = str_replace($replaces, '', (string) $format);
     endif;
-    
+
 	if((isset($userinfo['user_timezone']) && !empty($userinfo['user_timezone'])) && $userinfo['user_id'] != 1): 
       $tz = $userinfo['user_timezone'];
 	elseif (isset($board_config['board_timezone']) && !empty($board_config['board_timezone'])): 
@@ -1369,20 +1338,20 @@ function formatTimestamp($time, $format='', $dateonly='')
 	endif;
 
     setlocale(LC_TIME, $locale);
-    
+
 	if(!is_numeric($time)): 
-      preg_match('/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/', $time, $datetime);
+      preg_match('/(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})/', (string) $time, $datetime);
       $time = gmmktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
     endif;
-    
+
 	$datetime = EvoDate($format, $time, $tz);
-    
+
 	return $datetime;
 }
 
 function get_microtime() 
 {
-    list($usec, $sec) = explode(' ', microtime());
+    [$usec, $sec] = explode(' ', microtime());
     return ($usec + $sec);
 }
 
@@ -1400,20 +1369,14 @@ function blog_signature($aid)
     endif;
 
 	  # webmaster
-       list($username, 
-	          $avatar, 
-			   $email, 
-			    $name,
-				 $bio,
-		 $admin_notes,
-		    $user_occ) = $db->sql_ufetchrow('SELECT `username`,
+       [$username, $avatar, $email, $name, $bio, $admin_notes, $user_occ] = $db->sql_ufetchrow('SELECT `username`,
 		                                         `user_avatar`, 
 												  `user_email`, 
 												        `name`, 
 														 `bio`, 
 											`user_admin_notes`,
 											        `user_occ` 
-											
+
 											FROM `'.$user_prefix.'_users` WHERE `username`="'.$aid.'"', SQL_NUM);
      $aid  = '';				   
      $aid .= 'Sincerely,<br />';
@@ -1421,20 +1384,19 @@ function blog_signature($aid)
      $aid .= '<br />';				   
      $aid .= '<table border="0" cellpadding="0" cellspacing="0" width="100%" height="0">';
      $aid .= '<tr>';
-     
+
 	 $aid .= '<td valign="top" height="80" width="80" height="200"><img width="90" class="rounded-corners" style="max-height: 150px; max-width: 150px;" 
 	 src="modules/Forums/images/avatars/'.$avatar.'" alt="avatar" border="0"></td>';
-     
+
 	 $aid .= '<td align="top">';
      $aid .= '&nbsp;&nbsp;<strong>'.$user_occ.'</strong><br />';
      $aid .= '&nbsp;&nbsp;name: '.$name.'<br />';
-     $aid .= '&nbsp;&nbsp;email: '.str_replace("@", "[at]", $email).'<br />';
+     $aid .= '&nbsp;&nbsp;email: '.str_replace("@", "[at]", (string) $email).'<br />';
      $aid .= $bio.'';
      $aid .= '</td>';
      $aid .= '</tr>';
-     $aid .= '</table>';
-    
-	return $aid;
+
+	return $aid . '</table>';
 }
 # Mod: Blog Signature v1.0.0 END
 
@@ -1442,7 +1404,7 @@ function blog_signature($aid)
 function get_author($aid) 
 {
     global $user_prefix, $db;
-    
+
 	static $users;
 
     if(is_array($users[$aid])): 
@@ -1451,11 +1413,11 @@ function get_author($aid)
         $row = get_admin_field('*', $aid);
         $users[$aid] = $row;
     endif;
-	
+
     $result = $db->sql_query('SELECT `user_id` from `'.$user_prefix.'_users` WHERE `username`="'.$aid.'"');
     $userid = $db->sql_fetchrow($result);
     $db->sql_freeresult($result);
-    
+
 	# Mod: Advanced Username Color v1.0.5 START
     if(isset($userid[0])): 
       $aid = "<a href=\"modules.php?name=Profile&amp;mode=viewprofile&amp;u=".$userid[0]."\">".UsernameColor($aid)."</a>";
@@ -1472,20 +1434,20 @@ function get_author($aid)
 function getTopics($s_sid) 
 {
     global $topicname, $topicimage, $topictext, $db;
-    $sid = intval($s_sid);
-    
+    $sid = (int) $s_sid;
+
 	$sql = 'SELECT t.`topicname`, t.`topicimage`, t.`topictext` 
 	FROM (`'._STORIES_TABLE.'` s 
 	LEFT JOIN `'._TOPICS_TABLE.'` t 
 	ON t.`topicid` = s.`topic`) 
 	WHERE s.`sid` = "'.$sid.'"';
-    
+
 	$result = $db->sql_query($sql);
     $row = $db->sql_fetchrow($result);
     $db->sql_freeresult($result);
     $topicname = $row['topicname'];
     $topicimage = $row['topicimage'];
-    $topictext = stripslashes($row['topictext']);
+    $topictext = stripslashes((string) $row['topictext']);
 }
 
 /*****[BEGIN]******************************************
@@ -1493,64 +1455,68 @@ function getTopics($s_sid)
  ******************************************************/
 function ads($position) 
 {
+    $bid = null;
+    $impmade = null;
+    $imageurl = null;
+    $alttext = null;
     global $prefix, $db, $sitename, $adminmail, $nukeurl, $banners;
 
     if(!$banners): 
 	  return ''; 
 	endif;
-    
-	$position = intval($position);
-   
+
+	$position = (int) $position;
+
 	$result = $db->sql_query("SELECT * FROM `".$prefix."_banner` WHERE `position`='$position' AND `active`='1' ORDER BY RAND() LIMIT 0,1");
-    
+
 	$numrows = $db->sql_numrows($result);
-    
+
 	if($numrows < 1): 
 	  return '';
 	endif;
-    
+
 	$row = $db->sql_fetchrow($result, SQL_ASSOC);
-    
+
 	$db->sql_freeresult($result);
-    
+
 	foreach($row as $var => $value): 
-	
-	  if(isset($$var)): 
-		unset($$var);
+
+	  if(isset(${$var})): 
+		unset(${$var});
 	  endif;
-    
-	    $$var = $value;
-    
+
+	    ${$var} = $value;
+
 	endforeach;
-	
-    $bid = intval($bid);
-    
+
+    $bid = (int) $bid;
+
 	if(!is_admin()): 
       $db->sql_query("UPDATE `".$prefix."_banner` SET `impmade`=" . $impmade . "+1 WHERE `bid`='$bid'");
     endif;
-    
+
 	$sql2 = "SELECT `cid`, `imptotal`, `impmade`, `clicks`, `date`, `ad_class`, `ad_code`, `ad_width`, `ad_height`, `clickurl` FROM `".$prefix."_banner` WHERE `bid`='$bid'";
     $result2 = $db->sql_query($sql2);
-    
-	list($cid, $imptotal, $impmade, $clicks, $date, $ad_class, $ad_code, $ad_width, $ad_height, $clickurl) = $db->sql_fetchrow($result2, SQL_NUM);
-    
+
+	[$cid, $imptotal, $impmade, $clicks, $date, $ad_class, $ad_code, $ad_width, $ad_height, $clickurl] = $db->sql_fetchrow($result2, SQL_NUM);
+
 	$db->sql_freeresult($result2);
-    $cid = intval($cid);
-    $imptotal = intval($imptotal);
-    $impmade = intval($impmade);
-    $clicks = intval($clicks);
-    
+    $cid = (int) $cid;
+    $imptotal = (int) $imptotal;
+    $impmade = (int) $impmade;
+    $clicks = (int) $clicks;
+
 	# Check if this impression is the last one and print the banner #
     if(($imptotal <= $impmade) && ($imptotal != 0)): 
-	
+
         $db->sql_query("UPDATE `".$prefix."_banner` SET `active`='0' WHERE `bid`='$bid'");
         $sql3 = "SELECT `name`, `contact`, `email` FROM `".$prefix."_banner_clients` WHERE `cid`='$cid'";
         $result3 = $db->sql_query($sql3);
-    
-	    list($c_name, $c_contact, $c_email) = $db->sql_fetchrow($result3, SQL_NUM);
-    
+
+	    [$c_name, $c_contact, $c_email] = $db->sql_fetchrow($result3, SQL_NUM);
+
 	    $db->sql_freeresult($result3);
-    
+
 	    if(!empty($c_email)):
           $from = $sitename.' <'.$adminmail.'>';
           $to = $c_contact.' <'.$c_email.'>';
@@ -1570,71 +1536,69 @@ function ads($position)
           $mailcommand = evo_mail($to, $subject, $message, "From: $from\nX-Mailer: PHP/" . PHPVERS);
           $mailcommand = removecrlf($mailcommand);
         endif;
-		
+
     endif;
-    
-	if($ad_class == "code"): 
-      $ad_code = stripslashes($ad_code);
-      $ads = "<div align=\"center\">$ad_code</div>";
-	else: 
-	  
-	   if ($clickurl == 'index.php'):
-      
-	   $ads = '<a href="index.php?op=ad_click&amp;bid='.$bid.'" target="_self"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'
-	   .$ad_height.'" border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
-	  
-	   else:
-      
+
+	if ($ad_class == "code") {
+     $ad_code = stripslashes((string) $ad_code);
+     $ads = "<div align=\"center\">$ad_code</div>";
+ } elseif ($clickurl == 'index.php') {
+     $ads = '<a href="index.php?op=ad_click&amp;bid='.$bid.'" target="_self"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'
+ 	   .$ad_height.'" border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
+ } else:
+
 	   $ads = '<a href="index.php?op=ad_click&amp;bid='.$bid.'" target="_blank"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'
 	   .$ad_height.'" border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
-	  
-	   endif;
-    
-	endif;
-    
+
 	return $ads;
 }
 
 function network_ads($position) 
 {
+    $bid = null;
+    $impmade = null;
+    $db = null;
+    $imageurl = null;
+    $clickurl = null;
+    $alttext = null;
     global $network_prefix, $db2, $sitename, $adminmail, $nukeurl, $banners;
 
 if(defined('network')):
 
     echo "\n\n\n<!-- function network_ads START -->\n";
     echo "<!-- function network_ads LOADING -->\n";
-	
+
 	if(!$banners): 
       return '';
 	endif; 
-    
-	$position = intval($position);
+
+	$position = (int) $position;
     $result = $db2->sql_query("SELECT * FROM `".$network_prefix."_banner` WHERE `position`='$position' AND `active`='1' ORDER BY RAND() LIMIT 0,1");
     $numrows = $db2->sql_numrows($result);
-    
+
 	if($numrows < 1): 
 	  return '';
 	endif;
-    
+
 	$row = $db2->sql_fetchrow($result, SQL_ASSOC);
     $db2->sql_freeresult($result);
-    
+
 	foreach($row as $var => $value): 
-      
-	  if(isset($$var)): 
-	    unset($$var);
+
+	  if(isset(${$var})): 
+	    unset(${$var});
 	  endif;
-	
-		$$var = $value;
-    
+
+		${$var} = $value;
+
 	endforeach;
-    
-	$bid = intval($bid);
-    
+
+	$bid = (int) $bid;
+
 	if(!is_admin()): 
       $db2->sql_query("UPDATE `".$network_prefix."_banner` SET `impmade`=" . $impmade . "+1 WHERE `bid`='$bid'");
     endif;
-    
+
 	$sql2 = "SELECT `cid`, 
 	           `imptotal`, 
 			    `impmade`, 
@@ -1644,30 +1608,30 @@ if(defined('network')):
 			    `ad_code`, 
 			   `ad_width`, 
 			  `ad_height` 
-			  
+
 			  FROM `".$network_prefix."_banner` WHERE `bid`='$bid'";
-    
+
 	$result2 = $db2->sql_query($sql2);
 
-    list($cid, $imptotal, $impmade, $clicks, $date, $ad_class, $ad_code, $ad_width, $ad_height) = $db2->sql_fetchrow($result2, SQL_NUM);
+    [$cid, $imptotal, $impmade, $clicks, $date, $ad_class, $ad_code, $ad_width, $ad_height] = $db2->sql_fetchrow($result2, SQL_NUM);
 
     $db2->sql_freeresult($result2);
-    $cid = intval($cid);
-    $imptotal = intval($imptotal);
-    $impmade = intval($impmade);
-    $clicks = intval($clicks);
-    
+    $cid = (int) $cid;
+    $imptotal = (int) $imptotal;
+    $impmade = (int) $impmade;
+    $clicks = (int) $clicks;
+
 	# Check if this impression is the last one and print the banner #
     if(($imptotal <= $impmade) && ($imptotal != 0)): 
-	
+
         $db2->sql_query("UPDATE `".$network_prefix."_banner` SET `active`='0' WHERE `bid`='$bid'");
         $sql3 = "SELECT `name`, `contact`, `email` FROM `".$network_prefix."_banner_clients` WHERE `cid`='$cid'";
         $result3 = $db->sql_query($sql3);
-    
-	    list($c_name, $c_contact, $c_email) = $db->sql_fetchrow($result3, SQL_NUM);
-    
+
+	    [$c_name, $c_contact, $c_email] = $db->sql_fetchrow($result3, SQL_NUM);
+
 	    $db2->sql_freeresult($result3);
-        
+
 		if(!empty($c_email)): 
           $from = $sitename.' <'.$adminmail.'>';
           $to = $c_contact.' <'.$c_email.'>';
@@ -1687,22 +1651,22 @@ if(defined('network')):
           $mailcommand = evo_mail($to, $subject, $message, "From: $from\nX-Mailer: PHP/" . PHPVERS);
           $mailcommand = removecrlf($mailcommand);
         endif;
-    
+
 	endif;
-	
+
 	if($ad_class == "code"): 
-    
-	    $ad_code = stripslashes($ad_code);
+
+	    $ad_code = stripslashes((string) $ad_code);
         $ads = '<div align="center">'.$ad_code.'</div>';
-    
+
 	else:
 		# this opens the ad from the main hub - https://hub.86it.us
         $ads = '<a href="https://hub.86it.us/index.php?op=ad_network_click&amp;bid='.$bid.'" target="_blank"><img src="'.$imageurl.'" width="'.$ad_width.'" height="'
 		.$ad_height.'" border="0" alt="'.$alttext.'" title="'.$alttext.'"></a>';
 	endif;
-    
+
 	echo "<!-- function network_ads DONE -->\n\n\n";
-  
+
   return $ads;
 
 endif;
@@ -1719,52 +1683,41 @@ if(!function_exists('themeindex'))
     global $digits_color, $digits_txt_color;
 
     if(!empty($topicimage)):
-    
-        $t_image = (file_exists(carbinfiber_red_flames_images_dir.'topics/'.$topicimage)) ? carbinfiber_red_flames_images_dir.'topics/'.$topicimage : $tipath.$topicimage;
+
+        $t_image = (file_exists(\CARBINFIBER_RED_FLAMES_IMAGES_DIR.'topics/'.$topicimage)) ? \CARBINFIBER_RED_FLAMES_IMAGES_DIR.'topics/'.$topicimage : $tipath.$topicimage;
         $topic_img = '<td class="col-3 extra" style="text-align:center;"><a href="modules.php?name=Blogs&new_topic='.$topic.'"><img src="'
 		.$t_image.'" border="0" alt="'.$topictext.'" title="'.$topictext.'"></a></td>';
 
     else:
-        
+
 		$topic_img = '';
-    
+
 	endif;
 
-    $notes = (!empty($notes)) ? '<br /><br /><strong>'._NOTE.'</strong> '.$notes : '';
+    $notes = (empty($notes)) ? '' : '<br /><br /><strong>'._NOTE.'</strong> '.$notes;
     $content = '';
 
-    if($aid == $informant):
-      
-	    $content = $thetext.$notes;
-    
-	else: 
+    if ($aid == $informant) {
+        $content = $thetext.$notes;
+    } elseif ($writes) {
+        if (!empty($informant)) :
 
-        if ($writes):
-
-            if (!empty($informant)) :
-    
 	            $content = (is_array($informant)) ? '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='
 				.$informant[0].'">'.$informant[1].'</a> ' : '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant.'">'.$informant.'</a> ';
-    
+
 	        else:
-    
+
 	            $content = $anonymous.' ';
-    
+
 	        endif;
-    
-	        $content .= _WRITES.' '.$thetext.$notes;
+        $content .= _WRITES.' '.$thetext.$notes;
+    } else:
 
-        else:
-    
 	        $content .= $thetext.$notes;
-    
-	    endif;
-
-    endif;
 
    $posted = sprintf($customlang['global']['posted_by'], get_author($aid), $time);
-   $datetime = substr($morelink, 0, strpos($morelink, '|')-strlen($morelink));
-   $morelink = substr($morelink, strlen($datetime)+2);
+   $datetime = substr((string) $morelink, 0, strpos((string) $morelink, '|')-strlen((string) $morelink));
+   $morelink = substr((string) $morelink, strlen($datetime)+2);
    $reads = '( <span style="color: yellow;">'.$customlang['global']['reads'].'</span>: <span style="color: '.$digits_color.';">'.$counter.'</span> )';
 
    OpenTable();
@@ -1789,7 +1742,7 @@ if(!function_exists('themeindex'))
    print blog_signature($aid);	
 
    echo '<div align="center">'.$datetime.' '.$topictext.' | '.$morelink.' '.$reads.'<img src="themes/'.$theme_name.'/images/invisible_pixel.gif" alt="" width="4" height="1" border="0" /></div>';
-   
+
    CloseTable();
 
   }
@@ -1809,21 +1762,21 @@ if(!function_exists('themeindex'))
     function themeindex($title, $hometext, $bodytext='', $notes='') 
 	{
 		OpenTable();
-        
+
 		echo '<strong>'.$title.'</strong><br /><br />'.$hometext;
-    
+
 	    if(!empty($bodytext)): 
-		
+
             echo '<br /><br />'.$bodytext;
-        
+
 		endif;
-        
+
 		if(!empty($notes)): 
-		
+
             echo '<br /><br /><strong>'._NOTE.'</strong> <i>'.$notes.'</i>';
-        
+
 		endif;
-		
+
 		CloseTable();
     }
 }
@@ -1834,15 +1787,15 @@ if(!function_exists('themepreview'))
     function themepreview($title, $hometext, $bodytext='', $notes='') 
 	{
         echo '<strong>'.$title.'</strong><br /><br />'.$hometext;
-    
+
 	    if(!empty($bodytext)): 
-		
+
             echo '<br /><br />'.$bodytext;
-        
+
 		endif;
-        
+
 		if(!empty($notes)): 
-		
+
             echo '<br /><br /><strong>'._NOTE.'</strong> <i>'.$notes.'</i>';
         endif;
     }
@@ -1869,78 +1822,78 @@ if(!function_exists('themecenterbox'))
 function addPHPCSSToHead($content, $type='file')
 {
     global $headPHPCSS;
-    
+
 	if(($type == 'file') 
 	&& (is_array($headPHPCSS) 
-	&& count($headPHPCSS) > 0) 
-	&& (in_array(array($type, $content), $headPHPCSS))): 
+	&& $headPHPCSS !== []) 
+	&& (in_array([$type, $content], $headPHPCSS))): 
 	  return;
 	endif;
-	
-	$headPHPCSS[] = array($type, $content);
-    
+
+	$headPHPCSS[] = [$type, $content];
+
 	return;
 }
 # END for Theme Fly Kit by Ernest Buffington - 09/02/2019
 
- 
+
 function addCSSToHead($content, $type='file') 
 {
     global $headCSS;
-    
+
 	if (($type == 'file') 
 	&& (is_array($headCSS) 
-	&& count($headCSS) > 0) 
-	&& (in_array(array($type, $content), $headCSS))): 
+	&& $headCSS !== []) 
+	&& (in_array([$type, $content], $headCSS))): 
 	 return;
 	endif;
-    
-	$headCSS[] = array($type, $content);
-    
+
+	$headCSS[] = [$type, $content];
+
 	return;
 }
 
 function addJSToHead($content, $type='file') 
 {
     global $headJS;
-    
+
 	if (($type == 'file') 
 	&& (is_array($headJS) 
-	&& count($headJS) > 0) 
-	&& (in_array(array($type, $content), $headJS))): 
+	&& $headJS !== []) 
+	&& (in_array([$type, $content], $headJS))): 
 	  return;
 	endif;
-    
-	$headJS[] = array($type, $content);
-    
+
+	$headJS[] = [$type, $content];
+
 	return;
 }
 
 function addJSToBody($content, $type='file') 
 {
     global $bodyJS;
-    
+
 	if (($type == 'file') 
 	&& (is_array($bodyJS) 
-	&& count($bodyJS) > 0) 
-	&& (in_array(array($type, $content), $bodyJS))): 
+	&& $bodyJS !== []) 
+	&& (in_array([$type, $content], $bodyJS))): 
 	  return;
 	endif;
-    
-	$bodyJS[] = array($type, $content);
-    
+
+	$bodyJS[] = [$type, $content];
+
 	return;
 }
 
 function writeHEAD() 
 {
     global $headPHPCSS, $headCSS, $headJS;
-    
+
     # START for Theme Fly Kit by Ernest Buffington - 09/02/2019
-	if(is_array($headPHPCSS) && count($headPHPCSS) > 0):
-      
+	if(is_array($headPHPCSS) && $headPHPCSS !== []):
+
 	    foreach($headPHPCSS AS $php):
-      
+
 	        if($php[0]=='file'):
 			  echo "<style>\n";
               include($php[1]);
@@ -1950,81 +1903,82 @@ function writeHEAD()
               include($php[1]);
 			  echo "</style>\n"; 
             endif;
-        
+
 		endforeach;
-    
+
 	endif;
     # END for Theme Fly Kit by Ernest Buffington - 09/02/2019
-	
-	if(is_array($headCSS) && count($headCSS) > 0):
-      
+
+	if(is_array($headCSS) && $headCSS !== []):
+
 	    foreach($headCSS AS $css):
-    
+
 	        if($css[0]=='file'): 
               echo '<link rel="stylesheet" href="' . $css[1] . '" type="text/css" />' . "\n";
             else:
               echo $css[1];
 			endif;
-        
+
 		endforeach;
-    
+
 	endif;
 
-    if(is_array($headJS) && count($headJS) > 0):
-      
+    if(is_array($headJS) && $headJS !== []):
+
 	    foreach($headJS AS $js):
-          
+
 		  if($js[0] == 'file'): 
             echo '<script src="' . $js[1] . '"></script>' . "\n";
           else:
             echo $js[1];
 		  endif;
-        
+
 		endforeach;
-    
+
 	endif;
-  
+
   return;
 }
 
 function writeBODYJS() 
 {
     global $bodyJS;
-    
-	if(is_array($bodyJS) && count($bodyJS) > 0): 
-      
+
+	if(is_array($bodyJS) && $bodyJS !== []): 
+
 	    foreach($bodyJS AS $js):
-    
+
 	        if($js[0] == 'file'): 
               echo '<script src="' . $js[1] . '"></script>' . "\n";
             else:
               echo $js[1];
 			endif;
-    
+
 	    endforeach;
-    
+
 	endif;
-	
+
   return;
 }
 
 function makePass() 
 {
+    $con = [];
+    $voc = [];
     $cons = 'bcdfghjklmnpqrstvwxyz';
     $vocs = 'aeiou';
 
     for($x=0; $x < 6; $x++):
-      mt_srand ((double) microtime() * 1000000);
-      $con[$x] = substr($cons, mt_rand(0, strlen($cons)-1), 1);
-      $voc[$x] = substr($vocs, mt_rand(0, strlen($vocs)-1), 1);
+      mt_srand ((double) microtime() * 1_000_000);
+      $con[$x] = substr($cons, random_int(0, strlen($cons)-1), 1);
+      $voc[$x] = substr($vocs, random_int(0, strlen($vocs)-1), 1);
     endfor;
 
-    mt_srand((double)microtime()*1000000);
-    $num1 = mt_rand(0, 9);
-    $num2 = mt_rand(0, 9);
-    $makepass = $con[0] . $voc[0] .$con[2] . $num1 . $num2 . $con[3] . $voc[3] . $con[4];
+    mt_srand((double)microtime()*1_000_000);
+    $num1 = random_int(0, 9);
+    $num2 = random_int(0, 9);
 
-    return $makepass;
+    return $con[0] . $voc[0] .$con[2] . $num1 . $num2 . $con[3] . $voc[3] . $con[4];
 }
 
 /*****[BEGIN]******************************************
@@ -2048,11 +2002,11 @@ function get_theme()
 
     #Theme Preview Mod - Theme Management (JeFFb68CAM)
     if(isset($_REQUEST['tpreview']) && ThemeAllowed($_REQUEST['tpreview'])): 
-	
+
         $ThemeSel = $_REQUEST['tpreview'];
-    
+
 	    if(!is_user()): 
-          setcookie('guest_theme', $ThemeSel, time()+84600);
+          setcookie('guest_theme', (string) $ThemeSel, ['expires' => time()+84600]);
 		endif;
 
         return $ThemeSel;
@@ -2065,7 +2019,7 @@ function get_theme()
 	endif;
 
     #New feature to grab a backup theme if the one we are trying to use does not exist, no more missing theme errors :)
-    $ThemeSel = (ThemeAllowed($nTheme = (isset($cookie[9]) ? $cookie[9] : $Default_Theme))) ? $nTheme : ThemeBackup($nTheme);
+    $ThemeSel = (ThemeAllowed($nTheme = ($cookie[9] ?? $Default_Theme))) ? $nTheme : ThemeBackup($nTheme);
 
     return $ThemeSel;
 }
@@ -2077,28 +2031,26 @@ function get_theme()
 // Function to translate Datestrings
 function translate($phrase) 
 {
-	switch($phrase):
-      case'xdatestring': $tmp='%A, %B %d @ %T %Z'; break;
-      case'linksdatestring': $tmp='%d-%b-%Y'; break;
-      case'xdatestring2': $tmp='%A, %B %d'; break;
-      default: $tmp=$phrase; break;
-    endswitch;
-	
-    return $tmp;
+	return match ($phrase) {
+        'xdatestring' => '%A, %B %d @ %T %Z',
+        'linksdatestring' => '%d-%b-%Y',
+        'xdatestring2' => '%A, %B %d',
+        default => $phrase,
+    };
 }
 
-function removecrlf($str) 
+function removecrlf($str): string 
 {
     return strtr($str, '\015\012', ' ');
 }
 
 function validate_mail($email) 
 {
-    if(strlen($email) < 7 || !preg_match('/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/', $email)): 
-	
+    if(strlen((string) $email) < 7 || !preg_match('/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/', (string) $email)): 
+
         DisplayError(_ERRORINVEMAIL);
         return false;
-     
+
 	else: 
         return $email;
 	endif;
@@ -2108,9 +2060,9 @@ function encode_mail($email)
 {
     $finished = '';
 
-    for($i=0, $j = strlen($email); $i<$j; ++$i):
-        $n = mt_rand(0, 1);
-        $finished .= ($n) ? '&#x'.sprintf('%X',ord($email[$i])).';' : '&#'.ord($email[$i]).';';
+    for($i=0, $j = strlen((string) $email); $i<$j; ++$i):
+        $n = random_int(0, 1);
+        $finished .= ($n !== 0) ? '&#x'.sprintf('%X',ord($email[$i])).';' : '&#'.ord($email[$i]).';';
     endfor;
 
     return $finished;
@@ -2131,22 +2083,22 @@ function UsernameColor($username, $old_name=false)
 	  return $username;
 	endif;
 
-    $plain_username = strtolower($username);
+    $plain_username = strtolower((string) $username);
 
     if(isset($cached_names[$plain_username])): 
       return $cached_names[$plain_username];
 	endif;
-    
+
     if(!is_array($cached_names)): 
       $cached_names = $cache->load('UserColors', 'config');
     endif;
-	
+
     if (!isset($cached_names[$plain_username])):
-          
-		    list($user_color, $uname) = $db->sql_ufetchrow("SELECT `user_color_gc`, `username` FROM `" . $user_prefix . "_users` WHERE `username` = '" . str_replace("'", "\'", $username) . "'", SQL_NUM);
-      
-	        $uname = (!empty($uname)) ? $uname : $username;
-            $username = (strlen($user_color) == 6) ? '<span style="color: #'. $user_color .'">'. $uname .'</span>' : $uname;
+
+		    [$user_color, $uname] = $db->sql_ufetchrow("SELECT `user_color_gc`, `username` FROM `" . $user_prefix . "_users` WHERE `username` = '" . str_replace("'", "\'", (string) $username) . "'", SQL_NUM);
+
+	        $uname = (empty($uname)) ? $username : $uname;
+            $username = (strlen((string) $user_color) == 6) ? '<span style="color: #'. $user_color .'">'. $uname .'</span>' : $uname;
             $cached_names[$plain_username] = $username;
             $cache->save('UserColors', 'config', $cached_names);
 	endif;
@@ -2164,45 +2116,45 @@ function GroupColor($group_name, $short=0)
     if(!$use_colors): 
 	  return $group_name;
 	endif;
-    
-	$plaingroupname = ( $short !=0 ) ? $group_name.'_short' : $group_name;
-    
+
+	$plaingroupname = ( $short != 0 ) ? $group_name.'_short' : $group_name;
+
 	if(!empty($cached_groups[$plaingroupname])): 
       return $cached_groups[$plaingroupname];
 	endif;
-    
+
     if((($cached_groups = $cache->load('GroupColors', 'config')) === false) || empty($cached_groups)):
-        
-		$cached_groups = array();
-        
+
+		$cached_groups = [];
+
 		$sql = 'SELECT `auc`.`group_color` 
-		
+
 		AS `group_color`, `gr`.`group_name` as`group_name` 
-		
+
 		FROM ( `'.GROUPS_TABLE.'` `gr` 
-		
+
 		LEFT JOIN  `' . AUC_TABLE . '` `auc` 
-		
+
 		ON `gr`.`group_color` =  `auc`.`group_id`) 
-		
+
 		WHERE `gr`.`group_description` <> "Personal User" 
-		
+
 		ORDER BY `gr`.`group_name` ASC';
-        
+
 		$result = $db->sql_query($sql);
-    
-	    while (list($group_color, $groupcolor_name) = $db->sql_fetchrow($result)): 
-          $colorgroup_short = (strlen($groupcolor_name) > 13) ? substr($groupcolor_name,0,10).'...' : $groupcolor_name;
+
+	    while ([$group_color, $groupcolor_name] = $db->sql_fetchrow($result)): 
+          $colorgroup_short = (strlen((string) $groupcolor_name) > 13) ? substr((string) $groupcolor_name,0,10).'...' : $groupcolor_name;
           $colorgroup_name  = $groupcolor_name;
-          $cached_groups[$groupcolor_name.'_short'] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $colorgroup_short .'</strong></span>' : $colorgroup_short;
-          $cached_groups[$groupcolor_name] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $colorgroup_name .'</strong></span>' : $colorgroup_name;
+          $cached_groups[$groupcolor_name.'_short'] = (strlen((string) $group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $colorgroup_short .'</strong></span>' : $colorgroup_short;
+          $cached_groups[$groupcolor_name] = (strlen((string) $group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $colorgroup_name .'</strong></span>' : $colorgroup_name;
         endwhile;
-    
+
 	    $db->sql_freeresult($result);
         $cache->save('GroupColors', 'config', $cached_groups);
-    
+
 	endif;
-    
+
 	if(!empty($cached_groups[$plaingroupname])): 
       return $cached_groups[$plaingroupname];
     else :
@@ -2217,9 +2169,9 @@ function check_priv_mess($user_id)
     if(empty($user_id) || !is_numeric($user_id)): 
       return false;
 	endif;
-    
+
  	$pms = $db->sql_ufetchrow("SELECT COUNT(privmsgs_id) as no FROM ".PRIVMSGS_TABLE." WHERE privmsgs_to_userid='".$user_id."' AND (privmsgs_type='5' OR privmsgs_type='1')");
-    
+
 	return $pms['no'];
 }
 
@@ -2237,20 +2189,18 @@ include_once(NUKE_INCLUDE_DIR.'nbbcode.php');
 function get_plus_minus_image () 
 {
     static $theme;
-    
+
 	static $image;
 
     if(isset($image) && is_array($image)): 
 	  return $image;
 	endif;
 
-    if(empty($theme)): 
-      if(function_exists('get_theme')): 
-        $theme = get_theme();
-	  endif;
+    if(empty($theme) && function_exists('get_theme')): 
+      $theme = get_theme();
 	endif;
 
-    $theme_folder = (!empty($theme)) ? ((defined(NUKE_THEMES_DIR)) ? NUKE_THEMES_DIR.$theme.'/images/' : dirname(__FILE__) . '/themes/'.$theme.'/images/') : '';
+    $theme_folder = (empty($theme)) ? ('') : ((defined(NUKE_THEMES_DIR)) ? NUKE_THEMES_DIR.$theme.'/images/' : __DIR__ . '/themes/'.$theme.'/images/');
     $image['plus'] = (file_exists($theme_folder.'plus.gif')) ? 'themes/'.$theme.'/images/plus.gif' : 'images/plus.gif';
     $image['minus'] = (file_exists($theme_folder.'minus.gif')) ? 'themes/'.$theme.'/images/minus.gif' : 'images/minus.gif';
 
@@ -2286,7 +2236,7 @@ include_once(NUKE_INCLUDE_DIR.'nsnpj_func.php');
 /*****[END]********************************************
  [ Module:  Network Projects                v11.11.11 ]
  ******************************************************/
- 
+
  /*****[BEGIN]******************************************
  [ Include:  Zip Class                                ]
  ******************************************************/

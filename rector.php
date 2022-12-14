@@ -79,9 +79,9 @@ return static function (RectorConfig $rectorConfig): void {
         //__DIR__ . '/admin',
         //__DIR__ . '/images',
         //
-        
+        __DIR__ . '/mainfile.php',
         //__DIR__ . '/index.php',
-		__DIR__ . '/includes/functions_browser.php',
+		//__DIR__ . '/includes/functions_browser.php',
 		//__DIR__ . '/includes/usercp_avatar.php',
 		//__DIR__ . '/modules/Blogs/comments.php',
 		//__DIR__ . '/includes/functions.php',
