@@ -81,13 +81,13 @@ return static function (RectorConfig $rectorConfig): void {
         //
         //__DIR__ . '/mainfile.php',
         //__DIR__ . '/index.php',
-		//__DIR__ . '/includes/functions_browser.php',
+		__DIR__ . '/includes/bbcode.php',
 		//__DIR__ . '/includes/usercp_avatar.php',
 		//__DIR__ . '/modules/Blogs/comments.php',
 		//__DIR__ . '/includes/functions.php',
 		//__DIR__ . '/modules/Shout_Box/shout.php',
        //__DIR__ . '/modules/Your_Account/public/new_user1.php',
-	   __DIR__ . '/modules/Forums/posting.php',
+	   //__DIR__ . '/modules/Forums/posting.php',
         //
     ]);
 
