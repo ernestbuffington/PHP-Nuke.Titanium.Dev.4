@@ -858,33 +858,33 @@ function is_active($module)
 function render_blocks($side, $block) 
 {
 	global $plus_minus_images, $currentlang, $collapse, $collapsetype;
-	
+
 	define_once('BLOCK_FILE', true);
-    
+
 	# Include the block lang files
     if(file_exists(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php')): 
       include_once(NUKE_LANGUAGE_DIR.'blocks/lang-'.$currentlang.'.php');
     else:
       include_once(NUKE_LANGUAGE_DIR.'blocks/lang-english.php');
 	endif;
-    
+
 	# Mod: Switch Content Script v2.0.0 START
     if($collapse): 
-        
+
 		if(!$collapsetype):
             $block['title'] = $block['title']."&nbsp;&nbsp;&nbsp;<img src=\"".$plus_minus_images['minus']
 			."\" class=\"showstate\" name=\"minus\" width=\"9\" height=\"9\" border=\"0\" onclick=\"expandcontent(this, 'block".$block['bid']."')\" alt=\"\" style=\"cursor: pointer;\" />";
         else: 
             $block['title'] = "<a href=\"javascript:expandcontent(this, 'block".$block['bid']."')\">".$block['title']."</a>";
         endif;
-        
+
 		$block['content'] = "<div id=\"block".$block['bid']."\" class=\"switchcontent\">".$block['content']."</div>";
-    
+
 	endif;
 	# Mod: Switch Content Script v2.0.0 END
 
     if (empty($block['url'])): 
-        
+
 		if (empty($block['blockfile'])): 
             if ($side == 'c' || $side == 'd'): 
                 themecenterbox($block['title'], decode_bbcode($block['content'], 1, true));
@@ -894,19 +894,19 @@ function render_blocks($side, $block)
 		else: 
             blockfileinc($block['title'], $block['blockfile'], $side, $block['bid']);
 		endif;
-	
+
 	else: 
         headlines($block['bid'], $side, $block);
 	endif;
 }
 
-function blocks_visible($side) 
+function blocks_visible($side): bool 
 {
     global $showblocks;
 
     $showblocks = ($showblocks == null) ? 3 : $showblocks;
 
-    $side = strtolower($side[0]);
+    $side = strtolower((string) $side[0]);
 
     # If there are no blocks for this module && not admin file
     if(!$showblocks && !defined('ADMIN_FILE')): 
@@ -930,107 +930,87 @@ function blocks_visible($side)
     if(!$blocks):
       return false;
 	endif;
-
     # Check for blocks to show
-    if(($showblocks == 1 && $side == 'l') || ($showblocks == 2 && $side == 'r')): 
-      return true;
-	endif;
-
-    return false;
+    return ($showblocks == 1 && $side == 'l') || ($showblocks == 2 && $side == 'r');
 }
 
 function blocks($side, $count=false) 
 {
     global $prefix, $multilingual, $currentlang, $db, $userinfo, $cache;
-	
+
 	static $blocks;
-    
+
 	$querylang = ($multilingual) ? 'AND (`blanguage`="'.$currentlang.'" OR `blanguage`="")' : '';
-	
-	$side = strtolower($side[0]);
-    
+
+	$side = strtolower((string) $side[0]);
+
 	if((($blocks = $cache->load('blocks', 'config')) === false) || !isset($blocks)): 
-    
+
 	    $sql = 'SELECT * FROM `'.$prefix.'_blocks` WHERE `active`="1" '.$querylang.' ORDER BY `weight` ASC';
         $result = $db->sql_query($sql);
-	
+
 	    while($row = $db->sql_fetchrow($result, SQL_ASSOC)): 
             $blocks[$row['bposition']][] = $row;
         endwhile;
-	
+
 		$db->sql_freeresult($result);
         $cache->save('blocks', 'config', $blocks);
-    
+
 	endif;
-	
+
 	if($count): 
         return (isset($blocks[$side]) ? count($blocks[$side]) : 0);
     endif;
-	
-	$blockrow = (isset($blocks[$side])) ? $blocks[$side] : array();
-	
-	for($i=0,$j = count($blockrow); $i < $j; $i++): 
-    
-	    $bid = intval($blockrow[$i]['bid']);
-        $view = $blockrow[$i]['view'];
-	
-	    if(isset($blockrow[$i]['expire'])): 
-            $expire = intval($blockrow[$i]['expire']);
-		else: 
-            $expire = '';
-        endif;
-	
-		if(isset($blockrow[$i]['action'])): 
-            $action = $blockrow[$i]['action'];
-            $action = substr($action, 0,1);
-		else: 
-            $action = '';
-        endif;
-	
-		$now = time();
-	
-		if($expire != 0 AND $expire <= $now): 
-    
-	        if($action == 'd'): 
-                $db->sql_query('UPDATE `'.$prefix.'_blocks` SET `active`="0", `expire`="0" WHERE `bid`="'.$bid.'"');
-                $cache->delete('blocks', 'config');
-                return;
-			elseif($action == 'r'): 
-                $db->sql_query('DELETE FROM `'.$prefix.'_blocks` WHERE `bid`="'.$bid.'"');
-                $cache->delete('blocks', 'config');
-                return;
-            endif;
-    
-	    endif;
-	
-		if(empty($blockrow[$i]['bkey'])): 
-    
-	        if(($view == '0' || $view == '1') ||
-              (($view == '3' AND is_user())) ||
-              ($view == '4' AND is_admin()) ||
-              (($view == '2' AND !is_user()))): 
-                render_blocks($side, $blockrow[$i]);
-			else: 
-                if(substr($view, strlen($view)-1) == '-'): 
-                    $ingroups = explode('-', $view);
-	
-				  if(is_array($ingroups)): 
-                        $cnt = 0;
-						foreach($ingroups as $group): 
-                            if(isset($userinfo['groups'][($group)])): 
-                              $cnt++;
-                            endif;
-                        endforeach;
-					if($cnt != 0):
-                      render_blocks($side, $blockrow[$i]);
-                    endif;
-	              endif;
-                
 
-				endif;
-            endif;
-        endif;
-    endfor;
+	$blockrow = $blocks[$side] ?? [];
+
+	foreach ($blockrow as $i => $singleBlockrow) {
+     $bid = (int) $singleBlockrow['bid'];
+     $view = $singleBlockrow['view'];
+     $expire = isset($singleBlockrow['expire']) ? (int) $singleBlockrow['expire'] : '';
+     if(isset($singleBlockrow['action'])): 
+               $action = $singleBlockrow['action'];
+               $action = substr((string) $action, 0,1);
+   		else: 
+               $action = '';
+           endif;
+     $now = time();
+     if($expire != 0 && $expire <= $now): 
+
+   	        if($action == 'd'): 
+                   $db->sql_query('UPDATE `'.$prefix.'_blocks` SET `active`="0", `expire`="0" WHERE `bid`="'.$bid.'"');
+                   $cache->delete('blocks', 'config');
+                   return;
+   			elseif($action == 'r'): 
+                   $db->sql_query('DELETE FROM `'.$prefix.'_blocks` WHERE `bid`="'.$bid.'"');
+                   $cache->delete('blocks', 'config');
+                   return;
+               endif;
+
+   	    endif;
+     if(empty($singleBlockrow['bkey'])): 
+
+   	        if (($view == '0' || $view == '1') ||
+                 (($view == '3' && is_user())) ||
+                 ($view == '4' && is_admin()) ||
+                 (($view == '2' && !is_user()))) {
+                render_blocks($side, $singleBlockrow);
+            } elseif (substr((string) $view, strlen((string) $view)-1) == '-') {
+                $ingroups = explode('-', (string) $view);
+                if(is_array($ingroups)): 
+                                  $cnt = 0;
+          						foreach($ingroups as $group): 
+                                      if(isset($userinfo['groups'][($group)])): 
+                                        $cnt++;
+                                      endif;
+                                  endforeach;
+          					if($cnt != 0):
+                                render_blocks($side, $singleBlockrow);
+                              endif;
+          	              endif;
+            }
+           endif;
+ }
     return;
 } 
 
