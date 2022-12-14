@@ -487,7 +487,7 @@ if(is_user()):
   $cookie = cookiedecode();
   $userinfo = get_user_field('*', $cookie[1], true);
 else:
-  $cookie = array();
+  $cookie = [];
   $userinfo = get_user_field('*', 'Anonymous', true);
 endif;
 
