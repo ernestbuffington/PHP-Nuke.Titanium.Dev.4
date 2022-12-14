@@ -1046,29 +1046,29 @@ function rss_content($url)
     if(!web_site_up($url)): 
 	  return false;
 	endif;
-    
+
 	require_once(NUKE_CLASSES_DIR.'class.rss.php');
-    
+
 	if ($rss = RSS::read($url)):
-      
+
 	    $items =& $rss['items'];
         $site_link =& $rss['link'];
         $content = '';
-    
-	    for($i=0,$j = count($items);$i <$j;$i++):
-          $link = $items[$i]['link'];
-          $title2 = $items[$i]['title'];
-          $content .= "<strong><big>&middot;</big></strong> <a href=\"$link\" target=\"new\">$title2</a><br />\n";
-        endfor;
-    
+
+	    foreach ($items as $i => $item) {
+         $link = $item['link'];
+         $title2 = $item['title'];
+         $content .= "<strong><big>&middot;</big></strong> <a href=\"$link\" target=\"new\">$title2</a><br />\n";
+     }
+
 	    if(!empty($site_link)): 
           $content .= "<br /><a href=\"$site_link\" target=\"_blank\"><strong>"._HREADMORE.'</strong></a>';
 		endif;
-        
+
         return $content;
-    
+
 	endif;
-  
+
   return false;
 }
 
