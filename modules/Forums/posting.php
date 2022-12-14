@@ -1361,7 +1361,7 @@ AND p.poster_id = " . $userdata['user_id'];
 						if ( $orig_word !== [] )
 						{
 								$subject = ( empty($subject) ) ? '' : preg_replace($orig_word, (string) $replace_word, (string) $subject);
-								$message = ( empty($message) ) ? '' : preg_replace($orig_word, (string) $replace_word, $message);
+								$message = ( empty($message) ) ? '' : preg_replace($orig_word, (string) $replace_word, (string) $message);
 						}
 
 						if ( !preg_match('/^Re:/', (string) $subject) && strlen((string) $subject) > 0 )
