@@ -23,7 +23,7 @@
 
 /*********************************************************/
 /* Coded by Richard van Oosterhout, the Netherlands      */
-/* (menelaos dot hetnet dot nl)                          */
+/* https://menelaos.hetnet.nl (site no longer exists)    */
 /* based on MyCookies Manager by A_Jelly_Doughnut        */
 /* and work by Josh Pettit of UBB.Threads                */
 /*********************************************************/
