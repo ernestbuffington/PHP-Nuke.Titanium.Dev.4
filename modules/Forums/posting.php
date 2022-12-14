@@ -1349,11 +1349,11 @@ AND p.poster_id = " . $userdata['user_id'];
 
 						// Use trim to get rid of spaces placed there by MS-SQL 2000
 						$quote_username = ( trim((string) $post_info['post_username']) != '' ) ? $post_info['post_username'] : $post_info['username'];
-
+                        
 /*****[BEGIN]******************************************
  [ Mod:     Extended Quote Tag                 v1.0.0 ]
  ******************************************************/
-						$message = '[quote="' . $quote_username . '";p="' . $post_id . '"]' . $message . '[/quote]';
+						$message = '[quote="' . (string)$quote_username . '";p="' . (int)$post_id . '"]' . (string)$message . '[/quote]';
 /*****[END]********************************************
  [ Mod:     Extended Quote Tag                 v1.0.0 ]
  ******************************************************/
