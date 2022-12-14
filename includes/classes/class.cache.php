@@ -21,7 +21,7 @@
                    noted
 ************************************************************************/
 
-if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
+if (realpath(__FILE__) === realpath($_SERVER['SCRIPT_FILENAME'])) {
     exit('Access Denied');
 }
 
@@ -45,31 +45,29 @@ require_once(NUKE_ZEND_DIR.'Cache.php');
 
 class cache 
 {
-    var $changed = false;
-    var $saved = array();
-    var $valid = false;
-    var $type = CACHE_OFF;
-    var $ttl = 0;
-    var $zend;
+    public $changed = false;
+    public $saved = [];
+    public $valid = false;
+    public $ttl = 0;
+    public $zend;
 
     // constructor
-    function __construct($use_cache) {
-        $this->type = $use_cache;
-        $this->valid = ($this->type == CACHE_OFF || ($this->type == FILE_CACHE && (!is_writable(NUKE_CACHE_DIR) || ini_get('safe_mode')))) ? false : (($this->type == FILE_CACHE || $this->type == SQL_CACHE || $this->type == XCACHE || $this->type == APC_CACHE || $this->type == MEMCACHED) ? true : false);
+    function __construct($type) {
+        $this->valid = ($this->type == CACHE_OFF || ($this->type == FILE_CACHE && (!is_writable(NUKE_CACHE_DIR) || ini_get('safe_mode')))) ? false : ($this->type == FILE_CACHE || $this->type == SQL_CACHE || $this->type == XCACHE || $this->type == APC_CACHE || $this->type == MEMCACHED);
         if($this->type == FILE_CACHE) {
-        	$frontendOptions = array('lifetime' => 3600, 'automatic_serialization' => true);
-			$backendOptions = array('cache_dir' => NUKE_CACHE_DIR);
+        	$frontendOptions = ['lifetime' => 3600, 'automatic_serialization' => true];
+			$backendOptions = ['cache_dir' => NUKE_CACHE_DIR];
 			$this->zend = Zend_Cache::factory('Core', 'File', $frontendOptions, $backendOptions);
 		} elseif($this->type == XCACHE) {
-			$frontendOptions = array('lifetime' => 3600, 'automatic_serialization' => true);
+			$frontendOptions = ['lifetime' => 3600, 'automatic_serialization' => true];
 			$this->zend = Zend_Cache::factory('Core', 'Xcache', $frontendOptions);
 			$this->checkPrefix();
 		} elseif($this->type == APC_CACHE) {
-			$frontendOptions = array('lifetime' => 3600, 'automatic_serialization' => true);
+			$frontendOptions = ['lifetime' => 3600, 'automatic_serialization' => true];
 			$this->zend = Zend_Cache::factory('Core', 'APC', $frontendOptions);
 			$this->checkPrefix();
 		} elseif($this->type == MEMCACHED) {
-			$frontendOptions = array('lifetime' => 3600, 'automatic_serialization' => true);
+			$frontendOptions = ['lifetime' => 3600, 'automatic_serialization' => true];
 			$this->zend = Zend_Cache::factory('Core', 'Memcached', $frontendOptions);
 			$this->checkPrefix();
         } elseif($this->type == SQL_CACHE) {
@@ -81,7 +79,7 @@ class cache
 
     }
 
-    function clear() {
+    function clear(): bool {
 		if(!$this->valid) return false;
         $this->zend->clean(Zend_Cache::CLEANING_MODE_ALL);
         return true;
@@ -92,26 +90,24 @@ class cache
 		if(!$this->valid) return false;
         $count = 0;
 		
-        if(!empty($cat)) {
+        if (!empty($cat)) {
             $count = ($this->saved[$cat]) ? count($this->saved[$cat]) : 0;
-        } else {
-            if(is_array($this->saved)) {
-				foreach($this->saved as $sub) {
-                    $count += count($sub);
-                }
-            }
+        } elseif (is_array($this->saved)) {
+            foreach($this->saved as $sub) {
+                            $count += is_countable($sub) ? count($sub) : 0;
+                        }
         }
         return $count;
     }
 
     // This function passes the variable $cache_changed, and then the function resync will handle it
-    function save($name, $cat='config', $fileData) {
+    function save($name, $cat='config', $fileData): bool {
         if(!$this->valid) return false;
         if(!isset($fileData)) return false;
         if(empty($fileData)) return false;
         if($fileData == false) return false;
 		
-		$name = str_replace(array(' ', '.', '-'), '_', $name);
+		$name = str_replace([' ', '.', '-'], '_', (string) $name);
 		$this->saved[$cat][$name] = $fileData;
         $this->changed = true;
         $this->zend->save($fileData, CACHE_PREFIX.$cat.'_'.$name);
@@ -122,42 +118,40 @@ class cache
     function load($name, $cat='config') {
         if(!$this->valid) return false;
 		
-		$name = str_replace(array(' ', '.', '-'), '_', $name);
+		$name = str_replace([' ', '.', '-'], '_', (string) $name);
         return $this->zend->load(CACHE_PREFIX.$cat.'_'.$name);
     }
 
     // This function passes the variable $cache_changed, and then the function resync will handle it
-    function delete($name, $cat='config') {
+    function delete($name, $cat='config'): bool {
 		if(!$this->valid) return false;
-		$name = str_replace(array(' ', '.', '-'), '_', $name);
+		$name = str_replace([' ', '.', '-'], '_', (string) $name);
 		
-		if ($name && $cat){
-			if (isset($this->saved[$cat][$name])){
-            	unset($this->saved[$cat][$name]);
-            	$this->changed = true;
-            }
-		} else {
-            if (isset($this->saved[$cat])){
-            	unset($this->saved[$cat]);
-            	$this->changed = true;
-            }
-        }
+		if ($name && $cat) {
+      if (isset($this->saved[$cat][$name])){
+               	unset($this->saved[$cat][$name]);
+               	$this->changed = true;
+               }
+  } elseif (isset($this->saved[$cat])) {
+      unset($this->saved[$cat]);
+      $this->changed = true;
+  }
 		
 		$this->zend->remove(CACHE_PREFIX.$cat.'_'.$name);
         return true;
     }
 
     function checkPrefix() {
-    	if (CACHE_PREFIX == '') {
+    	if (CACHE_PREFIX === '') {
 			DisplayError(_CACHE_PREFIX_ERROR);
        }
     }
 
     // This function handles changes in the cache
-    function resync() {
-        if(!$this->valid) return false;
+    function resync(): bool
+    {
         //$this->clear();
-        return true;
+        return (bool) $this->valid;
     }
 }
 
