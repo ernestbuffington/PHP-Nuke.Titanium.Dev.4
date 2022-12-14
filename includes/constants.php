@@ -47,13 +47,6 @@ if (!defined('IN_PHPBB') && !defined('NUKE_EVO'))
     die('Hacking attempt');
 }
 
-# Network Support
-#character set define XHTML1.0
-define("_CHARSET","utf-8");
-define("_LANG_DIRECTION","ltr");
-define("_LANGCODE","en");
-define("_MIME", "text/html"); 
-
 // Debug Level
 //define('DEBUG', 1); // Debugging on
 define('DEBUG', 1); // Debugging off
