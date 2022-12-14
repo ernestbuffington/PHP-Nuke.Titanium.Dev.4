@@ -1,5 +1,0 @@
-[23-Aug-2022 18:07:59 UTC] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home/dev4/public_html/modules/Forums/admin/index.php on line 649
-[23-Aug-2022 20:56:57 UTC] PHP Deprecated:  Function create_function() is deprecated in /home/dev4/public_html/modules/Forums/admin/admin_users.php on line 1166
-[23-Aug-2022 20:58:27 UTC] PHP Deprecated:  Function create_function() is deprecated in /home/dev4/public_html/modules/Forums/admin/admin_users.php on line 1166
-[23-Aug-2022 21:33:18 UTC] PHP Deprecated:  Function create_function() is deprecated in /home/dev4/public_html/modules/Forums/admin/admin_users.php on line 1166
-[23-Aug-2022 21:33:46 UTC] PHP Deprecated:  Function create_function() is deprecated in /home/dev4/public_html/modules/Forums/admin/admin_users.php on line 1166
