@@ -120,8 +120,8 @@ There have been existing efforts to re-implement the Flash Player, including Gna
 
 <ul>
 	<li>Apache/2.4.54</li>
-	<li>MariaDB Server Version: 10.3.37-MariaDB : The fastest on the planet!</li>
-	<li>PHP PHP 8.0.26 (we are working on a version for PHP 8.1)</li>
+	<li>MySQL Server Version: 5.5.5-10.2.44-MariaDB (MariaDB Server) The fastest on the planet!</li>
+	<li>PHP 7.4.33 (we are working on a version for PHP 8)</li>
 	<li>cURL&nbsp;7.84.0</li>
 	<li>GD Support bundled (2.1.0 compatible)</li>
 	<li>Client API library version (mysqlnd/mysqli 7.4.30)</li>

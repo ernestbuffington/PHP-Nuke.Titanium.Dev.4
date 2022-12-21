@@ -24,13 +24,13 @@
 
 <!-- BEGIN listitem --><li><!-- END listitem -->
 
-<!-- BEGIN quote_username_open --></span><div class="notepaper"><figure class="quote"><blockquote class="curly-quotes"><figcaption class="quote-by">— {USERNAME}</figcaption><!-- END quote_username_open -->
+<!-- BEGIN quote_username_open --></span><div class="phpbb-block-quote"><figure class="quote"><blockquote class="curly-quotes"><figcaption class="quote-by">— {USERNAME}</figcaption><!-- END quote_username_open -->
 
-<!-- BEGIN quote_open --></span><div class="notepaper"><figure class="quote"><blockquote class="curly-quotes"><!-- END quote_open -->
+<!-- BEGIN quote_open --></span><div class="phpbb-block-quote"><figure class="quote"><blockquote class="curly-quotes"><!-- END quote_open -->
 
-<!-- BEGIN quote_username_post_open --></span><div class="notepaper"><figure class="quote"><blockquote class="curly-quotes"><figcaption class="quote-by">— {USERNAME} {L_WROTE}</figcaption><!-- END quote_username_open -->
+<!-- BEGIN quote_username_post_open --></span><div class="phpbb-block-quote"><figure class="quote"><blockquote class="curly-quotes"><figcaption class="quote-by">— {USERNAME} {L_WROTE}</figcaption><!-- END quote_username_open -->
 
-<!-- BEGIN quote_post_open --></span><div class="notepaper"><figure class="quote"><blockquote class="curly-quotes"><figcaption class="quote-by">— {L_QUOTE}</figcaption><!-- END quote_post_open -->
+<!-- BEGIN quote_post_open --></span><div class="phpbb-block-quote"><figure class="quote"><blockquote class="curly-quotes"><figcaption class="quote-by">— {L_QUOTE}</figcaption><!-- END quote_post_open -->
 
 <!-- BEGIN quote_close --></blockquote></figure></div><!-- END quote_close -->
 

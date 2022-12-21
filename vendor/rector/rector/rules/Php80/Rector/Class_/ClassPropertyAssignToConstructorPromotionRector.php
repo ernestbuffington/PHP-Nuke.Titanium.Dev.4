@@ -168,7 +168,7 @@ CODE_SAMPLE
             $param->var->name = $this->getName($property);
             $param->flags = $property->flags;
             // Copy over attributes of the "old" property
-            $param->attrGroups = $property->attrGroups;
+            $param->attrGroups = \array_merge($param->attrGroups, $property->attrGroups);
             $this->processNullableType($property, $param);
             $this->phpDocTypeChanger->copyPropertyDocToParam($property, $param);
         }

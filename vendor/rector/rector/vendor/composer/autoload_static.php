@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit046510bc44aa14b757063b546fc2c348
+class ComposerStaticInit68c20867d815bd333fba6f35ed4736e6
 {
     public static $files = array (
         'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
@@ -319,6 +319,9 @@ class ComposerStaticInit046510bc44aa14b757063b546fc2c348
         'PHPStan\\Rules\\PHPUnit\\ClassCoversExistsRule' => __DIR__ . '/..' . '/phpstan/phpstan-phpunit/src/Rules/PHPUnit/ClassCoversExistsRule.php',
         'PHPStan\\Rules\\PHPUnit\\ClassMethodCoversExistsRule' => __DIR__ . '/..' . '/phpstan/phpstan-phpunit/src/Rules/PHPUnit/ClassMethodCoversExistsRule.php',
         'PHPStan\\Rules\\PHPUnit\\CoversHelper' => __DIR__ . '/..' . '/phpstan/phpstan-phpunit/src/Rules/PHPUnit/CoversHelper.php',
+        'PHPStan\\Rules\\PHPUnit\\DataProviderDeclarationRule' => __DIR__ . '/..' . '/phpstan/phpstan-phpunit/src/Rules/PHPUnit/DataProviderDeclarationRule.php',
+        'PHPStan\\Rules\\PHPUnit\\DataProviderHelper' => __DIR__ . '/..' . '/phpstan/phpstan-phpunit/src/Rules/PHPUnit/DataProviderHelper.php',
+        'PHPStan\\Rules\\PHPUnit\\DataProviderHelperFactory' => __DIR__ . '/..' . '/phpstan/phpstan-phpunit/src/Rules/PHPUnit/DataProviderHelperFactory.php',
         'PHPStan\\Rules\\PHPUnit\\MockMethodCallRule' => __DIR__ . '/..' . '/phpstan/phpstan-phpunit/src/Rules/PHPUnit/MockMethodCallRule.php',
         'PHPStan\\Rules\\PHPUnit\\NoMissingSpaceInClassAnnotationRule' => __DIR__ . '/..' . '/phpstan/phpstan-phpunit/src/Rules/PHPUnit/NoMissingSpaceInClassAnnotationRule.php',
         'PHPStan\\Rules\\PHPUnit\\NoMissingSpaceInMethodAnnotationRule' => __DIR__ . '/..' . '/phpstan/phpstan-phpunit/src/Rules/PHPUnit/NoMissingSpaceInMethodAnnotationRule.php',
@@ -1266,8 +1269,6 @@ class ComposerStaticInit046510bc44aa14b757063b546fc2c348
         'RectorPrefix202212\\Symfony\\Contracts\\Service\\ServiceSubscriberInterface' => __DIR__ . '/..' . '/symfony/contracts/Service/ServiceSubscriberInterface.php',
         'RectorPrefix202212\\Symfony\\Contracts\\Service\\ServiceSubscriberTrait' => __DIR__ . '/..' . '/symfony/contracts/Service/ServiceSubscriberTrait.php',
         'RectorPrefix202212\\Symfony\\Contracts\\Service\\Test\\ServiceLocatorTest' => __DIR__ . '/..' . '/symfony/contracts/Service/Test/ServiceLocatorTest.php',
-        'RectorPrefix202212\\Symfony\\Contracts\\Tests\\Cache\\CacheTraitTest' => __DIR__ . '/..' . '/symfony/contracts/Tests/Cache/CacheTraitTest.php',
-        'RectorPrefix202212\\Symfony\\Contracts\\Tests\\Service\\ServiceSubscriberTraitTest' => __DIR__ . '/..' . '/symfony/contracts/Tests/Service/ServiceSubscriberTraitTest.php',
         'RectorPrefix202212\\Symfony\\Contracts\\Translation\\LocaleAwareInterface' => __DIR__ . '/..' . '/symfony/contracts/Translation/LocaleAwareInterface.php',
         'RectorPrefix202212\\Symfony\\Contracts\\Translation\\Test\\TranslatorTest' => __DIR__ . '/..' . '/symfony/contracts/Translation/Test/TranslatorTest.php',
         'RectorPrefix202212\\Symfony\\Contracts\\Translation\\TranslatableInterface' => __DIR__ . '/..' . '/symfony/contracts/Translation/TranslatableInterface.php',
@@ -1311,6 +1312,7 @@ class ComposerStaticInit046510bc44aa14b757063b546fc2c348
         'Rector\\BetterPhpDocParser\\Contract\\BasePhpDocNodeVisitorInterface' => __DIR__ . '/../..' . '/packages/BetterPhpDocParser/Contract/BasePhpDocNodeVisitorInterface.php',
         'Rector\\BetterPhpDocParser\\Contract\\PhpDocParser\\PhpDocNodeDecoratorInterface' => __DIR__ . '/../..' . '/packages/BetterPhpDocParser/Contract/PhpDocParser/PhpDocNodeDecoratorInterface.php',
         'Rector\\BetterPhpDocParser\\DataProvider\\CurrentTokenIteratorProvider' => __DIR__ . '/../..' . '/packages/BetterPhpDocParser/DataProvider/CurrentTokenIteratorProvider.php',
+        'Rector\\BetterPhpDocParser\\Guard\\NewPhpDocFromPHPStanTypeGuard' => __DIR__ . '/../..' . '/packages/BetterPhpDocParser/Guard/NewPhpDocFromPHPStanTypeGuard.php',
         'Rector\\BetterPhpDocParser\\PhpDocInfo\\PhpDocInfo' => __DIR__ . '/../..' . '/packages/BetterPhpDocParser/PhpDocInfo/PhpDocInfo.php',
         'Rector\\BetterPhpDocParser\\PhpDocInfo\\PhpDocInfoFactory' => __DIR__ . '/../..' . '/packages/BetterPhpDocParser/PhpDocInfo/PhpDocInfoFactory.php',
         'Rector\\BetterPhpDocParser\\PhpDocInfo\\TokenIteratorFactory' => __DIR__ . '/../..' . '/packages/BetterPhpDocParser/PhpDocInfo/TokenIteratorFactory.php',
@@ -1401,6 +1403,7 @@ class ComposerStaticInit046510bc44aa14b757063b546fc2c348
         'Rector\\CodeQuality\\Rector\\BooleanNot\\ReplaceMultipleBooleanNotRector' => __DIR__ . '/../..' . '/rules/CodeQuality/Rector/BooleanNot/ReplaceMultipleBooleanNotRector.php',
         'Rector\\CodeQuality\\Rector\\BooleanNot\\SimplifyDeMorganBinaryRector' => __DIR__ . '/../..' . '/rules/CodeQuality/Rector/BooleanNot/SimplifyDeMorganBinaryRector.php',
         'Rector\\CodeQuality\\Rector\\Catch_\\ThrowWithPreviousExceptionRector' => __DIR__ . '/../..' . '/rules/CodeQuality/Rector/Catch_/ThrowWithPreviousExceptionRector.php',
+        'Rector\\CodeQuality\\Rector\\ClassConstFetch\\ConvertStaticPrivateConstantToSelfRector' => __DIR__ . '/../..' . '/rules/CodeQuality/Rector/ClassConstFetch/ConvertStaticPrivateConstantToSelfRector.php',
         'Rector\\CodeQuality\\Rector\\ClassMethod\\InlineArrayReturnAssignRector' => __DIR__ . '/../..' . '/rules/CodeQuality/Rector/ClassMethod/InlineArrayReturnAssignRector.php',
         'Rector\\CodeQuality\\Rector\\ClassMethod\\NarrowUnionTypeDocRector' => __DIR__ . '/../..' . '/rules/CodeQuality/Rector/ClassMethod/NarrowUnionTypeDocRector.php',
         'Rector\\CodeQuality\\Rector\\ClassMethod\\OptionalParametersAfterRequiredRector' => __DIR__ . '/../..' . '/rules/CodeQuality/Rector/ClassMethod/OptionalParametersAfterRequiredRector.php',
@@ -1499,6 +1502,7 @@ class ComposerStaticInit046510bc44aa14b757063b546fc2c348
         'Rector\\CodingStyle\\Rector\\Assign\\SplitDoubleAssignRector' => __DIR__ . '/../..' . '/rules/CodingStyle/Rector/Assign/SplitDoubleAssignRector.php',
         'Rector\\CodingStyle\\Rector\\Catch_\\CatchExceptionNameMatchingTypeRector' => __DIR__ . '/../..' . '/rules/CodingStyle/Rector/Catch_/CatchExceptionNameMatchingTypeRector.php',
         'Rector\\CodingStyle\\Rector\\ClassConst\\RemoveFinalFromConstRector' => __DIR__ . '/../..' . '/rules/CodingStyle/Rector/ClassConst/RemoveFinalFromConstRector.php',
+        'Rector\\CodingStyle\\Rector\\ClassConst\\SplitGroupedClassConstantsRector' => __DIR__ . '/../..' . '/rules/CodingStyle/Rector/ClassConst/SplitGroupedClassConstantsRector.php',
         'Rector\\CodingStyle\\Rector\\ClassConst\\SplitGroupedConstantsAndPropertiesRector' => __DIR__ . '/../..' . '/rules/CodingStyle/Rector/ClassConst/SplitGroupedConstantsAndPropertiesRector.php',
         'Rector\\CodingStyle\\Rector\\ClassConst\\VarConstantCommentRector' => __DIR__ . '/../..' . '/rules/CodingStyle/Rector/ClassConst/VarConstantCommentRector.php',
         'Rector\\CodingStyle\\Rector\\ClassMethod\\FuncGetArgsToVariadicParamRector' => __DIR__ . '/../..' . '/rules/CodingStyle/Rector/ClassMethod/FuncGetArgsToVariadicParamRector.php',
@@ -1525,6 +1529,7 @@ class ComposerStaticInit046510bc44aa14b757063b546fc2c348
         'Rector\\CodingStyle\\Rector\\PostInc\\PostIncDecToPreIncDecRector' => __DIR__ . '/../..' . '/rules/CodingStyle/Rector/PostInc/PostIncDecToPreIncDecRector.php',
         'Rector\\CodingStyle\\Rector\\Property\\AddFalseDefaultToBoolPropertyRector' => __DIR__ . '/../..' . '/rules/CodingStyle/Rector/Property/AddFalseDefaultToBoolPropertyRector.php',
         'Rector\\CodingStyle\\Rector\\Property\\InlineSimplePropertyAnnotationRector' => __DIR__ . '/../..' . '/rules/CodingStyle/Rector/Property/InlineSimplePropertyAnnotationRector.php',
+        'Rector\\CodingStyle\\Rector\\Property\\SplitGroupedPropertiesRector' => __DIR__ . '/../..' . '/rules/CodingStyle/Rector/Property/SplitGroupedPropertiesRector.php',
         'Rector\\CodingStyle\\Rector\\Stmt\\NewlineAfterStatementRector' => __DIR__ . '/../..' . '/rules/CodingStyle/Rector/Stmt/NewlineAfterStatementRector.php',
         'Rector\\CodingStyle\\Rector\\String_\\SymplifyQuoteEscapeRector' => __DIR__ . '/../..' . '/rules/CodingStyle/Rector/String_/SymplifyQuoteEscapeRector.php',
         'Rector\\CodingStyle\\Rector\\String_\\UseClassKeywordForClassNameResolutionRector' => __DIR__ . '/../..' . '/rules/CodingStyle/Rector/String_/UseClassKeywordForClassNameResolutionRector.php',
@@ -2227,7 +2232,6 @@ class ComposerStaticInit046510bc44aa14b757063b546fc2c348
         'Rector\\PHPStanStaticTypeMapper\\Utils\\TypeUnwrapper' => __DIR__ . '/../..' . '/packages/PHPStanStaticTypeMapper/Utils/TypeUnwrapper.php',
         'Rector\\PHPStanStaticTypeMapper\\ValueObject\\UnionTypeAnalysis' => __DIR__ . '/../..' . '/packages/PHPStanStaticTypeMapper/ValueObject/UnionTypeAnalysis.php',
         'Rector\\PHPUnit\\Naming\\TestClassNameResolver' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Naming/TestClassNameResolver.php',
-        'Rector\\PHPUnit\\Naming\\TestClassNameResolverInterface' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Naming/TestClassNameResolverInterface.php',
         'Rector\\PHPUnit\\NodeAnalyzer\\AssertCallAnalyzer' => __DIR__ . '/..' . '/rector/rector-phpunit/src/NodeAnalyzer/AssertCallAnalyzer.php',
         'Rector\\PHPUnit\\NodeAnalyzer\\IdentifierManipulator' => __DIR__ . '/..' . '/rector/rector-phpunit/src/NodeAnalyzer/IdentifierManipulator.php',
         'Rector\\PHPUnit\\NodeAnalyzer\\MockedVariableAnalyzer' => __DIR__ . '/..' . '/rector/rector-phpunit/src/NodeAnalyzer/MockedVariableAnalyzer.php',
@@ -2241,21 +2245,27 @@ class ComposerStaticInit046510bc44aa14b757063b546fc2c348
         'Rector\\PHPUnit\\NodeFactory\\ExpectExceptionMessageFactory' => __DIR__ . '/..' . '/rector/rector-phpunit/src/NodeFactory/ExpectExceptionMessageFactory.php',
         'Rector\\PHPUnit\\NodeFactory\\ExpectExceptionMessageRegExpFactory' => __DIR__ . '/..' . '/rector/rector-phpunit/src/NodeFactory/ExpectExceptionMessageRegExpFactory.php',
         'Rector\\PHPUnit\\NodeFactory\\ExpectExceptionMethodCallFactory' => __DIR__ . '/..' . '/rector/rector-phpunit/src/NodeFactory/ExpectExceptionMethodCallFactory.php',
+        'Rector\\PHPUnit\\NodeFinder\\DataProviderClassMethodFinder' => __DIR__ . '/..' . '/rector/rector-phpunit/src/NodeFinder/DataProviderClassMethodFinder.php',
         'Rector\\PHPUnit\\NodeManipulator\\ArgumentMover' => __DIR__ . '/..' . '/rector/rector-phpunit/src/NodeManipulator/ArgumentMover.php',
         'Rector\\PHPUnit\\NodeManipulator\\ParamAndArgFromArrayResolver' => __DIR__ . '/..' . '/rector/rector-phpunit/src/NodeManipulator/ParamAndArgFromArrayResolver.php',
+        'Rector\\PHPUnit\\PhpDoc\\DataProviderMethodRenamer' => __DIR__ . '/..' . '/rector/rector-phpunit/src/PhpDoc/DataProviderMethodRenamer.php',
         'Rector\\PHPUnit\\PhpDoc\\PhpDocValueToNodeMapper' => __DIR__ . '/..' . '/rector/rector-phpunit/src/PhpDoc/PhpDocValueToNodeMapper.php',
         'Rector\\PHPUnit\\Rector\\ClassMethod\\AddDoesNotPerformAssertionToNonAssertingTestRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/ClassMethod/AddDoesNotPerformAssertionToNonAssertingTestRector.php',
         'Rector\\PHPUnit\\Rector\\ClassMethod\\CreateMockToAnonymousClassRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/ClassMethod/CreateMockToAnonymousClassRector.php',
+        'Rector\\PHPUnit\\Rector\\ClassMethod\\DependsAnnotationWithValueToAttributeRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/ClassMethod/DependsAnnotationWithValueToAttributeRector.php',
         'Rector\\PHPUnit\\Rector\\ClassMethod\\ExceptionAnnotationRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/ClassMethod/ExceptionAnnotationRector.php',
         'Rector\\PHPUnit\\Rector\\ClassMethod\\RemoveEmptyTestMethodRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/ClassMethod/RemoveEmptyTestMethodRector.php',
         'Rector\\PHPUnit\\Rector\\ClassMethod\\ReplaceTestAnnotationWithPrefixedFunctionRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/ClassMethod/ReplaceTestAnnotationWithPrefixedFunctionRector.php',
         'Rector\\PHPUnit\\Rector\\ClassMethod\\TryCatchToExpectExceptionRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/ClassMethod/TryCatchToExpectExceptionRector.php',
         'Rector\\PHPUnit\\Rector\\Class_\\AddProphecyTraitRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/Class_/AddProphecyTraitRector.php',
         'Rector\\PHPUnit\\Rector\\Class_\\AddSeeTestAnnotationRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/Class_/AddSeeTestAnnotationRector.php',
+        'Rector\\PHPUnit\\Rector\\Class_\\AnnotationWithValueToAttributeRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/Class_/AnnotationWithValueToAttributeRector.php',
         'Rector\\PHPUnit\\Rector\\Class_\\ArrayArgumentToDataProviderRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/Class_/ArrayArgumentToDataProviderRector.php',
         'Rector\\PHPUnit\\Rector\\Class_\\ConstructClassMethodToSetUpTestCaseRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/Class_/ConstructClassMethodToSetUpTestCaseRector.php',
+        'Rector\\PHPUnit\\Rector\\Class_\\CoversAnnotationWithValueToAttributeRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/Class_/CoversAnnotationWithValueToAttributeRector.php',
         'Rector\\PHPUnit\\Rector\\Class_\\ProphecyPHPDocRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/Class_/ProphecyPHPDocRector.php',
         'Rector\\PHPUnit\\Rector\\Class_\\RemoveDataProviderTestPrefixRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/Class_/RemoveDataProviderTestPrefixRector.php',
+        'Rector\\PHPUnit\\Rector\\Class_\\StaticDataProviderClassMethodRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/Class_/StaticDataProviderClassMethodRector.php',
         'Rector\\PHPUnit\\Rector\\Class_\\TestListenerToHooksRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/Class_/TestListenerToHooksRector.php',
         'Rector\\PHPUnit\\Rector\\Foreach_\\SimplifyForeachInstanceOfRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/Foreach_/SimplifyForeachInstanceOfRector.php',
         'Rector\\PHPUnit\\Rector\\MethodCall\\AssertCompareToSpecificMethodRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/MethodCall/AssertCompareToSpecificMethodRector.php',
@@ -2288,6 +2298,7 @@ class ComposerStaticInit046510bc44aa14b757063b546fc2c348
         'Rector\\PHPUnit\\Rector\\StaticCall\\GetMockRector' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Rector/StaticCall/GetMockRector.php',
         'Rector\\PHPUnit\\Set\\PHPUnitLevelSetList' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Set/PHPUnitLevelSetList.php',
         'Rector\\PHPUnit\\Set\\PHPUnitSetList' => __DIR__ . '/..' . '/rector/rector-phpunit/src/Set/PHPUnitSetList.php',
+        'Rector\\PHPUnit\\ValueObject\\AnnotationWithValueToAttribute' => __DIR__ . '/..' . '/rector/rector-phpunit/src/ValueObject/AnnotationWithValueToAttribute.php',
         'Rector\\PHPUnit\\ValueObject\\ArrayArgumentToDataProvider' => __DIR__ . '/..' . '/rector/rector-phpunit/src/ValueObject/ArrayArgumentToDataProvider.php',
         'Rector\\PHPUnit\\ValueObject\\BinaryOpWithAssertMethod' => __DIR__ . '/..' . '/rector/rector-phpunit/src/ValueObject/BinaryOpWithAssertMethod.php',
         'Rector\\PHPUnit\\ValueObject\\ConstantWithAssertMethods' => __DIR__ . '/..' . '/rector/rector-phpunit/src/ValueObject/ConstantWithAssertMethods.php',
@@ -2479,6 +2490,7 @@ class ComposerStaticInit046510bc44aa14b757063b546fc2c348
         'Rector\\Php81\\Rector\\MethodCall\\MyCLabsMethodCallToEnumConstRector' => __DIR__ . '/../..' . '/rules/Php81/Rector/MethodCall/MyCLabsMethodCallToEnumConstRector.php',
         'Rector\\Php81\\Rector\\Property\\ReadOnlyPropertyRector' => __DIR__ . '/../..' . '/rules/Php81/Rector/Property/ReadOnlyPropertyRector.php',
         'Rector\\Php82\\Rector\\Class_\\ReadOnlyClassRector' => __DIR__ . '/../..' . '/rules/Php82/Rector/Class_/ReadOnlyClassRector.php',
+        'Rector\\Php82\\Rector\\FuncCall\\Utf8DecodeEncodeToMbConvertEncodingRector' => __DIR__ . '/../..' . '/rules/Php82/Rector/FuncCall/Utf8DecodeEncodeToMbConvertEncodingRector.php',
         'Rector\\PhpAttribute\\AnnotationToAttributeMapper' => __DIR__ . '/../..' . '/packages/PhpAttribute/AnnotationToAttributeMapper.php',
         'Rector\\PhpAttribute\\AnnotationToAttributeMapper\\ArrayAnnotationToAttributeMapper' => __DIR__ . '/../..' . '/packages/PhpAttribute/AnnotationToAttributeMapper/ArrayAnnotationToAttributeMapper.php',
         'Rector\\PhpAttribute\\AnnotationToAttributeMapper\\ArrayItemNodeAnnotationToAttributeMapper' => __DIR__ . '/../..' . '/packages/PhpAttribute/AnnotationToAttributeMapper/ArrayItemNodeAnnotationToAttributeMapper.php',
@@ -3017,9 +3029,9 @@ class ComposerStaticInit046510bc44aa14b757063b546fc2c348
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit046510bc44aa14b757063b546fc2c348::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit046510bc44aa14b757063b546fc2c348::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit046510bc44aa14b757063b546fc2c348::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit68c20867d815bd333fba6f35ed4736e6::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit68c20867d815bd333fba6f35ed4736e6::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit68c20867d815bd333fba6f35ed4736e6::$classMap;
 
         }, null, ClassLoader::class);
     }

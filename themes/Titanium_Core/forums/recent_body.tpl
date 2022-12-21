@@ -21,7 +21,7 @@
   </tr>
 </table>
 
-<table width="100%" cellpadding="1" cellspacing="1" border="0" align="center" class="forumline">
+<table width="100%" cellpadding="1" cellspacing="1" border="0" align="center" class="forumline rounded-corners">
   <tr>
         <th colspan="5">{L_RECENT_TITLE}</th>
   </tr>

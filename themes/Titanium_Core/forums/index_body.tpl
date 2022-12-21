@@ -1,12 +1,12 @@
-<div align="center">
-<table width="98%" style="background-color:none; height:100%;" class="forumline" align="center" border="5" cellpadding="15" cellspacing="20" dir="ltr" id="viewforum">
+<div style="text-align: left; background-color :#000000; width: 100%;" align="center">
+<table width="98%" style="background-color:#000000; height:100%;" class="forumline rounded-corners" align="center" border="5" cellpadding="15" cellspacing="20" dir="ltr" id="viewforum">
 <tbody>
 <tr>
 <td align="center">
 
 <!--MOD GLANCE BEGIN -->{GLANCE_OUTPUT}<!-- MOD GLANCE END -->
 <!-- BEGIN show_global_marquee -->
-<table style="width: 100%;" cellpadding="3" cellspacing="1" border="0" class="forumline"> 
+<table style="text-align: left; background-color :#000000; width: 100%;" cellpadding="3" cellspacing="1" border="0" class="forumline rounded-corners"> 
   <tr> 
      <td class="catHead"><span class="cattitle">{GLOBAL_TITLE}</span></td> 
   </tr> 
@@ -16,10 +16,10 @@
      </td> 
   </tr> 
 </table>
-<br />
+
 <!-- END show_global_marquee -->
 
-<table style="width: 100%;" cellpadding="4" cellspacing="1" border="0" class="forumline">
+<table style="text-align: left; background-color :#000000; width: 100%;" cellpadding="4" cellspacing="1" border="0" class="forumline rounded-corners">
   <!-- BEGIN catrow -->
   <tr> 
     <td class="catHead cattitle3" colspan="<!-- IF SHOW_LAST_POST_AVATAR == 1 -->6<!-- ELSE -->5<!-- ENDIF -->"><span class="cattitle3">{catrow.CAT_DESC}</span></td>
@@ -67,18 +67,16 @@
   <!-- END forumrow -->
 
   <!-- END catrow -->
-  
 </table>
 
-<br />
+<div style="padding-top:15px; padding-bottom:15px; text-align: center; background-color :#000000;">
+<!-- BEGIN switch_user_logged_in -->
+<a class="buttonlink" href="{U_MARK_READ}">{L_MARK_FORUMS_READ}</a><!-- END switch_user_logged_in -->
+</div>
 
-<div style="text-align: center"><!-- BEGIN switch_user_logged_in --><a href="{U_MARK_READ}">{L_MARK_FORUMS_READ}</a><!-- END switch_user_logged_in --></div>
-
-<br />
-
-<table border="0" cellpadding="4" cellspacing="1" class="forumline" style="width: 100%">
+<table style="text-align: left; background-color :transparent;" class="forumline rounded-corners">
   <tr> 
-    <td class="catHead"><a href="{U_VIEWONLINE}">{L_WHO_IS_ONLINE}</a></td>
+    <td class="catHead"><a style="text-align: center; background-color :#000000;" class="SMALLbuttonlink" href="{U_VIEWONLINE}">{L_WHO_IS_ONLINE}</a></td>
   </tr>
   <tr> 
     <td class="row1">{TOTAL_POSTS}<br />{TOTAL_USERS}<br />{NEWEST_USER}</td>
@@ -105,9 +103,9 @@
   <!-- END birthdays -->
 </table>
 
-<br />
 
-<table border="0" cellpadding="4" cellspacing="1" style="margin: auto">
+
+<table style="text-align: left; background-color :#000000;" class="forum_footer_icons" border="0" cellpadding="4" cellspacing="1" style="margin: auto">
   <tr> 
     <td width="20" align="center"><img src="{FORUM_IMG}" alt="{L_NO_NEW_POSTS}" /></td>
     <td>&nbsp;&nbsp;{L_NO_NEW_POSTS}</td>
@@ -119,6 +117,7 @@
     <td>&nbsp;&nbsp;{L_FORUM_LOCKED}</td>
   </tr>
 </table>
+
 </tr>
 </tbody>
 </table>

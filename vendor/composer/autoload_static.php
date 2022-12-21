@@ -4,14 +4,51 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitb59c20123e8470c001d19da9dc8edcc3
+class ComposerStaticInitde7ca9c48b619d1b4b5dff1f33590cba
 {
     public static $files = array (
         '9b38cf48e83f5d8f60375221cd213eee' => __DIR__ . '/..' . '/phpstan/phpstan/bootstrap.php',
+        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         '38143a9afc50997d55e4815db8489d1c' => __DIR__ . '/..' . '/rector/rector/bootstrap.php',
     );
 
+    public static $prefixLengthsPsr4 = array (
+        'P' => 
+        array (
+            'Psr\\SimpleCache\\' => 16,
+            'Psr\\Cache\\' => 10,
+            'Phpfastcache\\Tests\\' => 19,
+            'Phpfastcache\\' => 13,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'Psr\\SimpleCache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+        ),
+        'Psr\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
+        'Phpfastcache\\Tests\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpfastcache/phpfastcache/tests/lib',
+        ),
+        'Phpfastcache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpfastcache/phpfastcache/lib/Phpfastcache',
+        ),
+    );
+
     public static $prefixesPsr0 = array (
+        'H' => 
+        array (
+            'HTMLPurifier' => 
+            array (
+                0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
+            ),
+        ),
         'D' => 
         array (
             'Detection' => 
@@ -24,13 +61,18 @@ class ComposerStaticInitb59c20123e8470c001d19da9dc8edcc3
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
+        'csstidy' => __DIR__ . '/..' . '/cerdic/css-tidy/class.csstidy.php',
+        'csstidy_optimise' => __DIR__ . '/..' . '/cerdic/css-tidy/class.csstidy_optimise.php',
+        'csstidy_print' => __DIR__ . '/..' . '/cerdic/css-tidy/class.csstidy_print.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixesPsr0 = ComposerStaticInitb59c20123e8470c001d19da9dc8edcc3::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitb59c20123e8470c001d19da9dc8edcc3::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitde7ca9c48b619d1b4b5dff1f33590cba::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitde7ca9c48b619d1b4b5dff1f33590cba::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitde7ca9c48b619d1b4b5dff1f33590cba::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitde7ca9c48b619d1b4b5dff1f33590cba::$classMap;
 
         }, null, ClassLoader::class);
     }

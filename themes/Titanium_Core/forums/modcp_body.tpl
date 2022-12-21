@@ -1,7 +1,12 @@
 <form method="post" action="{S_MODCP_ACTION}">
 <table width="100%" cellspacing="2" cellpadding="2" border="0" align="center">
   <tr> 
-    <td align="left"><span class="nav"><a href="{U_INDEX}">{L_INDEX}</a><!-- IF PARENT_FORUM --> -> <a class="nav" href="{U_VIEW_PARENT_FORUM}">{PARENT_FORUM_NAME}</a> <!-- ENDIF --> -> <a href="{U_VIEW_FORUM}" class="nav">{FORUM_NAME}</a></span></td>
+    <td align="left">
+    <!-- IF PARENT_FORUM --> -> 
+    <a href="{U_VIEW_PARENT_FORUM}"><i class="fa-solid fa-arrow-right fa-lg"></i> {PARENT_FORUM_NAME}</a> 
+    <!-- ENDIF --> 
+    <a href="{U_VIEW_FORUM}"><i class="fa-solid fa-arrow-right fa-lg"></i> {FORUM_NAME}</a>
+    </td>
   </tr>
 </table>
 

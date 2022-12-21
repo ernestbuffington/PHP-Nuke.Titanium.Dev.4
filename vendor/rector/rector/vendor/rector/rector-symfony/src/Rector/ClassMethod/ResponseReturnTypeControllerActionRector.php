@@ -5,7 +5,10 @@ namespace Rector\Symfony\Rector\ClassMethod;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name\FullyQualified;
+use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use Rector\Core\Rector\AbstractRector;
@@ -93,23 +96,28 @@ CODE_SAMPLE
         if (!$this->hasReturn($node)) {
             return null;
         }
-        // has redirect return response
-        if ($this->hasRedirectReturnResponse($node)) {
-            $node->returnType = new FullyQualified('Symfony\\Component\\HttpFoundation\\RedirectResponse');
-        } else {
-            $node->returnType = new FullyQualified('Symfony\\Component\\HttpFoundation\\Response');
+        if ($this->attrinationFinder->hasByOne($node, SymfonyAnnotation::SENSIO_TEMPLATE) || $this->attrinationFinder->hasByOne($node, SymfonyAnnotation::TWIG_TEMPLATE)) {
+            $node->returnType = new NullableType(new Identifier('array'));
+            return $node;
         }
-        return $node;
+        return $this->refactorResponse($node);
     }
-    private function hasRedirectReturnResponse(ClassMethod $classMethod) : bool
+    /**
+     * @param array<string> $methods
+     */
+    private function isResponseReturnMethod(ClassMethod $classMethod, array $methods) : bool
     {
-        $returns = $this->betterNodeFinder->findInstanceOf($classMethod, Return_::class);
+        $returns = $this->betterNodeFinder->findInstancesOfInFunctionLikeScoped($classMethod, Return_::class);
         foreach ($returns as $return) {
             if (!$return->expr instanceof MethodCall) {
                 return \false;
             }
             $methodCall = $return->expr;
-            if (!$this->isName($methodCall->name, 'redirectToRoute')) {
+            if (!$methodCall->var instanceof Variable || $methodCall->var->name !== 'this') {
+                return \false;
+            }
+            $functionName = $this->getName($methodCall->name);
+            if (!\in_array($functionName, $methods, \true)) {
                 return \false;
             }
         }
@@ -118,5 +126,29 @@ CODE_SAMPLE
     private function hasReturn(ClassMethod $classMethod) : bool
     {
         return $this->betterNodeFinder->hasInstancesOf($classMethod, [Return_::class]);
+    }
+    private function refactorResponse(ClassMethod $classMethod) : Node
+    {
+        if ($this->isResponseReturnMethod($classMethod, ['redirectToRoute', 'redirect'])) {
+            $classMethod->returnType = new FullyQualified('Symfony\\Component\\HttpFoundation\\RedirectResponse');
+            return $classMethod;
+        }
+        if ($this->isResponseReturnMethod($classMethod, ['file'])) {
+            $classMethod->returnType = new FullyQualified('Symfony\\Component\\HttpFoundation\\BinaryFileResponse');
+            return $classMethod;
+        }
+        if ($this->isResponseReturnMethod($classMethod, ['json'])) {
+            $classMethod->returnType = new FullyQualified('Symfony\\Component\\HttpFoundation\\JsonResponse');
+            return $classMethod;
+        }
+        if ($this->isResponseReturnMethod($classMethod, ['stream'])) {
+            $classMethod->returnType = new FullyQualified('Symfony\\Component\\HttpFoundation\\StreamedResponse');
+            return $classMethod;
+        }
+        if ($this->isResponseReturnMethod($classMethod, ['render', 'forward', 'renderForm'])) {
+            $classMethod->returnType = new FullyQualified('Symfony\\Component\\HttpFoundation\\Response');
+            return $classMethod;
+        }
+        return $classMethod;
     }
 }

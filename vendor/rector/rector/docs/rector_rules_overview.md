@@ -1,4 +1,4 @@
-# 409 Rules Overview
+# 412 Rules Overview
 
 <br>
 
@@ -6,9 +6,9 @@
 
 - [Arguments](#arguments) (5)
 
-- [CodeQuality](#codequality) (78)
+- [CodeQuality](#codequality) (79)
 
-- [CodingStyle](#codingstyle) (36)
+- [CodingStyle](#codingstyle) (38)
 
 - [Compatibility](#compatibility) (1)
 
@@ -588,6 +588,25 @@ Change multiple null compares to ?? queue
 -
 -        return null;
 +        return $this->orderItem ?? $this->orderItemUnit;
+     }
+ }
+```
+
+<br>
+
+### ConvertStaticPrivateConstantToSelfRector
+
+Replaces static::* access to private constants with self::* on final classes
+
+- class: [`Rector\CodeQuality\Rector\ClassConstFetch\ConvertStaticPrivateConstantToSelfRector`](../rules/CodeQuality/Rector/ClassConstFetch/ConvertStaticPrivateConstantToSelfRector.php)
+
+```diff
+ final class Foo {
+     private const BAR = 'bar';
+     public function run()
+     {
+-        $bar = static::BAR;
++        $bar = self::BAR;
      }
  }
 ```
@@ -2379,6 +2398,23 @@ Split multiple inline assigns to each own lines default value, to prevent undefi
 
 <br>
 
+### SplitGroupedClassConstantsRector
+
+Separate class constant to own lines
+
+- class: [`Rector\CodingStyle\Rector\ClassConst\SplitGroupedClassConstantsRector`](../rules/CodingStyle/Rector/ClassConst/SplitGroupedClassConstantsRector.php)
+
+```diff
+ class SomeClass
+ {
+-    const HI = true, HELLO = 'true';
++    const HI = true;
++    const HELLO = 'true';
+ }
+```
+
+<br>
+
 ### SplitGroupedConstantsAndPropertiesRector
 
 Separate constant and properties to own lines
@@ -2392,6 +2428,30 @@ Separate constant and properties to own lines
 +    const HI = true;
 +    const AHOJ = 'true';
 
+     /**
+      * @var string
+      */
+-    public $isIt, $isIsThough;
++    public $isIt;
++
++    /**
++     * @var string
++     */
++    public $isIsThough;
+ }
+```
+
+<br>
+
+### SplitGroupedPropertiesRector
+
+Separate grouped properties to own lines
+
+- class: [`Rector\CodingStyle\Rector\Property\SplitGroupedPropertiesRector`](../rules/CodingStyle/Rector/Property/SplitGroupedPropertiesRector.php)
+
+```diff
+ class SomeClass
+ {
      /**
       * @var string
       */

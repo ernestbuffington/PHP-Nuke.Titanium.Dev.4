@@ -14,13 +14,14 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\Encapsed;
 use PhpParser\Node\Scalar\String_;
-use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\Native\NativeFunctionReflection;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\MixedType;
 use Rector\Core\NodeAnalyzer\ArgsAnalyzer;
-use Rector\Core\Rector\AbstractRector;
+use Rector\Core\NodeAnalyzer\PropertyFetchAnalyzer;
+use Rector\Core\Rector\AbstractScopeAwareRector;
 use Rector\Core\Reflection\ReflectionResolver;
 use Rector\Core\ValueObject\PhpVersionFeature;
 use Rector\NodeTypeResolver\Node\AttributeKey;
@@ -31,7 +32,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Rector\Tests\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector\NullToStrictStringFuncCallArgRectorTest
  */
-final class NullToStrictStringFuncCallArgRector extends AbstractRector implements MinPhpVersionInterface
+final class NullToStrictStringFuncCallArgRector extends AbstractScopeAwareRector implements MinPhpVersionInterface
 {
     /**
      * @var array<string, string[]>
@@ -47,10 +48,16 @@ final class NullToStrictStringFuncCallArgRector extends AbstractRector implement
      * @var \Rector\Core\NodeAnalyzer\ArgsAnalyzer
      */
     private $argsAnalyzer;
-    public function __construct(ReflectionResolver $reflectionResolver, ArgsAnalyzer $argsAnalyzer)
+    /**
+     * @readonly
+     * @var \Rector\Core\NodeAnalyzer\PropertyFetchAnalyzer
+     */
+    private $propertyFetchAnalyzer;
+    public function __construct(ReflectionResolver $reflectionResolver, ArgsAnalyzer $argsAnalyzer, PropertyFetchAnalyzer $propertyFetchAnalyzer)
     {
         $this->reflectionResolver = $reflectionResolver;
         $this->argsAnalyzer = $argsAnalyzer;
+        $this->propertyFetchAnalyzer = $propertyFetchAnalyzer;
     }
     public function getRuleDefinition() : RuleDefinition
     {
@@ -84,7 +91,7 @@ CODE_SAMPLE
     /**
      * @param FuncCall $node
      */
-    public function refactor(Node $node) : ?Node
+    public function refactorWithScope(Node $node, Scope $scope) : ?Node
     {
         if ($this->shouldSkip($node)) {
             return null;
@@ -94,9 +101,11 @@ CODE_SAMPLE
         if ($positions === []) {
             return null;
         }
+        $classReflection = $scope->getClassReflection();
+        $isTrait = $classReflection instanceof ClassReflection && $classReflection->isTrait();
         $isChanged = \false;
         foreach ($positions as $position) {
-            $result = $this->processNullToStrictStringOnNodePosition($node, $args, $position);
+            $result = $this->processNullToStrictStringOnNodePosition($node, $args, $position, $isTrait);
             if ($result instanceof Node) {
                 $node = $result;
                 $isChanged = \true;
@@ -135,7 +144,7 @@ CODE_SAMPLE
      * @param Arg[] $args
      * @param int|string $position
      */
-    private function processNullToStrictStringOnNodePosition(FuncCall $funcCall, array $args, $position) : ?FuncCall
+    private function processNullToStrictStringOnNodePosition(FuncCall $funcCall, array $args, $position, bool $isTrait) : ?FuncCall
     {
         if (!isset($args[$position])) {
             return null;
@@ -156,11 +165,8 @@ CODE_SAMPLE
         if ($this->isAnErrorTypeFromParentScope($argValue)) {
             return null;
         }
-        if ($args[$position]->value instanceof MethodCall) {
-            $trait = $this->betterNodeFinder->findParentType($funcCall, Trait_::class);
-            if ($trait instanceof Trait_) {
-                return null;
-            }
+        if ($this->shouldSkipTrait($argValue, $isTrait)) {
+            return null;
         }
         if ($this->isCastedReassign($argValue)) {
             return null;
@@ -168,6 +174,13 @@ CODE_SAMPLE
         $args[$position]->value = new CastString_($argValue);
         $funcCall->args = $args;
         return $funcCall;
+    }
+    private function shouldSkipTrait(Expr $expr, bool $isTrait) : bool
+    {
+        if (!$expr instanceof MethodCall) {
+            return $isTrait && $this->propertyFetchAnalyzer->isLocalPropertyFetch($expr);
+        }
+        return $isTrait;
     }
     private function isCastedReassign(Expr $expr) : bool
     {

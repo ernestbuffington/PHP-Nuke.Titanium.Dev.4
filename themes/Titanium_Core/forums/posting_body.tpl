@@ -33,11 +33,15 @@
   <tr> 
     <td align="left"><a href="{U_INDEX}">{L_INDEX}</a>
     <!-- BEGIN switch_not_privmsg --> 
-    <!-- IF PARENT_FORUM --> -> <a href="{U_VIEW_PARENT_FORUM}">{PARENT_FORUM_NAME}</a> <!-- ENDIF -->
-    -> <a href="{U_VIEW_FORUM}">{FORUM_NAME}</a>
+    
+    <!-- IF PARENT_FORUM --> -> 
+    <a href="{U_VIEW_PARENT_FORUM}"><i class="fa-solid fa-arrow-right fa-lg"></i> {PARENT_FORUM_NAME}</a> 
+    <!-- ENDIF --> 
+    <a href="{U_VIEW_FORUM}"><i class="fa-solid fa-arrow-right fa-lg"></i> {FORUM_NAME}</a>
+    
     <!-- // Begin View Topic Name While Posting MOD -->
     <!-- BEGIN reply_mode -->
-    -> <a href="{U_VIEW_TOPIC}">{TOPIC_SUBJECT}</a>
+    <i class="fa-solid fa-arrow-right fa-lg"></i> <a href="{U_VIEW_TOPIC}">{TOPIC_SUBJECT}</a>
     <!-- END reply_mode -->
     <!-- // End View Topic Name While Posting MOD -->
     </td>

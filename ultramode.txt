@@ -1,34 +1,50 @@
 General purpose self-explanatory file with headlines
 %%
+WE ARE TESTING PHP 8.0.26 - IF YOU SEE ANY ERRORS PLEASE LET US KNOW
+/modules.php?name=Blogs&file=article&sid=55
+Saturday, December 10
+TheGhost
+The PHP-Nuke Titanium  Dev Team
+0
+
+%%
+New PHP-Nuke Titanium Theme BlackJack v1.0 by Ernest Allen Buffington
+/modules.php?name=Blogs&file=article&sid=54
+Sunday, December 04
+TheGhost
+PHP-Nuke Titanium Themes
+0
+
+%%
+We upgraded MariaDB from Version: 5.5.5-10.2.44 to Version: 5.5.5-10.3.37
+/modules.php?name=Blogs&file=article&sid=53
+Sunday, December 04
+TheGhost
+The PHP-Nuke Titanium  Dev Team
+1
+
+%%
+New Ported Theme Release SimpleBlack v3.0 by Killigan
+/modules.php?name=Blogs&file=article&sid=52
+Friday, December 02
+TheGhost
+PHP-Nuke Titanium Themes
+0
+
+%%
+New Google-Site-Map Module Update
+/modules.php?name=Blogs&file=article&sid=51
+Monday, November 21
+TheGhost
+PHP-Nuke Titanium Modules
+0
+
+%%
 Arcade v4.0 Mod
 /modules.php?name=Blogs&file=article&sid=50
 Tuesday, October 25
 TheGhost
 PHP-Nuke Titanium Mods
-0
-
-%%
-Xtreme v3b Theme Release
-/modules.php?name=Blogs&file=article&sid=49
-Tuesday, October 18
-TheGhost
-PHP-Nuke Titanium Themes
-0
-
-%%
-CarbonFiber Red Flames v1.3 Theme Release
-/modules.php?name=Blogs&file=article&sid=48
-Tuesday, October 18
-TheGhost
-PHP-Nuke Titanium Themes
-0
-
-%%
-Blue Tech v1.0 Theme Release
-/modules.php?name=Blogs&file=article&sid=47
-Tuesday, October 18
-TheGhost
-PHP-Nuke Titanium Themes
 0
 
 %%
@@ -61,21 +77,5 @@ Why did we name the CMS PHP-Nuke Titanium?
 Thursday, September 01
 TheGhost
 PHP-Nuke Titanium News
-0
-
-%%
-New Members List Module
-/modules.php?name=Blogs&file=article&sid=31
-Tuesday, May 18
-TheGhost
-PHP-Nuke Titanium Modules
-0
-
-%%
-New Cemetery Module
-/modules.php?name=Blogs&file=article&sid=30
-Monday, May 17
-TheGhost
-PHP-Nuke Titanium Modules
 0
 

@@ -1,7 +1,13 @@
 <form method="post" action="{S_SPLIT_ACTION}">
 <table cellspacing="2" cellpadding="2" border="0">
   <tr>
-  	<td><a href="{U_INDEX}">{L_INDEX}</a><!-- IF PARENT_FORUM --> -> <a href="{U_VIEW_PARENT_FORUM}">{PARENT_FORUM_NAME}</a> <!-- ENDIF --> -> <a href="{U_VIEW_FORUM}">{FORUM_NAME}</a></td>
+  	<td>
+    &nbsp;<a href="{U_INDEX}"> {L_INDEX}</a>
+    <!-- IF PARENT_FORUM --> -> 
+    <a href="{U_VIEW_PARENT_FORUM}"><i class="fa-solid fa-arrow-right fa-lg"></i> {PARENT_FORUM_NAME}</a> 
+    <!-- ENDIF --> 
+    <a href="{U_VIEW_FORUM}"><i class="fa-solid fa-arrow-right fa-lg"></i> {FORUM_NAME}</a>
+    </td>
   </tr>
 </table>
 

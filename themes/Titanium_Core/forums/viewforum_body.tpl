@@ -6,7 +6,7 @@
 
 <!--MOD GLANCE BEGIN -->{GLANCE_OUTPUT}<!-- MOD GLANCE END -->
 <form method="post" action="{S_POST_DAYS_ACTION}">
-<table width="100%" cellspacing="2" cellpadding="2" border="0" align="center">
+<table class="rounded-corners" width="100%" cellspacing="2" cellpadding="2" border="0" align="center">
   <tr> 
     <td align="left" valign="bottom" colspan="2"><a class="maintitle" href="{U_VIEW_FORUM}">{FORUM_NAME}</a><br /><strong>{L_MODERATOR}: {MODERATORS}<br />{LOGGED_IN_USER_LIST}</strong></td>
     <td align="right" valign="bottom" class="gensmall boldme" nowrap="nowrap">{PAGINATION}</td>
@@ -16,7 +16,12 @@
   </tr>
   <tr> 
     <td align="left" width="50"><a href="{U_POST_NEW_TOPIC}"><img src="{POST_IMG}" border="0" alt="{L_POST_NEW_TOPIC}" /></a></td>
-    <td align="left" valign="middle" width="100%">&nbsp;&nbsp;&nbsp;<a href="{U_INDEX}">{L_INDEX}</a><!-- IF PARENT_FORUM --> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;"></i> <a href="{U_VIEW_PARENT_FORUM}">{PARENT_FORUM_NAME}</a> <!-- ENDIF --> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;"></i> <a href="{U_VIEW_FORUM}">{FORUM_NAME}</a></td>
+    <td align="left" valign="middle" width="100%">&nbsp;&nbsp;<a href="{U_INDEX}">{L_INDEX}</a>
+    <!-- IF PARENT_FORUM --> 
+    <a href="{U_VIEW_PARENT_FORUM}"><i class="fa-solid fa-arrow-right fa-lg"></i> {PARENT_FORUM_NAME}</a> 
+    <!-- ENDIF --> 
+    <a href="{U_VIEW_FORUM}"><i class="fa-solid fa-arrow-right fa-lg"></i> {FORUM_NAME}</a>
+    </td>
     <td align="right" valign="bottom" nowrap="nowrap"><a href="{U_MARK_READ}">{L_MARK_TOPICS_READ}</a></td>
   </tr>
   <tr> 
@@ -25,29 +30,15 @@
 </table>
 
 <!-- BEGIN catrow -->
-<table width="100%" cellpadding="2" cellspacing="1" border="0" class="forumline">
- <tr> 
-    <td colspan="2" class="catHead" height="25" nowrap="nowrap">&nbsp;{catrow.CAT_DESC}&nbsp;</td>
-    <td width="50" class="catHead" nowrap="nowrap">&nbsp;{L_TOPICS}&nbsp;</td>
-    <td width="50" class="catHead" nowrap="nowrap">&nbsp;{L_POSTS}&nbsp;</td>
-    <td class="catHead" nowrap="nowrap">&nbsp;{L_LASTPOST}&nbsp;</td>
-  </tr>
+<table width="100%" cellpadding="2" cellspacing="1" border="0" class="forumline rounded-corners">
+ 
   <!-- BEGIN forumrow -->
-  <tr> 
-	<td class="row1" align="center" height="50"><img src="{catrow.forumrow.FORUM_FOLDER_IMG}" alt="{catrow.forumrow.L_FORUM_FOLDER_ALT}" title="{catrow.forumrow.L_FORUM_FOLDER_ALT}" /></td>
-	<td class="row1" width="100%" height="50">&nbsp;&nbsp;&nbsp;<a href="{U_INDEX}">{L_INDEX}</a><!-- IF PARENT_FORUM --> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;"></i> <a href="{U_VIEW_PARENT_FORUM}">{PARENT_FORUM_NAME}</a> <!-- ENDIF --> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;"></i> <a href="{U_VIEW_FORUM}">{FORUM_NAME}</a><br />{catrow.forumrow.FORUM_DESC}</td>
-	<td class="row2" align="center" valign="middle" height="50">{catrow.forumrow.TOPICS}</td>
-	<td class="row2" align="center" valign="middle" height="50">{catrow.forumrow.POSTS}</td>
-	<td class="row2" align="center" valign="middle" height="50" nowrap="nowrap">{catrow.forumrow.LAST_POST}</td>
-  </tr>
+  
   <!-- END forumrow -->
 </table>
-<br />
 <!-- END catrow -->
-
 <!-- IF NUM_TOPICS || ! HAS_SUBFORUMS -->
-  <table border="0" cellpadding="4" cellspacing="1" width="100%" class="forumline">
-    
+  <table border="0" cellpadding="4" cellspacing="1" width="100%" class="forumline rounded-corners">
     <tr> 
       <td class="catHead" colspan="3" style="text-align: center" nowrap="nowrap">&nbsp;{L_TOPICS}&nbsp;</td>
       <td class="catHead" style="text-align: center; width: 50px;" nowrap="nowrap">&nbsp;{L_REPLIES}&nbsp;</td>
@@ -108,7 +99,13 @@
     </tr>
     <tr> 
       <td align="left" valign="middle" style ="width: 50px;"><a href="{U_POST_NEW_TOPIC}"><img src="{POST_IMG}" border="0" alt="{L_POST_NEW_TOPIC}" /></a></td>
-      <td align="left" valign="middle" style ="width: 100%;" >&nbsp;&nbsp;&nbsp;<a href="{U_INDEX}">{L_INDEX}</a><!-- IF PARENT_FORUM --> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;"></i> <a class="nav" href="{U_VIEW_PARENT_FORUM}">{PARENT_FORUM_NAME}</a><!-- ENDIF --> <i class="fas fa-arrow-right" style="font-size: 10px; color: #ccc;"></i> <a href="{U_VIEW_FORUM}">{FORUM_NAME}</a></td>
+      <td align="left" valign="middle" style ="width: 100%;" >&nbsp;&nbsp;<a href="{U_INDEX}">{L_INDEX}</a>
+      <!-- IF PARENT_FORUM --> 
+      <a href="{U_VIEW_PARENT_FORUM}"><i class="fa-solid fa-arrow-right fa-lg"></i> {PARENT_FORUM_NAME}</a> 
+      <!-- ENDIF --> 
+      <a href="{U_VIEW_FORUM}"><i class="fa-solid fa-arrow-right fa-lg"></i> {FORUM_NAME}</a>
+      <br />{catrow.forumrow.FORUM_DESC}
+      </td>
       <td class="aright" valign="middle" nowrap="nowrap">{S_TIMEZONE}<br /><table><tr><td>{PAGINATION}</td></tr></table> 
         </td>
     </tr>
@@ -119,14 +116,15 @@
       <td colspan="3">{PAGE_NUMBER}</td>
     </tr>
   </table>
+
 </form>
-<br />
+<div style="padding-top:15px; padding-bottom:15px; text-align: center; background-color :#000000;">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr> 
     <td class="aright">{JUMPBOX}</td>
   </tr>
 </table>
-<br />
+<div style="padding-top:15px; padding-bottom:15px; text-align: center; background-color :#000000;">
 <table width="100%" cellspacing="0" border="0" align="center" cellpadding="0">
     <tr>
         <td align="left" valign="top">

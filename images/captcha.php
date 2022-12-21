@@ -2,7 +2,7 @@
 if(defined('NUKE_EVO')) return;
 define('NO_DISABLE', true);
 
-define('ROOT', dirname(dirname(__FILE__)) . '/');
+define('ROOT', dirname(__FILE__, 2) . '/');
 require_once(ROOT.'mainfile.php');
 //error_reporting(0);
 require_once(NUKE_CLASSES_DIR.'class.php-captcha.php');
@@ -16,7 +16,7 @@ if ($handle = opendir(FONTS)) {
     }
 }
 
-$size = (isset($_GET['size'])) ? $_GET['size'] : 'normal';
+$size = $_GET['size'] ?? 'normal';
 
 switch ($size) {
     case 'normal':
@@ -36,9 +36,9 @@ switch ($size) {
     break;
 }
 
-$file = (isset($_GET['file'])) ? $_GET['file'] : '';
+$file = $_GET['file'] ?? '';
 //Look for invalid crap
-if (preg_match("/[^\w_\-]/i",$file)) {
+if (preg_match("/[^\w_\-]/i",(string) $file)) {
     die();
 }
 
@@ -49,14 +49,14 @@ global $nukeurl, $capfile;
 $oVisualCaptcha = new PhpCaptcha($aFonts, $width, $height);
 $oVisualCaptcha->SetNumChars($length);
 if ($size != 'small') {
-    $oVisualCaptcha->SetOwnerText(str_replace('http://', '', $nukeurl));
+    $oVisualCaptcha->SetOwnerText(str_replace('http://', '', (string) $nukeurl));
 }
 if (!empty($file) && $file != 'default') {
-    if (file_exists(dirname(__FILE__).'/captcha/'.$file.'.jpg')) {
+    if (file_exists(__DIR__.'/captcha/'.$file.'.jpg')) {
         $oVisualCaptcha->SetBackgroundImages('captcha/'.$file.'.jpg');
     }
 } else if (!empty($capfile) && $file != 'default') {
-    if (file_exists(dirname(__FILE__).'/captcha/'.$capfile.'.jpg')) {
+    if (file_exists(__DIR__.'/captcha/'.$capfile.'.jpg')) {
         $oVisualCaptcha->SetBackgroundImages('captcha/'.$capfile.'.jpg');
     }
 }
