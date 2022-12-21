@@ -573,7 +573,8 @@ function bbencode_second_pass($text, $uid)
 } // bbencode_second_pass()
 
 // Need to initialize the random numbers only ONCE
-mt_srand( (double) microtime() * 1000000);
+//mt_srand( (double) microtime() * 1000000);
+mt_srand(0, MT_RAND_MT19937);
 
 function make_bbcode_uid()
 {
@@ -784,22 +785,46 @@ function evo_parse_video($video, $url)
     }
 
     $fragments = array();
-    if($parsed_url['fragment'])
+
+    if(!isset($parsed_url['fragment']))
+    $parsed_url['fragment'] = '';
+    
+	if($parsed_url['fragment'])
     {
         $fragments = explode("&", $parsed_url['fragment']);
     }
 
-    $queries = explode("&", $parsed_url['query']);
+    if(!isset($parsed_url['query']))
+    $parsed_url['query'] = '';
+    
+	$queries = explode("&", $parsed_url['query']);
 
     $input = array();
+
     foreach($queries as $query)
     {
-        list($key, $value) = explode("=", $query);
-        $key = str_replace("amp;", "", $key);
+		if (strpos($query, '-') !== false) {
+         list($key, $value) = explode("=", $query, 2);
+		}
+		
+        if(!isset($key))
+        $key = '';		
+
+        if(!isset($value))
+        $value = '';		
+        
+		$key = str_replace("amp;", "", $key);
         $input[$key] = $value;
     }
 
     $path = explode('/', $parsed_url['path']);
+
+    if(!isset($fragments[0]))
+    $fragments[0] = '';		
+
+    if(!isset($input['v']))
+    $input['v'] = '';		
+
     switch($video):
 
 		/* ----- youtube video embed ----- */
@@ -902,6 +927,9 @@ function bbencode_first_pass_pda($text, $uid, $open_tag, $close_tag, $close_tag_
     {
         $close_tag_new = $close_tag;
     }
+
+    if(!isset($uid))
+    $uid = '';
 
     $close_tag_length = strlen($close_tag);
     $close_tag_new_length = strlen($close_tag_new);
@@ -1544,10 +1572,10 @@ function word_wrap_pass($message)
  ******************************************************/
     global $userdata, $board_config;
 
-    if ( !$board_config['wrap_enable'] )
-    {
+    //if ( !$board_config['wrap_enable'] )
+    //{
         return $message;
-    }
+    //}
 /*****[END]********************************************
  [ Mod:    Force Word Wrapping - Configurator v1.0.16 ]
  ******************************************************/
@@ -1557,7 +1585,10 @@ function word_wrap_pass($message)
     $longestAmp = 9;
     $inTag = false;
     $ampText = '';
-    $len = strlen($message);
+    $len = strlen((string)$message);
+
+    if(!isset($userdata['user_wordwrap']))
+	$userdata['user_wordwrap'] = '';
 
     for ($num=0; $num < $len; $num++)
     {
@@ -1565,7 +1596,7 @@ function word_wrap_pass($message)
 
         if ($curChar == '<')
         {
-            for ($snum=0;$snum < strlen($ampText);$snum++)
+            for ($snum=0;$snum < strlen((string) $ampText);$snum++)
             {
                 addWrap($ampText[$snum],$ampText[$snum+1],$userdata['user_wordwrap'],$finalText,$tempText,$curCount,$tempCount);
             }
@@ -1584,34 +1615,35 @@ function word_wrap_pass($message)
         }
         elseif ($curChar == '&')
         {
-            for ($snum=0;$snum < strlen($ampText);$snum++)
+            for ($snum=0;$snum < strlen((string) $ampText);$snum++)
             {
                 addWrap($ampText[$snum],$ampText[$snum+1],$userdata['user_wordwrap'],$finalText,$tempText,$curCount,$tempCount);
             }
             $ampText = '&';
         }
-        elseif (strlen($ampText) < $longestAmp && $curChar == ';' && function_exists('html_entity_decode') &&
-               (strlen(html_entity_decode("$ampText;")) == 1 || preg_match('/^&#[0-9]+$/',$ampText)))
-        {
+        elseif (strlen((string) $ampText) < $longestAmp && $curChar == ';' && function_exists('html_entity_decode') &&
+               (strlen(html_entity_decode((string) "$ampText;")) == 1 || preg_match('#^&\#\d+$#',$ampText)))
+         {
             addWrap($ampText.';',$message[$num+1],$userdata['user_wordwrap'],$finalText,$tempText,$curCount,$tempCount);
             $ampText = '';
         }
-        elseif (strlen($ampText) >= $longestAmp || $curChar == ';')
+        elseif (strlen((string) $ampText) >= $longestAmp || $curChar == ';')
         {
-            for ($snum=0;$snum < strlen($ampText);$snum++)
+            for ($snum=0;$snum < strlen((string) $ampText);$snum++)
             {
                 addWrap($ampText[$snum],$ampText[$snum+1],$userdata['user_wordwrap'],$finalText,$tempText,$curCount,$tempCount);
             }
             addWrap($curChar,$message[$num+1],$userdata['user_wordwrap'],$finalText,$tempText,$curCount,$tempCount);
             $ampText = '';
         }
-        elseif (strlen($ampText) != 0 && strlen($ampText) < $longestAmp)
+        elseif (strlen((string) $ampText) != 0 && strlen((string) $ampText) < $longestAmp)
         {
             $ampText .= $curChar;
         }
         else
         {
-            addWrap($curChar,$message[$num+1],$userdata['user_wordwrap'],$finalText,$tempText,$curCount,$tempCount);
+		   addWrap((string)$curChar,(string)$message[(int)$num+1],(int)$userdata['user_wordwrap'],$finalText,$tempText,$curCount,$tempCount);
+		   
         }
     }
 

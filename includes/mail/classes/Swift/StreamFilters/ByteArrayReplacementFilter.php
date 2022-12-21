@@ -24,10 +24,10 @@ class Swift_StreamFilters_ByteArrayReplacementFilter
   private $_search;
 
   /** The replacement(s) to make */
-  private $_replace = array();
+  private $_replace;
 
   /** The Index for searching */
-  private $_index = array();
+  private $_index;
 
   /** The Search Tree */
   private $_tree = array();
@@ -35,7 +35,7 @@ class Swift_StreamFilters_ByteArrayReplacementFilter
   /**  Gives the size of the largest search */
   private $_treeMaxLen = 0;
   
-  private $_repSize = array();
+  private $_repSize;
 
   /**
    * Create a new ByteArrayReplacementFilter with $search and $replace.
@@ -45,6 +45,10 @@ class Swift_StreamFilters_ByteArrayReplacementFilter
   public function __construct($search, $replace)
   {
     $this->_search = $search;
+    $this->_index = array();
+    $this->_tree = array();
+    $this->_replace = array();
+    $this->_repSize = array();
     
     $tree = null;
     $i = null;

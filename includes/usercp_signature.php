@@ -26,22 +26,26 @@ $smilies_on = ( $userdata['user_allowsmile'] && $board_config['allow_smilies']  
 
 // check and set various parameters
 $params = array('submit' => 'save', 'preview' => 'preview', 'mode' => 'mode');
-    
-	foreach($params as $var => $param):
-        if(!empty($HTTP_POST_VARS[$param]) || !empty($HTTP_GET_VARS[$param])):
-            $$var = ( !empty($HTTP_POST_VARS[$param]) ) ? $HTTP_POST_VARS[$param] : $HTTP_GET_VARS[$param];
-        else:
-            $$var = '';
-        endif;
-    endforeach;
-	
+while( list($var, $param) = @each($params) )
+{
+    if ( !empty($HTTP_POST_VARS[$param]) || !empty($HTTP_GET_VARS[$param]) )
+    {
+        $$var = ( !empty($HTTP_POST_VARS[$param]) ) ? $HTTP_POST_VARS[$param] : $HTTP_GET_VARS[$param];
+    }
+    else
+    {
+        $$var = '';
+    }
+}
+
 $trim_var_list = array('signature' => 'signature');
-    
-	foreach($trim_var_list as $var => $param): 
-      if(!empty($_POST[$param])):
-        ${$var} = trim((string) $_POST[$param]);
-     endif;
-   endforeach;
+while( list($var, $param) = @each($trim_var_list) )
+{
+    if ( !empty($HTTP_POST_VARS[$param]) )
+    {
+        $$var = trim($HTTP_POST_VARS[$param]);
+    }
+}
 
 $signature = str_replace('<br />', "\n", $signature);
 

@@ -61,12 +61,17 @@ if(isset($profiledata['user_id']) && !empty($profiledata['user_id'])):
     if(!($result = $db->sql_query($sql))):
     $groups = "SQL Failed to obtain last visit";
     else: 
-        if($db->sql_numrows($result) == 0):
+
+       if($db->sql_numrows($result) == 0):
         $groups = "None";
          
 		else: 
             while($row = $db->sql_fetchrow($result)):
-                $groups .= $row['group_name'] . "<br />";
+
+            if(!isset($row['group_name']))
+            $row['group_name'] = '';
+            
+			$groups = $row['group_name'] . "<br />";
             endwhile;
         endif;
         $db->sql_freeresult($result);
@@ -125,15 +130,15 @@ $avatar_img = '';
 if($profiledata['user_avatar_type'] && $profiledata['user_allowavatar']):
     switch( $profiledata['user_avatar_type']):
         case USER_AVATAR_UPLOAD:
-            $avatar_img = ($board_config['allow_avatar_upload']) ? '<img class="rounded-corners-profile" style="max-height: 200px; 
-			max-width: 200px;" src="'.$board_config['avatar_path']. '/'. $profiledata['user_avatar'] . '" alt="" border="0" />' : '';
+            $avatar_img = ($board_config['allow_avatar_upload']) ? '<img class="rounded-corners-profile" style="max-width: 200px;" 
+			src="'.$board_config['avatar_path']. '/'. $profiledata['user_avatar'] . '" alt="" border="0" />' : '';
             break;
         case USER_AVATAR_REMOTE:
-            $avatar_img = '<img class="rounded-corners-profile" style="max-height: 200px; max-width: 200px;" s
+            $avatar_img = '<img class="rounded-corners-profile" style="max-width: 200px;" s
 			rc="' . resize_avatar($profiledata['user_avatar']) . '" alt="" border="0" />';
             break;
         case USER_AVATAR_GALLERY:
-            $avatar_img = ( $board_config['allow_avatar_local'] ) ? '<img class="rounded-corners-profile" style="max-height: 200px; max-width: 
+            $avatar_img = ( $board_config['allow_avatar_local'] ) ? '<img class="rounded-corners-profile" style="max-width: 
 			200px;" src="' . $board_config['avatar_gallery_path'] . '/' 
 			. (($profiledata['user_avatar'] == 'blank.png' || $profiledata['user_avatar'] == 'gallery/blank.png') ? 'blank.png' : $profiledata['user_avatar']) 
 			. '" alt="" border="0" />' : '';
@@ -345,6 +350,10 @@ else
  [ Mod:     Users Reputations Systems          v1.0.0 ]
  ******************************************************/
 $reputation = '';
+
+if(!isset($lang['Zero_reputation']))
+$lang['Zero_reputation'] = '<img src="images/animated/poop.png" width="26" height="26">Useless Turd Status (No Reputation)';
+
 if ($rep_config['rep_disable'] == 0)
 {
   if ($profiledata['user_reputation'] == 0)
@@ -433,6 +442,16 @@ if($profiledata['bio']) {
 /*****[END]********************************************
  [ Mod:    YA Merge                            v1.0.0 ]
  ******************************************************/
+
+if(!isset($lang['Groups']))
+$lang['Groups'] = '';
+
+if(!isset($online_status_img))
+$online_status_img = '';
+
+if(!isset($online_status))
+$online_status = '';
+
 
 $template->assign_vars(array(
 /*****[BEGIN]******************************************

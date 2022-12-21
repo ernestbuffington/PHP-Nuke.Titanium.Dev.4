@@ -2,7 +2,7 @@
 /*=======================================================================
             PHP-Nuke Titanium (CMS) Enhanced And Advanced
  ========================================================================
-
+ 
  ************************************************************************
  * PHP-NUKE: Advanced Content Management System                         *
  * ============================================                         *
@@ -24,7 +24,7 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 function img($imgfile='', $mymodule='', $empty=true) 
 {
     global $currentlang, $ThemeSel, $Default_Theme;
-
+    
 	if (@file_exists(TITANIUM_THEMES_DIR . $ThemeSel . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) 
 	{
         $titanium_image = TITANIUM_THEMES_IMAGE_DIR.$ThemeSel."/images/$mymodule/lang_".$currentlang."/$imgfile";
@@ -95,7 +95,7 @@ function img($imgfile='', $mymodule='', $empty=true)
 	    log_write('error', "( ".TITANIUM_MODULES_IMAGE_DIR. $mymodule ."/images/$imgfile"." ) not found!", 'Image Not Found Error');
 		//echo "( ".TITANIUM_THEMES_IMAGE_DIR . $ThemeSel . "/images/$mymodule/$imgfile"." ) not found!";
     }
-
+	
 	return($titanium_image);
 }
 ############################################################################################################################################

@@ -759,7 +759,7 @@ class Template {
  ******************************************************/
 	function birthday_interface()
 	{
-		global $lang;
+		global $lang, $board_config;
 
 		// the following was adapted from bbcode.php's load_bbcode_template function.
 		$bday_filename = $this->make_filename('birthday_interface.tpl');
@@ -2041,6 +2041,9 @@ class Template {
 		else
 		{
 			preg_match('#(true|false|\.)#i', $match[5], $type);
+
+           if(!isset($type[1]))
+           $type[1] = '';
 
 			switch (strtolower($type[1]))
 			{

@@ -36,7 +36,6 @@
 	  Gender                                   v1.2.6
 	  Birthdays                                v3.0.0
 -=[Last Update]=-
-      12/13/2022 2:17 am Ernest Allen Buffington	  
       10/05/2022 1:05 am Ernest Allen Buffington	  
  ************************************************************************/
 
@@ -178,7 +177,6 @@ function user_avatar_upload($mode, $avatar_mode, &$current_avatar, &$current_typ
 	else:
 
 		$imageFilesize = filesize( $avatar_filename );
-		// $imageMime     = $avatar_image['mime'];
 		// $imageMime     = $avatar_image['mime'];
 
 	endif;
@@ -352,18 +350,19 @@ function display_avatar_gallery($mode,
 
 		if( empty($category) )
 		{
-				//list($category, ) = each($avatar_images);
-				foreach (array_keys($avatar_images) as $category);
+				list($category, ) = each($avatar_images);
 		}
 		reset($avatar_images);
 
 		$s_categories = '<select name="avatarcategory">';
-		foreach(array_keys($avatar_images) as $key): 
-          $selected = ( $key == $category ) ? ' selected="selected"' : '';
-          if(is_countable($avatar_images[$key]) ? count($avatar_images[$key]) : 0):
-			$s_categories .= '<option value="' . $key . '"' . $selected . '>' . ucfirst((string) $key) . '</option>';
-		  endif;
-        endforeach;
+		while( list($key) = each($avatar_images) )
+		{
+				$selected = ( $key == $category ) ? ' selected="selected"' : '';
+				if( count($avatar_images[$key]) )
+				{
+						$s_categories .= '<option value="' . $key . '"' . $selected . '>' . ucfirst($key) . '</option>';
+				}
+		}
 		$s_categories .= '</select>';
 
 		$s_colspan = 0;
@@ -433,8 +432,7 @@ function display_avatar_gallery($mode,
 		}
 
 		$xd_meta = get_xd_metadata();
-		//while ( list($code_name, ) = each($xd_meta) )
-		foreach (array_keys($xd_meta) as $code_name)
+		while ( list($code_name, ) = each($xd_meta) )
 		{
 			if ( isset($xdata[$code_name]) )
 			{

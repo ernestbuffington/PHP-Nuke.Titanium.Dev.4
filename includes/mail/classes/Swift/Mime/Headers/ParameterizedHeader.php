@@ -43,7 +43,7 @@ class Swift_Mime_Headers_ParameterizedHeader
    * @var string
    * @access private
    */
-  private $_tokenRe = '(?:[\x21\x23-\x27\x2A\x2B\x2D\x2E\x30-\x39\x41-\x5A\x5E-\x7E]+)';
+  private $_tokenRe;
   
   /**
    * Creates a new ParameterizedHeader with $name.
@@ -58,6 +58,7 @@ class Swift_Mime_Headers_ParameterizedHeader
     $this->setEncoder($encoder);
     $this->_paramEncoder = $paramEncoder;
     $this->initializeGrammar();
+    $this->_tokenRe = '(?:[\x21\x23-\x27\x2A\x2B\x2D\x2E\x30-\x39\x41-\x5A\x5E-\x7E]+)';
   }
   
   /**

@@ -28,7 +28,7 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']))
 
 global $prefix, $db, $browser, $agent;
 
-if($agent['engine'] == 'bot'):
+if(!empty($agent['engine']) && $agent['engine'] == 'bot'):
     $browser = 'Bot';
 elseif(!empty($agent['ua'])):
     $browser = $agent['ua'];

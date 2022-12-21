@@ -1,4 +1,21 @@
 <?php
+/*======================================================================= 
+  PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
+ =======================================================================*/
+
+/************************************************************************
+PHP-Nuke Titanium : Titanium Functions
+=========================================================================
+Copyright (c) 2022 The PHP-Nuke Titanium Group
+
+Filename      : functions_titanium_custom.php
+Author        : Ernest Allen Buffington 
+Version       : v4.0.3
+Date          : 12.15.2022 (mm.dd.yyyy)
+
+Notes         : Miscellaneous functions
+Last Modified : 12.15.2022 3:59 pm Ernest Allen Buffington
+************************************************************************/
 
 # all facebook div tags should have the ampersand encoded from & to &amp;
 # do not encode script tags from & to &amp; - leave theme alone,
@@ -6,7 +23,7 @@
 function facebook_likes() {
     if (defined('facebook')):
         global $sid, $appID, $my_url;
-
+		
 		# IFRAME LOADER
 		#echo '<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.php-nuke-titanium.86it.us%2Fmodules.php%3Fname%3DBlogs%26file%3Darticle%26sid%3D' . $sid . '%26mode%3Dnested%26order%3D0%26thold%3D0&tabs=timeline&width=180&height=70&small_header=false&adapt_container_width=true&hide_cover=true&show_facepile=true&appId=' . $appID . '" width="180" height="70" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>';
         # NORMAL LOADER
@@ -33,8 +50,27 @@ function facebook_comments() {
 function title_and_meta_tags() {
     /** @var type $facebook_admin_id_number */
     global $facebook_admin_id_number, $ThemeSel, $sitename, $appID, $name, $sid, $file, $db, $prefix;
-
-    /** @var type $ThemeSel get current theme */
+    $top = '';
+	$art = '';
+	$hometext = '';
+	$facebook_admin = '';
+	$facebookappid = '';
+	$facebook_ia_markup_url = '';
+	$facebook_ia_rules_url = '';
+	$facebook_ogdescription = '';
+	$facebook_og_title = '';
+	$structured_data = '';
+	$facebook_ia_markup_url_dev = ''; 
+    $facebook_ia_rules_url_dev  = '';
+	$facebook_ogimage_normal  = '';
+	$facebookimage_alt  = '';
+	$facebook_ogurl = '';
+	$facebook_ogimage_width = '';
+	$facebook_ogimage_height = '';
+	$facebookimagetype = '';
+	$facebook_ogimage = '';
+    $facebook_page_type = '';
+	/** @var type $ThemeSel get current theme */
     $ThemeSel = get_theme();
     $item_delim = "&raquo;";
     $module_name = get_query_var('name', 'get', 'string', '');
@@ -103,10 +139,7 @@ function title_and_meta_tags() {
                 $facebookimage_alt = '<meta property="og:image:alt" content="Google Site Map Module v1.0">' . "\n";
                 $facebook_ogurl = '<meta property="og:url" content="' . HTTPS . 'modules.php?name=' . $name . '">' . "\n";
             # PHP-Nuke Titanium Google Site Map Module v1.0 --------------------------------------------------------------------------------------------
-
-            # PHP-Nuke Arcade v4.0 --------------------------------------------------------------------------------------------
-            # PHP-Nuke Titanium Google Site Map Module v1.0 --------------------------------------------------------------------------------------------
-
+            
             # PHP-Nuke Arcade v4.0 --------------------------------------------------------------------------------------------
             elseif ($module_name == "Forums"):
               if (($file == 'arcade') && isset($file)):
@@ -130,9 +163,8 @@ function title_and_meta_tags() {
                 $facebook_ogimage_height = '<meta property="og:image:height" content="628">' . "\n";
                 $facebookimage_alt = '<meta property="og:image:alt" content="Titanium Arcade v4.0">' . "\n";
                 $facebook_ogurl = '<meta property="og:url" content="' . HTTPS . 'modules.php?name=' . $name . '&file=arcade">' . "\n";
-
+                
               endif;
-            # PHP-Nuke Arcade v4.0 --------------------------------------------------------------------------------------------
             # PHP-Nuke Arcade v4.0 --------------------------------------------------------------------------------------------
 
                 else:
@@ -408,17 +440,17 @@ function get_titanium_timeago($ptime) {
         if ($d >= 1):
             $r = round($d);
             # default calendar icon       
-            $icon_string = '<font color="orange"><div align="center"><strong><font color="lightgreen">' . $r . '</font></strong><br />' . ' ' . $str . ($r > 1 ? 's' : '') . ' </font><br /><font 
-	     color="gold"><i class="bi bi-calendar3"></i></font> </div>';
+            $icon_string = '<span style="color:orange"><div align="center"><strong><span style="color:lightgreen">' . $r . '</span></strong><br />' . ' ' . $str . ($r > 1 ? 's' : '') . ' </span><br /><span 
+	     style="color:gold"><i class="bi bi-calendar3"></i></span> </div>';
             # change the icon into a clock if less than or equal to 24 hours
             if ($estimate_time <= 86400):
-                $icon_string = '<font color="orange"><div align="center"><strong><font color="lightgreen">' . $r . '</font></strong><br />' . ' ' . $str . ($r > 1 ? 's' : '') . ' </font><br /><font 
-	     color="gold"><i class="bi bi-alarm"></i></font> </div>';
+                $icon_string = '<span style="color:orange"><div align="center"><strong><span style="color:lightgreen">' . $r . '</span></strong><br />' . ' ' . $str . ($r > 1 ? 's' : '') . ' </span><br /><span 
+	     style="color:gold"><i class="bi bi-alarm"></i></span> </div>';
             endif;
             # change the icon into a stopwatch if less than 60 seconds
             if ($estimate_time <= 60):
-                $icon_string = '<font color="orange"><div align="center"><strong><font color="lightgreen">' . $r . '</font></strong><br />' . ' ' . $str . ($r > 1 ? 's' : '') . ' </font><br /><font 
-	     color="gold"><i class="bi bi-smartwatch"></i></font> </div>';
+                $icon_string = '<span style="color:orange"><div align="center"><strong><span style="color:lightgreen">' . $r . '</span></strong><br />' . ' ' . $str . ($r > 1 ? 's' : '') . ' </span><br /><span 
+	     style="color:gold"><i class="bi bi-smartwatch"></i></span> </div>';
             endif;
             return $icon_string;
         endif;

@@ -356,7 +356,7 @@
      * ToDo @method bool isWatch()	 
      *
      */
-
+	 
 class Browser
 {
     private $_agent = '';
@@ -2157,6 +2157,6 @@ class Browser
         }
     }
 }
-
+ 
 //$titanium_browser = new Browser();
 ?>    

@@ -45,6 +45,10 @@ if ( !defined('_disable_default_evo_pm_alert') ):
 		$JStoHead .= '	var pm_alert_status = "'.get_evo_option('pm_alert_status','int').'";'.PHP_EOL;
 		$JStoHead .= '	var pm_delay_timing = "'.get_evo_option('pm_cookie_seconds','int').'";'.PHP_EOL;
 		$JStoHead .= '	var pm_alert_message = "'.sprintf((($newpms > 1) ? $customlang['private_msg']['messages'] : $customlang['private_msg']['message']),$newpms).'";'.PHP_EOL;
+		
+		if(!isset($pm_cookie_minutes))
+		$pm_cookie_minutes = 0;
+		
 		if($pm_cookie_minutes <> 0):
 			$JStoHead .= '  var pm_cookie_message = "'.sprintf(((get_evo_option('pm_cookie_minutes','int') > 1) ? $customlang['private_msg']['cookie_msg2'] : $customlang['private_msg']['cookie_msg']),get_evo_option('pm_cookie_minutes','int'),((get_evo_option('pm_cookie_minutes','int') > 1) ? $customlang['private_msg']['cookie_msg2'] : $customlang['private_msg']['cookie_msg'])).'";'.PHP_EOL;
 		else:

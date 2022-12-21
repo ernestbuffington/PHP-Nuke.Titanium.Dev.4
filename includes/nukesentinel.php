@@ -27,8 +27,8 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) exit('Access De
 
 define('REGEX_UNION','#\w?\s?union\s\w*?\s?(select|all|distinct|insert|update|drop|delete)#is');
 
-@require_once(NUKE_BASE_DIR.'config.php');
-@require_once(NUKE_DB_DIR.'db.php');
+require_once(NUKE_BASE_DIR.'config.php');
+require_once(NUKE_DB_DIR.'db.php');
 
 // Load required configs
 global $remote, $nsnst_const, $admin_file, $userinfo, $currentlang, $cache, $nukeurl, $name;
@@ -130,7 +130,7 @@ else:
 endif;
 
 // Load Blocker Arrays
-if(($blocker_array = $cache->load('blockers', 'sentinel')) === false):
+//if(($blocker_array = $cache->load('blockers', 'sentinel')) === false):
 	$result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_blockers` ORDER BY `blocker`");
 	$num_rows = $db->sql_numrows($result);
 	for ($i = 0; $i < $num_rows; $i++):
@@ -139,8 +139,8 @@ if(($blocker_array = $cache->load('blockers', 'sentinel')) === false):
 		$blocker_array[$blockernametemp] = $row;
 	endfor;
 	$db->sql_freeresult($result);
-	$cache->save('blockers', 'sentinel', $blocker_array);
-endif;
+//	$cache->save('blockers', 'sentinel', $blocker_array);
+//endif;
 
 function string_bypass ($str) 
 {
@@ -224,9 +224,9 @@ if($ab_config['self_expire'] == 1 AND $ab_config['blocked_clear'] < $cleartime):
 	  
 	  $testip = "deny from ".$clearblock['ip_addr']."\n";
 	  $ipfile = str_replace($testip, "", $ipfile);
-	  $doit = @fopen($ab_config['htaccess_path'], "w");
-	  @fwrite($doit, $ipfile);
-	  @fclose($doit);
+	  $doit = fopen($ab_config['htaccess_path'], "w");
+	  fwrite($doit, $ipfile);
+	  fclose($doit);
 	endif;
 	
 	$db->sql_query("DELETE FROM `".$prefix."_nsnst_blocked_ips` WHERE `ip_addr`='".$clearblock['ip_addr']."'");
@@ -254,9 +254,9 @@ if($ab_config['self_expire'] == 1 AND $ab_config['blocked_clear'] < $cleartime):
 	  $ipfile = implode("", $ipfile);
 	  $ipfile = str_replace($old_masscidr, "", $ipfile);
 	  $ipfile = $ipfile;
-	  $doit = @fopen($ab_config['htaccess_path'], "w");
-	  @fwrite($doit, $ipfile);
-	  @fclose($doit);
+	  $doit = fopen($ab_config['htaccess_path'], "w");
+	  fwrite($doit, $ipfile);
+	  fclose($doit);
 	endif;
 
 	$db->sql_query("DELETE FROM `".$prefix."_nsnst_blocked_ranges` WHERE `ip_lo`='".$clearblock['ip_lo']."' AND `ip_hi`='".$clearblock['ip_hi']."'");
@@ -274,7 +274,7 @@ if($ab_config['proxy_switch'] == 1):
   $proxy0 = $nsnst_const['remote_ip'];
   $proxy1 = $nsnst_const['client_ip'];
   $proxy2 = $nsnst_const['forward_ip'];
-  $proxy_host = @getHostByAddr($proxy0);
+  $proxy_host = getHostByAddr($proxy0);
   
   //Lite:
   if($ab_config['proxy_switch'] == 1 AND ($proxy1 != "none" OR $proxy2 != "none")):
@@ -986,16 +986,27 @@ function st_clean_string($cleanstring)
  [ Base:    Advanced Security Extension        v1.0.0 ]
  ******************************************************/
 function get_request_string($mode='request') 
-{
-  $ST_POST = ($mode == 'request') ? $_REQUEST : ( ($mode == 'post') ? $_POST : $_GET );
-  $ignore = array('message', 'subject', 'bodytext', 'hometext', 'add_title', 'add_content', 'title', 'content', 'notes');
-  $poststring = "";
-  foreach ($ST_POST as $postkey => $postvalue):
-	if(!in_array(strtolower($postkey),$ignore)) 
-	$poststring .= (!empty($poststring) ? "&" : "") .$postkey."=".$postvalue;
-  endforeach;
-  return str_replace("%09", "%20", $poststring);
-}
+ {
+   if( (isset($HTTP_POST_VARS['post'])) || (isset($HTTP_GET_VARS['post'])) )
+   $ST_POST = 'post';
+
+   if( (isset($HTTP_POST_VARS['request'])) || (isset($HTTP_GET_VARS['request'])) )
+   $ST_POST = 'request';
+
+   if(!isset($ST_POST))
+   $ST_POST = [];   
+   
+   //$ST_POST = ($mode == 'request') ? $_REQUEST : ( ($mode == 'post') ? $_POST : $_GET );
+   $ignore = ['message', 'subject', 'bodytext', 'hometext', 'add_title', 'add_content', 'title', 'content', 'notes'];
+   $poststring = "";
+
+   foreach ($ST_POST as $postkey => $postvalue):
+ 	if(!in_array(strtolower($postkey),$ignore)) 
+	$poststring .= (empty($poststring) ? "" : "&") .$postkey."=".$postvalue;
+   endforeach;
+   return str_replace("%09", "%20", $poststring);
+ }
+
 /*****[END]********************************************
  [ Base:    Advanced Security Extension        v1.0.0 ]
  ******************************************************/
@@ -1213,7 +1224,7 @@ function abget_configs()
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-  if(($sentinel = $cache->load('sentinel', 'config')) === false):
+  //if(($sentinel = $cache->load('sentinel', 'config')) === false):
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -1225,11 +1236,11 @@ function abget_configs()
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-	  $cache->save('sentinel', 'config', $sentinel);
+	//  $cache->save('sentinel', 'config', $sentinel);
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-  endif;
+  //endif;
   return $sentinel;
 }
 
@@ -1300,9 +1311,9 @@ function write_ban($banip, $htip, $blocker_row)
 		$ipfile = file($ab_config['htaccess_path']);
 		$ipfile = implode("", $ipfile);
 		if(!stristr($ipfile, $htip)):
-		  $doit = @fopen($ab_config['htaccess_path'], "a");
-		  @fwrite($doit, $htip);
-		  @fclose($doit);
+		  $doit = fopen($ab_config['htaccess_path'], "a");
+		  fwrite($doit, $htip);
+		  fclose($doit);
 		endif;
 	  endif;
 	endif;
@@ -1355,10 +1366,10 @@ function write_mail($banip, $blocker_row, $abmatch="")
 	if ($blocker_row['email_lookup'] == 1):
 	  $message .= "--------------------\n"._AB_WHOISFOR."\n";
 	  // Copyright 2004(c) Raven PHP Scripts
-	  if(!@file_get_contents("http://ws.arin.net/cgi-bin/whois.pl?queryinput=".$nsnst_const['remote_ip'])) :
+	  if(!file_get_contents("http://ws.arin.net/cgi-bin/whois.pl?queryinput=".$nsnst_const['remote_ip'])) :
 		$msg = ('Unable to query WhoIs information for '.$nsnst_const['remote_ip'].'.');
 	  else: 
-		$data = @file_get_contents("http://ws.arin.net/cgi-bin/whois.pl?queryinput=".$nsnst_const['remote_ip']);
+		$data = file_get_contents("http://ws.arin.net/cgi-bin/whois.pl?queryinput=".$nsnst_const['remote_ip']);
 		$data = explode('Search results for: ',$data);
 		$data = explode('#',$data[1]);
 		$data = explode('(NET-',strip_tags($data[0]));
@@ -1366,10 +1377,10 @@ function write_mail($banip, $blocker_row, $abmatch="")
 		$msg .= $data[0];
 		else:
 		  $data = explode(')',$data[1]);
-		   if(!@file_get_contents("http://ws.arin.net/cgi-bin/whois.pl?queryinput="."!%20NET-".strip_tags($data[0]))):
+		   if(!file_get_contents("http://ws.arin.net/cgi-bin/whois.pl?queryinput="."!%20NET-".strip_tags($data[0]))):
 			$data = 'Unable to query WhoIs information for '.strip_tags($data[0]).'.';
 		   else:
-			$data = @file_get_contents("http://ws.arin.net/cgi-bin/whois.pl?queryinput="."!%20NET-".strip_tags($data[0]));
+			$data = file_get_contents("http://ws.arin.net/cgi-bin/whois.pl?queryinput="."!%20NET-".strip_tags($data[0]));
 			$data = explode('Search results for: ',$data);
 			$data = explode('Name',$data[1],2);
 			$data = explode('# ARIN WHOIS ',$data[1]);
@@ -1390,20 +1401,10 @@ function write_mail($banip, $blocker_row, $abmatch="")
 		$data = str_replace("status = \"Done!\";", "\n", $data);
 	  }
 	  $message .= strip_tags($data);*/
-	  // Copyright 2004(c) NukeScripts
-	  /*if(!@file_get_contents("http://dnsstuff.com/tools/whois.ch?ip=".$nsnst_const['remote_ip'])) {
-		$data = 'Unable to query WhoIs information for '.$nsnst_const['remote_ip'].'.';
-	  } else {
-		$data = @file_get_contents("http://dnsstuff.com/tools/whois.ch?email=on&ip=".$nsnst_const['remote_ip']);
-		$data = str_replace("</H1><H5>", "\n", $data);
-		$data = str_replace("status = \"Getting WHOIS results...\";", "\n", $data);
-		$data = str_replace("status = \"Done!\";", "\n", $data);
-	  }
-	  $message .= strip_tags($data);*/
 	endif;
 	for($i=0, $maxi=count($admincontact); $i < $maxi; $i++) {
 	  $adminmail = $nuke_config['adminmail'];
-	  @evo_mail($admincontact[$i], $subject, $message,"From: $admincontact[$i]\r\nX-Mailer: "._AB_NUKESENTINEL);
+	  evo_mail($admincontact[$i], $subject, $message,"From: $admincontact[$i]\r\nX-Mailer: "._AB_NUKESENTINEL);
 	}
   endif;
 }
@@ -1477,11 +1478,25 @@ function is_god($admin)
   if(!is_array($admin)): 
 	$tmpadm = base64_decode($admin);
 	$tmpadm = explode(":", $tmpadm);
-	$aname = $tmpadm[0];
-	$apwd = $tmpadm[1];
+    
+	if(isset($tmpadm[0])):
+	  $aname = $tmpadm[0];
+	endif;
+    
+	if(isset($tmpadm[1])):
+	  $apwd = $tmpadm[1];
+	endif;
+  
   else: 
-	$aname = $admin[0];
-	$apwd = $admin[1];
+  
+    if(isset($admin[0])):
+	  $aname = $admin[0];
+	endif;
+	
+	if(isset($admin[1])):
+	  $apwd = $admin[1];
+	endif;
+  
   endif;
   
   if (!empty($aname) AND !empty($apwd)): 
@@ -1509,9 +1524,9 @@ function abget_template($template="")
   $querystring = get_query_string();
   $filename = NUKE_INCLUDE_DIR."nukesentinel/abuse/".$template;
   if(!file_exists($filename)) { $filename = NUKE_INCLUDE_DIR."nukesentinel/abuse/abuse_default.tpl"; }
-  $handle = @fopen($filename, "r");
+  $handle = fopen($filename, "r");
   $display_page = fread($handle, filesize($filename));
-  @fclose($handle);
+  fclose($handle);
 
   $display_page = str_replace("__MATCH__", $abmatch, $display_page);
   $display_page = str_replace("__SITENAME__", $sitename, $display_page);
@@ -1726,14 +1741,14 @@ function PMA_auth_check()
 	  $PHP_AUTH_USER = $REMOTE_USER;
 	elseif (!empty($_ENV) && isset($_ENV['REMOTE_USER'])) 
 	  $PHP_AUTH_USER = $_ENV['REMOTE_USER'];
-	elseif (@getenv('REMOTE_USER')) 
+	elseif (getenv('REMOTE_USER')) 
 	  $PHP_AUTH_USER = getenv('REMOTE_USER');
 	// Fix from Matthias Fichtner for WebSite Professional - Part 1
 	elseif (isset($AUTH_USER)) 
 	  $PHP_AUTH_USER = $AUTH_USER;
 	elseif (!empty($_ENV) && isset($_ENV['AUTH_USER'])) 
 	  $PHP_AUTH_USER = $_ENV['AUTH_USER'];
-	elseif (@getenv('AUTH_USER')) 
+	elseif (getenv('AUTH_USER')) 
 	  $PHP_AUTH_USER = getenv('AUTH_USER');
   endif;
   // Grabs the $PHP_AUTH_PW variable whatever are the values of the
@@ -1746,14 +1761,14 @@ function PMA_auth_check()
 	  $PHP_AUTH_PW = $REMOTE_PASSWORD;
 	elseif (!empty($_ENV) && isset($_ENV['REMOTE_PASSWORD'])) 
 	  $PHP_AUTH_PW = $_ENV['REMOTE_PASSWORD'];
-	elseif(@getenv('REMOTE_PASSWORD')) 
+	elseif(getenv('REMOTE_PASSWORD')) 
 	  $PHP_AUTH_PW = getenv('REMOTE_PASSWORD');
 	// Fix from Matthias Fichtner for WebSite Professional - Part 2
 	elseif(isset($AUTH_PASSWORD)) 
 	  $PHP_AUTH_PW = $AUTH_PASSWORD;
 	elseif(!empty($_ENV) && isset($_ENV['AUTH_PASSWORD'])) 
 	  $PHP_AUTH_PW = $_ENV['AUTH_PASSWORD'];
-	elseif(@getenv('AUTH_PASSWORD')) 
+	elseif(getenv('AUTH_PASSWORD')) 
 	  $PHP_AUTH_PW = getenv('AUTH_PASSWORD');
   endif;
   // Gets authenticated user settings with IIS
@@ -1763,7 +1778,7 @@ function PMA_auth_check()
 	  list($PHP_AUTH_USER, $PHP_AUTH_PW) = explode(':', base64_decode(substr($HTTP_AUTHORIZATION, 6)));
 	elseif (!empty($_ENV) && isset($_ENV['HTTP_AUTHORIZATION']) && substr($_ENV['HTTP_AUTHORIZATION'], 0, 6) == 'Basic ') 
 	  list($PHP_AUTH_USER, $PHP_AUTH_PW) = explode(':', base64_decode(substr($_ENV['HTTP_AUTHORIZATION'], 6)));
-	elseif(@getenv('HTTP_AUTHORIZATION') && substr(getenv('HTTP_AUTHORIZATION'), 0, 6) == 'Basic ') 
+	elseif(getenv('HTTP_AUTHORIZATION') && substr(getenv('HTTP_AUTHORIZATION'), 0, 6) == 'Basic ') 
 	  list($PHP_AUTH_USER, $PHP_AUTH_PW) = explode(':', base64_decode(substr(getenv('HTTP_AUTHORIZATION'), 6)));
   endif; 
 

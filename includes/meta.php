@@ -19,9 +19,14 @@
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
       Caching System                           v1.0.0       11/19/2005
+	  PHP 8.1 Patched                          v4.0.3       12/15/2022
+-=[Last Updated]=-
+      12/15/2022 3:49 pm Ernest Allen Buffington	  
  ************************************************************************/
-if (!defined('NUKE_EVO')) 
-die("You can't access this file directly...");
+ 
+if (!defined('NUKE_EVO')): 
+  die("You can't access this file directly...");
+endif;
 
 global $db, $prefix, $cache;
 
@@ -37,14 +42,14 @@ if(($metatags = $cache->load('metatags', 'config')) === false):
   /*****[END]********************************************
    [ Base:    Caching System                     v3.0.0 ]
    ******************************************************/
-  $metatags = array();
+  $metatags = [];
   $sql = 'SELECT meta_name, meta_content FROM '.$prefix.'_meta';
   $result = $db->sql_query($sql, true);
   $i=0;
 
-  while(list($meta_name, $meta_content) = $db->sql_fetchrow($result, SQL_NUM)): 
+  while([$meta_name, $meta_content] = $db->sql_fetchrow($result, SQL_NUM)): 
   
-      $metatags[$i] = array();
+      $metatags[$i] = [];
       $metatags[$i]['meta_name'] = $meta_name;
       $metatags[$i]['meta_content'] = $meta_content;
       $i++;
@@ -63,6 +68,7 @@ endif;
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
+$metastring = '';
 $metastring .= '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">'."\n";
 
 /**
@@ -74,12 +80,10 @@ else:
 $metastring .= '<meta name="viewport" content="width=device-width, initial-scale=1.0">'."\n";
 endif;
 
-for($i=0,$j=count($metatags);$i<$j;$i++): 
-
-	$metatag = $metatags[$i];
+foreach ($metatags as $i => $metatag) {
+    $metatag = $metatag;
     $metastring .= '<meta name="'.$metatag['meta_name'].'" content="'.$metatag['meta_content'].'">'."\n";
-
-endfor;
+}
 
 ###############################################
 # DO NOT REMOVE THE FOLLOWING COPYRIGHT LINE! #
@@ -91,3 +95,5 @@ endfor;
 $metastring .= '<meta name="generator" content="The US Version of PHP-Nuke Titanium Copyright (c) 2021 by Brandon Maintenance Management, LLC">'."\n";
 
 echo $metastring;
+
+?>

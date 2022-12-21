@@ -18,7 +18,7 @@
  * @param string|array $attachments Optional. Files to attach.
  * @return bool Whether the email contents were sent successfully.
  */
-function phpmailer($to, $subject, $message, $headers = '', $attachments = array())
+function evo_phpmailer($to, $subject, $message, $headers = '', $attachments = array())
 {
 	global $mail, $board_config, $nukeconfig;
 
@@ -126,11 +126,11 @@ function phpmailer($to, $subject, $message, $headers = '', $attachments = array(
 								$from_name = str_replace( '"', '', $from_name );
 								$from_name = trim( $from_name );
 							}
-
+ 
 							$from_email = substr( $content, $bracket_pos + 1 );
 							$from_email = str_replace( '>', '', $from_email );
 							$from_email = trim( $from_email );
-
+ 
 						// Avoid setting an empty $from_email.
 						} elseif ( '' !== trim( $content ) ) {
 							$from_email = trim( $content );
@@ -146,7 +146,7 @@ function phpmailer($to, $subject, $message, $headers = '', $attachments = array(
 								$boundary = trim( str_replace( array( 'BOUNDARY=', 'boundary=', '"' ), '', $charset_content ) );
 								$charset = '';
 							}
-
+ 
 						// Avoid setting an empty $content_type.
 						} elseif ( '' !== trim( $content ) ) {
 							$content_type = trim( $content );
@@ -837,7 +837,10 @@ function url_shorten( $url, $length = 35 ) {
 function get_user_avatar($user_id) {
 	global $db, $board_config, $userinfo;
 	static $avatarData;
-
+    
+	if(!isset($avatarData[$user_id]))
+    $avatarData[$user_id] = '';
+		
 	if(is_array($avatarData[$user_id]) && !empty($avatarData[$user_id])) { return $avatarData[$user_id]; }
 	if ( $user_id == $userinfo['user_id'] ) {
 		 $user_avatar       = $userinfo['user_avatar'];
@@ -869,6 +872,10 @@ function get_user_avatar($user_id) {
 	if ( $user_id == ANONYMOUS ) {
 		$poster_avatar = '<img src="'.  $default_guest_avatar .'" alt="" border="0" />';
 	}
+	
+	if(!isset($poser_avatar))
+    $poser_avatar = '';
+	
 	$avatarData[$user_id] = $poser_avatar;
 	return ($poster_avatar);
 }

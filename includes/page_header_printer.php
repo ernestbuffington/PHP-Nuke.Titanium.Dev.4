@@ -50,6 +50,10 @@ $l_timezone = (count($l_timezone) > 1 && $l_timezone[count($l_timezone)-1] != 0)
 // in a template. Note that all URL's should be wrapped in append_sid, as
 // should all S_x_ACTIONS for forms.
 //
+if(!isset($lang['Private_msgs']))
+$lang['Private_msgs'] = 'Private Messages';
+if(!isset($lang['by']))
+$lang['by'] = 'By';
 
 $template->assign_vars(array(
     'SITENAME' => $board_config['sitename'],

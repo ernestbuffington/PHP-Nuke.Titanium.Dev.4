@@ -204,16 +204,18 @@ class emailer
 
                 // Set vars
                 reset ($this->vars);
-                foreach ($this->vars as $key => $val) {
-                    ${$key} = $val;
+                while (list($key, $val) = each($this->vars))
+                {
+                        $$key = $val;
                 }
 
                 eval("\$this->msg = '$this->msg';");
 
                 // Clear vars
                 reset ($this->vars);
-                foreach ($this->vars as $key => $val) {
-                    unset(${$key});
+                while (list($key, $val) = each($this->vars))
+                {
+                        unset($$key);
                 }
 
                 // We now try and pull a subject from the email body ... if it exists,
@@ -246,7 +248,7 @@ class emailer
                 }
 
         $to = $this->addresses['to'];
-
+        
         if ( is_array( $this->addresses['cc'] ) ) 
             $cc = (count($this->addresses['cc'])) ? implode(', ', $this->addresses['cc']) : '';
         else

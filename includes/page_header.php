@@ -693,6 +693,9 @@ header ('Cache-Control: private, pre-check=0, post-check=0, max-age=0');
 header ('Expires: 0');
 header ('Pragma: no-cache');
 
+if(!isset($images['Mini_Arcade']))
+$images['Mini_Arcade'] = '';
+
 # Mod: Ranks summarize v1.0.4 START
     $template->assign_vars([
         'I_RANKS' => '<img src="' . $images['Ranks'] . '" width="12" height="13" border="0" alt="' . $lang['Ranks'] . '" hspace="3" />',

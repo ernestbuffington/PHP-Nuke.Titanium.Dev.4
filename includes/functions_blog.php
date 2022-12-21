@@ -53,11 +53,11 @@ function blog_save_config($config_name, $config_value){
 function get_blog_configs(){
     global $prefix, $db, $cache;
     static $config;
-    if(isset($config)) return $config;
+    //if(isset($config)) return $config;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    if(($config = $cache->load('blogs', 'config')) === false) {
+   // if(($config = $cache->load('blogs', 'config')) === false) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -69,8 +69,8 @@ function get_blog_configs(){
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $cache->save('blogs', 'config', $config);
-    }
+     //   $cache->save('blogs', 'config', $config);
+    //}
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

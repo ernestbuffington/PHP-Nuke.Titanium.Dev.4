@@ -1819,7 +1819,6 @@ else
 /*****[END]********************************************
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
-
 	// Visual Confirmation
 	$confirm_image = '';
 	if (!empty($board_config['enable_confirm']) && $mode == 'register')
@@ -2171,24 +2170,24 @@ else
  ******************************************************/
 				'TIME_MODE' => $time_mode,
 	
-				'TIME_MODE_MANUAL_DST_CHECKED' => $time_mode_manual_dst_checked,
-				'TIME_MODE_MANUAL_CHECKED' => $time_mode_manual_checked,				
-				'TIME_MODE_SERVER_SWITCH_CHECKED' => $time_mode_server_switch_checked,
+				'TIME_MODE_MANUAL_DST_CHECKED' => isset($time_mode_manual_dst_checked) ? $time_mode_manual_dst_checked : '',
+				'TIME_MODE_MANUAL_CHECKED' => isset($time_mode_manual_checked) ? $time_mode_manual_checked : '',				
+				'TIME_MODE_SERVER_SWITCH_CHECKED' => isset($time_mode_server_switch_checked) ? $time_mode_server_switch_checked : '',
 				
-				'TIME_MODE_FULL_PC_CHECKED' => $time_mode_full_pc_checked,
-				'TIME_MODE_SERVER_PC_CHECKED' => $time_mode_server_pc_checked,
-				'TIME_MODE_FULL_SERVER_CHECKED' => $time_mode_full_server_checked,
+				'TIME_MODE_FULL_PC_CHECKED' => isset($time_mode_full_pc_checked) ? $time_mode_full_pc_checked : '',
+				'TIME_MODE_SERVER_PC_CHECKED' => isset($time_mode_server_pc_checked) ? $time_mode_server_pc_checked : '',
+				'TIME_MODE_FULL_SERVER_CHECKED' => isset($time_mode_full_server_checked) ? $time_mode_full_server_checked : '',
 
 				/**
 				 *	Code changes made to be compatible with responsive themes
 				 */
-				'TIME_MODE_MANUAL_DST_SELECTED' => $time_mode_manual_dst_selected,
-				'TIME_MODE_MANUAL_SELECTED' => $time_mode_manual_selected,				
-				'TIME_MODE_SERVER_SWITCH_SELECTED' => $time_mode_server_switch_selected,
+				'TIME_MODE_MANUAL_DST_SELECTED' => isset($time_mode_manual_dst_selected) ? $time_mode_manual_dst_selected : '',
+				'TIME_MODE_MANUAL_SELECTED' => isset($time_mode_manual_selected) ? $time_mode_manual_selected : '',				
+				'TIME_MODE_SERVER_SWITCH_SELECTED' => isset($time_mode_server_switch_selected) ? $time_mode_server_switch_selected : '',
 				
-				'TIME_MODE_FULL_PC_SELECTED' => $time_mode_full_pc_selected,
-				'TIME_MODE_SERVER_PC_SELECTED' => $time_mode_server_pc_selected,
-				'TIME_MODE_FULL_SERVER_SELECTED' => $time_mode_full_server_selected,
+				'TIME_MODE_FULL_PC_SELECTED' => isset($time_mode_full_pc_selected) ? $time_mode_full_pc_selected : '',
+				'TIME_MODE_SERVER_PC_SELECTED' => isset($time_mode_server_pc_selected) ? $time_mode_server_pc_selected : '',
+				'TIME_MODE_FULL_SERVER_SELECTED' => isset($time_mode_full_server_selected) ? $time_mode_full_server_selected : '',
 
 				'DST_TIME_LAG' => $dst_time_lag,
 /*****[END]********************************************

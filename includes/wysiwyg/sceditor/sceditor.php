@@ -49,16 +49,21 @@ class sceditor
 		$modheader .= '<link rel="stylesheet" href="includes/wysiwyg/sceditor/css/square.css" type="text/css"/>'.PHP_EOL;
 		$modheader .= '<script src="includes/wysiwyg/sceditor/jquery.sceditor.bbcode.js"></script>'.PHP_EOL;
 		$modheader .= '<script src="includes/wysiwyg/sceditor/bbcodes_sceditor.js"></script>'.PHP_EOL;
-		// $modheader .= '<link rel="stylesheet" href="includes/wysiwyg/sceditor/css/jquery.spectrum.css" type="text/css"/>';
-		// $modheader .= '<script src="includes/wysiwyg/sceditor/jquery.spectrum.js"></script>';
+		/* $modheader .= '<link rel="stylesheet" href="includes/wysiwyg/sceditor/css/jquery.spectrum.css" type="text/css"/>'; */
+		/* $modheader .= '<script src="includes/wysiwyg/sceditor/jquery.spectrum.js"></script>'; */
 	}
 	
 	function getHtml($name)
 	{
 		global $board_config, $db, $prefix, $lang, $userinfo;
 		$allowed = true;
+		
+		
 		if($_GET['name'] == 'Profile')
 			$allowed = false;
+
+        if(!isset($JStoHTML))
+        $JStoHTML = '';			
 		
 		$JStoHTML .= '<textarea style="border: 1px solid; box-sizing: border-box; cursor: auto; height: '.$this->fields[$name]['height'].'; letter-spacing: 1px; min-height: 130px; padding: 5px; resize: vertical; width: '.$this->fields[$name]['width'].';" id="'.$name.'" name="'.$name.'">'.$this->fields[$name]['value'].'</textarea>'.PHP_EOL;
 		$JStoHTML .= '<script>'.PHP_EOL;
@@ -84,6 +89,13 @@ class sceditor
 			{
 				$i = 0;
 				$rowset = array();
+				
+				if(!isset($dropdownsmilies))
+                $dropdownsmilies = '';			
+
+				if(!isset($moresmilies))
+                $moresmilies = '';			
+
 				while ($row = $db->sql_fetchrow($result))
 				{
 					if (empty($rowset[$row['smile_url']]))

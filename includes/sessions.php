@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /***************************************************************************
  *                                sessions.php
  *                            -------------------
@@ -117,7 +116,7 @@ function select_session_url($session_page, $url_qs, $url_ps, $specific, $level, 
         $url_ps        = '/modules.php?name=Forums&file=viewforum';
             }
 
-        if ( (@strstr($url_qs, POST_FORUM_URL .'=')) && (@strstr($url_ps, 'viewforum.')) )
+        if ( (strstr($url_qs, POST_FORUM_URL .'=')) && (strstr($url_ps, 'viewforum.')) )
             {
             for ($z = 0; $z < count($forum_data); $z++)
                 {
@@ -133,7 +132,7 @@ function select_session_url($session_page, $url_qs, $url_ps, $specific, $level, 
         $location = str_replace('%f%', '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">'. $forum_name .'</a>', $lang['BSH_Viewing_Forums']);
             }
 
-        if ( (@strstr($url_qs, POST_TOPIC_URL .'=')) && (@strstr($url_ps, 'viewtopic.')) )
+        if ( (strstr($url_qs, POST_TOPIC_URL .'=')) && (strstr($url_ps, 'viewtopic.')) )
             {
             for ($z = 0; $z < count($topic_data); $z++)
                 {
@@ -149,7 +148,7 @@ function select_session_url($session_page, $url_qs, $url_ps, $specific, $level, 
         $location = str_replace('%t%', '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">'. $topic_name .'</a>', $lang['BSH_Viewing_Topic']);
             }
 
-        if ( (@strstr($url_qs, POST_USERS_URL .'=')) && (@strstr($url_ps, 'profile.')) )
+        if ( (strstr($url_qs, POST_USERS_URL .'=')) && (strstr($url_ps, 'profile.')) )
             {
             for ($z = 0; $z < count($user_data); $z++)
                 {
@@ -165,7 +164,7 @@ function select_session_url($session_page, $url_qs, $url_ps, $specific, $level, 
         $location = str_replace('%u%', '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">'. $username .'</a>', $lang['BSH_Viewing_Profile']);
             }
 
-        if ( (@strstr($url_qs, POST_CAT_URL .'=')) && (@strstr($url_ps, 'index.')) )
+        if ( (strstr($url_qs, POST_CAT_URL .'=')) && (strstr($url_ps, 'index.')) )
             {
             for ($z = 0; $z < count($cat_data); $z++)
                 {
@@ -183,41 +182,41 @@ function select_session_url($session_page, $url_qs, $url_ps, $specific, $level, 
 
         if (!$location)
             {
-            if ( (@strstr($url_qs, POST_POST_URL .'=')) && (@strstr($url_ps, 'viewtopic.')) )
+            if ( (strstr($url_qs, POST_POST_URL .'=')) && (strstr($url_ps, 'viewtopic.')) )
                 $location = sprintf($lang['BSH_Viewing_Post'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
-            elseif (@strstr($url_ps, 'groupcp.'))
+            elseif (strstr($url_ps, 'groupcp.'))
                 $location = sprintf($lang['BSH_Viewing_Groups'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
-            elseif (@strstr($url_ps, 'search.'))
+            elseif (strstr($url_ps, 'search.'))
                 $location = sprintf($lang['BSH_Searching_Forums'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
-            elseif (@strstr($url_ps, 'viewonline.'))
+            elseif (strstr($url_ps, 'viewonline.'))
                 $location = sprintf($lang['BSH_Viewing_Onlinelist'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
-            elseif ( (@strstr($url_ps, 'privmsg.')) && ($userdata['user_id'] != ANONYMOUS) )
+            elseif ( (strstr($url_ps, 'privmsg.')) && ($userdata['user_id'] != ANONYMOUS) )
                 $location = sprintf($lang['BSH_Viewing_Messages'], '<a href="privmsg.'. $phpEx .'?mode=inbox" class="copyright">', '</a>');
-            elseif ( (@strstr($url_ps, 'privmsg.')) && ($userdata['user_id'] == ANONYMOUS) )
+            elseif ( (strstr($url_ps, 'privmsg.')) && ($userdata['user_id'] == ANONYMOUS) )
                 $location = sprintf($lang['BSH_Viewing_Messages'], '', '');
-            elseif (@strstr($url_ps, 'memberlist.'))
+            elseif (strstr($url_ps, 'memberlist.'))
                 $location = sprintf($lang['BSH_Viewing_Memberlist'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
-            elseif ( (@strstr($url_ps, 'profile.')) && (@strstr($url_qs, 'mode=editprofile')) )
+            elseif ( (strstr($url_ps, 'profile.')) && (strstr($url_qs, 'mode=editprofile')) )
                 $location = sprintf($lang['BSH_Editing_Profile'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
-            elseif ( (@strstr($url_ps, 'login.')) && ($userdata['user_id'] != ANONYMOUS) )
+            elseif ( (strstr($url_ps, 'login.')) && ($userdata['user_id'] != ANONYMOUS) )
                 $location = sprintf($lang['BSH_Login'], '', '');
-            elseif ( (@strstr($url_ps, 'login.')) && ($userdata['user_id'] == ANONYMOUS) )
+            elseif ( (strstr($url_ps, 'login.')) && ($userdata['user_id'] == ANONYMOUS) )
                 $location = sprintf($lang['BSH_Logout'], '', '');
-            elseif (@strstr($url_ps, 'admin/'))
+            elseif (strstr($url_ps, 'admin/'))
                 $location = sprintf($lang['BSH_Viewing_ACP'], '', '');
-            elseif ( (@strstr($url_ps, 'modcp.')) && ($userdata['user_level'] != ADMIN) )
+            elseif ( (strstr($url_ps, 'modcp.')) && ($userdata['user_level'] != ADMIN) )
                 $location = sprintf($lang['BSH_Moderating_Forum'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
-            elseif ( (@strstr($url_ps, 'modcp.')) && ($userdata['user_level'] != ADMIN) )
+            elseif ( (strstr($url_ps, 'modcp.')) && ($userdata['user_level'] != ADMIN) )
                 $location = sprintf($lang['BSH_Moderating_Forum'], '', '');
-            elseif (@strstr($url_ps, 'faq.'))
+            elseif (strstr($url_ps, 'faq.'))
                 $location = sprintf($lang['BSH_Viewing_FAQ'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
 
             #==== Start: Integrations For Other Mods
-            elseif ( (@strstr($url_ps, 'index.')) && (@strstr($url_qs, 'mode=tree')) )
+            elseif ( (strstr($url_ps, 'index.')) && (strstr($url_qs, 'mode=tree')) )
                 $location = sprintf($lang['BSH_Viewing_Tree'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
-            elseif ( (@strstr($url_ps, 'index.')) && (@strstr($url_qs, 'mode=spiders')) )
+            elseif ( (strstr($url_ps, 'index.')) && (strstr($url_qs, 'mode=spiders')) )
                 $location = sprintf($lang['BSH_Viewing_Spiders'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');
-            elseif (@strstr($url_ps, 'BlendAdmin/'))
+            elseif (strstr($url_ps, 'BlendAdmin/'))
                 $location = sprintf($lang['BSH_Viewing_BACP'], '', '');
 
             $new_url     = explode('.', $url_ps);
@@ -248,15 +247,15 @@ function select_session_url($session_page, $url_qs, $url_ps, $specific, $level, 
            else
             $qs = 'unknown';
 
-            if (@strstr($qs, '?sid=') || @strstr($qs, '&sid='))
+            if (strstr($qs, '?sid=') || strstr($qs, '&sid='))
             {
-                if (@strstr($qs, '?sid='))
+                if (strstr($qs, '?sid='))
                 {
                   $new_qs = explode('?sid=', $qs);
                   return $new_qs[0];
                 }
                 
-				if (@strstr($qs, '&sid='))
+				if (strstr($qs, '&sid='))
                 {
                   $new_qs = explode('&sid=', $qs);
                   return $new_qs[0];
@@ -581,7 +580,7 @@ function session_pagestart($user_ip, $thispage_id, $trash=0)
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-    @ini_set('arg_separator.output', '&amp;');
+    ini_set('arg_separator.output', '&amp;');
     session_start();
     global $db, $lang, $board_config, $session_id, $HTTP_COOKIE_VARS, $HTTP_GET_VARS, $SID, $pc_dateTime, $HTTP_SESSION_VARS, $cookie;
 /*****[END]********************************************
@@ -627,14 +626,14 @@ if ( isset($HTTP_GET_VARS['pc_tzo']) )
     $HTTP_SESSION_VARS['pc_timezoneOffset'] = intval($HTTP_GET_VARS['pc_tzo']);
     $pc_dateTime['pc_timezoneOffset'] = $HTTP_SESSION_VARS['pc_timezoneOffset'];
 
-    $server_time = @gmdate('G')*3600 + @gmdate('i')*60 + @gmdate('s');
+    $server_time = gmdate('G')*3600 + gmdate('i')*60 + gmdate('s');
 
-    if ( intval($HTTP_GET_VARS['pc_d']) == @gmdate('Ymd') )
+    if ( intval($HTTP_GET_VARS['pc_d']) == gmdate('Ymd') )
     {
         $HTTP_SESSION_VARS['pc_timeOffset'] = intval($HTTP_GET_VARS['pc_t']) - $server_time;
     } else
     {
-		if ( intval($HTTP_GET_VARS['pc_d']) > @gmdate(Ymd) )
+		if ( intval($HTTP_GET_VARS['pc_d']) > gmdate(Ymd) )
 		{
 			$HTTP_SESSION_VARS['pc_timeOffset'] = (86400 - $server_time) + intval($HTTP_GET_VARS['pc_t']);
 		} else
@@ -1018,7 +1017,9 @@ function append_sid($url, $non_html_amp = false)
             }
     }
     global $agent;
-    if ($agent['engine'] == 'bot') return $url;
+    
+	if (isset($agent['engine']) && $agent['engine'] == 'bot') 
+	return $url;
 
     if (isset($userdata['user_level']) && $userdata['user_level'] > 1) {
         if ( !empty($SID) && !preg_match('/sid=/i', $url) )

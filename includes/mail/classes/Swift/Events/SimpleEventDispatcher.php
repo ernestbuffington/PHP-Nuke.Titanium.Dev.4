@@ -28,13 +28,7 @@ class Swift_Events_SimpleEventDispatcher implements Swift_Events_EventDispatcher
 {
   
   /** A map of event types to their associated listener types */
-  private $_eventMap = array(
-    'Swift_Events_CommandEvent' => 'Swift_Events_CommandListener',
-    'Swift_Events_ResponseEvent' => 'Swift_Events_ResponseListener',
-    'Swift_Events_SendEvent' => 'Swift_Events_SendListener',
-    'Swift_Events_TransportChangeEvent' => 'Swift_Events_TransportChangeListener',
-    'Swift_Events_TransportExceptionEvent' => 'Swift_Events_TransportExceptionListener'
-    );
+  private $_eventMap = array();
   
   /** Event listeners bound to this dispatcher */
   private $_listeners = array();
@@ -47,6 +41,13 @@ class Swift_Events_SimpleEventDispatcher implements Swift_Events_EventDispatcher
    */
   public function __construct()
   {
+    $this->_eventMap = array(
+      'Swift_Events_CommandEvent' => 'Swift_Events_CommandListener',
+      'Swift_Events_ResponseEvent' => 'Swift_Events_ResponseListener',
+      'Swift_Events_SendEvent' => 'Swift_Events_SendListener',
+      'Swift_Events_TransportChangeEvent' => 'Swift_Events_TransportChangeListener',
+      'Swift_Events_TransportExceptionEvent' => 'Swift_Events_TransportExceptionListener'
+      );
   }
   
   /**

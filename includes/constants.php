@@ -46,7 +46,6 @@ if (!defined('IN_PHPBB') && !defined('NUKE_EVO'))
 {
     die('Hacking attempt');
 }
-
 // Debug Level
 //define('DEBUG', 1); // Debugging on
 define('DEBUG', 1); // Debugging off

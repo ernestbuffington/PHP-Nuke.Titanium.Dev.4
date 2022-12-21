@@ -135,7 +135,9 @@ function topic_review($topic_id, $is_inline_review)
 /*****[BEGIN]******************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/
-        init_display_review_attachments($is_auth);
+        if(!isset($is_auth))
+        $is_auth = 0;
+		init_display_review_attachments($is_auth);
 /*****[END]********************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/

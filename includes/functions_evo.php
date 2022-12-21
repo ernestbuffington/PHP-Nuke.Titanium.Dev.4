@@ -3,18 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-/************************************************************************
-PHP-Nuke Titanium: Evolution Functions
-============================================
-Copyright (c) 2022 by The PHP-Nuke Titanium Group
-
-Filename      : functions_evo.php
-Author        : The Nuke-Evolution Team
-Version       : 1.5.0
-Date          : 12.09.2021 (mm.dd.yyyy)
-
-Notes         : Miscellaneous functions
-************************************************************************/
 
 /************************************************************************
 Nuke-Evolution: Evolution Functions
@@ -167,7 +155,8 @@ function is_mod_admin($module_name='super')
     $auth_user = 0;
     if($module_name != 'super') {
         list($admins) = $db->sql_ufetchrow("SELECT `admins` FROM "._MODULES_TABLE." WHERE `title`='$module_name'");
-        $adminarray = explode(",", $admins);
+        //$adminarray = explode(",", $admins);
+		$adminarray = explode(',', $admins ?? '');
         for ($i=0, $maxi=count($adminarray); $i < $maxi; $i++) {
             if ($admdata['aid'] == $adminarray[$i] && !empty($admins)) {
                 $auth_user = 1;
@@ -457,6 +446,7 @@ function UpdateCookie()
         $configresult = $db->sql_query("SELECT config_name, config_value FROM ".$prefix."_cnbya_config", true);
         while (list($config_name, $config_value) = $db->sql_fetchrow($configresult, SQL_NUM)) 
         {
+            // if (!get_magic_quotes_gpc()) { $config_value = stripslashes($config_value); }
             $ya_config[$config_name] = $config_value;
         }
         $db->sql_freeresult($configresult);
@@ -655,7 +645,8 @@ function EvoDate($format, $gmepoch, $tz)
 				} else
 				{
 					$user_pc_timeOffsets = explode("/", $userinfo['user_pc_timeOffsets']);
-					$tzo_sec = $user_pc_timeOffsets[1];
+					//$tzo_sec = $user_pc_timeOffsets[1];
+					$tzo_sec = $user_pc_timeOffsets ?? null;
 				}
 				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec);
 				break;
@@ -771,7 +762,7 @@ function group_selectbox($fieldname, $current=0, $mvanon=false, $all=true)
     if (!isset($groups)):
 
         global $db, $prefix, $customlang;
-
+        
         $result = $db->sql_query('SELECT `group_id`, `group_name` FROM `'.GROUPS_TABLE.'` WHERE `group_single_user` = 0', true);
         while (list($group_ID, $group_name) = $db->sql_fetchrow($result)):
             $forum_groups[($group_ID+3)] = $group_name;
@@ -815,11 +806,11 @@ function select_box_forum($name, $default, $options, $multiple=false, $condition
                 $selectboxforum .= '<option value="'.$key.'"'.(($key == $default) ? ' selected="selected"' : '').'>'.$value.'</option>';
 
             if (is_array($value)):
-
+            
                 foreach( $value as $key2 => $value2):
                     $selectboxforum .= '<option value="'.$key2.'"'.(($key2 == $default) ? ' selected="selected"' : '').'>'.$value2.'</option>';
                 endforeach;
-
+            
             endif;
 
             if (is_array($value))
@@ -845,11 +836,11 @@ function select_box($name, $default, $options, $multiple=false, $conditions=arra
                 $selectbox .= '<option value="'.$key.'"'.(($key == $default) ? ' selected="selected"' : '').'>'.$value.'</option>';
 
             if (is_array($value)):
-
+            
                 foreach( $value as $key2 => $value2):
                     $selectbox .= '<option value="'.$key2.'"'.(($key2 == $default) ? ' selected="selected"' : '').'>'.$value2.'</option>';
                 endforeach;
-
+            
             endif;
 
             if (is_array($value))
@@ -1403,10 +1394,11 @@ function evo_image($imgfile='', $mymodule='')
     global $currentlang, $ThemeSel, $Default_Theme, $cache;
     $tmp_imgfile = explode('.', $imgfile);
     $cache_imgfile = $tmp_imgfile[0];
-    $evoimage = $cache->load($mymodule, 'EvoImage');
-    if(!empty($evoimage[$ThemeSel][$currentlang][$cache_imgfile])) {
-        return($evoimage[$ThemeSel][$currentlang][$cache_imgfile]);
-    }
+    $evoimage = [];
+	//$evoimage = $cache->load($mymodule, 'EvoImage');
+    //if(!empty($evoimage[$ThemeSel][$currentlang][$cache_imgfile])) {
+    //    return($evoimage[$ThemeSel][$currentlang][$cache_imgfile]);
+    //}
 
     if (file_exists('themes/'. $ThemeSel . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) {
         $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$ThemeSel."/images/$mymodule/lang_".$currentlang."/$imgfile";
@@ -1435,7 +1427,7 @@ function evo_image($imgfile='', $mymodule='')
     } else {
         $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = '';
     }
-    $cache->save($mymodule, 'EvoImage', $evoimage);
+    //$cache->save($mymodule, 'EvoImage', $evoimage);
     return($evoimage[$ThemeSel][$currentlang][$cache_imgfile]);
 
 }
