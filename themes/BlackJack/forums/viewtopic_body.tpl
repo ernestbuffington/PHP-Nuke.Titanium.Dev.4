@@ -39,13 +39,13 @@
 <!-- END thanks_button -->
 </span>
 </td>
-<td style="width: 100%; text-align: left;">&nbsp;&nbsp;<a href="{U_INDEX}">{L_INDEX}</a>
-<!-- IF PARENT_FORUM --> 
-<i class="fa-solid fa-arrow-right fa-lg"></i> 
-<a href="{U_VIEW_PARENT_FORUM}">{PARENT_FORUM_NAME}</a>
+<td style="width: 100%; text-align: left;">
+&nbsp;<a href="{U_INDEX}"> {L_INDEX}</a>
+<!-- IF PARENT_FORUM --> -> 
+<a href="{U_VIEW_PARENT_FORUM}"><i class="fa-solid fa-arrow-right fa-lg"></i> {PARENT_FORUM_NAME}</a> 
 <!-- ENDIF --> 
-<a href="{U_VIEW_FORUM}"><i class="fa-solid fa-arrow-right fa-lg"></i> 
-{FORUM_NAME}</a></td>
+<a href="{U_VIEW_FORUM}"><i class="fa-solid fa-arrow-right fa-lg"></i> {FORUM_NAME}</a>
+</td>
 </tr>
 <tr> 
 </td>

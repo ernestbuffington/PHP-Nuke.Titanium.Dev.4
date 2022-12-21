@@ -43,6 +43,12 @@ endif;
 
 $theme_name = basename(dirname(__FILE__));
 
+$theuser = '';
+$scrollmsg = '';
+$moreuser_info = '';
+$marquee_one = '';
+$date = '';
+
 define('pagination', 'enabled');
 
 echo "<!-- Loading theme_info.php from themes/".$theme_name."/theme.php -->\n";
@@ -343,6 +349,8 @@ include_once(theme_dir.'copyright.php');
    $count = 1;
 
    $amount = 18;
+   
+   $content1 = '';
 
    $content1 .="<div style=\"padding-top:0px; overflow: hidden;\"><span style=\"color:#FFFFFF;\"><marquee behavior= \"scroll\" align= \"left\" direction= \"up\" 
    width=\"140\" height=\"100\" scrollamount= \"1\" scrolldelay= \"90\" onmouseover='this.stop()' onmouseout='this.start()'>";
@@ -391,7 +399,7 @@ include_once(theme_dir.'copyright.php');
 /************************************************************/
 function themefooter() 
 {
-    global $index, $user, $cookie, $banners, $prefix, $db, $admin,  $adminmail, $nukeurl, $theme_name;
+    global $index, $user, $cookie, $banners, $prefix, $db, $dbi, $admin,  $adminmail, $nukeurl, $theme_name;
 
     $maxshow = 0;        # Number of downloads to display in the block.
 

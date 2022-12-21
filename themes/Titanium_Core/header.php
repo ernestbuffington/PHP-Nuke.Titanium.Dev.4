@@ -31,6 +31,11 @@ echo "\n<!-- TITANIUM CORE THEME HEADER START -->\n";
 
 # Check if a Registered User is Logged-In
 $username = is_user() ? $userinfo['username'] : _ANONYMOUS;
+$theuser = '';
+$scrollmsg = '';
+$moreuser_info = '';
+$marquee_one = '';
+$date = '';
 
 # Setup the Welcome Information for the User
 if ($username === _ANONYMOUS)
@@ -104,7 +109,7 @@ $detect = new Mobile_Detect;
 
 $scrollmsg .= 'It\'s nice to see you using Windows v'.$detect->version('Windows NT').' :::';
 
-global $connected;
+global $connected, $appID;
 
 $moreuser_info .= '';
 $moreuser_info .= '';

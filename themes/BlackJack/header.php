@@ -27,10 +27,20 @@ global $locked_width,
    $titanium_browser, 
 	     $theme_name;
 
+
 echo "\n<!-- BLACKJACK THEME HEADER START -->\n"; 
 
 # Check if a Registered User is Logged-In
 $username = is_user() ? $userinfo['username'] : _ANONYMOUS;
+
+$theuser = '';
+$scrollmsg = '';
+$moreuser_info = '';
+$marquee_one = '';
+$date = '';
+
+if(!isset($appID))
+$appID = '';
 
 # Setup the Welcome Information for the User
 if ($username === _ANONYMOUS)

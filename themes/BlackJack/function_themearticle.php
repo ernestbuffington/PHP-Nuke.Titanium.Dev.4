@@ -43,7 +43,7 @@ if (!empty($topicimage))
 			$content .= $thetext.$notes;
 	}
 
-$posted .= '<strong>Posted by '.get_author($aid).' '.$datetime.'</strong>'.PHP_EOL;
+$posted = '<strong>Posted by '.get_author($aid).' '.$datetime.'</strong>'.PHP_EOL;
 $reads = '(<span style="color: '.$digits_txt_color.';"> Reads :</span> <span style="color: '.$digits_color.';"><strong>'.$counter.'</strong></span> )'.PHP_EOL;
 
 print '<div align="center" id="borderThemeArticle">'.PHP_EOL;
