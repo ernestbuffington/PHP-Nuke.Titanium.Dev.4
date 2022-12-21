@@ -62,6 +62,9 @@ init_userprefs($userdata);
 //
 // Output page header and load viewonline template
 //
+if(!isset($lang['Who_is_online']))
+$lang['Who_is_online'] = 'Who is online?';
+
 $page_title = $lang['Who_is_online'];
 
 include("includes/page_header.php");

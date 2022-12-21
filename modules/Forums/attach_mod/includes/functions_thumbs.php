@@ -116,14 +116,14 @@ function create_thumbnail($source, $new_file, $mimetype)
 
     $source = amod_realpath($source);
     $min_filesize = (int) $attach_config['img_min_thumb_filesize'];
-    $img_filesize = (@file_exists($source)) ? @filesize($source) : false;
+    $img_filesize = (file_exists($source)) ? filesize($source) : false;
 
     if (!$img_filesize || $img_filesize <= $min_filesize)
     {
         return false;
     }
 
-    list($width, $height, $type, ) = @getimagesize($source);
+    list($width, $height, $type, ) = getimagesize($source);
 
     if (!$width || !$height)
     {
@@ -158,19 +158,21 @@ function create_thumbnail($source, $new_file, $mimetype)
         $new_file = tempnam(trim($value), 't00000');
 
         // We remove it now because it gets created again later
-        @unlink($new_file);
+        unlink($new_file);
     }
 
     $used_imagick = false;
 
-    if (is_imagick()) 
-    {
-        passthru($imagick . ' -quality 85 -antialias -sample ' . $new_width . 'x' . $new_height . ' "' . str_replace('\\', '/', $source) . '" +profile "*" "' . str_replace('\\', '/', $new_file) . '"');
-        if (@file_exists($new_file))
-        {
-            $used_imagick = true;
-        }
-    } 
+    # This horse shit was throwing an error in php 8 / why would anyone use image magic?
+    //if (is_imagick()) 
+    //{
+        //passthru($imagick . ' -quality 85 -antialias -sample ' . $new_width . 'x' . $new_height . ' "' . str_replace('\\', '/', $source) . '" +profile "*" "' . str_replace('\\', '/', $new_file) . '"');
+    //    if (file_exists($new_file))
+    //    {
+    //        $used_imagick = true;
+   //     }
+
+   // } 
 
     if (!$used_imagick) 
     {
@@ -225,7 +227,7 @@ function create_thumbnail($source, $new_file, $mimetype)
         }
     }
 
-    if (!@file_exists($new_file))
+    if (!file_exists($new_file))
     {
         return false;
     }
@@ -233,7 +235,7 @@ function create_thumbnail($source, $new_file, $mimetype)
     if (intval($attach_config['allow_ftp_upload']))
     {
         $result = ftp_file($new_file, $old_file, $mimetype, true); // True for disable error-mode
-        @unlink($new_file);
+        unlink($new_file);
 
         if (!$result)
         {
@@ -242,7 +244,7 @@ function create_thumbnail($source, $new_file, $mimetype)
     }
     else
     {
-        @chmod($new_file, $file_mode);
+        chmod($new_file, $file_mode);
     }
     
     return true;

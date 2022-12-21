@@ -132,8 +132,13 @@ $topic_id = request_var('t', 0);
 $forum_id = request_var('f', 0);
 
 
+if(isset($HTTP_POST_VARS['confirm']))
+$confirm = $HTTP_POST_VARS['confirm'];
 
-$confirm = ( $_POST['confirm'] ) ? TRUE : 0;
+if(isset($HTTP_GET_VARS['confirm']))
+$confirm = $HTTP_GET_VARS['confirm'];
+
+//$confirm = ( $_POST['confirm'] ) ? TRUE : 0;
 
 
 

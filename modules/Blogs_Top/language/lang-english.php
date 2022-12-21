@@ -28,7 +28,6 @@ define("_MOST_READ_BLOG_POSTS","Most Read Blog Posts");
 define("_MOST_COMMENTED_ON_BLOG_POSTS","Most Commented On Blog Posts");
 define("_MOST_ACTIVE_BLOG_POST_CATEGORIES","Most Active Blog Posts Categories");
 define("_READSECTION","Most Read Blog Posts in Special Sections");
-define("_MOST_ACTIVE_BLOG_AUTHORS","Most Active Blog Posts Submitters");
 define("_BLOG_POSTS_SENT","Blog Post Sent");
 define("_VOTEDPOLLS","Most Voted Polls");
 define("_MOST_ACTIVE_BLOG_AUTHORS","Most Active Blog Post Authors");

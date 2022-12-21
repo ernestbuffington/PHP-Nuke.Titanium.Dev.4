@@ -23,7 +23,7 @@
 if (!defined('MODULE_FILE'))
 exit('You can\'t access this file directly...');
 
-$module_name = basename(dirname(__FILE__));
+$module_name = basename(__DIR__);
 
 get_lang($module_name);
 
@@ -51,124 +51,133 @@ endif;
 OpenTable();
 
 $top = '10';
-##############################################################################################################################################################################
+########################
 # Top 10 read stories 
-##############################################################################################################################################################################
-echo '<br />';
-
+########################
 echo '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
-echo '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;"><font color="'.$textcolor1.'">'.$top.' '._MOST_READ_BLOG_POSTS.'</font></strong></legend>';
-echo '<br />';
-$result = $db->sql_query("SELECT sid, title, counter FROM ".$prefix."_stories $queryalang ORDER BY counter DESC LIMIT 0,$top");
+echo '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;"><span 
+      style="color:'.$textcolor1.'"><h1>'.$top.' '._MOST_READ_BLOG_POSTS.'</h1></span></strong></legend>';
+
+//echo '<br />';
+$result = $db->sql_query("SELECT `sid`, `title`, `counter` FROM `".$prefix."_stories` $queryalang ORDER BY `counter` DESC LIMIT 0,$top");
 
 if ($db->sql_numrows($result) > 0) 
 {
-    echo "<div style=\"padding: 0px;\"><span class=\"option\"></span>";
+    echo "<div style=\"padding-top: 5px;\"><span class=\"option\"></span>";
     echo '<ol>';
     while ($row = $db->sql_fetchrow($result)) 
 	{
-        $sid = intval($row['sid']);
-        $title = stripslashes(check_html($row['title'], "nohtml"));
-        $counter = intval($row['counter']);
+        $sid = (int) $row['sid'];
+        $title = stripslashes((string) check_html($row['title'], "nohtml"));
+        $counter = (int) $row['counter'];
 
-	    if($counter>0) 
+	    if($counter > 0) 
 		{
-            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('reads-icon-16.png','Blogs_Top').'"> <a href="modules.php?name=Blogs&amp;file=article&amp;sid='.$sid.'">'.$title.'</a> - ( <strong><font color="'.$digits_color.'">'.$counter.'</font></strong> '.BLOG_POST_READS.' )</li>';
+            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('reads-icon-16.png','Blogs_Top').'"> <a 
+			href="modules.php?name=Blogs&amp;file=article&amp;sid='.$sid.'">'.$title.'</a> - ( <strong><span style="color:'.$digits_color.'">'.$counter.'</span></strong> '.BLOG_POST_READS.' )</li>';
         }
     }
-    
+
+	echo '<br />';
 	echo "</ol></div></legend></fieldset>";
 	echo '<br />';
 
 }
 $db->sql_freeresult($result);
 
-##############################################################################################################################################################################
+##############################
 # Top 10 most voted stories 
-##############################################################################################################################################################################
-$result2 = $db->sql_query("SELECT sid, title, ratings FROM ".$prefix."_stories $querya1lang score!='0' ORDER BY ratings DESC LIMIT 0,$top");
+##############################
+$result2 = $db->sql_query("SELECT `sid`, `title`, `ratings` FROM `".$prefix."_stories` $querya1lang score!='0' ORDER BY `ratings` DESC LIMIT 0,$top");
 if ($db->sql_numrows($result2) > 0) 
 {
 
 echo '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
-echo '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;"><font color="'.$textcolor1.'">'.$top.' '._MOST_VOTED_ON_BLOG_POSTS.'</font></strong></legend>';
-echo '<br />';
+echo '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;"><span 
+     style="color:'.$textcolor1.'"><h1>'.$top.' '._MOST_VOTED_ON_BLOG_POSTS.'</h1></span></strong></legend>';
 
-    echo "<div style=\"padding: 0px;\"><span class=\"option\"></span>";
+    echo "<div style=\"padding-top: 5px;\"><span class=\"option\"></span>";
     echo '<ol>';
+
     while ($row2 = $db->sql_fetchrow($result2)) {
-        $sid = intval($row2['sid']);
-        $title = stripslashes(check_html($row2['title'], "nohtml"));
-        $ratings = intval($row2['ratings']);
+        $sid = (int) $row2['sid'];
+        $title = stripslashes((string) check_html($row2['title'], "nohtml"));
+        $ratings = (int) $row2['ratings'];
         if($ratings>0) 
 		{
-            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('speedometer-16.png','Blogs_Top').'"> <a href="modules.php?name=Blogs&amp;file=article&amp;sid='.$sid.'"> '.$title.'</a> - ( <font color="'.$digits_color.'"><strong>'.$ratings.'</strong></font> '._LVOTES.' )</li>';
+            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('speedometer-16.png','Blogs_Top').'"> <a href="modules.php?name=Blogs&amp;file=article&amp;sid='.$sid.'"> '.$title.'</a> - ( <span 
+			     style="color:'.$digits_color.'"><strong>'.$ratings.'</strong></span> '._LVOTES.' )</li>';
         }
     }
+
+	echo '<br />';
     echo "</ol></div></legend></fieldset>";
 	echo '<br />';
 
 }
 $db->sql_freeresult($result2);
 
-##############################################################################################################################################################################
+##############################
 # Top 10 best rated stories 
-##############################################################################################################################################################################
+##############################
 $result3 = $db->sql_query("SELECT sid, title, score, ratings FROM ".$prefix."_stories $querya1lang score!='0' ORDER BY ratings+score DESC LIMIT 0,$top");
 if ($db->sql_numrows($result3) > 0) 
 {
 
 echo '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
-echo '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;"><font color="'.$textcolor1.'">'.$top.' '._BEST_RATED_BLOG_POSTS.'</font></strong></legend>';
-echo '<br />';
+echo '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;"><span 
+      style="color:'.$textcolor1.'"><h1>'.$top.' '._BEST_RATED_BLOG_POSTS.'</h1></span></strong></legend>';
 
-    echo "<div style=\"padding: 0px;\"><span class=\"option\"></span>";
+    echo "<div style=\"padding-top: 5px;\"><span class=\"option\"></span>";
     echo '<ol>';
 
     while ($row3 = $db->sql_fetchrow($result3)) {
-        $sid = intval($row3['sid']);
-        $title = stripslashes(check_html($row3['title'], "nohtml"));
-        $score = intval($row3['score']);
-        $ratings = intval($row3['ratings']);
+        $sid = (int) $row3['sid'];
+        $title = stripslashes((string) check_html($row3['title'], "nohtml"));
+        $score = (int) $row3['score'];
+        $ratings = (int) $row3['ratings'];
         if($score>0) {
             $rate = substr($score / $ratings, 0, 4);
-            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('thumbs-up-16.png','Blogs_Top').'"> <a href="modules.php?name=Blogs&amp;file=article&amp;sid='.$sid.'">'.$title.'</a> - ( <strong><font color="'.$digits_color.'">'.$rate.'</font></strong> '._POINTS.' )</li>';
+            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('thumbs-up-16.png','Blogs_Top').'"> <a 
+			href="modules.php?name=Blogs&amp;file=article&amp;sid='.$sid.'">'.$title.'</a> - ( <strong><span style="color:'.$digits_color.'">'.$rate.'</span></strong> '._POINTS.' )</li>';
         }
     }
+    echo '<br />';
     echo "</ol></div></legend></fieldset>";
 	echo '<br />';
 
 }
 $db->sql_freeresult($result3);
 
-##############################################################################################################################################################################
+#############################
 # Top 10 commented stories 
-##############################################################################################################################################################################
+#############################
 if ($articlecomm == 1) 
 {
     $result4 = $db->sql_query("SELECT sid, title, comments FROM ".$prefix."_stories $queryalang ORDER BY comments DESC LIMIT 0,$top");
 
     if ($db->sql_numrows($result4) > 0) 
 	{
-        //echo "<div style=\"padding: 10px;\"><span class=\"option\"><strong>$top "._MOST_COMMENTED_ON_BLOG_POSTS."</strong></span><ol>\n";
-       echo '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
-       echo '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;"><font color="'.$textcolor1.'">'.$top.' '._MOST_COMMENTED_ON_BLOG_POSTS.'</font></strong></legend>';
-       echo '<br />';    
+        echo '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
+        echo '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;"><span 
+	          style="color:'.$textcolor1.'"><h1>'.$top.' '._MOST_COMMENTED_ON_BLOG_POSTS.'</h1></span></strong></legend>';
 
-       echo "<div style=\"padding: 0px;\"><span class=\"option\"></span>";
-       echo '<ol>';
+        echo "<div style=\"padding-top: 5px;\"><span class=\"option\"></span>";
+        echo '<ol>';
 
 	    while ($row4 = $db->sql_fetchrow($result4)) 
 		{
-            $sid = intval($row4['sid']);
-            $title = stripslashes(check_html($row4['title'], "nohtml"));
-            $comments = intval($row4['comments']);
+            $sid = (int) $row4['sid'];
+            $title = stripslashes((string) check_html($row4['title'], "nohtml"));
+            $comments = (int) $row4['comments'];
         
 		    if($comments>0) 
 			{
                 echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('comments-16.png','Blogs_Top').'"> <a href="modules.php?name=Blogs&amp;file=article&amp;sid='.$sid.'">'.$title.'</a> - ( <strong><font color="'.$digits_color.'">'.$comments.'</font></strong> '.BLOG_COMMENTS.' )</li>';
             }
         }
+        
+		echo '<br />';    
         echo "</ol></div></legend></fieldset>";
 		echo '<br />';
 
@@ -177,32 +186,34 @@ if ($articlecomm == 1)
 $db->sql_freeresult($result4);
 
 
-##############################################################################################################################################################################
+######################
 # Top 10 categories 
-##############################################################################################################################################################################
+######################
 $result5 = $db->sql_query("SELECT catid, title, counter FROM ".$prefix."_stories_cat ORDER BY counter DESC LIMIT 0,$top");
-
 if ($db->sql_numrows($result5) > 0) 
 {
-    //echo "<div style=\"padding: 10px;\"><span class=\"option\"><strong>$top "._MOST_ACTIVE_BLOG_POST_CATEGORIES."</strong></span><ol>\n";
-
     echo '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
-    echo '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;"><font color="'.$textcolor1.'">'.$top.' '._MOST_ACTIVE_BLOG_POST_CATEGORIES.'</font></strong></legend>';
-    echo '<br />';
-    echo "<div style=\"padding: 0px;\"><span class=\"option\"></span>";
+    echo '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;"><span 
+	     style="color:'.$textcolor1.'"><h1>'.$top.' '._MOST_ACTIVE_BLOG_POST_CATEGORIES.'</h1></span></strong></legend>';
+
+    echo "<div style=\"padding-top: 5px;\"><span class=\"option\"></span>";
     echo '<ol>';
 
     while ($row5 = $db->sql_fetchrow($result5)) 
 	{
-        $catid = intval($row5['catid']);
-        $title = stripslashes(check_html($row5['title'], "nohtml"));
-        $counter = intval($row5['counter']);
+        $catid = (int) $row5['catid'];
+        $title = stripslashes((string) check_html($row5['title'], "nohtml"));
+        $counter = (int) $row5['counter'];
     
 	    if($counter>0) 
 		{
-            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('comment-square-16.png','Blogs_Top').'"> <a href="modules.php?name=Blogs&amp;file=categories&amp;op=newindex&amp;catid='.$catid.'">'.$title,'</a> - ( <strong><font color="'.$digits_color.'">'.$counter.'</font></strong> '._HITS.' )</li>';
+            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('comment-square-16.png','Blogs_Top').'"> <a 
+			href="modules.php?name=Blogs&amp;file=categories&amp;op=newindex&amp;catid='.$catid.'">'.$title,'</a> - ( <strong><span 
+			style="color:'.$digits_color.'">'.$counter.'</span></strong> '._HITS.' )</li>';
         }
     }
+
+    echo '<br />';
     echo "</ol></div></legend></fieldset>";
 	echo '<br />';
 
@@ -213,6 +224,7 @@ $db->sql_freeresult($result5);
 ##############################################################################################################################################################################
 # Top 10 users submitters 
 ##############################################################################################################################################################################
+/*
 $result7 = $db->sql_query("SELECT username, counter FROM ".$user_prefix."_users WHERE counter > '0' ORDER BY counter DESC LIMIT 0,$top");
 if ($db->sql_numrows($result7) > 0) 
 {
@@ -226,8 +238,8 @@ if ($db->sql_numrows($result7) > 0)
 
     while ($row7 = $db->sql_fetchrow($result7)) 
 	{
-        $uname = stripslashes($row7['username']);
-        $counter = intval($row7['counter']);
+        $uname = stripslashes((string) $row7['username']);
+        $counter = (int) $row7['counter'];
     
 	    if($counter>0) 
 		{
@@ -243,7 +255,7 @@ if ($db->sql_numrows($result7) > 0)
 
 }
 $db->sql_freeresult($result7);
-
+*/
 ##############################################################################################################################################################################
 # Top 10 Polls 
 ##############################################################################################################################################################################
@@ -296,32 +308,32 @@ $db->sql_freeresult($result7);
 //$db->sql_freeresult($result8);
 
 
-##############################################################################################################################################################################
+####################
 # Top 10 authors 
-##############################################################################################################################################################################
+####################
 $result11 = $db->sql_query("SELECT aid, counter FROM ".$prefix."_authors ORDER BY counter DESC LIMIT 0,$top");
-
 if ($db->sql_numrows($result11) > 0) 
 {
     echo '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
     echo '<legend align="center" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;"><font 
 	color="'.$textcolor1.'">'.$top.' '._MOST_ACTIVE_BLOG_AUTHORS.'</font></strong></legend>';
-    echo '<br />';
     
-	echo "<div style=\"padding: 0px;\"><span class=\"option\"></span>";
+    echo "<div style=\"padding-top: 5px;\"><span class=\"option\"></span>";
     echo '<ol>';
 
     while ($row11 = $db->sql_fetchrow($result11)) 
 	{
-        $aid = stripslashes($row11['aid']);
-        $counter = intval($row11['counter']);
+        $aid = stripslashes((string) $row11['aid']);
+        $counter = (int) $row11['counter'];
     
 	    if($counter>0) 
 		{
-            echo '<li><img class="icons" align="absmiddle" width="16" src="'.img('admin-16.png','Blogs_Top').'"> <a href="modules.php?name=Search&amp;query=&amp;author='.$aid.'">'.$aid.'</a> - ( '.$counter.' '._NEWSPUBLISHED.' )</li>';
+            echo '<li><img style="padding-top: 3px; vertical-align: top;" class="icons" align="absmiddle" width="16" src="'.img('admin-16.png','Blogs_Top').'"> <a href="modules.php?name=Profile&amp;mode=viewprofile&amp;u='.$aid.'">'.$aid.'</a> - ( <span 
+			style="color:'.$digits_color.'"><strong>'.$counter.'</strong></span> '._NEWSPUBLISHED.' )</li>';
         }
     }
     
+    echo '<br />';
 	echo "</ol></div></legend></fieldset>";
 	echo '<br />';
 

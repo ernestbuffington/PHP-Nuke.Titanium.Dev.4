@@ -41,7 +41,7 @@ function defaultDisplay()
     global $prefix, $cookie, $anonymous, $currentlang, $multilingual, $db, $module_name;
 
     include_once(NUKE_BASE_DIR.'header.php');
-    title($sitename. '._SUBMITNEWS.');
+//    title($sitename. '._SUBMITNEWS.');
 //    OpenTable();
 //    echo '<div class="nuketitle">'._SUBMITNEWS.'</div><br /><br />';
 //    echo "<div style=\"font-style: italic; text-align: center;\">"._SUBMITADVICE."</div><br />\n";
@@ -301,6 +301,7 @@ function submitStory($name, $address, $subject, $story, $storyext, $topic, $alan
 
 if (!isset($address)) { $address = ''; }
 if (!isset($alanguage)) { $alanguage = ''; }
+if (!isset($op)) { $op = ''; }
 
 switch($op) 
 {

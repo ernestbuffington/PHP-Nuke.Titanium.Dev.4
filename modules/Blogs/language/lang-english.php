@@ -159,7 +159,6 @@ define("_BLOG_NUKEDEFAULT","PHP-Nuke Titanium Default");
 define("_BLOG_ARTICLES","Blog Posts");
 define("_BLOG_HOMENUMNOTE","This will override user preferences<br />if set other than PHP-Nuke Titanium Default");
 define("_BLOG_SAVECHANGES","Save Changes");
-define("_SAVECHANGES","Save Changes");
 /*****[END]********************************************
  [ Mod:     NSN Blogs                           v1.1.0 ]
  ******************************************************/

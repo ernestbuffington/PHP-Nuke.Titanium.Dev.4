@@ -181,6 +181,9 @@ class attach_pm extends attach_parent
 
         $this->get_quota_limits($userdata);
 
+        if(!isset($board_config['privmsg_graphic_length']))
+        $board_config['privmsg_graphic_length'] = 0;
+
         $pm_filesize_limit = (!$attach_config['pm_filesize_limit']) ? $attach_config['attachment_quota'] : $attach_config['pm_filesize_limit'];
 
         $pm_filesize_total = get_total_attach_pm_filesize('to_user', (int) $userdata['user_id']);

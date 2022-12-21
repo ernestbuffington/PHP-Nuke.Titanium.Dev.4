@@ -50,7 +50,7 @@ define("_WAITING","Blog submissions waiting to be published.");
 define("_PREVIEW","Preview");
 define("_NEWUSER","New User");
 define("_USCORE","Score");
-define("_DATE","Date");
+//define("_DATE","Date");
 define("_STORYTEXT","Blog Text");
 define("_EXTENDEDTEXT","Blog Extended Text");
 define("_LANGUAGE","Language");

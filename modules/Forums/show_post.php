@@ -293,7 +293,7 @@ if($row = $db->sql_fetchrow($result)):
         $temp_url = '';
 
         if($poster_id != ANONYMOUS):
-
+        
             $temp_url = append_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=$poster_id");
             $profile_img = '<a href="'.$temp_url.'"><img src="'.$images['icon_profile'].'" alt="'.$lang['Read_profile'].'" title="'.$lang['Read_profile'].'" border="0" /></a>';
             $profile = '<a href="'.$temp_url.'">'.$lang['Read_profile'].'</a>';
@@ -313,25 +313,25 @@ if($row = $db->sql_fetchrow($result)):
                 $email_img = '';
                 $email = '';
             endif;
-
+            
 			if(($row['user_website'] == "http:///") || ( $row['user_website'] == "http://"))
             $row['user_website'] =  "";
-
+            
 			if(($row['user_website'] != "" ) && (substr($row['user_website'],0, 7) != "http://")) 
             $row['user_website'] = "http://".$row['user_website'];
 
             $www_img = ($row['user_website']) ? '<a href="'.$row['user_website'].'" target="_userwww"><img 
 			src="'.$images['icon_www'].'" alt="'.$lang['Visit_website'].'" title="'.$lang['Visit_website'].'" border="0" /></a>' : '';
-
+            
 			$www = ( $row['user_website'] ) ? '<a href="' . $row['user_website'] . '" target="_userwww">' . $lang['Visit_website'] . '</a>' : '';
 
             if(!empty($row['user_icq'])):
                $icq_status_img = '<a href="http://wwp.icq.com/'.$row['user_icq'].'#pager"><img 
 			   src="http://web.icq.com/whitepages/online?icq='.$row['user_icq'].'&amp;img=5" width="18" height="18" border="0" /></a>';
-
+               
 			   $icq_img = '<a href="http://wwp.icq.com/scripts/search.dll?to='.$row['user_icq'].'"><img 
 			   src="'.$images['icon_icq'].'" alt="'.$lang['ICQ'].'" title="'.$lang['ICQ'].'" border="0" /></a>';
-
+               
 			   $icq =  '<a href="http://wwp.icq.com/scripts/search.dll?to=' . $row['user_icq'] . '">' . $lang['ICQ'] . '</a>';
             else:
                 $icq_status_img = '';
@@ -341,7 +341,7 @@ if($row = $db->sql_fetchrow($result)):
 
             $aim_img = ($row['user_aim']) ? '<a href="aim:goim?screenname='.$row['user_aim'].'&amp;message=Hello+Are+you+there?"><img 
 			src="'.$images['icon_aim'].'" alt="'.$lang['AIM'].'" title="'.$lang['AIM'].'" border="0" /></a>' : '';
-
+            
 			$aim = ( $row['user_aim'] ) ? '<a href="aim:goim?screenname='.$row['user_aim'].'&amp;message=Hello+Are+you+there?">'.$lang['AIM'].'</a>' : '';
 
             $temp_url = append_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=$poster_id");
@@ -350,31 +350,31 @@ if($row = $db->sql_fetchrow($result)):
 
             $yim_img = ($row['user_yim']) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target='.$row['user_yim'].'&amp;.src=pg"><img 
 			src="'.$images['icon_yim'].'" alt="'.$lang['YIM'].'" title="'.$lang['YIM'].'" border="0" /></a>' : '';
-
+            
 			$yim = ( $row['user_yim'] ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target=' . $row['user_yim'] . '&amp;.src=pg">' . $lang['YIM'] . '</a>' : '';
 
             # Mod: Online/Offline/Hidden v2.2.7 START
             if($row['user_session_time'] >= (time()-$board_config['online_time'])):
-
+            
                if($row['user_allow_viewonline']):
                    $online_status_img = '<a href="'.append_sid("viewonline.$phpEx").'"><img 
 				   src="'.$images['icon_online'].'" alt="'.sprintf($lang['is_online'], $poster).'" title="'.sprintf($lang['is_online'], $poster).'" /></a>&nbsp;';
-
+                   
 				   $online_status = '<br />'.$lang['Online_status'].': <strong><a href="'.append_sid("viewonline.$phpEx").'" 
 				   title="'.sprintf($lang['is_online'], $poster).'"'.$online_color.'>'.$lang['Online'].'</a></strong>';
                elseif($is_auth['auth_mod'] || $userdata['user_id'] == $poster_id):
                    $online_status_img = '<a href="'.append_sid("viewonline.$phpEx").'"><img 
 				   src="'.$images['icon_hidden'].'" alt="'.sprintf($lang['is_hidden'], $poster).'" title="'.sprintf($lang['is_hidden'], $poster).'" /></a>&nbsp;';
-
+                   
 				   $online_status = '<br />'.$lang['Online_status'].': <strong><em><a href="'.append_sid("viewonline.$phpEx").'" 
 				   title="'.sprintf($lang['is_hidden'], $poster) .'"'. $hidden_color.'>'.$lang['Hidden'].'</a></em></strong>';
                else:
                    $online_status_img = '<img src="'.$images['icon_offline'].'" 
 				   alt="'.sprintf($lang['is_offline'], $poster).'" title="'.sprintf($lang['is_offline'], $poster).'" />&nbsp;';
-
+                   
 				   $online_status = '<br />'.$lang['Online_status'].': <span title="'.sprintf($lang['is_offline'], $poster).'"'.$offline_color.'><strong>'.$lang['Offline'].'</strong></span>';
                endif;
-
+            
             else:
               $online_status_img = '<img src="'.$images['icon_offline'].'" alt="'.sprintf($lang['is_offline'], $poster).'" title="'.sprintf($lang['is_offline'], $poster).'" />&nbsp;';
               $online_status = '<br />'.$lang['Online_status'].': <span title="'.sprintf($lang['is_offline'], $poster).'"'.$offline_color.'><strong>'.$lang['Offline'].'</strong></span>';
@@ -399,11 +399,10 @@ if($row = $db->sql_fetchrow($result)):
             $msn = '';
             $yim_img = '';
             $yim = '';
-
+            
 			# Mod: Online/Offline/Hidden v2.2.7 START
             $online_status_img = '';
             $online_status = '';
-			# Mod: Online/Offline/Hidden v2.2.7 END
 			# Mod: Online/Offline/Hidden v2.2.7 END
 
         endif;

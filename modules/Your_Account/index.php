@@ -50,13 +50,40 @@ $userpage = 1;
 
 global $cookie;
 
-$username = Fix_Quotes($_REQUEST['username']);
-$redirect = $_REQUEST['redirect'];
-$module = $_REQUEST['module'];
-$user_password = $_REQUEST['user_password'];
-$mode = $_REQUEST['mode'];
-$t = $_REQUEST['t'];
-$p = $_REQUEST['p'];
+if (isset($_REQUEST['username'])) 
+{
+  $username = Fix_Quotes($_REQUEST['username']);
+}
+
+if (isset($_REQUEST['redirect'])) 
+{
+  $redirect = $_REQUEST['redirect'];
+}
+
+if (isset($_REQUEST['module'])) 
+{
+  $module = $_REQUEST['module'];
+}
+
+if (isset($_REQUEST['user_password'])) 
+{
+  $user_password = $_REQUEST['user_password'];
+}
+
+if (isset($_REQUEST['mode'])) 
+{
+  $mode = $_REQUEST['mode'];
+}
+
+if (isset($_REQUEST['t'])) 
+{
+  $t = $_REQUEST['t'];
+}
+
+if (isset($_REQUEST['p'])) 
+{
+  $p = $_REQUEST['p'];
+}
 
 include(NUKE_MODULES_DIR.$module_name.'/navbar.php');
 include(NUKE_MODULES_DIR.$module_name.'/includes/cookiecheck.php');

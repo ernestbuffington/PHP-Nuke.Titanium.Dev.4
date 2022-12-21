@@ -384,10 +384,20 @@ function init_display_review_attachments($is_auth)
 {
     global $attach_config;
 
-    if (intval($attach_config['disable_mod']) || (!($is_auth['auth_download'] && $is_auth['auth_view'])) || intval($attach_config['attachment_topic_review']) == 0)
-    {
-        return;
-    }
+     if((isset($attach_config['disable_mod'])) && $attach_config['disable_mod'] == 0)
+     return;
+
+     if((!isset($is_auth['auth_download'])) && $is_auth['auth_view']) 
+     return;
+
+     if((isset($attach_config['attachment_topic_review'])) && $attach_config['attachment_topic_review'] == 0)
+     return;
+	 
+	 //if (intval($attach_config['disable_mod']) || (!($is_auth['auth_download'] && $is_auth['auth_view'])) || intval($attach_config['attachment_topic_review']) == 0)
+     //if ((int) $attach_config['disable_mod'] || (!($is_auth['auth_download'] && $is_auth['auth_view'])) || (int) $attach_config['attachment_topic_review'] == 0)
+     //{
+     //    return;
+     //}
 
     init_display_template('reviewbody', '{postrow.ATTACHMENTS}');
 

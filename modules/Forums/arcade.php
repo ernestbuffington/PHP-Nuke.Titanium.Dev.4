@@ -202,11 +202,11 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
                   'GAMESETF' => ( $frow[ 'game_set' ] != 0 ) ? '<span class="arcadeTextWhite">'.$lang[ 'game_actual_nbset' ].'</span>'.'<span '
                   . 'class="w3-badge w3-blue"><strong>'. $frow[ 'game_set' ].'</strong></span>' : '',
         
-		  'HIGHSCOREF' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.$frow['game_highscore'].'</span>',
+		  'HIGHSCOREF' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format($frow['game_highscore'].'</span>'),
         
 		  'CLICKPLAY' => '<a class="clicktoplay" href="' . append_sid( "games.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">Click to Play!</a>',
           
-		  'YOURHIGHSCOREF' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.$frow[ 'score_game' ].'</span>',
+		  'YOURHIGHSCOREF' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format( $frow[ 'score_game' ].'</span>'),
           
 		  'NORECORDF' => ( $frow[ 'game_highscore' ] == 0 ) ? $lang[ 'no_record' ] : '',
           
@@ -275,13 +275,8 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
   endif;
 
   while($row = $db->sql_fetchrow($result)):
-    
-	if (is_countable($liste_jeux[ $row[ 'arcade_catid' ] ]) && count($liste_jeux[ $row[ 'arcade_catid' ] ]) > 0):
-	  $nbjeux = sizeof( $liste_jeux[ $row[ 'arcade_catid' ] ] );
-    else:
-	  continue;
-	endif;
-	
+    $nbjeux = sizeof( $liste_jeux[ $row[ 'arcade_catid' ] ] );
+
     if($nbjeux > 0 ):
       $template->assign_block_vars( 'cat_row', array(
     
@@ -315,9 +310,9 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
 		  'GAMESET' => ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_set' ] != 0 ) ? '<span class="arcadeTextWhite">'.$lang[ 'game_actual_nbset' ].'</span>' 
 		  .'<span class="w3-badge w3-blue"><strong>'.$liste_jeux[ $row['arcade_catid']][$i]['game_set'].'</strong></span>' : '',
           
-		  'HIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.$liste_jeux[$row['arcade_catid' ]][$i]['game_highscore'].'</span>' ,
+		  'HIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format($liste_jeux[$row['arcade_catid' ]][$i]['game_highscore'].'</span>' ),
           
-		  'YOURHIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.$liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'score_game' ].'</span>' ,
+		  'YOURHIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'score_game' ].'</span>' ),
           
 		  'CLICKPLAY' => '<a class="clicktoplay" href="' . append_sid( "games.$phpEx?gid=" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . '">Click to Play!</a>',
           

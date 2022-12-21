@@ -6,7 +6,7 @@
 /************************************************************************
  *                              whoisplaying.php
  *                            -------------------
- *   PHPNuke Ported Arcade - http://www.nukearcade.com 
+ *   PHPNuke Ported Arcade - http://www.nukearcade.com
  *   Original Arcade Mod phpBB by giefca - http://www.gf-phpbb.com
  *
  ************************************************************************/
@@ -20,10 +20,12 @@ if (!defined('IN_PHPBB')) die('Hacking attempt');
 if (!function_exists('get_arcade_categories')) 
 include('includes/functions_arcade.'.$phpEx);
 
-$template->set_filenames(['whoisplaying' => 'whoisplaying_body.tpl']
+$template->set_filenames(array(
+        'whoisplaying' => 'whoisplaying_body.tpl')
 );
 
-$template->assign_vars(["L_WHOISPLAYING" => $lang['whoisplaying']]
+$template->assign_vars(array(
+        "L_WHOISPLAYING" => $lang['whoisplaying'])
 );
 
 if(!isset($liste_cat_auth)):
@@ -63,10 +65,10 @@ $list_player = '';
 $prev_user_id = '';
 $class = '';
 
-$nbplayers = is_countable($players) ? count($players) : 0;
-$listeid = [];
-$games_players = [];
-$games_names = [];
+$nbplayers = count($players);
+$listeid = array();
+$games_players = array();
+$games_names = array();
 
 for($i=0 ; $i<$nbplayers ; $i++): 
   if(!isset($listeid[$players[$i]['user_id']])): 
@@ -107,7 +109,10 @@ endfor;
 foreach($games_names AS $key => $val): 
  if ($games_players[$key]!=''): 
    $class = ($class == 'arcadeRow1') ? 'arcadeRow2' : 'arcadeRow1';
-   $template->assign_block_vars('whoisplaying_row', ['CLASS' => $class, 'GAME' => '<a href="' . append_sid("games.$phpEx?gid=" . $key) . '">' . $val . '</a>', 'PLAYER_LIST' => $games_players[$key]]
+   $template->assign_block_vars('whoisplaying_row', array(
+   'CLASS' => $class,
+   'GAME' => '<a href="' . append_sid("games.$phpEx?gid=" . $key) . '">' . $val . '</a>',
+   'PLAYER_LIST' => $games_players[$key])
    );
  endif;
 endforeach;

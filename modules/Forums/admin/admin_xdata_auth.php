@@ -29,7 +29,7 @@ if( !empty($setmodules) )
 
 $phpbb_root_path = './../';
 require($phpbb_root_path . 'extension.inc');
-require('./pagestart.' . $phpEx);
+require(__DIR__ . '/pagestart.' . $phpEx);
 
 //
 // include language file (borrowed mercilessly from CyberAlien's eXtreme Styles MOD)
@@ -48,18 +48,18 @@ if(!defined('XD_LANG_INCLUDED'))
 /*
  Set mode & type
 */
-if( isset( $HTTP_POST_VARS['mode'] ) || isset( $HTTP_GET_VARS['mode'] ) )
+if( isset( $_POST['mode'] ) || isset( $_GET['mode'] ) )
 {
-	$mode = ( isset( $HTTP_POST_VARS['mode']) ) ? htmlspecialchars($HTTP_POST_VARS['mode']) : htmlspecialchars($HTTP_GET_VARS['mode']);
+	$mode = ( isset( $_POST['mode']) ) ? htmlspecialchars((string) $_POST['mode']) : htmlspecialchars((string) $_GET['mode']);
 }
 else
 {
 	$mode = '';
 }
 
-if( isset( $HTTP_POST_VARS['type'] ) || isset( $HTTP_GET_VARS['type'] ) )
+if( isset( $_POST['type'] ) || isset( $_GET['type'] ) )
 {
-	$type = ( isset( $HTTP_POST_VARS['type']) ) ? htmlspecialchars($HTTP_POST_VARS['type']) : htmlspecialchars($HTTP_GET_VARS['type']);
+	$type = ( isset( $_POST['type']) ) ? htmlspecialchars((string) $_POST['type']) : htmlspecialchars((string) $_GET['type']);
 }
 else
 {
@@ -71,13 +71,13 @@ else
 */
 if ($type == 'user')
 {
-	if ( ( $mode == 'edit' || $mode == 'save' ) && ( isset($HTTP_POST_VARS['username']) || isset($HTTP_GET_VARS[POST_USERS_URL]) || isset( $HTTP_POST_VARS[POST_USERS_URL]) ) )
+	if ( ( $mode == 'edit' || $mode == 'save' ) && ( isset($_POST['username']) || isset($_GET[POST_USERS_URL]) || isset( $_POST[POST_USERS_URL]) ) )
 	{
 		$xd_meta = get_xd_metadata();
 
-	    if ( isset($HTTP_POST_VARS['username']) )
+	    if ( isset($_POST['username']) )
 		{
-			$this_userdata = get_userdata($HTTP_POST_VARS['username'], true);
+			$this_userdata = get_userdata($_POST['username'], true);
 			if ( !is_array($this_userdata) )
 			{
 				message_die(GENERAL_MESSAGE, $lang['No_such_user']);
@@ -86,70 +86,36 @@ if ($type == 'user')
 		}
 		else
 		{
-			$user_id = ( isset($HTTP_POST_VARS[POST_USERS_URL]) ) ? intval($HTTP_POST_VARS[POST_USERS_URL]) : intval($HTTP_GET_VARS[POST_USERS_URL]);
+			$user_id = ( isset($_POST[POST_USERS_URL]) ) ? (int) $_POST[POST_USERS_URL] : (int) $_GET[POST_USERS_URL];
 		}
 
-		if ( ! isset($HTTP_POST_VARS['submit']) )
+		if ( ! isset($_POST['submit']) )
 		{
 			/*
 			 Show the edit form
 			*/
 
-			$template->set_filenames( array(
-				'body' => 'admin/xd_auth_body.tpl'
-				)
+			$template->set_filenames( ['body' => 'admin/xd_auth_body.tpl']
 			);
 
-			$template->assign_vars( array(
-				'L_AUTH_TITLE' => $lang['xd_permissions'],
-				'L_USERNAME' => $lang['Username'],
-				'L_PERMISSIONS' => $lang['Permissions'],
-				'L_AUTH_EXPLAIN' => $lang['xd_permissions_describe'],
-				'L_FIELD_NAME' => $lang['field_name'],
-				'L_ALLOW' => $lang['Allow'],
-				'L_DEFAULT' => $lang['Default'],
-				'L_DENY' => $lang['Deny'],
-				'L_SUBMIT' => $lang['Submit'],
-				'L_RESET' => $lang['Reset'],
-
-				'AUTH_ALLOW' => XD_AUTH_ALLOW,
-				'AUTH_DENY' => XD_AUTH_DENY,
-				'AUTH_DEFAULT' => XD_AUTH_DEFAULT,
-
-				'USERNAME' => $username,
-				'S_HIDDEN_FIELDS' => '<input type="hidden" name="'.POST_USERS_URL.'" value="'.$user_id.'" /><input type="hidden" name="mode" value="save" /><input type="hidden" name="type" value="user" />',
-				'S_AUTH_ACTION' => append_sid('admin_xdata_auth.'.$phpEx)
-				)
+			$template->assign_vars( ['L_AUTH_TITLE' => $lang['xd_permissions'], 'L_USERNAME' => $lang['Username'], 'L_PERMISSIONS' => $lang['Permissions'], 'L_AUTH_EXPLAIN' => $lang['xd_permissions_describe'], 'L_FIELD_NAME' => $lang['field_name'], 'L_ALLOW' => $lang['Allow'], 'L_DEFAULT' => $lang['Default'], 'L_DENY' => $lang['Deny'], 'L_SUBMIT' => $lang['Submit'], 'L_RESET' => $lang['Reset'], 'AUTH_ALLOW' => XD_AUTH_ALLOW, 'AUTH_DENY' => XD_AUTH_DENY, 'AUTH_DEFAULT' => XD_AUTH_DEFAULT, 'USERNAME' => $username, 'S_HIDDEN_FIELDS' => '<input type="hidden" name="'.POST_USERS_URL.'" value="'.$user_id.'" /><input type="hidden" name="mode" value="save" /><input type="hidden" name="type" value="user" />', 'S_AUTH_ACTION' => append_sid('admin_xdata_auth.'.$phpEx)]
 			);
 
-			while ( list($code_name, $meta) = each($xd_meta) )
-			{
-				$sql = "SELECT xa.auth_value
+			foreach ($xd_meta as $code_name => $meta) {
+       $sql = "SELECT xa.auth_value
 						FROM " . XDATA_AUTH_TABLE . " xa, " . USER_GROUP_TABLE . " ug
 						WHERE xa.field_id = {$meta['field_id']}
 							AND xa.group_id = ug.group_id
 							AND ug.user_id = {$user_id}";
-
-				if ( ! ( $result = $db->sql_query($sql) ) )
-				{
-	            	message_die(GENERAL_ERROR, $lang['XData_failure_obtaining_user_auth'], "", __LINE__, __FILE__, $sql);
-				}
-
-				$row = $db->sql_fetchrow($result);
-
-				$auth = isset($row['auth_value']) ? $row['auth_value'] : XD_AUTH_DEFAULT;
-
-				$template->assign_block_vars( 'xdata', array(
-					'CODE_NAME' => $code_name,
-					'NAME' => $meta['field_name'],
-
-					'ALLOW_CHECKED' => ( ( $auth == XD_AUTH_ALLOW ) ? 'checked="checked" ' : '' ),
-					'DENY_CHECKED' => ( ( $auth == XD_AUTH_DENY ) ? 'checked="checked" ' : '' ),
-					'DEFAULT_CHECKED' => ( ($auth == XD_AUTH_DEFAULT ) ? 'checked="checked" ' : '')
-					)
-				);
-
-			}
+       if ( ! ( $result = $db->sql_query($sql) ) )
+   				{
+   	            	message_die(GENERAL_ERROR, $lang['XData_failure_obtaining_user_auth'], "", __LINE__, __FILE__, $sql);
+   				}
+       $row = $db->sql_fetchrow($result);
+       $auth = $row['auth_value'] ?? XD_AUTH_DEFAULT;
+       $template->assign_block_vars( 'xdata', ['CODE_NAME' => $code_name, 'NAME' => $meta['field_name'], 'ALLOW_CHECKED' => ( ( $auth == XD_AUTH_ALLOW ) ? 'checked="checked" ' : '' ), 'DENY_CHECKED' => ( ( $auth == XD_AUTH_DENY ) ? 'checked="checked" ' : '' ), 'DEFAULT_CHECKED' => ( ($auth == XD_AUTH_DEFAULT ) ? 'checked="checked" ' : '')]
+   				);
+   }
 
 			$template->pparse('body');
 		}
@@ -170,32 +136,28 @@ if ($type == 'user')
 			$personal_group = $db->sql_fetchrow($result);
 			$personal_group = $personal_group['group_id'];
 
-			while ( list($code_name, $meta) = each($xd_meta) )
-			{
-				$auth = str_replace("\'", "''", htmlspecialchars($HTTP_POST_VARS["xd_$code_name"]) );
-
-	            $sql = "DELETE FROM " . XDATA_AUTH_TABLE . "
+			foreach ($xd_meta as $code_name => $meta) {
+       $auth = str_replace("\'", "''", htmlspecialchars((string) $_POST["xd_$code_name"]) );
+       $sql = "DELETE FROM " . XDATA_AUTH_TABLE . "
 					WHERE group_id = $personal_group
 					AND field_id = {$meta['field_id']}";
-
-	            if (! $db->sql_query($sql) )
+       if (! $db->sql_query($sql) )
 				{
 					message_die(GENERAL_ERROR, $lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
 				}
-
-				if ( $auth != XD_AUTH_DEFAULT )
-				{
-
-					$sql = "INSERT INTO " . XDATA_AUTH_TABLE . "
+       if ( $auth != XD_AUTH_DEFAULT )
+   				{
+   
+   					$sql = "INSERT INTO " . XDATA_AUTH_TABLE . "
 						(group_id, field_id, auth_value)
 						VALUES ({$personal_group}, {$meta['field_id']}, {$auth})";
-
-					if (! $db->sql_query($sql) )
-					{
-						message_die(GENERAL_ERROR, $lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
-					}
-				}
-			}
+   
+   					if (! $db->sql_query($sql) )
+   					{
+   						message_die(GENERAL_ERROR, $lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
+   					}
+   				}
+   }
 
 		    $message = sprintf($lang['XData_success_updating_permissions'],"<a href=\"" . append_sid("admin_xdata_auth.$phpEx?type=user") . "\">","</a>");
 			$message .= sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
@@ -207,22 +169,10 @@ if ($type == 'user')
 		/*
 		 Default user selection box
 		*/
-		$template->set_filenames(array(
-			'body' => 'admin/user_select_body.tpl')
+		$template->set_filenames(['body' => 'admin/user_select_body.tpl']
 		);
 
-		$template->assign_vars(array(
-			'L_USER_TITLE' => $lang['xd_permissions'],
-			'L_USER_EXPLAIN' => $lang['xd_permissions_describe'],
-			'L_USER_SELECT' => $lang['Select_a_User'],
-			'L_LOOK_UP' => $lang['Look_up_user'],
-			'L_FIND_USERNAME' => $lang['Find_username'],
-
-			'U_SEARCH_USER' => append_sid($phpbb_root_path . "search.$phpEx?mode=searchuser"),
-
-			'S_USER_ACTION' => append_sid($phpbb_root_path . "admin/admin_xdata_auth.$phpEx?type=user"),
-			'S_USER_SELECT' => $select_list
-			)
+		$template->assign_vars(['L_USER_TITLE' => $lang['xd_permissions'], 'L_USER_EXPLAIN' => $lang['xd_permissions_describe'], 'L_USER_SELECT' => $lang['Select_a_User'], 'L_LOOK_UP' => $lang['Look_up_user'], 'L_FIND_USERNAME' => $lang['Find_username'], 'U_SEARCH_USER' => append_sid($phpbb_root_path . "search.$phpEx?mode=searchuser"), 'S_USER_ACTION' => append_sid($phpbb_root_path . "admin/admin_xdata_auth.$phpEx?type=user"), 'S_USER_SELECT' => $select_list]
 		);
 
 		$template->pparse('body');
@@ -230,29 +180,27 @@ if ($type == 'user')
 }
 elseif ($type == 'group')
 {
-	if ( ( $mode == 'edit' || $mode == 'save' ) && ( isset($HTTP_POST_VARS['group']) || isset($HTTP_GET_VARS[POST_GROUPS_URL]) || isset( $HTTP_POST_VARS[POST_GROUPS_URL]) ) )
+	if ( ( $mode == 'edit' || $mode == 'save' ) && ( isset($_POST['group']) || isset($_GET[POST_GROUPS_URL]) || isset( $_POST[POST_GROUPS_URL]) ) )
 	{
 
     	$xd_meta = get_xd_metadata();
 
-	    if ( isset($HTTP_POST_VARS['group']) )
+	    if ( isset($_POST['group']) )
 		{
-			$group_id = intval($HTTP_POST_VARS['group']);
+			$group_id = (int) $_POST['group'];
 		}
 		else
 		{
-			$group_id = ( isset($HTTP_POST_VARS[POST_GROUPS_URL]) ) ? intval($HTTP_POST_VARS[POST_GROUPS_URL]) : intval($HTTP_GET_VARS[POST_GROUPS_URL]);
+			$group_id = ( isset($_POST[POST_GROUPS_URL]) ) ? (int) $_POST[POST_GROUPS_URL] : (int) $_GET[POST_GROUPS_URL];
 		}
 
-		if ( ! isset($HTTP_POST_VARS['submit']) )
+		if ( ! isset($_POST['submit']) )
 		{
 			/*
 			 Show the edit form
 			*/
 
-			$template->set_filenames( array(
-				'body' => 'admin/xd_auth_body.tpl'
-				)
+			$template->set_filenames( ['body' => 'admin/xd_auth_body.tpl']
 			);
 
 			$sql = "SELECT group_name FROM " . GROUPS_TABLE . "
@@ -265,54 +213,22 @@ elseif ($type == 'group')
 			$group_name = $db->sql_fetchrow($result);
 			$group_name = $group_name['group_name'];
 
-			$template->assign_vars( array(
-				'L_AUTH_TITLE' => $lang['xd_group_permissions'],
-				'L_USERNAME' => $lang['group_name'],
-				'L_PERMISSIONS' => $lang['Permissions'],
-				'L_AUTH_EXPLAIN' => $lang['xd_group_permissions_describe'],
-				'L_FIELD_NAME' => $lang['field_name'],
-				'L_ALLOW' => $lang['Allow'],
-				'L_DEFAULT' => $lang['Default'],
-				'L_DENY' => $lang['Deny'],
-				'L_SUBMIT' => $lang['Submit'],
-				'L_RESET' => $lang['Reset'],
-
-				'AUTH_ALLOW' => XD_AUTH_ALLOW,
-				'AUTH_DENY' => XD_AUTH_DENY,
-				'AUTH_DEFAULT' => XD_AUTH_DEFAULT,
-
-				'USERNAME' => $group_name,
-				'S_HIDDEN_FIELDS' => '<input type="hidden" name="'.POST_GROUPS_URL.'" value="'.$group_id.'" /><input type="hidden" name="mode" value="save" /><input type="hidden" name="type" value="group" />',
-				'S_AUTH_ACTION' => append_sid('admin_xdata_auth.'.$phpEx)
-				)
+			$template->assign_vars( ['L_AUTH_TITLE' => $lang['xd_group_permissions'], 'L_USERNAME' => $lang['group_name'], 'L_PERMISSIONS' => $lang['Permissions'], 'L_AUTH_EXPLAIN' => $lang['xd_group_permissions_describe'], 'L_FIELD_NAME' => $lang['field_name'], 'L_ALLOW' => $lang['Allow'], 'L_DEFAULT' => $lang['Default'], 'L_DENY' => $lang['Deny'], 'L_SUBMIT' => $lang['Submit'], 'L_RESET' => $lang['Reset'], 'AUTH_ALLOW' => XD_AUTH_ALLOW, 'AUTH_DENY' => XD_AUTH_DENY, 'AUTH_DEFAULT' => XD_AUTH_DEFAULT, 'USERNAME' => $group_name, 'S_HIDDEN_FIELDS' => '<input type="hidden" name="'.POST_GROUPS_URL.'" value="'.$group_id.'" /><input type="hidden" name="mode" value="save" /><input type="hidden" name="type" value="group" />', 'S_AUTH_ACTION' => append_sid('admin_xdata_auth.'.$phpEx)]
 			);
 
-			while ( list($code_name, $meta) = each($xd_meta) )
-			{
-				$sql = "SELECT xa.auth_value FROM " . XDATA_AUTH_TABLE . " xa
+			foreach ($xd_meta as $code_name => $meta) {
+       $sql = "SELECT xa.auth_value FROM " . XDATA_AUTH_TABLE . " xa
 					WHERE xa.field_id = {$meta['field_id']}
 					AND xa.group_id = {$group_id}";
-
-				if ( ! ( $result = $db->sql_query($sql) ) )
-				{
-	            	message_die(GENERAL_ERROR, $lang['XData_failure_obtaining_user_auth'], "", __LINE__, __FILE__, $sql);
-				}
-
-				$row = $db->sql_fetchrow($result);
-
-				$auth = isset($row['auth_value']) ? $row['auth_value'] : XD_AUTH_DEFAULT;
-
-				$template->assign_block_vars( 'xdata', array(
-					'CODE_NAME' => $code_name,
-					'NAME' => $meta['field_name'],
-
-					'ALLOW_CHECKED' => ( ( $auth == XD_AUTH_ALLOW ) ? 'checked="checked" ' : '' ),
-					'DENY_CHECKED' => ( ( $auth == XD_AUTH_DENY ) ? 'checked="checked" ' : '' ),
-					'DEFAULT_CHECKED' => ( ($auth == XD_AUTH_DEFAULT ) ? 'checked="checked" ' : '')
-					)
-				);
-
-			}
+       if ( ! ( $result = $db->sql_query($sql) ) )
+   				{
+   	            	message_die(GENERAL_ERROR, $lang['XData_failure_obtaining_user_auth'], "", __LINE__, __FILE__, $sql);
+   				}
+       $row = $db->sql_fetchrow($result);
+       $auth = $row['auth_value'] ?? XD_AUTH_DEFAULT;
+       $template->assign_block_vars( 'xdata', ['CODE_NAME' => $code_name, 'NAME' => $meta['field_name'], 'ALLOW_CHECKED' => ( ( $auth == XD_AUTH_ALLOW ) ? 'checked="checked" ' : '' ), 'DENY_CHECKED' => ( ( $auth == XD_AUTH_DENY ) ? 'checked="checked" ' : '' ), 'DEFAULT_CHECKED' => ( ($auth == XD_AUTH_DEFAULT ) ? 'checked="checked" ' : '')]
+   				);
+   }
 
 			$template->pparse('body');
 		}
@@ -322,32 +238,28 @@ elseif ($type == 'group')
 			 Save the settings
 			*/
 
-			while ( list($code_name, $meta) = each($xd_meta) )
-			{
-				$auth = htmlspecialchars($HTTP_POST_VARS["xd_$code_name"]);
-
-	            $sql = "DELETE FROM " . XDATA_AUTH_TABLE . "
+			foreach ($xd_meta as $code_name => $meta) {
+       $auth = htmlspecialchars((string) $_POST["xd_$code_name"]);
+       $sql = "DELETE FROM " . XDATA_AUTH_TABLE . "
 					WHERE group_id = $group_id
 					AND field_id = {$meta['field_id']}";
-
-	            if (! $db->sql_query($sql) )
+       if (! $db->sql_query($sql) )
 				{
 					message_die(GENERAL_ERROR, $lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
 				}
-
-				if ( $auth != XD_AUTH_DEFAULT )
-				{
-
-					$sql = "INSERT INTO " . XDATA_AUTH_TABLE . "
+       if ( $auth != XD_AUTH_DEFAULT )
+   				{
+   
+   					$sql = "INSERT INTO " . XDATA_AUTH_TABLE . "
 						(group_id, field_id, auth_value)
 						VALUES ({$group_id}, {$meta['field_id']}, {$auth})";
-
-					if (! $db->sql_query($sql) )
-					{
-						message_die(GENERAL_ERROR, $lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
-					}
-				}
-			}
+   
+   					if (! $db->sql_query($sql) )
+   					{
+   						message_die(GENERAL_ERROR, $lang['XData_error_updating_auth'], "", __LINE__, __FILE__, $sql);
+   					}
+   				}
+   }
 
 		    $message = sprintf($lang['XData_success_updating_permissions'],"<a href=\"" . append_sid("admin_xdata_auth.$phpEx?type=user") . "\">","</a>");
 			$message .= sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
@@ -361,7 +273,7 @@ elseif ($type == 'group')
 
 		include('./page_header_admin.'.$phpEx);
 		*/
-		$template->set_filenames( array('body' => 'admin/auth_select_body.tpl') );
+		$template->set_filenames( ['body' => 'admin/auth_select_body.tpl'] );
 
 		$sql = "SELECT group_id, group_name
 			FROM " . GROUPS_TABLE . "
@@ -382,26 +294,18 @@ elseif ($type == 'group')
 			$select_list .= '</select>';
 		}
 
-		$template->assign_vars(array(
-			'S_AUTH_SELECT' => $select_list)
+		$template->assign_vars(['S_AUTH_SELECT' => $select_list]
 		);
 
 		$s_hidden_fields = '<input type="hidden" name="mode" value="edit" /><input type="hidden" name="type" value="group" />';
 
-		$template->assign_vars(array(
-			'L_AUTH_TITLE' => $lang['XD_auth_Control_Group'],
-			'L_AUTH_EXPLAIN' => $lang['XD_roup_auth_explain'],
-			'L_AUTH_SELECT' => $lang['Select_a_Group'],
-			'L_LOOK_UP' => $lang['Look_up_Group'],
-
-			'S_HIDDEN_FIELDS' => $s_hidden_fields,
-			'S_AUTH_ACTION' => append_sid("admin_xdata_auth.$phpEx"))
+		$template->assign_vars(['L_AUTH_TITLE' => $lang['XD_auth_Control_Group'], 'L_AUTH_EXPLAIN' => $lang['XD_roup_auth_explain'], 'L_AUTH_SELECT' => $lang['Select_a_Group'], 'L_LOOK_UP' => $lang['Look_up_Group'], 'S_HIDDEN_FIELDS' => $s_hidden_fields, 'S_AUTH_ACTION' => append_sid("admin_xdata_auth.$phpEx")]
 		);
 
         $template->pparse('body');
 	}
 }
 
-include('./page_footer_admin.'.$phpEx);
+include(__DIR__ . '/page_footer_admin.'.$phpEx);
 
 ?>

@@ -23,7 +23,7 @@ define("_PRINTER","Printer Friendly Blog Post View");
 define("_FRIEND","Send this Blog post to a Friend");
 define("_ARTICLES","Blog Posts");
 define("_USCORE","Score");
-define("_DATE","Date");
+//define("_DATE","Date");
 define("_SELECTMONTH2VIEW","Please select the month you want to see:");
 define("_SHOWALLSTORIES","Show ALL Blog Posts");
 define("_STORIESARCHIVE","Blog Posts Archive");

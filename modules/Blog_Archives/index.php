@@ -36,7 +36,7 @@ function select_month()
     global $prefix, $user_prefix, $db, $module_name;
 
     include_once(NUKE_BASE_DIR.'header.php');
-    title($sitename.' '._STORIESARCHIVE);
+    //title($sitename.' '._STORIESARCHIVE);
     OpenTable();
     
 	echo '<div align="center"><span class="title"><strong>'._STORIESARCHIVE.'</strong></span><br /><br /></div>';

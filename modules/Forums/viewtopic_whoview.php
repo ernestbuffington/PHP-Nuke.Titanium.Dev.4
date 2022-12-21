@@ -183,6 +183,10 @@ if($row = $db->sql_fetchrow($result)):
 		$username = $row['username'];
 		$user_id = $row['user_id'];
 		$user_from = ( !empty($row['user_from']) ) ? $row['user_from'] : '&nbsp;';
+
+        if(!isset($row['user_regdate']))
+        $row['user_regdate'] = '';
+
 		$joined	= $row['user_regdate'];
 		
         /*****[BEGIN]******************************************
@@ -231,7 +235,8 @@ if($row = $db->sql_fetchrow($result)):
        if($row['user_session_time'] >= (time()-$board_config['online_time'])):
          $theme_name = get_theme();
 		 if($row['user_allow_viewonline']):
-         $online_status = '<a href="'.append_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_online'],$row['username']).'"'.$online_color.'><img alt="online" src="themes/'.$theme_name.'/forums/images/status/online_bgcolor_one.gif" /></a>';
+         $online_status = '<a href="'.append_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_online'],$row['username']).'"'.$online_color.'><img 
+		 alt="online" src="themes/'.$theme_name.'/forums/images/status/online_bgcolor_one.gif" /></a>';
          
 		 elseif($userdata['user_level'] == ADMIN || $userdata['user_id'] == $row['user_id'] ):
          $online_status = '<em><a href="'.append_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_hidden'],$profiledata['username']).'"'.$hidden_color.'>'.$lang['Hidden'].'</a></em>';
@@ -251,6 +256,12 @@ if($row = $db->sql_fetchrow($result)):
         # Nobody but the admin gives a shit about Anonymous people
 		if($username == 'Anonymous') 
 		continue;
+
+        if(!isset($_GET['start']))
+        $_GET['start'] = 0;
+
+        if(!isset($profile))
+        $profile = '';
 		
 		$template->assign_block_vars('memberrow', array(
 			'ROW_NUMBER' 	=> $i + ($_GET['start'] + 1),

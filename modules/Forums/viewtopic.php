@@ -106,12 +106,17 @@ $reply_topic_id = $topic_id;
 if(isset($HTTP_GET_VARS[POST_POST_URL]))
 $post_id = intval($HTTP_GET_VARS[POST_POST_URL]);
 
-if($HTTP_GET_VARS['page']):
+if(isset($HTTP_GET_VARS['page'])):
 $start = (isset($HTTP_GET_VARS['page']) ) ? intval($HTTP_GET_VARS['page']) : 0;
 else:
 $start = (isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
 endif;
 $start = ($start < 0) ? 0 : $start;
+
+if(!isset($parent_forum))
+$parent_forum = '';
+else
+$parent_forum = 1;
 
 # $calc           = $board_config['topics_per_page'] * $page;
 # $start          = $calc - $board_config['topics_per_page'];
@@ -121,8 +126,11 @@ if(isset($HTTP_GET_VARS['printertopic']))
 {
     $start = ( isset($HTTP_GET_VARS['start_rel']) ) && ( isset($HTTP_GET_VARS['printertopic']) ) ? intval($HTTP_GET_VARS['start_rel']) - 1 : $start;
 	# $finish when positive indicates last message; when negative it indicates range; can't be 0
+    if(!isset($finish))
+    $finish = 0;
+
     if(isset($HTTP_GET_VARS['finish_rel']))
-    $finish = intval($HTTP_GET_VARS['finish_rel']);
+	$finish = intval($HTTP_GET_VARS['finish_rel']);
     if(($finish >= 0) && (($finish - $start) <=0))
     unset($finish);
 }
@@ -328,7 +336,7 @@ if( !$is_auth['auth_view'] || !$is_auth['auth_read']):
   if(!$userdata['session_logged_in']):
      $redirect = ($post_id) ? POST_POST_URL . "=$post_id" : POST_TOPIC_URL . "=$topic_id";
      $redirect .= ($start) ? "&start=$start" : '';
-     $header_location = ( @preg_match("/Microsoft|WebSTAR|Xitami/", $_SERVER["SERVER_SOFTWARE"]) ) ? "Refresh: 0; URL=" : "Location: ";
+     $header_location = ( preg_match("/Microsoft|WebSTAR|Xitami/", $_SERVER["SERVER_SOFTWARE"]) ) ? "Refresh: 0; URL=" : "Location: ";
      redirect(append_sid("modules.php?name=Your_Account&redirect=viewtopic&$redirect", true));
      exit;
   endif;
@@ -362,15 +370,19 @@ $topic_time = $forum_topic_data['topic_time'];
 # Password check START
 if( !$is_auth['auth_mod'] && $userdata['user_level'] != ADMIN ):
 	$redirect = str_replace("&amp;", "&", preg_replace('#.*?([a-z]+?\.' . $phpEx . '.*?)$#i', '\1', htmlspecialchars($HTTP_SERVER_VARS['REQUEST_URI'])));
-	if( $HTTP_POST_VARS['cancel'] ):
+	if(isset($HTTP_POST_VARS['cancel'])):
 		redirect(append_sid("index.$phpEx"));
-	elseif($HTTP_POST_VARS['pass_login']):
+	elseif(isset($HTTP_POST_VARS['pass_login'])):
 		if($forum_topic_data['topic_password'] != ''):
 			password_check('topic', $topic_id, $HTTP_POST_VARS['password'], $redirect);
 		elseif($forum_topic_data['forum_password'] != ''):
 			password_check('forum', $forum_id, $HTTP_POST_VARS['password'], $redirect);
 	    endif;
 	endif;
+	
+	if(!isset($forum_topic_data['topic_password']))
+    $forum_topic_data['topic_password'] = '';
+	
 	if($forum_topic_data['topic_password'] != ''):
 		$passdata = ( isset($HTTP_COOKIE_VARS[$board_config['cookie_name'].'_tpass']) ) ? unserialize(stripslashes($HTTP_COOKIE_VARS[$board_config['cookie_name'].'_tpass'])) : '';
 		if($passdata[$topic_id] != md5($forum_topic_data['topic_password'])):
@@ -829,7 +841,7 @@ if( $parent_id )
 		if( $all_forums[$i]['forum_id'] == $parent_id )
 		{
 			$template->assign_vars(array(
-				'PARENT_FORUM'			=> 1,
+				'PARENT_FORUM'			=> $parent_forum,
 				'U_VIEW_PARENT_FORUM'	=> append_sid("viewforum.$phpEx?".POST_FORUM_URL.'='.$all_forums[$i]['forum_id']),
 				'PARENT_FORUM_NAME'		=> $all_forums[$i]['forum_name'],
 				));
@@ -993,9 +1005,19 @@ $pagination_variables = array(
 	'adjacents' => 2
 );
 
+// These are not in the Eglish LAnguage File
+if(!isset($lang['By']))
+$lang['By'] = 'By';
+if(!isset($lang['In']))
+$lang['In'] = 'In';
+if(!isset($lang['On']))
+$lang['On'] = 'On';
+
+
 # Send vars to template
 $template->assign_vars(array(
         # Mod: Printer Topic v1.0.8 START
+		'PARENT_FORUM'	 => $parent_forum,
         'START_REL' => ($start + 1),
         'FINISH_REL' => (isset($HTTP_GET_VARS['finish_rel'])? intval($HTTP_GET_VARS['finish_rel']) : ($board_config['posts_per_page'] - $start)),
         # Mod: Printer Topic v1.0.8 END
@@ -1301,6 +1323,9 @@ if ($show_thanks == FORUM_THANKABLE):
 		# Get thanks date
 		$thanks_date[$i] = create_date($timeformat, $thanks_date[$i], $board_config['board_timezone']);
 
+        if(!isset($thanks))
+        $thanks = '';
+
 		# Make thanker profile link
 		$thanker_profile[$i] = append_sid("profile.$phpEx?mode=viewprofile&amp;".POST_USERS_URL."=$thanker_id[$i]");   
 		$thanks .= '<a href="'.$thanker_profile[$i].'">'.UsernameColor($thanker_name[$i]).'</a> ('.$thanks_date[$i].'), ';
@@ -1320,6 +1345,12 @@ if ($show_thanks == FORUM_THANKABLE):
 	if( !($autor = $db->sql_fetchrowset($result)) )
 	message_die(GENERAL_ERROR, "Could not obtain user information", '', __LINE__, __FILE__, $sql);
 
+    if(!isset($thanks))
+    $thanks = '';
+
+    if(!isset($thanked))
+    $thanked = '';
+
 	$autor_name = $autor[0]['username'];
 	$thanks .= '<br /><br />'.$lang['thanks_to'].' '.UsernameColor($autor_name).' '.$lang['thanks_end'];
 
@@ -1335,7 +1366,6 @@ if ($show_thanks == FORUM_THANKABLE):
 
 endif;
 # Mod: Thank You Mod v1.1.8 END
-
 
 # Mod: Super Quick Reply v1.3.2 START
 $sqr_last_page = ((floor( $start / intval($board_config['posts_per_page'])) + 1) == ceil($total_replies / intval($board_config['posts_per_page'])));
@@ -1569,12 +1599,18 @@ $leave_out['show_sig_once'] = false;
 		   $age = ($bday_year_age) ? gmdate('Y')-$bday_year_age-$fudge : false;
            # Mod: Birthdays v3.0.0 END
 
+           if(!isset($lang['FACEBOOK_PROFILE'])) 
+		   $lang['FACEBOOK_PROFILE'] = 'Facebook Profile';
+
+           if(!isset($lang['FACEBOOK'])) 
+		   $lang['FACEBOOK'] = 'Facebook';
+		   
 		   # Mod: Facebook v1.0.0 START		
            $facebook_img = ($postrow[$i]['user_facebook']) ? '<a href="http://www.facebook.com/'.$postrow[$i]['user_facebook'].'" target="_userwww"><img 
 		   src="'.$images['icon_facebook'].'" alt="'.$lang['Visit_facebook'].': '. 
 
 		   $postrow[$i]['user_facebook'].'" title="'.$lang['Visit_facebook'].'" border="0" /></a>' : '';
-		   $facebook = ( $postrow[$i]['user_facebook'] ) ? '<a href="'.$temp_url.'">'.$lang['FACEBOOK'].'</a>' : '';
+		   $facebook = (isset($postrow[$i]['user_facebook']) ) ? '<a href="'.$temp_url.'">'.$lang['FACEBOOK'].'</a>' : '';
 		   # Mod: Facebook v1.0.0 END		
 
 		   # Mod: Online/Offline/Hidden v2.2.7 START
@@ -1595,6 +1631,24 @@ $leave_out['show_sig_once'] = false;
 
 		   $theme_name = get_theme();
 
+           if(!isset($online_status_img))
+           $online_status_img = '';
+	
+           if(!isset($online_status))
+           $online_status = '';
+
+           if(!isset($lang['is_online']))
+           $lang['is_online'] = '';
+
+           if(!isset($lang['Online']))
+           $lang['Online'] = '';
+
+           if(!isset($row['username']))
+           $row['username'] = '';
+
+           if(!isset($online_color))
+           $online_color = '';
+		
 		   $online_status_img = '<a class="tooltip-html copyright" href="'.append_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_online'],$row['username']).'"'.$online_color.'><img 
 	       alt="online" src="themes/'.$theme_name.'/forums/images/status/online_bgcolor_one.gif" /></a>';
 
@@ -1602,11 +1656,28 @@ $leave_out['show_sig_once'] = false;
 
 	       else:
 
+           if(!isset($row['username']))
+           $row['username'] = '';
+
+           if(!isset($online_status_img))
+           $online_status_img = '';
+
+           if(!isset($online_status))
+           $online_status = '';
+
+           if(!isset($offline_color))
+           $offline_color = '';
+
+           if(isset($online_status_img)):
 		   $online_status_img = '<span class="tooltip-html copyright" title="'.sprintf($lang['is_offline'],$row['username']).'"'.$offline_color.'><img 
 	       alt="online" src="themes/'.$theme_name.'/forums/images/status/offline_bgcolor_one.gif" /></span>';
-
-	       $online_status = '<span title="'.sprintf($lang['is_offline'], $poster).'"'.$offline_color.'>'.$lang['Offline'].'</span>';
            endif;
+		   
+           if(isset($online_status)):
+	       $online_status = '<span title="'.sprintf($lang['is_offline'], $poster).'"'.$offline_color.'>'.$lang['Offline'].'</span>';
+		   endif;
+           
+		   endif;
            # Mod: Online/Offline/Hidden v2.2.7 END
 
         else:
@@ -2006,7 +2077,7 @@ $leave_out['show_sig_once'] = false;
        # Mod: Force Topic Read v1.0.3 START
 	   if((!$userdata['user_ftr']) && ($userdata['user_id'] != ANONYMOUS)):
 		  # They Have Clicked The Link & Are Viewing The Post, So Set Them As Read
-		  if ($HTTP_GET_VARS['directed'] == 'ftr'):
+		  if (isset($HTTP_GET_VARS['directed']) && $HTTP_GET_VARS['directed'] == 'ftr'):
 			$q = "UPDATE ". USERS_TABLE ."
 				  SET user_ftr = '1', user_ftr_time = '".time()."'
 				  WHERE user_id = '".$userdata['user_id']."'";
@@ -2042,6 +2113,15 @@ $leave_out['show_sig_once'] = false;
 		 endif;
 	   endif;
        # Mod: Force Topic Read v1.0.3 END
+
+      if(!isset($online_status_img))
+      $online_status_img = '';
+
+      if(!isset($online_status))
+      $online_status = '';
+
+      if(!isset($topic_view_img))
+      $topic_view_img = '';
 
        # Mod: XData v1.0.3 START
         $template->assign_block_vars('postrow',array_merge( array(
@@ -2216,7 +2296,7 @@ $leave_out['show_sig_once'] = false;
         message_die(GENERAL_ERROR, 'Could not get moved type', '', __LINE__, __FILE__, $sql);
 
 		$row = $db->sql_fetchrow($result);
-        $moved_type = $row['mode'];
+        $moved_type = $row['mode'] ?? null;
         $select = '';
 
         if($moved_type == 'move'):

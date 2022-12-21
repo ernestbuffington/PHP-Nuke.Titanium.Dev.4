@@ -48,7 +48,7 @@ define("_SELECTTOPIC","Select Blog Post Topic");
 define("_OPTION","Option");
 define("_AUTHOR","Author");
 define("_NAME","Name");
-define("_DATE","Date");
+//define("_DATE","Date");
 define("_TITLE","Blog Post Title");
 define("_HOUR","Hour");
 define("_EDITCATEGORY","Edit Blog Post Category");

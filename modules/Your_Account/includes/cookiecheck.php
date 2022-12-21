@@ -160,26 +160,22 @@ function ShowCookiesRedirect()
 function ShowCookies() 
 {
   global $ya_config,$module_name;
-
   include_once(NUKE_BASE_DIR.'header.php');
   //Show_CNBYA_menu(); # removed excessive menu system from show cookies
   OpenTable();
 
-  $CookieArray = $HTTP_COOKIE_VARS;
-  
-  if (!is_array($HTTP_COOKIE_VARS)) 
-  {
+    //$CookieArray = explode('; ', $_SERVER['HTTP_COOKIE']);
     $CookieArray = $_COOKIE;
-  }
+
     echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\"><tr>";
     echo "<form action=\"modules.php?name=$module_name&amp;op=DeleteCookies\" method=\"post\">";
-    echo "<td colspan=\"2\">";
+    echo "<td style=\"padding-bottom: 0px;\" colspan=\"2\">";
     
 	global $fieldset_border_width;
 
 	echo '<fieldset style="border-color: gold; border-width: '.$fieldset_border_width.'; border-style: solid;">';
-    echo '<legend align="left" id="Legend5" runat="server" visible="true" style="width:auto; margin-bottom: 0px; font-weight: bold;">'.$top.' <img 
-	src="modules/'.$module_name.'/images/warning.png" align="left" width="40" height="40"></strong></legend>';
+    echo '<legend align="left" id="Legend5" runat="server" visible="true" style="width:auto; margin: 0px; font-weight: bold;"><img 
+	src="modules/'.$module_name.'/images/warning.png" align="left" width="20" height="20"></strong>&nbsp;<span style="color: red">Delete Cookies</span>&nbsp;</legend>';
 	
 	echo "<span class=\"content\">"._YA_DELCOOKIEINFO1."</span></td></tr><tr><td width=\"100%\"></fieldset>";
 
@@ -194,11 +190,12 @@ function ShowCookies()
 		{
             $cName     = str_replace(" ","",$cName); 
             if (empty($cValue)) $cValue = "(empty)";
-            $cMore     = substr("$cValue", 36, 1);
+            $cMore = substr("$cValue", 0, 37)." <span style=\"color: white;\">...✂</span>";
+			//$cMore     = substr("$cValue", 36, 1);
             if (!empty($cMore)) 
-            $cValue = substr("$cValue", 0, 35)." ( . . . )";
+            $cValue = substr("$cValue", 0, 37)." <span style=\"color: white;\">...✂</span>";
             
-			echo "<tr><td align=\"left\" nowrap=\"nowrap\">$cName</td><td width=\"100%\" align=\"left\">$cValue</td></tr>";
+			echo "<tr><td align=\"left\" nowrap=\"nowrap\"><span style=\"color:lime;\">$cName</span>&nbsp;&nbsp;&nbsp;</td><td width=\"100%\" align=\"left\"><span style=\"color:yellow;\">🍪 $cValue</span></td></tr>";
         }
             
 			echo "</table></td><td valign=\"bottom\"><input type=\"submit\" name=\"submit\" value='"._YA_COOKIEDELTHESE."'></td></form></tr></table></fieldset>";

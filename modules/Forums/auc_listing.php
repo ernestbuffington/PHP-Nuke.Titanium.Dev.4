@@ -17,7 +17,7 @@
 if(!defined('MODULE_FILE')) 
 exit("You can't access this file directly...");
 
-if ($popup != "1")
+if(!isset($popup))
 {
   $module_name = basename(dirname(__FILE__));
   require("modules/".$module_name."/nukebb.php");
@@ -37,12 +37,21 @@ $userdata = session_pagestart($user_ip, PAGE_INDEX);
 init_userprefs($userdata); 
 # End session management 
 
-$group = (!empty($HTTP_POST_VARS['id'])) ? $HTTP_POST_VARS['id'] : $HTTP_GET_VARS['id']; 
-$exist = $HTTP_GET_VARS['group'];        
+if(isset($HTTP_POST_VARS['id']))
+$group = $HTTP_POST_VARS['id'];
+
+if(isset($HTTP_GET_VARS['id']))
+$group = $HTTP_GET_VARS['id'];
+
+if(isset($HTTP_POST_VARS['group']))
+$exist = $HTTP_POST_VARS['group'];
+
+if(isset($HTTP_GET_VARS['group']))
+$exist = $HTTP_GET_VARS['group'];
     
 $template->set_filenames(array('body' => 'auc_listing_body.tpl') );    
         
-if($exist):
+if(isset($exist)):
 
   if($exist == "admins"): 
      $group_name = str_replace("%s", "", $lang['Admin_online_color']);        
