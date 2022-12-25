@@ -56,9 +56,9 @@ if(!is_dir(_IREPOSITORY_USER_FOLDER) && is_user())
 
 # OVERWRITE THE RIGHT BLOCKS
 // $showblocks = 1;
-
-if (!$_SERVER['HTTP_X_REQUESTED_WITH'])
+if(!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
 	include_once(NUKE_BASE_DIR.'header.php');
+}
 
 addJSToHead(_IREPOSITORY_JS.'jquery.lonestar.js','file');
 
@@ -69,10 +69,10 @@ switch($op)
 		break;
 }
 
-if (!$_SERVER['HTTP_X_REQUESTED_WITH'])
-{
+if(!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
 	_copyright_modal();	
 	include_once(NUKE_BASE_DIR.'footer.php');
 }
+
 
 ?>

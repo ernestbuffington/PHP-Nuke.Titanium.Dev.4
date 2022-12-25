@@ -226,7 +226,7 @@ function evouserinfo_get_guests_online($start)
         else:
         
             $user_agent = $identify->identify_agent();
-            if($user_agent['engine'] == 'bot'):
+            if(isset($user_agent['engine']) && $user_agent['engine'] == 'bot'):
                 $out['text'] .= $where.$user_agent['ua']."</a><br />\n";
             else:
                 // $out['text'] .= "<br />".$where.$session['uname']."\n";
@@ -250,15 +250,15 @@ function evouserinfo_online_display($members, $guests)
         $out .= '<div style="font-weight: bold">'.$lang_evo_userblock['BLOCK']['ONLINE']['STATS'].'</div>';
 
         $out .= '<div style="padding-left: 10px;">';
-        $out .= '<font color="gold"><i class="fa fa-pie-chart" aria-hidden="true"></i>
-</font>&nbsp;'.$lang_evo_userblock['BLOCK']['ONLINE']['MEMBERS'].'<span style="float:right">'.$members['total'].'&nbsp;&nbsp;</span>';
+        $out .= '<span style="color:gold"><i class="fa fa-pie-chart" aria-hidden="true"></i>
+</span>&nbsp;'.$lang_evo_userblock['BLOCK']['ONLINE']['MEMBERS'].'<span style="float:right">'.$members['total'].'&nbsp;&nbsp;</span>';
         $out .= '</div>'; 
 
         if($evouserinfo_addons['online_show_hv'] == 'yes'):
 
             $out .= '<div style="padding-left: 10px;">';
-            $out .= '<font color="#FF3300"><i class="fa fa-pie-chart" aria-hidden="true"></i>
-</font>&nbsp;'.$lang_evo_userblock['BLOCK']['ONLINE']['VISIBLE'].'<span style="float:right">'.$members['visible'].'&nbsp;&nbsp;</span>';
+            $out .= '<span style="color:#FF3300"><i class="fa fa-pie-chart" aria-hidden="true"></i>
+</span>&nbsp;'.$lang_evo_userblock['BLOCK']['ONLINE']['VISIBLE'].'<span style="float:right">'.$members['visible'].'&nbsp;&nbsp;</span>';
             $out .= '</div>';
 
             $out .= '<div style="padding-left: 10px;">';

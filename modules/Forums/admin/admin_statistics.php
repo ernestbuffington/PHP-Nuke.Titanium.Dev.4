@@ -26,7 +26,7 @@
 
 global $directory_mode, $file_mode;
 
-define('IN_PHPBB', true);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 //
 // Let's set the root dir for phpBB

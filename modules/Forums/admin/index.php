@@ -41,7 +41,7 @@
 	  Arcade                                   v3.0.2       05/29/2009
  ************************************************************************/
 
-define('IN_PHPBB', 1);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 //
 // Load default header
@@ -668,7 +668,9 @@ $sql = "SELECT VERSION() AS mysql_version";
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-
+                                if(!isset($onlinerow_reg[$i]['user_allow_viewonline']))
+								$onlinerow_reg[$i]['user_allow_viewonline'] = '';
+								
                                 if( $onlinerow_reg[$i]['user_allow_viewonline'] || $userdata['user_level'] == ADMIN )
                                 {
                                         $registered_users++;
@@ -791,7 +793,10 @@ $sql = "SELECT VERSION() AS mysql_version";
 /*****[BEGIN]******************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
  ******************************************************/
-                                $BSH = select_session_url($onlinerow_reg[$i]['session_page'], $onlinerow_reg[$i]['session_url_qs'], $onlinerow_reg[$i]['session_url_ps'], $onlinerow_reg[$i]['session_url_specific'], $userdata['user_level'], $onlinerow_reg[$i]['user_id'], $forums_data, $topics_data, $users_data, $cats_data);
+                                if(!isset($onlinerow_reg[$i]['session_page']))
+								$onlinerow_reg[$i]['session_page'] = '';
+
+								$BSH = select_session_url($onlinerow_reg[$i]['session_page'], $onlinerow_reg[$i]['session_url_qs'], $onlinerow_reg[$i]['session_url_ps'], $onlinerow_reg[$i]['session_url_specific'], $userdata['user_level'], $onlinerow_reg[$i]['user_id'], $forums_data, $topics_data, $users_data, $cats_data);
                                 $location = $BSH;
 /*****[END]********************************************
  [ Mod:    Better Session Handling             v1.0.0 ]
@@ -994,7 +999,11 @@ $sql = "SELECT VERSION() AS mysql_version";
     define('VERSION_CHECK_DELAY', 86400);
     $now = time();
     $version_check_delay = intval($board_config['version_check_delay']);
-    if ( intval($HTTP_GET_VARS['vchk']) || empty($version_check_delay) || (($version_check_delay - $now) > VERSION_CHECK_DELAY) )
+    
+	if(!isset($HTTP_GET_VARS['vchk']))
+	$HTTP_GET_VARS['vchk'] = '';
+	
+	if ( intval($HTTP_GET_VARS['vchk']) || empty($version_check_delay) || (($version_check_delay - $now) > VERSION_CHECK_DELAY) )
     {
         if ( isset($board_config['version_check_delay']) )
         {
@@ -1022,11 +1031,11 @@ $sql = "SELECT VERSION() AS mysql_version";
     $errno = 0;
     $errstr = $version_info = '';
 
-    if ($fsock = fsockopen('www.phpbb.com', 80, $errno, $errstr, 10))
+    if ($fsock = fsockopen('www.php-nuke-titanium.86it.us', 80, $errno, $errstr, 10))  
     {
-        fputs($fsock, "GET /updatecheck/20x.txt HTTP/1.1\r\n");
-        fputs($fsock, "HOST: www.phpbb.com\r\n");
-        fputs($fsock, "Connection: close\r\n\r\n");
+        fputs($fsock, "GET /versions/20x.txt HTTP/1.1\r\n");
+        fputs($fsock, "HOST: www.php-nuke-titanium.86it.us\r\n");
+        fputs($fsock, "Connection: close\r\n\r\n"); 
 
         $get_info = false;
         while (!feof($fsock))

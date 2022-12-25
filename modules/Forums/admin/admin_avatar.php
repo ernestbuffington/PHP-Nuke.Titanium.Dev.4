@@ -69,7 +69,7 @@
       Advanced Username Color                  v1.0.5       06/13/2005
  ************************************************************************/  
 
-define('IN_PHPBB', 1);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 if(!empty($setmodules)):
   $file = basename(__FILE__);
@@ -79,9 +79,7 @@ endif;
 
 $root_path = "./../../../";
 $phpbb_root_path = './../';
-
 require($phpbb_root_path . 'extension.inc');
-
 require('pagestart.' . $phpEx);
 
 # Any mode passed?
@@ -105,22 +103,27 @@ if(!$result = $db->sql_query($sql))
     die("Could not get avatar information! $error[code] : $error[message]");
 }
 
+
+
 # Create a hash to keep track of all the user that is using the uploaded avatar
 while($avatar_rowset = $db->sql_fetchrow($result)):
     $avatar_usage[$avatar_rowset['user_avatar']] = $avatar_rowset['username'];
 endwhile;
 
+
 # This is the variable that points to the path of the avatars
 # You may need to ajust this to meet your needs ;)
 $real_avatar_dir = $phpbb_root_path . '../../' . $board_config['avatar_path'];
 
-echo '<h1>Avatar Management</h1>
+echo '<h1>Unused Avatar Management (This Code Is Not Finished Yet)</h1>
 
 <p>The table below shows all currently stored uploaded avatars.  These are only the avatars which were selected to be
 uploaded by users, this will not show avatars currently in the gallery. If any of the listed avatars are no longer used
 by any user an option to delete it will appear.  This is a permanent delete, once you have selected to delete an
 avatar it will be removed from the server and no longer be available.  You will be prompted for confirmation (requires
 Javascript).</p>';
+
+
 
 switch($mode):
 
@@ -154,10 +157,12 @@ switch($mode):
         $alt2 = '#EEEEEE';
         $alter = $alt2;
 
+
         # This is where we go through the avatar directory and report whether they are not
         # used or if they are used, by who.
+
         if($avatar_dir = opendir($real_avatar_dir)):
-        
+
             while($file = readdir($avatar_dir)):
             
                 # This is where the script will filter out any file that doesn't match the patterns
@@ -175,10 +180,11 @@ switch($mode):
 					  $alter = $alt1; 
 					endif;
                     
-					//if(!empty($avatar_usage[$file])):
+					if(!empty($avatar_usage[$file])):
                     
                         # Since we need to supply a link with a valid sid later in html, let's build it now
                         $av_id = $avatar_usage[$file];
+						
                         $sql = "SELECT user_id FROM ".USERS_TABLE." WHERE username = $av_id";
                         //echo ''.$av_id.'</br>';
                         $result = $db->sql_query($sql);
@@ -195,7 +201,7 @@ switch($mode):
                                <a href=\"$edit_url\"> Edit $avatar_usage[$file]</a></td></tr>\n";
 
                     
-                    //else:
+                    else:
                         # Not used, safe to display delete link for admin
                         $delete_html = append_sid("./admin_avatar.php?mode=delete&target=$file");
                         print "<tr><td class=avatar_listing bgcolor=$alter><img height=\"200px\" src=$real_avatar_dir/$file><br />$file</td>
@@ -203,7 +209,7 @@ switch($mode):
                                <td class=avatar_listing bgcolor=$alter>Not Used<br /><a href=$delete_html onClick=\"if(confirm('Are you sure you want to delete: $file ?')) return true; else return false;\">Delete</a></td>
                                <td class=avatar_listing bgcolor=$alter>&nbsp;</td>
                                </tr>\n";
-                    //endif;
+                    endif;
                 endif;
 				
             endwhile;

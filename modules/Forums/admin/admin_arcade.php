@@ -13,7 +13,7 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB', 1);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 if( !empty($setmodules) )
 {
@@ -70,6 +70,23 @@ else
         message_die(GENERAL_MESSAGE, $message);
     }
 }
+
+if(!isset($new['forum_header']))
+$new['forum_header'] = '';
+
+if(!isset($new['bodyline']))
+$new['bodyline'] = '';
+
+if(!isset($new['head_out_bodyline']))
+$new['head_out_bodyline'] = '';
+
+$new['game_order'] = [];
+
+if(!isset($lang['game_order_random']))
+$lang['game_order_random'] = '';
+
+if(!isset($lang['game_order_news']))
+$lang['game_order_news'] = '';
 
 
 $header_forum_yes = ( $new['forum_header'] ) ? "checked=\"checked\"" : "";

@@ -26,7 +26,7 @@ if (!defined('IN_PHPBB'))
 {
     die('Hacking attempt');
 }
-
+global $userdata, $boardconfig;
 /*****[BEGIN]******************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
@@ -372,8 +372,10 @@ include(NUKE_BASE_DIR . '/includes/posting_icons.'. $phpEx);
                 }
                 else
                 {
-                    $unread_topics = false;
-                    $shownew = ($board_config['time_today'] < $latest_topic['post_time']);
+
+					$unread_topics = false;
+					
+                    $shownew = (isset($board_config['time_today']) < $latest_topic['post_time']);
                 }
                 switch ($latest_topic['topic_type'])
                 {

@@ -29,10 +29,11 @@ function evouserinfo_block_getactive()
 {
     global $prefix, $db, $lang_evo_userblock, $cache;
 
-    if(isset($active) && is_array($active)) return $active;
+    if(isset($active) && is_array($active)) 
+	return $active;
     
-    if ((($active = $cache->load('active', 'evouserinfo')) === false) || !isset($active)) 
-	{
+    //if ((($active = $cache->load('active', 'evouserinfo')) === false) || !isset($active)) 
+	//{
         $sql = 'SELECT * FROM '.$prefix.'_evo_userinfo WHERE active=1 ORDER BY position ASC';
         $result = $db->sql_query($sql);
 
@@ -43,8 +44,8 @@ function evouserinfo_block_getactive()
         
 		$db->sql_freeresult($result);
         
-		$cache->save('active', 'evouserinfo', $active);
-    }
+	//	$cache->save('active', 'evouserinfo', $active);
+    //}
     
 	return $active;
 }
@@ -67,7 +68,14 @@ function evouserinfo_block_display()
 			{
                 include_once(NUKE_MODULES_DIR .'Evo_UserBlock/addons/'.$element['filename'].'.php');
                 $output = 'evouserinfo_'.$element['filename'];
-                $content .= $$output;
+                
+				if(!isset($content))
+				$content ='';
+				
+				if(!isset($$output))
+				$$output = '';
+				
+				$content .= $$output;
             
 			    if(isset($$output) && !empty($$output)) 
 				{

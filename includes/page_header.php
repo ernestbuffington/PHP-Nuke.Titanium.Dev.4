@@ -49,9 +49,9 @@
 if (!defined('IN_PHPBB'))
 exit('Hacking attempt');
 
-define('HEADER_INC', TRUE);
+define_once('HEADER_INC', TRUE);
 
-global $name, $sitename, $is_inline_review, $prefix, $db, $cache, $ThemeSel;
+global $userdata, $name, $sitename, $is_inline_review, $prefix, $db, $cache, $ThemeSel;
 
 OpenTable();
 

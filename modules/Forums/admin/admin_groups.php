@@ -35,7 +35,7 @@
       Auto Group                               v1.2.2       11/06/2006
  ************************************************************************/
 
-define('IN_PHPBB', 1);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 if ( !empty($setmodules) )
 {
@@ -87,6 +87,7 @@ else
 /*****[BEGIN]******************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/
+if(isset($HTTP_POST_VARS['group_update']))
 attachment_quota_settings('group', $HTTP_POST_VARS['group_update'], $mode);
 /*****[END]********************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
@@ -745,7 +746,12 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
 /*****[END]********************************************
  [ Mod:    Auto Group                          v1.2.2 ]
  ******************************************************/
-                        
+                        if(!isset($group_count_remove))
+						$group_count_remove = '';
+
+                        if(!isset($group_count_added))
+						$group_count_added = '';
+						
                         $message = $lang['Updated_group'] .'<br />'.sprintf($lang['group_count_updated'],$group_count_remove,$group_count_added). '<br /><br />' . sprintf($lang['Click_return_groupsadmin'], '<a href="' . append_sid("admin_groups.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');;
 
                         message_die(GENERAL_MESSAGE, $message);

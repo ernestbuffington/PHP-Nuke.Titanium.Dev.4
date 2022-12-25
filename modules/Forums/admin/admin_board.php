@@ -47,7 +47,7 @@
       Cookie Check                             v1.0.0       08/04/2005
  ************************************************************************/
 
-define('IN_PHPBB', 1);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 if( !empty($setmodules) )
 {
@@ -66,7 +66,7 @@ include("../../../includes/functions_selects.php");
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-if ( !file_exists(@phpbb_realpath($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_adv_time.' . $phpEx)) )
+if ( !file_exists(phpbb_realpath($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_adv_time.' . $phpEx)) )
 {
     include_once($phpbb_root_path . 'language/lang_english/lang_adv_time.' . $phpEx);
 } else
@@ -191,8 +191,8 @@ else
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $cache->delete('nukeconfig');
-                $cache->delete('board_config');
+               // $cache->delete('nukeconfig');
+               // $cache->delete('board_config');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -229,7 +229,7 @@ include($config_dir . "/page_header.php");
     $dir = opendir($config_dir);
 
     $dhtml_id = 0;
-    while( false !== ($file = @readdir($dir)) )
+    while( false !== ($file = readdir($dir)) )
     {
         if( preg_match("/^board_.*?\." . $phpEx . "$/", $file) )
         {
@@ -238,12 +238,12 @@ include($config_dir . "/page_header.php");
         }
     }
 
-    @closedir($dir);
+    closedir($dir);
 
     unset($load_files);
 
 include($config_dir . "/page_footer.php");
-define("BOARD_CONFIG", false);
+if (!defined('BOARD_CONFIG')) define("BOARD_CONFIG", false);
 /*****[END]********************************************
  [ Base:     Drop-A-Mod                        v1.0.0 ]
  ******************************************************/

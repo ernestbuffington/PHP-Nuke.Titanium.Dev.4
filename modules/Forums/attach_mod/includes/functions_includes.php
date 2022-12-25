@@ -144,10 +144,14 @@ function attach_build_auth_levels($is_auth, &$s_auth_can)
     $s_auth_can .= (($is_auth['auth_download']) ? $lang['Rules_download_can'] : $lang['Rules_download_cannot'] ) . '<br />';
 }
 
+//function send(string $to_name = '', string $to_addr, string $from_name, string $from_addr, string $subject = '', bool $reply_to = false): bool {}
+//function send(string $to_addr, string $from_name, string $from_addr, string $to_name = '', string $subject = '', bool $reply_to = false): bool {}
+
 /**
 * Called from admin_users.php and admin_groups.php in order to process Quota Settings (admin/admin_users.php:admin/admin_groups.php)
 */
-function attachment_quota_settings($admin_mode, $submit = false, $mode)
+//function attachment_quota_settings($admin_mode, $submit = false, $mode)                  # from this
+function attachment_quota_settings(string $admin_mode, string $mode, bool $submit = false) # to this
 {
     $this_userdata = [];
     global $template, $db, $_POST, $_GET, $lang, $lang, $phpbb_root_path, $phpEx, $attach_config;

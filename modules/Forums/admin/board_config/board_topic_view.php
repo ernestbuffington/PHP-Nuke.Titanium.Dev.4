@@ -75,6 +75,12 @@ $template->assign_vars(array(
 ));
 
 //Data Template Variables
+if(!isset($announce_html_open))
+$announce_html_open = '';
+
+if(!isset($announce_html_close))
+$announce_html_close = '';
+
 $template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:     Customized Topic Status            v1.0.0 ]

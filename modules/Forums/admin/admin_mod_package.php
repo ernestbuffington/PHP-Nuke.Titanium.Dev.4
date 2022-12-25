@@ -26,7 +26,7 @@
 
 // Only delivered with the Module Development Kit
 
-define('IN_PHPBB', true);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 if( !empty($setmodules) )
 {

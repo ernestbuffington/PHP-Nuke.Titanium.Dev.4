@@ -15,44 +15,44 @@ if (!defined('IN_FILE_REPOSITORY'))
 //---------------------------------------------------------------------
 //	DEFINE THE STANDARD SQL TABLES
 //---------------------------------------------------------------------
-define('_GROUPS_TABLE', 				$prefix.'_bbgroups');
-define('_USER_TABLE', 					$user_prefix.'_users');
-define('_USER_GROUP_TABLE', 			$prefix.'_bbuser_group');
+define_once('_GROUPS_TABLE', 				$prefix.'_bbgroups');
+define_once('_USER_TABLE', 					$user_prefix.'_users');
+define_once('_USER_GROUP_TABLE', 			$prefix.'_bbuser_group');
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 //	DEFINE THE SQL TABLES, MAKES THINGS EASIER IN THE FUTURE IF TABLES,
 //	NEED TO BE RENAMED :)
 //---------------------------------------------------------------------
-define('_FILE_REPOSITORY_CATEGORIES',	$prefix.'_file_repository_categories');
-define('_FILE_REPOSITORY_COMMENTS',		$prefix.'_file_repository_comments');
-define('_FILE_REPOSITORY_EXTENSIONS',	$prefix.'_file_repository_extensions');
-define('_FILE_REPOSITORY_FILES',		$prefix.'_file_repository_files');
-define('_FILE_REPOSITORY_ITEMS',		$prefix.'_file_repository_items');
-define('_FILE_REPOSITORY_SCREENSHOTS',	$prefix.'_file_repository_screenshots');
-define('_FILE_REPOSITORY_SETTINGS',		$prefix.'_file_repository_settings');
-define('_FILE_REPOSITORY_THEMES',		$prefix.'_file_repository_themes');
+define_once('_FILE_REPOSITORY_CATEGORIES',	$prefix.'_file_repository_categories');
+define_once('_FILE_REPOSITORY_COMMENTS',		$prefix.'_file_repository_comments');
+define_once('_FILE_REPOSITORY_EXTENSIONS',	$prefix.'_file_repository_extensions');
+define_once('_FILE_REPOSITORY_FILES',		$prefix.'_file_repository_files');
+define_once('_FILE_REPOSITORY_ITEMS',		$prefix.'_file_repository_items');
+define_once('_FILE_REPOSITORY_SCREENSHOTS',	$prefix.'_file_repository_screenshots');
+define_once('_FILE_REPOSITORY_SETTINGS',		$prefix.'_file_repository_settings');
+define_once('_FILE_REPOSITORY_THEMES',		$prefix.'_file_repository_themes');
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 //	DEFINE THE FOLDER PATHS, AGAIN MAKES THINGS ALOT EASIER.
 //---------------------------------------------------------------------
-define('_FILE_REPOSITORY_ADMIN', 		'modules/'.$module_name.'/admin/includes/');
-define('_FILE_REPOSITORY_CSS', 			'modules/'.$module_name.'/includes/css/');
-define('_FILE_REPOSITORY_DIR', 			'modules/'.$module_name.'/files/');
-define('_FILE_REPOSITORY_JS',			'modules/'.$module_name.'/includes/js/');
-define('_FILE_REPOSITORY_PLUGINS', 		'modules/'.$module_name.'/includes/plugins/');
-define('_FILE_REPOSITORY_PUBLIC',		'modules/'.$module_name.'/public/');
-define('_FILE_REPOSITORY_SCREENS', 		'modules/'.$module_name.'/files/screenshots/');
+define_once('_FILE_REPOSITORY_ADMIN', 		'modules/'.$module_name.'/admin/includes/');
+define_once('_FILE_REPOSITORY_CSS', 			'modules/'.$module_name.'/includes/css/');
+define_once('_FILE_REPOSITORY_DIR', 			'modules/'.$module_name.'/files/');
+define_once('_FILE_REPOSITORY_JS',			'modules/'.$module_name.'/includes/js/');
+define_once('_FILE_REPOSITORY_PLUGINS', 		'modules/'.$module_name.'/includes/plugins/');
+define_once('_FILE_REPOSITORY_PUBLIC',		'modules/'.$module_name.'/public/');
+define_once('_FILE_REPOSITORY_SCREENS', 		'modules/'.$module_name.'/files/screenshots/');
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 //	I MAY CHANGE THE NAME OF THIS MODULE IN THE FUTURE,
 //	SO WE DEFINE THE MODNAME HERE JUST INCASE.
 //---------------------------------------------------------------------
-define('_MODNAME', 						'file_repository');
+define_once('_MODNAME', 						'file_repository');
 
-// define('_force_colorbox_load',false);
-// define('_force_fancybox_load',false);
-// define('_force_lightbox_load',false);
-// define('_force_lightboxevo_load',false);
+// define_once('_force_colorbox_load',false);
+// define_once('_force_fancybox_load',false);
+// define_once('_force_lightbox_load',false);
+// define_once('_force_lightboxevo_load',false);
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 //	GLOBALIZE SETTINGS THROUGHOUT THE MODULE
@@ -63,6 +63,12 @@ $themes     = _module_themes();
 //---------------------------------------------------------------------
 //	HERE WE HAVE THE VARIABLES USED FOR THE JQUERY SIDE OF THINGS
 //---------------------------------------------------------------------
+if(!isset($_GET['mid']))
+$_GET['mid'] = '';
+
+if(!isset($_GET['action']))
+$_GET['action'] = '';
+
 $more_js .= '<script>'."\n";
 $more_js .= '	var admin_file				= "'.$admin_file.'"'."\n";
 $more_js .= '	var css_folder				= "'._FILE_REPOSITORY_CSS.'";'."\n";
@@ -109,7 +115,7 @@ $more_js .= '</script>'."\n";
 if(function_exists('addJSToBody')):
 
 	# The Following function are used in Raven Nuke & Nuke Evolution 3.0.0
-	addJSToBody($JSToBody,'inline');
+	addJSToBody(isset($JSToBody),'inline');
 
 	addCSSToHead(_FILE_REPOSITORY_CSS.'sceditor/square.css','file');
 	addCSSToHead(_FILE_REPOSITORY_CSS.'jquery.colorpicker.css','file');
@@ -169,10 +175,13 @@ if(!file_exists('includes/classes/class.paginator.php'))
 //---------------------------------------------------------------------
 //	OK, LETS ADD ALL THE ABOVE FILE AND VARIABLES - RAVEN ONLY
 //---------------------------------------------------------------------
+if(!isset($themes[get_theme()]['show_left']))
+$themes[get_theme()]['show_left'] = '';
 
 if($themes[get_theme()]['show_left'] == false) 
 {
-    $hide_blocks_left = array($module_name);
+    //$hide_blocks_left = array($module_name);
+	$hide_blocks_left = [$module_name];
 }
 
 function _average_rating($did,$decimal=FALSE)
@@ -207,24 +216,29 @@ function _average_rating($did,$decimal=FALSE)
 	return $average_rating.' / 10';
 }
 
-function _float_left_right($leftFloatLink=false, $leftFloat, $rightFloatLink=false, $rightFloat)
-{
-	$float  = '<span style="float: left;">';
-	if($leftFloatLink <> false):
-		$float .= '  <a'._ls().' href="'.$leftFloatLink.'">'._sut($leftFloat).'</a>';
-	else:
-		$float .= _sut($leftFloat);
-	endif;
-	$float .= '</span>';
-	$float .= '<span style="float: right">';
-	if($rightFloatLink <> false):
-		$float .= '  <a'._ls().' href="'.$rightFloatLink.'">'._sut($rightFloat).'</a>';
-	else:
-		$float .= _sut($rightFloat);
-	endif;
-	$float .= '</span>';
-	return $float;
-}
+function _float_left_right($leftFloatLink=false, $leftFloat = null, $rightFloatLink=false, $rightFloat= null)
+ {
+ 	$float  = '<span style="float: left;">';
+//	if($leftFloatLink <> false):
+	if($leftFloatLink != false):
+ 		$float .= '  <a'._ls().' href="'.$leftFloatLink.'">'._sut($leftFloat).'</a>';
+ 	else:
+ 		$float .= _sut($leftFloat);
+//@@ -9,11 +9,10 @@
+ 	endif;
+ 	$float .= '</span>';
+ 	$float .= '<span style="float: right">';
+//	if($rightFloatLink <> false):
+	if($rightFloatLink != false):
+ 		$float .= '  <a'._ls().' href="'.$rightFloatLink.'">'._sut($rightFloat).'</a>';
+ 	else:
+ 		$float .= _sut($rightFloat);
+ 	endif;
+//	$float .= '</span>';
+//	return $float;
+	return $float . '</span>';
+ }
+
 
 //---------------------------------------------------------------------
 //	THIS FUNCTION IS ONLY DISPLAYED IN THE ADMIN AREA
@@ -486,7 +500,7 @@ function _category_parents($name,$value=0)
 
 function _category_parents_and_children($name,$value,$search=false,$onlyShowAllowed=false)
 {
-	global $db, $settings;
+	global $db, $module_name, $settings;
 	$result = $db->sql_query("SELECT `cid`, `cname`, `color`, `isallowed`, `permissions` FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `parentid`='0' ORDER BY `cname`");
 	$category_list = '<select class="glowing-border"';
 	$category_list .= ' style="';
@@ -499,7 +513,7 @@ function _category_parents_and_children($name,$value,$search=false,$onlyShowAllo
 	$category_list .= ((!defined('NUKE_EVO')) ? 'padding: 4px; ' : 'padding: 5px; ');
 	$category_list .= 'text-transform: '.(($settings['utext'] == 1) ? 'uppercase' : 'none').';" name="'.$name.'">';
 	if($search == true)
-		$category_list .= '  <option value="0">'.$lang_new[$module_name]['CATEGORY_ALL'].'</option>'."\n";
+		$category_list .= '  <option value="0">'.isset($lang_new[$module_name]['CATEGORY_ALL']).'</option>'."\n";
 	while( $row = $db->sql_fetchrow($result) ) 
 	{
 		// _check_users_permissions($row['permissions']) == true
@@ -974,6 +988,10 @@ function _grab_the_items_screenshots($did)
 	$sql 	= "SELECT * FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$did."'";
 	$result = $db->sql_query($sql);
 	$count 	= $db->sql_numrows($result);
+	
+	if(!isset($jcarousel))
+	$jcarousel = '';
+	
 	$jcarousel .= '  <div class="jcarousel-wrapper">'."\n";
 	$jcarousel .= '    <div class="jcarousel thumbnail_border">'."\n";
 	$jcarousel .= '      <ul>'."\n";
@@ -1253,18 +1271,30 @@ function _item_is_new($time,$update)
 function _sc($view=true)
 {
 	global $themes;
+
+	if(!isset($themes[get_theme()]['cell']))
+	$themes[get_theme()]['cell'] = '';
+
 	return ($themes[get_theme()]['cell'] == 0) ? 'row1'.(($view == 0) ? ' displayNone' : '') : (($view == 0) ? 'displayNone' : false);
 }
 
 function _sf()
 {
 	global $themes;
+
+	if(!isset($themes[get_theme()]['head']))
+	$themes[get_theme()]['head'] = '';
+
 	return ($themes[get_theme()]['head'] == 0) ? 'catBottom' : false;
 }
 
 function _sh($view=true)
 {
 	global $themes;
+	
+	if(!isset($themes[get_theme()]['head']))
+	$themes[get_theme()]['head'] = '';
+	
 	return ($themes[get_theme()]['head'] == 0) ? 'catHead'.(($view == 0 ) ? ' displayNone' : '') : (($view == 0) ? 'displayNone' : false);
 }
 
@@ -1310,6 +1340,9 @@ function _input_checkbox($n,$d,$l,$v=array())
 // function _input($t=false,$n=false,$w=false,$v='',$m=false,$p=false,$r=false,$c=false,$arr=false)
 function _input($t=false,$n=false,$w=false,$v='',$m=false,$p=false,$r=false,$c=false)
 {
+	if(!isset($checked))
+	$checked = '';
+	
 	$input  = '<input'.$checked.' type="'.$t.'" id="'.$n.'" name="'.$n.'" value="'.(($t == 'checkbox' && $n == 'status') ? '1' : $v).'"'; //  autocomplete="off"
 
 	// if ($n == 'fupload'):
@@ -1347,7 +1380,7 @@ function _input($t=false,$n=false,$w=false,$v='',$m=false,$p=false,$r=false,$c=f
 	return $input;
 }
 
-function _input_numbers($n,$m=1,$t=100,$s=1,$v)
+function _input_numbers($n=null,$m=1,$t=100,$s=1,$v=null)
 {
 	$input  = '<input type="number" id="'.$n.'" name="'.$n.'" min="'.$m.'" max="'.$t.'" step="'.$s.'" value="'.$v.'"';
 	$input .= ' style="';

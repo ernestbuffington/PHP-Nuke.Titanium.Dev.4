@@ -308,9 +308,10 @@ if( ( ($total_categories = count($category_rows)) !== 0 ) )
                 message_die(GENERAL_ERROR, 'Could not query forum moderator information', '', __LINE__, __FILE__, $sql);
         }
 
-        while( $row = $db->sql_fetchrow($result) )
+        while( $row = $db->sql_fetchrow($result) ) 
         {
-                $forum_moderators[$row['forum_id']][] = '<a href="' . append_sid("groupcp.$phpEx?" . POST_GROUPS_URL . "=" . $row['group_id']) . '">' . GroupColor($row['group_name']) . '</a>';
+          # Change The Font size of the moderators groups links on the forum index HERE    
+		  $forum_moderators[$row['forum_id']][] = '<a style="font-size:0.9em !important;" href="'.append_sid("groupcp.$phpEx?".POST_GROUPS_URL."=".$row['group_id']).'">'.GroupColor($row['group_name']).'</a>';
         }
         $db->sql_freeresult($result);
 
@@ -616,9 +617,9 @@ $images['Mini_Arcade'] = '';
 																$folder_images = ['default'	=> 
 																       $folder_image, 'new' => $images['forum_locked'], 
 																	                  'sub' => $images['forums_locked'] 
-																?? $images['forum_locked'], 'subnew' => $images['forums_locked'] 
-																?? $images['forum_locked'], 'subalt' => $lang['Forum_locked'], 
-																                         'subaltnew' => $lang['Forum_locked']];
+													   ?? $images['forum_locked'], 'subnew' => $images['forums_locked'] 
+											  		   ?? $images['forum_locked'], 'subalt' => $lang['Forum_locked'], 
+														                        'subaltnew' => $lang['Forum_locked']];
                                             /*****[END]********************************************
                                              [ Mod:    Simple Subforums                    v1.0.1 ]
                                              ******************************************************/
@@ -654,7 +655,12 @@ $images['Mini_Arcade'] = '';
                                                                /*****[BEGIN]******************************************
                                                                 [ Mod:    Simple Subforums                    v1.0.1 ]
                                                                 ******************************************************/
-																$folder_images = ['default'	=> $folder_image, 'new'		=> $images['forum_new'], 'sub'		=> $images['forums'] ?? $images['forum'], 'subnew'	=> $images['forums_new'] ?? $images['forum_new'], 'subalt'	=> $lang['No_new_posts'], 'subaltnew'	=> $lang['New_posts']];
+																$folder_images = ['default'	=> $folder_image, 'new'		
+																                            => $images['forum_new'], 'sub'		
+																							=> $images['forums'] ?? $images['forum'], 'subnew'	
+																							=> $images['forums_new'] ?? $images['forum_new'], 'subalt'	
+																							=> $lang['No_new_posts'], 'subaltnew'	
+																							=> $lang['New_posts']];
                                                                /*****[END]********************************************
                                                                 [ Mod:    Simple Subforums                    v1.0.1 ]
                                                                 ******************************************************/
@@ -677,12 +683,14 @@ $images['Mini_Arcade'] = '';
                                                          /*****[BEGIN]******************************************
                                                           [ Mod:    Advanced Username Color             v1.0.5 ]
                                                           ******************************************************/
-                                                                $last_post_username = ( $forum_data[$j]['user_id'] == ANONYMOUS ) ? ( ($forum_data[$j]['post_username'] != '' ) ? $forum_data[$j]['post_username'] . ' ' : $lang['Guest'] . ' ' ) : '<a href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $forum_data[$j]['user_id']) . '">' . UsernameColor($forum_data[$j]['username']) . '</a> ';
+                                                                $last_post_username = ( $forum_data[$j]['user_id'] == ANONYMOUS ) 
+																? ( ($forum_data[$j]['post_username'] != '' ) 
+																? $forum_data[$j]['post_username'] . ' ' : $lang['Guest'] . ' ' ) : '<a 
+																href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '='  . $forum_data[$j]['user_id']) . 
+																'">' . UsernameColor($forum_data[$j]['username']) . '</a> ';
                                                          /*****[END]********************************************
                                                           [ Mod:    Advanced Username Color             v1.0.5 ]
                                                           ******************************************************/
-
-                                                                // $last_post = '<a href="'.append_sid("viewtopic.$phpEx?".POST_POST_URL.'='.$forum_data[$j]['forum_last_post_id']).'#'.$forum_data[$j]['forum_last_post_id'].'"><img src="'.$images['icon_latest_reply'].'" border="0" alt="'.$lang['View_latest_post'].'" title="'.$lang['View_latest_post'].'" /></a>';
                                                                 $last_post = '<a href="'.append_sid("viewtopic.$phpEx?".POST_POST_URL.'='.$forum_data[$j]['forum_last_post_id']).'#'.$forum_data[$j]['forum_last_post_id'].'"><i class="fa fa-arrow-right tooltip-html-side-interact" aria-hidden="true" title="'.$lang['View_latest_post'].'"></i></a>';
                                                           /*****[BEGIN]******************************************
                                                            [ Mod:    Simple Subforums                    v1.0.1 ]
@@ -709,8 +717,10 @@ $images['Mini_Arcade'] = '';
                                                         if (isset($forum_moderators[$forum_id])) {
                                                             if ( $forum_moderators[$forum_id] !== [] )
                                                             {
-                                                                    $l_moderators = ( count($forum_moderators[$forum_id]) == 1 ) ? $lang['Moderator'] : $lang['Moderators'];
-                                                                    $moderator_list = implode(', ', $forum_moderators[$forum_id]);
+                                                                    $moderator_list_font_change = ( count($forum_moderators[$forum_id]) == 1 ) ? $lang['Moderator'] : $lang['Moderators'];
+																	$l_moderators = '<span style="font-size:0.9em !important;">'.$moderator_list_font_change.'</span>';
+                                                                    $moderator_list_font_change = implode(', ', $forum_moderators[$forum_id]);
+																	$moderator_list = '<span style="font-size:0.9em !important;">'.$moderator_list_font_change.'</span>';
                                                             }
                                                             else
                                                             {
@@ -731,6 +741,9 @@ $images['Mini_Arcade'] = '';
                                                         if(!isset($forum_rows[$j]['forum_icon']))
 														$forum_rows[$j]['forum_icon'] = '';
                                                         
+														$l_moderators_font_change = '<span style="font-size:0.9em !important;">'.$l_moderators.'</span>';
+														$moderator_list_font_change = '<span style="font-size:0.9em !important;">'.$moderator_list.'</span>';
+														
 														$template->assign_block_vars('catrow.forumrow', [
                                                             /*****[BEGIN]******************************************
                                                              [ Mod:    DHTML Collapsible Forum Index MOD     v1.1.1]
@@ -775,8 +788,8 @@ $images['Mini_Arcade'] = '';
                                                             'LAST_POST' => $last_post,
                                                             'LAST_POST_USERNAME' => ($last_post_username !== '' && $last_post_username !== '0') ? sprintf(trim((string) $lang['Recent_first_poster']),$last_post_username) : $last_post_username,
                                                             'LAST_POSTTIME' => $last_post_time,
-                                                            'MODERATORS' => $moderator_list,
-                                                            'L_MODERATOR' => $l_moderators,
+                                                            'MODERATORS' => $moderator_list_font_change,
+                                                            'L_MODERATOR' => $l_moderators_font_change, 
                                                             'L_FORUM_FOLDER_ALT' => $folder_alt,
                                                             /*****[BEGIN]******************************************
                                                              [ Mod:    Simple Subforums                    v1.0.1 ]
@@ -807,7 +820,8 @@ $images['Mini_Arcade'] = '';
                                                             /*****[BEGIN]******************************************
                                                              [ Mod:    Forumtitle as Weblink               v1.2.2 ]
                                                              ******************************************************/
-                                                            'U_VIEWFORUM' => ( $forum_data[$j]['title_is_link'] == 1 ) ? append_sid("index.$phpEx?" . POST_FORUM_URL . "=$forum_id&amp;forum_link=1") : append_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$forum_id"),
+                                                            'U_VIEWFORUM' => ( $forum_data[$j]['title_is_link'] == 1 ) 
+															? append_sid("index.$phpEx?" . POST_FORUM_URL . "=$forum_id&amp;forum_link=1") : append_sid("viewforum.$phpEx?" . POST_FORUM_URL . "=$forum_id"),
                                                         ]
 
 							);

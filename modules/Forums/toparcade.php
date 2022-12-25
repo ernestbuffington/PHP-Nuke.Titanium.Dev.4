@@ -24,7 +24,7 @@ if (!defined('MODULE_FILE')) {
     die('You can\'t access this file directly...');
 }
 
-if ($popup != "1"){
+if (!isset($popup)){
     $module_name = basename(dirname(__FILE__));
     require("modules/".$module_name."/nukebb.php");
 }
@@ -122,6 +122,9 @@ while ((!$fini) ) {
 
 		$row2['trophy'] = '';
 		
+		if(!isset($row2['score_game']))
+		$row2['score_game'] = 0;
+		
 		if($row2['score_game'] == 1)
 		$row2['trophy'] = 'st';
 		if($row2['score_game'] == 2)
@@ -152,13 +155,17 @@ while ((!$fini) ) {
                                 message_die(GENERAL_ERROR, "Could not read from the scores/users tables", '', __LINE__, __FILE__, $sql);
                         }
 
-                        while($row2 = $db->sql_fetchrow($result2)) {
+						while($row2 = $db->sql_fetchrow($result2)) {
                                 $posreelle++;
 
                                 if ($lastscore != $row2['score_game']) {
                                         $pos = $posreelle;
                                 }
                                 $lastscore = $row2['score_game'];
+
+                                if(!isset($row2['trophy']))
+						        $row2['trophy'] = '';
+
                                 $template->assign_block_vars('blkligne.blkcolonne.blkgame.blkscore', array(
                                         'SCORE' => number_format($row2['score_game']),
 										'TROPHY' => $row2['trophy'],
@@ -179,6 +186,9 @@ while ((!$fini) ) {
                 }
         }
 }
+
+if(!isset($uid))
+$uid = '';
 
 $template->assign_vars(array(
         'PAGINATION' => generate_pagination(append_sid("toparcade.$phpEx?uid=$uid"), $total_games, $games_par_page, $start),

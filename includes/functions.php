@@ -2015,7 +2015,7 @@ function bblogin($session_id) {
 
         $redirect = null;
 
-        global $userdata, $user_ip, $session_length, $session_id, $db, $nuke_file_path, $cookie;
+        global $userdata, $board_config, $user_ip, $session_length, $session_id, $db, $nuke_file_path, $cookie;
 
         define("IN_LOGIN", true);
 
@@ -2039,6 +2039,9 @@ function bblogin($session_id) {
 		$logindata = $db->sql_fetchrow($result);
 
         $db->sql_freeresult($result);
+        
+		if(!isset($logindata['session_user_id']))
+		$logindata['session_user_id'] = '';
 
         if(isset($nuid) && $nuid  != $logindata['session_user_id'] ) {
 
@@ -2063,10 +2066,13 @@ function bblogin($session_id) {
             $db->sql_freeresult($result);
 
             $password = $cookie[2];
+		    
+			if(!isset($rowresult))
+		    $rowresult = 0;
 
             if(is_countable($rowresult) ? count($rowresult) : 0 ) {
 
-                if( $rowresult['user_level'] != ADMIN && $board_config['board_disable'] ) {
+				if( $rowresult['user_level'] != ADMIN && $board_config['board_disable'] ) {
 
                     redirect(append_sid("index.$phpEx", true));
 

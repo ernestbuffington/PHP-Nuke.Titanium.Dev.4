@@ -53,10 +53,10 @@ function messages() {
     include(NUKE_BASE_DIR.'header.php');
     OpenTable();
     echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=messages\">" . $admlang['messages']['header'] . "</a></div>\n";
-    echo "<br /><br />";
+    echo "<br />";
     echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . $admlang['global']['header_return'] . "</a> ]</div>\n";
     CloseTable();
-    echo "<br />";
+   // echo "<br />";
     if (empty($admlanguage)) {
         $admlanguage = $language; /* This to make sure some language is pre-selected */
     }
@@ -121,7 +121,7 @@ function messages() {
     }
     echo "</table></center><br />";
     CloseTable();
-    echo "<br />";
+    //echo "<br />";
     OpenTable();
     echo "<center><span class=\"title\"><strong>" . $admlang['messages']['add'] . "</strong></span></center><br />";
     echo "<form action=\"".$admin_file.".php\" method=\"post\" name=\"message\">"

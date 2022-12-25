@@ -182,6 +182,9 @@ class sql_db
 		// Remove any pre-existing queries
 		if (isset($this->query_result)) unset($this->query_result);
 
+        if(!isset($query))
+		$query = '';
+		
 		if ($query != '')
 		{
             if(SQL_LAYER == 'mysqli') {

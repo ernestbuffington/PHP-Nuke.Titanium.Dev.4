@@ -20,9 +20,11 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB', true);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 //$forum_id = 2; // You could change this value unless forum ID 3 did not exist in your board
+if(!isset($forum_id))
+$forum_id = '';
 
 if( !empty($setmodules) )
 {

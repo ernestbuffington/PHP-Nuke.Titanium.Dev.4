@@ -25,11 +25,11 @@
 	  Titanium Patched                         v3.0.0       08/14/2019
  ************************************************************************/
 
-define("_TOPICS","Blog Topics");
-define("_ACTIVETOPICS","Current Active Blog Topics");
-define("_CLICK2LIST","Click to list all Blogs in this topic");
-define("_TOTNEWS","Total Blogs");
-define("_TOTREADS","Total Blog Reads");
-define("_MORE","More");
-define("_NONEWSYET","...There aren't any new Bogs for this topic yet...");
+if (!defined('_TOPICS')) define("_TOPICS","Blog Topics");
+if (!defined('_ACTIVETOPICS')) define("_ACTIVETOPICS","Current Active Blog Topics");
+if (!defined('_CLICK2LIST')) define("_CLICK2LIST","Click to list all Blogs in this topic");
+if (!defined('_TOTNEWS')) define("_TOTNEWS","Total Blogs");
+if (!defined('_TOTREADS')) define("_TOTREADS","Total Blog Reads");
+if (!defined('_MORE')) define('_MORE', 'More');
+if (!defined('_NONEWSYET')) define("_NONEWSYET","...There aren't any new Bogs for this topic yet...");
 ?>

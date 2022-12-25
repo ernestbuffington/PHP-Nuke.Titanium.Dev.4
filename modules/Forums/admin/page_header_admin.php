@@ -29,7 +29,7 @@
  ************************************************************************/
 if (!defined('IN_PHPBB')) die('Hacking attempt');
 
-define('HEADER_INC', true);
+define_once('HEADER_INC', true);
 
 /*****[BEGIN]******************************************
  [ Mod:     Forum Admin Style Selection        v1.0.0 ]
@@ -52,6 +52,8 @@ $l_timezone = (count($l_timezone) > 1 && $l_timezone[count($l_timezone)-1] != 0)
 // in a template. Note that all URL's should be wrapped in append_sid, as
 // should all S_x_ACTIONS for forms.
 //
+if(!isset($page_title))
+$page_title = 'phpBB Titanium Admin Area';
 $template->assign_vars(array(
         'SITENAME' => $board_config['sitename'],
         'PAGE_TITLE' => $page_title,

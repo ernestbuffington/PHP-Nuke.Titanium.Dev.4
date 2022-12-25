@@ -35,16 +35,18 @@ switch($ShoutSubmit) {
     ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid);
     break;
 }
+if (!isset($_GET['Action']))
+$_GET['Action'] = null;
 
 if (!isset($_GET['Action']) && $_GET['Action'] != 'AJAX') {
-	$content .= '<script>
+	$content = '<script>
     //<![CDATA[
 	var SBheight = \''.$ShoutMarqueeheight.'\';var SBcontent = new String(\''.$mid_content.'\');
 	//]]>
 	</script>
     <script src="includes/shoutbox.js"></script>';
     $content .= $top_content."\n";
-    $content .= "<div style=\"padding-top:8px; padding-bottom:8px;\" align=\"center\" id=\"shoutbox\"><script>document.write(SBtxt);</script></div>\n";
+    $content .= "<div style=\"padding-top:1px; padding-bottom:1px;\" align=\"center\" id=\"shoutbox\"><script>document.write(SBtxt);</script></div>\n";
     $content .= $bottom_content."\n";
 }
 ?>

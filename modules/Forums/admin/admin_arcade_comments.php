@@ -18,7 +18,7 @@
       Advanced Username Color                  v1.0.5       01/30/2006
  ************************************************************************/
 
-define('IN_PHPBB', 1);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 if( !empty($setmodules) )
 {
@@ -35,6 +35,12 @@ require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 require($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_main_arcade.' . $phpEx);
 require($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_arcade.' . $phpEx);
+
+if(!isset($mode))
+$mode = '';
+
+if(!isset($HTTP_GET_VARS['mode']))
+$HTTP_GET_VARS['mode'] = '';
 
 $mode = $HTTP_GET_VARS['mode'];
 

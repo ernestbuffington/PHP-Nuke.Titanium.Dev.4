@@ -88,10 +88,10 @@ function language_select($default, $select_name = "language", $dirname="modules/
 {
         global $phpEx;
 
-        $dir = @opendir($dirname);
+        $dir = opendir($dirname);
 
         $lang = array();
-        while ( $file = @readdir($dir) )
+        while ( $file = readdir($dir) )
         {
                 if ( preg_match("/^lang_/i", $file) && !is_file($dirname . "/" . $file) && !is_link($dirname . "/" . $file) )
                 {
@@ -102,10 +102,10 @@ function language_select($default, $select_name = "language", $dirname="modules/
                 }
         }
 
-        @closedir($dir);
+        closedir($dir);
 
-        @asort($lang);
-        @reset($lang);
+        asort($lang);
+        reset($lang);
 
         $lang_select = '<select class="form-control" name="' . $select_name . '" id="'.$select_name.'">';
 
@@ -127,7 +127,10 @@ function language_select($default, $select_name = "language", $dirname="modules/
  ******************************************************/
 function style_select($name="default_Theme")
 {
-    $themes = get_themes('active');
+    if(!isset($extra))
+	$extra = '';
+	
+	$themes = get_themes('active');
     $select = "<select class=\"form-control\" name=\"" . $name . "\" id=\"" . $name . "\" $extra>";
     foreach($themes as $theme) {
         $name = (!empty($theme['custom_name'])) ? $theme['custom_name'] : $theme['theme_name'];
@@ -220,7 +223,11 @@ global $db, $prefix;
     if (!$result = $db->sql_query($sql)) {
         die(mysql_error());
     }
-    $selected = (!$defualt) ? "selected=\"selected\"" : "";
+    
+	if(!isset($defualt))
+	$defualt = '';
+	
+	$selected = (!$defualt) ? "selected=\"selected\"" : "";
     $g_select .= '<option value="0" '.$selected.'>None</option>';
     while( $row = $db->sql_fetchrow($result) )
     {
@@ -243,6 +250,10 @@ function ranks_select($default, $select_name = "ranks", $value = "rank_id")
     if (!$result = $db->sql_query($sql)) {
         die(mysql_error());
     }
+
+	if(!isset($defualt))
+	$defualt = '';
+
     $selected = (!$defualt) ? "selected=\"selected\"" : "";
     $g_select .= '<option value="0" '.$selected.'>None</option>';
     while( $row = $db->sql_fetchrow($result) )

@@ -19,7 +19,7 @@
 if(!defined('NUKE_TITANIUM')) 
 exit;
 
-global $module_name;
+global $module_name, $userinfo;
 
 if(is_user()):
 	if(empty($module_name)):

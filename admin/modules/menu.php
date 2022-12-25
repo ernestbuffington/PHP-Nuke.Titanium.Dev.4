@@ -597,13 +597,13 @@ function index()
 		
 	menu_js_code();
 	
-	$handle=@opendir("$urlofimages");
+	$handle=opendir("$urlofimages");
 
 	$menu_counter=0;
 
 	$old_school_imagedropdown=0;
 
-	while ($tempo = @readdir($handle)) 
+	while ($tempo = readdir($handle)) 
 	{
 		$file[$menu_counter]= $tempo;
 	
@@ -615,7 +615,7 @@ function index()
 		$menu_counter++;
 	}
 	
-	@closedir($handle);
+	closedir($handle);
 
 if ($old_school_imagedropdown == 0) 
 {
@@ -651,13 +651,13 @@ if ($old_school_imagedropdown == 0)
 	echo "</div>";
 }
 
-	$handle = @opendir("$urlofimages/categories");
+	$handle = opendir("$urlofimages/categories");
 	
 	$menu_counter = 0;
 	
 	$old_school_imagedropdown_cat = 0;
 	
-	while ($tempo = @readdir($handle)) 
+	while ($tempo = readdir($handle)) 
 	{
 		$file2[$menu_counter] = $tempo;
 	
@@ -669,7 +669,7 @@ if ($old_school_imagedropdown == 0)
 		$menu_counter++;
 	}
 	
-	@closedir($handle);
+	closedir($handle);
 	
 	sort($file2,SORT_STRING);
 	
@@ -879,7 +879,7 @@ if ($old_school_imagedropdown == 0)
 	   
 	   $bold[$key] = $row['bold'];
 	   
-	   $listbox[$key] = $row['listbox'];
+	   //$listbox[$key] = $row['listbox'];
 	   
 	   //$dynamic[$key] = $row['dynamic'];
 	   
@@ -953,6 +953,7 @@ if ($old_school_imagedropdown == 0)
 
 	if ($old_school_imagedropdown == 0) 
 	{
+		if (!defined('_MENU_ADMINIMGDROPDOWN')) define('_MENU_ADMINIMGDROPDOWN', '_MENU_ADMINIMGDROPDOWN');
 		echo "<table cellpadding=0 cellspacing=0 border=0><tr><td style=\"padding-right: 3px;\"><table title=\""._MENU_ADMINIMGDROPDOWN."\" cellpadding=1 cellspacing=0 style=\"cursor: pointer; margin: 
 		0px; border: 1px solid black;\" onclick=\"clicked=0;s=1;keymenu_image='".$key."';menu_displayimagelist(document.images['catimage".$key."'],'menu_imagelist');\"><tr><td><img 
 		src=\"".$urlofimages."/".$zeimgname."\" name=\"catimage".$key."\" title=\""._MENU_ADMINIMGDROPDOWN."\"></td><td style=\"vertical-align: bottom; background-color: "
@@ -1001,6 +1002,9 @@ if ($old_school_imagedropdown == 0)
 	echo ""
 	."<td align=\"center\">";
 
+	if(!isset($lien[$key]))
+	$lien[$key] = '';
+	
 	$testehttp=strpos($lien[$key],"http://");
 	$testeftp=strpos($lien[$key],"ftp://");
 	$testehttps=strpos($lien[$key],"https://");
@@ -1059,6 +1063,9 @@ if ($old_school_imagedropdown == 0)
 	."</tr><tr height=8><td></td></tr></table></td>"
 	."<td bgcolor=\"$bgcolor2\"".$catclass." rowspan=2 id=\"showhide_suppr_$key\">";
 	
+	if(!isset($key99))
+	$key99 = '';
+
 	if ($key99 <> 99)
 	{
 		echo "<div class=\"red\"><a href=\"".$admin_file.".php?op=menu&amp;go=deletecat&amp;deletecat=$groupmenu[$key]&amp;catname=$catname[$key]\" title=\""._MENU_SUPPR."\" 
@@ -1068,7 +1075,10 @@ if ($old_school_imagedropdown == 0)
 	echo "</td>"
 	."</tr><tr><td bgcolor=\"$bgcolor1\" id=\"showhide_content_$key\"".$display_cat.">";
 	
-    if(is_array($moduleinthisgroup[$groupmenu[$key]])) 
+    if(!isset($moduleinthisgroup[$groupmenu[$key]]))
+	$moduleinthisgroup[$groupmenu[$key]] = null;
+	
+	if(is_array($moduleinthisgroup[$groupmenu[$key]])) 
 	{
       if ($moduleinthisgroup[$groupmenu[$key]] > count($moduleinthisgroup[$groupmenu[$key]]))
       $nbmodules = $namemodules = count($moduleinthisgroup[$groupmenu[$key]]);
@@ -1098,6 +1108,9 @@ if ($old_school_imagedropdown == 0)
 	for ($z=0;$z < $namemodules;$z++) 
 	{
 		$formpointer=$key."_".$z."";
+		
+		if(!isset($imageinthisgroup[$groupmenu[$key]][$z]))
+		$imageinthisgroup[$groupmenu[$key]][$z] = '';
 
 		if ($imageinthisgroup[$groupmenu[$key]][$z] == '' || $imageinthisgroup[$groupmenu[$key]][$z] == 'middot.gif') 
 		{
@@ -1107,6 +1120,9 @@ if ($old_school_imagedropdown == 0)
 		{
 			$posterimageinthiscategorie = "categories/".$imageinthisgroup[$groupmenu[$key]][$z];
 		}
+
+		if(!isset($sublevel[$groupmenu[$key]][$z]))
+		$sublevel[$groupmenu[$key]][$z] = '';
 
 		if ($sublevel[$groupmenu[$key]][$z] > 0) 
 		{
@@ -1147,6 +1163,9 @@ if ($old_school_imagedropdown == 0)
 		
 		if ($old_school_imagedropdown_cat == 0) 
 		{
+			if (!defined('_MENU_ADMINIMGDROPDOWN')) define('_MENU_ADMINIMGDROPDOWN', '_MENU_ADMINIMGDROPDOWN');
+			if (!defined('_MENU_ADMINIMGDROPDOWNCAT')) define('_MENU_ADMINIMGDROPDOWNCAT', '_MENU_ADMINIMGDROPDOWNCAT');
+			
 			echo "<table cellspacing=0 cellpadding=0 border=0 style=\"vertical-align: middle;\"><tr><td style=\"padding-right: 3px;\"><table cellspacing=0 cellpadding=0 border=0><tr><td>"
 			.$sublevelimage1."</td><td><table title=\""._MENU_ADMINIMGDROPDOWNCAT."\" cellpadding=0 cellspacing=0 style=\"cursor: pointer; margin: 0px; border: 1px solid black;\" 
 			onclick=\"clicked=0;s=1;keymenu_image='".$key."';zimage='".$z."';menu_displayimagelist(document.images['image".$formpointer."'],'menu_imagelist_cat');\"><tr><td style=\"padding: 1px;\"><img 
@@ -1161,8 +1180,15 @@ if ($old_school_imagedropdown == 0)
 	
 	echo "</td>";
 
+		if(!isset($linkinthisgroup[$groupmenu[$key]][$z]))
+		$linkinthisgroup[$groupmenu[$key]][$z] = '';
+
 		$linkvalue = $linkinthisgroup[$groupmenu[$key]][$z];
 		
+
+		if(!isset($linktextinthisgroup[$groupmenu[$key]][$z]))
+		$linktextinthisgroup[$groupmenu[$key]][$z] = '';
+
 		$linktextvalue = $linktextinthisgroup[$groupmenu[$key]][$z];
 
 		$zz = $z+1;
@@ -1186,6 +1212,9 @@ if ($old_school_imagedropdown == 0)
 		onchange='disab(this,this.value,this.form.elements[\"menuformmodulelink[$key][$z]\"],this.form.elements[\"menuformmodulelinktext[$key][$z]\"],\"$linkvalue\",\"$linktextvalue\"); 
 		menuadminshowhide(\"$menuzenom\",$hideok)'>";
 
+		if(!isset($moduleinthisgroup[$groupmenu[$key]][$z]))
+		$moduleinthisgroup[$groupmenu[$key]][$z] = '';
+		
 		echo "<option value=\"None\">ADD MODULE LINK TO MENU";
 		$selected = ($moduleinthisgroup[$groupmenu[$key]][$z] == "Horizonatal Rule") ? "selected" : "";
 		echo "<option value=\"Horizonatal Rule\" $selected>*Horizonatal Rule*";
@@ -1334,10 +1363,17 @@ if ($old_school_imagedropdown == 0)
 		}
 		echo "</select></td>";
 	}
+		
+		if(!isset($grasofthismodule[$groupmenu[$key]][$z]))
+		$grasofthismodule[$groupmenu[$key]][$z] = '';
+
 		$checked = ($grasofthismodule[$groupmenu[$key]][$z] <> "") ? "checked" : "";
 
 		echo "<td id=\"spang$formpointer\"".$linkclass." align=\"center\"><input type=\"checkbox\" name=\"menuformmodulegras[$key][$z]\" $checked></td>";
 
+		if(!isset($newinthisgroup[$groupmenu[$key]][$z]))
+		$newinthisgroup[$groupmenu[$key]][$z] = '';
+		
 		$checked = ($newinthisgroup[$groupmenu[$key]][$z] <> "") ? "on" : "";
 
 		$colornew = ($checked == "on") ? "new" : "new_gray";
@@ -1363,10 +1399,16 @@ if ($old_school_imagedropdown == 0)
 		       ." </script>";
 		}
 
+		if(!isset($classofthismodule[$groupmenu[$key]][$z]))
+		$classofthismodule[$groupmenu[$key]][$z] = '';
+
 		$inputmoduleclass = ($classofthismodule[$groupmenu[$key]][$z] == "") ? $firstclass : $classofthismodule[$groupmenu[$key]][$z];
 		
 		echo "<input type=\"hidden\" name=\"menuformmoduleclass[$key][$z]\" value=\"".$inputmoduleclass."\">";
 		
+		if(!isset($new_daysinthisgroup[$groupmenu[$key]][$z]))
+		$new_daysinthisgroup[$groupmenu[$key]][$z] = '';
+
 		$inputnewdays = ($new_daysinthisgroup[$groupmenu[$key]][$z] == "") ? $new_days : $new_daysinthisgroup[$groupmenu[$key]][$z];
 		
 		echo "<input type=\"hidden\" name=\"menuformmodulenew_days[$key][$z]\" value=\"".$inputnewdays."\">";
@@ -1855,6 +1897,8 @@ function deletecat() {
 		index();
 	}
 }
+if(!isset($go))
+$go = '';
 
 switch($go) {
 	default:

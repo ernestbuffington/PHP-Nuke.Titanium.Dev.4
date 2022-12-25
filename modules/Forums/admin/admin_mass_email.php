@@ -24,7 +24,7 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB', 1);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 if( !empty($setmodules) )
 {
@@ -151,15 +151,20 @@ if ( isset($HTTP_POST_VARS['submit']) )
         }
 }
 
-if ( $error )
+if(!isset($error))
+$error = '';
+
+if($error)
 {
-        $template->set_filenames(array(
-                'reg_header' => 'error_body.tpl')
-        );
-        $template->assign_vars(array(
-                'ERROR_MESSAGE' => $error_msg)
-        );
-        $template->assign_var_from_handle('ERROR_BOX', 'reg_header');
+  $template->set_filenames(array(
+    'reg_header' => 'error_body.tpl')
+  );
+  
+  $template->assign_vars(array(
+    'ERROR_MESSAGE' => $error_msg)
+  );
+  
+  $template->assign_var_from_handle('ERROR_BOX', 'reg_header');
 }
 
 //
@@ -193,6 +198,9 @@ include('./page_header_admin.'.$phpEx);
 $template->set_filenames(array(
         'body' => 'admin/user_email_body.tpl')
 );
+
+if(!isset($notice))
+$notice = '';
 
 $template->assign_vars(array(
         'MESSAGE' => $message,

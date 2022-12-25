@@ -34,7 +34,7 @@
       Group Colors                             v1.0.0       10/20/2005
 ************************************************************************/
 
-define('IN_PHPBB', 1);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 if( !empty($setmodules) )
 {
@@ -313,9 +313,12 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
                 }
             }
 
-        				while( [$forum_id, $value] = @each($_POST['private']) )
+        				//while( [$forum_id, $value] = @each($_POST['private']) )
+					  if(isset($_POST['private'])){
+						foreach ($_POST['private'] as $forum_id => $value)
         				{
-        					while( [$auth_field, $exists] = @each($forum_auth_level_fields[$forum_id]) )
+        					//while( [$auth_field, $exists] = @each($forum_auth_level_fields[$forum_id]) )
+							foreach ($forum_auth_level_fields[$forum_id] as $auth_field => $exists)
         					{
         						if ($exists)
         						{
@@ -323,16 +326,21 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
         						}
         					}
         				}
+					  }
                     }
                     else
                     {
                             $change_acl_list = [];
                             foreach ($forum_auth_fields as $j => $forum_auth_field) {
                                 $auth_field = $forum_auth_field;
-                                while( [$forum_id, $value] = @each($_POST['private_' . $auth_field]) )
-                                {
+                                //while( [$forum_id, $value] = @each($_POST['private_' . $auth_field]) )
+								if (isset($_POST['private_' . $auth_field]))
+								{
+								  foreach ($_POST['private_' . $auth_field] as $forum_id => $value)
+                                  {
                                         $change_acl_list[$forum_id][$auth_field] = $value;
-                                }
+                                  }
+								}
                             }
                     }
 
@@ -416,7 +424,8 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
                     // Checks complete, make updates to DB
                     //
                     $delete_sql = '';
-                    while( [$forum_id, $action] = @each($forum_auth_action) )
+                    //while( [$forum_id, $action] = @each($forum_auth_action) )
+					foreach ($forum_auth_action as $forum_id => $action)
                     {
                             if ( $action == 'delete' )
                             {
@@ -428,11 +437,15 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
                                     {
                                             $sql_field = '';
                                             $sql_value = '';
-                                            while ( [$auth_type, $value] = @each($update_acl_status[$forum_id]) )
-                                            {
+                                            //while ( [$auth_type, $value] = @each($update_acl_status[$forum_id]) )
+											if(isset($update_acl_status[$forum_id]))
+											{
+											  foreach ($update_acl_status[$forum_id] as $auth_type => $value)
+                                              {
                                                     $sql_field .= ( ( $sql_field != '' ) ? ', ' : '' ) . $auth_type;
                                                     $sql_value .= ( ( $sql_value != '' ) ? ', ' : '' ) . $value;
-                                            }
+                                              }
+											}
                                             $sql_field .= ( ( $sql_field != '' ) ? ', ' : '' ) . 'auth_mod';
                                             $sql_value .= ( ( $sql_value != '' ) ? ', ' : '' ) . ( $update_mod_status[$forum_id] ?? 0);
 
@@ -442,7 +455,8 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
                                     else
                                     {
                                             $sql_values = '';
-                                            while ( [$auth_type, $value] = @each($update_acl_status[$forum_id]) )
+                                            //while ( [$auth_type, $value] = @each($update_acl_status[$forum_id]) )
+											foreach ($update_acl_status[$forum_id] as $auth_type => $value)
                                             {
                                                     $sql_values .= ( ( $sql_values != '' ) ? ', ' : '' ) . $auth_type . ' = ' . $value;
                                             }
@@ -580,7 +594,7 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
 
     $sql = "SELECT ug.user_id, COUNT(auth_mod) AS is_auth_mod
             FROM " . AUTH_ACCESS_TABLE . " aa, " . USER_GROUP_TABLE . " ug
-            WHERE ug.user_id IN (" . implode(', ', $group_user) . ")
+            WHERE ug.user_id IN (" . implode(', ', $group_user ?? '') . ")
                 AND aa.group_id = ug.group_id
                 AND aa.auth_mod = 1
             GROUP BY ug.user_id";
@@ -666,8 +680,13 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
     $sql = "SELECT user_id FROM " . USER_GROUP_TABLE . " WHERE user_id = '$user_id'";
     $result = $db->sql_query($sql);
     $row = $db->sql_fetchrow($result);
-    $user_check = $row['user_id'];
-    if ( $user_check != $user_id )
+    
+	if (!isset($row['user_id']))
+	$row['user_id'] ='';
+	
+	$user_check = $row['user_id'];
+    
+	if ( $user_check != $user_id )
     {
         $sql = "SELECT MAX(group_id) AS total
                     FROM " . GROUPS_TABLE;
@@ -717,6 +736,9 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
     $auth_access_count = [];
     while( $row = $db->sql_fetchrow($result) )
     {
+		    if(!isset($auth_access_count[$row['forum_id']]))
+			$auth_access_count[$row['forum_id']] = 0;
+			
             $auth_access[$row['forum_id']][] = $row;
             $auth_access_count[$row['forum_id']]++;
     }
@@ -860,7 +882,9 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
             else
             {
                     foreach (array_keys($forum_auth_fields) as $j) {
-                        $template->assign_block_vars('forums.aclvalues', ['S_ACL_SELECT' => $optionlist_acl_adv[$forum_id][$j]]
+                        if(!isset($optionlist_acl_adv[$forum_id][$j]))
+						$optionlist_acl_adv[$forum_id][$j] = '';
+						$template->assign_block_vars('forums.aclvalues', ['S_ACL_SELECT' => $optionlist_acl_adv[$forum_id][$j]]
                         );
                     }
             }
@@ -868,6 +892,9 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
             $i++;
     }
     //@reset($auth_user);
+	if (!isset($ug_info[0]['group_name']))
+	$ug_info[0]['group_name'] = '';
+
     if ( $mode == 'user' )
     {
             $t_username = $ug_info[0]['username'];
@@ -880,6 +907,13 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
     $name = [];
     $id = [];
     foreach ($ug_info as $i => $singleUg_info) {
+
+	if (!isset($singleUg_info['username']))
+	$singleUg_info['username'] = '';
+
+	if (!isset($singleUg_info['user_id']))
+	$singleUg_info['user_id'] = 0;
+
         if( ( $mode == 'user' && !$singleUg_info['group_single_user'] ) || $mode == 'group' )
         {
                 $name[] = ( $mode == 'user' ) ? $singleUg_info['group_name'] :  $singleUg_info['username'];
@@ -890,7 +924,11 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
     if( $name !== [] )
     {
         foreach ($ug_info as $i => $singleUg_info) {
-            $ug = ( $mode == 'user' ) ? 'group&amp;' . POST_GROUPS_URL : 'user&amp;' . POST_USERS_URL;
+
+	    if (!isset($singleUg_info['user_pending']))
+	    $singleUg_info['user_pending'] = '';
+        
+		    $ug = ( $mode == 'user' ) ? 'group&amp;' . POST_GROUPS_URL : 'user&amp;' . POST_USERS_URL;
             if (!$singleUg_info['user_pending'])
             {
 /*****[BEGIN]******************************************

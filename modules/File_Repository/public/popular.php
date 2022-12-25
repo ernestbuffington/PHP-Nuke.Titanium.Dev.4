@@ -28,6 +28,9 @@ function _most_popular_download_info()
 //-------------------------------------------------------------------------------------
 //	THIS IS THE DEFAULT PAGINATION CLASS THAT COMES WITH EVOLUTION XTREME.
 //-------------------------------------------------------------------------------------
+	if(!isset($_GET['page']))
+	$_GET['page'] = '';
+	
 	$pagination = new Paginator($_GET['page'],$count_downloads);
 	$pagination->set_Limit($settings['most_popular']);
 	// $pagination->set_Limit(1);
@@ -39,6 +42,10 @@ function _most_popular_download_info()
 	$sql 	 = "SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isactive` = 1 && `hits` <> 0 ORDER BY `hits` DESC LIMIT ".$limit1.", ".$limit2;
 	$result  = $db->sql_query($sql);
 	$numrows = $db->sql_numrows($result);
+	
+	if(!isset($themes[get_theme()]['per_row']))
+	$themes[get_theme()]['per_row'] = '';
+	
 	echo '<br />';
 	echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr'._bgColor(2).'>'."\n";
@@ -90,7 +97,8 @@ function _most_popular_download_info()
 				$iteminfo 		= _collect_iteminfo($popular['did']);
 				$screen[$items] = $db->sql_fetchrow($db->sql_query("SELECT `filename`, `title` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$popular['did']."' ORDER BY RAND()"));
 				$ustring 		= ($iteminfo['updated'] == '0000-00-00 00:00:00') ? _sut($lang_new[$module_name]['DATE_ADDED']) : _sut($lang_new[$module_name]['UPDATED']);
-				if($screen[$items]['filename'])
+				
+				if(isset($screen[$items]['filename']))
 					$colspan = false;
 				else 
 					$colspan = 2;
@@ -101,6 +109,9 @@ function _most_popular_download_info()
 					$filePerRow = '50%';
 				elseif($themes[get_theme()]['per_row'] == 1)
 					$filePerRow = '100%';
+
+                 if(!isset($filePerRow))
+				 $filePerRow = '';				
 				
 				if ($items == 0)
 					echo '  <tr'._bgColor(1).'>'."\n";
@@ -108,7 +119,7 @@ function _most_popular_download_info()
 				echo '    <td'._tdcss($filePerRow,false,_sc()).' valign="top">'."\n";
 				echo '      <table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 				echo '        <tr'._bgColor(1).'>'."\n";
-				if($screen[$items]['filename'])
+				if(isset($screen[$items]['filename']))
 				echo '          <td'._tdcss('10%','center',_sc()).'><div class="thumbnail_border"><a'.get_image_viewer('screens').' href="'._FILE_REPOSITORY_SCREENS.$screen[$items]['filename'].'" title="'.$screen[$items]['title'].'"><img src="'._FILE_REPOSITORY_SCREENS.'thumbs/thumb_100x100_'.$screen[$items]['filename'].'" border="0" /></a></div></td>';
 				echo '          <td'._tdcss('90%',false,_sc(),$colspan).' valign="top">';
 				echo '            <table width="100%" border="0" cellpadding="4" cellspacing="1">'."\n";

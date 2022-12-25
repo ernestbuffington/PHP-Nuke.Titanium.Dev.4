@@ -1010,7 +1010,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
 
                                         $headers[] = 'Reply-To: '.$email_data['reply_to'];
                                         $headers[] = 'Content-Type: '.$email_data['content_type'].'; charset='.$email_data['charset'];
-                                        evo_phpmailer( $addbcc, $email_data['subject'], $content, $headers );
+                                        phpmailer( $addbcc, $email_data['subject'], $content, $headers );
                                     }
                                 }
                         }

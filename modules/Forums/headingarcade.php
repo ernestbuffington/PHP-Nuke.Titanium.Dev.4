@@ -27,7 +27,10 @@ if (!defined('IN_PHPBB'))
 $template->set_filenames(array(
    'headingarcade' => 'headingarcade_body.tpl')
 );
-
+    
+	if(!isset($class))
+	$class = '';
+	
     $class = ($class == 'row1') ? 'row2' : 'row1';
 
     $template->assign_block_vars('arcaderow2',array(
@@ -43,7 +46,28 @@ $template->set_filenames(array(
 
     $color_name = UsernameColor($userdata['username']);
     
+	if(!isset($nbvictoires))
+	$nbvictoires = 'None';
+	
 	$victories_badge = '<span class="w3-badge w3-blue">'.$nbvictoires.'</span>';
+	
+	if(!isset($lang['Topgamers']))
+	$lang['Topgamers'] = 'Top Gamers';
+
+	if(!isset($lang['Player']))
+	$lang['Player'] = 'Player';
+
+	if(!isset($lang['Victoires']))
+	$lang['Victoires'] = 'Victories';
+
+	if(!isset($avatar_img))
+	$avatar_img = '';
+
+	if(!isset($poster_rank))
+	$poster_rank = '';
+
+	if(!isset($rank_image))
+	$rank_image = '';
 	
     $template->assign_vars(array(
             'L_AVATAR' => $lang['Avatar'],
@@ -118,6 +142,10 @@ $sql = "SELECT COUNT(*) AS nbvictoires, g.game_highuser, u.user_id, u.username, 
 	  $rank_suffix = '<font size="1">th</font>';
 	  
       $row['username'] = UsernameColor($row['username']);
+
+	  if(!isset($style_color))
+	  $style_color = '';
+
       $user_online_link = '<a href="' . append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=" . $row['user_id']) . '"' . $style_color .'>' . $row['username'] . '</a>';
 
         $template->assign_block_vars('player_row', array(

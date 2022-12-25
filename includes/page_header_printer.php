@@ -31,7 +31,7 @@ if (!defined('IN_PHPBB'))
     die('Hacking attempt');
 }
 
-define('HEADER_INC', true);
+define_once('HEADER_INC', true);
 
 //
 // gzip_compression

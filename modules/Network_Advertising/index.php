@@ -528,7 +528,7 @@ function ad_client_report($cid, $bid) {
     }
 }
 
-switch ($op) {
+switch (isset($op)) {
 
     default:
         theindex();

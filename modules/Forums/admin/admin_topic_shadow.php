@@ -23,7 +23,7 @@
 *
 ***************************************************************************/
 
-define('IN_PHPBB', true);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 /* If for some reason preference cookie saving needs to be disabled, you
 can do so by setting this to true */
 

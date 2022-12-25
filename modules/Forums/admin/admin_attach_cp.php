@@ -13,7 +13,7 @@
 *
 */
 
-define('IN_PHPBB', true);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 if (!empty($setmodules))
 {
@@ -205,6 +205,9 @@ $select_sort_order .= '</select>';
 $submit_change = (isset($HTTP_POST_VARS['submit_change'])) ? TRUE : FALSE;
 $delete = (isset($HTTP_POST_VARS['delete'])) ? TRUE : FALSE;
 $delete_id_list = get_var('delete_id_list', array(0));
+
+if(!isset($HTTP_POST_VARS['confirm']))
+$HTTP_POST_VARS['confirm'] = '';
 
 $confirm = ($HTTP_POST_VARS['confirm']) ? TRUE : FALSE;
 

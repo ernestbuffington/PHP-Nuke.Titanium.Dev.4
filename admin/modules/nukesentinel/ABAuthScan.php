@@ -27,7 +27,8 @@ if(is_god($admin)) {
       $makepass = "";
       $strs = "abc2def3ghj4kmn5opq6rst7uvw8xyz9";
       for($x=0; $x < 20; $x++) {
-        mt_srand ((double) microtime() * 1000000);
+        //mt_srand ((double) microtime() * 1000000);
+		mt_srand(0, MT_RAND_MT19937);
         $str[$x] = substr($strs, mt_rand(0, strlen($strs)-1), 1);
         $makepass = $makepass.$str[$x];
       }

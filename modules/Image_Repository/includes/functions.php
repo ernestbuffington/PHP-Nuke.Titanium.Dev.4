@@ -10,39 +10,36 @@
     Notes         : N/A
 ************************************************************************/
 
-define('_USERS_TABLE', $user_prefix.'_users');
-define('_IMAGE_REPOSITORY_SETTINGS', $prefix.'_image_repository_settings');
-define('_IMAGE_REPOSITORY_UPLOADS', $prefix.'_image_repository_uploads');
-define('_IMAGE_REPOSITORY_USERS', $prefix.'_image_repository_users');
+define_once('_USERS_TABLE', $user_prefix.'_users');
+define_once('_IMAGE_REPOSITORY_SETTINGS', $prefix.'_image_repository_settings');
+define_once('_IMAGE_REPOSITORY_UPLOADS', $prefix.'_image_repository_uploads');
+define_once('_IMAGE_REPOSITORY_USERS', $prefix.'_image_repository_users');
 
-define('_IREPOSITORY_VERSION', '1.1.0');
-define('_IREPOSITORY_CSS', 'modules/'.$module_name.'/includes/css/');
-define('_IREPOSITORY_DIR', 'modules/'.$module_name.'/files/');
-define('_IREPOSITORY_IMGS', 'modules/'.$module_name.'/images/');
-define('_IREPOSITORY_INCLUDES', 'modules/'.$module_name.'/admin/inc/');
-define('_IREPOSITORY_JS', 'modules/'.$module_name.'/includes/js/');
-//define('_IREPOSITORY_USER_FOLDER', ($userinfo['user_id']+10000));
-define('_IREPOSITORY_USER_FOLDER', ((($_POST['user']) ? $_POST['user'] : $userinfo['user_id'])+10000));
-define('_IREPOSITORY_USER_FOLDER_THUMBS', ($userinfo['user_id']+10000).'/thumbs');
-define('_IREPOSITORY_VERSION', '1.1.0');
+define_once('_IREPOSITORY_VERSION', '1.1.0');
+define_once('_IREPOSITORY_CSS', 'modules/'.$module_name.'/includes/css/');
+define_once('_IREPOSITORY_DIR', 'modules/'.$module_name.'/files/');
+define_once('_IREPOSITORY_IMGS', 'modules/'.$module_name.'/images/');
+define_once('_IREPOSITORY_INCLUDES', 'modules/'.$module_name.'/admin/inc/');
+define_once('_IREPOSITORY_JS', 'modules/'.$module_name.'/includes/js/');
 
-define('_IREPOSITORY_THUMBHEIGHT','125');
-define('_IREPOSITORY_THUMBWIDTH','240');
+if(!isset($_POST['user']))
+$_POST['user'] = '';
 
-// define('_ENABLE_LIGHTBOX', true);
-// define('_ENABLE_FANCYBOX', true);
-// define('_ENABLE_FANCYBOX_BUTTONS', true);
-// define('_ENABLE_FANCYBOX_THUMBS', true);
-// define('_ENABLE_LIGHTBOX_EVOLUTION', true);
-// define('_ENABLE_LIGHTBOX_EVOLUTION_FACEBOOK_THEME', true);
-// define('_ENABLE_LYTEBOX', true);
-// define('_ENABLE_HIGHSLIDE', true);
+if (!defined('_IREPOSITORY_USER_FOLDER')) define('_IREPOSITORY_USER_FOLDER', ((($_POST['user']) ? $_POST['user'] : $userinfo['user_id'])+10000));
+if (!defined('_IREPOSITORY_USER_FOLDER_THUMBS')) define('_IREPOSITORY_USER_FOLDER_THUMBS', ($userinfo['user_id']+10000).'/thumbs');
+if (!defined('_IREPOSITORY_THUMBHEIGHT')) define('_IREPOSITORY_THUMBHEIGHT','125');
+if (!defined('_IREPOSITORY_THUMBWIDTH')) define('_IREPOSITORY_THUMBWIDTH','240');
 
 $imagecount = $db->sql_numrows($db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$userinfo['user_id']."'"));
 $mysettings	= $db->sql_fetchrow($db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_USERS."` WHERE `uid`='".$userinfo['user_id']."'"));
 $myimages	= $db->sql_numrows($db->sql_query("SELECT * FROM `"._IMAGE_REPOSITORY_UPLOADS."` WHERE `submitter`='".$userinfo['user_id']."'"));
 $quotainfo 	= _quota_percentages($userinfo['user_id']);
 
+if(!isset($lang_new[$module_name]['NOTSUPPORTED']))
+$lang_new[$module_name]['NOTSUPPORTED'] = 'CoRpSE says it\'s not supported!';
+
+if(!isset($_GET['op']))
+$_GET['op'] = '';
 
 $JStoHead  = '<script>';
 $JStoHead .= '	var jquery_prefix				= '.((defined('NUKE_EVO')) ? 'nuke_jq' : '$').';'."\n";
@@ -53,10 +50,10 @@ $JStoHead .= '	var nukeurl						= "'.$nukeurl.'";'."\n";
 $JStoHead .= '	var imagecount					= "'.$imagecount.'";'."\n";
 $JStoHead .= '	var quota_limit					= "'.$quotainfo['quota'].'";'."\n";
 $JStoHead .= '	var quota_user					= "'.(($quotainfo['total_size']) ? $quotainfo['total_size'] : 0).'";'."\n";
-$JStoHead .= '	var background_color_default	= "'.$mysettings['background_color'].'";'."\n";
-$JStoHead .= '	var border_color_default		= "'.$mysettings['border_color'].'";'."\n";
-$JStoHead .= '	var custom_color_default		= "'.$mysettings['custom_color'].'";'."\n";
-$JStoHead .= '	var percent_color_default		= "'.$mysettings['percent_color'].'";'."\n";
+$JStoHead .= '	var background_color_default	= "'.isset($mysettings['background_color']).'";'."\n";
+$JStoHead .= '	var border_color_default		= "'.isset($mysettings['border_color']).'";'."\n";
+$JStoHead .= '	var custom_color_default		= "'.isset($mysettings['custom_color']).'";'."\n";
+$JStoHead .= '	var percent_color_default		= "'.isset($mysettings['percent_color']).'";'."\n";
 $JStoHead .= '	var lang_not_supported			= "'.$lang_new[$module_name]['NOTSUPPORTED'].'";'."\n";
 $JStoHead .= '	var lang_attention 				= "'._string_to_upper(addslashes($lang_new[$module_name]['ATTENTION'])).'";'."\n";
 $JStoHead .= '	var lang_imagelist				= "'._string_to_upper(addslashes($lang_new[$module_name]['MYIMAGES'])).'";'."\n";
@@ -193,6 +190,10 @@ function image_repo_users_preferences()
 function index_navigation_header()
 {
 	global $lang_new, $module_name;
+	
+	if(!isset($_GET['page']))
+	$_GET['page'] = '';
+	
 	echo '<table style="width:100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr>'."\n";
 	echo '    <td'.tablecss(FALSE,'center','catHead',4).'>'._string_to_upper($lang_new[$module_name]['MODULE_NAME']).'</td>'."\n";
@@ -230,6 +231,10 @@ function index_navigation_header()
 function inputfield($name='',$type='text',$size=FALSE,$styleSize=FALSE,$max=FALSE,$value='',$autocomplete=FALSE,$disable=FALSE,$disable_height=FALSE,$required=FALSE,$mouseover=FALSE,$display=FALSE,$placeholder=FALSE)
 {
 	global $settings;
+	
+	if(!isset($settings['font_family']))
+	$settings['font_family'] = '';
+	
 	$input_field  = '<input'.(($type == 'checkbox') ? '' : ' class="glowing-border select-style"').' name="'.$name.'" ';
 	$input_field .= ($mouseover == TRUE) ? 'onclick="this.select();" onmouseover="this.select();" ' : '';
 //----------------------------------------------------------------------------------

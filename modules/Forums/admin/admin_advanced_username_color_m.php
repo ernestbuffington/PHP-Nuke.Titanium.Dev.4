@@ -19,7 +19,7 @@
       AUC Group                                v1.0.0       06/20/2005
  ************************************************************************/
 
-define('IN_PHPBB', 1);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 if( !empty($setmodules) )
 {

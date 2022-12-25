@@ -8,13 +8,6 @@
 # it under the terms of the GNU General Public License as published by  #
 # the Free Software Foundation; either version 2 of the License.        #
 #########################################################################
-#########################################################################
-# PHP-Nuke Titanium : Enhanced PHP-Nuke Web Portal System               #
-#########################################################################
-# [CHANGES]                                                             #
-# Table Header Module Fix by TheGhost               v1.0.0   01/30/2012 #
-# Nuke Patched                                      v3.1.0   06/26/2005 #
-#########################################################################
 
 if (!defined('MODULE_FILE')) 
 {
@@ -22,17 +15,21 @@ if (!defined('MODULE_FILE'))
 }
 
 global $prefix, $db, $cookie, $user;
+
 $index = 1;
+
 require_once("mainfile.php");
+
 $module_name = basename(dirname(__FILE__));
+
 get_lang($module_name);
 
 $userinfo = getusrinfo( $user );
-$userid = $userinfo["user_id"];
-$catname=@htmlentities($catname);
+$userid   = $userinfo["user_id"];
+$catname  = htmlentities($catname);
 
-if (!isset($userid) || $userid=="")
-        $userid=0;
+if(!isset($userid) || $userid=="")
+$userid=0;
 
 //If no was pressed
 if (isset($action) && $action==_NO)
@@ -52,25 +49,24 @@ if (isset($action)  && $action==_YES && isset($catid) && $catid!="")
 	Header("Location: modules.php?name=".$module_name);
 }
 
-$pagetitle = " - " . _DELETECATEGORY;
 include("header.php");
 
 OpenTable();
-echo "<center><span class=storytitle>"._DELETECATEGORY."</span></center><P>\n";
-echo "<center><a href=modules.php?name=".$module_name.">". _CATEGORIES ."</a> | <a href=modules.php?name=".$module_name."&amp;file=edit_cat>"._NEWCATEGORY."</a> | <a href=modules.php?name=".$module_name."&amp;file=edit_mark>"._NEWBOOKMARK."</a></center>";
+echo "<div align=\"center\"><span class=storytitle>"._DELETECATEGORY."</span></div>\n";
+echo "<div align=\"center\"><a href=modules.php?name=".$module_name.">". _CATEGORIES ."</a> | <a href=modules.php?name=".$module_name."&amp;file=edit_cat>"._NEWCATEGORY."</a> | <a href=modules.php?name=".$module_name."&amp;file=edit_mark>"._NEWBOOKMARK."</a></div>";
 CloseTable();
-echo "<br>";
+
 OpenTable();
 ?>
-<center><? echo _DELETECATEGORYCONFIRM ?> '<?=$catname?>'?<p> <strong><? echo _BOOKMARKSDELETED ?></strong><p>
+<div align="center"><? echo _DELETECATEGORYCONFIRM ?> '<?=$catname?>'?<p> <strong><? echo _BOOKMARKSDELETED ?></strong>
 <p>
-<form action=modules.php>
-<input type=hidden name=name value="<?=$module_name?>">
-<input type=hidden name=file value="del_cat">
-<input type=hidden name=catid value="<?=$catid?>">
-<input type=submit name=action value="<? echo _YES?>">&nbsp;&nbsp;&nbsp;<input type=submit name=action value="<? echo _NO ?>">
+<form action="modules.php">
+<input type="hidden" name="name" value="<?=$module_name?>">
+<input type="hidden" name="file" value="del_cat">
+<input type="hidden" name="catid" value="<?=$catid?>">
+<input type="submit" name="action" value="<? echo _YES?>">&nbsp;<input type="submit" name="action" value="<? echo _NO ?>">
 </form>
-</center>
+</div>
 <?
 CloseTable();
 echo "<br>";

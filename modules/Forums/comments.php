@@ -21,7 +21,7 @@ if (!defined('MODULE_FILE')) {
     die('You can\'t access this file directly...');
 }
 
-if ($popup != "1"){
+if (!isset($popup)){
     $module_name = basename(dirname(__FILE__));
     require("modules/".$module_name."/nukebb.php");
 }
@@ -61,13 +61,14 @@ if ( !$userdata['session_logged_in'] )
 generate_smilies('inline', PAGE_POSTING);
 include("includes/page_header.php");
 
-$mode = $HTTP_GET_VARS['mode'];
+$mode = $_GET['mode'];
 
 if($mode == "z")
 {
-$user_allow_arcadepm = intval($HTTP_POST_VARS['user_allow_arcadepm']);
+  $user_allow_arcadepm = (int) $_POST['user_allow_arcadepm'];
 
-$sql = "UPDATE " . USERS_TABLE. " SET user_allow_arcadepm = '$user_allow_arcadepm' WHERE user_id =  " . $userinfo['user_id'];
+
+  $sql = "UPDATE " . USERS_TABLE. " SET user_allow_arcadepm = '$user_allow_arcadepm' WHERE user_id =  " . $userinfo['user_id'];
         if( !($result = $db->sql_query($sql)))
             {
             message_die(GENERAL_ERROR, "Error updating selection", '', __LINE__, __FILE__, $sql);

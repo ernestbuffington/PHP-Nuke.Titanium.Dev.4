@@ -19,7 +19,7 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB', true);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 if( !empty($setmodules) )
 {
@@ -226,6 +226,9 @@ $menu_name = $menu_keys[$menu_id];
 $mod_name = $mod_keys[$menu_id][$mod_id];
 
 // sub name
+if(!isset($sub_keys[$menu_id][$mod_id][$sub_id]))
+$sub_keys[$menu_id][$mod_id][$sub_id] = '';
+
 $sub_name = $sub_keys[$menu_id][$mod_id][$sub_id];
 
 // buttons

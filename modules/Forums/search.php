@@ -4,59 +4,33 @@
  =======================================================================*/
 
 /***************************************************************************
-
      *                                search.php
-
      *                            -------------------
-
      *   begin                : Saturday, Feb 13, 2001
-
      *   copyright            : (C) 2001 The phpBB Group
-
      *   email                : support@phpbb.com
-
      *
-
      *   Id: search.php,v 1.72.2.16 2005/03/15 18:34:34 acydburn Exp
-
      *
-
      ***************************************************************************/
 /***************************************************************************
-
      *
-
      *   This program is free software; you can redistribute it and/or modify
-
      *   it under the terms of the GNU General Public License as published by
-
      *   the Free Software Foundation; either version 2 of the License, or
-
      *   (at your option) any later version.
-
      *
-
      ***************************************************************************/
 /*****[CHANGES]**********************************************************
-
     -=[Base]=-
-
           Nuke Patched                             v3.1.0       06/26/2005
-
     -=[Mod]=-
-
           Advanced Username Color                  v1.0.5       06/11/2005
-
           Global Announcements                     v1.2.8       06/13/2005
-
           Search Only Subject                      v0.9.1       06/15/2005
-
           Smilies in Topic Titles                  v1.0.0       07/29/2005
-
           Smilies in Topic Titles Toggle           v1.0.0       09/10/2005
-
           Hide BBCode                              v1.2.0
-
      ************************************************************************/
 if (!defined('MODULE_FILE')) {
     die("You can't access this file directly...");
@@ -241,8 +215,8 @@ if ($mode == 'searchuser') {
             $db->sql_freeresult($result);
             $total_match_count = count($search_ids);
         } elseif ($search_keywords != '') {
-            $stopword_array = @file($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/search_stopwords.txt');
-            $synonym_array = @file($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/search_synonyms.txt');
+            $stopword_array = file($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/search_stopwords.txt');
+            $synonym_array = file($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/search_synonyms.txt');
             $split_search = [];
             $stripped_keywords = stripslashes((string) $search_keywords);
             $split_search = (strstr($multibyte_charset, (string) $lang['ENCODING'])) ? explode(' ', (string) $search_keywords) : split_words(clean_words('search', $stripped_keywords, $stopword_array, $synonym_array), 'search');
@@ -327,8 +301,9 @@ if ($mode == 'searchuser') {
                             }
                         }
                         if ($current_match_type == 'and' && $word_count) {
-                            @reset($result_list);
-                            while ([$post_id, $match_count] = @each($result_list)) {
+                            reset($result_list);
+							foreach ($result_list as $post_id => $match_count)
+							{
                                 if ($row[$post_id] === 0) {
                                     $result_list[$post_id] = 0;
                                 }
@@ -338,7 +313,7 @@ if ($mode == 'searchuser') {
                         $db->sql_freeresult($result);
                     }
                 }
-            @reset($result_list);
+            reset($result_list);
             $search_ids = [];
             foreach ($result_list as $post_id => $matches) {
                 if ($matches) {
@@ -610,7 +585,8 @@ if ($mode == 'searchuser') {
         }
         $result_array = serialize($store_search_data);
         unset($store_search_data);
-        mt_srand((double)microtime() * 1_000_000);
+        //mt_srand((double)microtime() * 1_000_000);
+		mt_srand(0, MT_RAND_MT19937);
         $search_id = random_int(0, mt_getrandmax());
         $sql = "UPDATE " . SEARCH_TABLE . "
 
@@ -761,18 +737,23 @@ if ($mode == 'searchuser') {
         $tracking_forums = (isset($_COOKIE[$board_config['cookie_name'] . '_f'])) ? unserialize($_COOKIE[$board_config['cookie_name'] . '_f']) : [];
         foreach ($searchset as $i => $singleSearchset) {
             /*****[BEGIN]******************************************
-               
-               [ Base:    Nuke Patched                       v3.1.0 ]
-               
-               ******************************************************/
+             [ Base:    Nuke Patched                       v3.1.0 ]
+             ******************************************************/
+			 if (!isset($singleSearchset['forum_id']))
+			 $singleSearchset['forum_id'] = '';
+
+			 if (!isset($singleSearchset['post_id']))
+			 $singleSearchset['post_id'] = '';
+
+			 if (!isset($singleSearchset['post_text']))
+			 $singleSearchset['post_text'] = '';
+			 
             $forum_url = "modules.php?name=Forums&amp;file=viewforum&amp;" . POST_FORUM_URL . "=" . $singleSearchset['forum_id'] . "";
             $topic_url = "modules.php?name=Forums&amp;file=viewtopic&amp;" . POST_TOPIC_URL . "=" . $singleSearchset['topic_id'] . "&amp;highlight=$highlight_active";
-            $post_url = "modules.php?name=Forums&amp;file=viewtopic&amp;" . POST_POST_URL . "=" . $singleSearchset['post_id'] . "&amp;highlight=$highlight_active#" . $singleSearchset['post_id'] . "";
+            $post_url  = "modules.php?name=Forums&amp;file=viewtopic&amp;" . POST_POST_URL . "=" . $singleSearchset['post_id'] . "&amp;highlight=$highlight_active#" . $singleSearchset['post_id'] . "";
             /*****[END]********************************************
-               
-               [ Base:    Nuke Patched                       v3.1.0 ]
-               
-               ******************************************************/
+             [ Base:    Nuke Patched                       v3.1.0 ]
+             ******************************************************/
             $post_date = create_date($board_config['default_dateformat'], $singleSearchset['post_time'], $board_config['board_timezone']);
             $message = $singleSearchset['post_text'];
             /*****[BEGIN]******************************************
@@ -1152,7 +1133,8 @@ if ($s_forums != '') {
     // Category to search
     //
     $s_categories = '<option value="-1">' . $lang['All_available'] . '</option>';
-    while ([$cat_id, $cat_title] = @each($list_cat)) {
+	foreach ($list_cat as $cat_id => $cat_title)
+	{
         $s_categories.= '<option value="' . $cat_id . '">' . $cat_title . '</option>';
     }
 } else {

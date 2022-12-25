@@ -68,6 +68,12 @@ function evouserinfo_posts()
     $topics = evouserinfo_total_topics();
     $posts = evouserinfo_total_posts();
     
+	if(!isset($phpbb2_posts))
+	$phpbb2_posts = 0;
+
+	if(!isset($phpbb2_topics))
+	$phpbb2_topics = 0;
+	
     $evouserinfo_posts = '<div style="font-weight: bold">'.$lang_evo_userblock['BLOCK']['POSTS']['FORUMS'].'</div>';
 
     $evouserinfo_posts .= '<div style="padding-left: 10px;">';

@@ -29,7 +29,7 @@
       Advanced Username Color                  v1.0.5       07/24/2005
  ************************************************************************/
 
-define('IN_PHPBB', true);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 if( !empty($setmodules) )
     {

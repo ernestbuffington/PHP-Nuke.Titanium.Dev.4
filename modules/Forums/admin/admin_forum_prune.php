@@ -24,7 +24,7 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB', true);
+if (!defined('IN_PHPBB')) if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 if ( !empty($setmodules) )
 {

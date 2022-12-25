@@ -30,7 +30,7 @@
       Global Announcements                     v1.2.8       06/13/2005
  ************************************************************************/
 
-define('IN_PHPBB', 1);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 if( !empty($setmodules) )
 {

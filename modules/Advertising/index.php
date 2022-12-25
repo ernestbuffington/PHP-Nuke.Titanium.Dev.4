@@ -41,7 +41,7 @@ function is_client($client) {
     static $ClientSave;
     if(isset($ClientSave)) return $ClientSave;
     if(!is_array($client)) {
-        $client = base64_decode($client);
+        $client = base64_decode(isset($client));
         $client = addslashes($client);
         $client = explode(":", $client);
         $cid = $client[0];
@@ -523,7 +523,7 @@ function client_report($cid, $bid) {
     }
 }
 
-switch ($op) {
+switch (isset($op)) {
 
     default:
         theindex();

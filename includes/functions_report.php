@@ -219,7 +219,7 @@ function email_report($forum_id, $post_id, $topic_title, $comments)
         // $addbcc[] = $bcc_list[$i]; 
     }
 
-    evo_phpmailer( $board_config['board_email'], $subject, $content, $headers );
+    phpmailer( $board_config['board_email'], $subject, $content, $headers );
 
     return;
 }

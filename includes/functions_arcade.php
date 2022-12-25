@@ -90,67 +90,69 @@ function get_arcade_categories($user_id, $user_level, $mode) {
 
 //Function to convert time to hours, minutes and seconds.
 function sec2hms ($secs)
-  {
+{
 
     $hms = "";
 
-    $days = intval(intval($secs) / 86400);
-    
+    $days = (int) ((int) $secs / 86400);
+	
 	if($days != 0)
     {
-    $secs = $secs - ($days * 86400);
+	  $secs -= $days * 86400;
 
-    if($days == 1)
-    {
+      if($days == 1)
+      {
         $hms .= " ".$days. " day";
-    }
-    else
-    {
+      }
+      else
+      {
         $hms .= " ".$days. " days";
+      }
     }
-    }
 
-
-
-    $hours = intval(intval($secs) / 3600);
+	$hours = (int) ((int) $secs / 3600);
+	
     if($hours != 0)
     {
-    if($hours == 1)
-    {
+      if($hours == 1)
+      {
         $hms .= " ".$hours. " hour";
-    }
-    else
-    {
+      }
+      else
+      {
         $hms .= " ".$hours. " hours";
-    }
+      }
     }
 
-    $minutes = intval(($secs / 60) % 60);
+	$minutes = ((int) $secs) % 60;
+	
     if($minutes != 0)
     {
-    if($minutes == 1)
-    {
+      if($minutes == 1)
+      {
         $hms .= " ".$minutes. " min";
-    }
-    else
-    {
+      }
+      else
+      {
         $hms .= " ".$minutes. " mins";
-    }
+      }
     }
 
-    $seconds = intval($secs % 60);
+	$seconds = (int) ($secs % 60);
+
     if($seconds != 0)
     {
-    if($seconds == 1)
-    {
+      if($seconds == 1)
+      {
         $hms .= " ".$seconds. " sec";
-    }
-    else
-    {
+      }
+      else
+      {
         $hms .= " ".$seconds. " secs";
+      }
     }
-     }
-    return $hms;
+    
+	return $hms;
 
   }
 

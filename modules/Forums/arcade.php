@@ -24,7 +24,7 @@ if (!defined('MODULE_FILE')) {
     die('You can\'t access this file directly...');
 }
 
-if ( $popup != "1" ) :
+if (!isset($popup)) :
   $module_name = basename( dirname( __FILE__ ) );
   require( "modules/".$module_name."/nukebb.php" );
 else :
@@ -43,6 +43,17 @@ require($phpbb_root_path.'gf_funcs/gen_funcs.'.$phpEx);
 
 include('includes/constants.'.$phpEx);
 
+global $currentlang;
+
+$lang_path = NUKE_MODULES_DIR . $module_name . '/language/';
+
+if (file_exists($lang_path . 'lang-' . $currentlang . '.php'))
+    include_once($lang_path . 'lang-' . $currentlang . '.php');
+elseif (file_exists($lang_path . 'lang-' . $board_config['default_lang'] . '.php'))
+    include_once($lang_path . 'lang-' . $board_config['default_lang'] . '.php');
+else
+    DisplayError(_NO_ADMIN_MODULE_LANGUAGE_FOUND . $module_name);
+	
 # Start session management
 $userdata = session_pagestart($user_ip,PAGE_ARCADES);
 init_userprefs($userdata);
@@ -93,39 +104,37 @@ switch($arcade_config['game_order']):
     break;
 endswitch;
 
-if (isset($_GET['favori'])) {
-    $favori = intval($_GET['favori']);
-}
+if(isset($_GET['favori'])):
+	
+	$favori = (int) $_GET['favori'];
 
-if (isset($_GET['delfavori'])) {
-    $delfavori = intval($_GET['delfavori']);
-}
-
-/** @var type $favori - the fumes from her snatch made me dizzy and as i dazed into her eyes I could see she was bat shit crazy */
-if($favori):
-  
     $sql = "SELECT COUNT(*) AS `nbfav` FROM `".ARCADE_FAV_TABLE."` WHERE user_id =".$userinfo['user_id']." AND game_id=".$favori;
     $result = $db->sql_query($sql);
     $row = $db->sql_fetchrow($result);
     $nbfav = $row['nbfav'];
 
     if(!$nbfav && $favori):
-    $sql = "REPLACE INTO ".ARCADE_FAV_TABLE." VALUES (0,'".$userinfo['user_id']."','$favori')"; # changed to REPLACE INTO 10/22/2022 TheGhost
+      $sql = "REPLACE INTO ".ARCADE_FAV_TABLE." VALUES (0,'".$userinfo['user_id']."','$favori')"; # changed to REPLACE INTO 10/22/2022 TheGhost
     endif;
   
     if(!($result = $db->sql_query($sql))): 
-    message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
+      message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
     endif;
-    header("Location: modules.php?name=Forums&file=arcade"); # dont echo the file number you are deleting from favorites!
+      header("Location: modules.php?name=Forums&file=arcade"); # dont echo the file number you are deleting from favorites!
     exit();
-	
-elseif($delfavori): 
+
+endif;
+
+if(isset($_GET['delfavori'])):
     
+	$delfavori = (int) $_GET['delfavori'];
+
     $sql = "DELETE FROM ".ARCADE_FAV_TABLE." WHERE user_id=".$userinfo[ 'user_id' ]." AND game_id=".$delfavori;
-    if(!($result = $db->sql_query($sql))): 
-    message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
+    
+	if(!($result = $db->sql_query($sql))): 
+      message_die( GENERAL_ERROR, "Could not read the favorites game table", '', __LINE__, __FILE__, $sql );
     endif;
-    header("Location: modules.php?name=Forums&file=arcade"); # dont echo the file number you are adding to favorites!
+      header("Location: modules.php?name=Forums&file=arcade"); # dont echo the file number you are adding to favorites!
     exit();
 
 endif;
@@ -137,13 +146,16 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
   $template->set_filenames(array(
     'body' => 'arcade_cat_body.tpl' ));
 
+  if(!isset($gid))
+  $gid = 0;
+  
   $template->assign_vars(array(
     
 	'URL_ARCADE' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "arcade.$phpEx" ) . '">' . $lang[ 'lib_arcade' ] . '</a></nobr> ',
     
 	'URL_BESTSCORES' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "toparcade.$phpEx" ) . '">' . $lang[ 'best_scores' ] . '</a></nobr> ',
     
-	'URL_SCOREBOARD' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "scoreboard.$phpEx?gid=$gid" ) . '">' . $lang[ 'scoreboard' ] . '</a></nobr> ',
+//	'URL_SCOREBOARD' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "scoreboard.$phpEx?gid=$gid" ) . '">' . $lang['scoreboard'] . '</a></nobr> ',
     
 	'MANAGE_COMMENTS' => '<nobr><a class="arcadeTitleLink" href="' . append_sid( "comments_list.$phpEx" ) . '">' . $lang[ 'comments' ] . '</a></nobr> ',
     
@@ -179,6 +191,26 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
     if($db->sql_numrows($result)):
 	  
       # FAVORITES ARCADE TABLE
+
+	  if(isset($frow['game_highscore'])):
+	  $decimal = '.';
+	  $broken_number = explode($decimal,$frow['game_highscore']);
+	  $frow['game_highscore'] = number_format($broken_number[0]).$decimal.$broken_number[1];
+	  else:
+	  $frow['game_highscore'] = 0;
+	  endif;
+	  
+	  if(isset($frow[ 'score_game' ])):
+	  $decimal = '.';
+	  $broken_number = explode($decimal,$frow[ 'score_game' ]);
+	  $frow[ 'score_game' ] = number_format($broken_number[0]).$decimal.$broken_number[1];
+	  else:
+	  $frow[ 'score_game' ] = 0;
+	  endif;
+	  
+	  
+	  
+	  
       $template->assign_block_vars('favrow',array());
       
        while($frow = $db->sql_fetchrow($result)) :
@@ -202,11 +234,11 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
                   'GAMESETF' => ( $frow[ 'game_set' ] != 0 ) ? '<span class="arcadeTextWhite">'.$lang[ 'game_actual_nbset' ].'</span>'.'<span '
                   . 'class="w3-badge w3-blue"><strong>'. $frow[ 'game_set' ].'</strong></span>' : '',
         
-		  'HIGHSCOREF' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format($frow['game_highscore'].'</span>'),
+		  'HIGHSCOREF' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.$frow['game_highscore'].'</span>',
         
 		  'CLICKPLAY' => '<a class="clicktoplay" href="' . append_sid( "games.$phpEx?gid=" . $frow[ 'game_id' ] ) . '">Click to Play!</a>',
           
-		  'YOURHIGHSCOREF' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format( $frow[ 'score_game' ].'</span>'),
+		  'YOURHIGHSCOREF' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.$frow[ 'score_game' ].'</span>',
           
 		  'NORECORDF' => ( $frow[ 'game_highscore' ] == 0 ) ? $lang[ 'no_record' ] : '',
           
@@ -275,10 +307,34 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
   endif;
 
   while($row = $db->sql_fetchrow($result)):
-    $nbjeux = sizeof( $liste_jeux[ $row[ 'arcade_catid' ] ] );
+    
+	if(!isset($nbjeux))
+	$nbjeux = 0;
+	
+	if(!isset($liste_jeux[ $row[ 'arcade_catid' ] ]))
+	$liste_jeux[ $row[ 'arcade_catid' ] ] = '';
 
+	$nbjeux = is_countable($liste_jeux[ $row[ 'arcade_catid' ] ]) ? count( $liste_jeux[ $row[ 'arcade_catid' ] ] ) : '';
+	
     if($nbjeux > 0 ):
-      $template->assign_block_vars( 'cat_row', array(
+      
+	  if(isset($liste_jeux[$row['arcade_catid' ]][$i]['game_highscore'])):
+	  $decimal = '.';
+	  $broken_number = explode($decimal,$liste_jeux[$row['arcade_catid' ]][$i]['game_highscore']);
+	  $liste_jeux[$row['arcade_catid' ]][$i]['game_highscore'] = number_format(isset($broken_number[0])).$decimal.isset($broken_number[1]);
+	  else:
+	  $liste_jeux[$row['arcade_catid' ]][$i]['game_highscore'] = 0;
+	  endif;	  
+
+	  if(isset($liste_jeux[$row['arcade_catid' ]][$i]['score_game'])):
+	  $decimal = '.';
+	  $broken_number = explode($decimal,$liste_jeux[$row['arcade_catid']][$i]['score_game']);
+	  $liste_jeux[$row['arcade_catid']][$i]['score_game'] = number_format(isset($broken_number[0])).$decimal.isset($broken_number[1]);
+	  else:
+	  $liste_jeux[$row['arcade_catid']][$i]['score_game'] = 0;
+	  endif;	  
+	  
+	  $template->assign_block_vars( 'cat_row', array(
     
 	    'U_ARCADE' => append_sid( "arcade.$phpEx?cid=" . $row[ 'arcade_catid' ] ),
     
@@ -310,9 +366,9 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
 		  'GAMESET' => ( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_set' ] != 0 ) ? '<span class="arcadeTextWhite">'.$lang[ 'game_actual_nbset' ].'</span>' 
 		  .'<span class="w3-badge w3-blue"><strong>'.$liste_jeux[ $row['arcade_catid']][$i]['game_set'].'</strong></span>' : '',
           
-		  'HIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format($liste_jeux[$row['arcade_catid' ]][$i]['game_highscore'].'</span>' ),
+		  'HIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.$liste_jeux[$row['arcade_catid' ]][$i]['game_highscore'].'</span>' ,
           
-		  'YOURHIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'score_game' ].'</span>' ),
+		  'YOURHIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.$liste_jeux[$row['arcade_catid']][$i]['score_game'].'</span>' ,
           
 		  'CLICKPLAY' => '<a class="clicktoplay" href="' . append_sid( "games.$phpEx?gid=" . $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_id' ] ) . '">Click to Play!</a>',
           
@@ -411,6 +467,9 @@ endif;
 # load the template
 $template->set_filenames( array(
   'body' => 'arcade_body.tpl' ) );
+
+if(!isset($gid))
+$gid = '';
 
 $template->assign_vars( array(
   
@@ -532,6 +591,22 @@ if(!($result = $db->sql_query($sql))):
   message_die( GENERAL_ERROR, "Could not read games table", '', __LINE__, __FILE__, $sql );
 endif;
 
+	  if(isset($frow['game_highscore'])):
+	  $decimal = '.';
+	  $broken_number = explode($decimal,$frow['game_highscore']);
+	  $frow['game_highscore'] = number_format($broken_number[0]).$decimal.$broken_number[1];
+	  else:
+	  $frow['game_highscore'] = 0;
+	  endif;
+	  
+	  if(isset($frow[ 'score_game' ])):
+	  $decimal = '.';
+	  $broken_number = explode($decimal,$frow[ 'score_game' ]);
+	  $frow[ 'score_game' ] = number_format($broken_number[0]).$decimal.$broken_number[1];
+	  else:
+	  $frow[ 'score_game' ] = 0;
+	  endif;
+
 while($row = $db->sql_fetchrow($result)):
 
   $template->assign_block_vars('gamerow',array(
@@ -545,9 +620,9 @@ while($row = $db->sql_fetchrow($result)):
     
 	'GAMEDESC' => '<span class="arcadeTextDescription">'.$row[ 'game_desc' ].'</span>',
     
-	'HIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format($row['game_highscore'].'<span'),
+	'HIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.$row['game_highscore'].'<span',
 	
-    'YOURHIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.number_format( $row[ 'score_game' ].'</span>' ),
+    'YOURHIGHSCORE' => '<span class="genmed w3-tag w3-round w3-green w3-border w3-border-pink">'.$row[ 'score_game' ].'</span>' ,
     
 	'CLICKPLAY' => '<a class="clicktoplay" href="' . append_sid( "games.$phpEx?gid=" . $row[ 'game_id' ] ) . '">Click to Play!</a>',
 

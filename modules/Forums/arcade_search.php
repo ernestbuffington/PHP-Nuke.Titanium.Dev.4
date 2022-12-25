@@ -24,7 +24,7 @@ if (!defined('MODULE_FILE')) {
     die('You can\'t access this file directly...');
 }
 
-if ($popup != "1"){
+if (!isset($popup)){
     $module_name = basename(dirname(__FILE__));
     require("modules/".$module_name."/nukebb.php");
 }
@@ -104,6 +104,9 @@ $template->set_filenames(array(
         'body' => 'arcade_body.tpl')
 );
 
+if(!isset($gid))
+$gid = '';
+
 $template->assign_vars(array(
         'URL_ARCADE' => '<nobr><a class="cattitle" href="' . append_sid("arcade.$phpEx") . '">' . $lang['lib_arcade'] . '</a></nobr> ',
         'URL_BESTSCORES' => '<nobr><a class="cattitle" href="' . append_sid("toparcade.$phpEx") . '">' . $lang['best_scores'] . '</a></nobr> ',
@@ -141,13 +144,29 @@ while( $row = $db->sql_fetchrow($result) ) {
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
+	    if(isset($row['game_highscore'])):
+	    $decimal = '.';
+	    $broken_number = explode($decimal,$row['game_highscore']);
+	    $row['game_highscore'] = number_format(isset($broken_number[0])).$decimal.isset($broken_number[1]);
+	    else:
+	    $row['game_highscore'] = 0;
+	    endif;
+
+	    if(isset($row['score_game'])):
+	    $decimal = '.';
+	    $broken_number = explode($decimal,$row['score_game']);
+	    $row['score_game'] = number_format(isset($broken_number[0])).$decimal.isset($broken_number[1]);
+	    else:
+	    $row['score_game'] = 0;
+	    endif;
+	  
         $template->assign_block_vars('gamerow', array(
                 'GAMENAME' => $row['game_name'],
                 'GAMEPIC' => ( $row['game_pic'] != '' ) ? "<a href='" . append_sid("games.$phpEx?gid=" . $row['game_id'] ) . "'><img src='".$phpbb_root_path ."games/pics/" . $row['game_pic'] . "' align='absmiddle' border='0' width='30' height='30' alt='" . $row['game_name'] . "' ></a>" : '' ,
                 'GAMESET' => ( $row['game_set'] != 0  ) ? $lang['game_actual_nbset'] . $row['game_set'] : '',
                 'GAMEDESC' => $row['game_desc'],
-                'HIGHSCORE' => number_format($row['game_highscore']),
-                'YOURHIGHSCORE' => number_format($row['score_game']),
+                'HIGHSCORE' => $row['game_highscore'],
+                'YOURHIGHSCORE' => $row['score_game'],
                 'CLICKPLAY' => '<a href="' . append_sid("games.$phpEx?gid=" . $row['game_id'] ) . '">Click to Play!</a>',
                 'NORECORD' => ( $row['game_highscore'] == 0 ) ? $lang['no_record'] : '',
                 'HIGHUSER' => ( $row['game_highuser'] != 0 ) ? '(' . $row['username'] . ')' : '' ,
@@ -211,6 +230,9 @@ $template->set_filenames(array(
         'body' => 'arcade_body.tpl')
 );
 
+if(!isset($gid))
+$gid = '';
+
 $template->assign_vars(array(
         'URL_ARCADE' => '<nobr><a class="cattitle" href="' . append_sid("arcade.$phpEx") . '">' . $lang['lib_arcade'] . '</a></nobr> ',
         'URL_BESTSCORES' => '<nobr><a class="cattitle" href="' . append_sid("toparcade.$phpEx") . '">' . $lang['best_scores'] . '</a></nobr> ',
@@ -234,6 +256,7 @@ if( !($result = $db->sql_query($sql)) ) {
         message_die(GENERAL_ERROR, "Unable to retrieve game AND score data", '', __LINE__, __FILE__, $sql);
 }
 
+
 while( $row = $db->sql_fetchrow($result) ) {
         //Displays ON the games that you have no score/haven't played
 /*****[BEGIN]******************************************
@@ -243,6 +266,22 @@ while( $row = $db->sql_fetchrow($result) ) {
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
+	    if(isset($row['game_highscore'])):
+	    $decimal = '.';
+	    $broken_number = explode($decimal,$row['game_highscore']);
+	    $row['game_highscore'] = number_format(isset($broken_number[0])).$decimal.isset($broken_number[1]);
+	    else:
+	    $row['game_highscore'] = 0;
+	    endif;
+
+	    if(isset($row['score_game'])):
+	    $decimal = '.';
+	    $broken_number = explode($decimal,$row['score_game']);
+	    $row['score_game'] = number_format(isset($broken_number[0])).$decimal.isset($broken_number[1]);
+	    else:
+	    $row['score_game'] = 0;
+	    endif;
+
         $template->assign_block_vars('gamerow', array(
                 'GAMENAME' => $row['game_name'],
                 'GAMEPIC' => ( $row['game_pic'] != '' ) ? "<a href='" . append_sid("games.$phpEx?gid=" . $row['game_id'] ) . "'><img src='".$phpbb_root_path ."games/pics/" . $row['game_pic'] . "' align='absmiddle' border='0' width='30' height='30' alt='" . $row['game_name'] . "' ></a>" : '' ,

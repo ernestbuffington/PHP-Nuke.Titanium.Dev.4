@@ -23,7 +23,7 @@ function _file_repository_index()
 //-------------------------------------------------------------------------------------
 //	THIS IS THE DEFAULT PAGINATION CLASS THAT COMES WITH EVOLUTION XTREME.
 //-------------------------------------------------------------------------------------
-	$pagination = new Paginator($_GET['page'],$count_downloads);
+	$pagination = new Paginator(isset($_GET['page']),$count_downloads);
 	$pagination->set_Limit($settings['most_popular']);
 	$pagination->set_Links(3);
 	$limit1 = $pagination->getRange1();
@@ -36,7 +36,7 @@ function _file_repository_index()
 		echo '<br />';
 		echo '<table style="white-space:nowrap; width: 100%; table-layout:fixed;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";	
 		echo '  <tr'._bgColor(2).'>'."\n";
-		echo '    <td'._tdcss(false,'center',_sh(),3).'><a name="'.$_GET['cid'].'"></a>'._suh($lang_new[$module_name]['CATEGORY_LIST']).'</td>'."\n";
+		echo '    <td'._tdcss(false,'center',_sh(),3).'><a name="'.isset($_GET['cid']).'"></a>'._suh($lang_new[$module_name]['CATEGORY_LIST']).'</td>'."\n";
 		echo '  </tr>'."\n";
 		$count = 1;
 		while($c = $db->sql_fetchrow($result))
@@ -94,6 +94,9 @@ function _file_repository_index()
 	$dresult = $db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_ITEMS."` WHERE `isactive`='1' && `isbroken`='0' && `cid`='".$cid."' LIMIT ".$limit1.", ".$limit2);
 	if($db->sql_numrows($dresult) > 0)
 	{
+		if(!isset($themes[get_theme()]['per_row']))
+		$themes[get_theme()]['per_row'] = '';
+		
 		echo '<br />';
 		echo '<a name="'.$cid.'"></a>';
 		echo '<table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline" style="white-space:nowrap; table-layout:fixed;">'."\n";
@@ -145,7 +148,7 @@ function _file_repository_index()
 				$iteminfo 		= _collect_iteminfo($d['did']);
 				$screen[$items] = $db->sql_fetchrow($db->sql_query("SELECT `filename`, `title` FROM `"._FILE_REPOSITORY_SCREENSHOTS."` WHERE `did`='".$d['did']."' ORDER BY RAND()"));
 				$ustring 		= ($iteminfo['updated'] == '0000-00-00 00:00:00') ? _sut($lang_new[$module_name]['DATE_ADDED']) : _sut($lang_new[$module_name]['UPDATED']);
-				if($screen[$items]['filename'])
+				if(isset($screen[$items]['filename']))
 					$colspan = false;
 				else 
 					$colspan = 2;
@@ -157,13 +160,16 @@ function _file_repository_index()
 				elseif($themes[get_theme()]['per_row'] == 1)
 					$filePerRow = '100%';
 				
+				if(!isset($filePerRow))
+				$filePerRow = '';
+				
 				if ($items == 0)
 					echo '  <tr'._bgColor(1).'>'."\n";
 
 				echo '    <td'._tdcss($filePerRow,false,_sc()).' valign="top">'."\n";
 				echo '      <table width="100%" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 				echo '        <tr'._bgColor(1).'>'."\n";
-				if($screen[$items]['filename'])
+				if(isset($screen[$items]['filename']))
 				echo '          <td'._tdcss('10%','center',_sc()).'><div class="thumbnail_border"><a'.get_image_viewer('item-'.$d['did'], $screen[$items]['title']).' href="'._FILE_REPOSITORY_SCREENS.$screen[$items]['filename'].'" title="'.$screen[$items]['title'].'"><img src="'._FILE_REPOSITORY_SCREENS.'thumbs/thumb_100x100_'.$screen[$items]['filename'].'" border="0" /></a></div></td>';
 				echo '          <td'._tdcss('90%',false,_sc(),$colspan).' valign="top">';
 				echo '            <table width="100%" border="0" cellpadding="4" cellspacing="1">'."\n";
@@ -242,6 +248,9 @@ function _file_repository_index()
 	echo '<br />';
 	CloseTable();
 }
+
+if(!isset($action))
+$action = 'I left you farbehind';
 
 switch($action)
 {

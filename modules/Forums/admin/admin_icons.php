@@ -18,7 +18,7 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB', true);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 if( !empty($setmodules) )
 {
@@ -548,9 +548,13 @@ if ($mode == '')
 	{
 		$total_posts += $row['count'];
 		$row['post_icon'] = (int) $row['post_icon'];
-		if (isset($map_icon[ $row['post_icon'] ]))
+		
+		if (!isset($icones[$map_icon[$row['post_icon']]]['usage']))
+		$icones[$map_icon[$row['post_icon']]]['usage'] = 0;
+		
+		if (isset($map_icon[$row['post_icon']]))
 		{
-			$icones[ $map_icon[ $row['post_icon'] ] ]['usage'] += $row['count'];
+			$icones[$map_icon[$row['post_icon']]]['usage'] += $row['count'];
 		}
 	}
 	if ($total_posts <= 0) $total_posts = 1;
@@ -565,7 +569,20 @@ if ($mode == '')
 
 	// display icons
 	foreach ($icones as $i => $icone) {
-     $template->assign_block_vars('row', ['ICON'		=> get_icon_title($icone['ind'], 1, -1, true), 'ICON_KEY'	=> $icone['img'], 'L_LANG'	=> $lang[ $icone['alt'] ] ?? $icone['alt'], 'LANG_KEY'	=> isset($lang[ $icone['alt'] ]) ? '&nbsp;&nbsp;(' . $icone['alt'] . ')' : '', 'L_AUTH'	=> $auths[ $icone['auth'] ], 'USAGE'		=> ((int) $icone['usage'] > 0) ? $icone['usage'] . '&nbsp;(' . ( round( ($icone['usage'] * 100 )/ $total_posts ) ) . '%)' : '', 'U_EDIT'	=> append_sid("./admin_icons.$phpEx?mode=edit&icon=" . $icone['ind']), 'U_DELETE'	=> append_sid("./admin_icons.$phpEx?mode=del&icon=" . $icone['ind']), 'U_MOVEUP'	=> append_sid("./admin_icons.$phpEx?mode=up&icon=" . $icone['ind']), 'U_MOVEDW'	=> append_sid("./admin_icons.$phpEx?mode=dw&icon=" . $icone['ind'])]
+
+	if (!isset($icone['usage']))
+	$icone['usage'] = 0;
+
+     $template->assign_block_vars('row', ['ICON' => get_icon_title($icone['ind'], 1, -1, true), 
+	                                  'ICON_KEY' => $icone['img'], 
+									    'L_LANG' => $lang[ $icone['alt'] ] ?? $icone['alt'], 
+									  'LANG_KEY' => isset($lang[ $icone['alt'] ]) ? '&nbsp;&nbsp;(' . $icone['alt'] . ')' : '', 
+									    'L_AUTH' => $auths[ $icone['auth'] ], 
+										 'USAGE' => ((int) $icone['usage'] > 0) ? $icone['usage'] . '&nbsp;(' . ( round( ($icone['usage'] * 100 )/ $total_posts ) ) . '%)' : '', 
+									    'U_EDIT' => append_sid("./admin_icons.$phpEx?mode=edit&icon=" . $icone['ind']), 
+									  'U_DELETE' => append_sid("./admin_icons.$phpEx?mode=del&icon=" . $icone['ind']), 
+									  'U_MOVEUP' => append_sid("./admin_icons.$phpEx?mode=up&icon=" . $icone['ind']), 
+									  'U_MOVEDW' => append_sid("./admin_icons.$phpEx?mode=dw&icon=" . $icone['ind'])]
    		);
      // list of default assignement
      reset($icon_defined_special);

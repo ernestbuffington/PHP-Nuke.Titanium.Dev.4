@@ -53,7 +53,8 @@ function evouserinfo_getactive () {
         $sql = 'SELECT * FROM '.$prefix.'_evo_userinfo WHERE active=1 ORDER BY position ASC';
         $result = $db->sql_query($sql);
         while($row = $db->sql_fetchrow($result)) {
-            $active[] = $row;
+            if(isset($row))
+			$active[] = $row;
         }
         $db->sql_freeresult($result);
         $cache->save('active', 'evouserinfo', $active);

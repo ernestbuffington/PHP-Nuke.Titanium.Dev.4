@@ -220,7 +220,7 @@ function evouserinfo_drawlists()
         $tmpl_file = NUKE_THEMES_DIR.$Default_Theme."/blocks-left.htm";
     }
     
-	if(file_exists($tmpl_file)) 
+	if(file_exists(isset($tmpl_file))) 
 	{
       $thefile = implode("", file($tmpl_file));
       $thefile = addslashes($thefile);
@@ -291,7 +291,11 @@ function evouserinfo_write ($data){
 
 function evouserinfo_addscripts() {
     global $Sajax;
-    $script .= "    function onDrop() {
+    
+	if(!isset($script))
+	$script = '';
+	
+	$script .= "    function onDrop() {
                 var data = DragDrop.serData('g2'); 
                 x_sajax_update(data, confirm);
             }\n";

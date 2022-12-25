@@ -73,7 +73,7 @@ if ( $msnl_gasModCfg['show_blocks'] == 1 ) {
 * Main "switch" code to control what the module is to do
 ************************************************************************/
 
-switch( $op ) {
+switch(isset($op)) {
 
 	case "msnl_nls_view":
 		@include( "modules/$msnl_sModuleNm/nls_view.php" );

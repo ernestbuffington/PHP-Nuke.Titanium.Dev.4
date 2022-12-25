@@ -23,7 +23,7 @@ if (!defined('MODULE_FILE')) {
  die('You can\'t access this file directly...');
 }
 
-if ($popup != "1"){
+if (!isset($popup)){
   $module_name = basename(dirname(__FILE__));
   require("modules/".$module_name."/nukebb.php");
 }
@@ -42,7 +42,7 @@ require_once('includes/bbcode.'. $phpEx);
 //
 // Start session management
 //
-global $userdata;
+global $userdata, $boardconfig;
 
 $userdata = session_pagestart($user_ip, PAGE_GAME);
 init_userprefs($userdata);
@@ -217,7 +217,7 @@ $template->assign_vars(array(
         'L_GAME' => $row['game_name'] ,
         'GAMEHASH' => $gamehash_id,
         'L_TOP' => $lang['best_scores_game'] ,
-        'HIGHSCORE' => number_format($row['highscore']),
+        'HIGHSCORE' => number_format(isset($row['highscore'])),
         'URL_ARCADE' => '<nobr><a class="arcadeTitleLink" onclick=window.location.href="' . append_sid("arcade.$phpEx") . '">&nbsp;' . $lang['lib_arcade'] . '&nbsp;</a></nobr> ',
         'MANAGE_COMMENTS' => '<nobr><a class="arcadeTitleLink" onclick=window.location.href="' . append_sid("comments_list.$phpEx") . '">&nbsp;' . $lang['comments'] . '&nbsp;</a></nobr> ',
         'URL_BESTSCORES' => '<nobr><a class="arcadeTitleLink" onclick=window.location.href="' . append_sid("toparcade.$phpEx") . '">&nbsp;' . $lang['best_scores'] . '&nbsp;</a></nobr> ',
@@ -309,7 +309,10 @@ while ($row = $db->sql_fetchrow($result)) {
         }
 		
         $lastscore = $row['score_game'];
-        
+		
+        if(!isset($row['game_desc']))
+		$row['game_desc'] = 'Description';
+		
 		$template->assign_block_vars('scorerow', array(
                 'POS' => $pos,
 /*****[BEGIN]******************************************
@@ -329,7 +332,7 @@ while ($row = $db->sql_fetchrow($result)) {
 
 $avatar_img = '';
 
-if ($user_avatar_type && $user_allowavatar) {
+if (isset($user_avatar_type) && $user_allowavatar) {
         switch($user_avatar_type) {
                 case USER_AVATAR_UPLOAD:
                         $avatar_img = ($board_config['allow_avatar_upload']) ? '<img class="rounded-corners-user-info" 

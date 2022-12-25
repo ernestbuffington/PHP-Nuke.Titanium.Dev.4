@@ -17,7 +17,15 @@ function _query_the_download_database()
 	global $db, $lang_new, $module_name, $settings, $themes;
 	OpenTable();
 	_index_navigation_header();
-	$cid 	= intval($_POST['cid']);
+
+    if (!isset($_POST['cid']));
+	$_POST['cid'] = 0;
+	
+	$cid = (int) $_POST['cid'];
+	
+    if (!isset($_REQUEST['query']));
+	$_REQUEST['query'] = '';
+	
 	$query 	= addslashes($_REQUEST['query']);
 	echo '<br />';
 	echo '<form action="modules.php?name=File_Repository&action=search" method="post">'."\n";

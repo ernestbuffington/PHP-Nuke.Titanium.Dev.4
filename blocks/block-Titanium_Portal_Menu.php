@@ -1339,7 +1339,7 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
      								
      								$urldumodule99 = ($gt_url[$z] != "") ? $gt_url[$z] : "modules.php?name=".$singleModule ; 
      								
-     								if($newpms[0] && $singleModule=="Private_Messages")  
+     								if(isset($newpms[0]) && $singleModule=="Private_Messages")  
      								{ 
      									$content .= "<strong><big>&middot;</big></strong><img src=\"images/blocks/email-y.gif\"  
 									height=\"10\" width=\"14\" alt=\""._MENU_NEWPM."\" title=\""._MENU_NEWPM."\"><a href=\"".$urldumodule99."\">$customtitle2</a><br>\n";

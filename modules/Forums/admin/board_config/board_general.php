@@ -297,6 +297,24 @@ $template->assign_vars(array(
     'L_ALLOW_NAME_CHANGE' => $lang['Allow_name_change'])
 );
 
+if(!isset($time_mode_manual_checked))
+$time_mode_manual_checked = '';
+
+if(!isset($time_mode_manual_dst_checked))
+$time_mode_manual_dst_checked = '';
+
+if(!isset($time_mode_server_switch_checked))
+$time_mode_server_switch_checked = '';
+
+if(!isset($time_mode_full_server_checked))
+$time_mode_full_server_checked = '';
+
+if(!isset($time_mode_server_pc_checked))
+$time_mode_server_pc_checked ='';
+
+if(!isset($time_mode_full_pc_checked))
+$time_mode_full_pc_checked ='';
+
 //Data Template Variables
 $template->assign_vars(array(
     'SERVER_NAME' => $new['server_name'],

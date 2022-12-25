@@ -49,7 +49,7 @@ function evouserinfo_create_date($format, $gmepoch, $tz)
 		unset($replace); // break the reference with the last element
     endif;
 
-    if($userdata['user_id'] != ANONYMOUS):
+    if(isset($userdata['user_id']) && $userdata['user_id'] != ANONYMOUS):
     
         switch($userdata['user_time_mode']):
         

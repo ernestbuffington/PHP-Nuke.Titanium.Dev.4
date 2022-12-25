@@ -29,9 +29,10 @@ $template->assign_vars(array(
 );
 
 if(!isset($liste_cat_auth)):
-$liste_cat_auth = get_arcade_categories($userdata['user_id'], $userdata['user_level'],'view');
-if (empty($liste_cat_auth)) 
-$liste_cat_auth = "''";
+  $liste_cat_auth = get_arcade_categories($userdata['user_id'], $userdata['user_level'],'view');
+    if(empty($liste_cat_auth)): 
+      $liste_cat_auth = "''";
+    endif;
 endif;
 
 $sql = "SELECT u.username, 
@@ -57,7 +58,7 @@ if(!($result = $db->sql_query($sql)))
 message_die(CRITICAL_ERROR, "Could not query games information", "", __LINE__, __FILE__, $sql);
 
 while($row = $db->sql_fetchrow($result)):
-$players[] = $row;
+  $players[] = $row;
 endwhile;
 
 $last_game = '';
@@ -65,7 +66,10 @@ $list_player = '';
 $prev_user_id = '';
 $class = '';
 
-$nbplayers = count($players);
+if(!isset($players))
+$players = 0;
+
+$nbplayers = is_countable($players) ? count($players) : 0;
 $listeid = array();
 $games_players = array();
 $games_names = array();
@@ -74,17 +78,6 @@ for($i=0 ; $i<$nbplayers ; $i++):
   if(!isset($listeid[$players[$i]['user_id']])): 
      $listeid[ $players[$i]['user_id'] ] = true ;
      $style_color = '';
-                                /*
-     if ($players[$i]['user_level'] == ADMIN) 
-	 {
-       $players[$i]['username'] = '<strong>' . $players[$i]['username'] . '</strong>';
-       $style_color = 'style="color:#' . $theme['fontcolor3'] . '"';
-     } 
-	 elseif($players[$i]['user_level'] == MOD) 
-	 {
-        $players[$i]['username'] = '<strong>' . $players[$i]['username'] . '</strong>';
-        $style_color = 'style="color:#' . $theme['fontcolor2'] . '"';
-     }*/
 	 
      # Mod: Advanced Username Color v1.0.5 START
      $players[$i]['username'] = UsernameColor($players[$i]['username']);

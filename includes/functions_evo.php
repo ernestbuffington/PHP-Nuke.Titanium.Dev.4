@@ -855,6 +855,13 @@ function select_box($name, $default, $options, $multiple=false, $conditions=arra
 function yesno_option($name, $value=0, $dropdown=false) 
 {
     $value = ($value>0) ? 1 : 0;
+	
+	if(!isset($sel[0]))
+	$sel[0] = 0;
+
+	if(!isset($sel[1]))
+	$sel[1] = 1;
+	
     if($dropdown == false):
         $sel[$value] = ' checked="checked"';
         $return  = '<input type="radio" name="'.$name.'" id="'.$name.'_yes" value="1"'.$sel[1].' />&nbsp;<label for="'.$name.'_yes">'._YES.'</label>&nbsp;&nbsp;';

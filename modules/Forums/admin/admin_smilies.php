@@ -28,7 +28,7 @@
 *        This file will be used for modifying the smiley settings for a board.
 **************************************************************************/
 
-define('IN_PHPBB', 1);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 //
 // First we do the setmodules stuff for the admin cp.
@@ -80,26 +80,23 @@ $delimeter  = '=+:';
 //
 // Read a listing of uploaded smilies for use in the add or edit smliey code...
 //
-$dir = @opendir($phpbb_root_path . $board_config['smilies_path']);
+$dir = opendir($phpbb_root_path . $board_config['smilies_path']);
 
-while($file = @readdir($dir))
+while($file = readdir($dir))
 {
-        if( !@is_dir(phpbb_realpath($phpbb_root_path . $board_config['smilies_path'] . '/' . $file)) )
+        if( !is_dir(phpbb_realpath($phpbb_root_path . $board_config['smilies_path'] . '/' . $file)) )
         {
-                $img_size = @getimagesize($phpbb_root_path . $board_config['smilies_path'] . '/' . $file);
-
-                if( $img_size[0] && $img_size[1] )
-                {
-                        $smiley_images[] = $file;
-                }
-                else if( preg_match('/\.pak$/i', $file) )
-                {
-                        $smiley_paks[] = $file;
-                }
+                 $img_size = getimagesize($phpbb_root_path . $board_config['smilies_path'] . '/' . $file);
+                
+                if (isset($img_size[0]) && isset($img_size[1])) {
+                    $smiley_images[] = $file;
+                } elseif (preg_match('#\.pak$#i', $file)) {
+                    $smiley_paks[] = $file;
+                 }
         }
 }
 
-@closedir($dir);
+closedir($dir);
 
 //
 // Select main mode
@@ -109,6 +106,15 @@ if( isset($HTTP_GET_VARS['import_pack']) || isset($HTTP_POST_VARS['import_pack']
         //
         // Import a list a "Smiley Pack"
         //
+		if(!isset($HTTP_POST_VARS['smile_pak']))
+		$HTTP_POST_VARS['smile_pak'] = '';
+
+		if(!isset($HTTP_POST_VARS['clear_current']))
+		$HTTP_POST_VARS['clear_current'] = '';
+
+		if(!isset($HTTP_POST_VARS['replace']))
+		$HTTP_POST_VARS['replace'] = '';
+		
         $smile_pak = ( isset($HTTP_POST_VARS['smile_pak']) ) ? $HTTP_POST_VARS['smile_pak'] : $HTTP_GET_VARS['smile_pak'];
         $clear_current = ( isset($HTTP_POST_VARS['clear_current']) ) ? $HTTP_POST_VARS['clear_current'] : $HTTP_GET_VARS['clear_current'];
         $replace_existing = ( isset($HTTP_POST_VARS['replace']) ) ? $HTTP_POST_VARS['replace'] : $HTTP_GET_VARS['replace'];
@@ -145,7 +151,7 @@ if( isset($HTTP_GET_VARS['import_pack']) || isset($HTTP_POST_VARS['import_pack']
                         }
                 }
 
-                $fcontents = @file($phpbb_root_path . $board_config['smilies_path'] . '/'. $smile_pak);
+                $fcontents = file($phpbb_root_path . $board_config['smilies_path'] . '/'. $smile_pak);
 
                 if( empty($fcontents) )
                 {
@@ -205,10 +211,14 @@ if( isset($HTTP_GET_VARS['import_pack']) || isset($HTTP_POST_VARS['import_pack']
                 //
                 // Display the script to get the smile_pak cfg file...
                 //
+				
+				$smiley_paks = [];
+				
                 $smile_paks_select = "<select name='smile_pak'><option value=''>" . $lang['Select_pak'] . "</option>";
-                while( list($key, $value) = @each($smiley_paks) )
+                //while( list($key, $value) = each($smiley_paks) )
+				foreach ($smiley_paks as $key => $value)
                 {
-                        if ( !empty($value) )
+                        if (!empty($value) )
                         {
                                 $smile_paks_select .= "<option>" . $value . "</option>";
                         }
@@ -245,7 +255,10 @@ else if( isset($HTTP_POST_VARS['export_pack']) || isset($HTTP_GET_VARS['export_p
         //
         // Export our smiley config as a smiley pak...
         //
-        if ( $HTTP_GET_VARS['export_pack'] == "send" )
+        if(!isset($HTTP_GET_VARS['export_pack']))
+		$HTTP_GET_VARS['export_pack'] = '';
+		
+		if ($HTTP_GET_VARS['export_pack'] == "send" )
         {
                 $sql = "SELECT *
                         FROM " . SMILIES_TABLE;
@@ -539,7 +552,10 @@ else
         $template->set_filenames(array(
                 "body" => "admin/smile_list_body.tpl")
         );
-
+        
+		if(!isset($s_hidden_fields))
+		$s_hidden_fields = '';
+		
         $template->assign_vars(array(
                 "L_ACTION" => $lang['Action'],
                 "L_SMILEY_TITLE" => $lang['smiley_title'],

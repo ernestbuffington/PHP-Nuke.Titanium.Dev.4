@@ -23,7 +23,7 @@ if (!defined('MODULE_FILE')) {
   die('You can\'t access this file directly...');
 }
 
-if ($popup != "1"){
+if (!isset($popup)){
   $module_name = basename(dirname(__FILE__));
   require("modules/".$module_name."/nukebb.php");
 }
@@ -56,10 +56,11 @@ global $prefix, $user_prefix, $db, $ThemeSel, $board_config;
 //
 // Start initial var setup
 //
+if(!isset($_GET['gid']))
 $gid = '';
 
 if (isset($HTTP_GET_VARS['gid']) || isset($HTTP_POST_VARS['gid'])) 
-$gid = (isset($HTTP_GET_VARS['gid'])) ? intval($HTTP_GET_VARS['gid']) : intval($HTTP_POST_VARS['gid']);
+$gid = (isset($_GET['gid'])) ? (int) $_GET['gid'] : (int) $_POST['gid'];
 
 //
 // Start session management
@@ -71,7 +72,7 @@ init_userprefs($userdata);
 //
 include('includes/functions_arcade.' . $phpEx);
 
-$page_title = $lang['Scorboard'];
+//$page_title = $lang['Scorboard'];
 include(NUKE_INCLUDE_DIR.'page_header.php');
 
 $sql = "SELECT arcade_catid FROM " . GAMES_TABLE . " WHERE game_id = '$gid'" ;
@@ -169,7 +170,7 @@ $nav_links['up'] = array(
 //
 // Dump out the page header AND load viewforum template
 //
-$page_title = $lang['scoreboard'] ;
+//$page_title = $lang['scoreboard'] ;
 
 include('includes/page_header.'.$phpEx);
 
@@ -235,7 +236,9 @@ if ($total_score) {
                 {
                   $score_rowset[$i]['trophy'] = '<font size="2">st</font>';
                 }		
-                
+                if(!isset($goto_page))
+				$goto_page = '';
+				
 				$template->assign_block_vars('scorerow', array(
                         'ROW_COLOR' => $row_color,
                         'ROW_CLASS' => $row_class,

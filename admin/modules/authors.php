@@ -556,10 +556,11 @@ function deladmin2($del_aid) {
     }
 }
 
-if($add_aid != $_POST['add_aid']) {
+
+if(isset($add_aid) && $add_aid != $_POST['add_aid']) {
     die('Illegal Variable');
 }
-if($add_name != $_POST['add_name']) {
+if(isset($add_name) && $add_name != $_POST['add_name']) {
     die('Illegal Variable');
 }
 

@@ -23,7 +23,7 @@
        Board Rules                             v2.0.0       06/26/2005
  ************************************************************************/
 
-define('IN_PHPBB', 1);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 if( !empty($setmodules) )
 {
@@ -112,7 +112,7 @@ function array_to_faq($blocks, $quests)
 
 /* okay here we go! */
 
-define('IN_PHPBB', 1);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 define('Q', 0);
 define('A', 1);
 

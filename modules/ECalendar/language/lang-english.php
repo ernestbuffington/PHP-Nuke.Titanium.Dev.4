@@ -9,41 +9,40 @@
 |======================================================================
 */
 
-
-define("_ECALENDAR","ECalendar Module");
-define("_ADDE","Add Event");
-define("_ADDED","This system here will automatically remove events roughly 1 day after the event has happened<br>because we are not all in the same time zone.");
-define("_ADDED2","This how ever will not remove dates that are marked for reoccuring.");
-define("_TITLE","Title");
-define("_DATE","Date");
-define("_REOCCURRING","Reoccurring");
-define("_REOCCUR1","Not Reoccurring");
-define("_REOCCUR2","Monthly");
-define("_REOCCUR3","Yearly");
-define("_TIME","Time");
-define("_ET","Event Time");
-define("_ETITLE","Event Title");
-define("_EDATE","Event Date");
-define("_SUB","SUBMIT");
-define("_ALLDAY","All Day");
-define("_NOE", "No Events to Display");
-define("_ERR", "Error");
-define("_GOBACK","Go Back");
-define("_ESUCCESS","New Event Submitted Successfully");
-define("_PWAIT","Please Wait.  Redirecting...");
-define("_GOBACK","Go Back");
-define("_DATEPAT","MM/DD/YYYY");
-define("_TODEVENTS","Todays Events");
-define("_TTITLE", "This is where you put the title of the event.<br>Limit of 150 characters allowed.");
-define("_TDATE", "Enter the date of the event here.");
-define("_TALLDAY", "Leave the hour at empty/blank state if the event is all day.");
-define("_TREOC","Here is you like to see this event reoccur monthly or yearly. ");
-define("_EFIRST","FIRST");
-define("_ELAST","LAST");
-define("_EPREV","PREV");
-define("_ENEXT","NEXT");
-define("_EVENTS","Events");
-define("_EDIT_EVENT", "Edit Event");
-define("_DEL_EVENT", "Delete Event");
+if (!defined('_ECALENDAR')) define("_ECALENDAR","ECalendar Module");
+if (!defined('_ADDE')) define("_ADDE","Add Event");
+if (!defined('_ADDED')) define("_ADDED","This system here will automatically remove events roughly 1 day after the event has happened<br>because we are not all in the same time zone.");
+if (!defined('_ADDED2')) define("_ADDED2","This how ever will not remove dates that are marked for reoccuring.");
+if (!defined('_TITLE')) define("_TITLE","Title");
+if (!defined('_DATE')) define("_DATE","Date");
+if (!defined('_REOCCURRING')) define("_REOCCURRING","Reoccurring");
+if (!defined('_REOCCUR1')) define("_REOCCUR1","Not Reoccurring");
+if (!defined('_REOCCUR2')) define("_REOCCUR2","Monthly");
+if (!defined('_REOCCUR3')) define("_REOCCUR3","Yearly");
+if (!defined('_TIME')) define("_TIME","Time");
+if (!defined('_ET')) define("_ET","Event Time");
+if (!defined('_ETITLE')) define("_ETITLE","Event Title");
+if (!defined('_EDATE')) define("_EDATE","Event Date");
+if (!defined('_SUB')) define("_SUB","SUBMIT");
+if (!defined('_ALLDAY')) define("_ALLDAY","All Day");
+if (!defined('_NOE')) define("_NOE", "No Events to Display");
+if (!defined('_ERR')) define("_ERR", "Error");
+if (!defined('_GOBACK')) define("_GOBACK","Go Back");
+if (!defined('_ESUCCESS')) define("_ESUCCESS","New Event Submitted Successfully");
+if (!defined('_PWAIT')) define("_PWAIT","Please Wait.  Redirecting...");
+if (!defined('_GOBACK')) define("_GOBACK","Go Back");
+if (!defined('_DATEPAT')) define("_DATEPAT","MM/DD/YYYY");
+if (!defined('_TODEVENTS')) define("_TODEVENTS","Todays Events");
+if (!defined('_TTITLE')) define("_TTITLE", "This is where you put the title of the event.<br>Limit of 150 characters allowed.");
+if (!defined('_TDATE')) define("_TDATE", "Enter the date of the event here.");
+if (!defined('_TALLDAY')) define("_TALLDAY", "Leave the hour at empty/blank state if the event is all day.");
+if (!defined('_TREOC')) define("_TREOC","Here is you like to see this event reoccur monthly or yearly. ");
+if (!defined('_EFIRST')) define("_EFIRST","FIRST");
+if (!defined('_ELAST')) define("_ELAST","LAST");
+if (!defined('_EPREV')) define("_EPREV","PREV");
+if (!defined('_ENEXT')) define("_ENEXT","NEXT");
+if (!defined('_EVENTS')) define("_EVENTS","Events");
+if (!defined('_EDIT_EVENT')) define("_EDIT_EVENT", "Edit Event");
+if (!defined('_DEL_EVENT')) define("_DEL_EVENT", "Delete Event");
 
 ?>

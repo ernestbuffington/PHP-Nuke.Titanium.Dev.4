@@ -283,7 +283,7 @@ $lang['Last_Post'] = 'Last Post';
 /*****[END]********************************************
  [ Mod:     Resize Posted Images               v2.4.5 ]
  ******************************************************/
-$lang['Moderator'] = 'Mod Group:';
+$lang['Moderator'] = 'Mod Group:'; 
 $lang['Moderators'] = 'Mod Groups:';
 
 //

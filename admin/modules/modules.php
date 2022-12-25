@@ -135,7 +135,10 @@ function modadmin_dispaly_modules($modadmin_modules)
       {
          continue;
       }
-
+	  
+	  if(!isset($who_view))
+	  $who_view = null;
+	  
       # lis the top header information
       if($module['title'] == $main_module) 
       {
@@ -366,7 +369,22 @@ function modadmin_edit_save($mid)
 {
    global $prefix, $db, $admin_file, $cache;
    
-   $ingroups = array();
+   $title = null;
+   
+   //if(!isset($custom_title))
+   //$custom_title = null;
+
+   //if(!isset($view))
+   //$view = 0;
+   //if(!isset($inmenu))
+   //$inmenu = 0;
+   //if(!isset($blocks))
+   //$blocks = 0;
+   //if(!isset($mid))
+   //$mid = 0;
+
+   if(!isset($ingroups))
+   $ingroups = null;
    
    if($_POST['view'] == 6) 
    {
@@ -381,16 +399,16 @@ function modadmin_edit_save($mid)
    if(isset($_POST['link'])) 
    {
       Validate($_POST['custom_title'], 'url', 'modules');
-      $view = intval($_POST['view']);
+	  $view = (int) $_POST['view'];
       $title = '~l~'.Fix_Quotes($_POST['title']);
       $custom_title = Fix_Quotes($_POST['custom_title']);
       $db->sql_query("UPDATE `".$prefix."_modules` SET `custom_title`='$custom_title', `title`='$title', `view`=$view, `groups`='$ingroups' WHERE `mid`=$mid");
    } 
    else 
    {
-      $view = intval($_POST['view']);
-      $inmenu = intval($_POST['inmenu']);
-      $blocks = intval($_POST['blocks']);
+      $view = (int) $_POST['view'];
+      $inmenu = (int) $_POST['inmenu'];
+      $blocks = (int) $_POST['blocks'];	  
       $custom_title = Fix_Quotes($_POST['custom_title']);
       $db->sql_query("UPDATE `".$prefix."_modules` SET `custom_title`='$custom_title', `view`=$view, `inmenu`=$inmenu, `blocks`=$blocks, `groups`='$ingroups' $title WHERE `mid`=$mid");
    }
@@ -823,6 +841,10 @@ function modadmin_delete_link ($mid)
 function modadmin_add_scripts() 
 {
     global $Sajax;
+    
+	if(!isset($script))
+	$script = '';
+
     $script .= "function module_activate(mid) {
                     x_modadmin_activate(mid, confirm);
                     window.location.reload();
@@ -940,6 +962,8 @@ if(isset($_POST['catsave']))
    modadmin_edit_cat_save($_POST['catsave'], $_POST['cattitle'], $_POST['catimage']);
    redirect($admin_file.".php?op=modules&area=block");
 }
+if(!isset($area))
+$area = null;
 
 switch ($area) 
 {
@@ -961,10 +985,14 @@ switch ($area)
    default:
       include_once(NUKE_BASE_DIR.'header.php');
       modadmin_title();
-      $modadmin_modules = modadmin_get_modules(intval($_GET['edit']));
-      (!isset($_GET['edit'])) ? modadmin_dispaly_modules($modadmin_modules) : modadmin_edit_module($modadmin_modules[0]);
-      modadmin_title();
-      break;
+	  
+	  if(!isset($_GET['edit']))
+	  $_GET['edit'] = null;
+	  
+	  $modadmin_modules = modadmin_get_modules((int) $_GET['edit']);
+      (isset($_GET['edit'])) ? modadmin_edit_module($modadmin_modules[0]) : modadmin_dispaly_modules($modadmin_modules);
+       modadmin_title();
+	   break;
 }
 
 include_once(NUKE_BASE_DIR.'footer.php');

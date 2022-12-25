@@ -446,6 +446,11 @@ function modal_code_popup()
 function mysettings()
 {
 	global $db, $lang_new, $module_name, $userinfo, $settings, $mysettings;
+	
+	if(!isset($_POST['submit'])) 
+    $_POST['submit'] = '';
+
+	
 	if($_POST['submit'] && $_POST['uid'] == $userinfo['user_id'])
 	{
 //-------------------------------------------------------------------------
@@ -893,6 +898,9 @@ function image_forum_upload()
 //-------------------------------------------------------------------------
 //	IF THE USER VISITING IS NOT A REGISTERED MEMBER, SUGGEST THEY REGISTER
 //-------------------------------------------------------------------------
+if(!isset($op)) 
+$op = '';
+
 if(!is_user())
 {
 	OpenTable();

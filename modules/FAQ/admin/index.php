@@ -55,11 +55,11 @@ if(is_mod_admin($module_name)) {
         echo "<br /><br />";
 	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _FAQ_RETURNMAIN . "</a> ]</div>\n";
 	    CloseTable();
-	    echo "<br />";
+	    //echo "<br />";
         OpenTable();
         echo "<center><span class=\"title\"><strong>" . _FAQADMIN . "</strong></span></center>";
         CloseTable();
-        echo "<br />";
+        //echo "<br />";
         OpenTable();
         echo "<center><span class=\"option\"><strong>" . _ACTIVEFAQS . "</strong></span></center><br />"
         ."<table border=\"1\" width=\"100%\" align=\"center\"><tr>"
@@ -82,7 +82,7 @@ if(is_mod_admin($module_name)) {
         }
         echo "</table>";
         CloseTable();
-        echo "<br />";
+        //echo "<br />";
         OpenTable();
         echo "<center><span class=\"option\"><strong>" . _ADDCATEGORY . "</strong></span></center><br />"
         ."<form action=\"".$admin_file.".php\" method=\"post\">"

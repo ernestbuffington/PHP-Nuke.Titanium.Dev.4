@@ -329,7 +329,7 @@ switch ($op)
             CloseTable();
         }
         echo "<!-- CLOSE PAGING -->\n";
-        @include_once(__DIR__ . "/footer.php");
+        include_once(NUKE_BASE_DIR . "/footer.php");
     break;
 }
 ?>

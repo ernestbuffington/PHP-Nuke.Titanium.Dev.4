@@ -31,7 +31,10 @@ function evouserinfo_personal_message()
 
     $evouserinfo_personal_message = $evouserinfo_addons['personal_message_message'];
     
-    if(is_user()): 
+	if (!isset($lang_evo_userblock['BLOCK']['GOOD_AFTERNOON']['ANON']))
+	$lang_evo_userblock['BLOCK']['GOOD_AFTERNOON']['ANON'] = 'Stranger';
+    
+	if(is_user()): 
         global $userinfo;
         $uname = UsernameColor($userinfo['username']);
 	else: 

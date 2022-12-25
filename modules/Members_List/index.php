@@ -85,6 +85,9 @@ include(NUKE_INCLUDE_DIR.'page_header.php');
 $template->set_filenames(['body' => 'memberlist_body.tpl']
 );
 
+if(!isset($lang['Sort_Go']))
+$lang['Sort_Go'] = '';
+
 $template->assign_vars([
     'L_PAGE_TITLE' => $lang['Memberlist'],
     'L_SELECT_SORT_METHOD' => $lang['Select_sort_method'],
@@ -131,7 +134,7 @@ $i = 0;
 while($i < count($alpha_range)):
 	if ($alpha_range[$i] != 'All'): 
 		$temp = ($alpha_range[$i] != '#') ? strtolower($alpha_range[$i]) : 'num';
-		$alphanum_search_url = 'modules.php?name='.basename(__DIR__).'&amp;mode=letter&amp;alphanum='.$temp;
+		$alphanum_search_url = 'modules.php?name='.basename(__DIR__).'&amp;mode=letter&amp;alphanum='.strtoupper($temp);
 	else: 
 		$alphanum_search_url = 'modules.php?name='.basename(__DIR__);
 	endif;
@@ -185,6 +188,7 @@ endswitch;
 # search switch END
 
 $username = (!empty($_POST['username'])) ? $_POST['username'] : '';
+
 if ($username && isset($_POST['submituser'])):
     # search for users with a wildcard
 	$search_author = str_replace('*', '%', trim($username));
@@ -241,6 +245,19 @@ if ($username && isset($_POST['submituser'])):
 
 
 else:
+
+    if(!isset($where)):
+	
+	if(!isset($_POST['alphanum']))
+	$_POST['alphanum'] = '';
+	
+	$alphanum = (isset($_POST['alphanum'])) ? htmlspecialchars((string) $_POST['alphanum']) : htmlspecialchars((string) $_GET['alphanum']);
+	$alphanum = str_replace("\'", "''",$alphanum);
+	$where = ($alphanum == 'num') ? " AND `username` NOT RLIKE '^[A-Z]' " : " AND `username` LIKE '".$alphanum."%' ";
+	$order_by = 'user_id '.$sort_order.' LIMIT '.$start.', '.$board_config['topics_per_page']; 
+	endif;
+	
+	
 	$sql = "SELECT username,
 	                   name, 
                 user_avatar, 
@@ -297,7 +314,8 @@ if($row = $db->sql_fetchrow($result)):
 		
 		# Website URL
 		if(!empty($row['user_website']))
-		$www = '<a href="'.$row['user_website'].'" target="_blank"><img class="tooltip-html copyright" alt="Male" title="Visit '.$username.'\'s Web Portal" width="30"alt="online" src="themes/'.$theme_name.'/forums/images/status/icons8-website-512.png" /></a>';
+		$www = '<a href="'.$row['user_website'].'" target="_blank"><img class="tooltip-html copyright" 
+		alt="Male" title="Visit '.$username.'\'s Web Portal" width="30"alt="online" src="themes/'.$theme_name.'/forums/images/status/icons8-website-512.png" /></a>';
 		else
 		$www = '';
 		
@@ -328,7 +346,8 @@ if($row = $db->sql_fetchrow($result)):
 		$posts = ($row['user_posts']) ? '<a href="modules.php?name=Forums&file=search&search_author='.$username.'">'.$row['user_posts'].'</a>' : 0;
 		
 		# Private message link
-		$pm = '<a href="'.append_sid("privmsg.$phpEx?mode=post&amp;".POST_USERS_URL."=$user_id").'"><img class="tooltip-html copyright" alt="Male" title="Send A Private Message To '.$username.'" width="30"alt="online" src="themes/'.$theme_name.'/forums/images/status/icons8-send-80.png" /></a>';
+		$pm = '<a href="'.append_sid("privmsg.$phpEx?mode=post&amp;".POST_USERS_URL."=$user_id").'"><img class="tooltip-html copyright" alt="Male" 
+		title="Send A Private Message To '.$username.'" width="30"alt="online" src="themes/'.$theme_name.'/forums/images/status/icons8-send-80.png" /></a>';
 		
 		# does the person have a dick START
 		if($row['user_gender'] ==1)

@@ -20,7 +20,7 @@
  *
  ***************************************************************************/
 
-define ('IN_PHPBB', true);
+if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 if ( !empty($setmodules) )
 {
@@ -527,6 +527,9 @@ if ( $mode == 'submit' || $mode == 'refresh' )
   $session_average_cycle_time = round($session_time / get_rebuild_session_details('last', 'session_cycles'));
   $session_estimated_time = round($session_time * (100 / $session_percent)) - $session_time;
 
+  if(!isset($lang['Page_title']))
+  $lang['Page_title'] = '';
+
   // create the output of page
   $page_title = $lang['Page_title'];
   include('./page_header_admin.'.$phpEx);
@@ -604,6 +607,8 @@ if ( $mode == 'submit' || $mode == 'refresh' )
 }
 else  // show the input page
 {
+  if(!isset($lang['Page_title']))
+  $lang['Page_title'] = '';
   // create the page
   $page_title = $lang['Page_title'];
   include('./page_header_admin.'.$phpEx);

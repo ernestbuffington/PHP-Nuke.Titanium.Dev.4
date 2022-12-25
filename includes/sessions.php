@@ -180,7 +180,10 @@ function select_session_url($session_page, $url_qs, $url_ps, $specific, $level, 
         //$location = str_replace('%c%', '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">'. $cat_name .'</a>', $lang['BSH_Viewing_Category']);
             }
 
-        if (!$location)
+           if(!isset($location))
+		   $location = '';
+           
+		   if (!$location)
             {
             if ( (strstr($url_qs, POST_POST_URL .'=')) && (strstr($url_ps, 'viewtopic.')) )
                 $location = sprintf($lang['BSH_Viewing_Post'], '<a href="'. (($url_qs) ? $url_ps .'?'. $url_qs : $url_ps) .'" class="copyright">', '</a>');

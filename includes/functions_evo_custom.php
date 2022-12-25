@@ -18,7 +18,7 @@
  * @param string|array $attachments Optional. Files to attach.
  * @return bool Whether the email contents were sent successfully.
  */
-function evo_phpmailer($to, $subject, $message, $headers = '', $attachments = array())
+function phpmailer($to, $subject, $message, $headers = '', $attachments = array())
 {
 	global $mail, $board_config, $nukeconfig;
 
@@ -885,39 +885,39 @@ function get_evo_image($imgfile='', $mymodule='') {
 	global $currentlang, $ThemeSel, $Default_Theme, $cache;
 	$tmp_imgfile = explode('.', $imgfile);
 	$cache_imgfile = $tmp_imgfile[0];
-	$evoimage = $cache->load($mymodule, 'EvoImage');
-	if(!empty($evoimage[$ThemeSel][$currentlang][$cache_imgfile])) {
-		return($evoimage[$ThemeSel][$currentlang][$cache_imgfile]);
-	}
+	//$evoimage = $cache->load($mymodule, 'EvoImage');
+	//if(!empty($evoimage[$ThemeSel][$currentlang][$cache_imgfile])) {
+	//	return($evoimage[$ThemeSel][$currentlang][$cache_imgfile]);
+	//}
 
-	if (@file_exists(NUKE_THEMES_DIR . $ThemeSel . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) {
+	if (file_exists(NUKE_THEMES_DIR . $ThemeSel . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) {
 		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$ThemeSel."/images/$mymodule/lang_".$currentlang."/$imgfile";
-	} elseif (@file_exists(NUKE_THEMES_DIR . $ThemeSel . '/images/lang_' . $currentlang . '/' . $imgfile)) {
+	} elseif (file_exists(NUKE_THEMES_DIR . $ThemeSel . '/images/lang_' . $currentlang . '/' . $imgfile)) {
 		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$ThemeSel."/images/lang_".$currentlang."/$imgfile";
-	} elseif (@file_exists(NUKE_THEMES_DIR . $ThemeSel . '/images/' . $mymodule . '/' . $imgfile)) {
+	} elseif (file_exists(NUKE_THEMES_DIR . $ThemeSel . '/images/' . $mymodule . '/' . $imgfile)) {
 		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$ThemeSel."/images/$mymodule/$imgfile";
-	} elseif (@file_exists(NUKE_THEMES_DIR . $ThemeSel . '/images/' . $imgfile)) {
+	} elseif (file_exists(NUKE_THEMES_DIR . $ThemeSel . '/images/' . $imgfile)) {
 		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$ThemeSel."/images/$imgfile";
-	} elseif (@file_exists(NUKE_THEMES_DIR . $Default_Theme . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) {
+	} elseif (file_exists(NUKE_THEMES_DIR . $Default_Theme . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) {
 		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$Default_Theme."/images/$mymodule/lang_".$currentlang."/$imgfile";
-	} elseif (@file_exists(NUKE_THEMES_DIR . $Default_Theme . '/images/lang_' . $currentlang . '/' . $imgfile)) {
+	} elseif (file_exists(NUKE_THEMES_DIR . $Default_Theme . '/images/lang_' . $currentlang . '/' . $imgfile)) {
 		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$Default_Theme."/images/lang_".$currentlang."/$imgfile";
-	} elseif (@file_exists(NUKE_THEMES_DIR . $Default_Theme . '/images/' . $mymodule . '/' . $imgfile)) {
+	} elseif (file_exists(NUKE_THEMES_DIR . $Default_Theme . '/images/' . $mymodule . '/' . $imgfile)) {
 		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$Default_Theme."/images/$mymodule/$imgfile";
-	} elseif (@file_exists(NUKE_THEMES_DIR . $Default_Theme . '/images/' . $imgfile)) {
+	} elseif (file_exists(NUKE_THEMES_DIR . $Default_Theme . '/images/' . $imgfile)) {
 		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$Default_Theme."/images/$imgfile";
-	} elseif (@file_exists(NUKE_MODULES_DIR . $mymodule . '/images/lang_' . $currentlang . '/' . $imgfile)) {
+	} elseif (file_exists(NUKE_MODULES_DIR . $mymodule . '/images/lang_' . $currentlang . '/' . $imgfile)) {
 		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "modules/".$mymodule."/images/lang_".$currentlang."/$imgfile";
-	} elseif (@file_exists(NUKE_MODULES_DIR . $mymodule . '/images/' . $imgfile)) {
+	} elseif (file_exists(NUKE_MODULES_DIR . $mymodule . '/images/' . $imgfile)) {
 		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] =  "modules/".$mymodule."/images/$imgfile";
-	} elseif (@file_exists(NUKE_IMAGES_DIR . $mymodule . '/' . $imgfile)) {
+	} elseif (file_exists(NUKE_IMAGES_DIR . $mymodule . '/' . $imgfile)) {
 		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "images/".$mymodule."/$imgfile";
-	} elseif (@file_exists(NUKE_IMAGES_DIR . $imgfile)) {
+	} elseif (file_exists(NUKE_IMAGES_DIR . $imgfile)) {
 		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "images/$imgfile";
 	} else {
 		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = '';
 	}
-	$cache->save($mymodule, 'EvoImage', $evoimage);
+	//$cache->save($mymodule, 'EvoImage', $evoimage);
 	return($evoimage[$ThemeSel][$currentlang][$cache_imgfile]);
 }
 

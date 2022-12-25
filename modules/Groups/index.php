@@ -67,7 +67,7 @@ function generate_user_info(&$row,
 			  &$online_status_img, 
 			      &$online_status)
 {
-    global $lang, $theme_name, $images, $board_config, $online_color, $offline_color, $hidden_color;
+    global $phpEx, $lang, $theme_name, $images, $board_config, $online_color, $offline_color, $hidden_color;
     
     $username = $row['username'];
 	$from = $row['user_from'].'&nbsp;';
@@ -978,6 +978,11 @@ elseif($group_id)
     # Mod: Online/Offline/Hidden v3.0.0 END
 	
  	$s_hidden_fields .= '<input type="hidden" name="sid" value="'.$userdata['session_id'].'" />';
+
+    if(!isset($select_sort_mode))
+	$select_sort_mode = '';
+    if(!isset($select_sort_order))
+	$select_sort_order = '';
 	
     $template->assign_vars(array(
 		'L_GROUP_INFORMATION' => $lang['Group_Information'],
@@ -1083,7 +1088,7 @@ elseif($group_id)
 	endif;
 	
     # Mod: Forum Index Avatar Mod v3.0.0 START
-    switch($group_members[$i]['user_avatar_type'])
+    switch(isset($group_members[$i]['user_avatar_type']))
     {
       case USER_AVATAR_UPLOAD:
       $current_avatar = $board_config['avatar_path'] . '/' . $group_members[$i]['user_avatar'];

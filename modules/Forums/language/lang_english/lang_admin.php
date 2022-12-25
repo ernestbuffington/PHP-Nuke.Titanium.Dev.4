@@ -746,9 +746,9 @@ $lang['wrap_units'] = 'characters';
 //
 $lang['Version_up_to_date'] = 'Your installation is up to date, no updates are available for your version of phpBB.';
 $lang['Version_not_up_to_date'] = 'Your installation does <strong>not</strong> seem to be up to date. Updates are available for your version of phpBB.';
-$lang['Latest_version_info'] = 'The latest available version is <strong>phpBB %s</strong>. ';
-$lang['Current_version_info'] = 'You are running <strong>phpBB %s</strong>.';
-$lang['Connect_socket_error'] = 'Unable to open connection to phpBB Server, reported error is:<br />%s';
+$lang['Latest_version_info'] = 'The latest available version is <strong>phpBB Titanium %s</strong>. ';
+$lang['Current_version_info'] = 'You are running <strong>phpBB Titanium %s</strong>.';
+$lang['Connect_socket_error'] = 'Unable to open connection to phpBB Titanium Server, reported error is:<br />%s';
 $lang['Socket_functions_disabled'] = 'Unable to use socket functions.';
 $lang['Mailing_list_subscribe_reminder'] = 'For the latest information on updates to phpBB, why not <a href="http://www.phpbb.com/support/" target="_new">subscribe to our mailing list</a>.';
 $lang['Version_information'] = 'Version Information';
@@ -766,9 +766,9 @@ $lang['Deactivated_Users'] = 'Members in need of Activation';
 $lang['Users_with_Admin_Privileges'] = 'Members with administrator privileges';
 $lang['Users_with_Mod_Privileges'] = 'Members with moderator privileges';
 $lang['DB_size'] = 'Size of the database';
-$lang['Version_of_board'] = 'Version of <a href="http://www.phpbb.com">phpbb</a>';
+$lang['Version_of_board'] = 'Version of <a href="http://www.php-nuke-titanium.86it.us">phpBB Titanium</a>';
 $lang['Version_of_PHP'] = 'Version of <a href="http://www.php.net/">PHP</a>';
-$lang['Version_of_MySQL'] = 'Version of <a href="http://www.mysql.com/">MySQL</a>';
+$lang['Version_of_MySQL'] = 'Version of <a href="https://mariadb.org/">MariaDB</a>';
 /*****[END]********************************************
  [ Mod:    Advance Admin Index Stats           v1.0.0 ]
  ******************************************************/

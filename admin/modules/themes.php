@@ -166,7 +166,7 @@ function downloadTheme($theme)
 }
 
 function theme_footer(){
-    echo "<div align='right'>&copy; <a href='http://nuke-evolution.com' target='_blank'>Theme Management</a></div>\n";
+    echo "<div align='right'>&copy; <a href='http://php-nuke-titanium.86it.us/modules.php?name=Forums&file=viewforum&f=5' target='_blank'>Theme Management</a>&nbsp;&nbsp;</div>\n";
 }
 
 function display_main(){
@@ -1139,7 +1139,9 @@ if (is_admin()){
         break;
         case 'theme_options':
             theme_header();
-            theme_options($_GET['act'], $_GET);
+			if(!isset($_GET['act']))
+			$_GET['act'] = '';
+			theme_options($_GET['act'], $_GET);
             theme_footer();
         break;
         case 'theme_transfer':

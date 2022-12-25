@@ -21,28 +21,28 @@
 /* And, if you use HTML code, please double check it.                     */
 /**************************************************************************/
 
-define("_FUNCTIONS","Functions");
-define("_YES","Yes");
-define("_NO","No");
-define("_SAVE","Save");
-define("_ID","ID");
-define("_CATEGORIES","Categories");
-define("_ALL","All");
-define("_FAQ","FAQ");
-define("_CONTENT","Content");
-define("_FAQ_ADMIN_HEADER", "FAQ :: Modules Admin Panel");
-define("_FAQ_RETURNMAIN", "Return to Main Administration");
-define("_FAQADMIN","FAQ Administration");
-define("_ACTIVEFAQS","Active FAQs");
-define("_ADDCATEGORY","Add a New Category");
-define("_QUESTIONS","Questions and Answers");
-define("_ADDQUESTION","Add a New Question");
-define("_QUESTION","Question");
-define("_ANSWER","Answer");
-define("_EDITCATEGORY","Edit Category");
-define("_EDITQUESTIONS","Edit Questions and Answers");
-define("_FAQDELWARNING","WARNING: Are you sure you want to delete this Faq and all its content?");
-define("_QUESTIONDEL","WARNING: Are you sure you want to delete this Question?");
-define("_LANGUAGE","Language");
+if (!defined('_FUNCTIONS')) define("_FUNCTIONS","Functions");
+if (!defined('_YES')) define("_YES","Yes");
+if (!defined('_NO')) define("_NO","No");
+if (!defined('_SAVE')) define("_SAVE","Save");
+if (!defined('_ID')) define("_ID","ID");
+if (!defined('_CATEGORIES')) define("_CATEGORIES","Categories");
+if (!defined('_ALL')) define("_ALL","All");
+if (!defined('_FAQ')) define("_FAQ","FAQ");
+if (!defined('_CONTENT')) define("_CONTENT","Content");
+if (!defined('_FAQ_ADMIN_HEADER')) define("_FAQ_ADMIN_HEADER", "FAQ :: Modules Admin Panel");
+if (!defined('_FAQ_RETURNMAIN')) define("_FAQ_RETURNMAIN", "Return to Main Administration");
+if (!defined('_FAQADMIN')) define("_FAQADMIN","FAQ Administration");
+if (!defined('_ACTIVEFAQS')) define("_ACTIVEFAQS","Active FAQs");
+if (!defined('_ADDCATEGORY')) define("_ADDCATEGORY","Add a New Category");
+if (!defined('_QUESTIONS')) define("_QUESTIONS","Questions and Answers");
+if (!defined('_ADDQUESTION')) define("_ADDQUESTION","Add a New Question");
+if (!defined('_QUESTION')) define("_QUESTION","Question");
+if (!defined('_ANSWER')) define("_ANSWER","Answer");
+if (!defined('_EDITCATEGORY')) define("_EDITCATEGORY","Edit Category");
+if (!defined('_EDITQUESTIONS')) define("_EDITQUESTIONS","Edit Questions and Answers");
+if (!defined('_FAQDELWARNING')) define("_FAQDELWARNING","WARNING: Are you sure you want to delete this Faq and all its content?");
+if (!defined('_QUESTIONDEL')) define("_QUESTIONDEL","WARNING: Are you sure you want to delete this Question?");
+if (!defined('_LANGUAGE')) define("_LANGUAGE","Language");
 
 ?>
