@@ -20,7 +20,6 @@
 /* so your entry will look like: This is \"double quoted\" text.          */
 /* And, if you use HTML code, please double check it.                     */
 /**************************************************************************/
-
 define("_EMAIL","Email");
 define("_RE","Re");
 define("_SUBJECT","Subject");

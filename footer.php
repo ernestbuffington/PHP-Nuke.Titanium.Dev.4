@@ -271,7 +271,7 @@ if (defined('HOME_FILE'))
 	include(NUKE_INCLUDE_DIR.'cblocks4.php');
 }
 # END NSN Center Blocks v2.2.1
-
+global $module_name;
 # look to see if a copyright file exist for the currently displayed module START
 $pageURL = "".HTTPS."modules/".$module_name."/copyright.php";
 
@@ -322,7 +322,7 @@ echo "</script>\n\n";
 //     echo "<div align=\"right\"><a href=\"javascript:openwindow(420,200)\">$cpname &copy;</a></div>";
 # just a  normal module load without it being displayed by default when index.php loads, look to see if a copyright file exist for the currently displayed module END
 
-
+global $name;
 # This loads the admin panel when you got the admin area START
 if (!defined('HOME_FILE') AND defined('MODULE_FILE') AND (file_exists(NUKE_MODULES_DIR.$name.'/admin/panel.php') && is_admin())) 
 {
@@ -354,13 +354,14 @@ echo "<!-- END Bottom Primary Body Tags -->\n\n";
 
 # ReSync the website cache!
 # Set up the cache class reference
-$cache = new cache($use_cache);
-$cache->resync();
+//$cache = new cache($use_cache);
+//$cache->resync();
 
 /*****[BEGIN]******************************************
  [ Other:   DB Connectors                      v2.0.0 ]
  [ Other:   Persistent DB Connection           v2.0.0 ]
  ******************************************************/
+global $db2, $db;
 if(is_object($db))
 $db->sql_close(); //close local database
 if(is_object($db2))
@@ -371,7 +372,7 @@ $db2->sql_close(); //close network user database
  [ Other:   DB Connectors                      v2.0.0 ]
  [ Other:   Persistent DB Connection           v2.0.0 ]
  ******************************************************/
-
+global $do_gzip_compress;
 if(GZIPSUPPORT && $do_gzip_compress) 
 {
     $gzip_contents = ob_get_contents();

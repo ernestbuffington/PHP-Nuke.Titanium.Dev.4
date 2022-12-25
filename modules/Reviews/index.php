@@ -421,14 +421,14 @@ function reviews_index() {
     $y = 1;
     for ($x = 0; $x < 10; $x++)    {
         $myrow = $db->sql_fetchrow($result_pop);
-        $id = intval($myrow['id']);
-        $title = stripslashes(check_html($myrow['title'], "nohtml"));
-        $hits = intval($myrow['hits']);
+        $id = intval(isset($myrow['id']));
+        $title = stripslashes(check_html(isset($myrow['title']), "nohtml"));
+        $hits = intval(isset($myrow['hits']));
         echo "<tr><td width=\"50%\" bgcolor=\"$bgcolor3\">$y) <a href=\"modules.php?name=$module_name&amp;rop=showcontent&amp;id=$id\">$title</a></td>";
         $myrow2 = $db->sql_fetchrow($result_rec);
-        $id = intval($myrow2['id']);
-        $title = stripslashes(check_html($myrow2['title'], "nohtml"));
-        $hits = intval($myrow2['hits']);
+        $id = intval(isset($myrow2['id']));
+        $title = stripslashes(check_html(isset($myrow2['title']), "nohtml"));
+        $hits = intval(isset($myrow2['hits']));
         echo "<td width=\"50%\" bgcolor=\"$bgcolor3\">$y) <a href=\"modules.php?name=$module_name&amp;rop=showcontent&amp;id=$id\">$title</a></td></tr>";
         $y++;
     }

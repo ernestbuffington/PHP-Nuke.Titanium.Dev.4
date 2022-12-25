@@ -30,7 +30,7 @@
 if (!defined('MODULE_FILE')) 
 exit('You can\'t access this file directly...');
 
-if ($popup != "1"){
+if (!isset($popup)){
     $module_name = basename(dirname(__FILE__));
     require(NUKE_FORUMS_DIR.'nukebb.php');
 }
@@ -106,10 +106,14 @@ function gen_rand_string($hash)
 //
 // Start of program proper
 //
+		if(!isset($HTTP_GET_VARS['mode']))
+		$HTTP_GET_VARS['mode'] = '';
 
-        $mode = ( isset($HTTP_GET_VARS['mode']) ) ? $HTTP_GET_VARS['mode'] : $HTTP_POST_VARS['mode'];
-        $mode = htmlspecialchars($mode);
+		if(!isset($HTTP_GET_VARS['check_num']))
+		$HTTP_GET_VARS['check_num'] = '';
 
+        $mode      = ( isset($HTTP_GET_VARS['mode']) ) ? $HTTP_GET_VARS['mode'] : $HTTP_POST_VARS['mode'];
+        $mode      = htmlspecialchars($mode);
         $check_num = ( isset($HTTP_GET_VARS['check_num']) ) ? $HTTP_GET_VARS['check_num'] : $HTTP_POST_VARS['check_num'];
 
         if (!$mode) {

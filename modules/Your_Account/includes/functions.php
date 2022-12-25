@@ -179,7 +179,8 @@ function ya_get_configs(){
  ******************************************************/
       $configresult = $db->sql_query("SELECT config_name, config_value FROM ".$prefix."_cnbya_config");
       while (list($config_name, $config_value) = $db->sql_fetchrow($configresult)) {
-          $ya_config[$config_name] = $config_value;
+          if(isset($config_value))
+		  $ya_config[$config_name] = $config_value;
       }
       $db->sql_freeresult($configresult);
 /*****['BEGIN']****************************************
@@ -246,11 +247,13 @@ function YA_MakePass() {
     $cons = 'bcdfghjklmnpqrstvwxyz';
     $vocs = 'aeiou';
     for ($x=0; $x < 6; $x++) {
-        mt_srand ((double) microtime() * 1000000);
+        //mt_srand ((double) microtime() * 1000000);
+		mt_srand(0, MT_RAND_MT19937);
         $con[$x] = substr($cons, mt_rand(0, strlen($cons)-1), 1);
         $voc[$x] = substr($vocs, mt_rand(0, strlen($vocs)-1), 1);
     }
-    mt_srand((double)microtime()*1000000);
+    //mt_srand((double)microtime()*1000000);
+	mt_srand(0, MT_RAND_MT19937);
     $num1 = mt_rand(0, 9);
     $num2 = mt_rand(0, 9);
     $makepass = $con[0] . $voc[0] .$con[2] . $num1 . $num2 . $con[3] . $voc[3] . $con[4];
@@ -352,7 +355,8 @@ function mmain($user) {
     global $stop, $module_name, $redirect, $mode, $t, $f, $ya_config, $user, $p;
     if(!is_user()) {
         include_once(NUKE_BASE_DIR.'header.php');
-        mt_srand ((double)microtime()*1000000);
+        //mt_srand ((double)microtime()*1000000);
+		mt_srand(0, MT_RAND_MT19937);
         $maxran = 10000000;
         $random_num = mt_rand(0, $maxran);
         Show_CNBYA_menu();

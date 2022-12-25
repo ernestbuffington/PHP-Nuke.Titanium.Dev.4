@@ -63,17 +63,17 @@ if(realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])):
 endif;
 
 # Define File
-define_once('NUKE_EVO', '2.0.9e');
-define_once('NUKE_TITANIUM', '4.0.3');
-define_once('PHPBB_TITANIUM', '2.0.25');
-define_once('TITANIUM_BUILD', '20940312032022');
-define_once('CUR_EVO', 'NUKE_EVO');
-define_once('CUR_TITANIUM', 'NUKE_TITANIUM');
-define_once('EVO_EDITION', 'Xtreme');
-define_once('TITANIUM_EDITION', 'AN602');
+define('NUKE_EVO', '2.0.9e');
+define('NUKE_TITANIUM', '4.0.3');
+define('PHPBB_TITANIUM', '2.0.25');
+define('TITANIUM_BUILD', '20940312032022');
+define('CUR_EVO', 'NUKE_EVO');
+define('CUR_TITANIUM', 'NUKE_TITANIUM');
+define('EVO_EDITION', 'Xtreme');
+define('TITANIUM_EDITION', 'AN602');
 define('PHPVERS', phpversion());
-define_once('EVO_VERSION', NUKE_EVO . ' ' . EVO_EDITION);
-define_once('TITANIUM_VERSION', NUKE_TITANIUM . ' ' . TITANIUM_EDITION);
+define('EVO_VERSION', NUKE_EVO . ' ' . EVO_EDITION);
+define('TITANIUM_VERSION', NUKE_TITANIUM . ' ' . TITANIUM_EDITION);
 define('PHP_5', version_compare(PHPVERS, '5.0.0', '>='));
 
 if(!ini_get('register_globals')): 
@@ -1313,12 +1313,12 @@ function formatTimestamp($time, $format='', $dateonly='')
           $format = 'D M d, Y g:i a';
 		endif;
     endif;
-    
+
 	if(!empty($dateonly)): 
-      $replaces = array('a', 'A', 'B', 'c', 'D', 'g', 'G', 'h', 'H', 'i', 'I', 'O', 'r', 's', 'U', 'Z', ':');
-      $format = str_replace($replaces, '', $format);
+      $replaces = ['a', 'A', 'B', 'c', 'D', 'g', 'G', 'h', 'H', 'i', 'I', 'O', 'r', 's', 'U', 'Z', ':'];
+      $format = str_replace($replaces, '', (string) $format);
     endif;
-    
+
 	if((isset($userinfo['user_timezone']) && !empty($userinfo['user_timezone'])) && $userinfo['user_id'] != 1): 
       $tz = $userinfo['user_timezone'];
 	elseif (isset($board_config['board_timezone']) && !empty($board_config['board_timezone'])): 
@@ -1328,14 +1328,14 @@ function formatTimestamp($time, $format='', $dateonly='')
 	endif;
 
     setlocale(LC_TIME, $locale);
-    
+
 	if(!is_numeric($time)): 
-      preg_match('/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/', $time, $datetime);
+      preg_match('/(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})/', (string) $time, $datetime);
       $time = gmmktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
     endif;
-    
+
 	$datetime = EvoDate($format, $time, $tz);
-    
+
 	return $datetime;
 }
 
@@ -1359,20 +1359,14 @@ function blog_signature($aid)
     endif;
 
 	  # webmaster
-       list($username, 
-	          $avatar, 
-			   $email, 
-			    $name,
-				 $bio,
-		 $admin_notes,
-		    $user_occ) = $db->sql_ufetchrow('SELECT `username`,
+       [$username, $avatar, $email, $name, $bio, $admin_notes, $user_occ] = $db->sql_ufetchrow('SELECT `username`,
 		                                         `user_avatar`, 
 												  `user_email`, 
 												        `name`, 
 														 `bio`, 
 											`user_admin_notes`,
 											        `user_occ` 
-											
+
 											FROM `'.$user_prefix.'_users` WHERE `username`="'.$aid.'"', SQL_NUM);
      $aid  = '';				   
      $aid .= 'Sincerely,<br />';
@@ -1380,31 +1374,32 @@ function blog_signature($aid)
      $aid .= '<br />';				   
      $aid .= '<table border="0" cellpadding="0" cellspacing="0" width="100%" height="0">';
      $aid .= '<tr>';
-     
+
 	 $aid .= '<td valign="top" height="80" width="80" height="200"><img width="90" class="rounded-corners" style="max-height: 150px; max-width: 150px;" 
 	 src="modules/Forums/images/avatars/'.$avatar.'" alt="avatar" border="0"></td>';
-     
+
 	 $aid .= '<td align="top">';
      $aid .= '&nbsp;&nbsp;<strong>'.$user_occ.'</strong><br />';
      $aid .= '&nbsp;&nbsp;name: '.$name.'<br />';
-     $aid .= '&nbsp;&nbsp;email: '.str_replace("@", "[at]", $email).'<br />';
+     $aid .= '&nbsp;&nbsp;email: '.str_replace("@", "[at]", (string) $email).'<br />';
      $aid .= $bio.'';
      $aid .= '</td>';
      $aid .= '</tr>';
-     $aid .= '</table>';
-    
-	return $aid;
+
+	return $aid . '</table>';
 }
 # Mod: Blog Signature v1.0.0 END
-
 
 function get_author($aid) 
 {
     global $user_prefix, $db;
     
 	static $users;
-
-    if(is_array($users[$aid])): 
+    
+	if(!isset($users[$aid]))
+	$users[$aid] = null;
+    
+	if(is_array($users[$aid])): 
         $row = $users[$aid];
 	else: 
         $row = get_admin_field('*', $aid);
@@ -1431,20 +1426,20 @@ function get_author($aid)
 function getTopics($s_sid) 
 {
     global $topicname, $topicimage, $topictext, $db;
-    $sid = intval($s_sid);
-    
+    $sid = (int) $s_sid;
+
 	$sql = 'SELECT t.`topicname`, t.`topicimage`, t.`topictext` 
 	FROM (`'._STORIES_TABLE.'` s 
 	LEFT JOIN `'._TOPICS_TABLE.'` t 
 	ON t.`topicid` = s.`topic`) 
 	WHERE s.`sid` = "'.$sid.'"';
-    
+
 	$result = $db->sql_query($sql);
     $row = $db->sql_fetchrow($result);
     $db->sql_freeresult($result);
     $topicname = $row['topicname'];
     $topicimage = $row['topicimage'];
-    $topictext = stripslashes($row['topictext']);
+    $topictext = stripslashes((string) $row['topictext']);
 }
 
 /*****[BEGIN]******************************************
@@ -1458,7 +1453,7 @@ function ads($position)
 	  return ''; 
 	endif;
     
-	$position = intval($position);
+	$position = (int) $position;
    
 	$result = $db->sql_query("SELECT * FROM `".$prefix."_banner` WHERE `position`='$position' AND `active`='1' ORDER BY RAND() LIMIT 0,1");
     
@@ -1482,7 +1477,7 @@ function ads($position)
     
 	endforeach;
 	
-    $bid = intval($bid);
+	$bid = (int) $bid;
     
 	if(!is_admin()): 
       $db->sql_query("UPDATE `".$prefix."_banner` SET `impmade`=" . $impmade . "+1 WHERE `bid`='$bid'");
@@ -1491,13 +1486,14 @@ function ads($position)
 	$sql2 = "SELECT `cid`, `imptotal`, `impmade`, `clicks`, `date`, `ad_class`, `ad_code`, `ad_width`, `ad_height`, `clickurl` FROM `".$prefix."_banner` WHERE `bid`='$bid'";
     $result2 = $db->sql_query($sql2);
     
-	list($cid, $imptotal, $impmade, $clicks, $date, $ad_class, $ad_code, $ad_width, $ad_height, $clickurl) = $db->sql_fetchrow($result2, SQL_NUM);
+    [$cid, $imptotal, $impmade, $clicks, $date, $ad_class, $ad_code, $ad_width, $ad_height, $clickurl] = $db->sql_fetchrow($result2, SQL_NUM);
     
 	$db->sql_freeresult($result2);
-    $cid = intval($cid);
-    $imptotal = intval($imptotal);
-    $impmade = intval($impmade);
-    $clicks = intval($clicks);
+    $cid = (int) $cid;
+    $imptotal = (int) $imptotal;
+    $impmade = (int) $impmade;
+    $clicks = (int) $clicks;
+
     
 	# Check if this impression is the last one and print the banner #
     if(($imptotal <= $impmade) && ($imptotal != 0)): 
@@ -1506,7 +1502,7 @@ function ads($position)
         $sql3 = "SELECT `name`, `contact`, `email` FROM `".$prefix."_banner_clients` WHERE `cid`='$cid'";
         $result3 = $db->sql_query($sql3);
     
-	    list($c_name, $c_contact, $c_email) = $db->sql_fetchrow($result3, SQL_NUM);
+		[$c_name, $c_contact, $c_email] = $db->sql_fetchrow($result3, SQL_NUM);
     
 	    $db->sql_freeresult($result3);
     
@@ -1588,7 +1584,7 @@ if(defined('network')):
     
 	endforeach;
     
-	$bid = intval($bid);
+	$bid = (int) $bid;
     
 	if(!is_admin()): 
       $db2->sql_query("UPDATE `".$network_prefix."_banner` SET `impmade`=" . $impmade . "+1 WHERE `bid`='$bid'");
@@ -1608,14 +1604,13 @@ if(defined('network')):
     
 	$result2 = $db2->sql_query($sql2);
 
-    list($cid, $imptotal, $impmade, $clicks, $date, $ad_class, $ad_code, $ad_width, $ad_height) = $db2->sql_fetchrow($result2, SQL_NUM);
+    [$cid, $imptotal, $impmade, $clicks, $date, $ad_class, $ad_code, $ad_width, $ad_height] = $db2->sql_fetchrow($result2, SQL_NUM);
 
-    $db2->sql_freeresult($result2);
-    $cid = intval($cid);
-    $imptotal = intval($imptotal);
-    $impmade = intval($impmade);
-    $clicks = intval($clicks);
-    
+    $cid = (int) $cid;
+    $imptotal = (int) $imptotal;
+    $impmade = (int) $impmade;
+    $clicks = (int) $clicks;
+     
 	# Check if this impression is the last one and print the banner #
     if(($imptotal <= $impmade) && ($imptotal != 0)): 
 	
@@ -1623,7 +1618,7 @@ if(defined('network')):
         $sql3 = "SELECT `name`, `contact`, `email` FROM `".$network_prefix."_banner_clients` WHERE `cid`='$cid'";
         $result3 = $db->sql_query($sql3);
     
-	    list($c_name, $c_contact, $c_email) = $db->sql_fetchrow($result3, SQL_NUM);
+ 	    [$c_name, $c_contact, $c_email] = $db->sql_fetchrow($result3, SQL_NUM);
     
 	    $db2->sql_freeresult($result3);
         
@@ -1758,7 +1753,6 @@ if(!function_exists('OpenTableModule'))
 {
    function OpenTableModule() 
    {
-      global $theme_name, $bgcolor4;
       print '<div id="borderFunctionOpenTable">'."\n";
    }
 }
@@ -1829,16 +1823,19 @@ function addPHPCSSToHead($content, $type='file')
 {
     global $headPHPCSS;
     
-	if(($type == 'file') 
-	&& (is_array($headPHPCSS) 
-	&& count($headPHPCSS) > 0) 
-	&& (in_array(array($type, $content), $headPHPCSS))): 
-	  return;
-	endif;
-	
-	$headPHPCSS[] = array($type, $content);
-    
-	return;
+if(($type == 'file') 
+ 	&& (is_array($headPHPCSS) 
+//	&& count($headPHPCSS) > 0) 
+//	&& (in_array(array($type, $content), $headPHPCSS))): 
+	&& $headPHPCSS !== []) 
+	&& (in_array([$type, $content], $headPHPCSS))): 
+ 	  return;
+ 	endif;
+ 	
+//	$headPHPCSS[] = array($type, $content);
+	$headPHPCSS[] = [$type, $content];
+     
+ 	return;
 }
 # END for Theme Fly Kit by Ernest Buffington - 09/02/2019
 
@@ -1847,32 +1844,32 @@ function addCSSToHead($content, $type='file')
 {
     global $headCSS;
     
-	if (($type == 'file') 
-	&& (is_array($headCSS) 
-	&& count($headCSS) > 0) 
-	&& (in_array(array($type, $content), $headCSS))): 
-	 return;
-	endif;
-    
-	$headCSS[] = array($type, $content);
-    
-	return;
+if (($type == 'file') 
+ 	&& (is_array($headCSS) 
+	&& $headCSS !== []) 
+	&& (in_array([$type, $content], $headCSS))): 
+ 	 return;
+ 	endif;
+     
+	$headCSS[] = [$type, $content];
+     
+ 	return;
 }
 
 function addJSToHead($content, $type='file') 
 {
     global $headJS;
     
-	if (($type == 'file') 
-	&& (is_array($headJS) 
-	&& count($headJS) > 0) 
-	&& (in_array(array($type, $content), $headJS))): 
-	  return;
-	endif;
-    
-	$headJS[] = array($type, $content);
-    
-	return;
+ 	if (($type == 'file') 
+ 	&& (is_array($headJS) 
+	&& $headJS !== []) 
+	&& (in_array([$type, $content], $headJS))): 
+ 	  return;
+ 	endif;
+     
+	$headJS[] = [$type, $content];
+     
+ 	return;
 }
 
 function addJSToBody($content, $type='file') 
@@ -1973,12 +1970,14 @@ function makePass()
     $vocs = 'aeiou';
 
     for($x=0; $x < 6; $x++):
-      mt_srand ((double) microtime() * 1000000);
+      //mt_srand ((double) microtime() * 1000000);
+	  mt_srand(0, MT_RAND_MT19937);
       $con[$x] = substr($cons, mt_rand(0, strlen($cons)-1), 1);
       $voc[$x] = substr($vocs, mt_rand(0, strlen($vocs)-1), 1);
     endfor;
 
-    mt_srand((double)microtime()*1000000);
+    //mt_srand((double)microtime()*1000000);
+	mt_srand(0, MT_RAND_MT19937);
     $num1 = mt_rand(0, 9);
     $num2 = mt_rand(0, 9);
     $makepass = $con[0] . $voc[0] .$con[2] . $num1 . $num2 . $con[3] . $voc[3] . $con[4];
@@ -2090,25 +2089,29 @@ function UsernameColor($username, $old_name=false)
 	  return $username;
 	endif;
 
-    $plain_username = strtolower($username);
-
-    if(isset($cached_names[$plain_username])): 
-      return $cached_names[$plain_username];
-	endif;
+//  $plain_username = strtolower($username);
+    $plain_username = strtolower((string) $username);
+ 
+    //if(isset($cached_names[$plain_username])): 
+    //  return $cached_names[$plain_username];
+	//endif;
     
-    if(!is_array($cached_names)): 
-      $cached_names = $cache->load('UserColors', 'config');
-    endif;
+    //if(!is_array($cached_names)): 
+    //  $cached_names = $cache->load('UserColors', 'config');
+    //endif;
 	
-    if (!isset($cached_names[$plain_username])):
+    //if (!isset($cached_names[$plain_username])):
           
-		    list($user_color, $uname) = $db->sql_ufetchrow("SELECT `user_color_gc`, `username` FROM `" . $user_prefix . "_users` WHERE `username` = '" . str_replace("'", "\'", $username) . "'", SQL_NUM);
-      
-	        $uname = (!empty($uname)) ? $uname : $username;
-            $username = (strlen($user_color) == 6) ? '<span style="color: #'. $user_color .'">'. $uname .'</span>' : $uname;
+//		    list($user_color, $uname) = $db->sql_ufetchrow("SELECT `user_color_gc`, `username` FROM `" . $user_prefix . "_users` WHERE `username` = '" . str_replace("'", "\'", $username) . "'", SQL_NUM);
+	        [$user_color, $uname] = $db->sql_ufetchrow("SELECT `user_color_gc`, `username` FROM `" . $user_prefix . "_users` WHERE `username` = '" . str_replace("'", "\'", (string) $username) . "'", SQL_NUM);
+            
+//	        $uname = (!empty($uname)) ? $uname : $username;
+//          $username = (strlen($user_color) == 6) ? '<span style="color: #'. $user_color .'">'. $uname .'</span>' : $uname;
+	        $uname = (empty($uname)) ? $username : $uname;
+            $username = (strlen((string) $user_color) == 6) ? '<span style="color: #'. $user_color .'">'. $uname .'</span>' : $uname;
             $cached_names[$plain_username] = $username;
-            $cache->save('UserColors', 'config', $cached_names);
-	endif;
+    //        $cache->save('UserColors', 'config', $cached_names);
+	//endif;
 
     return $cached_names[$plain_username];
 }

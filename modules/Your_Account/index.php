@@ -50,6 +50,9 @@ $userpage = 1;
 
 global $cookie;
 
+if(!isset($op))
+$op = '';
+
 if (isset($_REQUEST['username'])) 
 {
   $username = Fix_Quotes($_REQUEST['username']);

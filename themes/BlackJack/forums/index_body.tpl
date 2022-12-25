@@ -32,8 +32,13 @@
   <!-- IF catrow.forumrow.FORUM_ICON_IMG -->
 	<td class="row1 acenter" style="width: 72px;">{catrow.forumrow.FORUM_ICON_IMG}</td>
 	<!-- ENDIF -->
-	<td class="row1"<!-- IF ! catrow.forumrow.FORUM_ICON_IMG --> colspan="2"<!-- ENDIF -->>
-	  <a{catrow.forumrow.FORUM_COLOR} href="{catrow.forumrow.U_VIEWFORUM}"<!-- IF catrow.forumrow.FORUM_LINK_COUNT --> target="_blank"<!-- ENDIF -->>{catrow.forumrow.FORUM_NAME}</a><br />
+	<td class="row1"
+    <!-- IF ! catrow.forumrow.FORUM_ICON_IMG --> colspan="2"
+    <!-- ENDIF -->>
+	  <a{catrow.forumrow.FORUM_COLOR} href="{catrow.forumrow.U_VIEWFORUM}"
+      <!-- IF catrow.forumrow.FORUM_LINK_COUNT --> target="_blank"
+      <!-- ENDIF -->>
+      {catrow.forumrow.FORUM_NAME}</a><br />
 	  <span class="cattitle">{catrow.forumrow.FORUM_DESC}</span>
 	  <!-- IF catrow.forumrow.MODERATORS -->
 	  <br />{catrow.forumrow.L_MODERATOR} {catrow.forumrow.MODERATORS}<br />

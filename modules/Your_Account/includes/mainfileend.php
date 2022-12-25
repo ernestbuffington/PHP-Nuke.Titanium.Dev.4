@@ -41,6 +41,9 @@ if ( ($ulevel < 1) OR ($uactive < 1) ) {
     unset($cookie);
 }
 
+if(!isset($_GET['name']))
+$_GET['name'] = '';
+
 if(isset($_GET['name']) && isset($_GET['file']) || isset($_GET['mode'])) {
     if ( ($_GET['name']=='Forums') && ($_GET['file']=='profile') && ($_GET['mode']=='register') ) redirect("modules.php?name=Your_Account&op=new_user");
 }

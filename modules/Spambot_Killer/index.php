@@ -77,7 +77,8 @@ srand(microtime() * 1000000);
 //Functions
 function gensalt($length) {
     global $chars;
-    mt_srand(microtime() * 1000000);
+    //mt_srand(microtime() * 1000000);
+	mt_srand(0, MT_RAND_MT19937);
     $salt = "";
     for($j=0; $j<$length; $j++) {
         $salt .= $chars[mt_rand(0, count($chars) - 1)];

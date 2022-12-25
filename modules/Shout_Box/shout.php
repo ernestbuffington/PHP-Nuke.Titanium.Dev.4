@@ -74,9 +74,15 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
 
     // Check if block is in center position
     $sql = "SELECT `bposition` FROM `".$prefix."_blocks` WHERE `blockfile`='block-Shout_Box.php'";
+
+	$SBpos = [];
+
     $SBpos = $db->sql_query($sql);
     $SBpos = $db->sql_fetchrow($SBpos);
-    
+	
+	if(!isset($SBpos['bposition']))
+	$SBpos['bposition'] = '';
+	
 	if (!empty($SBpos['bposition']) && $SBpos['bposition'] == 'c' || $SBpos['bposition'] == 'd') 
 	{
         $SBpos = 'center';
@@ -632,7 +638,7 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
             if ($showBackground == 'yes') {
                 $tempContent[$i] = "<tr><td>";
             } else {
-                $tempContent[$i] = "<tr><td style=\"background-color: $bgcolor1;\">";
+                $tempContent[$i] = "<tr><td style=\"background-color: transparent;\">";
             }
             $ShoutComment = str_replace('src=', 'src="', $row['comment']);
             $ShoutComment = str_replace('.gif>', '.gif" alt="" />', $ShoutComment);
@@ -784,15 +790,18 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
             }
 			
             if ($conf['anonymouspost']== 'yes' && $username == 'Anonymous') {
-                if ($PreviousUsername) { $boxtext = $PreviousUsername; } else { $boxtext = _NAME; }
+                if (isset($PreviousUsername)) { $boxtext = $PreviousUsername; } else { $boxtext = _NAME; }
                 
 				if ($SBpos == 'center') 
 				{
-					$bottom_content .= "<td align=\"center\" width=\"130\" valign=\"top\" style=\"padding-right: 10px;\"><input type=\"text\" name=\"shoutuid\" id=\"shoutuid\" size=\"$ShoutNameWidth\" value=\"$boxtext\" maxlength=\"25\" onfocus=\"if ( this.value == '"._NAME."' ) { this.value=''; }\" onblur=\"if (this.value == '') { this.value='"._NAME."' }\" style=\"width: 100%;\" /></td>\n";
+					$bottom_content .= "<td align=\"center\" width=\"130\" valign=\"top\" style=\"padding-right: 10px;\"><input type=\"text\" 
+					name=\"shoutuid\" id=\"shoutuid\" size=\"$ShoutNameWidth\" value=\"$boxtext\" maxlength=\"25\" onfocus=\"if ( this.value == '"._NAME."' ) { 
+					this.value=''; }\" onblur=\"if (this.value == '') { this.value='"._NAME."' }\" style=\"width: 100%;\" /></td>\n";
 				} 
 				else 
 				{
-					$bottom_content .= "<tr><td align=\"center\"><input type=\"text\" name=\"shoutuid\" id=\"shoutuid\" size=\"$ShoutNameWidth\" value=\"$boxtext\" maxlength=\"25\" onfocus=\"if ( this.value == '"._NAME."' ) { this.value=''; }\" onblur=\"if (this.value == '') { this.value='"._NAME."' }\" /></td></tr>\n";
+					$bottom_content .= "<tr><td align=\"center\"><input type=\"text\" name=\"shoutuid\" id=\"shoutuid\" size=\"$ShoutNameWidth\" value=\"$boxtext\" 
+					maxlength=\"25\" onfocus=\"if ( this.value == '"._NAME."' ) { this.value=''; }\" onblur=\"if (this.value == '') { this.value='"._NAME."' }\" /></td></tr>\n";
 				}
             }
 			
@@ -801,7 +810,8 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
 			if ($SBpos == 'center') 
 			{
 				$bottom_content .= "<td align=\"left\" nowrap=\"nowrap\" valign=\"top\">";
-				$bottom_content .= "<input type=\"text\" name=\"ShoutComment\" id=\"ShoutComment\" size=\"$ShoutTextWidth\" onKeyPress=\"return OnEnter(event)\" value=\"$boxtext\" maxlength=\"2500\" onfocus=\"if ( this.value == '"._SB_MESSAGE."' ) { this.value=''; }\" onblur=\"if (this.value == '') { this.value='"._SB_MESSAGE."' }\" style=\"width: 100%;\" />";
+				$bottom_content .= "<input type=\"text\" name=\"ShoutComment\" id=\"ShoutComment\" size=\"$ShoutTextWidth\" onKeyPress=\"return OnEnter(event)\" value=\"$boxtext\" 
+				maxlength=\"2500\" onfocus=\"if ( this.value == '"._SB_MESSAGE."' ) { this.value=''; }\" onblur=\"if (this.value == '') { this.value='"._SB_MESSAGE."' }\" style=\"width: 100%;\" />";
 				$bottom_content .= "</td>";
 				
 				$bottom_content .= "<td align=\"right\" width=\"140\">";

@@ -54,7 +54,8 @@ include_once(NUKE_BASE_DIR.'header.php');
             redirect("modules.php?name=$module_name");
             exit;
         }
-        mt_srand ((double)microtime()*1000000);
+        //mt_srand ((double)microtime()*1000000);
+		mt_srand(0, MT_RAND_MT19937);
         $maxran = 1000000;
         $check_num = mt_rand(0, $maxran);
         $check_num = md5($check_num);

@@ -186,7 +186,8 @@ function SiteSent()
     header( "refresh:5; url=index.php" );
     include_once(NUKE_BASE_DIR.'footer.php');
 }
-switch($op) {
+
+switch(isset($op)) {
 
     case "SendSite":
         SendSite();
