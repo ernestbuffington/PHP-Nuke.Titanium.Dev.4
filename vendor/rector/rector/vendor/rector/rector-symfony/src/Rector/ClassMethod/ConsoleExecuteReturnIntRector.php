@@ -68,25 +68,22 @@ CODE_SAMPLE
      */
     public function getNodeTypes() : array
     {
-        return [ClassMethod::class];
+        return [Class_::class];
     }
     /**
-     * @param ClassMethod $node
+     * @param Class_ $node
      */
     public function refactor(Node $node) : ?Node
     {
-        if (!$this->isName($node, 'execute')) {
+        if (!$this->isObjectType($node, new ObjectType('Symfony\\Component\\Console\\Command\\Command'))) {
             return null;
         }
-        $class = $this->betterNodeFinder->findParentType($node, Class_::class);
-        if (!$class instanceof Class_) {
+        $executeClassMethod = $node->getMethod('execute');
+        if (!$executeClassMethod instanceof ClassMethod) {
             return null;
         }
-        if (!$this->isObjectType($class, new ObjectType('Symfony\\Component\\Console\\Command\\Command'))) {
-            return null;
-        }
-        $this->refactorReturnTypeDeclaration($node);
-        $this->addReturn0ToMethod($node);
+        $this->refactorReturnTypeDeclaration($executeClassMethod);
+        $this->addReturn0ToMethod($executeClassMethod);
         if ($this->hasChanged) {
             return $node;
         }
@@ -106,7 +103,11 @@ CODE_SAMPLE
         $hasReturn = \false;
         $this->traverseNodesWithCallable((array) $classMethod->getStmts(), function (Node $node) use($classMethod, &$hasReturn) : ?int {
             if ($node instanceof FunctionLike) {
-                return NodeTraverser::DONT_TRAVERSE_CHILDREN;
+                return NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN;
+            }
+            // skip anonymous class
+            if ($node instanceof Class_) {
+                return NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN;
             }
             $parentNode = $node->getAttribute(AttributeKey::PARENT_NODE);
             if ($parentNode instanceof Node && $this->isReturnWithExprIntEquals($parentNode, $node)) {
@@ -116,7 +117,7 @@ CODE_SAMPLE
             if (!$node instanceof Return_) {
                 return null;
             }
-            if ($node->expr instanceof Int_) {
+            if ($this->isReturnIntegerType($node->expr)) {
                 return null;
             }
             if ($node->expr instanceof Ternary && $this->isIntegerTernaryIfElse($node->expr)) {
@@ -124,7 +125,7 @@ CODE_SAMPLE
                 return null;
             }
             // is there return without nesting?
-            if ($this->nodeComparator->areNodesEqual($parentNode, $classMethod)) {
+            if ($parentNode === $classMethod) {
                 $hasReturn = \true;
             }
             $this->setReturnTo0InsteadOfNull($node);
@@ -132,6 +133,16 @@ CODE_SAMPLE
             return null;
         });
         $this->processReturn0ToMethod($hasReturn, $classMethod);
+    }
+    private function isReturnIntegerType(?Expr $expr) : bool
+    {
+        if ($expr instanceof Expr) {
+            $returnedType = $this->getType($expr);
+            if ($returnedType instanceof IntegerType) {
+                return \true;
+            }
+        }
+        return \false;
     }
     private function isIntegerTernaryIfElse(Ternary $ternary) : bool
     {

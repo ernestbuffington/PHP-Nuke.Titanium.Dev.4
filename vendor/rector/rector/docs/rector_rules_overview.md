@@ -1,4 +1,4 @@
-# 412 Rules Overview
+# 417 Rules Overview
 
 <br>
 
@@ -8,11 +8,11 @@
 
 - [CodeQuality](#codequality) (79)
 
-- [CodingStyle](#codingstyle) (38)
+- [CodingStyle](#codingstyle) (39)
 
 - [Compatibility](#compatibility) (1)
 
-- [DeadCode](#deadcode) (47)
+- [DeadCode](#deadcode) (48)
 
 - [DependencyInjection](#dependencyinjection) (2)
 
@@ -48,7 +48,7 @@
 
 - [Php81](#php81) (11)
 
-- [Php82](#php82) (1)
+- [Php82](#php82) (2)
 
 - [Privatization](#privatization) (8)
 
@@ -64,7 +64,7 @@
 
 - [Transform](#transform) (34)
 
-- [TypeDeclaration](#typedeclaration) (37)
+- [TypeDeclaration](#typedeclaration) (39)
 
 - [Visibility](#visibility) (3)
 
@@ -596,9 +596,24 @@ Change multiple null compares to ?? queue
 
 ### ConvertStaticPrivateConstantToSelfRector
 
-Replaces static::* access to private constants with self::* on final classes
+Replaces static::* access to private constants with self::*
+
+:wrench: **configure it!**
 
 - class: [`Rector\CodeQuality\Rector\ClassConstFetch\ConvertStaticPrivateConstantToSelfRector`](../rules/CodeQuality/Rector/ClassConstFetch/ConvertStaticPrivateConstantToSelfRector.php)
+
+```php
+use Rector\CodeQuality\Rector\ClassConstFetch\ConvertStaticPrivateConstantToSelfRector;
+use Rector\Config\RectorConfig;
+
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->ruleWithConfiguration(ConvertStaticPrivateConstantToSelfRector::class, [
+        ConvertStaticPrivateConstantToSelfRector::ENABLE_FOR_NON_FINAL_CLASSES => false,
+    ]);
+};
+```
+
+↓
 
 ```diff
  final class Foo {
@@ -696,17 +711,11 @@ Flip type control to use exclusive type
 - class: [`Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector`](../rules/CodeQuality/Rector/Identical/FlipTypeControlToUseExclusiveTypeRector.php)
 
 ```diff
- class SomeClass
- {
-     public function __construct(array $values)
-     {
--        /** @var PhpDocInfo|null $phpDocInfo */
-         $phpDocInfo = $functionLike->getAttribute(AttributeKey::PHP_DOC_INFO);
--        if ($phpDocInfo === null) {
-+        if (! $phpDocInfo instanceof PhpDocInfo) {
-             return;
-         }
-     }
+-/** @var PhpDocInfo|null $phpDocInfo */
+ $phpDocInfo = $functionLike->getAttribute(AttributeKey::PHP_DOC_INFO);
+-if ($phpDocInfo === null) {
++if (! $phpDocInfo instanceof PhpDocInfo) {
+     return;
  }
 ```
 
@@ -2173,6 +2182,23 @@ Changes negate of empty comparison of nullable value to explicit === or !== comp
 
 <br>
 
+### NullifyUnionNullableRector
+
+Changes already typed Type|null to ?Type
+
+- class: [`Rector\CodingStyle\Rector\Property\NullifyUnionNullableRector`](../rules/CodingStyle/Rector/Property/NullifyUnionNullableRector.php)
+
+```diff
+ final class SomeClass
+ {
+
+-    private null|stdClass $property;
++    private ?stdClass $property;
+ }
+```
+
+<br>
+
 ### OrderAttributesRector
 
 Order attributes by desired names
@@ -3633,6 +3659,40 @@ Removes unneeded `$value` = `$value` assigns
 ```diff
  function run() {
 -    $result = $result;
+ }
+```
+
+<br>
+
+### TargetRemoveClassMethodRector
+
+Remove defined class method
+
+:wrench: **configure it!**
+
+- class: [`Rector\DeadCode\Rector\Class_\TargetRemoveClassMethodRector`](../rules/DeadCode/Rector/Class_/TargetRemoveClassMethodRector.php)
+
+```php
+use Rector\Config\RectorConfig;
+use Rector\DeadCode\Rector\Class_\TargetRemoveClassMethodRector;
+use Rector\DeadCode\ValueObject\TargetRemoveClassMethod;
+
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->ruleWithConfiguration(
+        TargetRemoveClassMethodRector::class,
+        [new TargetRemoveClassMethod('SomeClass', 'run')]
+    );
+};
+```
+
+↓
+
+```diff
+ class SomeClass
+ {
+-    public function run()
+-    {
+-    }
  }
 ```
 
@@ -6511,6 +6571,21 @@ Decorate read-only class with `readonly` attribute
 
 <br>
 
+### Utf8DecodeEncodeToMbConvertEncodingRector
+
+Change deprecated utf8_decode and utf8_encode to mb_convert_encoding
+
+- class: [`Rector\Php82\Rector\FuncCall\Utf8DecodeEncodeToMbConvertEncodingRector`](../rules/Php82/Rector/FuncCall/Utf8DecodeEncodeToMbConvertEncodingRector.php)
+
+```diff
+-utf8_decode($value);
+-utf8_encode($value);
++mb_convert_encoding($value, 'ISO-8859-1');
++mb_convert_encoding($value, 'UTF-8', 'ISO-8859-1');
+```
+
+<br>
+
 ## Privatization
 
 ### ChangeGlobalVariablesToPropertiesRector
@@ -9140,6 +9215,56 @@ Add array shape exact types based on constant keys of array
      public function run(string $name)
      {
          return ['name' => $name];
+     }
+ }
+```
+
+<br>
+
+### EmptyOnNullableObjectToInstanceOfRector
+
+Change `empty()` on nullable object to instanceof check
+
+- class: [`Rector\TypeDeclaration\Rector\Empty_\EmptyOnNullableObjectToInstanceOfRector`](../rules/TypeDeclaration/Rector/Empty_/EmptyOnNullableObjectToInstanceOfRector.php)
+
+```diff
+ class SomeClass
+ {
+     public function run(?AnotherObject $anotherObject)
+     {
+-        if (empty($anotherObject)) {
++        if (! $anotherObject instanceof AnotherObject) {
+             return false;
+         }
+
+         return true;
+     }
+ }
+```
+
+<br>
+
+### FalseReturnClassMethodToNullableRector
+
+Change class method that returns false as invalid state, to nullable
+
+- class: [`Rector\TypeDeclaration\Rector\ClassMethod\FalseReturnClassMethodToNullableRector`](../rules/TypeDeclaration/Rector/ClassMethod/FalseReturnClassMethodToNullableRector.php)
+
+```diff
+ class SomeClass
+ {
+-    /**
+-     * @return false|int
+-     */
+-    public function run(int $number)
++    public function run(int $number): ?int
+     {
+         if ($number === 10) {
+-            return false;
++            return null;
+         }
+
+         return $number;
      }
  }
 ```

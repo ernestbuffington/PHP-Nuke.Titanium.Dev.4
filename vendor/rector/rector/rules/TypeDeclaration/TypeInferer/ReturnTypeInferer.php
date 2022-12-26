@@ -7,6 +7,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ArrowFunction;
 use PhpParser\Node\Expr\Closure;
+use PhpParser\Node\Expr\Yield_;
 use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -110,14 +111,11 @@ final class ReturnTypeInferer
             return new MixedType();
         }
         $type = $this->verifyThisType($type, $functionLike);
-        if (!$type instanceof Type) {
-            return new MixedType();
-        }
         // normalize ConstStringType to ClassStringType
         $resolvedType = $this->genericClassStringTypeNormalizer->normalize($type);
         return $this->resolveTypeWithVoidHandling($functionLike, $resolvedType);
     }
-    public function verifyStaticType(Type $type, bool $isSupportedStaticReturnType) : ?Type
+    private function verifyStaticType(Type $type, bool $isSupportedStaticReturnType) : ?Type
     {
         if ($this->isStaticType($type)) {
             /** @var TypeWithClassName $type */
@@ -128,7 +126,7 @@ final class ReturnTypeInferer
         }
         return $type;
     }
-    public function verifyThisType(Type $type, FunctionLike $functionLike) : ?Type
+    private function verifyThisType(Type $type, FunctionLike $functionLike) : Type
     {
         if (!$type instanceof ThisType) {
             return $type;
@@ -155,7 +153,8 @@ final class ReturnTypeInferer
             }
             $hasReturnValue = (bool) $this->betterNodeFinder->findFirstInFunctionLikeScoped($functionLike, static function (Node $subNode) : bool {
                 if (!$subNode instanceof Return_) {
-                    return \false;
+                    // yield return is handled on speicific rule: AddReturnTypeDeclarationFromYieldsRector
+                    return $subNode instanceof Yield_;
                 }
                 return $subNode->expr instanceof Expr;
             });

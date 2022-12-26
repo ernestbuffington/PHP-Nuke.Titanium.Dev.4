@@ -269,7 +269,7 @@ return static function (RectorConfig $rectorConfig): void
 		//__DIR__ . '/includes/template.php', RECTOR DOES NOT SEE SHIT
         //__DIR__ . '/admin',
 		//__DIR__ . '/admin/modules/index.php', RECTOR DOES NOT SEE SHIT
-		__DIR__ . '/admin/modules/menu.php',
+		//__DIR__ . '/admin/modules/menu.php',
         //__DIR__ . '/images',
         //__DIR__ . '/mainfile.php',
         //__DIR__ . '/index.php',
@@ -285,6 +285,13 @@ return static function (RectorConfig $rectorConfig): void
 		//__DIR__ . '/modules/Forums/glance.php',
 		//__DIR__ . '/modules/Members_List/index.php',
 		//__DIR__ . '/modules/Forums/search.php',
+		//__DIR__ . '/modules/Forums/stats_mod/includes/constants.php', #nada
+		//__DIR__ . '/modules/Forums/stats_mod/includes/lang_functions.php', #nada
+		//__DIR__ . '/modules/Forums/stats_mod/includes/stat_functions.php', #nada
+		//__DIR__ . '/modules/Forums/stats_mod/includes/template.php', #nada		
+		//__DIR__ . '/modules/Forums/stats_mod/core.php', #nada		
+		//__DIR__ . '/modules/Forums/stats_mod/db_cache.php', #nada		
+		__DIR__ . '/modules/Forums/stats_mod/functions.php', #nada		
 		//__DIR__ . '/modules/Blogs_Top/index.php',
 		//__DIR__ . '/modules/Blogs/categories.php',
 		//__DIR__ . '/modules/Forums/attach_mod/includes/functions_attach.php',

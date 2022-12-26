@@ -8,7 +8,4 @@ $baseDir = dirname($vendorDir);
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Mobile_Detect' => $vendorDir . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
-    'csstidy' => $vendorDir . '/cerdic/css-tidy/class.csstidy.php',
-    'csstidy_optimise' => $vendorDir . '/cerdic/css-tidy/class.csstidy_optimise.php',
-    'csstidy_print' => $vendorDir . '/cerdic/css-tidy/class.csstidy_print.php',
 );

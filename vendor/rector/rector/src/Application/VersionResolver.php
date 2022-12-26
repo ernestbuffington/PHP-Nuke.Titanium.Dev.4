@@ -6,6 +6,8 @@ namespace Rector\Core\Application;
 use DateTime;
 use Rector\Core\Exception\VersionException;
 /**
+ * @api
+ *
  * Inspired by https://github.com/composer/composer/blob/master/src/Composer/Composer.php
  * See https://github.com/composer/composer/blob/6587715d0f8cae0cd39073b3bc5f018d0e6b84fe/src/Composer/Compiler.php#L208
  *
@@ -17,12 +19,12 @@ final class VersionResolver
      * @api
      * @var string
      */
-    public const PACKAGE_VERSION = '0.15.1';
+    public const PACKAGE_VERSION = '0.15.2';
     /**
      * @api
      * @var string
      */
-    public const RELEASE_DATE = '2022-12-14 11:03:43';
+    public const RELEASE_DATE = '2022-12-24 09:25:59';
     /**
      * @var int
      */
