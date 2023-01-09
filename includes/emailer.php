@@ -81,74 +81,73 @@ if (!defined('IN_PHPBB'))
 //
 class emailer
 {
-        var $msg, $subject, $extra_headers;
-        var $addresses, $reply_to, $from;
-        var $use_smtp;
+        public $msg, $subject, $extra_headers;
+        public $addresses, $reply_to, $from;
+		public $use_smtp;
 
-        var $tpl_msg = array();
+        public $tpl_msg = [];
 
         function __construct($use_smtp)
         {
-                $this->reset();
-                $this->use_smtp = $use_smtp;
-        $this->reply_to = $this->from = '';
-    }
+           $this->reset();
+           $this->reply_to = $this->from = '';
+        }
 
     // Resets all the data (address, template file, etc etc to default
     function reset()
     {
-        $this->addresses = array();
+        $this->addresses = [];
         $this->vars = $this->msg = $this->extra_headers = '';
     }
 
     // Sets an email address to send to
     function email_address($address)
     {
-        $this->addresses['to'] = trim($address);
+        $this->addresses['to'] = trim((string) $address);
     }
 
     function cc($address)
     {
-        $this->addresses['cc'][] = trim($address);
+        $this->addresses['cc'][] = trim((string) $address);
     }
 
     function bcc($address)
     {
-        $this->addresses['bcc'][] = trim($address);
+        $this->addresses['bcc'][] = trim((string) $address);
     }
 
     function replyto($address)
     {
-        $this->reply_to = trim($address);
+        $this->reply_to = trim((string) $address);
         }
 
         function from($address)
         {
-                $this->from = trim($address);
+                $this->from = trim((string) $address);
         }
 
         // set up subject for mail
         function set_subject($subject = '')
         {
-                $this->subject = trim(preg_replace('#[\n\r]+#s', '', $subject));
+                $this->subject = trim(preg_replace('#[\n\r]+#s', '', (string) $subject));
         }
 
         // set up extra mail headers
         function extra_headers($headers)
         {
-                $this->extra_headers .= trim($headers) . "\n";
+                $this->extra_headers .= trim((string) $headers) . "\n";
         }
 
         function use_template($template_file, $template_lang = '')
         {
                 global $board_config, $phpbb_root_path;
 
-                if (trim($template_file) == '')
+                if (trim((string) $template_file) == '')
                 {
                         message_die(GENERAL_ERROR, 'No template file set', '', __LINE__, __FILE__);
                 }
 
-                if (trim($template_lang) == '')
+                if (trim((string) $template_lang) == '')
                 {
                         $template_lang = $board_config['default_lang'];
                 }
@@ -157,17 +156,17 @@ class emailer
                 {
                         $tpl_file = $phpbb_root_path . 'language/lang_' . $template_lang . '/email/' . $template_file . '.tpl';
 
-                        if (!@file_exists(@phpbb_realpath($tpl_file)))
+                        if (!file_exists(phpbb_realpath($tpl_file)))
                         {
                                 $tpl_file = $phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/email/' . $template_file . '.tpl';
 
-                                if (!@file_exists(@phpbb_realpath($tpl_file)))
+                                if (!file_exists(phpbb_realpath($tpl_file)))
                                 {
                                         message_die(GENERAL_ERROR, 'Could not find email template file :: ' . $template_file, '', __LINE__, __FILE__);
                                 }
                         }
 
-                        if (!($fd = @fopen($tpl_file, 'r')))
+                        if (!($fd = fopen($tpl_file, 'r')))
                         {
                                 message_die(GENERAL_ERROR, 'Failed opening template file :: ' . $tpl_file, '', __LINE__, __FILE__);
                         }
@@ -199,29 +198,31 @@ class emailer
                 global $board_config, $lang, $phpEx, $phpbb_root_path, $db, $cache;
 
             // Escape all quotes, else the eval will fail.
-                $this->msg = str_replace ("'", "\'", $this->msg);
+                $this->msg = str_replace ("'", "\'", (string) $this->msg);
                 $this->msg = preg_replace('#\{([a-z0-9\-_]*?)\}#is', "' . $\\1 . '", $this->msg);
 
                 // Set vars
                 reset ($this->vars);
-                while (list($key, $val) = each($this->vars))
+                //while (list($key, $val) = each($this->vars))
+				foreach ($this->vars as $key => $val)
                 {
-                        $$key = $val;
+                        ${$key} = $val;
                 }
 
                 eval("\$this->msg = '$this->msg';");
 
                 // Clear vars
                 reset ($this->vars);
-                while (list($key, $val) = each($this->vars))
+                //while (list($key, $val) = each($this->vars))
+				foreach ($this->vars as $key => $val)
                 {
-                        unset($$key);
+                        unset(${$key});
                 }
 
                 // We now try and pull a subject from the email body ... if it exists,
                 // do this here because the subject may contain a variable
                 $drop_header = '';
-                $match = array();
+                $match = [];
                 if (preg_match('#^(Subject:(.*?))$#m', $this->msg, $match))
                 {
                         $this->subject = (trim($match[2]) != '') ? trim($match[2]) : (($this->subject != '') ? $this->subject : 'No Subject');
@@ -234,12 +235,12 @@ class emailer
 
                 if (preg_match('#^(Charset:(.*?))$#m', $this->msg, $match))
                 {
-                        $this->encoding = (trim($match[2]) != '') ? trim($match[2]) : trim($lang['ENCODING']);
+                        $this->encoding = (trim($match[2]) != '') ? trim($match[2]) : trim((string) $lang['ENCODING']);
                         $drop_header .= '[\r\n]*?' . preg_quote($match[1], '#');
                 }
                 else
                 {
-                        $this->encoding = trim($lang['ENCODING']);
+                        $this->encoding = trim((string) $lang['ENCODING']);
                 }
 
                 if ($drop_header != '')
@@ -248,8 +249,20 @@ class emailer
                 }
 
         $to = $this->addresses['to'];
-        
-        if ( is_array( $this->addresses['cc'] ) ) 
+
+        if(!isset($this->addresses['cc']))
+		$this->addresses['cc'] = '';
+
+        if(!isset($cc))
+		$cc = '';
+
+        if(!isset($this->addresses['bcc']))
+		$this->addresses['bcc'] = '';
+
+        if(!isset($bcc))
+		$bcc = '';
+		
+		if ( is_array( $this->addresses['cc'] ) ) 
             $cc = (count($this->addresses['cc'])) ? implode(', ', $this->addresses['cc']) : '';
         else
             $cc = '';
@@ -267,7 +280,7 @@ class emailer
                 {
                         if ( !defined('SMTP_INCLUDED') )
                         {
-                                include(dirname(__FILE__)."/smtp.php");
+                                include(__DIR__."/smtp.php");
                         }
 
                         $result = smtpmail($to, $this->subject, $this->msg, $this->extra_headers);
@@ -276,7 +289,7 @@ class emailer
                 {
             $empty_to_header = ($to == '') ? TRUE : FALSE;
             $to = ($to == '') ? (($board_config['sendmail_fix']) ? ' ' : 'Undisclosed-recipients:;') : $to;
-                        $result = @mail($to, $this->subject, preg_replace("#(?<!\r)\n#s", "\n", $this->msg), $this->extra_headers);
+                        $result = mail((string) $to, (string) $this->subject, preg_replace("#(?<!\r)\n#s", "\n", $this->msg), $this->extra_headers);
 
                         if (!$result && !$board_config['sendmail_fix'] && $empty_to_header)
                         {
@@ -297,7 +310,7 @@ class emailer
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
                                 $board_config['sendmail_fix'] = 1;
-                                $result = @mail($to, $this->subject, preg_replace("#(?<!\r)\n#s", "\n", $this->msg), $this->extra_headers);
+                                $result = mail($to, (string) $this->subject, preg_replace("#(?<!\r)\n#s", "\n", $this->msg), $this->extra_headers);
                         }
                 }
 
@@ -343,7 +356,7 @@ class emailer
                 $length = floor($length / 2) * 2;
 
                 // encode the string and split it into chunks with spacers after each chunk
-                $str = chunk_split(base64_encode($str), $length, $spacer);
+                $str = chunk_split(base64_encode((string) $str), $length, $spacer);
 
                 // remove trailing spacer and add start and end delimiters
                 $str = preg_replace('#' . preg_quote($spacer, '#') . '$#', '', $str);
@@ -354,8 +367,10 @@ class emailer
         //
         // Attach files via MIME.
         //
-        function attachFile($filename, $mimetype = "application/octet-stream", $szFromAddress, $szFilenameToDisplay)
+        function attachFile($filename, $szFilenameToDisplay, $mimetype = "application/octet-stream", $szFromAddress = '')
         {
+                $mime_filename = null;
+                $out = null;
                 global $lang;
                 $mime_boundary = "--==================_846811060==_";
 
@@ -416,15 +431,15 @@ class emailer
         function myChunkSplit($str)
         {
                 $stmp = $str;
-                $len = strlen($stmp);
+                $len = strlen((string) $stmp);
                 $out = "";
 
                 while ($len > 0)
                 {
                         if ($len >= 76)
                         {
-                                $out .= substr($stmp, 0, 76) . "\r\n";
-                                $stmp = substr($stmp, 76);
+                                $out .= substr((string) $stmp, 0, 76) . "\r\n";
+                                $stmp = substr((string) $stmp, 76);
                                 $len = $len - 76;
                         }
                         else
@@ -442,6 +457,7 @@ class emailer
         //
         function encode_file($sourcefile)
         {
+                $encoded = null;
                 if (is_readable(phpbb_realpath($sourcefile)))
                 {
                         $fd = fopen($sourcefile, "r");

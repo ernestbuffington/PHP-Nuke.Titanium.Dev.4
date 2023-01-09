@@ -34,7 +34,12 @@ include(NUKE_BASE_DIR . '/includes/posting_icons.'. $phpEx);
 /*****[END]********************************************
  [ Mod:     Post Icons                         v1.0.1 ]
  ******************************************************/
-
+    if(!isset($topic_icon_id))
+	$topic_icon_id = '';
+	
+	if(!isset($recent_item['ICON_ID']))
+	$recent_item['ICON_ID'] = 0;
+	
     $glance_forum_dir = 'modules.php?name=Forums&amp;file=';
     $glance_news_forum_id = $board_config['glance_news_id'];
     $glance_num_news = (int) $board_config['glance_num_news'];
@@ -297,16 +302,16 @@ include(NUKE_BASE_DIR . '/includes/posting_icons.'. $phpEx);
                  [ Mod:     Post Icons                         v1.0.1 ]
                  ******************************************************/
                 $template->assign_block_vars('news', [
-                    'ROW_CLASS' => $row_class,
-                    'BULLET' => $bullet_full,
-                    'TOPIC_TITLE' => $latest_RectorPrefix202212news['topic_title'],
-                    'TOPIC_LINK' => $topic_link,
-                    'TOPIC_TIME' => $last_post_time,
+                    'ROW_CLASS' => $row_class = $row_class ?? '',
+                    'BULLET' => $bullet_full = $bullet_full ?? '',
+                    'TOPIC_TITLE' => $latest_RectorPrefix202212news['topic_title'] = $latest_RectorPrefix202212news['topic_title'] ?? '',
+                    'TOPIC_LINK' => $topic_link = $topic_link ?? '',
+                    'TOPIC_TIME' => $last_post_time = $last_post_time ?? '',
                     /*****[BEGIN]******************************************
                      [ Mod:     Post Icons                         v1.0.1 ]
                      ******************************************************/
-                    'ICON' => $topic_icon,
-                    'ICON_ID' => $topic_icon_id,
+                    'ICON' => $topic_icon = $topic_icon ?? '',
+                    'ICON_ID' => $topic_icon_id = $topic_icon_id ?? '0',
                     /*****[END]********************************************
                      [ Mod:     Post Icons                         v1.0.1 ]
                      ******************************************************/
@@ -314,7 +319,7 @@ include(NUKE_BASE_DIR . '/includes/posting_icons.'. $phpEx);
                     'TOPIC_VIEWS' => $latest_RectorPrefix202212news['topic_views'],
                     'TOPIC_REPLIES' => $latest_RectorPrefix202212news['topic_replies'],
                     'LAST_POSTER' => sprintf(trim((string) $lang['Recent_first_poster']),$last_poster),
-                    'LAST_POST_IMG' => $last_post_img,
+                    'LAST_POST_IMG' => $last_post_img = $last_post_img ?? '',
                     'FORUM_TITLE' => $latest_RectorPrefix202212news['forum_name'],
                     'FORUM_COLOR' => ' style="color: #'.$latest_RectorPrefix202212news['forum_color'].';"',
                     'FORUM_LINK' => $glance_forum_dir . 'viewforum&amp;f=' . $latest_RectorPrefix202212news['forum_id'],
@@ -406,7 +411,11 @@ include(NUKE_BASE_DIR . '/includes/posting_icons.'. $phpEx);
                 }
                 $newest_code = ( $unread_topics && $glance_show_new_bullets ) ? '&amp;view=newest' : '';
                 $topic_link = $glance_forum_dir . 'viewtopic&amp;t=' . $latest_topic['topic_id'] . $newest_code;
-                if ($board_config['glance_rowclass'] == 1):
+                
+				if(!isset($count_topics))
+				$count_topics = 0;
+				
+				if ($board_config['glance_rowclass'] == 1):
                     $row_class = ($count_topics % 2 !== 0) ? "row3" : "row1";
                     $count_topics += 1;
                 else:
@@ -460,7 +469,7 @@ include(NUKE_BASE_DIR . '/includes/posting_icons.'. $phpEx);
                      [ Mod:     Post Icons                         v1.0.1 ]
                      ******************************************************/
                     'ICON' => $topic_icon,
-                    'ICON_ID' => $topic_icon_id,
+                    'ICON_ID' => $topic_icon_id = $topic_icon_id ?? '0',
                     /*****[END]********************************************
                      [ Mod:     Post Icons                         v1.0.1 ]
                      ******************************************************/
@@ -500,7 +509,7 @@ include(NUKE_BASE_DIR . '/includes/posting_icons.'. $phpEx);
         }
         else
         {
-            $template->assign_block_vars('recent', ['BULLET' => '<img src="' . $images['forum'] . '" border="0" alt="" />', $glance_recent_bullet_old, 'TOPIC_TITLE' => 'None']
+            $template->assign_block_vars('recent', ['BULLET' => '<img src="' . $images['forum'] . '" alt="" />', $glance_recent_bullet_old = $glance_recent_bullet_old ?? '', 'TOPIC_TITLE' => 'None']
             );
         }
     }

@@ -30,17 +30,23 @@ if (!defined('ADMIN_FILE')) {
 }
 
 global $prefix, $db, $cache;
+
 $module_name = basename(dirname(dirname(__FILE__)));
-if (!is_mod_admin($module_name)) {
-    die("Access Denied");
+
+if (!is_mod_admin($module_name)) 
+{
+  die("Access Denied");
 }
 
 global $currentlang, $sbURL;
 
-if ($currentlang) {
-    include_once(NUKE_MODULES_DIR.$module_name.'/lang-admin/lang-'.$currentlang.'.php');
-} else {
-    include_once(NUKE_MODULES_DIR.$module_name.'/lang-admin/lang-english.php');
+if ($currentlang) 
+{
+  include_once(NUKE_MODULES_DIR.$module_name.'/lang-admin/lang-'.$currentlang.'.php');
+} 
+else 
+{
+  include_once(NUKE_MODULES_DIR.$module_name.'/lang-admin/lang-english.php');
 }
 
 include_once(NUKE_MODULES_DIR.'Shout_Box/shout.php');
@@ -49,21 +55,23 @@ $ThemeSel = get_theme();
 
 global $rowColor;
 
-if ((($rowColor = $cache->load('theme_'.$ThemeSel, 'shoutbox')) == false) || empty($rowColor)) {
+if (!($rowColor = $cache->load('theme_'.$ThemeSel, 'titanium_shoutbox'))) 
+{
     $sql = "SELECT * FROM `".$prefix."_shoutbox_themes` WHERE themeName='$ThemeSel'";
     $result = $db->sql_query($sql);
     $rowColor = $db->sql_fetchrow($result);
-    $cache->save('theme_'.$ThemeSel, 'shoutbox', $rowColor);
+    $cache->save('theme_'.$ThemeSel, 'titanium_shoutbox', $rowColor);
     $db->sql_freeresult($result);
 }
 
 global $shout_conf;
 
-if ((($shout_conf = $cache->load('conf', 'shoutbox')) == false) || empty($shout_conf)) {
+if (!($shout_conf = $cache->load('conf', 'titanium_shoutbox')))
+{
     $sql = "SELECT * FROM `".$prefix."_shoutbox_conf`";
     $result = $db->sql_query($sql);
     $shout_conf = $db->sql_fetchrow($result);
-    $cache->save('conf', 'shoutbox', $shout_conf);
+    $cache->save('conf', 'titanium_shoutbox', $shout_conf);
 }
 
 
@@ -71,89 +79,86 @@ $sbURL = 'index.php?url=';
 
 function LinkAdmin() 
 {
-    global $admin_file;
-    OpenTable();
-    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php?op=shout\">" . _SHOUT_ADMIN_HEADER . "</a> ]</div>\n";
-    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _SHOUT_RETURNMAIN . "</a> ]</div>\n";
-	CloseTable();
-    
+  global $admin_file;
+  OpenTable();
+  echo "<div align=\"center\">\n[ <a href=\"$admin_file.php?op=shout\">" . _SHOUT_ADMIN_HEADER . "</a> ]</div>\n";
+  echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _SHOUT_RETURNMAIN . "</a> ]</div>\n";
+  CloseTable();
 }
 
-// Start 'Menu' code
-
-function ShoutBoxAdminMenu($ShoutMenuOptionActive) {
+# Start Shout Box 'Menu' code
+function ShoutBoxAdminMenu($ShoutMenuOptionActive) 
+{
     global $admin_file, $rowColor;
+
     OpenTable();
-    echo "<br /><div align=\"center\" class=\"title\">"._SHOUTADMIN."</div><br />";
+    
+	$rowColor['border'] = $rowColor['border'] ?? 'none';
+	$rowColor['menuColor2'] = $rowColor['menuColor2'] ?? '#000000';
+	$rowColor['menuColor1'] = $rowColor['menuColor1'] ?? '#000000';
+	
+	echo '<br /><div align="center" class="title">'._SHOUTADMIN.'</div><br />'.PHP_EOL;
 
-    echo "<center><table align=\"center\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\"><tr><td style=\"background-color: ".$rowColor['border'].";\" nowrap=\"nowrap\">";
-    echo "<table align=\"center\" cellpadding=\"0\" cellspacing=\"1\" border=\"0\"><tr><td style=\"background-color: ".$rowColor['menuColor2'].";\" nowrap=\"nowrap\">";
-    echo "<table align=\"center\" cellpadding=\"1\" cellspacing=\"2\" border=\"0\"><tr style=\"cursor: hand; text-align: center;\">";
+    echo '<div align="center"><table align="center" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color: none;" nowrap="nowrap">'.PHP_EOL;
+    echo '<table align="center" cellpadding="0" cellspacing="1" border="0"><tr><td style="background-color: none;" nowrap="nowrap">'.PHP_EOL;
+    echo '<table align="center" cellpadding="1" cellspacing="2" border="0"><tr style="cursor: hand; text-align: center;">'.PHP_EOL;
 
-    echo "<td style=\"background-color: $rowColor[border];\"><table cellpadding=\"6\" cellspacing=\"0\" border=\"0\"><tr>";
-    if ($ShoutMenuOptionActive == 1) {
-        echo "<td style=\"background-color: ".$rowColor['menuColor1']."; line-height: .8em;\" onclick=\"top.location.href='".$admin_file.".php?op=shout&amp;Submit=manageShouts'\" nowrap=\"nowrap\">";
-    } else {
-        echo "<td style=\"background-color: ".$rowColor['menuColor2']."; line-height: .8em;\" onclick=\"top.location.href='".$admin_file.".php?op=shout&amp;Submit=manageShouts'\" onmouseover=\"this.style.backgroundColor='".$rowColor['menuColor1']."';\" onmouseout=\"this.style.backgroundColor='".$rowColor['menuColor2']."';\" nowrap=\"nowrap\">";
-    }
-    echo "<strong>"._MANAGESHOUTS."</strong></td></tr></table></td>";
+    echo '<td style="background-color: none;"><table cellpadding="6" cellspacing="0" border="0"><tr>'.PHP_EOL;
 
-    echo "<td style=\"background-color: $rowColor[border];\"><table cellpadding=\"6\" cellspacing=\"0\" border=\"0\"><tr>";
-    if ($ShoutMenuOptionActive == 2) {
-        echo "<td style=\"background-color: ".$rowColor['menuColor1']."; line-height: .8em;\" onclick=\"top.location.href='".$admin_file.".php?op=shout&amp;Submit=ShoutBoxLayout'\" nowrap=\"nowrap\">";
-    } else {
-        echo "<td style=\"background-color: ".$rowColor['menuColor2']."; line-height: .8em;\" onclick=\"top.location.href='".$admin_file.".php?op=shout&amp;Submit=ShoutBoxLayout'\" onmouseover=\"this.style.backgroundColor='".$rowColor['menuColor1']."';\" onmouseout=\"this.style.backgroundColor='".$rowColor['menuColor2']."';\" nowrap=\"nowrap\">";
-    }
-    echo "<strong>"._SB_LAYOUT."</strong></td></tr></table></td>";
+    if($ShoutMenuOptionActive == 1) 
+      echo '<td style="background-color: none;"><a class="buttonlink" href="'.$admin_file.'.php?op=shout&amp;Submit=manageShouts">'._MANAGESHOUTS.'</a>&nbsp;&nbsp;</td></tr></table></td>';
+	else 
+      echo '<td style="background-color: none;"><a class="buttonlink" href="'.$admin_file.'.php?op=shout&amp;Submit=manageShouts">'._MANAGESHOUTS.'</a>&nbsp;&nbsp;</td></tr></table></td>';
 
-    echo "<td style=\"background-color: ".$rowColor['border'].";\"><table cellpadding=\"6\" cellspacing=\"0\" border=\"0\"><tr>";
-    if ($ShoutMenuOptionActive == 3) {
-        echo "<td style=\"background-color: ".$rowColor['menuColor1']."; line-height: .8em;\" onclick=\"top.location.href='".$admin_file.".php?op=shout&amp;Submit=ShoutBoxThemeing'\" nowrap=\"nowrap\">";
-    } else {
-        echo "<td style=\"background-color: ".$rowColor['menuColor2']."; line-height: .8em;\" onclick=\"top.location.href='".$admin_file.".php?op=shout&amp;Submit=ShoutBoxThemeing'\" onmouseover=\"this.style.backgroundColor='".$rowColor['menuColor1']."';\" onmouseout=\"this.style.backgroundColor='".$rowColor['menuColor2']."';\" nowrap=\"nowrap\">";
-    }
-    echo "<strong>"._SB_THEMEING."</strong></td></tr></table></td>";
+    echo '<td style="background-color: none;"><table cellpadding="6" cellspacing="0" border="0"><tr>'.PHP_EOL;
+    
+	if ($ShoutMenuOptionActive == 2) 
+      echo '<td style="background-color: none;"><a class="buttonlink" href="'.$admin_file.'.php?op=shout&amp;Submit=ShoutBoxLayout">'._SB_LAYOUT.'</a>&nbsp;&nbsp;</td></tr></table></td>'.PHP_EOL;
+	else 
+      echo '<td style="background-color: none;"><a class="buttonlink" href="'.$admin_file.'.php?op=shout&amp;Submit=ShoutBoxLayout">'._SB_LAYOUT.'</a>&nbsp;&nbsp;</td></tr></table></td>'.PHP_EOL;
 
-    echo "<td style=\"background-color: ".$rowColor['border'].";\"><table cellpadding=\"6\" cellspacing=\"0\" border=\"0\"><tr>";
-    if ($ShoutMenuOptionActive == 4) {
-        echo "<td style=\"background-color: ".$rowColor['menuColor1']."; line-height: .8em;\" onclick=\"top.location.href='".$admin_file.".php?op=shout&amp;Submit=ShoutBoxPermissions'\" nowrap=\"nowrap\">";
-    } else {
-        echo "<td style=\"background-color: ".$rowColor['menuColor2']."; line-height: .8em;\" onclick=\"top.location.href='".$admin_file.".php?op=shout&amp;Submit=ShoutBoxPermissions'\" onmouseover=\"this.style.backgroundColor='".$rowColor['menuColor1']."';\" onmouseout=\"this.style.backgroundColor='".$rowColor['menuColor2']."';\" nowrap=\"nowrap\">";
-    }
-    echo "<strong>"._SB_PERMISSIONS."</strong></td></tr></table></td>";
+    echo '<td style="background-color: '.$rowColor['border'].';"><table cellpadding="6" cellspacing="0" border="0"><tr>'.PHP_EOL;
+    
+	if ($ShoutMenuOptionActive == 3) 
+      echo '<td style="background-color: none;"><a class="buttonlink" href="'.$admin_file.'.php?op=shout&amp;Submit=ShoutBoxThemeing">'._SB_THEMEING.'</a>&nbsp;&nbsp;</td></tr></table></td>'.PHP_EOL;
+	else 
+      echo '<td style="background-color: none;"><a class="buttonlink" href="'.$admin_file.'.php?op=shout&amp;Submit=ShoutBoxThemeing">'._SB_THEMEING.'</a>&nbsp;&nbsp;</td></tr></table></td>'.PHP_EOL;
 
-    echo "<td style=\"background-color: ".$rowColor['border'].";\"><table cellpadding=\"6\" cellspacing=\"0\" border=\"0\"><tr>";
-    if ($ShoutMenuOptionActive == 5) {
-        echo "<td style=\"background-color: ".$rowColor['menuColor1']."; line-height: .8em;\" onclick=\"top.location.href='".$admin_file.".php?op=shout&amp;Submit=manageemoticons'\" nowrap=\"nowrap\">";
-    } else {
-        echo "<td style=\"background-color: ".$rowColor['menuColor2']."; line-height: .8em;\" onclick=\"top.location.href='".$admin_file.".php?op=shout&amp;Submit=manageemoticons'\" onmouseover=\"this.style.backgroundColor='".$rowColor['menuColor1']."';\" onmouseout=\"this.style.backgroundColor='".$rowColor['menuColor2']."';\" nowrap=\"nowrap\">";
-    }
-    echo "<strong>"._SB_EMOTICONS."</strong></td></tr></table></td>";
+    echo '<td style="background-color: '.$rowColor['border'].';"><table cellpadding="6" cellspacing="0" border="0"><tr>'.PHP_EOL;
+    
+	if ($ShoutMenuOptionActive == 4) 
+      echo '<td style="background-color: none;"><a class="buttonlink" href="'.$admin_file.'.php?op=shout&amp;Submit=ShoutBoxPermissions">'._SB_PERMISSIONS.'</a>&nbsp;&nbsp;</td></tr></table></td>'.PHP_EOL;
+	else 
+      echo '<td style="background-color: none;"><a class="buttonlink" href="'.$admin_file.'.php?op=shout&amp;Submit=ShoutBoxPermissions">'._SB_PERMISSIONS.'</a>&nbsp;&nbsp;</td></tr></table></td>'.PHP_EOL;
 
     echo "<td style=\"background-color: ".$rowColor['border'].";\"><table cellpadding=\"6\" cellspacing=\"0\" border=\"0\"><tr>";
-    if ($ShoutMenuOptionActive == 6) {
-        echo "<td style=\"background-color: ".$rowColor['menuColor1']."; line-height: .8em;\" onclick=\"top.location.href='".$admin_file.".php?op=shout&amp;Submit=managecensor'\" nowrap=\"nowrap\">";
-    } else {
-        echo "<td style=\"background-color: ".$rowColor['menuColor2']."; line-height: .8em;\" onclick=\"top.location.href='".$admin_file.".php?op=shout&amp;Submit=managecensor'\" onmouseover=\"this.style.backgroundColor='".$rowColor['menuColor1']."';\" onmouseout=\"this.style.backgroundColor='".$rowColor['menuColor2']."';\" nowrap=\"nowrap\">";
-    }
-    echo "<strong>"._SB_CENSOR."</strong></td></tr></table></td>";
+    
+	if ($ShoutMenuOptionActive == 5) 
+      echo '<td style="background-color: none;"><a class="buttonlink" href="'.$admin_file.'.php?op=shout&amp;Submit=manageemoticons">'._SB_EMOTICONS.'</a>&nbsp;&nbsp;</td></tr></table></td>'.PHP_EOL;
+	else 
+      echo '<td style="background-color: none;"><a class="buttonlink" href="'.$admin_file.'.php?op=shout&amp;Submit=manageemoticons">'._SB_EMOTICONS.'</a>&nbsp;&nbsp;</td></tr></table></td>'.PHP_EOL;
 
     echo "<td style=\"background-color: ".$rowColor['border'].";\"><table cellpadding=\"6\" cellspacing=\"0\" border=\"0\"><tr>";
-    if ($ShoutMenuOptionActive == 7) {
-        echo "<td style=\"background-color: ".$rowColor['menuColor1']."; line-height: .8em;\" onclick=\"top.location.href='".$admin_file.".php?op=shout&amp;Submit=ShoutBoxBans'\" nowrap=\"nowrap\">";
-    } else {
-        echo "<td style=\"background-color: ".$rowColor['menuColor2']."; line-height: .8em;\" onclick=\"top.location.href='".$admin_file.".php?op=shout&amp;Submit=ShoutBoxBans'\" onmouseover=\"this.style.backgroundColor='".$rowColor['menuColor1']."';\" onmouseout=\"this.style.backgroundColor='".$rowColor['menuColor2']."';\" nowrap=\"nowrap\">";
-    }
-    echo "<strong>"._SB_BANS."</strong></td></tr></table></td>";
+    
+	if ($ShoutMenuOptionActive == 6) 
+      echo '<td style="background-color: none;"><a class="buttonlink" href="'.$admin_file.'.php?op=shout&amp;Submit=managecensor">'._SB_CENSOR.'</a>&nbsp;&nbsp;</td></tr></table></td>'.PHP_EOL;
+	else 
+      echo '<td style="background-color: none;"><a class="buttonlink" href="'.$admin_file.'.php?op=shout&amp;Submit=managecensor">'._SB_CENSOR.'</a>&nbsp;&nbsp;</td></tr></table></td>'.PHP_EOL;
+
+    echo "<td style=\"background-color: ".$rowColor['border'].";\"><table cellpadding=\"6\" cellspacing=\"0\" border=\"0\"><tr>";
+    
+	if ($ShoutMenuOptionActive == 7) 
+      echo '<td style="background-color: none;"><a class="buttonlink" href="'.$admin_file.'.php?op=shout&amp;Submit=ShoutBoxBans">'._SB_BANS.'</a>&nbsp;&nbsp;</td></tr></table></td>'.PHP_EOL;
+	else 
+      echo '<td style="background-color: none;"><a class="buttonlink" href="'.$admin_file.'.php?op=shout&amp;Submit=ShoutBoxBans">'._SB_BANS.'</a>&nbsp;&nbsp;</td></tr></table></td>'.PHP_EOL;
 
     echo "</tr></table>\n";
-    echo "</td></tr></table></td></tr></table></center>";
+    echo "</td></tr></table></td></tr></table></div>";
 
     CloseTable();
     
 }
-
-// End 'Menu' code
+# End Shout Box 'Menu' code
 
 // Start 'Manage Shouts' code (Default page)
 
@@ -363,31 +368,47 @@ function manageShouts($page, $pruned) {
     CloseTable();
     
     OpenTable();
-    $sql = "SELECT `name`, `comment` FROM `".$prefix."_shoutbox_sticky` WHERE `stickySlot`=0";
-    $stickyResult = $db->sql_query($sql);
-    $stickyRow0 = $db->sql_fetchrow($stickyResult);
-    $db->sql_freeresult($stickyResult);
+    $sql = "SELECT `id`, `name`, `comment`, `timestamp`, `stickySlot` FROM `nuke_shoutbox_sticky` WHERE `stickySlot`=0";
+	$stickyResultA = $db->sql_query($sql);
+    $stickyRowA = $db->sql_fetchrow($stickyResultA);
+    $db->sql_freeresult($stickyResultA);
     
-	$sql = "SELECT `name`, `comment` FROM `".$prefix."_shoutbox_sticky` WHERE `stickySlot`=1";
-    $stickyResult = $db->sql_query($sql);
-    $stickyRow1 = $db->sql_fetchrow($stickyResult);
-    $db->sql_freeresult($stickyResult);
+	$sql = "SELECT `id`, `name`, `comment`, `timestamp`, `stickySlot` FROM `nuke_shoutbox_sticky` WHERE `stickySlot`=1";
+    $stickyResultB = $db->sql_query($sql);
+    $stickyRowB = $db->sql_fetchrow($stickyResultB);
+    $db->sql_freeresult($stickyResultB);
+    
+	global $userinfo;
+    
+	echo "<br /><div align=\"center\" class=\"title\">"._SB_STICKYSHOUTS."</div><br />";
+    if(!isset($stickyRowA['name']))
+	$stickyRowA['name'] = $userinfo['username'];
+	if(!isset($stickyRowB['name']))
+	$stickyRowB['name'] = $userinfo['username'];
 
-    echo "<br /><div align=\"center\" class=\"title\">"._SB_STICKYSHOUTS."</div><br />";
-    echo "<center><table align=\"center\" cellpadding=\"5\" cellspacing=\"0\" border=\"0\"><tr><td>".$stickyRow0['name']." </td><td nowrap=\"nowrap\"><form name=\"shoutAdmin20\" action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><input type=\"hidden\" name=\"page\" value=\"$page\" /><input type=\"text\" name=\"stickyShout\" value=\"".$stickyRow0['comment']."\" maxlength=\"150\" size=\"75\" />&nbsp;&nbsp;<input type=\"hidden\" name=\"stickyUsername\" value=\"".$admin[0]."\" /><input type=\"hidden\" name=\"Submit\" value=\"stickySubmit\" /><input type=\"hidden\" name=\"stickySlot\" value=\"0\" /><input type=\"submit\" name=\"button\" value=\""._SB_SUBMIT."\" /></form></td></tr><tr><td>".$stickyRow1['name']." </td><td nowrap=\"nowrap\"><form name=\"shoutAdmin21\" action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><input type=\"hidden\" name=\"page\" value=\"$page\" /><input type=\"text\" name=\"stickyShout\" value=\"".$stickyRow1['comment']."\" maxlength=\"150\" size=\"75\" />&nbsp;&nbsp;<input type=\"hidden\" name=\"stickyUsername\" value=\"".$admin[0]."\" /><input type=\"hidden\" name=\"Submit\" value=\"stickySubmit\" /><input type=\"hidden\" name=\"stickySlot\" value=\"1\" /><input type=\"submit\" name=\"button\" value=\""._SB_SUBMIT."\" /></form></td></tr></table></center>";
+	$stickyRowA['comment'] = $stickyRowA['comment'] ?? '';
+	$stickyRowB['comment'] = $stickyRowB['comment'] ?? '';
+	
+	echo "<center><table align=\"center\" cellpadding=\"5\" cellspacing=\"0\" border=\"0\"><tr><td>".$stickyRowA['name']."&nbsp;&nbsp;</td><td nowrap=\"nowrap\"><form name=\"shoutAdmin20\" action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><input type=\"hidden\" name=\"page\" value=\"$page\" /><input type=\"text\" name=\"stickyShout\" value=\"".$stickyRowA['comment']."\" maxlength=\"150\" size=\"75\" />&nbsp;&nbsp;<input type=\"hidden\" name=\"stickyUsername\" value=\"".$stickyRowA['name']."\" /><input type=\"hidden\" name=\"Submit\" value=\"stickySubmit\" /><input type=\"hidden\" name=\"stickySlot\" value=\"0\" /><input type=\"submit\" name=\"button\" value=\""._SB_SUBMIT."\" /></form></td></tr><tr>";
+	
+	echo "<td>&nbsp;</td></td></tr>";
+	
+	echo "<td>".$stickyRowB['name']."&nbsp;&nbsp;</td><td nowrap=\"nowrap\"><form name=\"shoutAdmin21\" action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><input type=\"hidden\" name=\"page\" value=\"$page\" /><input type=\"text\" name=\"stickyShout\" value=\"".$stickyRowB['comment']."\" maxlength=\"150\" size=\"75\" />&nbsp;&nbsp;<input type=\"hidden\" name=\"stickyUsername\" value=\"".$stickyRowB['name']."\" /><input type=\"hidden\" name=\"Submit\" value=\"stickySubmit\" /><input type=\"hidden\" name=\"stickySlot\" value=\"1\" /><input type=\"submit\" name=\"button\" value=\""._SB_SUBMIT."\" /></form></td></tr></table></center>";
     CloseTable();
     // YOU MAY NOT REMOVE, EDIT, OR MARK OUT THE FOLLOWING PAYPAL CODE. IT IS PART OF OUR COPYRIGHT.
     
     OpenTable();
-    echo "<p align=\"center\" class=\"title\">OurScripts.net needs your support!</p>";
-    echo "<p align=\"center\" class=\"content\">Open Source software costs money and time to develop.</p>";
-    echo "<form action=\"https://www.paypal.com/cgi-bin/webscr\" method=\"post\">
-    <input type=\"hidden\" name=\"cmd\" value=\"_xclick\" />
-    <input type=\"hidden\" name=\"business\" value=\"donate@ourscripts.86it.us\" />
-    <input type=\"hidden\" name=\"item_name\" value=\"Donation to ourscripts.86it.us\" />
-    <input type=\"hidden\" name=\"no_shipping\" value=\"1\" />
-    <input type=\"hidden\" name=\"cn\" value=\"Comments\" /><p align=\"center\">
-    <input type=\"image\" src=\"modules/$module_name/images/paypal.gif\" alt=\"Please donate. Thank you!\" name=\"submit\" title=\"Please donate. Thank you!\" /></p></form><p align=\"center\" class=\"content\">Our community appreciates your monitary support!</p><p align=\"center\" class=\"content\">Released under the <a target=\"_blank\" href=\"".$sbURL."http://www.gnu.org\">GNU/GPL license</a> and distributed by <a target=\"_blank\" href=\"".$sbURL."https://ourscripts.86it.us\">OurScripts.net</a>.<br />Copyright &copy; 2002-2005 by SuiteSoft Solutions. All rights reserved.</p>";
+    //echo "<p align=\"center\" class=\"title\">OurScripts.net needs your support!</p>";
+    //echo "<p align=\"center\" class=\"content\">Open Source software costs money and time to develop.</p>";
+    //echo "<form action=\"https://www.paypal.com/cgi-bin/webscr\" method=\"post\">";
+    //echo "<input type=\"hidden\" name=\"cmd\" value=\"_xclick\" />";
+    //echo "<input type=\"hidden\" name=\"business\" value=\"donate@ourscripts.86it.us\" />";
+    //echo "<input type=\"hidden\" name=\"item_name\" value=\"Donation to ourscripts.86it.us\" />";
+    //echo "<input type=\"hidden\" name=\"no_shipping\" value=\"1\" />";
+    //echo "<input type=\"hidden\" name=\"cn\" value=\"Comments\" /><p align=\"center\">";
+    //echo "<input type=\"image\" src=\"modules/$module_name/images/paypal.gif\" alt=\"Please donate. Thank you!\" name=\"submit\" title=\"Please donate. Thank you!\" /></p></form><p align=\"center\" class=\"content\">Our community appreciates your monitary support!</p>";
+	
+	echo "<p align=\"center\" class=\"content\">Released under the <a target=\"_blank\" href=\"".$sbURL."http://www.gnu.org\">GNU/GPL license</a> and distributed by <a target=\"_blank\" href=\"".$sbURL."https://php-nuke-titanium.86it.us\">The Titanium Group</a>.<br />Copyright &copy; 2002-2023 by SuiteSoft Solutions. All rights reserved.</p>";
     CloseTable();
     // END OF COPYRIGHT.
     include_once(NUKE_BASE_DIR.'footer.php');
@@ -449,8 +470,9 @@ function stickySubmit($stickyShout, $stickyUsername, $stickySlot, $page) {
         $stickyResult = $db->sql_query($sql);
         $stickyRow = $db->sql_fetchrow($stickyResult);
         $db->sql_freeresult($stickyResult);
-        if ($stickyRow) {
-            $sql = "UPDATE `".$prefix."_shoutbox_sticky set` `name`='$stickyUsername', `comment`='$stickyShout', `timestamp`='$timestamp' WHERE `stickySlot`='$stickySlot'";
+        
+		if ($stickyRow) {
+			$sql = "UPDATE `nuke_shoutbox_sticky` SET `name`='".$stickyRow['name']."',`comment`='".$stickyShout."',`timestamp`='".$timestamp."' WHERE `stickySlot`='".$stickySlot."'";
         } else {
             $sql = "INSERT INTO `".$prefix."_shoutbox_sticky` (name, comment, timestamp, stickySlot) VALUES ('$stickyUsername','$stickyShout','$timestamp','$stickySlot')";
         }
@@ -462,13 +484,16 @@ function stickySubmit($stickyShout, $stickyUsername, $stickySlot, $page) {
     exit;
 }
 
-function ShoutEdit($shoutID, $page, $ShoutError) {
+function ShoutEdit($shoutID, $page, $ShoutError) 
+{
     global $prefix, $db, $admin_file;
     include_once(NUKE_BASE_DIR.'header.php');
     LinkAdmin();
     $ShoutMenuOptionActive = 1;
     ShoutBoxAdminMenu($ShoutMenuOptionActive);
+
     OpenTable();
+
     $sql = "SELECT `comment` FROM `".$prefix."_shoutbox_shouts` WHERE `id`='$shoutID'";
     $nameresult = $db->sql_query($sql);
     $row = $db->sql_fetchrow($nameresult);
@@ -476,26 +501,29 @@ function ShoutEdit($shoutID, $page, $ShoutError) {
 
     // strip out link code here (added back in later if saved)
     $ShoutComment = $row['comment'];
-    $ShoutComment = str_replace("&#91;<a rel=\"nofollow\" target=\"_blank\" href=\"", "",$ShoutComment);
-    $ShoutComment = str_replace("&#91;<a rel=\"nofollow\" href=\"", "",$ShoutComment);
-    $ShoutComment = str_replace("&#91;<a target=\"_blank\" href=\"", "",$ShoutComment);
-    $ShoutComment = str_replace("&#91;<a href=\"", "",$ShoutComment);
-    $ShoutComment = str_replace("\">URL</a>&#93;", "",$ShoutComment);
-    $ShoutComment = str_replace("\">FTP</a>&#93;", "",$ShoutComment);
-    $ShoutComment = str_replace("\">IRC</a>&#93;", "",$ShoutComment);
-    $ShoutComment = str_replace("\">TeamSpeak</a>&#93;", "",$ShoutComment);
-    $ShoutComment = str_replace("\">AIM</a>&#93;", "",$ShoutComment);
-    $ShoutComment = str_replace("\">Gopher</a>&#93;", "",$ShoutComment);
-    $ShoutComment = str_replace("\">E-Mail</a>&#93;", "",$ShoutComment);
+    $ShoutComment = str_replace("&#91;<a rel=\"nofollow\" target=\"_blank\" href=\"", "",(string) $ShoutComment);
+    $ShoutComment = str_replace("&#91;<a rel=\"nofollow\" href=\"", "",(string) $ShoutComment);
+    $ShoutComment = str_replace("&#91;<a target=\"_blank\" href=\"", "",(string) $ShoutComment);
+    $ShoutComment = str_replace("&#91;<a href=\"", "",(string) $ShoutComment);
+    $ShoutComment = str_replace("\">URL</a>&#93;", "",(string) $ShoutComment);
+    $ShoutComment = str_replace("\">FTP</a>&#93;", "",(string) $ShoutComment);
+    $ShoutComment = str_replace("\">IRC</a>&#93;", "",(string) $ShoutComment);
+    $ShoutComment = str_replace("\">TeamSpeak</a>&#93;", "",(string) $ShoutComment);
+    $ShoutComment = str_replace("\">AIM</a>&#93;", "",(string) $ShoutComment);
+    $ShoutComment = str_replace("\">Gopher</a>&#93;", "",(string) $ShoutComment);
+    $ShoutComment = str_replace("\">E-Mail</a>&#93;", "",(string) $ShoutComment);
 
     $i = 0;
     $ShoutNew = '';
     $ShoutArray = explode(" ",$ShoutComment);
+	$ShoutNew = [];
+	$AddyNew = [];
+	
     if (is_array($ShoutArray)) {
         foreach($ShoutArray as $ShoutPart) {
             if (preg_match("#mailto:#i", $ShoutPart)) { // find mailto:
-                $ShoutPart = str_replace("mailto:", "",$ShoutPart); // strip out mailto:
-                $ShoutPart = str_replace("%", " ",$ShoutPart);
+                $ShoutPart = str_replace("mailto:", "",(string) $ShoutPart); // strip out mailto:
+                $ShoutPart = str_replace("%", " ",(string) $ShoutPart);
                 $ShoutPart = trim($ShoutPart);
                 // decode address to ascii
                 $c = 0;
@@ -508,7 +536,14 @@ function ShoutEdit($shoutID, $page, $ShoutError) {
                 }
                 $ShoutPart = implode("",$AddyNew);
                 $ShoutNew[$i] = "mailto:$ShoutPart"; // add mailto: back in
-            } else { $ShoutNew[$i] = $ShoutPart; }
+            } 
+			else 
+			{ 
+			  if(!isset($ShoutPart))
+			  $ShoutPart = '';
+			  
+			  $ShoutNew[$i] = $ShoutPart; 
+			}
             $i++;
         }
     }
@@ -525,10 +560,13 @@ function ShoutEdit($shoutID, $page, $ShoutError) {
     echo "<form name=\"adminshoutedit\" method=\"post\" action=\"\" style=\"margin-bottom: 0px;\">\n";
     echo "<table cellpadding=\"3\" cellspacing=\"0\" width=\"90%\" border=\"0\" align=\"center\">\n";
     echo "<tr><td align=\"center\"><span class=\"title\">"._EDITSHOUT."<br /><br /></span></td></tr>\n";
-    if (($ShoutError) && ($ShoutError != 'none')) {
+    
+	if (($ShoutError) && ($ShoutError != 'none')) 
+	{
         echo "<tr><td style=\"background: #FF3333;\"><strong>"._SB_NOTE.":</strong> $ShoutError</td></tr>";
     }
-    echo "<tr><td align=\"center\"><input type=\"hidden\" name=\"shoutID\" value=\"$shoutID\" /><input type=\"text\" name=\"ShoutComment\" size=\"70\" value=\"$ShoutComment\" maxlength=\"2500\" /><input type=\"hidden\" name=\"page\" value=\"$page\" /><input type=\"hidden\" name=\"Submit\" value=\"ShoutSave\" />&nbsp;&nbsp;<input type=\"submit\" name=\"button\" value=\""._UPDATE."\" /></td></tr><tr><td align=\"center\"><a href=\"".$admin_file.".php?op=shout&amp;Submit=manageShouts&page=$page\">"._CANCELEDIT."</a></td></tr></table></form>\n";
+    
+	echo "<tr><td align=\"center\"><input type=\"hidden\" name=\"shoutID\" value=\"$shoutID\" /><input type=\"text\" name=\"ShoutComment\" size=\"70\" value=\"$ShoutComment\" maxlength=\"2500\" /><input type=\"hidden\" name=\"page\" value=\"$page\" /><input type=\"hidden\" name=\"Submit\" value=\"ShoutSave\" />&nbsp;&nbsp;<input type=\"submit\" name=\"button\" value=\""._UPDATE."\" /></td></tr><tr><td align=\"center\"><a href=\"".$admin_file.".php?op=shout&amp;Submit=manageShouts&page=$page\">"._CANCELEDIT."</a></td></tr></table></form>\n";
 
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
@@ -562,6 +600,7 @@ function ShoutSave($shoutID, $ShoutComment, $page) {
     // Scan for links in the shout. If there is, replace it with [URL] or block it if disallowed
     $i = 0;
     $ShoutNew = '';
+	$ShoutNew = [];
     $ShoutArray = explode(" ",$ShoutComment);
     foreach($ShoutArray as $ShoutPart) {
         if (is_array($ShoutPart) == TRUE) { $ShoutPart = $ShoutPart[0]; }
@@ -655,6 +694,7 @@ function ShoutSave($shoutID, $ShoutComment, $page) {
     if (empty($ShoutError)) { $ShoutComment = implode(" ",$ShoutNew); }
 
     //Smilies from database
+	$ShoutArrayReplace = [];
     $ShoutArrayReplace = explode(" ",$ShoutComment);
     $ShoutArrayScan = $ShoutArrayReplace;
     $sql = "SELECT * FROM `".$prefix."_shoutbox_emoticons`";
@@ -776,11 +816,34 @@ function ShoutBoxLayout() {
     exit;
 }
 
-function ShoutBoxLayoutSet($daten, $numbern, $heightn, $textboxwidth, $smiliesperrow, $reverseshouts, $pointspershout, $shoutsperpagehistory, $serverTimezone) {
+function ShoutBoxLayoutSet($daten, 
+                         $numbern, 
+						 $heightn, 
+					$textboxwidth, 
+				   $smiliesperrow, 
+				   $reverseshouts, 
+				  $pointspershout, 
+		    $shoutsperpagehistory, 
+			      $serverTimezone) 
+{
     global $prefix, $db, $admin_file, $cache;
-    $sql = "UPDATE `".$prefix."_shoutbox_conf` SET date='$daten', `number`='$numbern', `height`='$heightn', `textWidth`='$textboxwidth', `smiliesPerRow`='$smiliesperrow', `reversePosts`='$reverseshouts', `pointspershout`='$pointspershout', `shoutsperpage`='$shoutsperpagehistory', `serverTimezone`='$serverTimezone' WHERE `id`=1";
-    $db->sql_query($sql);
-    $cache->delete('conf', 'shoutbox');
+
+    $sql = "UPDATE `".$prefix."_shoutbox_conf` 
+	
+	SET date='$daten', 
+	`number`='$numbern', 
+	`height`='$heightn', 
+	`textWidth`='$textboxwidth', 
+	`smiliesPerRow`='$smiliesperrow', 
+	`reversePosts`='$reverseshouts', 
+	`pointspershout`='$pointspershout', 
+	`shoutsperpage`='$shoutsperpagehistory', 
+	`serverTimezone`='$serverTimezone' 
+	
+	WHERE `id`=1";
+    
+	$db->sql_query($sql);
+    $cache->delete('conf', 'titanium_shoutbox');
     $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxLayout");
     exit;
@@ -791,98 +854,13 @@ function ShoutBoxAdminMonitor() {
     OpenTable();
     // Warnings to admins if something isn't set right.
     echo "<p align=\"center\" class=\"content\"><strong>"._SETUPANDSECURITY."</strong></p>";
-    $SBhealthCount = 0;
 
-    // Level 1 checks (Marginal)
-    $filename = "modules/$module_name/language/index.html";
-    if (file_exists($filename) != TRUE) { $SBhealthCount = 1; }
-    $filename = "modules/$module_name/images/down/Black.gif";
-    if (file_exists($filename) != TRUE) { $SBhealthCount = 1; }
-    $filename = "modules/$module_name/images/up/Black.gif";
-    if (file_exists($filename) != TRUE) { $SBhealthCount = 1; }
-    $filename = "modules/$module_name/images/pause/Black.gif";
-    if (file_exists($filename) != TRUE) { $SBhealthCount = 1; }
-    $filename = "images/blocks/shout_box/index.html";
-    if (file_exists($filename) != TRUE) { $SBhealthCount = 1; }
-    $filename = "images/admin/shoutbox.png";
-    if (file_exists($filename) != TRUE) { $SBhealthCount = 1; }
-    // Add chmod check
-    // $_SERVER["SERVER_SOFTWARE"]
-
-    // Level 2 checks (Critical)
-    $filename = "modules/$module_name";
-    if (is_dir($filename) != TRUE) { $SBhealthCount = 2; }
-    $filename = "modules/$module_name/copyright.php";
-    if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
-    $filename = "includes/shoutbox.js";
-    if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
-    $filename = "modules/$module_name/index.php";
-    if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
-    $filename = "modules/$module_name/language/lang-english.php";
-    if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
-    $filename = "blocks/block-$module_name.php";
-    if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
-    $filename = "modules/$module_name/images/paypal.gif";
-    if (file_exists($filename) != TRUE) { $SBhealthCount = 2; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_shouts";
-    $result = $db->sql_query($sql);
-    if ($result == NULL) { $SBhealthCount = 2; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_censor";
-    $result = $db->sql_query($sql);
-    if ($result == NULL) { $SBhealthCount = 2; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_conf";
-    $result = $db->sql_query($sql);
-    if ($result == NULL) { $SBhealthCount = 2; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_emoticons";
-    $result = $db->sql_query($sql);
-    if ($result == NULL) { $SBhealthCount = 2; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_ipblock";
-    $result = $db->sql_query($sql);
-    if ($result == NULL) { $SBhealthCount = 2; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_nameblock";
-    $result = $db->sql_query($sql);
-    if ($result == NULL) { $SBhealthCount = 2; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_version";
-    $result = $db->sql_query($sql);
-    if ($result == NULL) { $SBhealthCount = 2; }
-    $filename = "SB_SQL_installer.php";
-    if (file_exists($filename) == TRUE) { $SBhealthCount = 2; }
-    $filename = "shout_box_sql_install.php";
-    if (file_exists($filename) == TRUE) { $SBhealthCount = 2; }
-    $filename = "shout4.6to5.0.php";
-    if (file_exists($filename) == TRUE) { $SBhealthCount = 2; }
-    $filename = "shout4.0to4.5.php";
-    if (file_exists($filename) == TRUE) { $SBhealthCount = 2; }
-    $filename = "shout3.5to4.0.php";
-    if (file_exists($filename) == TRUE) { $SBhealthCount = 2; }
-    $filename = "shout3.01to3.5.php";
-    if (file_exists($filename) == TRUE) { $SBhealthCount = 2; }
-    $sqlCheck = "SELECT * FROM ".$prefix."_blocks WHERE blockfile='block-$module_name.php'";
-    $resultCheck = $db->sql_query($sqlCheck);
-    $numrowsCheck = $db->sql_numrows($resultCheck);
-    if ($numrowsCheck != 1) { $SBhealthCount = 2; }
-    $rowCheck = $db->sql_fetchrow($resultCheck);
-    if ($rowCheck['active'] != 1) { $SBhealthCount = 2; }
-    if (($rowCheck['view'] != 0) AND ($rowCheck['view'] != 1)) { $SBhealthCount = 2; }
-    $sqlCheck = "SELECT * FROM ".$prefix."_modules WHERE title='$module_name'";
-    $resultCheck = $db->sql_query($sqlCheck);
-    $numrowsCheck = $db->sql_numrows($resultCheck);
-    if ($numrowsCheck != 1) { $SBhealthCount = 2; }
-    $rowCheck = $db->sql_fetchrow($resultCheck);
-    if ($rowCheck['active'] != 1) { $SBhealthCount = 2; }
-    if (($rowCheck['view'] != 0) AND ($rowCheck['view'] != 1)) { $SBhealthCount = 2; }
-    echo "<p align=\"center\" class=\"content\">"._CURRENTCOND.": ";
-    if ($SBhealthCount == 0) { echo "<strong>"._SBEXCELLENT."</strong>/"._SBMARGINAL."/"._SBCRITICAL."</p>"; }
-    elseif ($SBhealthCount == 1) { echo _SBEXCELLENT."/<strong>"._SBMARGINAL."</strong>/"._SBCRITICAL."</p>"; }
-    elseif ($SBhealthCount == 2) { echo _SBEXCELLENT."/"._SBMARGINAL."/<strong>"._SBCRITICAL."</strong></p>"; }
-    if (($SBhealthCount == 1) || ($SBhealthCount == 2)) {
-        echo "<form action=\"\" method=\"post\" style=\"margin-bottom: 0px;\"><input type=\"hidden\" name=\"SBhealthCount\" value=\"$SBhealthCount\" /><input type=\"hidden\" name=\"Submit\" value=\"shoutHealth\" /><center><input type=\"submit\" name=\"button\" value=\""._ANALYZEANDVIEW."\" /></center></form>";
-    }
     CloseTable();
     
 }
 
-function shoutHealth($SBhealthCount) {
+function shoutHealth($SBhealthCount) 
+{
     global $prefix, $db, $admin_file, $module_name;
     include_once(NUKE_BASE_DIR.'header.php');
     LinkAdmin();
@@ -892,70 +870,96 @@ function shoutHealth($SBhealthCount) {
     // Warnings to admins if something isn't set right or files are missing.
     echo "<p align=\"center\" class=\"content\"><strong>"._SETUPANDSECURITY."</strong></p>";
     echo "<p align=\"center\" class=\"content\">"._CURRENTCOND.": ";
-    if ($SBhealthCount == 0) { echo "<strong>"._SBEXCELLENT."</strong>/"._SBMARGINAL."/"._SBCRITICAL."</p>"; }
-    elseif ($SBhealthCount == 1) { echo _SBEXCELLENT."/<strong>"._SBMARGINAL."</strong>/"._SBCRITICAL."</p>"; }
-    elseif ($SBhealthCount == 2) { echo _SBEXCELLENT."/"._SBMARGINAL."/<strong>"._SBCRITICAL."</strong></p>"; }
+
+    if ($SBhealthCount == 0) 
+	{ 
+	  echo "<strong>"._SBEXCELLENT."</strong>/"._SBMARGINAL."/"._SBCRITICAL."</p>"; 
+	}
+    elseif ($SBhealthCount == 1) 
+	{ 
+	  echo _SBEXCELLENT."/<strong>"._SBMARGINAL."</strong>/"._SBCRITICAL."</p>"; 
+	}
+    elseif ($SBhealthCount == 2) 
+	{ 
+	  echo _SBEXCELLENT."/"._SBMARGINAL."/<strong>"._SBCRITICAL."</strong></p>"; 
+	}
 
     // Level 1 checks (Marginal)
     $filename = "modules/$module_name/language/index.html";
-    if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing security file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This security file is used to keep individuals from browsing the backend of your website. Its a 0 byte size file, which gives them a blank screen if they try to browse the directory it is in. You can usually find this file within another directory of your installation of PHP-Nuke and just copy it into this directory.</p>"; }
-    $filename = "modules/$module_name/images/down/Black.gif";
-    if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing image file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This image file is used in the Shout Box block in case you don't have the themed image installed in all your themes. It is a good idea to have this uploaded, even if you are only using the themed images, because you may install another theme in the future and forget to upload the themed images. You can obtain this image from the Shout Box installation zip file.</p>"; }
-    $filename = "modules/$module_name/images/up/Black.gif";
-    if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing image file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This image file is used in the Shout Box block in case you don't have the themed image installed in all your themes. It is a good idea to have this uploaded, even if you are only using the themed images, because you may install another theme in the future and forget to upload the themed images. You can obtain this image from the Shout Box installation zip file.</p>"; }
-    $filename = "modules/$module_name/images/pause/Black.gif";
-    if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing image file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This image file is used in the Shout Box block in case you don't have the themed image installed in all your themes. It is a good idea to have this uploaded, even if you are only using the themed images, because you may install another theme in the future and forget to upload the themed images. You can obtain this image from the Shout Box installation zip file.</p>"; }
+    if (file_exists($filename) != TRUE) 
+	{ 
+	   echo "<p class=\"content\"><strong>Missing security file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This security file is used to keep individuals from browsing the backend of your website. Its a 0 byte size file, which gives them a blank screen if they try to browse the directory it is in. You can usually find this file within another directory of your installation of PHP-Nuke and just copy it into this directory.</p>";    }
+    
     $filename = "images/blocks/shout_box/index.html";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing security file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This security file is used to keep individuals from browsing the backend of your website. Its a 0 byte size file, which gives them a blank screen if they try to browse the directory it is in. You can usually find this file within another directory of your installation of PHP-Nuke and just copy it into this directory.</p>"; }
-    $filename = "images/admin/shoutbox.png";
+    
+	$filename = "images/admin/shoutbox.png";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing image file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This image file is used in the PHP-Nuke admin area. It is a good idea to have this uploaded, even if you are using the admin area without images, because you may change your mind later and use admin images. You can obtain this image from the Shout Box installation zip file.</p>"; }
 
     // Level 2 checks (Critical)
     $filename = "modules/$module_name";
     if (is_dir($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical directory:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This directory contains the Shout Box module files. Without it, half of the Shout Box is unavailable for use by the people on your website. Create this directory using cpanel, FTP, or other method.</p>"; }
-    $filename = "includes/shoutbox.js";
+    
+	$filename = "includes/shoutbox.js";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This file contains the Shout Box JavaScript code. It is critical to the operation of this Shout Box. You can obtain this file from the Shout Box installation zip file. Then install it into your PHP-Nuke root folder where mainfile.php is.</p>"; }
-    $filename = "modules/$module_name/copyright.php";
+    
+	$filename = "modules/$module_name/copyright.php";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This file contains the Shout Box copyright information. It is both legally required and critical to the success of this Shout Box and OurScripts.net. You can obtain this file from the Shout Box installation zip file.</p>"; }
-    $filename = "modules/$module_name/index.php";
+    
+	$filename = "modules/$module_name/index.php";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This file contains the Shout Box shout history. Without it, half of the Shout Box features are unavailable for use by the people on your website. You can obtain this file from the Shout Box installation zip file.</p>"; }
-    $filename = "modules/$module_name/language/lang-english.php";
+    
+	$filename = "modules/$module_name/language/lang-english.php";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This file contains the Shout Box shout history english language definitions. Even if you are not using them at this time, in the future, you may go multi-lingual. You can obtain this file from the Shout Box installation zip file.</p>"; }
-    $filename = "blocks/block-$module_name.php";
+    
+	$filename = "blocks/block-Titanium_Shout_Box.php";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical file:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This file is the core of the Shout Box. Without it, the users on your site will not be able to shout. You can obtain this file from the Shout Box installation zip file.</p>"; }
-    $filename = "modules/$module_name/images/paypal.gif";
+    
+	$filename = "modules/$module_name/images/paypal.gif";
     if (file_exists($filename) != TRUE) { echo "<p class=\"content\"><strong>Missing critical image:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> This image is part of the Shout Box copyright. It is both legally required and critical to the success of this Shout Box and OurScripts.net. You can obtain this file from the Shout Box installation zip file.</p>"; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_shouts";
+    
+	$sql = "SELECT * FROM ".$prefix."_shoutbox_shouts";
     $result = $db->sql_query($sql);
     if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$prefix."_shoutbox_shouts&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_censor";
+    
+	$sql = "SELECT * FROM ".$prefix."_shoutbox_censor";
     $result = $db->sql_query($sql);
     if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$prefix."_shoutbox_censor&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_conf";
+    
+	$sql = "SELECT * FROM ".$prefix."_shoutbox_conf";
     $result = $db->sql_query($sql);
     if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$prefix."_shoutbox_conf&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_emoticons";
+    
+	$sql = "SELECT * FROM ".$prefix."_shoutbox_emoticons";
     $result = $db->sql_query($sql);
     if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$prefix."_shoutbox_emoticons&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_ipblock";
+    
+	$sql = "SELECT * FROM ".$prefix."_shoutbox_ipblock";
     $result = $db->sql_query($sql);
     if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$prefix."_shoutbox_ipblock&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
-    $sql = "SELECT * FROM ".$prefix."_shoutbox_nameblock";
+    
+	$sql = "SELECT * FROM ".$prefix."_shoutbox_nameblock";
     $result = $db->sql_query($sql);
     if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$prefix."_shoutbox_nameblock&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
-    $filename = 'SB_SQL_installer.php';
+    
+	$filename = 'SB_SQL_installer.php';
     $sql = "SELECT * FROM ".$prefix."_shoutbox_version";
     $result = $db->sql_query($sql);
     if ($result == NULL) { echo "<p class=\"content\"><strong>Missing critical SQL table:</strong> ".$prefix."_shoutbox_version&nbsp;&nbsp;<strong>Recommendation:</strong> Upload the Shout Box SQL installer (SB_SQL_installer.php) and run it to repair the SQL tables. You can obtain this file from the Shout Box installation zip file in the SQL directory. For security reasons, once repaired, delete the SQL installer from your server.</p>"; }
-    if (file_exists($filename) == TRUE) { echo "<p class=\"content\"><strong>SQL installer for Shout Box exists:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> For security reasons, once you have finished installing, upgrading, or repairing the Shout Box SQL tables, delete the SQL installer from your server.</p>"; }
-    $filename = 'shout_box_sql_install.php';
+	if (file_exists($filename) == TRUE) { echo "<p class=\"content\"><strong>SQL installer for Shout Box exists:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> For security reasons, once you have finished installing, upgrading, or repairing the Shout Box SQL tables, delete the SQL installer from your server.</p>"; }
+    
+	$filename = 'shout_box_sql_install.php';
     if (file_exists($filename) == TRUE) { echo "<p class=\"content\"><strong>SQL installer for Shout Box exists:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> For security reasons, delete this SQL installer from your server. It is no longer used.</p>"; }
+
     $filename = 'shout4.6to5.0.php';
     if (file_exists($filename) == TRUE) { echo "<p class=\"content\"><strong>SQL installer for Shout Box exists:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> For security reasons, delete this SQL installer from your server. It is no longer used.</p>"; }
+
     $filename = 'shout4.0to4.5.php';
     if (file_exists($filename) == TRUE) { echo "<p class=\"content\"><strong>SQL installer for Shout Box exists:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> For security reasons, delete this SQL installer from your server. It is no longer used.</p>"; }
+
     $filename = 'shout3.5to4.0.php';
     if (file_exists($filename) == TRUE) { echo "<p class=\"content\"><strong>SQL installer for Shout Box exists:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> For security reasons, delete this SQL installer from your server. It is no longer used.</p>"; }
+
     $filename = 'shout3.01to3.5.php';
     if (file_exists($filename) == TRUE) { echo "<p class=\"content\"><strong>SQL installer for Shout Box exists:</strong> $filename&nbsp;&nbsp;<strong>Recommendation:</strong> For security reasons, delete this SQL installer from your server. It is no longer used.</p>"; }
     $sqlCheck = "SELECT * FROM ".$prefix."_blocks WHERE blockfile='block-$module_name.php'";
@@ -965,10 +969,12 @@ function shoutHealth($SBhealthCount) {
         echo "<p class=\"content\"><strong>Shout Box block not added:</strong> block-$module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> You have not added the Shout Box block into PHP-Nuke. Click the Blocks icon in the admin area, scroll down the 'Add a new block' area. In the filename drop down, choose block-$module_name.php. Set 'Who can view this' as 'All Visitors', and click the 'Create Block' button.</p>";
     }
     $rowCheck = $db->sql_fetchrow($resultCheck);
-    if ($rowCheck['active'] != '1') {
+    if (!isset($rowCheck['active'])) 
+	{
         echo "<p class=\"content\"><strong>Shout Box block not active:</strong> block-$module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Blocks icon in the admin area, scroll down to the 'Blocks Administration' area. In the Functions column and Shout Box row, choose 'Activate'. In the following page, choose 'Yes' to activate the block.</p>";
     }
-    if (($rowCheck['view'] != 0) && ($rowCheck['view'] != 1)) {
+    if (isset($rowCheck['view']) && ($rowCheck['view'] != 1)) 
+	{
         echo "<p class=\"content\"><strong>Shout Box block not publicly viewable:</strong> block-$module_name.php&nbsp;&nbsp;<strong>Recommendation:</strong> Click the Blocks icon in the admin area, scroll down to the 'Blocks Administration' area. In the Functions column and Shout Box row, choose 'Edit'. In the following page, set 'Who can view this' as 'All Visitors', and click the 'Save Block' button.</p>";
     }
     $sqlCheck = "SELECT * FROM ".$prefix."_modules WHERE title='$module_name'";
@@ -997,7 +1003,13 @@ function shoutHealth($SBhealthCount) {
 function ShoutBoxThemeing() {
     global $prefix, $db, $admin_file, $sbURL, $module_name, $rowColor;
     include_once(NUKE_BASE_DIR.'header.php');
-    LinkAdmin();
+    
+	$rowColor['border'] = $rowColor['border'] ?? 'none';
+	$rowColor['menuColor2'] = $rowColor['menuColor2'] ?? '#000000';
+	$rowColor['menuColor1'] = $rowColor['menuColor1'] ?? '#000000';
+	$themeRow['blockBackgroundImage'] = $themeRow['blockBackgroundImage'] ?? '';
+	
+	LinkAdmin();
     $ShoutMenuOptionActive = 3;
     ShoutBoxAdminMenu($ShoutMenuOptionActive);
     OpenTable();
@@ -1046,102 +1058,35 @@ function ShoutBoxThemeing() {
     echo "<br /><center><input type=\"hidden\" name=\"totalThemes\" value=\"$totalThemes\" /><input type=\"hidden\" name=\"Submit\" value=\"themeSubmit\" /><input type=\"submit\" name=\"button\" value=\""._SB_SAVECOLORVALUES."\" /></center></form>";
     echo "<br /><center>[ <a target=\"blank\" href=\"".$sbURL."http://www.w3schools.com/css/css_colors.asp\">"._SB_HELPWITHCOLORS."</a> ] [ <a target=\"blank\" href=\"".$sbURL."http://www.nattyware.com/pixie.html\">Pixie</a> ]</center>";
     CloseTable();
-    
-    OpenTable();
-    echo "<p align=\"center\" class=\"content\"><strong>"._SB_THEMEIMAGES."</strong></p>";
-
-    echo "<form name=\"shoutadmin11\" action=\"\" method=\"post\" style=\"margin-bottom: 0px; margin-top: 0px;\">";
-    echo "<table align=\"center\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"95%\"><tr><td style=\"background-color: ".$rowColor['border'].";\"><table cellpadding=\"3\" cellspacing=\"1\" border=\"0\" width=\"100%\">";
-
-    echo "<tr style=\"background-color: ".$rowColor['menuColor1'].";\"><td align=\"center\" width=\"15%\" nowrap=\"nowrap\"><strong>"._SB_THEME."</strong></td><td align=\"center\" nowrap=\"nowrap\" width=\"17%\"><strong>"._SB_BOXARROWS."</strong></td><td align=\"center\" nowrap=\"nowrap\" width=\"17%\"><strong>"._SB_BOXBACKGROUND."</strong></td><td>&nbsp;</td></tr>";
-
-    $imagesDir = dir(NUKE_MODULES_DIR.$module_name."/images/up");
-    $imageList = '';
-    while ($image=$imagesDir->read()) {
-        if (!empty($image) && $image != '.' && $image != '..' && $image != 'index.html' && file_exists(NUKE_MODULES_DIR.$module_name."/images/down/$image") && file_exists(NUKE_MODULES_DIR.$module_name."/images/pause/$image")) {
-            $imageList .= "$image ";
-        }
-    }
-    closedir($imagesDir->handle);
-    $imageList = explode(" ", $imageList);
-    sort($imageList);
-
-    $backgroundDir = dir(NUKE_MODULES_DIR.$module_name."/images/background");
-    $backImageList = '';
-    while ($backImage=$backgroundDir->read()) {
-        if (!empty($backImage) && $backImage != '.' && $backImage != '..' && $backImage != 'index.html') {
-            $backImageList .= "$backImage ";
-        }
-    }
-    closedir($backgroundDir->handle);
-    $backImageList = explode(" ", $backImageList);
-    sort($backImageList);
-    $totalThemes = 0;
-    for ($i=0, $maxi = sizeof($themelist); $i < $maxi; $i++) {
-        if(!empty($themelist[$i])) {
-            // End of code from PHP-Nuke 'Your Account' module.
-            // Insert default image colors to SQL when a new theme is found
-            $sql = "SELECT * FROM `".$prefix."_shoutbox_theme_images` WHERE `themeName`='$themelist[$i]'";
-            $result = $db->sql_query($sql);
-            $themeRow = $db->sql_fetchrow($result);
-            $db->sql_freeresult($result);
-            if (empty($themeRow)) {
-                $sql = "INSERT INTO `".$prefix."_shoutbox_theme_images` (themeName, blockArrowColor) VALUES ('$themelist[$i]','Black.gif')";
-                $db->sql_query($sql);
-            }
-            // End default colors
-            $sql = "SELECT * FROM `".$prefix."_shoutbox_theme_images` WHERE `themeName`='$themelist[$i]'";
-            $result = $db->sql_query($sql);
-            $themeRow = $db->sql_fetchrow($result);
-            $db->sql_freeresult($result);
-            echo "<tr style=\"background-color: ".$rowColor['menuColor2'].";\" onmouseover=\"this.style.backgroundColor='".$rowColor['menuColor1']."';\" onmouseout=\"this.style.backgroundColor='".$rowColor['menuColor2']."';\"><td align=\"center\" nowrap=\"nowrap\">$themelist[$i]<input type=\"hidden\" name=\"themeName$i\" value=\"$themelist[$i]\" /></td><td align=\"center\"><select name=\"blockArrowColorTheme$i\">";
-            for ($k=0, $maxk = sizeof($imageList); $k < $maxk; $k++) {
-                if (!empty($imageList[$k])) {
-                    if ($themeRow['blockArrowColor'] == $imageList[$k]) {
-                        echo "<option value=\"$imageList[$k]\" selected=\"selected\">$imageList[$k]</option>";
-                    } else {
-                        echo "<option value=\"$imageList[$k]\">$imageList[$k]</option>";
-                    }
-                }
-            }
-            echo "</select></td><td align=\"center\"><select name=\"blockBackgroundImageTheme$i\">";
-            if (!empty($themeRow['blockBackgroundImage'])) {
-                echo "<option value=\"\">- unset -</option>";
-            } else {
-                echo "<option value=\"\" selected=\"selected\">- Select -</option>";
-            }
-            for ($k=0, $maxk2 = sizeof($backImageList); $k < $maxk2; $k++) {
-                if (!empty($backImageList[$k])) {
-                    if ($themeRow['blockBackgroundImage'] == $backImageList[$k]) {
-                        echo "<option value=\"$backImageList[$k]\" selected=\"selected\">$backImageList[$k]</option>";
-                    } else {
-                        echo "<option value=\"$backImageList[$k]\">$backImageList[$k]</option>";
-                    }
-                }
-            }
-            echo "</select></td><td>&nbsp;</td></tr>";
-            $totalThemes++;
-        }
-    }
-    echo "</table></td></tr></table>";
-    echo "<br /><center><input type=\"hidden\" name=\"totalThemes\" value=\"$totalThemes\" /><input type=\"hidden\" name=\"Submit\" value=\"themeImageSubmit\" /><input type=\"submit\" name=\"button\" value=\""._SB_SAVEIMAGEVALUES."\" /></center></form>";
-    CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
     exit;
 }
 
-function themeSubmit($themeColorValues, $totalThemes) {
+function themeSubmit($themeColorValues, $totalThemes) 
+{
     global $prefix, $db, $admin_file, $cache, $ThemeSel;
-    for ($x = 0; $x <= $totalThemes; $x++) {
+
+    for ($x = 0; $x <= $totalThemes; $x++) 
+	{
         $themeCurrent = $themeColorValues["themeName"][$x];
         $blockColor1 = $themeColorValues[$themeCurrent]["block1"];
         $blockColor2 = $themeColorValues[$themeCurrent]["block2"];
         $border = $themeColorValues[$themeCurrent]["border"];
         $menuColor1 = $themeColorValues[$themeCurrent]["menu1"];
         $menuColor2 = $themeColorValues[$themeCurrent]["menu2"];
-        $sql = "UPDATE `".$prefix."_shoutbox_themes` SET `blockColor1`='$blockColor1', `blockColor2`='$blockColor2', `border`='$border', `menuColor1`='$menuColor1', `menuColor2`='$menuColor2' WHERE `themeName`='$themeCurrent'";
-        $db->sql_query($sql);
-        $cache->delete('theme_'.$ThemeSel, 'shoutbox');
+    
+	    $sql = "UPDATE `".$prefix."_shoutbox_themes` 
+		
+		SET `blockColor1`='$blockColor1', 
+		    `blockColor2`='$blockColor2', 
+			`border`='$border', 
+			`menuColor1`='$menuColor1', 
+			`menuColor2`='$menuColor2' 
+		
+		WHERE `themeName`='$themeCurrent'";
+        
+		$db->sql_query($sql);
+        $cache->delete('theme_'.$ThemeSel, 'titanium_shoutbox');
         $cache->resync();
     }
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxThemeing");
@@ -1210,51 +1155,65 @@ function ShoutBoxPermissions() {
     exit;
 }
 
-function allowurloption($urloption) {
+function allowurloption($urloption) 
+{
     global $prefix, $db, $admin_file, $cache;
+
     $sql = "UPDATE `".$prefix."_shoutbox_conf` SET `urlonoff`='$urloption' WHERE `id`=1";
+
     $db->sql_query($sql);
-    $cache->delete('conf', 'shoutbox');
+    $cache->delete('conf', 'titanium_shoutbox');
     $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxPermissions");
     exit;
 }
 
-function blockxxxoption($blockxxx) {
+function blockxxxoption($blockxxx) 
+{
     global $prefix, $db, $admin_file, $cache;
+
     $sql = "UPDATE `".$prefix."_shoutbox_conf` set `blockxxx`='$blockxxx' WHERE `id`=1";
+
     $db->sql_query($sql);
-    $cache->delete('conf', 'shoutbox');
+    $cache->delete('conf', 'titanium_shoutbox');
     $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxPermissions");
     exit;
 }
 
-function allowanonurloption($urloption) {
+function allowanonurloption($urloption) 
+{
     global $prefix, $db, $admin_file, $cache;
+
     $sql = "UPDATE `".$prefix."_shoutbox_conf` SET `urlanononoff`='$urloption' WHERE `id`=1";
     $db->sql_query($sql);
-    $cache->delete('conf', 'shoutbox');
+    $cache->delete('conf', 'titanium_shoutbox');
     $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxPermissions");
     exit;
 }
 
-function allowdeloption($deloption) {
+function allowdeloption($deloption) 
+{
     global $prefix, $db, $admin_file, $cache;
+
     $sql = "UPDATE `".$prefix."_shoutbox_conf` SET `delyourlastpost`='$deloption' WHERE `id`=1";
+
     $db->sql_query($sql);
-    $cache->delete('conf', 'shoutbox');
+    $cache->delete('conf', 'titanium_shoutbox');
     $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxPermissions");
     exit;
 }
 
-function allowanonoption($anonoption) {
+function allowanonoption($anonoption) 
+{
     global $prefix, $db, $admin_file, $cache;
+
     $sql = "UPDATE `".$prefix."_shoutbox_conf` set `anonymouspost`='$anonoption' WHERE `id`=1";
+
     $db->sql_query($sql);
-    $cache->delete('conf', 'shoutbox');
+    $cache->delete('conf', 'titanium_shoutbox');
     $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxPermissions");
     exit;
@@ -1394,11 +1353,13 @@ function censoractive($censoroption) {
     exit;
 }
 
-function addcensor($addcensor, $addcensorr) {
+function addcensor($addcensor, $addcensorr) 
+{
     global $prefix, $db, $admin_file, $cache;
+
     $sql = "INSERT INTO `".$prefix."_shoutbox_censor` (text, replacement) VALUES ('$addcensor','$addcensorr')";
     $db->sql_query($sql);
-    $cache->delete('censor', 'shoutbox');
+    $cache->delete('censor', 'titanium_shoutbox');
     $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=managecensor");
     exit;
@@ -1410,7 +1371,7 @@ function updatecensor($censornr, $idn, $censornw, $listnum) {
         $sql = "UPDATE `".$prefix."_shoutbox_censor` SET `id`='$idn[$x]', `text`='$censornw[$x]', `replacement`='$censornr[$x]' WHERE `id`='$idn[$x]'";
         $db->sql_query($sql);
     }
-    $cache->delete('censor', 'shoutbox');
+    $cache->delete('censor', 'titanium_shoutbox');
     $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=managecensor");
     exit;
@@ -1420,7 +1381,7 @@ function censorremove($censorremove) {
     global $prefix, $db, $admin_file, $cache;
     $sql = "DELETE FROM `".$prefix."_shoutbox_censor` WHERE `id`='$censorremove'";
     $db->sql_query($sql);
-    $cache->delete('censor', 'shoutbox');
+    $cache->delete('censor', 'titanium_shoutbox');
     $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=managecensor");
     exit;
@@ -1513,7 +1474,7 @@ function namebanactive($banoption) {
     global $prefix, $db, $admin_file, $cache;
     $sql = "UPDATE `".$prefix."_shoutbox_conf` SET `nameblock`='$banoption' WHERE id=1";
     $db->sql_query($sql);
-    $cache->delete('conf', 'shoutbox');
+    $cache->delete('conf', 'titanium_shoutbox');
     $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;
@@ -1523,7 +1484,7 @@ function ipbanactive($banoption) {
     global $prefix, $db, $admin_file, $cache;
     $sql = "UPDATE `".$prefix."_shoutbox_conf` SET `ipblock`='$banoption' WHERE id=1";
     $db->sql_query($sql);
-    $cache->delete('conf', 'shoutbox');
+    $cache->delete('conf', 'titanium_shoutbox');
     $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;
@@ -1533,7 +1494,7 @@ function addname($addname) {
     global $prefix, $db, $admin_file, $cache;
     $sql = "INSERT INTO `".$prefix."_shoutbox_nameblock` (name) VALUES ('$addname')";
     $db->sql_query($sql);
-    $cache->delete('nameblock', 'shoutbox');
+    $cache->delete('nameblock', 'titanium_shoutbox');
     $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;
@@ -1545,7 +1506,7 @@ function updatename($idn, $namen, $listnum) {
         $sql = "UPDATE `".$prefix."_shoutbox_nameblock` SET `id`='$idn[$x]', `name`='$namen[$x]' WHERE `id`='$idn[$x]'";
         $db->sql_query($sql);
     }
-    $cache->delete('nameblock', 'shoutbox');
+    $cache->delete('nameblock', 'titanium_shoutbox');
     $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;
@@ -1555,7 +1516,7 @@ function nameremove($nameremove) {
     global $prefix, $db, $admin_file, $cache;
     $sql = "DELETE FROM `".$prefix."_shoutbox_nameblock` WHERE `id`='$nameremove'";
     $db->sql_query($sql);
-    $cache->delete('nameblock', 'shoutbox');
+    $cache->delete('nameblock', 'titanium_shoutbox');
     $cache->resync();
     header("Location: ".$admin_file.".php?op=shout&Submit=ShoutBoxBans");
     exit;

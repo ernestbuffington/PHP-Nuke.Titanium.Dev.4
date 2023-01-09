@@ -65,34 +65,28 @@ function evouserinfo_posts()
 {
     global $evouserinfo_posts, $lang_evo_userblock, $userinfo;
     
-    $topics = evouserinfo_total_topics();
+    $topics = evouserinfo_total_topics(); 
     $posts = evouserinfo_total_posts();
     
-	if(!isset($phpbb2_posts))
-	$phpbb2_posts = 0;
-
-	if(!isset($phpbb2_topics))
-	$phpbb2_topics = 0;
-	
     $evouserinfo_posts = '<div style="font-weight: bold">'.$lang_evo_userblock['BLOCK']['POSTS']['FORUMS'].'</div>';
 
     $evouserinfo_posts .= '<div style="padding-left: 10px;">';
-    $evouserinfo_posts .= '  <font color="red"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></font>&nbsp;<a class="modules" href="modules.php?name=Forums&file=search&search_id=newposts">'.$lang_evo_userblock['BLOCK']['POSTS']['POSTS'].'</a><span style="float:right">'.number_format($phpbb2_posts).'&nbsp;&nbsp;</span>';
+    $evouserinfo_posts .= '  <font color="red"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></font>&nbsp;<a class="modules" href="modules.php?name=Forums&file=search&search_id=newposts">'.$lang_evo_userblock['BLOCK']['POSTS']['POSTS'].'</a><span style="float:right">'.$posts.'&nbsp;&nbsp;</span>';
     $evouserinfo_posts .= '</div>';
 
     $evouserinfo_posts .= '<div style="padding-left: 10px;">';
-    $evouserinfo_posts .= '  <font color="yellow"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></font>&nbsp;<a class="modules" href="modules.php?name=Forums&file=search&search_id=unanswered">'.$lang_evo_userblock['BLOCK']['POSTS']['TOPICS'].'</a><span style="float:right">'.number_format($phpbb2_topics).'&nbsp;&nbsp;</span>';
+    $evouserinfo_posts .= '  <font color="yellow"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></font>&nbsp;<a class="modules" href="modules.php?name=Forums&file=search&search_id=unanswered">'.$lang_evo_userblock['BLOCK']['POSTS']['TOPICS'].'</a><span style="float:right">'.$topics.'&nbsp;&nbsp;</span>';
     $evouserinfo_posts .= '</div>';
 
     if (is_user()):
 
       $evouserinfo_posts .= '<div style="padding-left: 10px;">';
-      $evouserinfo_posts .= '  <font color="lime"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></font>&nbsp;<a class="modules" href="modules.php?name=My_Forum_Topics">'.$lang_evo_userblock['BLOCK']['POSTS']['UR_TOPICS'].'</a><span style="float:right">'.evouserinfo_ur_total_topics().'&nbsp;&nbsp;</span>';
+      $evouserinfo_posts .= '  <font color="lime"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></font>&nbsp;<a class="modules" href="modules.php?name=Forums&file=search&search_author='.$userinfo['username'].'&showresults=topics">'.$lang_evo_userblock['BLOCK']['POSTS']['UR_TOPICS'].'</a><span style="float:right">'.evouserinfo_ur_total_topics().'&nbsp;&nbsp;</span>';
       $evouserinfo_posts .= '</div>';
 
       $evouserinfo_posts .= '<div style="padding-left: 10px;">';
       $evouserinfo_posts .= '  <font color="orange"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></font>&nbsp;<a class="modules" href="modules.php?name=Forums&file=search&search_id=egosearch">'.$lang_evo_userblock['BLOCK']['POSTS']['UR_POSTS'].
-	  '</a><span style="float:right">'.number_format($userinfo['user_posts']).'&nbsp;&nbsp;</span>';
+	  '</a><span style="float:right">'.$userinfo['user_posts'].'&nbsp;&nbsp;</span>';
       $evouserinfo_posts .= '</div>';
 
     endif;

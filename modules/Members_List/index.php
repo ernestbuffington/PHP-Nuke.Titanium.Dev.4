@@ -409,7 +409,7 @@ endif;
 $total_found = $db->sql_unumrows($sql);
 
 # Generate the page numbers
-$alphanum 	= ( isset($_POST['alphanum']) ) ? htmlspecialchars((string) $_POST['alphanum']) : htmlspecialchars((string) $_GET['alphanum']);
+$alphanum 	= ( isset($_POST['alphanum']) ) ? htmlspecialchars((string) isset($_POST['alphanum'])) : htmlspecialchars((string) isset($_GET['alphanum']));
 $where 		= ( $alphanum == 'num' ) ? " AND `username` NOT RLIKE '^[A-Z]' " : " AND `username` LIKE '".$alphanum."%' ";
 $sql1 		= "SELECT count(*) AS total FROM " . USERS_TABLE . " WHERE user_id <> " . ANONYMOUS.$where;
 $result1 	= $db->sql_query($sql1);

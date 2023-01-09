@@ -94,6 +94,11 @@ function login()
 	/**
 	 * Delete the old attempt when the timeout hits 0.
 	 */
+	$fc = [];
+	
+	if(!isset($fc['fc_attempts']))
+	$fc['fc_attempts'] = 0;
+	
 	if ($fc['fc_attempts'] >= "1" && $fc_datetime >= get_evo_option( 'admin_fc_timeout' )):
 		dbquery("DELETE FROM `"._FAILED_LOGIN_INFO_TABLE."` WHERE fc_ip = '$ip'");
 		dbquery("OPTIMIZE TABLE "._FAILED_LOGIN_INFO_TABLE);

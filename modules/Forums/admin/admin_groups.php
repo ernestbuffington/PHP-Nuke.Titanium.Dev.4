@@ -231,10 +231,20 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
  [ Mod:    Auto Group                          v1.2.2 ]
  ******************************************************/
 /*****[BEGIN]******************************************
- [ Mod:     Initial Usergroup                  v1.0.1 ]
+ [ Mod:     Initial Usergroup                  v1.0.1 ] yes is 1 no 0
  ******************************************************/
-         $initialgroup_yes = ( $yesno == GROUP_INITIAL_YES ) ? ' checked="checked"' : '';
+		 if(!isset($initialgroup_yes))
+		 $initialgroup_yes = '';
+		 
+		 if(!isset($initialgroup_no))
+		 $initialgroup_no = '';
+         
+		 if(!isset($yesno))
+		 $yesno = '';
+		 
+		 $initialgroup_yes = ( $yesno == GROUP_INITIAL_YES ) ? ' checked="checked"' : '';
          $initialgroup_no = ( $yesno == GROUP_INITIAL_NO ) ? ' checked="checked"' : '';
+		 
 /*****[END]********************************************
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
@@ -436,7 +446,7 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
                 }
 
                 $row = $db->sql_fetchrow($result);
-                if (intval($row['auth_mod']) == 1)
+                if (intval(isset($row['auth_mod'])) == 1)
                 {
                         // Yes, get the assigned users and update their Permission if they are no longer moderator of one of the forums
                         $sql = "SELECT user_id FROM " . USER_GROUP_TABLE . "
@@ -849,7 +859,7 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
 
-                        $message = $lang['Added_new_group'] .'<br />'.sprintf($lang['group_count_updated'],$group_count_remove,$group_count_added). '<br /><br />' . sprintf($lang['Click_return_groupsadmin'], '<a href="' . append_sid("admin_groups.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');;
+                        $message = $lang['Added_new_group'] .'<br />'.sprintf($lang['group_count_updated'],$group_count_remove = $group_count_remove ?? '',$group_count_added = $group_count_added ?? ''). '<br /><br />' . sprintf($lang['Click_return_groupsadmin'], '<a href="' . append_sid("admin_groups.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');;
 
                         message_die(GENERAL_MESSAGE, $message);
 

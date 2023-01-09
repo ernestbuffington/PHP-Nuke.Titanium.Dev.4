@@ -24,7 +24,7 @@ require('pagestart.' . $phpEx);
 include($phpbb_root_path .'language/lang_'. $board_config['default_lang'] .'/lang_ftr.'. $phpEx);
 
 	$mode 				= ( isset($HTTP_POST_VARS['mode']) ) ? $HTTP_POST_VARS['mode'] : $HTTP_GET_VARS['mode'];
-	$update 			= ( isset($HTTP_POST_VARS['update']) ) ? $HTTP_POST_VARS['update'] : $HTTP_GET_VARS['update'];
+	$update 			= ( isset($HTTP_POST_VARS['update']) ) ? $HTTP_POST_VARS['update'] = $HTTP_POST_VARS['update'] ?? '' : $HTTP_GET_VARS['update'] = $HTTP_GET_VARS['update'] ?? '';
 	$start 				= ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
 	$user 				= ( isset($HTTP_POST_VARS['user']) ) ? intval($HTTP_POST_VARS['user']) : 0;
 	$forum_selected 	= ( isset($HTTP_POST_VARS['forum']) ) ? intval($HTTP_POST_VARS['forum']) : 0;
@@ -243,6 +243,7 @@ include($phpbb_root_path .'language/lang_'. $board_config['default_lang'] .'/lan
 			$r 		= $db->sql_query($q);
 			$trows 	= $db->sql_fetchrow($r);
 			
+			if(isset($trows['forum_id'])):
 			for ($x = 0; $x < count($frows); $x++)
 			{
 				if ($frows[$x]['forum_id'] == $trows['forum_id'])
@@ -251,8 +252,9 @@ include($phpbb_root_path .'language/lang_'. $board_config['default_lang'] .'/lan
 					break;
 				}
 			}
-			
 			$topic = $trows['topic_title'];		
+
+			endif;
 		}
 		
 		echo '<table align="center" width="100%" class="forumline">';
@@ -264,7 +266,7 @@ include($phpbb_root_path .'language/lang_'. $board_config['default_lang'] .'/lan
 		echo '	<tr>';
 		echo '		<td class="row2" align="left" width="80%">';
 		echo '			<span class="genmed">';
-		echo 				(!$board_config['ftr_topic']) ? sprintf($lang['admin_ftr_config_status3_f'], $lang['admin_ftr_config_none']) : sprintf($lang['admin_ftr_config_status3_f'], $forum);
+		echo 				(!$board_config['ftr_topic']) ? sprintf($lang['admin_ftr_config_status3_f'], $lang['admin_ftr_config_none']) : sprintf($lang['admin_ftr_config_status3_f'], $forum = $forum ?? '');
 		echo '			</span>';
 		echo '		</td>';
 		echo '		<td class="row2" align="center" width="20%" rowspan="2">';
@@ -276,7 +278,7 @@ include($phpbb_root_path .'language/lang_'. $board_config['default_lang'] .'/lan
 		echo '	<tr>';
 		echo '		<td class="row2" align="left" width="80%">';
 		echo '			<span class="genmed">';
-		echo 				(!$board_config['ftr_topic']) ? sprintf($lang['admin_ftr_config_status3_t'], $lang['admin_ftr_config_none']) : sprintf($lang['admin_ftr_config_status3_t'], $topic);
+		echo 				(!$board_config['ftr_topic']) ? sprintf($lang['admin_ftr_config_status3_t'], $lang['admin_ftr_config_none']) : sprintf($lang['admin_ftr_config_status3_t'], $topic = $topic ?? '');
 		echo '			</span>';
 		echo '		</td>';				
 		echo '	</tr>';
@@ -385,7 +387,7 @@ include($phpbb_root_path .'language/lang_'. $board_config['default_lang'] .'/lan
 	
 	if ($mode == 'users')
 	{
-		if ($HTTP_GET_VARS['remove'])
+		if ($HTTP_GET_VARS['remove'] = $HTTP_GET_VARS['remove'] ?? '')
 		{
 			$who = intval($HTTP_GET_VARS['remove']);
 			
@@ -395,9 +397,9 @@ include($phpbb_root_path .'language/lang_'. $board_config['default_lang'] .'/lan
 			$db->sql_query($q);
 		}
 		
-		$order 		= ($HTTP_GET_VARS['order']) ? $HTTP_GET_VARS['order'] : 'username';
-		$dir		= ($HTTP_GET_VARS['dir']) ? $HTTP_GET_VARS['dir']: 'ASC';
-		$start		= intval($HTTP_GET_VARS['start']);
+		$order 		= ($HTTP_GET_VARS['order'] = $HTTP_GET_VARS['order'] ?? '') ? $HTTP_GET_VARS['order'] = $HTTP_GET_VARS['order'] ?? '' : 'username';
+		$dir		= ($HTTP_GET_VARS['dir'] = $HTTP_GET_VARS['dir'] ?? '') ? $HTTP_GET_VARS['dir'] = $HTTP_GET_VARS['dir'] ?? '' : 'ASC';
+		$start		= intval($HTTP_GET_VARS['start'] = $HTTP_GET_VARS['start'] ?? '');
 		
 		if ($HTTP_GET_VARS['order'])
 		{
@@ -406,7 +408,8 @@ include($phpbb_root_path .'language/lang_'. $board_config['default_lang'] .'/lan
 			$order_by	.= ($start > 0) ? 'LIMIT '. ($start + 100) .', 100' : 'LIMIT 0, 100';
 		}
 		
-
+        $order_by = $order_by ?? '';
+		 
 		$q = "SELECT username, user_id, user_ftr, user_ftr_time
 			  FROM ". USERS_TABLE ."
 			  WHERE user_id <> '". ANONYMOUS ."'

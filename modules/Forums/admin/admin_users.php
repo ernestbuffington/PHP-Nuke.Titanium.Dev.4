@@ -104,7 +104,9 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 /*****[BEGIN]******************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/
-      attachment_quota_settings('user', $_POST['submit'], $mode);
+      if(isset($mode) && isset($_POST['submit'])) {
+        attachment_quota_settings('user', $_POST['submit'], $mode);
+	  }
 /*****[END]********************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/
@@ -127,7 +129,9 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 /*****[END]********************************************
  [ Mod:     XData                              v1.0.3 ]
  ******************************************************/
-
+	    if(!isset($_POST['deleteuser']))
+	    $_POST['deleteuser'] = '';
+	
         if( $_POST['deleteuser'] && ( $userdata['user_id'] != $user_id ) )
                 {
                         $sql = "SELECT g.group_id
@@ -314,7 +318,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
                                 $mark_list[] = $row_privmsgs['privmsgs_id'];
                         }
 
-                        if ( count($mark_list) > 0 )
+                        if ( (is_countable($mark_list) ? count($mark_list) : 0) > 0 )
                         {
                                 $delete_sql_id = implode(', ', $mark_list);
 
@@ -473,7 +477,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 /*****[END]********************************************
  [ Mod:    Advanced Time Management            v2.2.0 ]
  ******************************************************/
-                $user_template = $_POST['template'] ?: $board_config['board_template'];
+                $user_template = $_POST['template'] = $_POST['template'] ?? '' ?: $board_config['board_template'] = $board_config['board_template'] ?? '';
                 $user_dateformat = ( $_POST['dateformat'] ) ? trim( (string) $_POST['dateformat'] ) : $board_config['default_dateformat'];
 
 /*****[BEGIN]******************************************
@@ -491,8 +495,12 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 
                 $user_avatar_remoteurl = ( empty($_POST['avatarremoteurl']) ) ? '' : trim( (string) $_POST['avatarremoteurl'] );
                 $user_avatar_url = ( empty($_POST['avatarurl']) ) ? '' : trim( (string) $_POST['avatarurl'] );
-                $user_avatar_loc = ( $_FILES['avatar']['tmp_name'] != "none") ? $_FILES['avatar']['tmp_name'] : '';
-                $user_avatar_name = ( empty($_FILES['avatar']['name']) ) ? '' : $_FILES['avatar']['name'];
+                
+				if(!isset($_FILES['avatar']['tmp_name']))
+				$_FILES['avatar']['tmp_name'] = '';
+				$user_avatar_loc = ( $_FILES['avatar']['tmp_name'] != "none") ? $_FILES['avatar']['tmp_name'] : '';
+                
+				$user_avatar_name = ( empty($_FILES['avatar']['name']) ) ? '' : $_FILES['avatar']['name'];
                 $user_avatar_size = ( empty($_FILES['avatar']['size']) ) ? 0 : $_FILES['avatar']['size'];
                 $user_avatar_filetype = ( empty($_FILES['avatar']['type']) ) ? '' : $_FILES['avatar']['type'];
 
@@ -985,8 +993,56 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
                     $sql = "UPDATE " . USERS_TABLE . "
-                                SET " . $username_sql . $passwd_sql . "user_email = '" . str_replace("\'", "''", (string) $email) . "', user_reputation = '" . str_replace("\'", "''", (string) $reputation) . "', user_birthday = $user_birthday, user_birthday2 = $user_birthday2, birthday_display = $birthday_display, birthday_greeting = $birthday_greeting, user_website = '" . str_replace("\'", "''", (string) $website) . "', user_occ = '" . str_replace("\'", "''", (string) $occupation) . "', user_from = '" . str_replace("\'", "''", (string) $location) . "', user_from_flag = '$user_flag', user_interests = '" . str_replace("\'", "''", (string) $interests) . "', user_glance_show = '" . str_replace("\'", "''", (string) $glance_show) . "', user_sig = '" . str_replace("\'", "''", (string) $signature) . "', user_admin_notes = '" . str_replace("\'", "''", (string) $user_admin_notes) . "', user_viewemail = $viewemail, user_facebook = '" . str_replace("\'", "''", (string) $facebook) . "', user_attachsig = '$attachsig', user_sig_bbcode_uid = '$signature_bbcode_uid', user_allowsmile = '$allowsmilies', user_showavatars = '$showavatars', user_showsignatures = '$showsignatures', user_allowhtml = '$allowhtml', user_allowavatar = '$user_allowavatar', user_allowbbcode = '$allowbbcode', user_allow_viewonline = '$allowviewonline', user_notify = '$notifyreply', user_allow_pm = '$user_allowpm', user_notify_pm = '$notifypm', user_popup_pm = '$popuppm', user_wordwrap = '$user_wordwrap', user_lang = '" . str_replace("\'", "''", (string) $user_lang) . "', theme = '$user_style', user_timezone = '$user_timezone', user_time_mode = '$time_mode', user_dst_time_lag = '$dst_time_lag', user_dateformat = '" . str_replace("\'", "''", (string) $user_dateformat) . "', user_show_quickreply = '$user_show_quickreply', user_quickreply_mode = '$user_quickreply_mode', user_open_quickreply = $user_open_quickreply, user_active = '$user_status', user_hide_images = '$hide_images', user_rank = '$user_rank', user_rank2 = '$user_rank2', user_rank3 = '$user_rank3', user_rank4 = '$user_rank4', user_rank5 = '$user_rank5', user_gender = '$gender', user_posts='$user_posts'" . $avatar_sql . "
-                                WHERE user_id = '$user_id'";
+                                SET " . $username_sql = $username_sql ?? '' . $passwd_sql . "user_email = '" . str_replace("\'", "''", (string) $email) . "', 
+								user_reputation = '" . str_replace("\'", "''", (string) $reputation) . "', 
+								user_birthday = $user_birthday, 
+								user_birthday2 = $user_birthday2, 
+								birthday_display = $birthday_display, 
+								birthday_greeting = $birthday_greeting, 
+								user_website = '" . str_replace("\'", "''", (string) $website) . "', 
+								user_occ = '" . str_replace("\'", "''", (string) $occupation) . "', 
+								user_from = '" . str_replace("\'", "''", (string) $location) . "', 
+								user_from_flag = '$user_flag', 
+								user_interests = '" . str_replace("\'", "''", (string) $interests) . "', 
+								user_glance_show = '" . str_replace("\'", "''", (string) $glance_show) . "', 
+								user_sig = '" . str_replace("\'", "''", (string) $signature) . "', 
+								user_admin_notes = '" . str_replace("\'", "''", (string) $user_admin_notes) . "', 
+								user_viewemail = $viewemail, 
+								user_facebook = '" . str_replace("\'", "''", (string) $facebook) . "', 
+								user_attachsig = '$attachsig', 
+								user_sig_bbcode_uid = '".$signature_bbcode_uid = $signature_bbcode_uid ?? ''."', 
+								user_allowsmile = '$allowsmilies', 
+								user_showavatars = '$showavatars', 
+								user_showsignatures = '$showsignatures', 
+								user_allowhtml = '$allowhtml', 
+								user_allowavatar = '$user_allowavatar', 
+								user_allowbbcode = '$allowbbcode', 
+								user_allow_viewonline = '$allowviewonline', 
+								user_notify = '$notifyreply', 
+								user_allow_pm = '$user_allowpm', 
+								user_notify_pm = '$notifypm', 
+								user_popup_pm = '$popuppm', 
+								user_wordwrap = '$user_wordwrap', 
+								user_lang = '" . str_replace("\'", "''", (string) $user_lang) . "', 
+								theme = '$user_style', 
+								user_timezone = '$user_timezone', 
+								user_time_mode = '$time_mode', 
+								user_dst_time_lag = '$dst_time_lag', 
+								user_dateformat = '" . str_replace("\'", "''", (string) $user_dateformat) . "', 
+								user_show_quickreply = '$user_show_quickreply', 
+								user_quickreply_mode = '$user_quickreply_mode', 
+								user_open_quickreply = $user_open_quickreply, 
+								user_active = '$user_status', 
+								user_hide_images = '$hide_images', 
+								user_rank = '$user_rank', 
+								user_rank2 = '$user_rank2', 
+								user_rank3 = '$user_rank3', 
+								user_rank4 = '$user_rank4', 
+								user_rank5 = '$user_rank5', 
+								user_gender = '$gender', 
+								user_posts='$user_posts'" . $avatar_sql . "
+                                
+								WHERE user_id = '$user_id'";
 /*****[END]********************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  [ Mod:    Gender                              v1.2.6 ]
@@ -1032,8 +1088,13 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
  ******************************************************/
                             $xd_meta = get_xd_metadata();
                             foreach ($xd_meta as $code_name => $meta) {
-                                $xd_value = $xdata[$code_name];
-                                if ( ( in_array($xd_value, $meta['values_array']) || (is_countable($meta['values_array']) ? count($meta['values_array']) : 0) == 0 ) && $meta['handle_input'] )
+                                
+								if(!isset($xdata[$code_name]))
+								$xdata[$code_name] = '';
+								
+								$xd_value = $xdata[$code_name];
+                                
+								if ( ( in_array($xd_value, $meta['values_array']) || (is_countable($meta['values_array']) ? count($meta['values_array']) : 0) == 0 ) && $meta['handle_input'] )
                                 {
                                     set_user_xdata($user_id, $code_name, $xd_value);
                                 }
@@ -1047,7 +1108,11 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
              				{
              					session_reset_keys($user_id, $user_ip);
              				}
-                            $message .= $lang['Admin_user_updated'];
+                            
+							if(!isset($message))
+							$message = '';
+							
+							$message .= $lang['Admin_user_updated'];
                     }
                     else
                     {
@@ -1266,7 +1331,10 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
             /*****[BEGIN]******************************************
              [ Mod:    Advanced Time Management            v2.2.0 ]
              ******************************************************/
-            if ( preg_match("/[^0-9]/i",(string) $_POST['dst_time_lag']) || $dst_time_lag<0 || $dst_time_lag>120 )
+			if(!isset($_POST['dst_time_lag']))
+			$_POST['dst_time_lag'] = '';
+            
+			if ( preg_match("/[^0-9]/i",(string) $_POST['dst_time_lag']) || $dst_time_lag<0 || $dst_time_lag>120 )
             {
                 $error = TRUE;
                 $error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['dst_time_lag_error'];
@@ -1525,7 +1593,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
         }
         else
         {
-                $s_hidden_fields = '<input type="hidden" name="mode" value="save" /><input type="hidden" name="agreed" value="true" /><input type="hidden" name="coppa" value="' . $coppa . '" />';
+                $s_hidden_fields = '<input type="hidden" name="mode" value="save" /><input type="hidden" name="agreed" value="true" /><input type="hidden" name="coppa" value="' . $coppa = $coppa ?? '' . '" />';
                 $s_hidden_fields .= '<input type="hidden" name="id" value="' . $this_userdata['user_id'] . '" />';
 
            if( !empty($user_avatar_local) )
@@ -1779,6 +1847,9 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 				{
 					message_die(GENERAL_ERROR, "Couldn't obtain flags information.", "", __LINE__, __FILE__, $sql);
 				}
+				if(!isset($ranksresult))
+				$ranksresult = '';
+				
 				$flag_row = $db->sql_fetchrowset($ranksresult);
 				$num_flags = $db->sql_numrows($ranksresult) ;
 
@@ -1825,9 +1896,9 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
                      [ Mod:    Gender                              v1.2.6 ]
                      ******************************************************/
                     'GENDER' => $gender,
-                    'GENDER_NO_SPECIFY_CHECKED' => $gender_no_specify_checked,
-                    'GENDER_MALE_CHECKED' => $gender_male_checked,
-                    'GENDER_FEMALE_CHECKED' => $gender_female_checked,
+                    'GENDER_NO_SPECIFY_CHECKED' => $gender_no_specify_checked = $gender_no_specify_checked ?? '',
+                    'GENDER_MALE_CHECKED' => $gender_male_checked = $gender_male_checked ?? '',
+                    'GENDER_FEMALE_CHECKED' => $gender_female_checked = $gender_female_checked ?? '',
                     /*****[END]********************************************
                      [ Mod:    Gender                              v1.2.6 ]
                      ******************************************************/
@@ -1943,12 +2014,12 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
                      [ Mod:    Advanced Time Management            v2.2.0 ]
                      ******************************************************/
                     'TIME_MODE' => $time_mode,
-                    'TIME_MODE_MANUAL_CHECKED' => $time_mode_manual_checked,
-                    'TIME_MODE_MANUAL_DST_CHECKED' => $time_mode_manual_dst_checked,
-                    'TIME_MODE_SERVER_SWITCH_CHECKED' => $time_mode_server_switch_checked,
-                    'TIME_MODE_FULL_SERVER_CHECKED' => $time_mode_full_server_checked,
-                    'TIME_MODE_SERVER_PC_CHECKED' => $time_mode_server_pc_checked,
-                    'TIME_MODE_FULL_PC_CHECKED' => $time_mode_full_pc_checked,
+                    'TIME_MODE_MANUAL_CHECKED' => $time_mode_manual_checked = $time_mode_manual_checked ?? '',
+                    'TIME_MODE_MANUAL_DST_CHECKED' => $time_mode_manual_dst_checked = $time_mode_manual_dst_checked ?? '',
+                    'TIME_MODE_SERVER_SWITCH_CHECKED' => $time_mode_server_switch_checked = $time_mode_server_switch_checked ?? '',
+                    'TIME_MODE_FULL_SERVER_CHECKED' => $time_mode_full_server_checked = $time_mode_full_server_checked ?? '',
+                    'TIME_MODE_SERVER_PC_CHECKED' => $time_mode_server_pc_checked = $time_mode_server_pc_checked ?? '',
+                    'TIME_MODE_FULL_PC_CHECKED' => $time_mode_full_pc_checked = $time_mode_full_pc_checked ?? '',
                     'DST_TIME_LAG' => $dst_time_lag,
                     /*****[BEGIN]******************************************
                      [ Mod:    Advanced Time Management            v2.2.0 ]
@@ -2038,7 +2109,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
                      [ Mod:     Users Reputations System           v1.0.0 ]
                      ******************************************************/
                     'L_WEBSITE' => $lang['Website'],
-                    'L_FACEBOOK' => $lang['FACEBOOK'],
+                    'L_FACEBOOK' => $lang['FACEBOOK'] = $lang['FACEBOOK'] ?? 'Facebook',
                     'L_LOCATION' => $lang['Location'],
                     'L_OCCUPATION' => $lang['Occupation'],
                     /*****[BEGIN]******************************************
@@ -2218,7 +2289,14 @@ else
         $template->set_filenames(['body' => 'admin/user_select_body.tpl']
         );
 
-        $template->assign_vars(['L_USER_TITLE' => $lang['User_admin'], 'L_USER_EXPLAIN' => $lang['User_admin_explain'], 'L_USER_SELECT' => $lang['Select_a_User'], 'L_LOOK_UP' => $lang['Look_up_user'], 'L_FIND_USERNAME' => $lang['Find_username'], 'U_SEARCH_USER' => append_sid("search.$phpEx?mode=searchuser&popup=1&menu=1"), 'S_USER_ACTION' => append_sid("admin_users.$phpEx"), 'S_USER_SELECT' => $select_list]
+        $template->assign_vars(['L_USER_TITLE' => $lang['User_admin'], 
+		                        'L_USER_EXPLAIN' => $lang['User_admin_explain'], 
+								'L_USER_SELECT' => $lang['Select_a_User'], 
+								'L_LOOK_UP' => $lang['Look_up_user'], 
+								'L_FIND_USERNAME' => $lang['Find_username'], 
+								'U_SEARCH_USER' => append_sid("search.$phpEx?mode=searchuser&popup=1&menu=1"), 
+								'S_USER_ACTION' => append_sid("admin_users.$phpEx"), 
+								'S_USER_SELECT' => $select_list = $select_list ?? '']
         );
         $template->pparse('body');
 

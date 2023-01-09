@@ -385,7 +385,7 @@ if ($mode == 'searchuser') {
                 $search_author = '';
             }
         }
-        if ($total_match_count) {
+        if (isset($total_match_count)) {
             if ($show_results == 'topics') {
                 //
                 // This one is a beast, try to seperate it a bit (workaround for connection timeouts)

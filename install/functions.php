@@ -22,14 +22,14 @@
 define('IN_PHPBB', true);
 $data_file = 'install/data.txt';
 
-if (!$open_data = @fopen($data_file, 'r')){
+if (!$open_data = fopen($data_file, 'r')){
     echo $install_lang['data_error'];
     exit;
 }
 
-$data = @fread($open_data, @filesize($data_file));
+$data = fread($open_data, filesize($data_file));
 
-@fclose($open_data);
+fclose($open_data);
 
 list($required_files, $chmods) = explode("\n###", $data);
 
@@ -90,17 +90,17 @@ function message($message, $die=false){
 function generate_config(){
     global $directory_mode, $file_mode, $install_lang, $next_step;
 
-    if (@is_file('config.php')){
-        @unlink('config.php');
+    if (is_file('config.php')){
+        unlink('config.php');
     }
 
     $filename = 'install/config_blank.php';
-    if (!$handle = @fopen ($filename, 'r')){
+    if (!$handle = fopen ($filename, 'r')){
         $message = $install_lang['cant_open'].' '.$filename;
         message($message);
     }
-    $contents = @fread ($handle, filesize ($filename));
-    @fclose ($handle);
+    $contents = fread ($handle, filesize ($filename));
+    fclose ($handle);
 
     $contents = str_replace("%dbhost%", $_SESSION['dbhost'], $contents);
     $contents = str_replace("%dbname%", $_SESSION['dbname'], $contents);
@@ -112,21 +112,21 @@ function generate_config(){
 
     $filename = 'config.php';
 
-    if (!@touch($filename)){
+    if (!touch($filename)){
         $DownloadData = true;
     }
-    @chmod($filename, $directory_mode);
-    if (@is_writable($filename)){
-        if (!$handle = @fopen($filename, 'w')){
+    chmod($filename, $directory_mode);
+    if (is_writable($filename)){
+        if (!$handle = fopen($filename, 'w')){
             $message = $install_lang['cant_open'].' '.$filename;
             return $message;
         }
 
-        if (!@fwrite($handle, $contents)){
+        if (!fwrite($handle, $contents)){
             $message = $install_lang['cantwrite'].' '.$filename;
             return $message;
         }
-        @fclose($handle);
+        fclose($handle);
     } else {
 		$_SESSION['configData'] = $contents;
         echo('<input type="hidden" name="download_file" value="1" /><table id="menu" border="0" width="100%"><tr><th id="test" align="center">'.$install_lang['general_message'].'</th></tr><tr><td align="center"><strong>'.$install_lang['config_failed'].'</strong></td></tr><tr><td align="center"><input type="submit" value="Download Config File" /><input type="hidden" name="step" value="'.$next_step.'" /><input type="submit" name="continue" value="'.$install_lang['continue'].' '.$next_step.'" /></td></tr></table>');
@@ -148,7 +148,7 @@ function chmod_files(){
 			$perm = str_replace("[", "", str_replace("]", "", $perm));
 			$file = $file[0];
 			if (!empty($file) && !empty($perm)){
-				if (!(substr($file,strlen($file)-1) == '/') && !@is_file($file)){
+				if (!(substr($file,strlen($file)-1) == '/') && !is_file($file)){
 					$message .= '<strong>'.$file.'</strong> - <font color="red">'.$install_lang['is_missing'].'</font>';
 					$failed = true;
 					continue;
@@ -159,7 +159,7 @@ function chmod_files(){
 				if ($current != $permission){
 					if (is_writable($file)){
 						$message .= '('.$perm.') <strong>'.$file.'</strong> - <font color="green">'.$install_lang['success'].'</font><br />';
-					} elseif (!@chmod($file, intval($permission,8))){
+					} elseif (!chmod($file, intval($permission,8))){
 						$message .= '<strong>'.$file.'</strong> - <font color="red">'.$install_lang['failed'].'</font> CHMOD:('.$perm.')<br />';
 						$failed = true;
 					} else {
@@ -185,7 +185,7 @@ function check_required_files(){
     global $install_lang, $required_files;
 
     foreach($required_files as $file){
-        $file = @trim($file);
+        $file = trim($file);
         #looping to make sure all required files are there..
         if (!is_file($file)){
             $message .= $install_lang['thefile'] . " \"" . $file . "\" " . $install_lang['is_missing'];
@@ -232,7 +232,7 @@ function validate_data($post){
     return $error;
     }
 
-    if (!($server_check = @mysqli_connect($dbhost, $dbuser, $dbpass, $dbname))){
+    if (!($server_check = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname))){
         $error .= '<font color="red">'.$install_lang['connection_failed'].'</font><br />';
     }
 
@@ -263,19 +263,19 @@ function do_sql($install_file){
 
     global $nuke_name, $next_step, $step, $install_lang, $prefix, $user_prefix, $server_check;
 
-    if(!$handle = @fopen($install_file, 'r')){
+    if(!$handle = fopen($install_file, 'r')){
         $message = $install_lang['cant_open'].' '.$install_file;
         return $message;
     }
-    $contents = @fread($handle, filesize($install_file));
-    @fclose($handle);
+    $contents = fread($handle, filesize($install_file));
+    fclose($handle);
     $filename = $install_file;
 
     $filesize      = filesize($filename);
     $file_position = isset($_GET['pos']) ? $_GET['pos'] : 0;
     $errors        = isset($_GET['ignore_errors']) ? 0 : 1;
 
-    if (!$fp = @fopen($filename,'rb')){
+    if (!$fp = fopen($filename,'rb')){
         echo $install_lang['cant_open'].' '.$filename;
     }
 
@@ -286,7 +286,7 @@ function do_sql($install_file){
     $data_buffer = '';
     $last_char = "\n";
 
-    @fseek($fp,$file_position);
+    fseek($fp,$file_position);
 
     while ((!feof($fp) || strlen($buffer))){
         do
@@ -326,7 +326,7 @@ function do_sql($install_file){
                 $data_buffer = str_replace("`nuke_", "`".$prefix."_", $data_buffer);
             }
 
-            @mysqli_query($server_check, $data_buffer);
+            mysqli_query($server_check, $data_buffer);
 
             if ($errors && mysqli_errno($server_check)){
                 $message .= '<font color="red">' . $install_lang['sql_error'] . mysqli_errno($server_check).': '.mysqli_error($server_check).'<br />'.$data_buffer.'<br />';
@@ -341,7 +341,7 @@ function do_sql($install_file){
     }
     $new_position = ftell($fp) - strlen($buffer) - strlen($data_buffer);
 
-    @fclose($fp);
+    fclose($fp);
 
     if (empty($message)){
         $message = '<font color="green">'.(($step == 5) ? $install_lang['sql_install_success'] : $install_lang['sql2_install_success']).'</font><br /><br /><input type="hidden" name="step" value="'.$next_step.'" /><input type="submit" class="button" value="'.$install_lang['continue'].' '.$next_step.'" />';
@@ -464,7 +464,7 @@ function site_form($display=1,$return=false){
         die($install_lang['get_config_error'].mysqli_error($server_check));
     }
 
-    while($row = @mysqli_fetch_assoc($result)){
+    while($row = mysqli_fetch_assoc($result)){
         $config_name = $row['config_name'];
         $config_value = $row['config_value'];
         $default_config[$config_name] = isset($_POST['submit']) ? str_replace("'", "\'", $config_value) : $config_value;
@@ -631,8 +631,9 @@ function site_form($display=1,$return=false){
 
 function _get_domain_cookie_name($url) {
     $matches = [];
+	if(!isset($matches[0]))
+	$matches[0] = 'savant';
     preg_match('/[\w-]+(?=(?:\.\w{2,6}){1,2}(?:\/|$))/', $url, $matches);
     return $matches[0];
 }
 
-?>

@@ -180,7 +180,8 @@ class sql_db
         $qtime = get_microtime();
 
 		// Remove any pre-existing queries
-		if (isset($this->query_result)) unset($this->query_result);
+		if (isset($this->query_result)) 
+		unset($this->query_result);
 
         if(!isset($query))
 		$query = '';
@@ -193,8 +194,8 @@ class sql_db
             if($this->debug) {
                 $this->saved .= $query . "<br />";
             }
-            $this->num_queries++;
-			$this->query_result = mysqli_query($this->db_connect_id, $query);
+            $this->num_queries++; # I have gotten errors on query!
+			$this->query_result = mysqli_query($this->db_connect_id, $query); 
 		}
 
 		if ($this->query_result)
@@ -609,6 +610,18 @@ class sql_db
         }
         return '';
     }
+
+    function mariadb_short_version()
+	{
+		global $heading_color;
+	  if($this->db_connect_id):
+	  $result  = '<hr><span style="color:'.$heading_color.';">Database Server</span></br>';
+	  $result .= mysqli_get_server_info($this->db_connect_id);
+	  return $result;
+		else:
+			return false;
+		endif;
+	}
 
 	# added by Ernest Allen Buffington 4/29/2021 Thursday 9:05pm
     function mariadb_version()

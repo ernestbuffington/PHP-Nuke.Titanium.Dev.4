@@ -15,6 +15,6 @@
 /* so your entry will look like: This is \"double quoted\" text.          */
 /* And, if you use HTML code, please double check it.                     */
 /**************************************************************************/
-define("_REALNAME","Real Name");
-define("_MNICKNAME","nickname");
+define_once("_REALNAME","Real Name");
+define_once("_MNICKNAME","nickname");
 ?>

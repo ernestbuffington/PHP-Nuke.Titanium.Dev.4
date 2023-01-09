@@ -550,7 +550,7 @@ if(count($blocks) > 0)
         $template->assign_block_vars("blockrow", array( 
             'BLOCK_TITLE' => $blocks[$i],
             'BLOCK_NUMBER' => "$i",
-            'BLOCK_ANCHOR' => $anchor_code,
+            'BLOCK_ANCHOR' => $anchor_code = $anchor_code ?? '',
 
             'U_BLOCK_EDIT' => append_sid("admin_faq_editor.$phpEx?mode=block_edit&amp;block=$i&amp;file=$file&amp;language=$language"),
             'U_BLOCK_MOVE_UP' => append_sid("admin_faq_editor.$phpEx?mode=block_up&amp;block=$i&amp;file=$file&amp;language=$language"),

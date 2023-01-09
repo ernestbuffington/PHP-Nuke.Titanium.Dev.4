@@ -29,10 +29,11 @@ function block_Link_Us_cache($block_cachetime)
 {
 	global $prefix;
 	
-	//if ((($blockcache = cache_load('link_us', 'blocks')) === false) 
-	//|| empty($blockcache) 
-	//|| intval($blockcache[0]['stat_created']) < (time() - intval($block_cachetime))) 
-	if (empty($blockcache) || intval($blockcache[0]['stat_created']) < (time() - intval($block_cachetime))) 
+	$blockcache[0]['stat_created'] = [];
+	
+	if ((($blockcache = cache_load('link_us', 'titanium_blocks')) === false) 
+	|| empty($blockcache) 
+	|| intval(isset($blockcache[0]['stat_created'])) < (time() - intval($block_cachetime))) 
 	{
 		$sql = "SELECT `id`, 
 		        `site_name`, 
@@ -43,7 +44,7 @@ function block_Link_Us_cache($block_cachetime)
 		$result = dbquery($sql);
 		$blockcache = dbrowset($result);
 		dbfree($result);
-//		cache_set('link_us', 'blocks', $blockcache);
+		cache_set('link_us', 'titanium_blocks', $blockcache);
 	}
 	return $blockcache;
 }
@@ -113,4 +114,4 @@ if($config['marquee'] == 1)
 $content .= "</marquee>";
 $content .= '</div>';
 
-?>
+

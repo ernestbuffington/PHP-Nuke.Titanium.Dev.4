@@ -306,7 +306,7 @@ if ($check_upload)
             $error_msg = sprintf($lang['Directory_is_not_a_dir'], $attach_config['upload_dir']) . '<br />';
         }
 
-        if (!$error)
+        if (!isset($error))
         {
             if ( !($fp = fopen($upload_dir . '/0_000000.000', 'w')) )
             {
@@ -347,7 +347,7 @@ if ($check_upload)
             $error_msg = $lang['Ftp_error_pasv_mode'];
         }
 
-        if (!$error)
+        if (!isset($error))
         {
             // Check Upload
             $tmpfname = tempnam('/tmp', 't0000');
@@ -394,7 +394,7 @@ if ($check_upload)
         }
     }
 
-    if (!$error)
+    if (!isset($error))
     {
         message_die(GENERAL_MESSAGE, $lang['Test_settings_successful'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_attachments.$phpEx?mode=manage") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>'));
     }
@@ -403,7 +403,7 @@ if ($check_upload)
 // Management
 if ($submit && $mode == 'manage')
 {
-    if (!$error)
+    if (!isset($error))
     {
         message_die(GENERAL_MESSAGE, $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_attachments.$phpEx?mode=manage") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>'));
     }
@@ -648,17 +648,19 @@ if ($mode == 'shadow')
     $file_attachments = collect_attachments();
     $shadow_attachments = array();
     $shadow_row = array();
-
+    $table_attachments = array();
     // Now determine the needed Informations
 
     // Go through all Files on the filespace and see if all are stored within the DB
-	for ($i = 0; $i < count($file_attachments); $i++)
+	for ($i = 0; $i < (is_countable($file_attachments) ? count($file_attachments) : 0); $i++)
     {
-		if (sizeof($table_attachments['attach_id']) > 0)
+		if(isset($table_attachments['attach_id'])):
+		
+		if (sizeof(is_countable($table_attachments['attach_id'])) > 0)
         {
             if ($file_attachments[$i] != '')
             {
-                if (!in_array(trim($file_attachments[$i]), $table_attachments['physical_filename']) )
+                if (!in_array(trim((string) $file_attachments[$i]), $table_attachments['physical_filename']) )
                 {
                     $shadow_attachments[] = trim($file_attachments[$i]);
                     // Delete this file from the file_attachments to not have double assignments in next steps
@@ -670,14 +672,18 @@ if ($mode == 'shadow')
         {
             if ($file_attachments[$i] != '')
             {
-                $shadow_attachments[] = trim($file_attachments[$i]);
+                $shadow_attachments[] = trim((string) $file_attachments[$i]);
                 // Delete this file from the file_attachments to not have double assignments in next steps
                 $file_attachments[$i] = '';
             }
         }
+		endif;
     }
 
     // Go through the Database and get those Files not stored at the Filespace
+	$assign_attachments = [];
+	$table_attachments = [];
+	
 	for ($i = 0; $i < sizeof($assign_attachments); $i++)
 	{
 		if (!in_array($assign_attachments[$i], $table_attachments['attach_id']))
@@ -688,7 +694,7 @@ if ($mode == 'shadow')
 		}
 	}
 	
-    if($table_attachments['attach_id']) 
+    if(isset($table_attachments['attach_id'])) 
     {
         // Go through the Database and get those Files not stored at the Filespace
         for ($i = 0; $i < sizeof($table_attachments['attach_id']); $i++)
@@ -710,7 +716,7 @@ if ($mode == 'shadow')
         }
     }
 
-    if($table_attachments['attach_id']) {
+    if(isset($table_attachments['attach_id'])) {
         // Now look at the missing posts and PM's
     	for ($i = 0; $i < sizeof($table_attachments['attach_id']); $i++)
         {
@@ -756,7 +762,7 @@ if ($mode == 'shadow')
 
 if ($submit && $mode == 'cats')
 {
-    if (!$error)
+    if (!isset($error))
     {
         message_die(GENERAL_MESSAGE, $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_attachments.$phpEx?mode=cats") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>'));
     }
@@ -934,7 +940,7 @@ if ($check_image_cat)
             $error_msg = sprintf($lang['Directory_is_not_a_dir'], $upload_dir) . '<br />';
         }
 
-        if (!$error)
+        if (!isset($error))
         {
             if ( !($fp = fopen($upload_dir . '/0_000000.000', 'w')) )
             {
@@ -975,7 +981,7 @@ if ($check_image_cat)
             $error_msg = $lang['Ftp_error_pasv_mode'];
         }
 
-        if (!$error)
+        if (!isset($error))
         {
             // Check Upload
             $tmpfname = tempnam('/tmp', 't0000');
@@ -1029,7 +1035,7 @@ if ($check_image_cat)
         }
     }
 
-    if (!$error)
+    if (!isset($error))
     {
         message_die(GENERAL_MESSAGE, $lang['Test_settings_successful'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_attachments.$phpEx?mode=cats") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>'));
     }
@@ -1265,7 +1271,7 @@ if ($submit && $mode == 'quota')
             }
         }
 
-        if (!$error)
+        if (!isset($error))
         {
             $filesize = ($size_select == 'kb' ) ? round($filesize * 1024) : ( ($size_select == 'mb') ? round($filesize * 1048576) : $filesize );
 
@@ -1280,7 +1286,7 @@ if ($submit && $mode == 'quota')
 
     }
 
-    if (!$error)
+    if (!isset($error))
     {
         $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_attachments.$phpEx?mode=quota") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
 

@@ -21,7 +21,7 @@ if (!defined('MODULE_FILE')) {
     die('You can\'t access this file directly...');
 }
 
-if ($popup != "1"){
+if (!isset($popup)){
     $module_name = basename(dirname(__FILE__));
     require("modules/".$module_name."/nukebb.php");
 }
@@ -60,8 +60,10 @@ if ( !$userdata['session_logged_in'] )
 generate_smilies('inline', PAGE_POSTING);
 include("includes/page_header.php");
 
+if(isset($HTTP_GET_VARS['mode']))
 $mode = $HTTP_GET_VARS['mode'];
-
+else
+$mode = '';
 
 //Comment update section
 if($mode == "update")

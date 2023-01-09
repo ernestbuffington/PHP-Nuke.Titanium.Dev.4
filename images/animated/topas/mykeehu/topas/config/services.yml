@@ -1,0 +1,18 @@
+imports:
+    - { resource: tables.yml }
+
+services:
+    mykeehu.topas.listener:
+        class: mykeehu\topas\event\main_listener
+        arguments:
+            - '@auth'
+            - '@dbal.conn'
+            - '@passwords.manager'
+            - '@controller.helper'
+            - '@template'
+            - '@user'
+            - '%core.php_ext%'
+            - '@request'
+            - '%mykeehu.topas.table.topics_access_table%'
+        tags:
+            - { name: event.listener }

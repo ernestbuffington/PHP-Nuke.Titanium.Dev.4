@@ -25,8 +25,8 @@ function head_open ($title='') {
     echo "<br /><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" .$lang_donate['RETURNMAIN']. "</a> ]</div>\n";
 	CloseTable();
-	echo "<br />";
-    title("<div align=\"center\">\n".$title."</div>\n");
+	//echo "<br />";
+    //title("<div align=\"center\">\n".$title."</div>\n");
     OpenTable();
     return;
 }
@@ -115,6 +115,8 @@ function donate_radio ($data, $br=0) {
         // if (isset($single['mouseover'])) {
         //     $mouseover = $single['mouseover'];
         // }
+		if(!isset($single['help']))
+		$single['help'] = '';
         $out .= "<input type=\"radio\" name=\"".$single['name']."\" value=\"".$single['value']."\" ".$single['help']." ".$single['checked']." ".$mouseover.">".$single['text']."\n";
         // if($br) {
         //     $out .= "<br />";
@@ -159,7 +161,14 @@ function donate_text ($name, $text, $size='', $max='', $help='') {
     Notes:       N/A
 ================================================================================================*/
 function donate_text_area ($name, $text, $rows=5, $cols=20, $help='') {
-    $size = ($size) ? "size=\"".$size."\"" : '';
+    
+	if(!isset($size))
+	$size = '';
+
+	if(!isset($max))
+	$max = '';
+	
+	$size = ($size) ? "size=\"".$size."\"" : '';
     $max = ($max) ? "maxlength=\"".$max."\"" : '';
     return "<TEXTAREA name=\"".$name."\" rows=\"".$rows."\" cols=\"".$cols."\" $help />".$text."</TEXTAREA>";
 }

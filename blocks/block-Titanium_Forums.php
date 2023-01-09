@@ -13,7 +13,8 @@ $last_new_topics     = 5;
 $show_started_by	 = true;
 $alternate_row_class = true;
 
-$table  = '<br /><table class="forumline rounded-corners">'.PHP_EOL;
+$table  = '<div style="padding: 6px;" align="center">';
+$table .= '<table style="padding: 3px; width: 99%; margin-left: auto; margin-right: auto;" class="forumline rounded-corners" cellpadding="6">'.PHP_EOL;
 $table .= '  <tr>'.PHP_EOL;
 $table .= '    <td class="catHead" style="width: "></td>'.PHP_EOL;
 $table .= '    <td class="catHead" style="width: 500px;">'.$blockslang['forums']['topic'].'</td>'.PHP_EOL;
@@ -140,6 +141,7 @@ else:
 
 endif;
 
-$table .= '</table><br />'.PHP_EOL;
+$table .= '</table><div style="padding-top: 6px"></div>'.PHP_EOL;
+$table .= '</div>'.PHP_EOL;
 $content = $table;
 ?>

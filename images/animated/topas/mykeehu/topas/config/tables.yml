@@ -1,0 +1,2 @@
+parameters:
+    mykeehu.topas.table.topics_access_table: %core.table_prefix%topics_access

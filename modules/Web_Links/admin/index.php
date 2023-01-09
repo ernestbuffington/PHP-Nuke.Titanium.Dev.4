@@ -1430,7 +1430,7 @@ switch ($op) {
     break;
 
     case "LinksAddLink":
-    LinksAddLink($new, $lid, $xtitle, $url, $cat, $description, $name, $email, $submitter);
+    LinksAddLink($new, $lid, $xtitle, $url, $cat, $description, $name, $email, isset($submitter));
     break;
 
     case "LinksAddEditorial":

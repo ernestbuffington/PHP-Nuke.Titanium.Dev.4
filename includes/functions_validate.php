@@ -243,26 +243,28 @@ function validate_email($email)
 //
 function validate_optional_fields(&$website, &$location, &$occupation, &$interests, &$sig, &$facebook)
 {
-        $check_var_length = array('location', 'occupation', 'interests', 'sig', 'facebook');
-
-        for($i = 0; $i < count($check_var_length); $i++)
+		$check_var_length = count(['location', 'occupation', 'interests', 'sig', 'facebook']);
+ 
+        for($i = 0; $i < ($check_var_length); $i++)
         {
-                if (strlen($$check_var_length[$i]) < 2)
-                {
-                        $$check_var_length[$i] = '';
-                }
+			if(!isset(${$check_var_length}[$i]))
+			${$check_var_length}[$i] = '';
+			   
+            if (strlen((string) ${$check_var_length}[$i]) < 2)
+            {
+               ${$check_var_length}[$i] = '';
+            }
         }
-
         // website has to start with http://, followed by something with length at least 3 that
         // contains at least one dot.
         if ($website != "")
         {
-                if (!preg_match('#^http[s]?:\/\/#i', $website))
+                if (!preg_match('#^http[s]?:\/\/#i', (string) $website))
                 {
                         $website = 'http://' . $website;
                 }
 
-                if (!preg_match('#^http[s]?\\:\\/\\/[a-z0-9\-]+\.([a-z0-9\-]+\.)?[a-z]+#i', $website))
+                if (!preg_match('#^http[s]?\\:\\/\\/[a-z0-9\-]+\.([a-z0-9\-]+\.)?[a-z]+#i', (string) $website))
                 {
                         $website = '';
                 }

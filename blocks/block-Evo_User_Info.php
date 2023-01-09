@@ -32,9 +32,10 @@ function evouserinfo_block_getactive()
     if(isset($active) && is_array($active)) 
 	return $active;
     
-    //if ((($active = $cache->load('active', 'evouserinfo')) === false) || !isset($active)) 
-	//{
-        $sql = 'SELECT * FROM '.$prefix.'_evo_userinfo WHERE active=1 ORDER BY position ASC';
+    if ((($active = $cache->load('active', 'titanium_evouserinfo')) === false) || !isset($active)) 
+	{
+        $active = [];
+		$sql = 'SELECT * FROM '.$prefix.'_evo_userinfo WHERE active=1 ORDER BY position ASC';
         $result = $db->sql_query($sql);
 
         while($row = $db->sql_fetchrow($result)) 
@@ -44,8 +45,8 @@ function evouserinfo_block_getactive()
         
 		$db->sql_freeresult($result);
         
-	//	$cache->save('active', 'evouserinfo', $active);
-    //}
+		$cache->save('active', 'titanium_evouserinfo', $active);
+    }
     
 	return $active;
 }

@@ -81,7 +81,7 @@ if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_brows
 $scrollmsg .= "<img align=\"absmiddle\" height=\"15\" src=\"images/browsers/current-channel-logo@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome Canary (64-bit)... We are glad you keep up with the times! You have been updating your browser and now unfortunately you must update your OS. This is the last release verion of Chrome that will work on Windows 7 and Windows 8.1 - It;s been fun and we wanted windows 7 to last forever but it's not going to happen... Windows 7 was our friend to the END!~!~!</strong>";
 
 #chrome canary 64bit 91.0.4446.3 NIGHTLY BUILDS
-if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '110.0.0.0') // Chrome Canary (x64bit) version as of 11/19/2022
+if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '110.0.0.0' || $titanium_browser->getVersion() == '111.0.0.0') // Chrome Canary (x64bit) version as of 11/19/2022
 $scrollmsg .= "<img align=\"absmiddle\" height=\"15\" src=\"images/browsers/current-channel-logo@1x.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome Canary (64-bit)... We are glad you keep up with the times! Google Chrome Canary is primarily an untested nightly build version of the most awesome badass browser that ever existed, Google MFn Chrome. Developers like (TheGhost) and early tech adopters, want to experience and test for bugs or any new updates that might have been added to the latest versions of Chrome.</strong>";
 
 if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '89.0.4389.114') // Chrome (x64bit) version as of 3/5/2021
@@ -95,11 +95,13 @@ $scrollmsg .= "<img align=\"absmiddle\" height=\"16\" src=\"https://www.86it.us/
 
 if($titanium_browser->getBrowser() == Browser::BROWSER_CHROME && $titanium_browser->getVersion() == '107.0.0.0') // Chrome Official Release (x64bit) as of 11/19/2022
 $scrollmsg .= "<img align=\"top\" height=\"16\" src=\"images/browsers/chrome-transparent.png\" alt=\"Browser\" title=\"Browser\"> <strong>Thanks for using Chrome, you have great taste... Chrome is the #1 browsing solution in the world! When you are using Chrome it doesnt get any better! You made the superior choice and went with the latest and greatest!</strong>";
-if($titanium_browser->getBrowser() == Browser::BROWSER_FIREFOX && $titanium_browser->getVersion() == '107.0') // Official FireFox Release - WAS BROKEN BY THE DEVELOPERS 9/21/2017 and now 11/19/2022 it's halfway decent!
+
+if($titanium_browser->getBrowser() == Browser::BROWSER_FIREFOX && $titanium_browser->getVersion() == '108.0') // Official FireFox Release - WAS BROKEN BY THE DEVELOPERS 9/21/2017 and now 11/19/2022 it's halfway decent!
 {
 $scrollmsg .= '<img src="images/browsers/mozilla-firefox-icon-15.png" align="top" height="16"><strong>Thanks for using FireFox (64bit) <span 
 class="blink-one">BEWARE!</strong></span> Firfox sometimes breaks websites. There has been a lot of discussion lately about the decline of the Firefox browser and numerous articles about it losing 50 Million users in the last two years. But the real decline has been over the last 12 years with a total loss of half a Billion users and 75% of the market share it once held. Are screen shot utils and text to speech worth it?? Some say No!';
 }
+
 if($titanium_browser->getBrowser() == Browser::BROWSER_OPERA && $titanium_browser->getVersion() == '93.0.0.0') // Official Opera Release -  11/19/2022
 {
 $scrollmsg .= '<img src="images/browsers/opera.png" align="top" height="16"> Thanks for using Opera (64bit)  <span 
@@ -108,10 +110,12 @@ class="blink-one">Opera Rocks!</span> ::: This browser is hauling ass and about 
 
 $scrollmsg .= ' Ezekiel 25,17. "The path of the righteous man is beset of all sides by the iniquities of the selfish and the tyranny of evil men. Blessed is he who, in the name of the charity and goodwill, shepherds the weak through the valley of darkness, for he is truly his brother’s keeper and the finder of lost children. And I will strike down upon thee with great vengeance and furious anger those who attempt to poison and destroy my brothers. And you will know my name is the Lord when I lay my vengeance upon thee.” ::: ';
 
-$scrollmsg .= 'The current Beta release of PHP-Nuke Titanium is v'.NUKE_TITANIUM.' ::: ';
+$scrollmsg .= 'The current Beta release of PHP-Nuke Titanium is v'.NUKE_TITANIUM.' and we are running on PHP v'.PHPVERS.' ::: ';
 
-$detect = new Mobile_Detect;
+//$detect = new Mobile_Detect;
+$detect = new \Detection\MobileDetect;
 
+if($detect->version('Windows NT'))
 $scrollmsg .= 'It\'s nice to see you using Windows v'.$detect->version('Windows NT').' :::';
 
 global $connected;
@@ -133,7 +137,7 @@ endif;
 global $board_config;
 $serverdate = EvoDate($board_config['default_dateformat'], time(), $board_config['board_timezone']);
 
-$date .= '::: <span style=color:orange> QUOTE OF THE DAY “Every saint has a past, and every sinner has a future.”  ~ Oscar Wilde</span> ::: Today is <span style="color:'.$textcolor2.'">'.$serverdate.'</span>';
+$date .= '::: <span style=color:orange> QUOTE OF THE DAY “If you don\'t want to do something, you\'ll find an excuse. If you really do, you\'ll find a way.” Open-Source for Life ❤️️ ~ Tomas Votruba</span> ::: Today is <span style="color:'.$textcolor2.'">'.$serverdate.'</span>';
 
 if ($username === _ANONYMOUS)
 $moreuser_info .= '::: <span style=color:pink>There is so much more here to see, it takes 30 seconds to register an account and we don\'t even verify with e-mail! Just register we promise you won\'t be sorry...</span>';
@@ -141,7 +145,7 @@ $moreuser_info .= '::: <span style=color:pink>There is so much more here to see,
 if ($username === _ANONYMOUS)
 $marquee_one = $moreuser_info.' ::: <span style="color:'.$textcolor2.'>Your Monitor Resolution is '.$screen_res.'</span> ::: '.$newmessages.'';
 else
-$marquee_one = $date.' '.$connected.' Welcome back <strong><span class="blink-one" style="color:'.$textcolor2.'">'.$username.'</span></strong> It\'s quite awesome to see you my friend! We are so glad you could make it back over to visit... We know with your super tight busy schedule and all, it most certainly must have been quite a task! ::: <span style="color:'.$textcolor2.'">'.$newmessages.'</span> ::: Your current Monitor Resolution is <span style="color:'.$textcolor2.'">'.$screen_res.'</span> '.$moreuser_info.' ::: Your current browser version is <span style="color:'.$textcolor2.'">'.$titanium_browser->getVersion().'</span> ::: '.$scrollmsg.'';
+$marquee_one = $date.' '.$connected.' Welcome back <strong><span class="blink-one" style="color:'.$textcolor2.'">'.$username.'</span></strong> It\'s quite awesome to see you my friend! We are so glad you could make it back over to visit... We all have busy schedules, Thanks for stopping in to say hello 😉 ::: <span style="color:'.$textcolor2.'">'.$newmessages.'</span> ::: Your current Monitor Resolution is <span style="color:'.$textcolor2.'">'.$screen_res.'</span> '.$moreuser_info.' ::: Your current browser version is <span style="color:'.$textcolor2.'">'.$titanium_browser->getVersion().'</span> ::: '.$scrollmsg.'';
 
 //$bullshit2 = 'Sept 28th 2019, Oct 4th 2019, Oct 5th 2019, Oct 11th 2019, Oct 13th 2019, Oct 14th 2019 Oct 20th 2019, Oct 22nd 2019, Oct 24th 2019';
 # right finger
@@ -232,7 +236,7 @@ echo '</td>'.PHP_EOL;
 echo '<td align="center" class="bannerRightSide" height="auto" width="33.3%"><div align="right">'.network_ads(0).'</div>'.PHP_EOL;
 echo '</td>'.PHP_EOL;
 
-echo '<tr><td style="height: 23px !important; width: 33.3%;"><div class="above_marquee_one" align="center">We are running PHP-Nuke Titanium v'.NUKE_TITANIUM.'</div></td>'.PHP_EOL;
+echo '<tr><td style="height: 23px !important; width: 33.3%;"><div class="above_marquee_one" align="center">PHP-Nuke Titanium v'.NUKE_TITANIUM.' / PHP v'.PHPVERS.'</div></td>'.PHP_EOL;
 echo '<td style="height: 23px !important; width: 33.3%;"><div align="center"></div></td>'.PHP_EOL;
 echo '<td style="height: 23px !important; width: 33.3%;"><div class="above_marquee_two" align="center">Sponsor Tron for PHP-Nuke Titanium</div></td></tr>'.PHP_EOL;
 

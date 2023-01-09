@@ -279,7 +279,8 @@ if(($userdata['session_logged_in']) && (empty($gen_simple_header))):
          $suppress = 1;
          else
          $suppress = '';
-         if(empty($suppress)): 
+         
+		 if(empty($suppress)): 
            $s_privmsg_new = 1;
            $icon_pm = $images['pm_new_msg'];
 		 else: 
@@ -292,9 +293,9 @@ if(($userdata['session_logged_in']) && (empty($gen_simple_header))):
         $icon_pm = $images['pm_new_msg'];
       endif;
     else:
-      $l_privmsgs_text = $lang['No_new_pm'];
+ 	  $l_privmsgs_text = $lang['No_new_pm'];
       $s_privmsg_new = 0;
-      $icon_pm = $images['pm_no_new_msg'];
+      $icon_pm = isset($images['pm_no_new_msg']);
     endif;
 
    if($userdata['user_unread_privmsg']):
@@ -698,24 +699,24 @@ $images['Mini_Arcade'] = '';
 
 # Mod: Ranks summarize v1.0.4 START
     $template->assign_vars([
-        'I_RANKS' => '<img src="' . $images['Ranks'] . '" width="12" height="13" border="0" alt="' . $lang['Ranks'] . '" hspace="3" />',
+        'I_RANKS' => '<img src="' . isset($images['Ranks']) . '" width="12" height="13" border="0" alt="' . isset($lang['Ranks']) . '" hspace="3" />',
         'U_RANKS' => append_sid("ranks.$phpEx"),
         'L_RANKS' => $lang['Ranks'],
         # Mod: Theme Simplifications v1.0.0 START
-        'I_MINI_INDEX' => '<img src="' . $images['Mini_Index'] . '" width="12" height="13" border="0" alt="' . $board_config['sitename'] . ' Forum Index" hspace="3" />',
+        'I_MINI_INDEX' => '<img src="' . isset($images['Mini_Index']) . '" width="12" height="13" border="0" alt="' . $board_config['sitename'] . ' Forum Index" hspace="3" />',
         'L_MINI_INDEX' => $lang['Mini_Index'],
-        'I_MINI_FAQ' => '<img src="' . $images['Mini_Faq'] . '" width="12" height="13" border="0" alt="' . $lang['FAQ'] . '" hspace="3" />',
-        'I_MINI_SEARCH' => '<img src="' . $images['Mini_Search'] . '" width="12" height="13" border="0" alt="' . $lang['Search'] . '" hspace="3" />',
-        'I_MINI_USERGROUPS' => '<img src="' . $images['Mini_Usergroups'] . '" width="12" height="13" border="0" alt="' . $lang['Usergroups'] . '" hspace="3" />',
-        'I_MINI_PROFILE' => '<img src="' . $images['Mini_Profile'] . '" width="12" height="13" border="0" alt="' . $lang['Profile'] . '" hspace="3" />',
-        'I_MINI_MEMBERLIST' => '<img src="' . $images['Mini_Memberlist'] . '" width="12" height="13" border="0" alt="' . $lang['Memberlist'] . '" hspace="3" />',
-        'I_MINI_PRIVATEMSGS' => '<img src="' . $images['Mini_Private_Messages'] . '" width="12" height="13" border="0" alt="' . $lang['Private_Messages'] . '" hspace="3" />',
-        'I_STAFF' => '<img src="' . $images['Staff'] . '" width="12" height="13" border="0" alt="' . $lang['Staff'] . '" hspace="3" />',
-        'I_RULES' => '<img src="' . $images['Rules'] . '" width="12" height="13" border="0" alt="' . $lang['Rules'] . '" hspace="3" />',
+        'I_MINI_FAQ' => '<img src="' . isset($images['Mini_Faq']) . '" width="12" height="13" border="0" alt="' . $lang['FAQ'] . '" hspace="3" />',
+        'I_MINI_SEARCH' => '<img src="' . isset($images['Mini_Search']) . '" width="12" height="13" border="0" alt="' . $lang['Search'] . '" hspace="3" />',
+        'I_MINI_USERGROUPS' => '<img src="' . isset($images['Mini_Usergroups']) . '" width="12" height="13" border="0" alt="' . $lang['Usergroups'] . '" hspace="3" />',
+        'I_MINI_PROFILE' => '<img src="' . isset($images['Mini_Profile']) . '" width="12" height="13" border="0" alt="' . $lang['Profile'] . '" hspace="3" />',
+        'I_MINI_MEMBERLIST' => '<img src="' . isset($images['Mini_Memberlist']) . '" width="12" height="13" border="0" alt="' . $lang['Memberlist'] . '" hspace="3" />',
+        'I_MINI_PRIVATEMSGS' => '<img src="' . isset($images['Mini_Private_Messages']) . '" width="12" height="13" border="0" alt="' . $lang['Private_Messages'] . '" hspace="3" />',
+        'I_STAFF' => '<img src="' . isset($images['Staff']) . '" width="12" height="13" border="0" alt="' . $lang['Staff'] . '" hspace="3" />',
+        'I_RULES' => '<img src="' . isset($images['Rules']) . '" width="12" height="13" border="0" alt="' . $lang['Rules'] . '" hspace="3" />',
         'U_RULES' => append_sid("rules.$phpEx"),
         'L_RULES' => $lang['Rules'],
-        'I_STATISTICS' => '<img src="' . $images['Statistics'] . '" width="12" height="13" border="0" alt="' . $lang['Statistics'] . '" hspace="3" />',
-        'I_MINI_LOGIN_LOGOUT' => '<img src="' . $images['Mini_Login_Logout'] . '" width="12" height="13" border="0" alt="' . $lang['Login_Logout'] . '" hspace="3" />',
+        'I_STATISTICS' => '<img src="' . isset($images['Statistics']) . '" width="12" height="13" border="0" alt="' . $lang['Statistics'] . '" hspace="3" />',
+        'I_MINI_LOGIN_LOGOUT' => '<img src="' . isset($images['Mini_Login_Logout']) . '" width="12" height="13" border="0" alt="' . $lang['Login_Logout'] . '" hspace="3" />',
         # Mod: Theme Simplifications (Arcade) v1.0.0 START
         'I_MINI_ARCADE' => '<img src="' . $images['Mini_Arcade'] . '" width="12" height="13" border="0" alt="' . $lang['lib_arcade'] . '" hspace="3" />',
         'U_ARCADE' => append_sid("arcade.$phpEx"),

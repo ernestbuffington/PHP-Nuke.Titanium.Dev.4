@@ -10,7 +10,7 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 
 //Close the open table
 CloseTable();
-echo '<br />';
+//echo '<br />';
 //Start a new table
 OpenTable();
 
@@ -160,7 +160,7 @@ function get_values() {
     global $db, $prefix, $lang_donate, $cache;
     static $block;
     if(isset($block) && is_array($block)) { return $block; }
-    if (!$block = $cache->load('block', 'donations')) {
+    if (!$block = $cache->load('block', 'titanium_donations')) {
         $sql = 'SELECT config_value, config_name from '.$prefix.'_donators_config WHERE config_name LIKE "block_%"';
         if(!$result = $db->sql_query($sql)) {
             DonateError($lang_donate['VALUES_NF']);
@@ -168,7 +168,7 @@ function get_values() {
         while ($row = $db->sql_fetchrow($result)) {
             $block[str_replace('block_', '', $row['config_name'])] = $row['config_value'];
         }
-        $cache->save('block', 'donations', $block);
+        $cache->save('block', 'titanium_donations', $block);
         $db->sql_freeresult($result);
     }
     return $block;

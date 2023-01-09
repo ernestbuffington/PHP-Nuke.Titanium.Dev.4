@@ -34,7 +34,7 @@ $lang_donate['NO_PP_ADD'] = 'PayPal address has not been setup';
 //View
 $lang_donate['DATE'] = 'Date';
 $lang_donate['USERNAME'] = 'Username';
-$lang_donate['AMOUNT'] = 'Amount';
+$lang_donate['AMOUNT'] = 'Amount'; #1
 $lang_donate['TOTAL'] = 'Total';
 $lang_donate['GOAL'] = 'Goal';
 $lang_donate['DIFF'] = 'Difference';
@@ -45,7 +45,6 @@ $lang_donate['PREV_DIRECTION'] = '&lt;&lt;';
 $lang_donate['N/A'] = 'N/A';
 
 //Make
-$lang_donate['AMOUNT'] = 'Amount';
 $lang_donate['TYPE_PRIVATE'] = 'Private';
 $lang_donate['TYPE_ANON'] = 'Anonymous';
 $lang_donate['TYPE_REGULAR'] = 'Regular';

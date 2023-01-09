@@ -36,8 +36,8 @@ if (!defined('MODULE_FILE')) {
    die ("You can't access this file directly...");
 }
 
-if ($popup != "1") {
-        $module_name = basename(dirname(__FILE__));
+if (!isset($popup)) {
+        $module_name = basename(__DIR__);
         require("modules/".$module_name."/nukebb.php");
 } else {
         $phpbb_root_path = NUKE_FORUMS_DIR;
@@ -46,67 +46,72 @@ if ($popup != "1") {
 define('IN_PHPBB', true);
 include($phpbb_root_path . 'extension.inc');
 include($phpbb_root_path . 'common.'.$phpEx);
-include('includes/functions_admin.'.$phpEx);
-include_once('includes/functions_topics_list.' . $phpEx);
+include(NUKE_BASE_DIR . '/includes/functions_admin.'.$phpEx);
+include_once(NUKE_BASE_DIR . '/includes/functions_topics_list.' . $phpEx);
 
 /*****[BEGIN]******************************************
  [ Mod:     Log Moderator Actions              v1.1.6 ]
  ******************************************************/
-include("includes/functions_log.php");
+include(NUKE_BASE_DIR . "/includes/functions_log.php");
 /*****[END]********************************************
  [ Mod:     Log Moderator Actions              v1.1.6 ]
  ******************************************************/
- 
 // function block
-function get_topic_id($topic)
-{
+function get_topic_id($topic) {
     global $db;
     $topic_id = 0;
 
     // is this a direct value ?
-    $num_topic = intval($topic);
-    if ($topic == "$num_topic")
-    {
-        $topic_id = intval($topic);
-    }
-
+    //$num_topic = intval($topic);
+	$num_topic = (int) $topic;
+    if ($topic == $num_topic) {
+        //$topic_id = intval($topic);
+		$topic_id = (int) $topic;
+    } else {
     // is it an url with topic id or post id ?
-    else
-    {
-        $name = explode('?', $topic);
-        $parms = ( isset($name[1]) ) ? $name[1] : $name[0];
+    //  $name  = explode('?', $topic);
+    //  $parms = ( isset($name[1]) ) ? $name[1] : $name[0];
+        $name = explode('?', (string) $topic);
+        $parms = $name[1] ?? $name[0];
         parse_str($parms, $parm);
         $found = false;
         $topic_id = 0;
-        while ((list($key, $val) = each($parm)) && !$found)
-        {
-            $vals = explode('#', $val);
+        //while ((list($key, $val) = each($parm)) && !$found) 
+		foreach ($parm as $key => $val)
+		{
+         // $vals = explode('#', $val);
+			$vals = explode('#', (string) $val);
             $val = $vals[0];
-            if (empty($val)) $val = 0;
-            switch($key)
-            {
+            if (empty($val)) {
+                $val = 0;
+            }
+            
+			if(!isset($found)):
+			switch($key) {
                 case POST_POST_URL:
                     $sql = "SELECT topic_id FROM " . POSTS_TABLE . " WHERE post_id=$val";
-                    if ( !($result = $db->sql_query($sql)) ) message_die(GENERAL_ERROR, 'Could not get post informations', '', __LINE__, __FILE__, $sql);
-                    if ($row = $db->sql_fetchrow($result))
-                    {
+                    if ( !($result = $db->sql_query($sql)) ) {
+                        message_die(GENERAL_ERROR, 'Could not get post informations', '', __LINE__, __FILE__, $sql);
+                    }
+                    if ($row = $db->sql_fetchrow($result)) {
                         $val = $row['topic_id'];
                         $found = true;
                     }
+                    $db->sql_freeresult($result);
                     break;
                 case POST_TOPIC_URL:
                     $found = true;
                     break;
             }
-            if ($found)
-            {
+            endif;
+			
+			if ($found) {
                 $topic_id = intval($val);
             }
         }
     }
-
     return $topic_id;
-}
+} 
 
 //
 // Start session management
@@ -124,40 +129,40 @@ if (($userdata['user_level'] != MOD) && ($userdata['user_level'] != ADMIN))
 }
 
 // from topic
-$from_topic = isset($HTTP_POST_VARS['from_topic']) ? strtolower(trim(htmlspecialchars($HTTP_POST_VARS['from_topic']))) : '';
-if (empty($from_topic) && (isset($HTTP_GET_VARS[POST_TOPIC_URL]) || isset($HTTP_GET_VARS[POST_POST_URL])))
+$from_topic = isset($_POST['from_topic']) ? strtolower(trim(htmlspecialchars((string) $_POST['from_topic']))) : '';
+if (empty($from_topic) && (isset($_GET[POST_TOPIC_URL]) || isset($_GET[POST_POST_URL])))
 {
-    $from_topic = (isset($HTTP_GET_VARS[POST_TOPIC_URL])) ? intval($HTTP_GET_VARS[POST_TOPIC_URL]) : POST_POST_URL . '=' . intval($HTTP_GET_VARS[POST_POST_URL]);
+    $from_topic = (isset($_GET[POST_TOPIC_URL])) ? (int) $_GET[POST_TOPIC_URL] : POST_POST_URL . '=' . (int) $_GET[POST_POST_URL];
 }
 $from_topic_id = get_topic_id($from_topic);
 
 // to topic
-$to_topic = isset($HTTP_POST_VARS['to_topic']) ? strtolower(trim(htmlspecialchars($HTTP_POST_VARS['to_topic']))) : '';
+$to_topic = isset($_POST['to_topic']) ? strtolower(trim(htmlspecialchars((string) $_POST['to_topic']))) : '';
 $to_topic_id =  get_topic_id($to_topic);
 
 // topic title
 $topic_title = '';
-if (isset($HTTP_POST_VARS['topic_title'])) $topic_title = htmlspecialchars(trim(stripslashes($HTTP_POST_VARS['topic_title'])));
+if (isset($_POST['topic_title'])) $topic_title = htmlspecialchars(trim(stripslashes((string) $_POST['topic_title'])));
 
 // start
-if (isset($HTTP_POST_VARS['start'])) $start = intval($start);
+if (isset($_POST['start'])) $start = (int) $start;
 
 // buttons
-$submit = isset($HTTP_POST_VARS['submit']);
-$confirm = isset($HTTP_POST_VARS['confirm']);
-$cancel = isset($HTTP_POST_VARS['cancel']);
-$shadow = isset($HTTP_POST_VARS['shadow']);
+$submit = isset($_POST['submit']);
+$confirm = isset($_POST['confirm']);
+$cancel = isset($_POST['cancel']);
+$shadow = isset($_POST['shadow']);
 if ($cancel) $submit = false;
-$select_from = isset($HTTP_POST_VARS['select_from']);
-$select_to = isset($HTTP_POST_VARS['select_to']);
-$page_prec = isset($HTTP_POST_VARS['page_prec']);
-$page_next = isset($HTTP_POST_VARS['page_next']);
+$select_from = isset($_POST['select_from']);
+$select_to = isset($_POST['select_to']);
+$page_prec = isset($_POST['page_prec']);
+$page_next = isset($_POST['page_next']);
 
 // check if a selection has been made
 $topic_selected = 0;
-if (isset($HTTP_POST_VARS['topic_selected']))
+if (isset($_POST['topic_selected']))
 {
-    $topic_selected = intval(substr($HTTP_POST_VARS['topic_selected'],1));
+    $topic_selected = (int) substr((string) $_POST['topic_selected'],1);
 }
 
 if ($submit && !empty($topic_selected))
@@ -179,9 +184,9 @@ if ($submit && !empty($topic_selected))
 
 // session id
 $sid = '';
-if (!empty($HTTP_POST_VARS['sid']) || !empty($HTTP_GET_VARS['sid']))
+if (!empty($_POST['sid']) || !empty($_GET['sid']))
 {
-    $sid = (!empty($HTTP_POST_VARS['sid'])) ? $HTTP_POST_VARS['sid'] : $HTTP_GET_VARS['sid'];
+    $sid = (empty($_POST['sid'])) ? $_GET['sid'] : $_POST['sid'];
 }
 
 // titles
@@ -208,16 +213,16 @@ if (!empty($to_topic_id))
 
 // forum_id
 $forum_id = 0;
-if (isset($HTTP_POST_VARS[POST_FORUM_URL]) || isset($HTTP_GET_VARS[POST_FORUM_URL]))
+if (isset($_POST[POST_FORUM_URL]) || isset($_GET[POST_FORUM_URL]))
 {
-    $forum_id = (isset($HTTP_POST_VARS[POST_FORUM_URL])) ? intval($HTTP_POST_VARS[POST_FORUM_URL]) : intval($HTTP_GET_VARS[POST_FORUM_URL]);
+    $forum_id = (isset($_POST[POST_FORUM_URL])) ? (int) $_POST[POST_FORUM_URL] : (int) $_GET[POST_FORUM_URL];
 }
-if (isset($HTTP_POST_VARS['fid']) || isset($HTTP_GET_VARS['fid']))
+if (isset($_POST['fid']) || isset($_GET['fid']))
 {
-    $fid = (isset($HTTP_POST_VARS['fid'])) ? $HTTP_POST_VARS['fid'] : $HTTP_GET_VARS['fid'];
-    if (substr($fid, 0, 1) == POST_FORUM_URL)
+    $fid = $_POST['fid'] ?? $_GET['fid'];
+    if (substr((string) $fid, 0, 1) == POST_FORUM_URL)
     {
-        $forum_id = intval(substr($fid, 1));
+        $forum_id = (int) substr((string) $fid, 1);
     }
 }
 
@@ -225,7 +230,7 @@ if (isset($HTTP_POST_VARS['fid']) || isset($HTTP_GET_VARS['fid']))
 if (($select_from || $select_to) && (!$cancel))
 {
     // get the list of forums
-    if (function_exists(selectbox))
+    if (function_exists('selectbox'))
     {
         $list_forums = selectbox('fid', false, POST_FORUM_URL . $forum_id);
     }
@@ -236,7 +241,7 @@ if (($select_from || $select_to) && (!$cancel))
 
     // how many record in the forum
     $nbpages = 0;
-    $per_page = intval($board_config['topics_per_page']);
+    $per_page = (int) $board_config['topics_per_page'];
 
     $sql_merge = "SELECT t.*, u.username, u.user_id, u2.username as user2, u2.user_id as id2, p.post_username, p2.post_username AS post_username2, p2.post_time 
         FROM " . TOPICS_TABLE . " t, " . USERS_TABLE . " u, " . POSTS_TABLE . " p, " . POSTS_TABLE . " p2, " . USERS_TABLE . " u2
@@ -278,23 +283,21 @@ if (($select_from || $select_to) && (!$cancel))
 
     // set the page title and include the page header
     $page_title = $lang['Merge_topics'];
-    include ('includes/page_header.'.$phpEx);
+    include (NUKE_BASE_DIR . '/includes/page_header.'.$phpEx);
 
     // template name
-    $template->set_filenames(array(
-        'body' => 'merge_select_body.tpl')
+    $template->set_filenames(['body' => 'merge_select_body.tpl']
     );
     // header
-    $template->assign_vars(array(
-        'L_GO'            => $lang['Go'],
-        'S_LIST_FORUMS'    => $list_forums,
-        'PAGINATION'    => $pagination,
-        )
+    $template->assign_vars(['L_GO'            => $lang['Go'], 'S_LIST_FORUMS'    => $list_forums, 'PAGINATION'    => $pagination]
     );
 
     // read the forum
-    $start_topic = $start * $per_page;
-    $topic_rowset = array();
+    $start_topic = [];
+	if(!isset($start))
+	$start = 0;
+	$start_topic = $start * $per_page;
+    $topic_rowset = [];
     if ( !empty($forum_id) )
     {
         $sql = $sql_merge . " ORDER BY t.topic_type DESC, t.topic_last_post_id DESC LIMIT $start_topic, $per_page";
@@ -333,14 +336,11 @@ if (($select_from || $select_to) && (!$cancel))
     if ($select_from) $s_hidden_fields .= '<input type="hidden" name="select_from" value="1" />';
     if ($select_to) $s_hidden_fields .= '<input type="hidden" name="select_to" value="1" />';
     $s_hidden_fields .= '<input type="hidden" name="start" value="' . $start . '" />';
-    $template->assign_vars(array(
-        'S_ACTION'            => append_sid("merge.$phpEx"),
-        'S_HIDDEN_FIELDS'    => $s_hidden_fields,
-        )
+    $template->assign_vars(['S_ACTION'            => append_sid("merge.$phpEx"), 'S_HIDDEN_FIELDS'    => $s_hidden_fields]
     );
     // footer
     $template->pparse('body');
-    include('includes/page_tail.'.$phpEx);
+    include(NUKE_BASE_DIR . '/includes/page_tail.'.$phpEx);
     exit;
 }
 
@@ -376,7 +376,7 @@ if ($submit)
     if (!$found)
     {
         $error = true;
-        $error_msg .= (($error_msg != '') ? '<br />' : '') . $lang['Merge_from_not_found'];
+        $error_msg .= (($error_msg !== '') ? '<br />' : '') . $lang['Merge_from_not_found'];
     }
 
     // check if the from topic exists and get the forum_id
@@ -401,13 +401,9 @@ if ($submit)
     }
 
     // verify the topics are not the same
-    if (!$error)
-    {
-        if ($from_topic_id == $to_topic_id)
-        {
-            $error = true;
-            $error_msg .= (($error_msg != '') ? '<br />' : '') . $lang['Merge_topics_equals'];
-        }
+    if (!$error && $from_topic_id == $to_topic_id) {
+        $error = true;
+        $error_msg .= (($error_msg != '') ? '<br />' : '') . $lang['Merge_topics_equals'];
     }
 
     // check authorizations
@@ -440,11 +436,11 @@ if ($submit)
     {
         if ($to_poll)
         {
-            $message .= (($message != '') ? '<br />' : '') . $lang['Merge_poll_from_and_to'];
+            $message .= (($message !== '') ? '<br />' : '') . $lang['Merge_poll_from_and_to'];
         }
         else
         {
-            $message .= (($message != '') ? '<br />' : '') . $lang['Merge_poll_from'];
+            $message .= (($message !== '') ? '<br />' : '') . $lang['Merge_poll_from'];
         }
     }
 
@@ -495,10 +491,10 @@ if ($submit)
         // check if the destination is already watched
         $sql = "SELECT * FROM " . TOPICS_WATCH_TABLE . " WHERE topic_id=$to_topic_id";
         if ( !$result=$db->sql_query($sql) ) message_die(GENERAL_ERROR, 'Could not read topics watch informations', '', __LINE__, __FILE__, $sql);
-        $user_ids = array();
+        $user_ids = [];
         while ($row = $db->sql_fetchrow($result)) $user_ids[] = $row['user_id'];
         $sql_user = '';
-        if (!empty($user_ids))
+        if ($user_ids !== [])
         {
             $sql_user = " AND user_id NOT IN (" . implode(', ', $user_ids) . ")";
         }
@@ -574,8 +570,7 @@ if ($submit)
         sync('forum', $to_forum_id);
         
         // send end message
-        $template->assign_vars(array(
-            'META' => '<meta http-equiv="refresh" content="3;url=' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$to_topic_id") . '">')
+        $template->assign_vars(['META' => '<meta http-equiv="refresh" content="3;url=' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$to_topic_id") . '">']
         );
         message_die(GENERAL_MESSAGE, $lang['Merge_topic_done'] . '<br /><br />' . sprintf($lang['Click_return_topic'], '<a href="' . append_sid("viewtopic.$phpEx?" . POST_TOPIC_URL . "=$to_topic_id") . '" class="gen">', '</a>')  . '<br /><br />' . sprintf($lang['Click_return_index'], '<a href="' . append_sid("index.$phpEx") . '" class="gen">', '</a>'));
         exit;
@@ -586,9 +581,8 @@ if ($submit)
         $message .= (($message != '') ? '<br />' : '') . sprintf($lang['Merge_confirm_process'], $from_title, $to_title);
 
         $page_title = $lang['Merge_topics'];
-        include ('includes/page_header.'.$phpEx);
-        $template->set_filenames(array(
-            'body' => 'confirm_body.tpl')
+        include (NUKE_BASE_DIR . '/includes/page_header.'.$phpEx);
+        $template->set_filenames(['body' => 'confirm_body.tpl']
         );
 
         $s_hidden_fields  = '<input type="hidden" name="sid" value="' . $userdata['session_id'] . '" />';
@@ -599,18 +593,11 @@ if ($submit)
         if ($shadow) $s_hidden_fields .= '<input type="hidden" name="shadow" value="1" />';
 
         // header
-        $template->assign_vars(array(
-            'MESSAGE_TITLE'        => $page_title,
-            'MESSAGE_TEXT'        => $message,
-            'L_YES'                => $lang['Yes'],
-            'L_NO'                => $lang['No'],
-            'S_CONFIRM_ACTION'    => append_sid("merge.$phpEx"),
-            'S_HIDDEN_FIELDS'    => $s_hidden_fields,
-            )
+        $template->assign_vars(['MESSAGE_TITLE'        => $page_title, 'MESSAGE_TEXT'        => $message, 'L_YES'                => $lang['Yes'], 'L_NO'                => $lang['No'], 'S_CONFIRM_ACTION'    => append_sid("merge.$phpEx"), 'S_HIDDEN_FIELDS'    => $s_hidden_fields]
         );
         // footer
         $template->pparse('body');
-        include('includes/page_tail.'.$phpEx);
+        include(NUKE_BASE_DIR . '/includes/page_tail.'.$phpEx);
         exit;
     }
 }
@@ -619,55 +606,33 @@ if ($submit)
 // set the page title and include the page header
 //
 $page_title = $lang['Merge_topics'];
-include ('includes/page_header.'.$phpEx);
+include (NUKE_BASE_DIR . '/includes/page_header.'.$phpEx);
 //
 // template name
 //
-$template->set_filenames(array(
-    'body' => 'merge_body.tpl')
+$template->set_filenames(['body' => 'merge_body.tpl']
 );
 //
 // header
 //
-$template->assign_vars(array(
-    'L_TITLE'                => $page_title,
-    'L_TOPIC_TITLE'            => $lang['Merge_title'],
-    'L_TOPIC_TITLE_EXPLAIN'    => $lang['Merge_title_explain'],
-    'L_FROM_TOPIC'            => $lang['Merge_topic_from'],
-    'L_FROM_TOPIC_EXPLAIN'    => $lang['Merge_topic_from_explain'],
-    'L_TO_TOPIC'            => $lang['Merge_topic_to'],
-    'L_TO_TOPIC_EXPLAIN'    => $lang['Merge_topic_to_explain'],
-    'L_SHADOW'                => $lang['Leave_shadow_topic'],
-    'L_SUBMIT'                => $lang['Submit'],
-    'L_CANCEL'                => $lang['Cancel'],
-    'L_REFRESH'                => $lang['Refresh'],
-    'L_SEARCH'                => $lang['Select'],
-    )
+$template->assign_vars(['L_TITLE'                => $page_title, 'L_TOPIC_TITLE'            => $lang['Merge_title'], 'L_TOPIC_TITLE_EXPLAIN'    => $lang['Merge_title_explain'], 'L_FROM_TOPIC'            => $lang['Merge_topic_from'], 'L_FROM_TOPIC_EXPLAIN'    => $lang['Merge_topic_from_explain'], 'L_TO_TOPIC'            => $lang['Merge_topic_to'], 'L_TO_TOPIC_EXPLAIN'    => $lang['Merge_topic_to_explain'], 'L_SHADOW'                => $lang['Leave_shadow_topic'], 'L_SUBMIT'                => $lang['Submit'], 'L_CANCEL'                => $lang['Cancel'], 'L_REFRESH'                => $lang['Refresh'], 'L_SEARCH'                => $lang['Select']]
 );
 if (!empty($to_title) && empty($topic_title))
 {
     $topic_title = $to_title;
 }
 // values
-$template->assign_vars(array(
-    'TOPIC_TITLE'    => $topic_title,
-    'FROM_TOPIC'    => $from_topic,
-    'TO_TOPIC'        => $to_topic,
-    'SHADOW'        => ($shadow) ? 'checked="checked"' : '',
-    )
+$template->assign_vars(['TOPIC_TITLE'    => $topic_title, 'FROM_TOPIC'    => $from_topic, 'TO_TOPIC'        => $to_topic, 'SHADOW'        => ($shadow) ? 'checked="checked"' : '']
 );
 
 // system
 $s_hidden_fields  = '<input type="hidden" name="sid" value="' . $userdata['session_id'] . '" />';
-$template->assign_vars(array(
-    'S_ACTION'            => append_sid("merge.$phpEx"),
-    'S_HIDDEN_FIELDS'    => $s_hidden_fields,
-    )
+$template->assign_vars(['S_ACTION'            => append_sid("merge.$phpEx"), 'S_HIDDEN_FIELDS'    => $s_hidden_fields]
 );
 //
 // footer
 //
 $template->pparse('body');
-include('includes/page_tail.'.$phpEx);
+include(NUKE_BASE_DIR . '/includes/page_tail.'.$phpEx);
 
 ?>

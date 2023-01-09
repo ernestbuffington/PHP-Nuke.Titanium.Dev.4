@@ -1,0 +1,7 @@
+<dl>             
+    <dt><label for="forum_allow_topic_password">{L_FORUM_ALLOW_TOPIC_PASSWORD}:</label><br /><span>{L_FORUM_ALLOW_TOPIC_PASSWORD_EXPLAIN}</span><!-- IF HAS_TOPIC_PASSWORD --><br /><span>{L_FORUM_HAS_TOPIC_PASSWORD_EXPLAIN}</span><!-- ENDIF --></dt>
+    <dd>
+      <label><input type="radio" class="radio" name="forum_allow_topic_password" value="1" id="forum_allow_topic_password" <!-- IF S_FORUM_ALLOW_TOPIC_PASSWORD -->  checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+      <label><input <!-- IF HAS_TOPIC_PASSWORD -->disabled="disabled"<!-- ENDIF --> type="radio" class="radio" name="forum_allow_topic_password" value="0" id="forum_allow_topic_password" <!-- IF not S_FORUM_ALLOW_TOPIC_PASSWORD -->  checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+    </dd>
+  </dl>

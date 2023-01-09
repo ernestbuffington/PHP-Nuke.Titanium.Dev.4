@@ -254,7 +254,10 @@ function attachment_quota_settings(string $admin_mode, string $mode, bool $submi
         $template->assign_vars(['S_SELECT_UPLOAD_QUOTA'        => quota_limit_select('user_upload_quota', $upload_quota), 'S_SELECT_PM_QUOTA'            => quota_limit_select('user_pm_quota', $pm_quota), 'L_UPLOAD_QUOTA'            => $lang['Upload_quota'], 'L_PM_QUOTA'                => $lang['Pm_quota']]
         );
     }
-
+    
+	if(!isset($_POST['deleteuser']))
+	$_POST['deleteuser'] = '';
+	
     if ($admin_mode == 'user' && $submit && $_POST['deleteuser']) {
         process_quota_settings($admin_mode, $user_id, QUOTA_UPLOAD_LIMIT, 0);
         process_quota_settings($admin_mode, $user_id, QUOTA_PM_LIMIT, 0);

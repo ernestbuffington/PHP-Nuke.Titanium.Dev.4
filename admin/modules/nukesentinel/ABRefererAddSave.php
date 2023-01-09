@@ -15,7 +15,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
    die ('You can\'t access this file directly...');
 }
 
-if(!get_magic_quotes_runtime()) { $referer = addslashes($referer); }
+$referer = addslashes($referer); 
 $testnum1 = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_referers` WHERE `referer`='$referer'"));
 if($testnum1 > 0) {
   include_once(NUKE_BASE_DIR.'header.php');

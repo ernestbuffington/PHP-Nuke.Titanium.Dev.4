@@ -1,0 +1,45 @@
+.header {
+        font-family:"Lucida Console","Verdana", "sans-serif"; font-size: 12px; COLOR:#2FFFFF; padding-left:10; padding-right:5; font-weight:900
+}
+.text2 {
+        font-family:"Tahoma","sans-serif"; font-size: 11px; color:#404040; padding-left:10; padding-right:10
+}
+.news {
+        font-family:"Arial", "sans-serif"; font-size: 9pt; color:#000000; padding-left:10; padding-right:5; font-weight:900;
+}
+a:link {
+        text-decoration: none; color:#E7D40D
+}
+a:visited {
+        text-decoration: none; color: #E7D40D
+}
+a:hover {
+        text-decoration: underline; color: #E7D40D
+}
+a:active{
+        text-decoration: none; color: #E7D40D
+}
+body {
+        background-color: #001A33
+}
+p {
+        font-family:"Tahoma","sans-serif"; font-size: 15px; color:#ffffff; padding-left:10; padding-right:10
+}
+table {
+        vertical-align:top;
+}
+font.ok {
+        color: #00FF00;
+}
+font.warn {
+        color: #FFFF00;
+}
+font.err {
+        color: #FF0000;
+}
+td {
+        vertical-align:top;
+}
+.hide {
+        display: none;
+}

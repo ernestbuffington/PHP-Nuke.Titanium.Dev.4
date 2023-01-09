@@ -39,7 +39,8 @@ if (!isset($_GET['Action']))
 $_GET['Action'] = null;
 
 if (!isset($_GET['Action']) && $_GET['Action'] != 'AJAX') {
-	$content = '<script>
+	$content = '';
+	$content .= '<script>
     //<![CDATA[
 	var SBheight = \''.$ShoutMarqueeheight.'\';var SBcontent = new String(\''.$mid_content.'\');
 	//]]>

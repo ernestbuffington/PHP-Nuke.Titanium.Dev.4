@@ -1710,7 +1710,7 @@ class aprvmManager
 
         global $lang, $db, $status_message, $aprvmUtil;
 
-        
+        $this->archiveQueue = [];
 
         if (!count($this->archiveQueue)) return;
 
@@ -1869,7 +1869,7 @@ class aprvmManager
                 if (!$board_config['aprvmArchive'] || $mode != 'archive')
 
                 {
-
+                    $this->syncNums[$row['privmsgs_to_userid']][$row['privmsgs_type']] = [];
                     $this->syncNums[$row['privmsgs_to_userid']][$row['privmsgs_type']]++;
 
                 }

@@ -49,6 +49,9 @@ function MsgDeactive($mid) {
 }
 
 function messages() {
+    $mview = null;
+    $mactive = null;
+    $languageslist = [];
     global $admin, $admlanguage, $language, $prefix, $db, $multilingual, $admin_file, $admlang;
     include(NUKE_BASE_DIR.'header.php');
     OpenTable();
@@ -146,7 +149,7 @@ function messages() {
         }
     }
     closedir($handle);
-    $languageslist = explode(" ", $languageslist);
+    $languageslist = explode(" ", (string) $languageslist);
     sort($languageslist);
     for ($i=0; $i < count($languageslist); $i++) {
         if($languageslist[$i]!="") {
@@ -182,7 +185,7 @@ function messages() {
      ."</select><br /><br />"
     ."<span class='tiny'>"._WHATGRDESC."</span><br /><strong>"._WHATGROUPS."</strong> <select name='add_groups[]' multiple size='5'>\n";
      $groupsResult = $db->sql_query("select group_id, group_name from ".$prefix."_bbgroups where group_description <> 'Personal User'");
-     while(list($gid, $gname) = $db->sql_fetchrow($groupsResult)) { echo "<OPTION VALUE='$gid'>$gname</option>\n"; }
+     while([$gid, $gname] = $db->sql_fetchrow($groupsResult)) { echo "<OPTION VALUE='$gid'>$gname</option>\n"; }
      echo "</select><br /><br />\n"
 /*****[END]********************************************
  [ Mod:    phpBB User Groups Integration       v1.0.0 ]
@@ -196,6 +199,9 @@ function messages() {
 }
 
 function editmsg($mid) {
+    $asel1 = null;
+    $asel2 = null;
+    $sel6 = null;
     global $admin, $prefix, $db, $multilingual, $admin_file, $admlang;
     include(NUKE_BASE_DIR.'header.php');
     $mid = intval($mid);
@@ -256,9 +262,9 @@ function editmsg($mid) {
     $esel2 = 'selected';
     } elseif ($expire == 432000) {
     $esel3 = 'selected';
-    } elseif ($expire == 1296000) {
+    } elseif ($expire == 1_296_000) {
     $esel4 = 'selected';
-    } elseif ($expire == 2592000) {
+    } elseif ($expire == 2_592_000) {
     $esel5 = 'selected';
     } elseif ($expire == 0) {
     $esel6 = 'selected';
@@ -285,7 +291,7 @@ function editmsg($mid) {
         }
     }
     closedir($handle);
-    $languageslist = explode(" ", $languageslist);
+    $languageslist = explode(" ", (string) $languageslist);
     sort($languageslist);
     for ($i=0; $i < count($languageslist); $i++) {
         if(!empty($languageslist[$i])) {
@@ -332,9 +338,9 @@ function editmsg($mid) {
         ."<option name=\"view\" value=\"6\" $sel6>".$admlang['global']['groups_only']."</option>"
     ."</select><br /><br />"
         ."<span class='tiny'>"._WHATGRDESC."</span><br /><strong>"._WHATGROUPS."</strong> <select name='groups[]' multiple size='5'>";
-    $ingroups = explode("-",$groups);
+    $ingroups = explode("-",(string) $groups);
     $groupsResult = $db->sql_query("select group_id, group_name from ".$prefix."_bbgroups where group_description <> 'Personal User'");
-    while(list($gid, $gname) = $db->sql_fetchrow($groupsResult)) {
+    while([$gid, $gname] = $db->sql_fetchrow($groupsResult)) {
         if(in_array($gid,$ingroups) AND $view > 5) { $sel = " selected"; } else { $sel = ""; }
         echo "<OPTION VALUE='$gid'$sel>$gname</option>";
     }
@@ -356,6 +362,8 @@ function editmsg($mid) {
  ******************************************************/
 function savemsg($mid, $title, $content, $mdate, $expire, $active, $view, $groups, $chng_date, $mlanguage) 
 {
+    $newdate = null;
+    $ingroups = null;
     global $prefix, $db, $admin_file;
 
     if($view == 6) 
@@ -399,6 +407,7 @@ function savemsg($mid, $title, $content, $mdate, $expire, $active, $view, $group
  [ Mod:    phpBB User Groups Integration       v1.0.0 ]
  ******************************************************/
 function addmsg($add_title, $add_content, $add_mdate, $add_expire, $add_active, $add_view, $add_groups, $add_mlanguage) {
+    $ingroups = null;
     global $prefix, $db, $admin_file;
     if($add_view == 6) { $ingroups = implode("-",$add_groups); }
     if($add_view < 6) { $ingroups = ""; }
@@ -454,7 +463,7 @@ switch ($op){
     break;
 
     case "editmsg":
-    editmsg($mid, $title, $content, $mdate, $expire, $active, $view, $chng_date, $mlanguage);
+    editmsg($mid);
     break;
 
     case "addmsg":

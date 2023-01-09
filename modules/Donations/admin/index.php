@@ -20,10 +20,10 @@ for ($i=0; $i < count($admins); $i++) {
     }
 }
 
-define('NUKE_DONATIONS', dirname(dirname(__FILE__)) . '/');
-define('NUKE_DONATIONS_INCLUDES', NUKE_DONATIONS . '/includes/');
-define('NUKE_DONATIONS_ADMIN', dirname(__FILE__) . '/');
-define('NUKE_DONATIONS_ADMIN_INCLUDES', NUKE_DONATIONS_ADMIN . 'includes/');
+define_once('NUKE_DONATIONS', dirname(dirname(__FILE__)) . '/');
+define_once('NUKE_DONATIONS_INCLUDES', NUKE_DONATIONS . '/includes/');
+define_once('NUKE_DONATIONS_ADMIN', dirname(__FILE__) . '/');
+define_once('NUKE_DONATIONS_ADMIN_INCLUDES', NUKE_DONATIONS_ADMIN . 'includes/');
 
 include_once(NUKE_DONATIONS_ADMIN_INCLUDES . 'base.php');
 
@@ -49,6 +49,9 @@ function Main($file) {
     }
     foot_close();
 }
+
+if(!isset($file))
+$file = '';
 
 Main($file);
 

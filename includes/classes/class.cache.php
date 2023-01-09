@@ -3,6 +3,8 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
+global $cache_debug;
+$cache_debug = 1;
 
 /************************************************************************
    Nuke-Evolution: Caching System
@@ -39,10 +41,6 @@ if (!defined('CACHE_PREFIX')) {
 }
 
 //Cache
-require_once(NUKE_ZEND_DIR.'Cache.php');
-//require_once(NUKE_ZENDF1_DIR.'Cache.php');
-
-
 class cache 
 {
     var $changed = false;

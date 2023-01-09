@@ -1,0 +1,26 @@
+{
+    "name": "mykeehu/topas",
+    "type": "phpbb-extension",
+    "description": "This extension allows users to lock their own threads by using password. You can configure which forums can contain locked topics via ACP. Moderators and administrators can access all topics without using the password. Based on Topic Password MOD.",
+    "homepage": "",
+    "version": "3.0.0",
+    "time": "2017-03-29",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Mykee",
+            "email": "halasim@hotmail.hu",
+            "homepage": "",
+            "role": ""
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "extra": {
+        "display-name": "Topic Password",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.1.4,<3.2.0@dev"
+        }
+    }
+}

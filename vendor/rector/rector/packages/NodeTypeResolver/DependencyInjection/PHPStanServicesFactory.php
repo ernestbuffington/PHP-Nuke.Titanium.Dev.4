@@ -29,6 +29,7 @@ final class PHPStanServicesFactory
      * @var \PHPStan\DependencyInjection\Container
      */
     private $container;
+	
     public function __construct(ParameterProvider $parameterProvider)
     {
         $containerFactory = new ContainerFactory(\getcwd());
@@ -42,7 +43,7 @@ final class PHPStanServicesFactory
         $extensionConfigFiles = $this->resolveExtensionConfigs();
         $additionalConfigFiles = \array_merge($additionalConfigFiles, $extensionConfigFiles);
         $existingAdditionalConfigFiles = \array_filter($additionalConfigFiles, 'file_exists');
-        $this->container = $containerFactory->create(\sys_get_temp_dir(), $existingAdditionalConfigFiles, []);
+        $this->container = $containerFactory->create(__DIR__, $existingAdditionalConfigFiles, []);
     }
     /**
      * @api

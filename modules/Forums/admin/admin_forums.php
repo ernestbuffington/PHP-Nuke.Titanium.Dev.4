@@ -308,12 +308,13 @@ function get_list_cat($id, $parent, $forum_id)
 	$db->sql_freeresult($result);
 
 	// Generate select
+	if(isset($cat_list)):
 	for( $i = 0; $i < count($cat_list); $i++ )
 	{
 		$cat_id = $cat_list[$i]['cat_id'];
 
 		$selected = ( $id == $cat_id && $parent == 0 ) ? ' selected="selected"' : '';
-
+        $str = $str ?? '';
 		$str .= '<option value="' . $cat_id . '"' . $selected . '>' . $cat_list[$i]['cat_title'] . '</option>';
 
 		if( !$has_sub )
@@ -332,7 +333,7 @@ function get_list_cat($id, $parent, $forum_id)
 			}
 		}
 	}
-
+    endif;
 	return $str;
 
 }
@@ -645,6 +646,8 @@ if( !empty($mode) )
  ******************************************************/
                         // These two options ($lang['Status_unlocked'] and $lang['Status_locked']) seem to be missing from
                         // the language files.
+						$forumunlocked = $forumunlocked ?? '';
+						$forumlocked = $forumlocked ?? '';
                         $lang['Status_unlocked'] = isset($lang['Status_unlocked']) ? $lang['Status_unlocked'] : 'Unlocked';
 
                         $lang['Status_locked'] = isset($lang['Status_locked']) ? $lang['Status_locked'] : 'Locked';
@@ -996,9 +999,24 @@ if( !empty($mode) )
  ******************************************************/
                         $sql = "UPDATE " . FORUMS_TABLE . "
 
-                                SET forum_name = '" . str_replace("\'", "''", $HTTP_POST_VARS['forumname']) . "', title_is_link = " . intval($HTTP_POST_VARS['forum_is_link']) . ", weblink = '" . str_replace("\'", "''", $HTTP_POST_VARS['forum_weblink']) . "', forum_link_icon = '" . str_replace("\'", "''", $HTTP_POST_VARS['forum_link_icon']) . "', forum_link_target = " . intval($HTTP_POST_VARS['forum_link_target']) . ", forum_color = '" . str_replace("\'", "''", $HTTP_POST_VARS['forum_color']) . "', cat_id = $new_cat, forum_parent = $new_parent, forum_desc = '" . str_replace("\'", "''", $HTTP_POST_VARS['forumdesc']) . "', forum_status = " . intval($HTTP_POST_VARS['forumstatus']) . ", forum_password = '" . str_replace("\'", "''", $HTTP_POST_VARS['password']) . "', forum_icon = '" . str_replace("\'", "''", $HTTP_POST_VARS['forumicon']) . "', forum_display_order = " . intval($HTTP_POST_VARS['forum_display_order']) . ", forum_display_sort = " . intval($HTTP_POST_VARS['forum_display_sort']) . ", prune_enable = " . intval($HTTP_POST_VARS['prune_enable']) . ", forum_thank = " . intval($HTTP_POST_VARS['forumthank']) . "
+                        SET forum_name = '" . str_replace("\'", "''", (string) $_POST['forumname']) . "', 
+						title_is_link = " . intval($_POST['forum_is_link'] = $_POST['forum_is_link'] ?? '') . ", 
+						weblink = '" . str_replace("\'", "''", (string) $_POST['forum_weblink']) . "', 
+						forum_link_icon = '" . str_replace("\'", "''", (string) $_POST['forum_link_icon']) . "', 
+						forum_link_target = " . intval($_POST['forum_link_target'] = $_POST['forum_link_target'] ?? '') . ", 
+						forum_color = '" . str_replace("\'", "''", (string) $_POST['forum_color']) . "', 
+						cat_id = $new_cat, forum_parent = $new_parent, 
+						forum_desc = '" . str_replace("\'", "''", (string) $_POST['forumdesc']) . "', 
+						forum_status = " . intval($_POST['forumstatus']) . ", 
+						forum_password = '" . str_replace("\'", "''", (string) $_POST['password']) . "', 
+						forum_icon = '" . str_replace("\'", "''", (string) $_POST['forumicon']) . "', 
+						forum_display_order = " . intval($_POST['forum_display_order']) . ", 
+						forum_display_sort = " . intval($_POST['forum_display_sort'] = $_POST['forum_display_sort'] ?? '') . ", 
+						prune_enable = " . intval($_POST['prune_enable'] = $_POST['prune_enable'] ?? '0') . ", 
+						forum_thank = " . intval($_POST['forumthank']) . "
 
-                                WHERE forum_id = " . intval($HTTP_POST_VARS[POST_FORUM_URL]);
+
+                        WHERE forum_id = " . intval($_POST[POST_FORUM_URL]);
 /*****[END]********************************************
  [ Mod:    Thank You Mod                       v1.1.8 ]
  [ Mod:    Forum Icons                         v1.0.4 ]
@@ -2182,7 +2200,7 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
  ******************************************************/
 
-										'FORUM_ICON_IMG' => ( $forum_rows[$j]['forum_icon'] ) ? '<img src="' . $phpbb_root_path . $forum_rows[$j]['forum_icon'] . '" alt="'.$forum_data[$j]['forum_name'].'" title="'.$forum_data[$j]['forum_name'].'" />' : '',
+										'FORUM_ICON_IMG' => ( $forum_rows[$j]['forum_icon'] ) ? '<img src="' . $phpbb_root_path . $forum_rows[$j]['forum_icon'] . '" alt="'.$forum_data[$j]['forum_name'] = $forum_data[$j]['forum_name'] ?? ''.'" title="'.$forum_data[$j]['forum_name'] = $forum_data[$j]['forum_name'] ?? ''.'" />' : '',
 
 /*****[END]********************************************
 
@@ -2190,7 +2208,7 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 
  ******************************************************/
 
-                                        'ROW_COLOR' => $row_color,
+                                        'ROW_COLOR' => $row_color = $row_color ?? '',
 
 /*****[BEGIN]******************************************
 

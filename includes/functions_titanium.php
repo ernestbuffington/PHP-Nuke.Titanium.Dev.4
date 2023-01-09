@@ -186,3 +186,35 @@ function titanium_site_up($url) {
     if (@fsockopen($host, 80, $errno, $errdesc, 10) === false) return false;
     return true;
 }
+
+function get_time_relative($ptime) {
+    $estimate_time = time() - $ptime;
+    if ($estimate_time < 1) {
+        return 'Secs';
+    }
+    $condition = [12 * 30 * 24 * 60 * 60 => 'Year',
+        30 * 24 * 60 * 60 => 'Month',
+        24 * 60 * 60 => 'Day',
+        60 * 60 => 'Hour',
+        60 => 'Min',
+        1 => 'Sec'
+        ];
+
+    foreach ($condition as $secs => $str):
+        $d = $estimate_time / $secs;
+        if ($d >= 1):
+            $r = round($d);
+            # default calendar icon       
+            $icon_string = '' . $r . '' . ' ' . $str . ($r > 1 ? 's' : '') . '';
+            # change the icon into a clock if less than or equal to 24 hours
+            if ($estimate_time <= 86400):
+                $icon_string = '' . $r . '' . ' ' . $str . ($r > 1 ? 's' : '') . '';
+            endif;
+            # change the icon into a stopwatch if less than 60 seconds
+            if ($estimate_time <= 60):
+                $icon_string = '' . $r . '' . ' ' . $str . ($r > 1 ? 's' : '') . '';
+            endif;
+            return $icon_string;
+        endif;
+    endforeach;
+}

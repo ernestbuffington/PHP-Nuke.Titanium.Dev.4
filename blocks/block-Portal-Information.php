@@ -1,42 +1,49 @@
 <?php 
 if(!defined('NUKE_EVO')) exit;
-global $domain, $textcolor1;
+global $heading_color, $db, $textcolor1;
+
+$heading_color = 'green';
 
 $content = '<hr>';
 $content .= '<div align="center">';
-$content .= '<strong><font color="'.$textcolor1.'">Domain</font></strong><br />'.$domain.'';
+$content .= '<strong><span style="color:'.$heading_color.';">Dedicated Rack 68</span></strong><br />Intel(R) Xeon(R)<br /> CPU E3-1230 v5 @ 3.40GHz<br />Data Center: Tampa, Florida<br />Hosting: $500.00 Monthly';
 $content .= '<hr>';
-$content .= '<strong><font color="'.$textcolor1.'">Dedicated Rack 68</font></strong><br />Intel(R) Xeon(R)<br /> CPU E3-1230 v5 @ 3.40GHz<br />Data Center: Tampa, Florida<br />Hosting: $500.00 Monthly';
+$content .= '<strong><span style="color:'.$heading_color.';">CMS</span></strong><br />PHP-Nuke Titanium v'.NUKE_TITANIUM.'<br />';
 $content .= '<hr>';
-$content .= '<strong><font color="'.$textcolor1.'">CMS</font></strong><br />PHP-Nuke Titanium Dev 4<br />v4.0.0 Beta<br />';
+$content .= '<strong><span style="color:'.$heading_color.';">Linux</span></strong><br />CENTOS 7.9.2009<br />x86_64<br />';
 $content .= '<hr>';
-$content .= '<strong><font color="'.$textcolor1.'">Linux</font></strong><br />CENTOS 7.9.2009<br />x86_64<br />';
+$content .= '<strong><span style="color:'.$heading_color.';">EasyApache 4</span></strong><br />Apache 2.4.54<br />';
 $content .= '<hr>';
-$content .= '<strong><font color="'.$textcolor1.'">Perl</font></strong><br />Apache 2.4.54<br />';
+$content .= '<strong><strong><span style="color:'.$heading_color.';">Perl</span></strong><br />Version: 5.16.3<br />';
 $content .= '<hr>';
-$content .= '<strong><font color="'.$textcolor1.'">Server</font></strong><br />Perl Version: 5.16.3<br />';
+$content .= '<strong><strong><span style="color:'.$heading_color.';">cPanel</span></strong><br />106.0.11<br />';
 $content .= '<hr>';
-$content .= '<strong><font color="'.$textcolor1.'">cPanel</font></strong><br />104.0 (build 10)<br />';
+$content .= '<strong><strong><span style="color:'.$heading_color.';">PHP Version</span></strong><br />php-fpm '.PHPVERS.'<br />';
 $content .= '<hr>';
-$content .= '<strong><font color="'.$textcolor1.'">PHP Version</font></strong><br /> 7.4.30<br />';
+$content .= '<strong><strong><span style="color:'.$heading_color.';">Mysqli Support</span></strong><br />'.mysqli_get_client_info().'<br />'.$db->mariadb_short_version().'';
 $content .= '<hr>';
-$content .= '<strong><font color="'.$textcolor1.'">Database</font></strong><br />10.2.44-MariaDB<br />';
+$content .= '<strong><strong><span style="color:'.$heading_color.';">cURL</span></strong><br />7.86.0<br />';
 $content .= '<hr>';
-$content .= '<strong><font color="'.$textcolor1.'">cURL</font></strong><br /> 7.76.0<br />';
+$content .= '<strong><strong><span style="color:'.$heading_color.';">DOM/XML</span></strong><br /> API Version: 20031129<br />';
 $content .= '<hr>';
-$content .= '<strong><font color="'.$textcolor1.'">DOM/XML</font></strong><br /> API Version: 20031129<br />';
-$content .= '<hr>';
-$content .= '<strong><font color="'.$textcolor1.'">GD Version</font></strong><br />'; 
+$content .= '<strong><strong><span style="color:'.$heading_color.';">GD Version</span></strong><br />'; 
 $content .= 'bundled (2.1.0 compatible)<br />';
 $content .= '<hr>';
-$content .= '<strong><font color="'.$textcolor1.'">JSON support</font></strong><br /> enabled<br />';
+$content .= '<strong><strong><span style="color:'.$heading_color.';">JSON support</span></strong><br /> enabled<br />';
 $content .= '<hr>';
-$content .= '<strong><font color="'.$textcolor1.'">MysqlI Support</font></strong><br />';
-$content .= 'mysqlnd 7.4.16<br />';
+
+$content .= '<strong><strong><span style="color:'.$heading_color.';">OpenSSL</span></strong><br />';
+$content .= 'Version 1.1.1s 1 Nov 2022';
 $content .= '<hr>';
-$content .= '<strong><font color="'.$textcolor1.'">OpenSSL</font></strong><br />';
-$content .= 'Version 1.1.1k 25 Mar 2021';
+
+$content .= '<strong><span style="color:'.$heading_color.';">Phar</span></strong><br />';
+$content .= 'API version 1.1.1';
 $content .= '<hr>';
+
+$content .= '<strong><span style="color:'.$heading_color.';">Memcached</span></strong><br />';
+$content .= 'Version 3.1.5';
+$content .= '<hr>';
+
 $content .= '</div>';
 
 ?>

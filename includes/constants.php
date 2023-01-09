@@ -105,6 +105,9 @@ define_once('POST_STICKY', 1);
 define_once('POST_ANNOUNCE', 2);
 define_once('POST_GLOBAL_ANNOUNCE', 3);
 
+define_once('POST_BIRTHDAY', 4);
+define_once('POST_CALENDAR', 5);
+
 # Error codes
 define_once('GENERAL_MESSAGE', 200);
 define_once('GENERAL_ERROR', 202);
@@ -207,7 +210,7 @@ define_once('_HEADLINES_TABLE', $prefix.'_headlines');
 define_once('_MAIN_TABLE', $prefix.'_main');
 define_once('_META_TABLE', $prefix.'_meta');
 define_once('_MESSAGE_TABLE', $prefix.'_message');
-define_once('_MODULES_TABLE', $prefix.'_modules');
+define_once('_MODULES_TABLE', $prefix.'_modules'); #1
 define_once('_MODULES_CATEGORIES_TABLE', $prefix.'_modules_cat');
 define_once('_MODULES_CONFIG_TABLE', $prefix.'_modules_config');
 define_once('_MODULES_EXLINKS_TABLE', $prefix.'_modules_links');
@@ -460,8 +463,6 @@ define_once('_DOWNLOADS_LICENSES_TABLE', $prefix.'_downloads_licenses');
 define_once('AUTHORS_TABLE', $prefix.'_authors');
 define_once('EVOLUTION_CONFIG_TABLE', $prefix.'_evolution');
 define_once('META_TABLE', $prefix.'_meta');
-define_once('MODULES_TABLE', $prefix.'_modules');
-
 define_once('EVOLUTION_SESSIONS_TABLE', $prefix.'_session');
 define_once('USERS_BEEN_TABLE', $prefix.'_users_who_been');
 

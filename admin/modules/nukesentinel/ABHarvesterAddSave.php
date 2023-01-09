@@ -15,7 +15,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
    die ('You can\'t access this file directly...');
 }
 
-if(!get_magic_quotes_runtime()) { $harvester = addslashes($harvester); }
+$harvester = addslashes($harvester); 
 $testnum1 = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_harvesters` WHERE `harvester`='$harvester'"));
 if($testnum1 > 0) {
   include_once(NUKE_BASE_DIR.'header.php');

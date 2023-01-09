@@ -81,7 +81,7 @@ function evouserinfo_members()
 	   if ($db->sql_numrows($result)) 
 	   {
 
-	      $evouserinfo_members .= '<div style="font-weight: bold">'.$lang_evo_userblock['BLOCK']['MEMBERS']['PENDING'].'</div>'; 
+	      $evouserinfo_members .= '<div style="font-weight: bold">'.isset($lang_evo_userblock['BLOCK']['MEMBERS']['PENDING']).'</div>'; 
        
 	      while( $row = $db->sql_fetchrow($result) ) 
 		  {

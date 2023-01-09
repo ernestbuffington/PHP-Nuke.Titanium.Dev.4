@@ -1331,14 +1331,21 @@ function encode_ip($dotquad_ip)
 function decode_ip($int_ip)
 {
     $hexipbang = explode('.', chunk_split((string) $int_ip, 2, '.'));
-
+    if(!isset($hexipbang[0]))
+	$hexipbang[0] = '';
+    if(!isset($hexipbang[1]))
+	$hexipbang[1] = '';
+    if(!isset($hexipbang[2]))
+	$hexipbang[2] = '';
+    if(!isset($hexipbang[3]))
+	$hexipbang[3] = '';
     return hexdec($hexipbang[0]). '.' . hexdec($hexipbang[1]) . '.' . hexdec($hexipbang[2]) . '.' . hexdec($hexipbang[3]);
 }
 
 # Create date/time from format and timezone
 function create_date($format, $gmepoch, $tz)
 {
-    global $board_config, $lang, $userdata, $pc_dateTime;
+    global $board_config, $lang, $userinfo, $pc_dateTime;
 
     static $translate;
 
@@ -1356,20 +1363,20 @@ function create_date($format, $gmepoch, $tz)
 
     endif;
 
-   if($userdata['user_id'] != ANONYMOUS):
+   if($userinfo['user_id'] != ANONYMOUS):
 
-      switch($userdata['user_time_mode']):
+      switch($userinfo['user_time_mode']):
 
 	  case MANUAL_DST:
-	  $dst_sec = $userdata['user_dst_time_lag'] * 60;
+	  $dst_sec = $userinfo['user_dst_time_lag'] * 60;
       return (!empty($translate)) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec);
       break;
 
 	  case SERVER_SWITCH:
 	  if(!empty($gmepoch) && is_long($gmepoch)): 
-      $dst_sec = date('I', $gmepoch) * $userdata['user_dst_time_lag'] * 60;
+      $dst_sec = date('I', $gmepoch) * $userinfo['user_dst_time_lag'] * 60;
 	  else: 
-      $dst_sec = date('I') * $userdata['user_dst_time_lag'] * 60;
+      $dst_sec = date('I') * $userinfo['user_dst_time_lag'] * 60;
       endif;
 	  return (!empty($translate)) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec);
       break;
@@ -1392,7 +1399,7 @@ function create_date($format, $gmepoch, $tz)
 	  if(isset($pc_dateTime['pc_timeOffset'])):
       $tzo_sec = $pc_dateTime['pc_timeOffset'];
 	  else:
-      $user_pc_timeOffsets = explode("/", (string) $userdata['user_pc_timeOffsets']);
+      $user_pc_timeOffsets = explode("/", (string) $userinfo['user_pc_timeOffsets']);
       $tzo_sec = $user_pc_timeOffsets[1] ?? '';
       endif;
 	  return (!empty($translate)) ? strtr(gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec);
@@ -1415,9 +1422,9 @@ else:
 
 	case SERVER_SWITCH:
     if(!empty($gmepoch) && is_long($gmepoch)): 
-    $dst_sec = date('I', $gmepoch) * $userdata['user_dst_time_lag'] * 60;
+    $dst_sec = date('I', $gmepoch) * $userinfo['user_dst_time_lag'] * 60;
 	else: 
-    $dst_sec = date('I') * $userdata['user_dst_time_lag'] * 60;
+    $dst_sec = date('I') * $userinfo['user_dst_time_lag'] * 60;
     endif;
 	return (!empty($translate)) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec);
 	break;
@@ -2017,7 +2024,7 @@ function bblogin($session_id) {
 
         global $userdata, $board_config, $user_ip, $session_length, $session_id, $db, $nuke_file_path, $cookie;
 
-        define("IN_LOGIN", true);
+        define_once("IN_LOGIN", true);
 
         $nuid = $cookie[0];
 
@@ -2295,11 +2302,9 @@ function password_check ($mode, $id, $password, $redirect)
 {
 	$savename = null;
 
-    global $db, $template, $theme, $board_config, $lang, $phpEx, $phpbb_root_path, $gen_simple_header;
-
-	global $userdata;
-
-	global $_COOKIE;
+    global $userdata, $db, $template, $theme, $board_config, $lang, $phpEx, $phpbb_root_path, $gen_simple_header;
+	
+	//global $_COOKIE; <- dumb ass
 
 	$cookie_name = $board_config['cookie_name'];
 
@@ -2342,7 +2347,8 @@ function password_check ($mode, $id, $password, $redirect)
 		message_die(GENERAL_MESSAGE, $message);
 	}
 
-	$passdata[$id] = md5((string) $password);
+	$passdata = [];
+	$passdata[$id] = (string) $password;
 
 	setcookie($savename, serialize($passdata), ['expires' => 0, 'path' => (string) $cookie_path, 'domain' => (string) $cookie_domain, 'secure' => $cookie_secure]);
 
@@ -2362,7 +2368,13 @@ function password_box ($mode, $s_form_action)
 	global $db, $template, $theme, $board_config, $lang, $phpEx, $phpbb_root_path, $gen_simple_header;
 
 	global $userdata;
+    
+	if(!isset($lang['Enter_forum_password']))
+	$lang['Enter_forum_password'] = 'Please Enter The Forum Password';
 
+	if(!isset($lang['Enter_topic_password']))
+	$lang['Enter_topic_password'] = 'Please Enter The Topic Password';
+	
 	$l_enter_password = ( $mode == 'topic' ) ? $lang['Enter_topic_password'] : $lang['Enter_forum_password'];
 
 	$page_title = $l_enter_password;

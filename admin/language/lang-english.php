@@ -22,6 +22,7 @@
 
 global $admin_file, $sitename, $nukeurl, $admlang;
 
+define_once("_ALL","All");
 /**
  * Language Defines: Live Feed
  * @since 2.0.9d

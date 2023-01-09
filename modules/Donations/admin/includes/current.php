@@ -11,7 +11,7 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 
 //Close the open table
 CloseTable();
-echo '<br />';
+//echo '<br />';
 //Start a new table
 OpenTable();
 
@@ -142,10 +142,17 @@ function view_display_links () {
 /*~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-*/
 
 view_display_links();
-echo "<br />";
+//echo "<br />";
 
 //Get values
 global $donations, $gen_configs;
+
+if(!isset($dis))
+$dis = 0;
+
+if(!isset($page))
+$page = 69;
+
 $gen_configs = get_gen_configs();
 $donations = ($dis == 'goal') ? get_donations_goal() : get_donations();
 //Display donations

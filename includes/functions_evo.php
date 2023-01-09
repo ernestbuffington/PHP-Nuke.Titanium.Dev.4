@@ -546,12 +546,14 @@ function EvoCrypt($pass)
 }
 
 // http://www.php.net/array_combine
+/* PHP 8 has this already
 if (!function_exists('array_combine')) 
 {
     function array_combine($keys, $values) {
         $result = array();
         if (is_array($keys) && is_array($values)) {
-            while (list(, $key) = each($keys)) {
+            while (list(, $key) = each($keys)) 
+			{
                 if (list(, $value) = each($values)) {
                     $result[$key] = $value;
                 } else {
@@ -562,6 +564,7 @@ if (!function_exists('array_combine'))
         return $result;
     }
 }
+*/
 
 // http://www.php.net/file_get_contents
 if(!function_exists('file_get_contents')) 

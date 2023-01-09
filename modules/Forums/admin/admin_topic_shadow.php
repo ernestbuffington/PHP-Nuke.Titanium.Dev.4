@@ -71,7 +71,10 @@ foreach($params as $var => $default)
 /***************************************************************************/
 /* Make a new output buffer for this page in order to not screw up cookie
 setting.  If this is disabled, settings will NEVER be saved */
-if(!DISABLE_PREFERENCE_SAVING && !$board_config['gzip_compress']) ob_start();
+global $board_config;
+$board_config['gzip_compress'] = $board_config['gzip_compress'] ?? '';
+if(!DISABLE_PREFERENCE_SAVING && !$board_config['gzip_compress']) 
+ob_start();
 
 require($phpbb_root_path . 'extension.inc');
 (file_exists('pagestart.' . $phpEx)) ? require('pagestart.' . $phpEx) : require('pagestart.inc');

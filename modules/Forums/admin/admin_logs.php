@@ -85,7 +85,10 @@ if ( $all_admin_authorized == '0' && $userdata['user_id'] <> '2' && !is_mod_admi
 
 $mode_types_text = array($lang['Time'], $lang['Member'], $lang['Action'], $lang['Id_log']);
 $mode_types = array('time', 'username', 'mode', 'id');
-    
+
+if(!isset($mode))
+$mode = '';    
+
 $select_sort_mode = '<select name="mode">';
 for($i = 0; $i < count($mode_types_text); $i++)
     {
@@ -187,7 +190,7 @@ $sql = "SELECT *
         $temp_url = append_sid('admin_users.'.$phpEx.'?mode=edit&u=' . $user_id); 
         $temp2_url = ('./../../../modules.php?name=Forums&file=viewtopic&t=' . $topic);
 
-        if ($topic_title['topic_title']) {
+        if (isset($topic_title['topic_title'])) {
         $topic_title = (strlen($topic_title['topic_title']) >= 15) ? substr($topic_title['topic_title'], 0, 15)."..." : $topic_title['topic_title'];
         $topic_title = '<a href="' . $temp2_url . '" target="_blank">' . $topic_title . '</a>';
         } else {

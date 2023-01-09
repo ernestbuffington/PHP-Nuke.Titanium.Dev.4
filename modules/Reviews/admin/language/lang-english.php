@@ -21,30 +21,30 @@
 /* And, if you use HTML code, please double check it.                     */
 /**************************************************************************/
 
-define("_EMAIL","Email");
-define("_SAVECHANGES","Save Changes");
-define("_SCORE","Score:");
-define("_PRODUCTTITLE","Product Title");
-define("_RELATEDLINK","Related Link");
-define("_LINKTITLE","Link Title");
-define("_REVIEWER","Reviewer:");
-define("_REVIEWID","Review ID");
-define("_REVIEWS","Reviews");
-define("_DATE","Date");
-define("_REV_ADMIN_HEADER", "Nuke-Evolution Reviews :: Modules Admin Panel");
-define("_REV_RETURNMAIN", "Return to Main Administration");
-define("_REVADMIN","Reviews Administration");
-define("_REVTITLE","Reviews Page Title");
-define("_REVDESC","Reviews Page Description");
-define("_REVWAITING","Reviews Waiting for Validation");
-define("_REVIMGINFO","Store your 150x150 image in images/reviews");
-define("_TEXT","Text");
-define("_IMAGE","Image");
-define("_NOREVIEW2ADD","No reviews to add");
-define("_ADDREVIEW","Add Review");
-define("_CLICK2ADDREVIEW","Click here to write a review");
-define("_DELMODREVIEW","Delete / Modify a review");
-define("_MODREVINFO","You can simply delete/modify reviews by browsing <a href=\"modules.php?name=Reviews\">Reviews</a> as Admin.");
-define("_LANGUAGE","Language");
+define_once("_EMAIL","Email");
+define_once("_SAVECHANGES","Save Changes");
+define_once("_SCORE","Score:");
+define_once("_PRODUCTTITLE","Product Title");
+define_once("_RELATEDLINK","Related Link");
+define_once("_LINKTITLE","Link Title");
+define_once("_REVIEWER","Reviewer:");
+define_once("_REVIEWID","Review ID");
+define_once("_REVIEWS","Reviews");
+define_once("_DATE","Date");
+define_once("_REV_ADMIN_HEADER", "Nuke-Evolution Reviews :: Modules Admin Panel");
+define_once("_REV_RETURNMAIN", "Return to Main Administration");
+define_once("_REVADMIN","Reviews Administration");
+define_once("_REVTITLE","Reviews Page Title");
+define_once("_REVDESC","Reviews Page Description");
+define_once("_REVWAITING","Reviews Waiting for Validation");
+define_once("_REVIMGINFO","Store your 150x150 image in images/reviews");
+define_once("_TEXT","Text");
+define_once("_IMAGE","Image");
+define_once("_NOREVIEW2ADD","No reviews to add");
+define_once("_ADDREVIEW","Add Review");
+define_once("_CLICK2ADDREVIEW","Click here to write a review");
+define_once("_DELMODREVIEW","Delete / Modify a review");
+define_once("_MODREVINFO","You can simply delete/modify reviews by browsing <a href=\"modules.php?name=Reviews\">Reviews</a> as Admin.");
+define_once("_LANGUAGE","Language");
 
 ?>

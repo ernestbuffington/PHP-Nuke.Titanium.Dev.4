@@ -41,34 +41,40 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
     $is_user = is_user();
     $username = $userinfo['username'];
 
-    if ((($conf = $cache->load('conf', 'shoutbox')) == false) || empty($conf)) 
+    if (!($conf = $cache->load('conf', 'titanium_shoutbox')))
 	{
         $sql = "SELECT * FROM `".$prefix."_shoutbox_conf`";
         $result = $db->sql_query($sql);
         $conf = $db->sql_fetchrow($result);
-        $cache->save('conf', 'shoutbox', $conf);
+        $cache->save('conf', 'titanium_shoutbox', $conf);
         $db->sql_freeresult($result);
     }
 
-    if ((($nameblock = $cache->load('nameblock', 'shoutbox')) == false) || empty($nameblock)) 
+    if (!($nameblock = $cache->load('nameblock', 'titanium_shoutbox'))) 
 	{
         $sql = "SELECT `name` FROM ".$prefix."_shoutbox_nameblock";
         $nameresult = $db->sql_query($sql);
         while ($row = $db->sql_fetchrow($nameresult)) {
             $nameblock[] = $row;
         }
-        $cache->save('nameblock', 'shoutbox', $nameblock);
+        $cache->save('nameblock', 'titanium_shoutbox', $nameblock);
         $db->sql_freeresult($nameresult);
     }
 
-    if ((($censor = $cache->load('censor', 'shoutbox')) == false) || empty($censor)) 
+    if (!($censor = $cache->load('censor', 'titanium_shoutbox'))) 
 	{
         $sql = "SELECT * FROM ".$prefix."_shoutbox_censor";
         $result = $db->sql_query($sql);
-        while ($row = $db->sql_fetchrow($result)) {
-            $censor[] = $row;
+        
+		$censor = [];
+		$row = [];
+		
+		while ($row = $db->sql_fetchrow($result)) {
+        
+		if(!isset($row))
+			$censor[] = $row;
         }
-        $cache->save('censor', 'shoutbox', $censor);
+        $cache->save('censor', 'titanium_shoutbox', $censor);
         $db->sql_freeresult($result);
     }
 

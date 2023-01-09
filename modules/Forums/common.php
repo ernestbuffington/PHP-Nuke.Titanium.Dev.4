@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /***************************************************************************
  *                                common.php
  *                            -------------------
@@ -35,7 +34,7 @@ if (!defined('IN_PHPBB'))
 {
     die('Hacking attempt');
 }
-
+global $board_config, $userinfo;
 // based on http://forum.mamboserver.com/showthread.php?t=26406 article
 $url_denied = array(
 	'/bin', '/usr', '/etc', '/boot', '/dev', '/perl', '/initrd', '/lost+found', '/mnt', '/proc', '/root', '/sbin', '/cgi-bin', '/tmp', '/var',
@@ -273,3 +272,4 @@ if( $board_config['board_disable'] && !defined("IN_ADMIN") && !defined("IN_LOGIN
  [ Mod:     Admin view board while disabled    v1.0.0 ]
  ******************************************************/
 ?>
+

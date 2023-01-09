@@ -10,7 +10,7 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 
 //Close the open table
 CloseTable();
-echo '<br />';
+//echo '<br />';
 //Start a new table
 OpenTable();
 

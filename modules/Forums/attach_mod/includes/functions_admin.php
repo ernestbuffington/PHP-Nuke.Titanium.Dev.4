@@ -51,12 +51,7 @@ function process_quota_settings($mode, $id, $quota_type, $quota_limit_id = 0)
 
             if ($db->sql_numrows($result) == 0)
             {
-                $sql_ary = array(
-                    'user_id'        => (int) $id,
-                    'group_id'        => 0,
-                    'quota_type'    => (int) $quota_type,
-                    'quota_limit_id'=> (int) $quota_limit_id
-                );
+                $sql_ary = ['user_id'        => (int) $id, 'group_id'        => 0, 'quota_type'    => (int) $quota_type, 'quota_limit_id'=> (int) $quota_limit_id];
 
                 $sql = 'INSERT INTO ' . QUOTA_TABLE . ' ' . attach_mod_sql_build_array('INSERT', $sql_ary);
             }
@@ -127,8 +122,10 @@ function process_quota_settings($mode, $id, $quota_type, $quota_limit_id = 0)
 function sort_multi_array ($sort_array, $key, $sort_order, $pre_string_sort = 0) 
 {
 	$last_element = sizeof($sort_array) - 1;
-
-    if (!$pre_string_sort)
+    
+	if(isset($sort_array[$last_element-1][$key])):
+    
+	if (!$pre_string_sort)
     {
         $string_sort = (!is_numeric($sort_array[$last_element-1][$key]) ) ? true : false;
     }
@@ -136,8 +133,9 @@ function sort_multi_array ($sort_array, $key, $sort_order, $pre_string_sort = 0)
     {
         $string_sort = $pre_string_sort;
     }
-
-    for ($i = 0; $i < $last_element; $i++) 
+    endif;
+    
+	for ($i = 0; $i < $last_element; $i++) 
     {
         $num_iterations = $last_element - $i;
 
@@ -147,6 +145,7 @@ function sort_multi_array ($sort_array, $key, $sort_order, $pre_string_sort = 0)
 
             // do checks based on key
             $switch = false;
+			if (isset($sort_array[$j][$key])):
             if (!$string_sort)
             {
                 if (($sort_order == 'DESC' && intval($sort_array[$j][$key]) < intval($sort_array[$j + 1][$key])) || ($sort_order == 'ASC' && intval($sort_array[$j][$key]) > intval($sort_array[$j + 1][$key])))
@@ -156,13 +155,14 @@ function sort_multi_array ($sort_array, $key, $sort_order, $pre_string_sort = 0)
             }
             else
             {
-                if (($sort_order == 'DESC' && strcasecmp($sort_array[$j][$key], $sort_array[$j + 1][$key]) < 0) || ($sort_order == 'ASC' && strcasecmp($sort_array[$j][$key], $sort_array[$j + 1][$key]) > 0))
+                if (($sort_order == 'DESC' && strcasecmp((string) $sort_array[$j][$key], (string) $sort_array[$j + 1][$key]) < 0) || ($sort_order == 'ASC' && strcasecmp((string) $sort_array[$j][$key], (string) $sort_array[$j + 1][$key]) > 0))
                 {
                     $switch = true;
                 }
             }
-
-            if ($switch)
+            endif;
+            
+			if ($switch)
             {
                 $temp = $sort_array[$j];
                 $sort_array[$j] = $sort_array[$j + 1];
@@ -245,9 +245,11 @@ function entry_exists($attach_id)
 */
 function collect_attachments()
 {
+    $regs = [];
+    $dirinfo = [];
     global $upload_dir, $attach_config;
 
-    $file_attachments = array(); 
+    $file_attachments = []; 
 
     if (!intval($attach_config['allow_ftp_upload']))
     {
@@ -271,7 +273,7 @@ function collect_attachments()
     else
     {
         $conn_id        = attach_init_ftp();
-        $file_listing   = array();
+        $file_listing   = [];
         $file_listing   = @ftp_rawlist($conn_id, '');
 
         if (!$file_listing)
@@ -281,7 +283,7 @@ function collect_attachments()
 
 		for ($i = 0; $i < sizeof($file_listing); $i++)
         {
-            if (ereg("([-d])[rwxst-]{9}.* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9]) ([0-9]{2}:[0-9]{2}) (.+)", $file_listing[$i], $regs))
+            if (preg_match('#([\-d])[rwxst\-]{9}.* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9]) ([0-9]{2}:[0-9]{2}) (.+)#m', $file_listing[$i], $regs))
             {
                 if ($regs[1] == 'd') 
                 {    
@@ -295,7 +297,7 @@ function collect_attachments()
             
             if ($dirinfo[0] != 1 && $dirinfo[4] != 'index.php' && $dirinfo[4] != '.htaccess' && $dirinfo[4] != 'index.html')
             {
-                $file_attachments[] = trim($dirinfo[4]);
+                $file_attachments[] = trim((string) $dirinfo[4]);
             }
         }
 
@@ -310,6 +312,8 @@ function collect_attachments()
 */
 function get_formatted_dirsize()
 {
+    $regs = [];
+    $dirinfo = [];
     global $attach_config, $upload_dir, $lang;
 
     $upload_dir_size = 0;
@@ -337,7 +341,7 @@ function get_formatted_dirsize()
     {
         $conn_id = attach_init_ftp();
 
-        $file_listing = array();
+        $file_listing = [];
 
         $file_listing = @ftp_rawlist($conn_id, '');
 
@@ -349,7 +353,7 @@ function get_formatted_dirsize()
 
         for ($i = 0; $i < count($file_listing); $i++)
         {
-            if (ereg("([-d])[rwxst-]{9}.* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9]) ([0-9]{2}:[0-9]{2}) (.+)", $file_listing[$i], $regs))
+            if (preg_match('#([\-d])[rwxst\-]{9}.* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9]) ([0-9]{2}:[0-9]{2}) (.+)#m', $file_listing[$i], $regs))
             {
                 if ($regs[1] == 'd') 
                 {    
@@ -370,9 +374,9 @@ function get_formatted_dirsize()
         @ftp_quit($conn_id);
     }
 
-    if ($upload_dir_size >= 1048576)
+    if ($upload_dir_size >= 1_048_576)
     {
-        $upload_dir_size = round($upload_dir_size / 1048576 * 100) / 100 . ' ' . $lang['MB'];
+        $upload_dir_size = round($upload_dir_size / 1_048_576 * 100) / 100 . ' ' . $lang['MB'];
     }
     else if ($upload_dir_size >= 1024)
     {
@@ -391,16 +395,25 @@ function get_formatted_dirsize()
 */
 function search_attachments($order_by, &$total_rows)
 {
-    global $db, $HTTP_POST_VARS, $HTTP_GET_VARS, $lang;
+    $search_author = null;
+    $search_keyword_fname = null;
+    $search_keyword_comment = null;
+    $search_count_smaller = null;
+    $search_count_greater = null;
+    $search_size_smaller = null;
+    $search_size_greater = null;
+    $search_days_greater = null;
+    $search_forum = null;
+    global $db, $_POST, $_GET, $lang;
     
-    $where_sql = array();
+    $where_sql = [];
 
     // Get submitted Vars
-    $search_vars = array('search_keyword_fname', 'search_keyword_comment', 'search_author', 'search_size_smaller', 'search_size_greater', 'search_count_smaller', 'search_count_greater', 'search_days_greater', 'search_forum', 'search_cat');
+    $search_vars = ['search_keyword_fname', 'search_keyword_comment', 'search_author', 'search_size_smaller', 'search_size_greater', 'search_count_smaller', 'search_count_greater', 'search_days_greater', 'search_forum', 'search_cat'];
     
 	for ($i = 0; $i < sizeof($search_vars); $i++)
     {
-        $$search_vars[$i] = get_var($search_vars[$i], '');
+        ${$search_vars}[$i] = get_var($search_vars[$i], '');
     }
 
     // Author name search 
@@ -408,10 +421,10 @@ function search_attachments($order_by, &$total_rows)
     {
         // Bring in line with 2.0.x expected username
         $search_author = addslashes(html_entity_decode($search_author));
-        $search_author = stripslashes(phpbb_clean_username($search_author));
+        $search_author = stripslashes((string) phpbb_clean_username($search_author));
 
         // Prepare for directly going into sql query
-        $search_author = str_replace('*', '%', attach_mod_sql_escape($search_author));
+        $search_author = str_replace('*', '%', (string) attach_mod_sql_escape($search_author));
 
         // We need the post_id's, because we want to query the Attachment Table
         $sql = 'SELECT user_id
@@ -542,7 +555,7 @@ function limit_array($array, $start, $pagelimit)
     // array from start - start+pagelimit
 	$limit = (sizeof($array) < ($start + $pagelimit)) ? sizeof($array) : $start + $pagelimit;
 
-    $limit_array = array();
+    $limit_array = [];
 
     for ($i = $start; $i < $limit; $i++)
     {

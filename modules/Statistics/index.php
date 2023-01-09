@@ -40,7 +40,7 @@ $year = isset($_GET['year']) ? intval($_GET['year']) : 0;
 $month = isset($_GET['month']) ? intval($_GET['month']) : 0;
 $date = isset($_GET['date']) ? intval($_GET['date']) : 0;
 
-switch(strtolower($op)) {
+switch(strtolower(isset($op))) {
     case 'stats':   Stats();                        break;
     case 'yearly':  YearlyStats($year);             break;
     case 'monthly': MonthlyStats($year,$month);     break;

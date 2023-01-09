@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /***************************************************************************
  *                               extension.inc
  *                            -------------------
@@ -64,7 +63,14 @@ if (!defined('IN_PHPBB'))
 // Change this if your extension is not .php!
 //
 $phpEx = "php";
-
 $starttime = 0;
+
+# Vendor Autoload - only if vendor directory exists with an autoload file! START
+$siteRootDir = dirname($_SERVER['DOCUMENT_ROOT']);
+defined('VENDOR_BASE_DIR') or define('VENDOR_BASE_DIR', $siteRootDir . '/public_html/vendor/');
+if(file_exists(VENDOR_BASE_DIR.'autoload.php')):
+  require_once(VENDOR_BASE_DIR.'autoload.php');
+endif;  
+# Vendor Autoload - only if vendor directory exists with an autoload file! END
 
 ?>

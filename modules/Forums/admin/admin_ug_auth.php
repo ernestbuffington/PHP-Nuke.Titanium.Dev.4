@@ -931,13 +931,13 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
 		    $ug = ( $mode == 'user' ) ? 'group&amp;' . POST_GROUPS_URL : 'user&amp;' . POST_USERS_URL;
             if (!$singleUg_info['user_pending'])
             {
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-           $t_usergroup_list .= ( ( $t_usergroup_list != '' ) ? ', ' : '' ) . '<a href="' . append_sid("admin_ug_auth.$phpEx?mode=$ug=" . $id[$i]) . '">' . UsernameColor($name[$i]) . '</a>';
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
+            /*****[BEGIN]******************************************
+             [ Mod:    Advanced Username Color             v1.0.5 ]
+             ******************************************************/
+           $t_usergroup_list .= ( ( $t_usergroup_list != '' ) ? ', ' : '' ) . '<a href="' . append_sid("admin_ug_auth.$phpEx?mode=$ug=" . $id[$i] = $id[$i] ?? '') . '">' . UsernameColor($name[$i] = $name[$i] ?? '') . '</a>';
+           /*****[END]********************************************
+            [ Mod:    Advanced Username Color             v1.0.5 ]
+            ******************************************************/
             }
             else
             {

@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /***************************************************************************
  *                              page_tail.php
  *                            -------------------
@@ -34,16 +33,12 @@ if (!defined('IN_PHPBB'))
     die('Hacking attempt');
 }
 
-//
-// Show the overall footer.
-//
+# Show the overall footer.
 global $popup, $admin_file, $cache;
-$admin_link = ( $userdata['user_level'] == ADMIN ) ? '<a href="modules/Forums/admin/index.php">' . $lang['Admin_panel'] . '</a><br /><br />' : '';
+$admin_link = ( $userdata['user_level'] == ADMIN ) ? '<a href="modules/Forums/admin/index.php" target="_blank">' . $lang['Admin_panel'] . '</a><br /><br />' : '';
 
-/*****[BEGIN]******************************************
- [ Mod:     Report Posts                       v1.2.3 ]
- ******************************************************/
-include_once('includes/functions_report.'.$phpEx);
+# Mod: Report Posts v1.2.3 START
+include_once(NUKE_BASE_DIR . '/includes/functions_report.'.$phpEx);
 
 if ( $userdata['user_level'] >= ADMIN )
 {
@@ -64,40 +59,32 @@ else
 {
     $report_link = '';
 }
-/*****[END]********************************************
- [ Mod:     Report Posts                       v1.2.3 ]
- ******************************************************/
+# Mod: Report Posts v1.2.3 END
 
-$template->set_filenames(array(
-        'overall_footer' => ( empty($gen_simple_header) ) ? 'overall_footer.tpl' : 'simple_footer.tpl')
+$template->set_filenames(['overall_footer' => ( empty($gen_simple_header) ) ? 'overall_footer.tpl' : 'simple_footer.tpl']
 );
 
-$template->assign_vars(array(
-        'TRANSLATION_INFO' => (isset($lang['TRANSLATION_INFO'])) ? $lang['TRANSLATION_INFO'] : ((isset($lang['TRANSLATION'])) ? $lang['TRANSLATION'] : ''),
-/*****[BEGIN]******************************************
- [ Mod:     Report Posts                       v1.2.3 ]
- ******************************************************/
-        'REPORT_LINK' => $report_link,
-        'ADMIN_LINK' => $admin_link)
-/*****[END]********************************************
- [ Mod:     Report Posts                       v1.2.3 ]
- ******************************************************/
+$template->assign_vars([
+    'TRANSLATION_INFO' => $lang['TRANSLATION_INFO'] ?? $lang['TRANSLATION'] ?? '',
+     # Mod: Report Posts v1.2.3 START
+    'REPORT_LINK' => $report_link,
+    'ADMIN_LINK' => $admin_link,
+     # Mod: Report Posts v1.2.3 END
+]
 );
 
 $template->pparse('overall_footer');
+
 CloseTable();
-//
-// Close our DB connection.
-//
-if ($popup != 1) {
-    include_once("footer.php");
+
+# Close our DB connection.
+if (!isset($popup)) {
+    include_once(NUKE_BASE_DIR . "/footer.php");
 } else {
      $cache->resync();
      $db->sql_close();
 }
 
-//
-// Compress buffered output if required and send to browser
-//
+# Compress buffered output if required and send to browser
 
 ?>

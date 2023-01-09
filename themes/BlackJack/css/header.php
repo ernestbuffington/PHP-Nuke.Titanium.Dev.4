@@ -613,7 +613,7 @@ td.td1802headerTD
   background-size: 100% auto, cover;
   /* background-attachment: fixed; */
   background-repeat: repeat-y;
-  background-image: url('themes/<?=$theme_name?>/blackjack/main_background/black_glass_1820z.png');
+  /* background-image: url('themes/<?=$theme_name?>/blackjack/main_background/black_glass_1820z.png'); */
   background-color: black;
 }
 

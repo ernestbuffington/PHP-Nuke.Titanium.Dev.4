@@ -1159,7 +1159,7 @@ function newlinkgraphic($datetime, $time)
 
     setlocale (LC_TIME, $locale);
     preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/", $time, $datetime);
-    $datetime = strftime(""._LINKSDATESTRING."", mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]));
+    $datetime = strftime(""._LINKSDATESTRING."", mktime(isset($datetime[4]),isset($datetime[5]),isset($datetime[6]),isset($datetime[2]),isset($datetime[3]),isset($datetime[1])));
     $datetime = ucfirst($datetime);
     $startdate = time();
     $count = 0;
@@ -1182,15 +1182,19 @@ function newlinkgraphic($datetime, $time)
 function categorynewlinkgraphic($cat) 
 {
     global $prefix, $db, $module_name, $locale;
-    $cat = intval(trim($cat));
-    $row = $db->sql_fetchrow($db->sql_query("SELECT date from ".$prefix."_links_links where cid='$cat' order by date desc limit 1"));
-    $time = $row['date'];
-
+    $cat = intval(trim((string) $cat));
+    $row = $db->sql_fetchrow($db->sql_query("SELECT `date` FROM ".$prefix."_links_links WHERE cid='$cat' ORDER by date desc limit 1"));
+    
+	if(!isset($row['date']))
+	$row['date'] = '';
+	
+	$time = $row['date'];
+    
     echo "&nbsp;";
-
+    
     setlocale (LC_TIME, $locale);
-    preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/", $time, $datetime);
-    $datetime = strftime(""._LINKSDATESTRING."", mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]));
+    preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/", (string) $time, $datetime);
+    $datetime = strftime(""._LINKSDATESTRING."", mktime(isset($datetime[4]),isset($datetime[5]),isset($datetime[6]),isset($datetime[2]),isset($datetime[3]),isset($datetime[1])));
     $datetime = ucfirst($datetime);
     $startdate = time();
     $count = 0;

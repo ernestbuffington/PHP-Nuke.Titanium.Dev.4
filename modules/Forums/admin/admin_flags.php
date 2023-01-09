@@ -33,20 +33,26 @@ $phpbb_root_path = "./../";
 require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 
-if( isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
+if(!isset($_GET['mode']))
+$_GET['mode'] = '';
+
+if(!isset($_POST['mode']))
+$_POST['mode'] = '';
+
+if($_GET['mode'] || $_POST['mode'])
 {
-	$mode = ($HTTP_GET_VARS['mode']) ? $HTTP_GET_VARS['mode'] : $HTTP_POST_VARS['mode'];
+  $mode = $_GET['mode'] ?: $_POST['mode'];
 }
 else 
 {
 	//
 	// These could be entered via a form button
 	//
-	if( isset($HTTP_POST_VARS['add']) )
+	if( isset($_POST['add']) )
 	{
 		$mode = "add";
 	}
-	else if( isset($HTTP_POST_VARS['save']) )
+	elseif( isset($_POST['save']) )
 	{
 		$mode = "save";
 	}
@@ -60,7 +66,7 @@ else
 if ( $mode == 'do_delete')
 {
 	// user bailed out, return to flag admin
-	if ( !$HTTP_POST_VARS['confirm'] )
+	if ( !$_POST['confirm'] )
 	{
 		$mode = '' ;
 	}
@@ -74,7 +80,7 @@ if( $mode != "" )
 		//
 		// They want to add a new flag, show the form.
 		//
-		$flag_id = ( isset($HTTP_GET_VARS['id']) ) ? intval($HTTP_GET_VARS['id']) : 0;
+		$flag_id = ( isset($_GET['id']) ) ? intval($_GET['id']) : 0;
 		
 		$s_hidden_fields = "";
 		
@@ -102,12 +108,15 @@ if( $mode != "" )
 		$template->set_filenames(array(
 			"body" => "admin/flags_edit_body.tpl")
 		);
-
+        
+		if (!isset($flag_info['flag_image']))
+		$flag_info['flag_image'] = '';
+		
 		$template->assign_vars(array(
-			"FLAG" => $flag_info['flag_name'],
+			"FLAG" => $flag_info['flag_name'] = $flag_info['flag_name'] ?? '',
 			"IMAGE" => ( $flag_info['flag_image'] != "" ) ? $flag_info['flag_image'] : "",
 			// "IMAGE_DISPLAY" => ( $flag_info['flag_image'] != "" ) ? '<img src="../../../images/flags/' . $flag_info['flag_image'] . '" />' : "",
-			"IMAGE_DISPLAY" => str_replace(array('.png',' '),array('','_'),$flag_rows[$i]['flag_image']),
+			"IMAGE_DISPLAY" => str_replace(array('.png',' '),array('','_'),$flag_rows[$i]['flag_image'] = $flag_rows[$i]['flag_image'] ?? ''),
 			
 			"L_FLAGS_TITLE" => $lang['Flags_title'],
 			"L_FLAGS_TEXT" => $lang['Flags_explain'],
@@ -128,9 +137,9 @@ if( $mode != "" )
 		// Ok, they sent us our info, let's update it.
 		//
 		
-		$flag_id = ( isset($HTTP_POST_VARS['id']) ) ? intval($HTTP_POST_VARS['id']) : 0;
-		$flag_name = ( isset($HTTP_POST_VARS['title']) ) ? trim($HTTP_POST_VARS['title']) : "";
-		$flag_image = ( (isset($HTTP_POST_VARS['flag_image'])) ) ? trim($HTTP_POST_VARS['flag_image']) : "";
+		$flag_id = ( isset($_POST['id']) ) ? intval($_POST['id']) : 0;
+		$flag_name = ( isset($_POST['title']) ) ? trim($_POST['title']) : "";
+		$flag_image = ( (isset($_POST['flag_image'])) ) ? trim($_POST['flag_image']) : "";
 
 		if( $flag_name == "" )
 		{
@@ -176,9 +185,9 @@ if( $mode != "" )
 	}
 	else if( $mode == 'delete' )
 	{
-		if( isset($HTTP_POST_VARS['id']) || isset($HTTP_GET_VARS['id']) )
+		if( isset($_POST['id']) || isset($_GET['id']) )
 		{
-			$flag_id = ( isset($HTTP_POST_VARS['id']) ) ? intval($HTTP_POST_VARS['id']) : intval($HTTP_GET_VARS['id']);
+			$flag_id = ( isset($_POST['id']) ) ? intval($_POST['id']) : intval($_GET['id']);
 		}
 		else
 		{
@@ -212,9 +221,9 @@ if( $mode != "" )
 		// Ok, they want to delete their flag
 		//
 		
-		if( isset($HTTP_POST_VARS['id']) || isset($HTTP_GET_VARS['id']) )
+		if( isset($_POST['id']) || isset($_GET['id']) )
 		{
-			$flag_id = ( isset($HTTP_POST_VARS['id']) ) ? intval($HTTP_POST_VARS['id']) : intval($HTTP_GET_VARS['id']);
+			$flag_id = ( isset($_POST['id']) ) ? intval($_POST['id']) : intval($_GET['id']);
 		}
 		else
 		{
@@ -374,4 +383,4 @@ $template->pparse("body");
 
 include('./page_footer_admin.'.$phpEx);
 
-?>
+

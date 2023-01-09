@@ -74,6 +74,7 @@ define('REGEXP_TLD', '/(\.AC
 					   \.CN|
 					   \.CO|
 					   \.COM|
+					   \.EXCHANGE|
 					   \.COOP|
 					   \.CR|
 					   \.CU|
@@ -463,11 +464,19 @@ function deepPurifier($data)
  	
 	if(!isset($config) || empty($config)) 
 	{
-		# This was changed because we added the repo and loaded it accordingly!
-        # Guy like me gets it done! TheGhost 9/20/2022 2:42pm
-		set_include_path(NUKE_BASE_DIR. get_include_path() );
-		require_once(NUKE_VENDOR_DIR.'ezyang/htmlpurifier/library/HTMLPurifier/Bootstrap.php'); 
-		require_once(NUKE_VENDOR_DIR.'ezyang/htmlpurifier/library/HTMLPurifier.autoload.php'); 		
+        $siteRootDir = dirname($_SERVER['DOCUMENT_ROOT']);
+        defined('EZYANG_BASE_DIR') or define('EZYANG_BASE_DIR', $siteRootDir . '/public_html/vendor/ezyang/htmlpurifier/library/HTMLPurifier/');
+        if(file_exists(EZYANG_BASE_DIR.'Bootstrap.php')):
+            require_once(EZYANG_BASE_DIR.'Bootstrap.php');
+        endif;
+		
+        if(file_exists(EZYANG_BASE_DIR.'HTMLPurifier.autoload.php')):
+            require_once(EZYANG_BASE_DIR.'HTMLPurifier.autoload.php');
+        endif;
+		
+        defined('ROOT_DIR') or define('ROOT_DIR', $siteRootDir . '/public_html/');
+		set_include_path(ROOT_DIR. get_include_path() );
+		
 		$config = HTMLPurifier_Config::createDefault();
 		$config->set('Core.Encoding', 'UTF-8');
 		$config->set('HTML.Doctype', 'HTML 4.01 Transitional');

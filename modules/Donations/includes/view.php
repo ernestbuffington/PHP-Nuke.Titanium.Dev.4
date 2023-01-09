@@ -196,7 +196,7 @@ view_display_links();
 $page = $_GETVAR->get('page', 'GET', 'int');
 $dis = $_GETVAR->get('dis', 'GET');
 
-echo "<br />";
+//echo "<br />";
 if ($dis == 'goal') {
     $donations = ($page_configs['show_anon_amount'] == 'yes') ? get_donations_goal() : get_donations_goal_no_anon();
 } else if (empty($dis) || $dis == 'total') {

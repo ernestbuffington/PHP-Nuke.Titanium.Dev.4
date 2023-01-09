@@ -38,7 +38,7 @@ if (is_mod_admin()) {
     switch($op) {
     
         case "Configure":
-        $sub = intval($_REQUEST['sub']);
+        $sub = intval($_REQUEST['sub'] = $_REQUEST['sub'] ?? '');
         show_settings($sub);
         break;
     

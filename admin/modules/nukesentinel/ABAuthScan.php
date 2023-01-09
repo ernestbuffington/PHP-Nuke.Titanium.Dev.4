@@ -34,7 +34,7 @@ if(is_god($admin)) {
       }
       $xpassword_md5 = md5($makepass);
       $xpassword_crypt = crypt($makepass);
-      if(!get_magic_quotes_runtime()) { $makepass = addslashes($makepass); }
+      $makepass = addslashes($makepass); 
       if(strtolower($a_name) == "god") { $is_god = 1; } else { $is_god = 0; }
       $result = $db->sql_query("INSERT INTO `".$prefix."_nsnst_admins` (`aid`, `login`, `protected`, `password`, `password_md5`, `password_crypt`) VALUES ('$a_aid', '$a_aid', '$is_god', '$makepass', '$xpassword_md5', '$xpassword_crypt')");
       $db->sql_query("OPTIMIZE TABLE ".$prefix."_nsnst_admins");

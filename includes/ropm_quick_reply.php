@@ -128,19 +128,23 @@ if ( $board_config['allow_smilies'] )
       'L_B' => $lang['PMQR_b'],
       'L_I' => $lang['PMQR_i'],
       'L_U' => $lang['PMQR_u'],
-      'IMG_CUT' => $images['bbc_cut'],
-      'IMG_COPY' => $images['bbc_copy'],
-      'IMG_PASTE' => $images['bbc_paste'],
-      'IMG_MARKALL' => $images['bbc_markall'],
-      'IMG_BOLD' => $images['bbc_bold'],
-      'IMG_ITALIC' => $images['bbc_italic'],
-      'IMG_UNDERLINE' => $images['bbc_underline'],
-      'IMG_QUOTESELECTED' => $images['bbc_quoteselected'],
-      'IMG_QUOTE' => $images['bbc_quote'],
-      'IMG_CODE' => $images['bbc_code'],
-      'IMG_IMAGE' => $images['bbc_image'],
-      'IMG_URL' => $images['bbc_url']
+      'IMG_CUT' => $images['bbc_cut'] = $images['bbc_cut'] ?? '',
+      'IMG_COPY' => $images['bbc_copy'] = $images['bbc_copy'] ?? '',
+      'IMG_PASTE' => $images['bbc_paste'] = $images['bbc_paste'] ?? '',
+      'IMG_MARKALL' => $images['bbc_markall'] = $images['bbc_markall'] ?? '',
+      'IMG_BOLD' => $images['bbc_bold'] = $images['bbc_bold'] ?? '',
+      'IMG_ITALIC' => $images['bbc_italic'] = $images['bbc_italic'] ?? '',
+      'IMG_UNDERLINE' => $images['bbc_underline'] = $images['bbc_underline'] ?? '',
+      'IMG_QUOTESELECTED' => $images['bbc_quoteselected'] = $images['bbc_quoteselected'] ?? '',
+      'IMG_QUOTE' => $images['bbc_quote'] = $images['bbc_quote'] ?? '',
+      'IMG_CODE' => $images['bbc_code'] = $images['bbc_code'] ?? '',
+      'IMG_IMAGE' => $images['bbc_image'] = $images['bbc_image'] ?? '',
+      'IMG_URL' => $images['bbc_url'] = $images['bbc_url'] ?? ''
 ));
+
+if(!isset($lang['TRANSLATION_INFO']))
+$lang['TRANSLATION_INFO'] = '';
+
 $lang['TRANSLATION_INFO'] .= '<br />PM Quick Reply &copy; by <a href="http://www.rondom.gu2.info" target="rondom">Rondom</a> 2003-2004' . (( $lang['PMQR_TRANSLATION'] )?' :: '.$lang['PMQR_TRANSLATION'] : '') . (($debug)?'&nbsp;&nbsp;<span style="font-weight:bolder;font-size:20px;">Rondom\'s Debug Mode enabled!</span>':'');
 $template->assign_var_from_handle('ROPM_QUICKREPLY_OUTPUT', 'ropm_quick_reply_output');
 }

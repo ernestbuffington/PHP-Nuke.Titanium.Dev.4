@@ -44,16 +44,14 @@ $x1title = stripslashes(FixQuotes($x1title));
 $x2title = stripslashes(FixQuotes($x2title));
 $x3title = stripslashes(FixQuotes($x3title));
 $x4title = stripslashes(FixQuotes($x4title));
-if(!get_magic_quotes_runtime()) {
-  $x1content = addslashes($x1content);
-  $x2content = addslashes($x2content);
-  $x3content = addslashes($x3content);
-  $x4content = addslashes($x4content);
-  $x1title = addslashes($x1title);
-  $x2title = addslashes($x2title);
-  $x3title = addslashes($x3title);
-  $x4title = addslashes($x4title);
-}
+$x1content = addslashes($x1content);
+$x2content = addslashes($x2content);
+$x3content = addslashes($x3content);
+$x4content = addslashes($x4content);
+$x1title = addslashes($x1title);
+$x2title = addslashes($x2title);
+$x3title = addslashes($x3title);
+$x4title = addslashes($x4title);
 $result = $db->sql_query("UPDATE `".$prefix."_nsncb_config` SET `enabled`='$xenabled', `count`='$xcount', `height`='$xheight' WHERE `cgid`='3'");
 $result1 = $db->sql_query("UPDATE `".$prefix."_nsncb_blocks` SET `content`='$x1content', `filename`='$x1name', `title`='$x1title', `wtype`='$x1wtype', `width`='$x1width' WHERE `cbid`='1' AND `cgid`='3'");
 $result2 = $db->sql_query("UPDATE `".$prefix."_nsncb_blocks` SET `content`='$x2content', `filename`='$x2name', `title`='$x2title', `wtype`='$x2wtype', `width`='$x2width' WHERE `cbid`='2' AND `cgid`='3'");

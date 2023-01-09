@@ -383,7 +383,7 @@ $template->set_filenames(array(
         "INITIAL_SCORE" => $lang['Initialize_score'],
         "DELETE_GAME" => $lang['Delete_game'],
         "SYNCHRO_GAME_SET" => $lang['Synchro_game_set'],
-        "L_PATH_NEW_LOGO" => $lang['Path_new_logo'],
+        "L_PATH_NEW_LOGO" => $lang['Path_new_logo'] = $lang['Path_new_logo'] ?? '',
         "L_ACTION" => $lang['Action'],
         "L_EDIT" => $lang['Edit'],
         "L_DEPLACE" => $lang['Deplace'],

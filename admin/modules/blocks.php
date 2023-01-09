@@ -39,7 +39,8 @@ include(NUKE_INCLUDE_DIR . 'ajax/Sajax.php');
 
 function parse_data($data)
 {
-    $containers = explode(":", $data);
+    $final = [];
+    $containers = explode(":", (string) $data);
     foreach($containers AS $container)
     {
         $container = str_replace(")", "", $container);
@@ -87,7 +88,7 @@ function blocks_update($data)
 function status_update($data) 
 {
     global $prefix, $db, $cache;
-    $data = explode(':', $data);
+    $data = explode(':', (string) $data);
     $bid = $data[0];
     $status = $data[1];
     $status = ($status == 1) ? 0 : 1;
@@ -107,14 +108,14 @@ function AddBlock($data)
     $data['view'] = intval($data['view']);
     if($data['headline'] != 0) {
         $result = $db->sql_query("SELECT sitename, headlinesurl FROM ".$prefix."_headlines WHERE hid='" . $data['headline'] . "'");
-        list($title, $data['url']) = $db->sql_fetchrow($result);
+        [$title, $data['url']] = $db->sql_fetchrow($result);
         if (empty($data['title'])) {
             $data['title'] = $title;
         }
     }
     if (!isset($data['oldposition']) || empty($data['oldposition'])) {
         $result = $db->sql_query("SELECT weight FROM ".$prefix."_blocks WHERE bposition='" . $data['bposition'] . "' ORDER BY weight DESC");
-        list($weight) = $db->sql_fetchrow($result);
+        [$weight] = $db->sql_fetchrow($result);
         $weight++;
     } else {
         $result = $db->sql_query("SELECT weight FROM ".$prefix."_blocks WHERE bid='" . $data['bid'] . "'");
@@ -126,13 +127,13 @@ function AddBlock($data)
     if($data['blockfile'] != '') {
         $data['url'] = '';
         if($data['title'] == '') {
-            $data['title'] = str_replace(array('block-','.php'),'',$data['blockfile']);
+            $data['title'] = str_replace(['block-', '.php'],'',(string) $data['blockfile']);
             $data['title'] = str_replace('_',' ',$data['title']);
         }
     }
     if($data['url'] != '') {
         $data['btime'] = time();
-        if(!preg_match('#://#',$data['url'])) { $data['url'] = 'http://'.$data['url']; }
+        if(!preg_match('#://#',(string) $data['url'])) { $data['url'] = 'http://'.$data['url']; }
         if(!($content = rss_content($data['url']))) { return false; }
         $data['content'] = $content;
     }
@@ -184,7 +185,7 @@ function BlocksAdmin()
     OpenTable();
 
     $result = $db->sql_query('SELECT bid, bkey, title, url, bposition, weight, active, blanguage, blockfile, view FROM '.$prefix.'_blocks ORDER BY weight');
-    $blocks = array();
+    $blocks = [];
     while($row = $db->sql_fetchrow($result)) {
         $blocks[$row['bposition']][] = $row;
     }
@@ -315,12 +316,25 @@ function rssfail() {
     DisplayError('<center><strong>'._RSSFAIL.'</strong><br /><br />'._RSSTRYAGAIN.'<br /><br />'._GOBACK.'</center>');
 }
 function NewBlock($bid='') {
+    $headlines = [];
+    $allblocks = [];
+    $blockslist = [];
+    $visblocks = [];
+    $checked = null;
+    $multilingual = null;
+    $currentlang = null;
+    $o1 = null;
+    $o2 = null;
+    $o3 = null;
+    $o4 = null;
+    $o6 = null;
+    $ingroups = null;
     global $db, $prefix, $admin_file, $admlang;
 
     if (!empty($bid)) {
        $edit = $db->sql_fetchrow($db->sql_query("SELECT * FROM " . $prefix . "_blocks WHERE `bid`=".$bid));
     } else {
-       list($bid) = $db->sql_fetchrow($db->sql_query("SELECT bid FROM " . $prefix . "_blocks ORDER BY bid DESC LIMIT 1"));
+       [$bid] = $db->sql_fetchrow($db->sql_query("SELECT bid FROM " . $prefix . "_blocks ORDER BY bid DESC LIMIT 1"));
        $bid++;
     }
     include_once(NUKE_BASE_DIR.'header.php');
@@ -356,7 +370,7 @@ function NewBlock($bid='') {
     echo "<input type=\"text\" name=\"url\" size=\"30\" maxlength=\"200\" $value />&nbsp;&nbsp;\n";
     $headlines[0] = $admlang['global']['custom'];
     $res = $db->sql_query("select hid, sitename from ".$prefix."_headlines");
-    while (list($hid, $htitle) = $db->sql_fetchrow($res)) {
+    while ([$hid, $htitle] = $db->sql_fetchrow($res)) {
         $headlines[$hid] = $htitle;
     }
     echo select_box('headline', $value, $headlines)."&nbsp;[ <a href=\"".$admin_file.".php?op=headlines\" target=\"_blank\">Setup</a> ]<br /><span class=\"tiny\">".$admlang['blocks']['headlines_setup']."</span></td></tr>\n";
@@ -382,7 +396,7 @@ function NewBlock($bid='') {
     sort($blockslist);
     for ($i=0, $maxi=count($blockslist); $i < $maxi; $i++) {
         if(!empty($blockslist[$i]) && !isset($visblocks[$blockslist[$i]])) {
-            $bl = str_replace(array('block-','.php'),'',$blockslist[$i]);
+            $bl = str_replace(['block-', '.php'],'',$blockslist[$i]);
             $bl = str_replace('_',' ',$bl);
             if (!empty($value)) {
                  $checked = ($value == $blockslist[$i]) ? 'SELECTED' : '';
@@ -401,16 +415,16 @@ function NewBlock($bid='') {
     echo Make_TextArea('content',$value,'addblock');
     echo "</td></tr>\n";
     $value = (isset($edit)) ? $edit['bposition'] : 'l';
-    echo '<tr><td>'.$admlang['global']['position'].':</td><td>'.select_box('bposition', $value, array('l'=>$admlang['global']['left'],'c'=>$admlang['blocks']['centerup'],'d'=>$admlang['blocks']['centerdown'],'r'=>$admlang['global']['right'])).'</td></tr>';
+    echo '<tr><td>'.$admlang['global']['position'].':</td><td>'.select_box('bposition', $value, ['l'=>$admlang['global']['left'], 'c'=>$admlang['blocks']['centerup'], 'd'=>$admlang['blocks']['centerdown'], 'r'=>$admlang['global']['right']]).'</td></tr>';
 
     if($multilingual) {
         echo '<tr><td>'._LANGUAGE.':</td><td colspan="3">';
         $languages = lang_list();
         echo '<select name="blanguage">';
         echo '<option value=""'.(($currentlang == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-        for ($i=0, $j = count($languages); $i < $j; $i++) {
+        for ($i=0, $j = is_countable($languages) ? count($languages) : 0; $i < $j; $i++) {
             if($languages[$i] != '') {
-                echo '<option value="'.$languages[$i].'"'.(($currentlang == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+                echo '<option value="'.$languages[$i].'"'.(($currentlang == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst((string) $languages[$i])."</option>\n";
             }
         }
         echo '</select></td></tr>';
@@ -420,7 +434,7 @@ function NewBlock($bid='') {
     $value = (isset($edit)) ? $edit['active'] : 1;
     echo '<tr><td>'.$admlang['global']['activate'].'</td><td>'.yesno_option('active', $value)."</td></tr>\n";
     $value = (isset($edit)) ? $edit['refresh'] : 3600;
-    echo '<tr><td>'.$admlang['blocks']['refresh'].':</td><td>'.select_box('refresh', $value, array('1800'=>'1/2 '.$admlang['global']['hour'],'3600'=>'1 '.$admlang['global']['hour'],'18000'=>'5 '.$admlang['global']['hours'],'36000'=>'10 '.$admlang['global']['hours'],'86400'=>'24 '.$admlang['global']['hours'])).'&nbsp;<span class="tiny">'.$admlang['blocks']['headlines']."</span></td></tr>\n";
+    echo '<tr><td>'.$admlang['blocks']['refresh'].':</td><td>'.select_box('refresh', $value, ['1800'=>'1/2 '.$admlang['global']['hour'], '3600'=>'1 '.$admlang['global']['hour'], '18000'=>'5 '.$admlang['global']['hours'], '36000'=>'10 '.$admlang['global']['hours'], '86400'=>'24 '.$admlang['global']['hours']]).'&nbsp;<span class="tiny">'.$admlang['blocks']['headlines']."</span></td></tr>\n";
     $value = (isset($edit)) ? $edit['view'] : 0;
     echo '<tr><td>'.$admlang['global']['who_view'].'</td><td>';
     switch ($value) {
@@ -439,20 +453,38 @@ function NewBlock($bid='') {
         break;
         default:
             $o6 = 'SELECTED';  //Groups
-            $ingroups = explode('-', $value);
+            $ingroups = explode('-', (string) $value);
         break;
     }
     echo "<select name=\"view\">"
      ."<option value=\"1\" $o1>" . $admlang['global']['all_visitors'] . "</option>"
-     ."<option value=\"2\" $o2>" . $admlang['global']['guests_only'] . "</option>"
-     ."<option value=\"3\" $o3>" . $admlang['global']['users_only'] . "</option>"
-     ."<option value=\"4\" $o4>" . $admlang['global']['admins_only'] . "</option>"
-    ."<option value=\"6\" $o6>".$admlang['global']['groups_only']."</option>"
+     ."<option value=\"2\" $o2>" . $admlang['global']['guests_only']  . "</option>"
+     ."<option value=\"3\" $o3>" . $admlang['global']['users_only']   . "</option>"
+     ."<option value=\"4\" $o4>" . $admlang['global']['admins_only']  . "</option>"
+    ."<option value=\"6\" $o6>"  . $admlang['global']['groups_only']  . "</option>"
      ."</select><br />";
     echo "<span class='tiny'>"._WHATGRDESC."</span><br /><strong>"._WHATGROUPS."</strong> <select name='add_groups[]' multiple size='5'>\n";
-    $groupsResult = $db->sql_query("select group_id, group_name from ".$prefix."_bbgroups where group_description <> 'Personal User'");
-    while(list($gid, $gname) = $db->sql_fetchrow($groupsResult)) {
-        if(@in_array($gid,$ingroups) AND $o6 == 'SELECTED') { $sel = "selected"; } else { $sel = ""; }
+    
+	$groupsResult = $db->sql_query("select group_id, group_name from ".$prefix."_bbgroups where group_description <> 'Personal User'");
+    
+	/**
+	* @edit blocks in admin panel
+	* @upadated for php 8.1
+	* @date 1/1/2023 12:41 pm Ernest Allen Buffington
+	*/
+	while([$gid, $gname ] = $db->sql_fetchrow($groupsResult))  
+	{
+        if(isset($gid) && isset($ingroups))
+		{
+		   if(in_array($gid,$ingroups)) 
+		   { 
+		     $sel = ""; 
+
+		     if($o6 == 'SELECTED')
+		     $sel = "selected"; 
+
+		  }
+		}
         echo "<OPTION VALUE='$gid'$sel>$gname</option>\n";
     }
     echo "</select>\n";

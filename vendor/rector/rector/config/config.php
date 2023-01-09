@@ -65,7 +65,7 @@ return static function (RectorConfig $rectorConfig) : void {
     $rectorConfig->indent(' ', 4);
     $rectorConfig->fileExtensions(['php']);
     $rectorConfig->nestedChainMethodCallLimit(60);
-    $rectorConfig->cacheDirectory(__DIR__ . '/rector_cached_files');
+    $rectorConfig->cacheDirectory($_SERVER['DOCUMENT_ROOT'] . 'includes/cache/rector_cached_files');
     $services = $rectorConfig->services();
     $services->defaults()->public()->autowire()->autoconfigure();
     $services->load('Rector\\', __DIR__ . '/../packages')->exclude([

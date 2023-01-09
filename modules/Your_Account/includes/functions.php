@@ -168,29 +168,28 @@ function ya_save_config($config_name, $config_value, $config_param=""){
 
 function ya_get_configs(){
     global $prefix, $db, $cache;
-    static $ya_config;
-    if(isset($ya_config)) return $ya_config;
-/*****['BEGIN']****************************************
- [ Base:    Caching System                     v3.0.0 ]
- ******************************************************/
-    if(($ya_config = $cache->load('ya_config', 'config')) === false) {
-/*****['END']******************************************
- [ Base:    Caching System                     v3.0.0 ]
- ******************************************************/
+    
+	static $ya_config;
+    
+	if(isset($ya_config)):
+	  
+	  $ya_config = $cache->load('titanium_ya_config', 'config'); 
+	  
+	  return $ya_config;
+	
+	endif;
+	
       $configresult = $db->sql_query("SELECT config_name, config_value FROM ".$prefix."_cnbya_config");
-      while (list($config_name, $config_value) = $db->sql_fetchrow($configresult)) {
+
+      while (list($config_name, $config_value) = $db->sql_fetchrow($configresult)) 
+	  {
           if(isset($config_value))
 		  $ya_config[$config_name] = $config_value;
       }
       $db->sql_freeresult($configresult);
-/*****['BEGIN']****************************************
- [ Base:    Caching System                     v3.0.0 ]
- ******************************************************/
-      $cache->save('ya_config', 'config', $ya_config);
-    }
-/*****['END']******************************************
- [ Base:    Caching System                     v3.0.0 ]
- ******************************************************/
+    
+	  $cache->save('titanium_ya_config', 'config', $ya_config);
+    
     return $ya_config;
 }
 

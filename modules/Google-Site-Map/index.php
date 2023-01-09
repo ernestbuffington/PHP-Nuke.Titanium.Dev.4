@@ -12,7 +12,7 @@ $module = basename(dirname(__FILE__));
 
 global $domain, $nukeurl, $prefix, $db, $sitename, $currentlang, $admin, $multilingual, $module, $admin_file, $user_prefix;
 
-@require_once(NUKE_CLASSES_DIR.'class.sitemap.php');
+require_once(NUKE_CLASSES_DIR.'class.sitemap.php');
 use SitemapPHP\Sitemap;
 $sitemap = new Sitemap($nukeurl);
 $sitemap->setPath(NUKE_BASE_DIR.'xmls/sitemap/');
@@ -401,7 +401,7 @@ while ($row2 = $db->sql_fetchrow($result2)):
 	if (file_exists(NUKE_MODULES_DIR.$link.'/language/lang-'.$currentlang.'.php')):
 	include_once(NUKE_MODULES_DIR.$link.'/language/lang-'.$currentlang.'.php');
     else:
-	include_once(NUKE_MODULES_DIR.$link.'/language/lang-english.php');
+
     endif;
 
 	switch($link): 
@@ -659,6 +659,7 @@ while ($row2 = $db->sql_fetchrow($result2)):
 		break;
 		# Web Links  
 		case 'Web_Links':
+		    $cid = $cid ?? '';
 			$result8 = $db->sql_query('SELECT `cid`, `title` from `'.$prefix.'_links_categories` where `parentid`="'.$cid.'" order by `title`');
 			while ($row8 = $db->sql_fetchrow($result8)): 
 				$titololink = $row8['title'];
@@ -689,7 +690,7 @@ while ($row2 = $db->sql_fetchrow($result2)):
 		# Blog  
 		case 'Blogs':
 			$result10 = $db->sql_query('SELECT `title`, `sid` FROM `'.$prefix.'_stories` ORDER BY `sid` DESC LIMIT 0,'.$nnews);
-			while ($row10 = $db->sql_fetchrow($result8)): 
+			while ($row10 = $db->sql_fetchrow($result10)): 
 				$newslink = $row10['title'];
 				$cidnews = $row10['sid'];
 				print '<tr><td></td><td><i 
@@ -788,9 +789,9 @@ print '<div align="center"><a href="javascript:copy()">&copy; Google Site Map</a
 
 CloseTable();
 
-if($xml):
+//if($xml):
 //@fwrite($var, '</urlset>');
-endif;
+//endif;
 // FOOTER GRAPHIC
 include_once(NUKE_BASE_DIR.'footer.php');
 

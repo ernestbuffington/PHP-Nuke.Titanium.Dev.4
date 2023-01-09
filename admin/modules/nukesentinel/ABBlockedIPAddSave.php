@@ -35,10 +35,8 @@ $bantime = time();
 $xnotes = str_replace("<br>", "\r\n", $xnotes);
 $xnotes = str_replace("<br />", "\r\n", $xnotes);
 $xnotes = htmlentities($xnotes, ENT_QUOTES);
-if(!get_magic_quotes_runtime()) {
-  $xnotes = addslashes($xnotes);
-  $xusername = addslashes($xusername);
-}
+$xnotes = addslashes($xnotes);
+$xusername = addslashes($xusername);
 if($xexpires>0) { $xexpires = $bantime + ($xexpires * 86400); }
 if($ip < 1) {
   $temp_qs = $xquery_string;

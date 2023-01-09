@@ -169,7 +169,7 @@ if ($submit && $mode == 'extensions')
             'ADD_EXTENSION_EXPLAIN'    => $extension_explain)
         );
 
-        if (!$error)
+        if (!isset($error))
         {
             // check extension
             $sql = 'SELECT extension
@@ -201,7 +201,7 @@ if ($submit && $mode == 'extensions')
             }
 
             // Extension Forbidden?
-            if (!$error)
+            if (!isset($error))
             {
                 $sql = 'SELECT extension
                     FROM ' . FORBIDDEN_EXTENSIONS_TABLE;
@@ -233,7 +233,7 @@ if ($submit && $mode == 'extensions')
 
             }
 
-            if (!$error)
+            if (!isset($error))
             {
                 $sql_ary = array(
                     'group_id'        => (int) $extension_group,
@@ -252,7 +252,7 @@ if ($submit && $mode == 'extensions')
         }
     }
 
-    if (!$error)
+    if (!isset($error))
     {
         $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_extensions.$phpEx?mode=extensions") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
 
@@ -457,7 +457,7 @@ if ($submit && $mode == 'groups')
             }
         }
 
-        if (!$error)
+        if (!isset($error))
         {
             $filesize = ($size_select == 'kb') ? round($filesize * 1024) : ( ($size_select == 'mb') ? round($filesize * 1048576) : $filesize );
 
@@ -480,7 +480,7 @@ if ($submit && $mode == 'groups')
         }
     }
 
-    if (!$error)
+    if (!isset($error))
     {
         $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_extensions.$phpEx?mode=groups") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
 
@@ -529,7 +529,7 @@ if ($mode == 'groups')
         'L_ALLOWED_FORUMS'                => $lang['Allowed_forums'],
         'L_FORUM_PERMISSIONS'            => $lang['Ext_group_permissions'],
 
-        'ADD_GROUP_NAME'                => (isset($submit)) ? $extension_group : '',
+        'ADD_GROUP_NAME'                => (isset($submit)) ? $extension_group = $extension_group ?? '' : '',
         'MAX_FILESIZE'                    => $max_add_filesize,
 
         'S_FILESIZE'                    => size_select('add_size_select', $size),
@@ -669,7 +669,7 @@ if ($submit && $mode == 'forbidden')
         }
 
         // Check, if extension is allowed
-        if (!$error)
+        if (!isset($error))
         {
             $sql = 'SELECT extension
                 FROM ' . EXTENSIONS_TABLE;
@@ -700,7 +700,7 @@ if ($submit && $mode == 'forbidden')
             }
         }
 
-        if (!$error)
+        if (!isset($error))
         {
             $sql = 'INSERT INTO ' . FORBIDDEN_EXTENSIONS_TABLE . " (extension)
                 VALUES ('" . attach_mod_sql_escape(strtolower($extension)) . "')";
@@ -713,7 +713,7 @@ if ($submit && $mode == 'forbidden')
         }
     }
 
-    if (!$error)
+    if (!isset($error))
     {
         $message = $lang['Attach_config_updated'] . '<br /><br />' . sprintf($lang['Click_return_attach_config'], '<a href="' . append_sid("admin_extensions.$phpEx?mode=forbidden") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
 
@@ -778,7 +778,7 @@ if ($e_mode == 'perm')
 }
 
 // Add Forums
-if ($add_forum && $e_mode == 'perm' && $group)
+if (isset($add_forum) && $e_mode == 'perm' && $group)
 {
     $add_forums_list = get_var('entries', array(0));
     $add_all_forums = FALSE;
@@ -848,7 +848,7 @@ if ($add_forum && $e_mode == 'perm' && $group)
 }
 
 // Delete Forums
-if ($delete_forum && $e_mode == 'perm' && $group)
+if (isset($delete_forum) && $e_mode == 'perm' && $group)
 {
     $delete_forums_list = get_var('entries', array(0));
 
@@ -1048,7 +1048,7 @@ if ($e_mode == 'perm' && $group)
     }
 }
 
-if ($error)
+if (isset($error))
 {
     $template->set_filenames(array(
         'reg_header' => 'error_body.tpl')

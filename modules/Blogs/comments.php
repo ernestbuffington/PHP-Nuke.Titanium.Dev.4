@@ -673,14 +673,14 @@ function reply($pid, $sid, $mode, $order, $thold)
 	{
         $row = $db->sql_fetchrow($db->sql_query("SELECT datePublished, dateModified, name, email, subject, comment, score FROM ".$prefix."_comments WHERE tid='$pid'"));
     
-	    $date = $row["datePublished"];
-        $modified = $row["dateModified"];
+	    $date = isset($row["datePublished"]);
+        $modified = isset($row["dateModified"]);
 		
-	    $name = stripslashes($row["name"]);
-        $email = stripslashes($row["email"]);
-        $subject = stripslashes(check_html($row["subject"], "nohtml"));
-        $comment = stripslashes($row["comment"]);
-        $score = intval($row["score"]);
+	    $name = stripslashes(isset($row["name"]));
+        $email = stripslashes(isset($row["email"]));
+        $subject = stripslashes(check_html(isset($row["subject"]), "nohtml"));
+        $comment = stripslashes(isset($row["comment"]));
+        $score = intval(isset($row["score"]));
     } 
 	else 
 	{
@@ -697,7 +697,8 @@ function reply($pid, $sid, $mode, $order, $thold)
     }
     if(empty($comment)) 
 	{
-        $comment = "$temp_comment<br /><br />$comment2";
+        if(isset($temp_comment))
+		$comment = "$temp_comment<br /><br />$comment2";
     }
     
 	OpenTable();
@@ -712,7 +713,8 @@ function reply($pid, $sid, $mode, $order, $thold)
     formatTimestamp($modified);
 	
 	echo "<strong>$subject</strong>";
-    if (!$temp_comment) echo"("._SCORE." $score)";
+    if (!isset($temp_comment)) 
+	echo"("._SCORE." $score)";
     
 	if ($email) 
 	{
@@ -741,7 +743,7 @@ function reply($pid, $sid, $mode, $order, $thold)
         $subject = stripslashes(check_html($row3["title"], "nohtml"));
     } else {
         $row4 = $db->sql_fetchrow($db->sql_query("SELECT subject FROM ".$prefix."_comments WHERE tid='$pid'"));
-        $subject = stripslashes(check_html($row4["subject"], "nohtml"));
+        $subject = stripslashes(check_html(isset($row4["subject"]), "nohtml"));
     }
     CloseTable();
     //echo "<br />";
@@ -831,7 +833,9 @@ function replyPreview ($pid, $sid, $subject, $comment, $xanonpost, $mode, $order
     ."<font class=\"option\"><strong>"._UCOMMENT.":</strong></font><br />"
     ."<textarea wrap=\"virtual\" cols=\"50\" rows=\"10\" name=\"comment\">$comment</textarea><br />"
     ."<font class=\"content\">"._ALLOWEDHTML."<br />";
-    while (list($key) = each($AllowableHTML)) echo " &lt;".$key."&gt;";
+    //while (list($key) = each($AllowableHTML))
+	foreach (array_keys($AllowableHTML) as $key) 
+	echo " &lt;".$key."&gt;";
     echo "<br />";
     if (($xanonpost) AND ($anonpost == 1)){
         echo "<input type=\"checkbox\" name=\"xanonpost\" checked> "._POSTANON."<br />";
@@ -987,15 +991,15 @@ function CreateTopic ($xanonpost, $subject, $comment, $pid, $sid, $host_name, $m
 switch($op) {
 
     case "Reply":
-    reply($pid, $sid, $mode, $order, $thold);
+    reply($pid, $sid, isset($mode), isset($order), isset($thold));
     break;
 
     case ""._PREVIEW."":
-    replyPreview ($pid, $sid, $subject, $comment, $xanonpost, $mode, $order, $thold, $posttype);
+    replyPreview ($pid, $sid, $subject, $comment, isset($xanonpost), $mode, $order, $thold, $posttype);
     break;
 
     case ""._OK."":
-    CreateTopic($xanonpost, $subject, $comment, $pid, $sid, $host_name, $mode, $order, $thold, $posttype);
+    CreateTopic(isset($xanonpost), $subject, $comment, $pid, $sid, $host_name, $mode, $order, $thold, $posttype);
     break;
 
     case "moderate":
@@ -1005,7 +1009,8 @@ switch($op) {
    
     if(($admintest==1) || ($moderate==2)) 
 	{
-        while(list($tdw, $emp) = each($_POST)) 
+        //while(list($tdw, $emp) = each($_POST))
+		foreach ($_POST as $tdw => $emp) 
 		{
         
 		if (preg_match("#dkn#i",$tdw)) 

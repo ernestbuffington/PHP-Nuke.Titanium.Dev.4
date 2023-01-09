@@ -13,28 +13,17 @@
 
 if(!defined('NUKE_EVO')) exit;
 
-global $db, $prefix, $ab_config, $currentlang;
+global $db, $prefix, $ab_config, $currentlang, $cache;
 
-function block_Sentinel_Center_cache($block_cachetime) 
+if(($total_ips = $cache->load('total_ips', 'titanium_sentienel_center_block')) === false) 
 {
-    global $db, $prefix, $cache;
-    if ((($blockcache = cache_load('sentinel_center', 'blocks')) === false) || empty($blockcache) || intval($blockcache[0]['stat_created']) < (time() - intval($block_cachetime))) {
-        $result = dburow('SELECT COUNT(ip_addr) AS `count` FROM `'.$prefix.'_nsnst_blocked_ips`');
-        $blockcache[1]['count'] = $result['count'];
-        dbfree($result);
-        $blockcache[0]['stat_created'] = time();
-        cache_set('sentinel_center', 'blocks', $blockcache);
-    }
-    return $blockcache;
+  $result = $db->sql_query('SELECT `reason` FROM `'.$prefix.'_nsnst_blocked_ips`');
+  $total_ips = $db->sql_numrows($result);
+  $db->sql_freeresult($result);
+  $cache->save('total_ips', 'titanium_sentienel_center_block', $total_ips);
 }
 
-$blocksession = block_Sentinel_Center_cache( get_evo_option('block_cachetime') );
-
 $content = '';
-$total_ips = $blocksession[1]['count'];
-if( empty($blocksession[1]['count']) ):
-	$total_ips = 0;
-endif;
 
 $content .= '<div align="center">'._AB_HAVECAUGHT.'<strong> '.intval($total_ips).'</strong> '._AB_SHAMEFULHACKERS.'<br /><img src="modules/NukeSentinel/images/nukesentinel_large.png" height="60" width="468" alt="'._AB_WARNED.'" 
 title="'._AB_WARNED.'" /></div>'."\n";

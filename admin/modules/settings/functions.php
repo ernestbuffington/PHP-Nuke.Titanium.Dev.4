@@ -60,7 +60,7 @@ function settings_header()
     echo '    <td class="row1" style="width: 33.3%;"><a href="'.$admin_file.'.php?op=Configure&sub=2">'.$admlang['preferences']['censor'].'</a></td>'.PHP_EOL;
     echo '  </tr>'.PHP_EOL;
 
-    if(!$_GET['sub']):
+    if(!isset($_GET['sub'])):
         echo '</table>'.PHP_EOL;
         CloseTable();
         echo '<br />'.PHP_EOL;
@@ -79,7 +79,7 @@ function show_settings($sub) {
     settings_header();
 
 
-    if($_GET['sub']) 
+    if(isset($_GET['sub'])) 
     {
         // OpenTable();
         echo "<form action='".$admin_file.".php' method='post'>";
@@ -138,7 +138,7 @@ function show_settings($sub) {
     }
 
 
-    if($_GET['sub'])  
+    if(isset($_GET['sub']))  
     {
         echo '    </td>'.PHP_EOL;
         echo '  </tr>'.PHP_EOL;

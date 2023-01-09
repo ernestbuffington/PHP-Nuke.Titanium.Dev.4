@@ -25,20 +25,20 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `titanium_bbarcade`
+-- Table structure for table `nuke_bbarcade`
 --
 
-DROP TABLE IF EXISTS `titanium_bbarcade`;
-CREATE TABLE `titanium_bbarcade` (
+DROP TABLE IF EXISTS `nuke_bbarcade`;
+CREATE TABLE `nuke_bbarcade` (
   `arcade_name` varchar(255) COLLATE utf8_bin NOT NULL,
   `arcade_value` varchar(255) COLLATE utf8_bin NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `titanium_bbarcade`
+-- Dumping data for table `nuke_bbarcade`
 --
 
-INSERT INTO `titanium_bbarcade` (`arcade_name`, `arcade_value`) VALUES
+INSERT INTO `nuke_bbarcade` (`arcade_name`, `arcade_value`) VALUES
 ('arcade_announcement', 'Welcome to the Arcade!<br>Enjoy!'),
 ('use_category_mod', '1'),
 ('category_preview_games', '5'),
@@ -58,23 +58,23 @@ INSERT INTO `titanium_bbarcade` (`arcade_name`, `arcade_value`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `titanium_bbarcade_categories`
+-- Table structure for table `nuke_bbarcade_categories`
 --
 
-DROP TABLE IF EXISTS `titanium_bbarcade_categories`;
-CREATE TABLE `titanium_bbarcade_categories` (
+DROP TABLE IF EXISTS `nuke_bbarcade_categories`;
+CREATE TABLE `nuke_bbarcade_categories` (
   `arcade_catid` mediumint(8) UNSIGNED NOT NULL,
-  `arcade_cattitle` varchar(100) COLLATE utf8_bin NOT NULL,
+  `arcade_cattitle` varchar(100) NOT NULL DEFAULT '',
   `arcade_nbelmt` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `arcade_catorder` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
   `arcade_catauth` tinyint(2) NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `titanium_bbarcade_categories`
+-- Dumping data for table `nuke_bbarcade_categories`
 --
 
-INSERT INTO `titanium_bbarcade_categories` (`arcade_catid`, `arcade_cattitle`, `arcade_nbelmt`, `arcade_catorder`, `arcade_catauth`) VALUES
+INSERT INTO `nuke_bbarcade_categories` (`arcade_catid`, `arcade_cattitle`, `arcade_nbelmt`, `arcade_catorder`, `arcade_catauth`) VALUES
 (1, 'Arcade', 8, 1, 0),
 (2, 'Shooting', 25, 11, 0),
 (3, 'W T F Games', 19, 21, 0),
@@ -89,11 +89,11 @@ INSERT INTO `titanium_bbarcade_categories` (`arcade_catid`, `arcade_cattitle`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `titanium_bbarcade_comments`
+-- Table structure for table `nuke_bbarcade_comments`
 --
 
-DROP TABLE IF EXISTS `titanium_bbarcade_comments`;
-CREATE TABLE `titanium_bbarcade_comments` (
+DROP TABLE IF EXISTS `nuke_bbarcade_comments`;
+CREATE TABLE `nuke_bbarcade_comments` (
   `game_id` mediumint(8) NOT NULL DEFAULT 0,
   `comments_value` varchar(255) COLLATE utf8_bin NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -101,11 +101,11 @@ CREATE TABLE `titanium_bbarcade_comments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `titanium_bbauth_arcade_access`
+-- Table structure for table `nuke_bbauth_arcade_access`
 --
 
-DROP TABLE IF EXISTS `titanium_bbauth_arcade_access`;
-CREATE TABLE `titanium_bbauth_arcade_access` (
+DROP TABLE IF EXISTS `nuke_bbauth_arcade_access`;
+CREATE TABLE `nuke_bbauth_arcade_access` (
   `group_id` mediumint(8) NOT NULL DEFAULT 0,
   `arcade_catid` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -113,11 +113,11 @@ CREATE TABLE `titanium_bbauth_arcade_access` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `titanium_bbgamehash`
+-- Table structure for table `nuke_bbgamehash`
 --
 
-DROP TABLE IF EXISTS `titanium_bbgamehash`;
-CREATE TABLE `titanium_bbgamehash` (
+DROP TABLE IF EXISTS `nuke_bbgamehash`;
+CREATE TABLE `nuke_bbgamehash` (
   `gamehash_id` char(32) COLLATE utf8_bin NOT NULL,
   `game_id` mediumint(8) NOT NULL DEFAULT 0,
   `user_id` mediumint(8) NOT NULL DEFAULT 0,
@@ -125,10 +125,10 @@ CREATE TABLE `titanium_bbgamehash` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `titanium_bbgamehash`
+-- Dumping data for table `nuke_bbgamehash`
 --
 
-INSERT INTO `titanium_bbgamehash` (`gamehash_id`, `game_id`, `user_id`, `hash_date`) VALUES
+INSERT INTO `nuke_bbgamehash` (`gamehash_id`, `game_id`, `user_id`, `hash_date`) VALUES
 ('52cb484c1eac60f905611ed0e627bfe4', 222, 3, 1664601811),
 ('1ba281c56e79c28cd4a5a45f16003f60', 222, 3, 1664601843),
 ('cc5d7058e099ae7ec0d1fbe62c733f74', 68, 3, 1664601875),
@@ -138,11 +138,11 @@ INSERT INTO `titanium_bbgamehash` (`gamehash_id`, `game_id`, `user_id`, `hash_da
 -- --------------------------------------------------------
 
 --
--- Table structure for table `titanium_bbgames`
+-- Table structure for table `nuke_bbgames`
 --
 
-DROP TABLE IF EXISTS `titanium_bbgames`;
-CREATE TABLE `titanium_bbgames` (
+DROP TABLE IF EXISTS `nuke_bbgames`;
+CREATE TABLE `nuke_bbgames` (
   `game_id` mediumint(8) NOT NULL,
   `game_pic` varchar(50) COLLATE utf8_bin NOT NULL,
   `game_desc` varchar(255) COLLATE utf8_bin NOT NULL,
@@ -161,10 +161,10 @@ CREATE TABLE `titanium_bbgames` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `titanium_bbgames`
+-- Dumping data for table `nuke_bbgames`
 --
 
-INSERT INTO `titanium_bbgames` (`game_id`, `game_pic`, `game_desc`, `game_highscore`, `game_highdate`, `game_highuser`, `game_name`, `game_swf`, `game_scorevar`, `game_type`, `game_width`, `game_height`, `game_order`, `game_set`, `arcade_catid`) VALUES
+INSERT INTO `nuke_bbgames` (`game_id`, `game_pic`, `game_desc`, `game_highscore`, `game_highdate`, `game_highuser`, `game_name`, `game_swf`, `game_scorevar`, `game_type`, `game_width`, `game_height`, `game_order`, `game_set`, `arcade_catid`) VALUES
 (222, 'penguin2.gif', 'Whack the penguin as hard as you can!\'', 0, 0, 0, 'Penguin Bashing', 'penguin.swf', 'penguin', 3, 550, '380', 10, 0, 1),
 (223, 'yeti1_5shots1.gif', 'you get 5 shaots to bash the Penguin as far as you can', 0, 0, 0, 'Penguin Bashing 5 shots', 'yeti1_5shots.swf', 'yeti1_5shots', 3, 550, '380', 50, 0, 1),
 (8, '5carddraw1.gif', 'Beat the dealer in 5 card Draw', 0, 0, 0, '5 card draw', '5carddraw.swf', '5carddraw', 3, 550, '380', 70, 0, 1),
@@ -369,11 +369,11 @@ INSERT INTO `titanium_bbgames` (`game_id`, `game_pic`, `game_desc`, `game_highsc
 -- --------------------------------------------------------
 
 --
--- Table structure for table `titanium_bbhackgame`
+-- Table structure for table `nuke_bbhackgame`
 --
 
-DROP TABLE IF EXISTS `titanium_bbhackgame`;
-CREATE TABLE `titanium_bbhackgame` (
+DROP TABLE IF EXISTS `nuke_bbhackgame`;
+CREATE TABLE `nuke_bbhackgame` (
   `user_id` mediumint(8) NOT NULL DEFAULT 0,
   `game_id` mediumint(8) NOT NULL DEFAULT 0,
   `date_hack` int(11) NOT NULL DEFAULT 0
@@ -382,11 +382,11 @@ CREATE TABLE `titanium_bbhackgame` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `titanium_bbscores`
+-- Table structure for table `nuke_bbscores`
 --
 
-DROP TABLE IF EXISTS `titanium_bbscores`;
-CREATE TABLE `titanium_bbscores` (
+DROP TABLE IF EXISTS `nuke_bbscores`;
+CREATE TABLE `nuke_bbscores` (
   `game_id` mediumint(8) NOT NULL DEFAULT 0,
   `user_id` mediumint(8) NOT NULL DEFAULT 0,
   `score_game` int(11) NOT NULL DEFAULT 0,
@@ -400,34 +400,34 @@ CREATE TABLE `titanium_bbscores` (
 --
 
 --
--- Indexes for table `titanium_bbarcade`
+-- Indexes for table `nuke_bbarcade`
 --
-ALTER TABLE `titanium_bbarcade`
+ALTER TABLE `nuke_bbarcade`
   ADD PRIMARY KEY (`arcade_name`);
 
 --
--- Indexes for table `titanium_bbarcade_categories`
+-- Indexes for table `nuke_bbarcade_categories`
 --
-ALTER TABLE `titanium_bbarcade_categories`
+ALTER TABLE `nuke_bbarcade_categories`
   ADD KEY `arcade_catid` (`arcade_catid`);
 
 --
--- Indexes for table `titanium_bbauth_arcade_access`
+-- Indexes for table `nuke_bbauth_arcade_access`
 --
-ALTER TABLE `titanium_bbauth_arcade_access`
+ALTER TABLE `nuke_bbauth_arcade_access`
   ADD KEY `group_id` (`group_id`),
   ADD KEY `arcade_catid` (`arcade_catid`);
 
 --
--- Indexes for table `titanium_bbgames`
+-- Indexes for table `nuke_bbgames`
 --
-ALTER TABLE `titanium_bbgames`
+ALTER TABLE `nuke_bbgames`
   ADD KEY `game_id` (`game_id`);
 
 --
--- Indexes for table `titanium_bbscores`
+-- Indexes for table `nuke_bbscores`
 --
-ALTER TABLE `titanium_bbscores`
+ALTER TABLE `nuke_bbscores`
   ADD KEY `game_id` (`game_id`),
   ADD KEY `user_id` (`user_id`);
 
@@ -436,15 +436,15 @@ ALTER TABLE `titanium_bbscores`
 --
 
 --
--- AUTO_INCREMENT for table `titanium_bbarcade_categories`
+-- AUTO_INCREMENT for table `nuke_bbarcade_categories`
 --
-ALTER TABLE `titanium_bbarcade_categories`
+ALTER TABLE `nuke_bbarcade_categories`
   MODIFY `arcade_catid` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
+  
 --
--- AUTO_INCREMENT for table `titanium_bbgames`
+-- AUTO_INCREMENT for table `nuke_bbgames`
 --
-ALTER TABLE `titanium_bbgames`
+ALTER TABLE `nuke_bbgames`
   MODIFY `game_id` mediumint(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
 COMMIT;
 

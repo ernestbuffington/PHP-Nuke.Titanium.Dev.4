@@ -71,12 +71,12 @@ $div = 0;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-if(!($row = $cache->load('menu_row', 'block'))) 
+if(!($row = $cache->load('menu_row', 'titanium_block'))) 
 {
   $sql = "SELECT t1.invisible, t2.main_module FROM ".$prefix."_menu AS t1, ".$prefix."_main AS t2 LIMIT 1";
   $result = $db->sql_query($sql);
   $row = $db->sql_fetchrow($result);
-  $cache->save('menu_row', 'block', $row);
+  $cache->save('menu_row', 'titanium_block', $row);
 }
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -156,7 +156,7 @@ $total_actions = "";
 $flagmenu = 0;  
 
 # START Caching System
-//if(!($row2A = $cache->load('menu_row', 'block')))
+if(!($row2A = $cache->load('menu_row', 'titanium_block'))):
     $sql2= "SELECT groupmenu, 
 	                  module, 
 					     url, 
@@ -169,36 +169,37 @@ $flagmenu = 0;
     $result2 = $db->sql_query($sql2);
 
     while($row2 = $db->sql_fetchrow($result2)): 
-        $row2A[] = $row2;
+        if(isset($row2))
+		$row2A[] = $row2;
     endwhile; 
 
-//   $cache->save('menu_row2', 'block', $row2A);
-//endif;
+   $cache->save('menu_row2', 'titanium_block', $row2A);
+endif;
 # END Caching System
  
-                                   $counter = 0;
-                              $totalcounter = 0;
-                                  $categorie = $row2A[0]['groupmenu'];
-   $moduleinthisgroup[$categorie][$counter] = $row2A[0]['module'];
-     $linkinthisgroup[$categorie][$counter] = $row2A[0]['url'];
- $linktextinthisgroup[$categorie][$counter] = $row2A[0]['url_text'];
-    $imageinthisgroup[$categorie][$counter] = $row2A[0]['image'];
-      $newinthisgroup[$categorie][$counter] = $row2A[0]['new'];
-  $newdaysinthisgroup[$categorie][$counter] = $row2A[0]['new_days'];
-    $classinthisgroup[$categorie][$counter] = $row2A[0]['class'];
-     $grasinthisgroup[$categorie][$counter] = $row2A[0]['bold'];
-       $totalcategorymodules[$totalcounter] = $row2A[0]['module']; 
-                                  $counter2 = $categorie;
-                             $total_actions = "menu_showhide('menu-".$row2A[0]['groupmenu']."','nok','menuupdown-".$row2A[0]['groupmenu']."');";
-                              $totalcounter = 1;
+                                   $counter  = 0;
+                              $totalcounter  = 0;
+                                  $categorie = isset($row2A[0]['groupmenu']);
+   $moduleinthisgroup[$categorie][$counter]  = isset($row2A[0]['module']);
+     $linkinthisgroup[$categorie][$counter]  = isset($row2A[0]['url']);
+ $linktextinthisgroup[$categorie][$counter]  = isset($row2A[0]['url_text']);
+    $imageinthisgroup[$categorie][$counter]  = isset($row2A[0]['image']);
+      $newinthisgroup[$categorie][$counter]  = isset($row2A[0]['new']);
+  $newdaysinthisgroup[$categorie][$counter]  = isset($row2A[0]['new_days']);
+    $classinthisgroup[$categorie][$counter]  = isset($row2A[0]['class']);
+     $grasinthisgroup[$categorie][$counter]  = isset($row2A[0]['bold']);
+       $totalcategorymodules[$totalcounter]  = isset($row2A[0]['module']); 
+                                  $counter2  = $categorie;
+                             $total_actions  = "menu_showhide('menu-".isset($row2A[0]['groupmenu'])."','nok','menuupdown-".isset($row2A[0]['groupmenu'])."');";
+                              $totalcounter  = 1;
 
 unset($row2A[0]);
 
     if(is_array($row2A)): 
 	
       foreach($row2A as $row2): 
-        $categorie = $row2['groupmenu'];
-        $totalcategorymodules[$totalcounter] = $row2['module'];
+        $categorie = isset($row2['groupmenu']);
+        $totalcategorymodules[$totalcounter] = isset($row2['module']);
         $totalcounter++;
 
         if($counter2 == $categorie): 
@@ -208,16 +209,16 @@ unset($row2A[0]);
             $counter = 0;
         endif;
         
-		  $moduleinthisgroup[$categorie][$counter] = $row2['module'];
-            $linkinthisgroup[$categorie][$counter] = $row2['url'];
-        $linktextinthisgroup[$categorie][$counter] = $row2['url_text'];
+		  $moduleinthisgroup[$categorie][$counter] = isset($row2['module']);
+            $linkinthisgroup[$categorie][$counter] = isset($row2['url']);
+        $linktextinthisgroup[$categorie][$counter] = isset($row2['url_text']);
 		
-           $imageinthisgroup[$categorie][$counter] = $row2['image'];
+           $imageinthisgroup[$categorie][$counter] = isset($row2['image']);
         
-		     $newinthisgroup[$categorie][$counter] = $row2['new'];
-         $newdaysinthisgroup[$categorie][$counter] = $row2['new_days'];
-           $classinthisgroup[$categorie][$counter] = $row2['class'];
-            $grasinthisgroup[$categorie][$counter] = $row2['bold'];
+		     $newinthisgroup[$categorie][$counter] = isset($row2['new']);
+         $newdaysinthisgroup[$categorie][$counter] = isset($row2['new_days']);
+           $classinthisgroup[$categorie][$counter] = isset($row2['class']);
+            $grasinthisgroup[$categorie][$counter] = isset($row2['bold']);
                                          $counter2 = $categorie;
       endforeach;
     endif;

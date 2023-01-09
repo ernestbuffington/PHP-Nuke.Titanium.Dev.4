@@ -81,19 +81,12 @@ if(!($row = $db->sql_fetchrow($result))):
 endif;
 
 $hashoffset = get_var_gf(array('name'=>'hashoffset', 'default'=>''));
-
 $gamehash = get_var_gf(array('name'=>'gamehash', 'default'=>''));
-
 $vpaver = get_var_gf(array('name'=>'vpaver', 'default'=>''));
-
 $newhash = get_var_gf(array('name'=>'newhash', 'default'=>''));
-
 $gpaver = get_var_gf(array('name'=>'gpaver', 'default'=>''));
-
 $settime = get_var_gf(array('name'=>'settime', 'intval'=>true, 'default'=>''));
-
 $sid = get_var_gf(array('name'=>'sid', 'default'=>''));
-
 $valid = get_var_gf(array('name'=>'valid', 'default'=>''));
 
 if($row['game_type'] == 0):
@@ -109,7 +102,8 @@ if($row['game_type'] == 2):
 endif;
 
 if($row['game_type'] == 3):
-  $gamehash_id = substr($newhash , $hashoffset , 32) . substr($newhash , 0 , $hashoffset);
+  //$gamehash_id = substr($newhash , $hashoffset , 32) . substr($newhash , 0 , $hashoffset);
+  $gamehash_id = substr((string) $newhash , (int)$hashoffset , 32) . substr((string) $newhash , 0 , (int)$hashoffset);
   $vpaver = ($gpaver == "GFARV2") ? '100B2' : '';
   $vscore = $row['game_scorevar'];
   $score = get_var_gf(array('name'=>$vscore, 'intval'=>true, 'default'=>''));

@@ -48,7 +48,7 @@ if(isset($importer) AND $importer > '') {
           $db->sql_query('DELETE FROM `'.$prefix.'_nsnst_ip2country` WHERE `c2c`=\''.$grabline[3].'\'');
           $db->sql_query('OPTIMIZE TABLE `'.$prefix.'_nsnst_ip2country`');
         } else {
-          if(!get_magic_quotes_runtime()) { $grabline[4] = addslashes($grabline[4]); }
+          $grabline[4] = addslashes($grabline[4]); 
           $grabline['ip_lo'] = long2ip($grabline[0]);
           $grabline['ip_hi'] = long2ip($grabline[1]);
           $datainserted = False;

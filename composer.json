@@ -2,7 +2,9 @@
     "require": { 
         "mobiledetect/mobiledetectlib": "^2.8",
         "ezyang/htmlpurifier": "^4.16",
-        "php81_bc/strftime": "^0.5.0"
+        "php81_bc/strftime": "^0.5.0",
+        "shardj/zf1-future": "^1.21",
+        "phpunit/phpunit": "^9.5"
      },
     "require-dev": {
         "rector/rector": "^0.15.0"

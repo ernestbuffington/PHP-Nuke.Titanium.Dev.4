@@ -21,7 +21,7 @@ if (!defined('MODULE_FILE')) {
 
 if (is_admin())
 {
-    if ($popup != "1"){
+    if (!isset($popup)){
         $module_name = basename(dirname(__FILE__));
         require("modules/".$module_name."/nukebb.php");
     }

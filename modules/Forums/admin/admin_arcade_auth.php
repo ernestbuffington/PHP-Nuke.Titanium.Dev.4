@@ -230,33 +230,43 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
     }
     if ( $mode == 'user' )
     {
-        $t_username = $ug_info[0]['username'];
+        $t_username = $ug_info[0]['username'] = $ug_info[0]['username'] ?? '';
     }
     else
     {
-        $t_groupname = $ug_info[0]['group_name'];
+        $t_groupname = $ug_info[0]['group_name'] = $ug_info[0]['group_name'] ?? '';
     }
-    $name = [];
+    
+	$name = [];
     $id = [];
-    foreach ($ug_info as $i => $singleUg_info) {
+    
+	foreach ($ug_info as $i => $singleUg_info) 
+	{
+		$singleUg_info['group_name'] = $singleUg_info['group_name'] ?? '';
+		$singleUg_info['username'] = $singleUg_info['username'] ?? '';
+		
+		$singleUg_info['group_id'] = $singleUg_info['group_id'] ?? '';
+		$singleUg_info['user_id'] = $singleUg_info['user_id'] ?? '';
+		
         if( ( $mode == 'user' && !$singleUg_info['group_single_user'] ) || $mode == 'group' )
         {
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
+           /*****[BEGIN]******************************************
+            [ Mod:    Advanced Username Color             v1.0.5 ]
+            ******************************************************/
             $name[] = ( $mode == 'user' ) ? $singleUg_info['group_name'] :  UsernameColor($singleUg_info['username']);
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/  
+           /*****[END]********************************************
+            [ Mod:    Advanced Username Color             v1.0.5 ]
+            ******************************************************/  
              $id[] = ( $mode == 'user' ) ? (int) $singleUg_info['group_id'] : (int) $singleUg_info['user_id'];
         }
     }
+	
     if( $name !== [] )
     {
         $t_usergroup_list = '';
         foreach (array_keys($ug_info) as $i) {
             $ug = ( $mode == 'user' ) ? 'group&amp;' . POST_GROUPS_URL : 'user&amp;' . POST_USERS_URL;
-            $t_usergroup_list .= ( ( empty($t_usergroup_list) ) ? '' : ', ' ) . '<a href="' . append_sid("admin_ug_auth.$phpEx?mode=$ug=" . $id[$i]) . '">' . $name[$i] . '</a>';
+            $t_usergroup_list .= ( ( empty($t_usergroup_list) ) ? '' : ', ' ) . '<a href="' . append_sid("admin_ug_auth.$phpEx?mode=$ug=" . $id[$i] = $id[$i] ?? '') . '">' . $name[$i] = $name[$i] ?? '' . '</a>';
         }
     }
     else
@@ -269,7 +279,7 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
     include(__DIR__ . '/page_header_admin.'.$phpEx);
     $template->set_filenames(["body" => 'admin/auth_arcade_body.tpl']
     );
-    $s_hidden_fields = '<input type="hidden" name="mode" value="' . $mode . '" /><input type="hidden" name="adv" value="' . $adv . '" />';
+    $s_hidden_fields = '<input type="hidden" name="mode" value="' . $mode . '" /><input type="hidden" name="adv" value="' . $adv = $adv ?? '' . '" />';
     $s_hidden_fields .= ( $mode == 'user' ) ? '<input type="hidden" name="' . POST_USERS_URL . '" value="' . $user_id . '" />' : '<input type="hidden" name="' . POST_GROUPS_URL . '" value="' . $group_id . '" />';
     if ( $mode == 'user' )
     {
@@ -278,7 +288,7 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
         $template->assign_vars([
             'USERNAME' => $t_username,
             //$this_userdata['username'],
-            'USER_LEVEL' => $lang['User_Level'] . " : " . $s_user_type,
+            'USER_LEVEL' => $lang['User_Level'] . " : " . $s_user_type = $s_user_type ?? '',
             'USER_GROUP_MEMBERSHIPS' => $lang['Group_memberships'] . ' : ' . $t_usergroup_list,
         ]
         );
@@ -299,9 +309,29 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
         ]
         );
     }
-    $template->assign_vars(['L_USER_OR_GROUPNAME' => ( $mode == 'user' ) ? $lang['Username'] : $lang['Group_name'], 'L_AUTH_TITLE' => ( $mode == 'user' ) ? $lang['Auth_Arcade_Control_User'] : $lang['Auth_Arcade_Control_Group'], 'L_AUTH_EXPLAIN' => ( $mode == 'user' ) ? $lang['User_arcade_auth_explain'] : $lang['Group_arcade_auth_explain'], 'L_MODERATOR_STATUS' => $lang['Moderator_status'], 'L_PERMISSIONS' => $lang['arcade_cat_auth'], 'L_SUBMIT' => $lang['Submit'], 'L_RESET' => $lang['Reset'], 'L_CATEGORIES' => $lang['Arcade_categories'], 'U_USER_OR_GROUP' => append_sid("admin_arcade_auth.$phpEx"), 'U_SWITCH_MODE' => $u_switch_mode, 'S_COLUMN_SPAN' => $s_column_span, 'S_AUTH_ACTION' => append_sid("admin_arcade_auth.$phpEx"), 'S_HIDDEN_FIELDS' => $s_hidden_fields]
+    
+	if(empty($u_switch_mode))
+	$u_switch_mode = 'No Switch Mode';
+
+	if(empty($s_column_span))
+	$s_column_span = 'No Column Span';
+	
+	$template->assign_vars(['L_USER_OR_GROUPNAME' => ( $mode == 'user' ) ? $lang['Username'] : $lang['Group_name'], 
+	                        'L_AUTH_TITLE' => ( $mode == 'user' ) ? $lang['Auth_Arcade_Control_User'] : $lang['Auth_Arcade_Control_Group'], 
+							'L_AUTH_EXPLAIN' => ( $mode == 'user' ) ? $lang['User_arcade_auth_explain'] : $lang['Group_arcade_auth_explain'], 
+							'L_MODERATOR_STATUS' => $lang['Moderator_status'] = $lang['Moderator_status'] ?? 'Moderator Status', 
+							'L_PERMISSIONS' => $lang['arcade_cat_auth'] = $lang['arcade_cat_auth'] ?? '', 
+							'L_SUBMIT' => $lang['Submit'], 
+							'L_RESET' => $lang['Reset'], 
+							'L_CATEGORIES' => $lang['Arcade_categories'], 
+							'U_USER_OR_GROUP' => append_sid("admin_arcade_auth.$phpEx"), 
+							'U_SWITCH_MODE' => $u_switch_mode, 
+							'S_COLUMN_SPAN' => $s_column_span, 
+							'S_AUTH_ACTION' => append_sid("admin_arcade_auth.$phpEx"), 
+							'S_HIDDEN_FIELDS' => $s_hidden_fields]
     );
-} else
+} 
+else
 {
     //
     // Select a user/group

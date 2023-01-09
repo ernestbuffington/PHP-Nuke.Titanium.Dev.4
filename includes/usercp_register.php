@@ -189,17 +189,17 @@ function send_pm($new_uid,$ya_username)
 }
 # Mod: Welcome PM v2.0.0 END
 
-$coppa = ( empty($HTTP_POST_VARS['coppa']) && empty($HTTP_GET_VARS['coppa']) ) ? 0 : TRUE;
+$coppa = ( empty($_POST['coppa']) && empty($_GET['coppa']) ) ? 0 : TRUE;
 
 # Check and initialize some variables if needed
 # Mod: Custom mass PM v1.4.7 START
 include($phpbb_root_path . 'language/lang_'.$board_config['default_lang'].'/lang_mass_pm.'.$phpEx);
 # Mod: Custom mass PM v1.4.7 END
 if(
-isset($HTTP_POST_VARS['submit']) ||
-isset($HTTP_POST_VARS['avatargallery']) ||
-isset($HTTP_POST_VARS['submitavatar']) ||
-isset($HTTP_POST_VARS['cancelavatar']) ||
+isset($_POST['submit']) ||
+isset($_POST['avatargallery']) ||
+isset($_POST['submitavatar']) ||
+isset($_POST['cancelavatar']) ||
 $mode == 'register' ):
 
 	include("includes/functions_validate.php");
@@ -207,8 +207,8 @@ $mode == 'register' ):
 	include("includes/functions_post.php");
 
 	if ($mode == 'editprofile'):
-		$user_id = intval($HTTP_POST_VARS['user_id']);
-		$current_email = trim(htmlspecialchars($HTTP_POST_VARS['current_email']));
+		$user_id = intval($_POST['user_id']);
+		$current_email = trim(htmlspecialchars($_POST['current_email']));
 	endif;
 
     # Mod: At a Glance Options v1.0.0 START
@@ -235,7 +235,7 @@ $mode == 'register' ):
   		${$var} = trim((string) htmlspecialchars((string) $_POST[$param]));
   	  endif;
     endforeach;
-	$username = (!empty($HTTP_POST_VARS['username'])) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
+	$username = (!empty($_POST['username'])) ? phpbb_clean_username($_POST['username']) : '';
 	$trim_var_list = array('cur_password' => 'cur_password', 
 	                       'new_password' => 'new_password', 
 					   'password_confirm' => 'password_confirm', 
@@ -251,11 +251,11 @@ $mode == 'register' ):
 	$signature_bbcode_uid = '';
     
 	# Mod: Gender v1.2.6 START
-	$gender = ( isset($HTTP_POST_VARS['gender']) ) ? intval ($HTTP_POST_VARS['gender']) : 0;
+	$gender = ( isset($_POST['gender']) ) ? intval ($_POST['gender']) : 0;
 	# Mod: Gender v1.2.6 END
 
     # Mod: Custom mass PM v1.4.7 START
-	$allow_mass_pm = ( isset($HTTP_POST_VARS['allow_mass_pm']) ) ? intval ($HTTP_POST_VARS['allow_mass_pm']) : 2;
+	$allow_mass_pm = ( isset($_POST['allow_mass_pm']) ) ? intval ($_POST['allow_mass_pm']) : 2;
     # Mod: Custom mass PM v1.4.7 END
 
 	# Run some validation on the optional fields. These are pass-by-ref, so they'll be changed to
@@ -267,8 +267,8 @@ $mode == 'register' ):
 	$xd_meta = get_xd_metadata();
 
 	foreach($xd_meta as $name => $info):
-		if(isset($HTTP_POST_VARS[$name]) && $info['handle_input']):
-			$xdata[$name] = trim($HTTP_POST_VARS[$name]);
+		if(isset($_POST[$name]) && $info['handle_input']):
+			$xdata[$name] = trim($_POST[$name]);
 			$xdata[$name] = str_replace('<br />', "\n", $xdata[$name]);
 			# Mod: XData Date Conversion v0.1.1 START
 			if($info['field_type'] == 'date'):
@@ -281,27 +281,27 @@ $mode == 'register' ):
 	endforeach;
     # Mod: XData v1.0.3 END
 
-	$viewemail = (isset($HTTP_POST_VARS['viewemail'])) ? (($HTTP_POST_VARS['viewemail']) ? TRUE : 0) : 0;
+	$viewemail = (isset($_POST['viewemail'])) ? (($_POST['viewemail']) ? TRUE : 0) : 0;
     
 	# Mod: Hide Images v1.0.0 START
-	$hide_images = (isset($HTTP_POST_VARS['hide_images'])) ? (($HTTP_POST_VARS['hide_images']) ? TRUE : 0) : 0;
+	$hide_images = (isset($_POST['hide_images'])) ? (($_POST['hide_images']) ? TRUE : 0) : 0;
 	# Mod: Hide Images v1.0.0 END
 
-	$allowviewonline = (isset($HTTP_POST_VARS['hideonline'])) ? (($HTTP_POST_VARS['hideonline']) ? 0 : TRUE) : TRUE;
-	$notifyreply = (isset($HTTP_POST_VARS['notifyreply'])) ? (($HTTP_POST_VARS['notifyreply']) ? TRUE : 0) : 0;
-	$notifypm = (isset($HTTP_POST_VARS['notifypm'])) ? (($HTTP_POST_VARS['notifypm']) ? TRUE : 0) : TRUE;
-	$popup_pm = (isset($HTTP_POST_VARS['popup_pm'])) ? (($HTTP_POST_VARS['popup_pm']) ? TRUE : 0) : TRUE;
-	$sid = (isset($HTTP_POST_VARS['sid'])) ? $HTTP_POST_VARS['sid'] : 0;
+	$allowviewonline = (isset($_POST['hideonline'])) ? (($_POST['hideonline']) ? 0 : TRUE) : TRUE;
+	$notifyreply = (isset($_POST['notifyreply'])) ? (($_POST['notifyreply']) ? TRUE : 0) : 0;
+	$notifypm = (isset($_POST['notifypm'])) ? (($_POST['notifypm']) ? TRUE : 0) : TRUE;
+	$popup_pm = (isset($_POST['popup_pm'])) ? (($_POST['popup_pm']) ? TRUE : 0) : TRUE;
+	$sid = (isset($_POST['sid'])) ? $_POST['sid'] : 0;
 
 	if($mode == 'register'):
-		$attachsig = (isset($HTTP_POST_VARS['attachsig'])) ? ((intval($HTTP_POST_VARS['attachsig'])) ? TRUE : 0) : $board_config['allow_sig'];
-		$allowhtml = (isset($HTTP_POST_VARS['allowhtml'])) ? ((intval($HTTP_POST_VARS['allowhtml'])) ? TRUE : 0) : $board_config['allow_html'];
-		$allowbbcode = (isset($HTTP_POST_VARS['allowbbcode'])) ? ((intval($HTTP_POST_VARS['allowbbcode'])) ? TRUE : 0) : $board_config['allow_bbcode'];
-		$allowsmilies = (isset($HTTP_POST_VARS['allowsmilies'])) ? ((intval($HTTP_POST_VARS['allowsmilies'])) ? TRUE : 0) : $board_config['allow_smilies'];
+		$attachsig = (isset($_POST['attachsig'])) ? ((intval($_POST['attachsig'])) ? TRUE : 0) : $board_config['allow_sig'];
+		$allowhtml = (isset($_POST['allowhtml'])) ? ((intval($_POST['allowhtml'])) ? TRUE : 0) : $board_config['allow_html'];
+		$allowbbcode = (isset($_POST['allowbbcode'])) ? ((intval($_POST['allowbbcode'])) ? TRUE : 0) : $board_config['allow_bbcode'];
+		$allowsmilies = (isset($_POST['allowsmilies'])) ? ((intval($_POST['allowsmilies'])) ? TRUE : 0) : $board_config['allow_smilies'];
 
 		# Mod: View/Disable Avatars/Signatures v1.1.2 START
-		$showavatars = (isset($HTTP_POST_VARS['showavatars'])) ? (($HTTP_POST_VARS['showavatars']) ? TRUE : 0) : TRUE;
-		$showsignatures = (isset($HTTP_POST_VARS['showsignatures'])) ? (($HTTP_POST_VARS['showsignatures']) ? TRUE : 0) : TRUE;
+		$showavatars = (isset($_POST['showavatars'])) ? (($_POST['showavatars']) ? TRUE : 0) : TRUE;
+		$showsignatures = (isset($_POST['showsignatures'])) ? (($_POST['showsignatures']) ? TRUE : 0) : TRUE;
 		# Mod: View/Disable Avatars/Signatures v1.1.2 END
 
         # Mod: YA Merge v1.0.0 START
@@ -314,32 +314,32 @@ $mode == 'register' ):
 		endif;
         # Mod: YA Merge v1.0.0 END
 	else:
-		$attachsig = (isset($HTTP_POST_VARS['attachsig'])) ? (($HTTP_POST_VARS['attachsig']) ? TRUE : 0) : $userdata['user_attachsig'];
-		$allowhtml = (isset($HTTP_POST_VARS['allowhtml'])) ? ((intval($HTTP_POST_VARS['allowhtml'])) ? TRUE : 0) : $userdata['user_allowhtml'];
-		$allowbbcode = (isset($HTTP_POST_VARS['allowbbcode'])) ? ((intval($HTTP_POST_VARS['allowbbcode'])) ? TRUE : 0) : $userdata['user_allowbbcode'];
-		$allowsmilies = (isset($HTTP_POST_VARS['allowsmilies'])) ? ((intval($HTTP_POST_VARS['allowsmilies'])) ? TRUE : 0) : $userdata['user_allowsmile'];
+		$attachsig = (isset($_POST['attachsig'])) ? (($_POST['attachsig']) ? TRUE : 0) : $userdata['user_attachsig'];
+		$allowhtml = (isset($_POST['allowhtml'])) ? ((intval($_POST['allowhtml'])) ? TRUE : 0) : $userdata['user_allowhtml'];
+		$allowbbcode = (isset($_POST['allowbbcode'])) ? ((intval($_POST['allowbbcode'])) ? TRUE : 0) : $userdata['user_allowbbcode'];
+		$allowsmilies = (isset($_POST['allowsmilies'])) ? ((intval($_POST['allowsmilies'])) ? TRUE : 0) : $userdata['user_allowsmile'];
 
         # Mod: View/Disable Avatars/Signatures v1.1.2 START
-		$showavatars = (isset($HTTP_POST_VARS['showavatars'])) ? (($HTTP_POST_VARS['showavatars']) ? TRUE : 0) : $userdata['user_showavatars'];
-		$showsignatures = (isset($HTTP_POST_VARS['showsignatures'])) ? (($HTTP_POST_VARS['showsignatures']) ? TRUE : 0) : $userdata['user_showsignatures'];
+		$showavatars = (isset($_POST['showavatars'])) ? (($_POST['showavatars']) ? TRUE : 0) : $userdata['user_showavatars'];
+		$showsignatures = (isset($_POST['showsignatures'])) ? (($_POST['showsignatures']) ? TRUE : 0) : $userdata['user_showsignatures'];
         # Mod: View/Disable Avatars/Signatures v1.1.2 END
         # Mod: View/Disable Avatars/Signatures v1.1.2 END
 	endif;
 
     # Mod: Force Word Wrapping - Configurator v1.0.16 START
-	$user_wordwrap = (isset($HTTP_POST_VARS['user_wordwrap'])) ? intval($HTTP_POST_VARS['user_wordwrap']) : $board_config['wrap_def'];
+	$user_wordwrap = (isset($_POST['user_wordwrap'])) ? intval($_POST['user_wordwrap']) : $board_config['wrap_def'];
     # Mod: Force Word Wrapping - Configurator v1.0.16 END
 
     # Mod: Birthdays v3.0.0 START
-	$birthday_display = (isset($HTTP_POST_VARS['birthday_display'])) ? intval($HTTP_POST_VARS['birthday_display']) : 0;
-	$birthday_greeting = (isset($HTTP_POST_VARS['birthday_greeting'])) ? intval($HTTP_POST_VARS['birthday_greeting']) : 0;
+	$birthday_display = (isset($_POST['birthday_display'])) ? intval($_POST['birthday_display']) : 0;
+	$birthday_greeting = (isset($_POST['birthday_greeting'])) ? intval($_POST['birthday_greeting']) : 0;
     # Mod: Birthdays v3.0.0 END
 
-	$user_style = (isset($HTTP_POST_VARS['style'])) ? $HTTP_POST_VARS['style'] : '';
+	$user_style = (isset($_POST['style'])) ? $_POST['style'] : '';
 
-	if(!empty($HTTP_POST_VARS['language'])):
-		if(preg_match('/^[a-z_]+$/i',$HTTP_POST_VARS['language'])):
-		$user_lang = htmlspecialchars($HTTP_POST_VARS['language']);
+	if(!empty($_POST['language'])):
+		if(preg_match('/^[a-z_]+$/i',$_POST['language'])):
+		$user_lang = htmlspecialchars($_POST['language']);
 		else:
 		$error = true;
 		$error_msg = $lang['Fields_empty'];
@@ -348,64 +348,64 @@ $mode == 'register' ):
 		$user_lang = $board_config['default_lang'];
 	endif;
 
-	$user_timezone = (isset($HTTP_POST_VARS['timezone'])) ? doubleval($HTTP_POST_VARS['timezone']) : $board_config['board_timezone'];
+	$user_timezone = (isset($_POST['timezone'])) ? doubleval($_POST['timezone']) : $board_config['board_timezone'];
     
 	# Mod: Member Country Flags v2.0.7 START
-	$user_flag = (!empty($HTTP_POST_VARS['user_flag'])) ? $HTTP_POST_VARS['user_flag'] : '';
+	$user_flag = (!empty($_POST['user_flag'])) ? $_POST['user_flag'] : '';
 	# Mod: Member Country Flags v2.0.7 END
 
     # Mod: Advanced Time Management v2.2.0 START
-	$time_mode = (isset($HTTP_POST_VARS['time_mode'])) ? intval($HTTP_POST_VARS['time_mode']) : $board_config['default_time_mode'];
+	$time_mode = (isset($_POST['time_mode'])) ? intval($_POST['time_mode']) : $board_config['default_time_mode'];
 
-	if(preg_match("/[^0-9]/i",$HTTP_POST_VARS['dst_time_lag']) || $dst_time_lag<0 || $dst_time_lag>120):
+	if(preg_match("/[^0-9]/i",$_POST['dst_time_lag']) || $dst_time_lag<0 || $dst_time_lag>120):
 	
 		$error = TRUE;
 		$error_msg .= ((isset($error_msg)) ? '<br />' : '' ).$lang['dst_time_lag_error'];
 	
 	else:
 	
-		$dst_time_lag = (isset($HTTP_POST_VARS['dst_time_lag'])) ? intval($HTTP_POST_VARS['dst_time_lag']) : $board_config['default_dst_time_lag'];
+		$dst_time_lag = (isset($_POST['dst_time_lag'])) ? intval($_POST['dst_time_lag']) : $board_config['default_dst_time_lag'];
 	endif;
     # Mod: Advanced Time Management v2.2.0 END
 
-	$user_dateformat = (!empty($HTTP_POST_VARS['dateformat'])) ? trim(htmlspecialchars($HTTP_POST_VARS['dateformat'])) : $board_config['default_dateformat'];
+	$user_dateformat = (!empty($_POST['dateformat'])) ? trim(htmlspecialchars($_POST['dateformat'])) : $board_config['default_dateformat'];
 
     # Mod: Super Quick Reply v1.3.2 START
-	$user_show_quickreply = (isset($HTTP_POST_VARS['show_quickreply'])) ? intval($HTTP_POST_VARS['show_quickreply']) : 1;
-	$user_quickreply_mode = (isset($HTTP_POST_VARS['quickreply_mode'])) ? (( $HTTP_POST_VARS['quickreply_mode']) ? TRUE : 0) : TRUE;
-	$user_open_quickreply = (isset($HTTP_POST_VARS['open_quickreply'])) ? (( $HTTP_POST_VARS['open_quickreply']) ? TRUE : 0) : TRUE;
+	$user_show_quickreply = (isset($_POST['show_quickreply'])) ? intval($_POST['show_quickreply']) : 1;
+	$user_quickreply_mode = (isset($_POST['quickreply_mode'])) ? (( $_POST['quickreply_mode']) ? TRUE : 0) : TRUE;
+	$user_open_quickreply = (isset($_POST['open_quickreply'])) ? (( $_POST['open_quickreply']) ? TRUE : 0) : TRUE;
     # Mod: Super Quick Reply v1.3.2 END
 
-    $sceditor = (isset($HTTP_POST_VARS['sceditor_in_source'])) ? intval($HTTP_POST_VARS['sceditor_in_source']) : 1;
+    $sceditor = (isset($_POST['sceditor_in_source'])) ? intval($_POST['sceditor_in_source']) : 1;
 
     # Mod: YA Merge v1.0.0 START
 	if($mode != 'register') 
-    $rname = (isset($HTTP_POST_VARS['rname'])) ? $HTTP_POST_VARS['rname'] : ''; 
+    $rname = (isset($_POST['rname'])) ? $_POST['rname'] : ''; 
 	
-	$extra_info = (isset($HTTP_POST_VARS['extra_info'])) ? $HTTP_POST_VARS['extra_info'] : '';
-	$newsletter = (isset($HTTP_POST_VARS['newsletter'])) ? intval($HTTP_POST_VARS['newsletter']) : 0;
+	$extra_info = (isset($_POST['extra_info'])) ? $_POST['extra_info'] : '';
+	$newsletter = (isset($_POST['newsletter'])) ? intval($_POST['newsletter']) : 0;
     # Mod: YA Merge v1.0.0 END
 
-	$user_avatar_local = (isset($HTTP_POST_VARS['avatarselect']) 
-	&& !empty($HTTP_POST_VARS['submitavatar']) 
+	$user_avatar_local = (isset($_POST['avatarselect']) 
+	&& !empty($_POST['submitavatar']) 
 	&& $board_config['allow_avatar_local']) 
-	? htmlspecialchars($HTTP_POST_VARS['avatarselect']) : ((isset($HTTP_POST_VARS['avatarlocal'])) ? htmlspecialchars($HTTP_POST_VARS['avatarlocal']) : '');
+	? htmlspecialchars($_POST['avatarselect']) : ((isset($_POST['avatarlocal'])) ? htmlspecialchars($_POST['avatarlocal']) : '');
 	
-	$user_avatar_category = (isset($HTTP_POST_VARS['avatarcatname']) && $board_config['allow_avatar_local']) ? htmlspecialchars($HTTP_POST_VARS['avatarcatname']) : '';
+	$user_avatar_category = (isset($_POST['avatarcatname']) && $board_config['allow_avatar_local']) ? htmlspecialchars($_POST['avatarcatname']) : '';
 
-	$user_avatar_remoteurl = (!empty($HTTP_POST_VARS['avatarremoteurl']) ) ? trim(htmlspecialchars($HTTP_POST_VARS['avatarremoteurl'])) : '';
+	$user_avatar_remoteurl = (!empty($_POST['avatarremoteurl']) ) ? trim(htmlspecialchars($_POST['avatarremoteurl'])) : '';
 
-	$user_avatar_upload = (!empty($HTTP_POST_VARS['avatarurl'])) 
-	? trim($HTTP_POST_VARS['avatarurl']) : (($HTTP_POST_FILES['avatar']['tmp_name'] != "none") ? $HTTP_POST_FILES['avatar']['tmp_name'] : '');
+	$user_avatar_upload = (!empty($_POST['avatarurl'])) 
+	? trim($_POST['avatarurl']) : (($_FILES['avatar']['tmp_name'] != "none") ? $_FILES['avatar']['tmp_name'] : '');
 
-	$user_avatar_name = (!empty($HTTP_POST_FILES['avatar']['name'])) ? $HTTP_POST_FILES['avatar']['name'] : '';
-	$user_avatar_size = (!empty($HTTP_POST_FILES['avatar']['size'])) ? $HTTP_POST_FILES['avatar']['size'] : 0;
-	$user_avatar_filetype = (!empty($HTTP_POST_FILES['avatar']['type'])) ? $HTTP_POST_FILES['avatar']['type'] : '';
+	$user_avatar_name = (!empty($_FILES['avatar']['name'])) ? $_FILES['avatar']['name'] : '';
+	$user_avatar_size = (!empty($_FILES['avatar']['size'])) ? $_FILES['avatar']['size'] : 0;
+	$user_avatar_filetype = (!empty($_FILES['avatar']['type'])) ? $_FILES['avatar']['type'] : '';
 
 	$user_avatar = (empty($user_avatar_local) && $mode == 'editprofile') ? $userdata['user_avatar'] : 'blank.png';
 	$user_avatar_type = (empty($user_avatar_local) && $mode == 'editprofile') ? $userdata['user_avatar_type'] : '0';
 
-	if((isset($HTTP_POST_VARS['avatargallery']) || isset($HTTP_POST_VARS['submitavatar']) || isset($HTTP_POST_VARS['cancelavatar'])) && (!isset($HTTP_POST_VARS['submit']))):
+	if((isset($_POST['avatargallery']) || isset($_POST['submitavatar']) || isset($_POST['cancelavatar'])) && (!isset($_POST['submit']))):
 		$username = stripslashes($username);
 		$email = stripslashes($email);
 		$cur_password = htmlspecialchars(stripslashes($cur_password));
@@ -433,7 +433,7 @@ $mode == 'register' ):
         endforeach;        
 		# Mod: XData v1.0.3 END
 
-		if(!isset($HTTP_POST_VARS['cancelavatar'])):
+		if(!isset($_POST['cancelavatar'])):
 			$user_avatar = $user_avatar_category . '/' . $user_avatar_local;
 			$user_avatar_type = USER_AVATAR_GALLERY;
 		endif;
@@ -448,7 +448,7 @@ if($verification !== null && ($userdata['session_logged_in'] || $username === $u
 message_die(GENERAL_MESSAGE, $lang['Username_taken'], '', __LINE__, __FILE__);
 
 # Did the user submit? In this case build a query to update the users profile in the DB
-if(isset($HTTP_POST_VARS['submit'])):
+if(isset($_POST['submit'])):
 
 	include("includes/usercp_avatar.php");
 	$passwd_sql = '';
@@ -468,14 +468,14 @@ if(isset($HTTP_POST_VARS['submit'])):
 
 	if($board_config['enable_confirm'] && $mode == 'register'):
 	
-		if(empty($HTTP_POST_VARS['confirm_id'])):
+		if(empty($_POST['confirm_id'])):
 		
 			$error = TRUE;
 			$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Confirm_code_wrong'];
 		
 		else:
 		
-			$confirm_id = htmlspecialchars($HTTP_POST_VARS['confirm_id']);
+			$confirm_id = htmlspecialchars($_POST['confirm_id']);
 			
 			if(!preg_match('/^[A-Za-z0-9]+$/', $confirm_id))
 			$confirm_id = '';
@@ -652,7 +652,7 @@ if(isset($HTTP_POST_VARS['submit'])):
 					   && !$empty_day 
 					   && !$empty_year) ? sprintf('%04d%02d%02d',$bday_year,$bday_month,$bday_day) : 'NULL';
 
-	$birthday_greeting = ( isset($HTTP_POST_VARS['bday_greeting']) ) ? intval($HTTP_POST_VARS['bday_greeting']) : 0;
+	$birthday_greeting = ( isset($_POST['bday_greeting']) ) ? intval($_POST['bday_greeting']) : 0;
 	
 	if($birthday_greeting && !($board_config['bday_greeting'] & 1<<($birthday_greeting-1)))
 	$birthday_greeting = 0;
@@ -719,7 +719,10 @@ if(isset($HTTP_POST_VARS['submit'])):
 	rawurlencode($website);
 	$avatar_sql = '';
 
-	if ($HTTP_POST_VARS['avatardel'] == 1 && $mode == 'editprofile')
+    if(!isset($_POST['avatardel']))
+	$_POST['avatardel'] = '';
+	
+	if ($_POST['avatardel'] == 1 && $mode == 'editprofile')
 	{
 		$avatar_sql = user_avatar_delete($userdata['user_avatar_type'], $userdata['user_avatar']);
 	}
@@ -1254,7 +1257,7 @@ if ( $error )
 	$user_dateformat = stripslashes($user_dateformat);
 
 }
-else if ( $mode == 'editprofile' && !isset($HTTP_POST_VARS['avatargallery']) && !isset($HTTP_POST_VARS['submitavatar']) && !isset($HTTP_POST_VARS['cancelavatar']) )
+else if ( $mode == 'editprofile' && !isset($_POST['avatargallery']) && !isset($_POST['submitavatar']) && !isset($_POST['cancelavatar']) )
 {
 	$user_id = $userdata['user_id'];
 	$username = $userdata['username'];
@@ -1426,11 +1429,11 @@ if ( $mode == 'editprofile' )
 	}
 }
 
-if( isset($HTTP_POST_VARS['avatargallery']) && !$error )
+if( isset($_POST['avatargallery']) && !$error )
 {
 	include("includes/usercp_avatar.php");
 
-	$avatar_category = ( !empty($HTTP_POST_VARS['avatarcategory']) ) ? htmlspecialchars($HTTP_POST_VARS['avatarcategory']) : '';
+	$avatar_category = ( !empty($_POST['avatarcategory']) ) ? htmlspecialchars($_POST['avatarcategory']) : '';
 
 	$template->set_filenames(array(
 			'body' => 'profile_avatar_gallery.tpl')
@@ -2463,4 +2466,4 @@ $template->pparse('body');
 
 include("includes/page_tail.php");
 
-?>
+

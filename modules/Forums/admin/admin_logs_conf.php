@@ -173,7 +173,7 @@ if( !$result )
 {
     message_die(GENERAL_ERROR, "Couldn't selected informations about user.", "",__LINE__, __FILE__, $sql);
 }
-$choose_delete = trim($db->sql_fetchrowset($result));
+$choose_delete = trim((string) $db->sql_fetchrowset($result));
 $delete_admin_select = '<select name="delete_admin_select[]" multiple="multiple" size="4">';
 
 if( empty($choose_delete) )

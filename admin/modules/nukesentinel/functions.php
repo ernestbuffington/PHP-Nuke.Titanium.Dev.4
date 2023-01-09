@@ -49,10 +49,8 @@ function abget_countrytitle($c2c){
 
 function absave_config($config_name, $config_value){
   global $prefix, $db, $cache;
-  if(!get_magic_quotes_runtime()) {
-    $config_name = addslashes($config_name);
-    $config_value = addslashes($config_value);
-  }
+  $config_name = addslashes($config_name);
+  $config_value = addslashes($config_value);
   $resultnum = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_config` WHERE `config_name`='$config_name' LIMIT 0,1"));
   if($resultnum < 1) {
     $db->sql_query("INSERT INTO `".$prefix."_nsnst_config` (`config_name`, `config_value`) VALUES ('$config_name', '$config_value')");

@@ -66,6 +66,7 @@ endif;
 define('NUKE_EVO', '2.0.9e');
 define('NUKE_TITANIUM', '4.0.3');
 define('PHPBB_TITANIUM', '2.0.25');
+define('PHPBB_TITANIUM_LAST_UPDATE', 'Sunday Jan 1st, 2023');
 define('TITANIUM_BUILD', '20940312032022');
 define('CUR_EVO', 'NUKE_EVO');
 define('CUR_TITANIUM', 'NUKE_TITANIUM');
@@ -282,6 +283,10 @@ define('TITANIUM_STATS_DIR', TITANIUM_THEMES_DIR);
 
 # Inspired by phoenix-cms at website-portals.net
 # Absolute Nuke directory
+$siteRootDir = dirname($_SERVER['DOCUMENT_ROOT']);
+define('ZF1_BASE_DIR', $siteRootDir . '/public_html/vendor/shardj/zf1-future/library/');
+define('NUKE_ZENDF1_DIR', ZF1_BASE_DIR . 'Zend/');
+
 define('NUKE_BASE_DIR', __DIR__ . '/');
 # Absolute Nuke directory + includes
 define('NUKE_BLOCKS_DIR', NUKE_BASE_DIR . 'blocks/');
@@ -303,7 +308,11 @@ define('NUKE_FORUMS_DIR', (defined("IN_ADMIN") ? './../' : 'modules/Forums/'));
 define('NUKE_CACHE_DIR', NUKE_INCLUDE_DIR . 'cache/');
 define('NUKE_CLASSES_DIR', NUKE_INCLUDE_DIR . 'classes/');
 define('NUKE_ZEND_DIR', NUKE_INCLUDE_DIR . 'Zend/');
-define('NUKE_ZENDF1_DIR', NUKE_INCLUDE_DIR . 'zf1-future/library/Zend/');
+
+
+//define('ZF1_BASE_DIR', NUKE_VENDOR_DIR . 'shardj/zf1-future/library/Zend/');
+//define('NUKE_ZENDF1_DIR', (defined("IN_ADMIN") ? NUKE_BASE_DIR.'vendor/shardj/zf1-future/library/Zend/' : 'vendor/shardj/zf1-future/library/Zend/'));
+
 define('NUKE_CLASS_EXCEPTION_DIR',  NUKE_CLASSES_DIR . 'exceptions/');
 
 # define the INCLUDE PATH
@@ -334,7 +343,7 @@ if(!function_exists('classAutoloader')):
 endif;
 
 if(CAN_MOD_INI):
-    ini_set('magic_quotes_sybase', 0);
+//    ini_set('magic_quotes_sybase', 0);
     ini_set('zlib.output_compression', 0);
 endif;
 
@@ -343,6 +352,8 @@ if(file_exists(NUKE_VENDOR_DIR.'autoload.php')):
   require_once(NUKE_VENDOR_DIR.'autoload.php');
 endif;  
 # Vendor Autoload - only if vendor directory exists with an autoload file! END
+
+use function PHP81_BC\strftime;
 
 # Enable 86it Network Support START
 if (file_exists(NUKE_BASE_DIR.'nconfig.php')):  
@@ -803,6 +814,12 @@ function title($text)
 	endif;
 }
 
+/**
+* @get active module
+* @version 4.0.3
+* @cache zf1-future
+* @author Ernest Allen Buffington
+*/
 function is_active($module) 
 {
     global $prefix, $db, $cache;
@@ -812,7 +829,7 @@ function is_active($module)
       return(isset($active_modules[$module]) ? 1 : 0);
 	endif;
 
-	if((($active_modules = $cache->load('active_modules', 'config')) === false) || empty($active_modules)):
+	if((($active_modules = $cache->load('active_modules', 'titanium_config')) === false) || empty($active_modules)):
 
 		$active_modules = [];
         $result = $db->sql_query('SELECT `title` FROM `'.$prefix.'_modules` WHERE `active`="1"');
@@ -822,7 +839,7 @@ function is_active($module)
         endwhile;
 
 		$db->sql_freeresult($result);
-        $cache->save('active_modules', 'config', $active_modules);
+        $cache->save('active_modules', 'titanium_config', $active_modules);
 
 	endif;
 
@@ -908,6 +925,12 @@ function blocks_visible($side): bool
     return ($showblocks == 1 && $side == 'l') || ($showblocks == 2 && $side == 'r');
 }
 
+/**
+* @get blocks information
+* @version 4.0.3
+* @cache zf1-future
+* @author Ernest Allen Buffington
+*/
 function blocks($side, $count=false) 
 {
     global $prefix, $multilingual, $currentlang, $db, $userinfo, $cache;
@@ -918,7 +941,7 @@ function blocks($side, $count=false)
 
 	$side = strtolower((string) $side[0]);
 
-	if((($blocks = $cache->load('blocks', 'config')) === false) || !isset($blocks)): 
+	if(!($blocks = $cache->load('blocks', 'titanium_config'))): 
 
 	    $sql = 'SELECT * FROM `'.$prefix.'_blocks` WHERE `active`="1" '.$querylang.' ORDER BY `weight` ASC';
         $result = $db->sql_query($sql);
@@ -928,7 +951,7 @@ function blocks($side, $count=false)
         endwhile;
 
 		$db->sql_freeresult($result);
-        $cache->save('blocks', 'config', $blocks);
+        $cache->save('blocks', 'titanium_config', $blocks);
 
 	endif;
 
@@ -953,11 +976,11 @@ function blocks($side, $count=false)
 
    	        if($action == 'd'): 
                    $db->sql_query('UPDATE `'.$prefix.'_blocks` SET `active`="0", `expire`="0" WHERE `bid`="'.$bid.'"');
-                   $cache->delete('blocks', 'config');
+                   $cache->delete('blocks', 'titanium_config');
                    return;
    			elseif($action == 'r'): 
                    $db->sql_query('DELETE FROM `'.$prefix.'_blocks` WHERE `bid`="'.$bid.'"');
-                   $cache->delete('blocks', 'config');
+                   $cache->delete('blocks', 'titanium_config');
                    return;
                endif;
 
@@ -1088,18 +1111,18 @@ function blog_ultramode()
     
 	$querylang = ($multilingual == 1) ? "AND (s.alanguage='".$currentlang."' OR s.alanguage='')" : "";
     
-	$sql = "SELECT s.sid, 
-	             s.catid, 
-				   s.aid, 
-				 s.title, 
-		 s.datePublished, 
-		  s.dateModified, 
-		      s.hometext, 
-			  s.comments, 
-			     s.topic, 
-				 s.ticon, 
-		     t.topictext, 
-		    t.topicimage 
+	$sql = "SELECT `s.sid`, 
+	             `s.catid`, 
+				   `s.aid`, 
+				 `s.title`, 
+		 `s.datePublished`, 
+		  `s.dateModified`, 
+		      `s.hometext`, 
+			  `s.comments`, 
+			     `s.topic`, 
+				 `s.ticon`, 
+		     `t.topictext`, 
+		    `t.topicimage` 
 			
 	FROM `".$prefix."_stories` s 
 	
@@ -1144,18 +1167,18 @@ function ultramode()
 
     $querylang = ($multilingual == 1) ? "AND (s.alanguage='".$currentlang."' OR s.alanguage='')" : "";
 
-    $sql = "SELECT s.sid, 
-	             s.catid, 
-				   s.aid, 
-				 s.title, 
-		 s.datePublished, 
-		  s.dateModified, 
-		      s.hometext, 
-			  s.comments, 
-			     s.topic, 
-				 s.ticon, 
-		     t.topictext, 
-			t.topicimage 
+    $sql = "SELECT `s.sid`, 
+	             `s.catid`, 
+				   `s.aid`, 
+				 `s.title`, 
+		 `s.datePublished`, 
+		  `s.dateModified`, 
+		      `s.hometext`, 
+			  `s.comments`, 
+			     `s.topic`, 
+				 `s.ticon`, 
+		     `t.topictext`, 
+			`t.topicimage` 
 			
 	FROM `".$prefix."_stories` s 
 	
@@ -1331,7 +1354,7 @@ function formatTimestamp($time, $format='', $dateonly='')
 
 	if(!is_numeric($time)): 
       preg_match('/(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})/', (string) $time, $datetime);
-      $time = gmmktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
+      $time = gmmktime(isset($datetime[4]),isset($datetime[5]),isset($datetime[6]),isset($datetime[2]),isset($datetime[3]),isset($datetime[1]));
     endif;
 
 	$datetime = EvoDate($format, $time, $tz);
@@ -1351,7 +1374,7 @@ function blog_signature($aid)
     global $user_prefix, $db;
     static $users;
 
-    if(is_array($users[$aid])):
+    if(is_array(isset($users[$aid]))):
         $row = $users[$aid];
     else:
         $row = get_admin_field('*', $aid);
@@ -2074,7 +2097,12 @@ function encode_mail($email)
     return $finished;
 }
 
-# get username color
+/**
+* @get user name colors
+* @version 4.0.3
+* @cache zf1-future
+* @author Ernest Allen Buffington
+*/
 function UsernameColor($username, $old_name=false) 
 {
     global $db, $user_prefix, $use_colors, $cache;
@@ -2089,34 +2117,35 @@ function UsernameColor($username, $old_name=false)
 	  return $username;
 	endif;
 
-//  $plain_username = strtolower($username);
     $plain_username = strtolower((string) $username);
  
-    //if(isset($cached_names[$plain_username])): 
-    //  return $cached_names[$plain_username];
-	//endif;
+    if(isset($cached_names[$plain_username])): 
+      return $cached_names[$plain_username];
+	endif;
     
-    //if(!is_array($cached_names)): 
-    //  $cached_names = $cache->load('UserColors', 'config');
-    //endif;
+    if(!is_array($cached_names)): 
+      $cached_names = $cache->load('UserNameColors', 'titanium_config');
+    endif;
 	
-    //if (!isset($cached_names[$plain_username])):
-          
-//		    list($user_color, $uname) = $db->sql_ufetchrow("SELECT `user_color_gc`, `username` FROM `" . $user_prefix . "_users` WHERE `username` = '" . str_replace("'", "\'", $username) . "'", SQL_NUM);
-	        [$user_color, $uname] = $db->sql_ufetchrow("SELECT `user_color_gc`, `username` FROM `" . $user_prefix . "_users` WHERE `username` = '" . str_replace("'", "\'", (string) $username) . "'", SQL_NUM);
-            
-//	        $uname = (!empty($uname)) ? $uname : $username;
-//          $username = (strlen($user_color) == 6) ? '<span style="color: #'. $user_color .'">'. $uname .'</span>' : $uname;
-	        $uname = (empty($uname)) ? $username : $uname;
-            $username = (strlen((string) $user_color) == 6) ? '<span style="color: #'. $user_color .'">'. $uname .'</span>' : $uname;
-            $cached_names[$plain_username] = $username;
-    //        $cache->save('UserColors', 'config', $cached_names);
-	//endif;
+    if (!isset($cached_names[$plain_username])):
+        $cached_names = [];
+		[$user_color, $uname] = $db->sql_ufetchrow("SELECT `user_color_gc`, `username` FROM `" . $user_prefix . "_users` WHERE `username` = '" . str_replace("'", "\'", (string) $username) . "'", SQL_NUM);
+		$uname = (empty($uname)) ? $username : $uname;
+        $username = (strlen((string) $user_color) == 6) ? '<span style="color: #'. $user_color .'">'. $uname .'</span>' : $uname;
+        if(!empty($username))
+		$cached_names[$plain_username] = $username;
+        $cache->save('UserNameColors', 'titanium_config', $cached_names);
+	endif;
 
-    return $cached_names[$plain_username];
+    return $cached_names[$plain_username] = $cached_names[$plain_username] ?? $username;
 }
 
-# get group color
+/**
+* @get group colors
+* @version 4.0.3
+* @cache zf1-future
+* @author Ernest Allen Buffington
+*/
 function GroupColor($group_name, $short=0) 
 {
     global $db, $use_colors, $cache;
@@ -2133,7 +2162,7 @@ function GroupColor($group_name, $short=0)
       return $cached_groups[$plaingroupname];
 	endif;
     
-    if((($cached_groups = $cache->load('GroupColors', 'config')) === false) || empty($cached_groups)):
+    if((!($cached_groups = $cache->load('GroupNameColors', 'titanium_config'))) || empty($cached_groups)):
         
 		$cached_groups = array();
         
@@ -2161,7 +2190,7 @@ function GroupColor($group_name, $short=0)
         endwhile;
     
 	    $db->sql_freeresult($result);
-        $cache->save('GroupColors', 'config', $cached_groups);
+        $cache->save('GroupNameColors', 'titanium_config', $cached_groups);
     
 	endif;
     

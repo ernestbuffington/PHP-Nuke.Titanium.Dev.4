@@ -100,14 +100,21 @@ $forum_auth_cats = array(
 	'DOWNLOAD' => 'auth_download'
 );
 
+if(isset($forum_auth_const)):
 for($i=0; $i<count($forum_auth_const); $i++) {
-	$auth_key .= '<img src="../../../images/spacer.gif" width=10 height=10 class="' . $forum_auth_classes[$forum_auth_const[$i]] . '">&nbsp;' . $forum_auth_levels[$i] . '&nbsp;&nbsp;';		
+	
+	
+	$auth_key = $auth_key ?? '';
+	
+	$auth_key .= '<img src="../../../images/spacer.gif" width=10 height=10 class="' . $forum_auth_classes[$forum_auth_const[$i]] = $forum_auth_classes[$forum_auth_const[$i]] ?? '' . '">&nbsp;' . $forum_auth_levels[$i] . '&nbsp;&nbsp;';		
+	
 	$template->assign_block_vars("authedit",	array(
 		'CLASS' => $forum_auth_classes[$forum_auth_const[$i]],
 		'NAME' => $forum_auth_levels[$i],
 		'VALUE' => $forum_auth_const[$i],
 	));
 }
+endif;
 
 if( isset($HTTP_GET_VARS['adv']) )
 {
@@ -194,7 +201,7 @@ if( $total_categories = $db->sql_numrows($q_categories) )
 				$template->assign_block_vars("catrow.forumrow",	array(
 					'FORUM_NAME' => $forum_rows[$j]['forum_name'],
 					'FORUM_ID' => $forum_rows[$j]['forum_id'],
-					'ROW_COLOR' => $row_color,
+					'ROW_COLOR' => $row_color = $row_color ?? '',
 					'AUTH_VIEW_IMG' => $forum_auth_images[$forum_rows[$j]['auth_view']],
 					'AUTH_READ_IMG' => $forum_auth_images[$forum_rows[$j]['auth_read']],
 					'AUTH_POST_IMG' => $forum_auth_images[$forum_rows[$j]['auth_post']],

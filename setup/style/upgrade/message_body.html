@@ -1,0 +1,13 @@
+<!-- IF S_ERROR -->
+<!-- IF S_FORWARD --><meta http-equiv="refresh" content="5;url={S_FORWARD}"><!-- ENDIF -->
+<div id="errorbox" >
+<span class="errorbox-title">{TITTLE_M}</span>
+<p>{MESSAGE}</p>
+</div>
+<!-- ELSEIF S_SUCCESS -->
+<!-- IF S_FORWARD --><meta http-equiv="refresh" content="5;url={S_FORWARD}"><!-- ENDIF -->
+<div id="successbox" >
+<span class="successbox-title">{TITTLE_M}</span>
+<p>{MESSAGE}</p>
+</div>
+<!-- ENDIF -->

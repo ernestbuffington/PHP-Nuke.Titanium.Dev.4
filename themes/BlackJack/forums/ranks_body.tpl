@@ -7,7 +7,7 @@
 
 <table width="100%" cellspacing="2" cellpadding="2" border="0">
   <tr> 
-    <td style="width: 100%"><a href="{U_INDEX}">{L_INDEX}</a> -> {L_RANKS}</td>
+    <td style="width: 100%"><a href="{U_INDEX}">{L_INDEX}</a> <i class="fa-solid fa-arrow-right fa-lg"></i> {L_RANKS}</td>
   </tr>
 </table>
 
@@ -16,7 +16,7 @@
     <td valign="top" width="50%">
       <table border="0" cellpadding="4" cellspacing="1" class="forumline" width="100%">
         <tr>
-            <td class="catHead" style="text-align: center" colspan="<!-- IF RANK_TOTAL -->3<!-- ELSE -->2<!-- ENDIF -->">{L_RANKS}</td>
+            <td class="catHead" style="text-align: center" colspan="3"><strong>{L_RANKS}</strong></td>
         </tr>
         <tr>
             <td class="catLeft" nowrap="nowrap" align="center">{L_RANKS}</td>
@@ -47,7 +47,7 @@
     <td valign="top" width="50%">
         <table border="0" cellpadding="4" cellspacing="1" class="forumline" width="100%">
         <tr>
-            <td class="catHead" style="text-align: center" height="25" valign="middle" colspan="2">{L_SPECIAL_RANKS}</td>
+            <td class="catHead" style="text-align: center" height="25" valign="middle" colspan="2"><strong>{L_SPECIAL_RANKS}</strong></td>
         </tr>
         <tr>
             <td class="catLeft" nowrap="nowrap" align="center"><span class="cattitle">&nbsp;{L_SPECIAL_RANKS}&nbsp;</span></td>

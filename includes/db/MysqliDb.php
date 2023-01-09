@@ -13,7 +13,7 @@
  * @version   2.9.3
  */
 
-class MysqliDb
+class MysqliDb extends sql_db
 {
 
     /**

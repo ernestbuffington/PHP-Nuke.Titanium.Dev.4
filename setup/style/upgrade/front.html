@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>PHP-AN602 - Setup</title>
+<link rel="StyleSheet" href="graphics/style.css" type="text/css">
+<script type="text/javascript" src="../overlib/overlib.js"><!-- overLIB (c) Erik Bosrup --></script>
+<script type="text/javascript" src="../overlib/overlib_shadow.js"><!-- overLIB (c) Erik Bosrup --></script>
+<script type="text/javascript" language="JavaScript">
+function expand(id) {
+        var i=1;
+        var obj;
+        while (obj = document.getElementById(id+"_"+i)) {
+                if (obj.className == 'show') {
+                        obj.className = 'hide';
+                } else {
+                        obj.className = 'show';
+                }
+                i++;
+        }
+
+}
+</script>
+</head>
+
+<body>
+<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
+<table width=782 border=0 cellpadding=0 cellspacing=0 align="center">
+    <tr>
+        <td>
+            <table border="0" width="780" height="176" align="center" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td width="356" rowspan="2" height="183"><img height="183" alt="" src="graphics/1.jpg" width="356"></td><td width="424" height="91"><img height="91" alt="" src="graphics/2.jpg" width="424" hspace="0" vspace="0"></td>
+                </tr>
+                <tr>
+                    <td width="424" height="92"><img height="64" alt="" src="graphics/3.jpg" width="102" border="0"><img height="64" alt="" src="graphics/4.jpg" width="63" border="0"><img height="64" alt="" src="graphics/5.jpg" width="55" border="0"><img height="64" alt="" src="graphics/6.jpg" width="145" border="0"><img height="64" alt="" src="graphics/7.jpg" width="59"><br /><img height="28" alt="" src="graphics/8.jpg" width="424"></td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td width="259">
+                        <table border="0" width="100%">
+                            <tr>
+                                <td colspan=1 style="background:url(graphics/r4.jpg)" width=135 height=66><div align="center"><img src="{LANGIMG}" alt="Language" width="48" height="48" /></div></td>
+                                <td colspan=1 style="background:url(graphics/r5.jpg)" width=124 height=66></td>
+                            </tr>
+                            <tr>
+                                <td colspan=1 style="background:url(graphics/r6.jpg)" width=135 height=62><div align="center"><img src="{STEPIMG}" alt="Current Step" width="48" height="48" /></div></td>
+                                <td colspan=1 style="background:url(graphics/r7.jpg)" width=124 height=62></td>
+                            </tr>
+                            <tr>
+                                <td colspan=1 style="background:url(graphics/r8.jpg)" width=135 height=65><div align="center"><img src="graphics/{OPSYSIMG}" alt="Operating System" width="48" height="48" /></div></td>
+                                <td colspan=1 style="background:url(graphics/r9.jpg)" width=124 height=65></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td width="512">
+                        <form name="formdata" action="upgrade.php" method="POST">
+                        <p>{BTMVERSION}</p>
+                        <p>{L_BACKUP_NOTICE}</p>
+                        <table width="100%" border="0" cellpadding="2" cellspacing="2">
+                            <tr>
+                                <td><div align="center"><a href="upgrade.php?step=2&language={S_LANG}&op=backup">{L_START_BACKUP}</a></div></td>
+                                <td><div align="center"><a href="upgrade.php?step=3&language={S_LANG}&op=no_backup">{L_NO_BACKUP}</a></div></td>
+                            </tr>
+                        </table>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    <tr>
+        <td>
+            <table width="100%" align="center" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td colspan=6  style="background:url(graphics/11.jpg)" width="622" height="43">
+                        <p style="font-size:10px; margin-left:40"> Copyright 2002-2022
+                        The PHP-AN602 Team. All rights reserved.
+                        Distributed under Apache License, Version 2.0, MIT license.</p>
+                    </td>
+                    <td width=34 height=43>
+                        <a href="https://www.an602.86it.us/index.php"><img src="graphics/12.jpg" width=34 height=43 alt="" border="0" /></a></td>
+                    <td width=30 height=43>
+                        <a href="https://github.com/php-an602/php-an602"><img src="graphics/13.jpg" width=30 height=43 alt="" border="0" /></a></td>
+                    <td width=35 height=43>
+                        <a href="mailto:theghost@an602.86it.us"><img src="graphics/14.jpg" width=35 height=43 alt="" border="0" /></a></td>
+                    <td width=59 height=43>
+                        <img src="graphics/15.jpg" width=59 height=43 alt="" />
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

@@ -27,7 +27,7 @@ $count_topics = 0;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-// if (!$topic_data = $cache->load('topic_data', 'home')):
+ if (!$topic_data = $cache->load('topic_data', 'titanium_home')):
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
@@ -59,8 +59,8 @@ $count_topics = 0;
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-	// $cache->save('topic_data', 'home', $topic_data);	
-// endif;
+	 $cache->save('topic_data', 'titanium_home', $topic_data);	
+endif;
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

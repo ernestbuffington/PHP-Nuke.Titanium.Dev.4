@@ -16,13 +16,13 @@ function donation_block_get_values() {
     global $db, $prefix, $lang_donate, $cache;
     static $block;
     if(isset($block) && is_array($block)) { return $block; }
-    if (!$block = $cache->load('block', 'donations')) {
+    if (!($block = $cache->load('block', 'titanium_donations'))) {
         $sql = 'SELECT config_value, config_name from `'.$prefix.'_donators_config` WHERE config_name LIKE "block_%"';
         $result = $db->sql_query($sql);
         while ($row = $db->sql_fetchrow($result)) {
             $block[str_replace('block_', '', $row['config_name'])] = $row['config_value'];
         }
-        $cache->save('block', 'donations', $block);
+        $cache->save('block', 'titanium_donations', $block);
         $db->sql_freeresult($result);
     }
     return $block;
@@ -38,14 +38,14 @@ function donation_block_gen_configs () {
     global $db, $prefix, $lang_donate, $cache;
     static $gen;
     if(isset($gen) && is_array($gen)) { return $gen; }
-    if (!$gen = $cache->load('general', 'donations')) {
+    if (!$gen = $cache->load('general', 'titanium_donations')) {
         $sql = 'SELECT config_value, config_name from `'.$prefix.'_donators_config` WHERE config_name LIKE "gen_%"';
         $result = $db->sql_query($sql);
         while ($row = $db->sql_fetchrow($result)) {
             $gen[str_replace('gen_', '', $row['config_name'])] = $row['config_value'];
         }
         $db->sql_freeresult($result);
-        $cache->save('general', 'donations', $gen);
+        $cache->save('general', 'titanium_donations', $gen);
     }
     return $gen;
 }
@@ -106,20 +106,20 @@ function donation_block_make_image_button () {
 ================================================================================================*/
 function donation_block_get_donations () {
     global $db, $prefix, $cache;
-    $clear = $cache->load('donations_clear', 'donations');
+    $clear = $cache->load('donations_clear', 'titanium_donations');
     if(!isset($clear) || $clear <= time()) {
-        $cache->delete('donations', 'donations');
-        $cache->save('donations_clear', 'donations', strtotime("+1 Week"));
+        $cache->delete('donations', 'titanium_donations');
+        $cache->save('donations_clear', 'titanium_donations', strtotime("+1 Week"));
     }
     static $don;
     if (isset($don) && is_array($don)) { return $don; }
 
-    if (!$don = $cache->load('donations', 'donations')) {
+    if (!$don = $cache->load('donations', 'titanium_donations')) {
         $sql = 'SELECT * FROM `'.$prefix.'_donators` ORDER BY `id` DESC';
         $result = $db->sql_query($sql);
         $don = $db->sql_fetchrowset($result);
         $db->sql_freeresult($result);
-        $cache->save('donations', 'donations', $don);
+        $cache->save('donations', 'titanium_donations', $don);
     }
     return $don;
 }
@@ -135,12 +135,12 @@ function donation_block_get_donations_goal () {
     static $don_goal;
     if (isset($don_goal) && is_array($don_goal)) { return $don_goal; }
 
-    if (!$don_goal = $cache->load('donations_goal', 'donations')) {
+    if (!$don_goal = $cache->load('donations_goal', 'titanium_donations')) {
         $sql = 'SELECT * FROM `'.$prefix.'_donators` WHERE MONTH(FROM_UNIXTIME(`dondate`)) = "'.date('n').'" AND YEAR(FROM_UNIXTIME(`dondate`)) = "'.date('Y').'"  ORDER BY `id` DESC';
         $result = $db->sql_query($sql);
         $don_goal = $db->sql_fetchrowset($result);
         $db->sql_freeresult($result);
-        $cache->save('donations_goal', 'donations', $don_goal);
+        $cache->save('donations_goal', 'titanium_donations', $don_goal);
     }
     return $don_goal;
 }

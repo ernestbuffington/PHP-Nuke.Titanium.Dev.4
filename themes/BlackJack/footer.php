@@ -56,12 +56,8 @@ echo "<td style=\"padding-right: 6px;\" valign=\"top\"></td>\n"; # set the space
 echo "</tr>\n";
 echo "</table>\n\n";
 
-//print '<div align="center" style="padding-top:20px;">';
-//print '</div>';
-    
 echo "<!-- Top Footer START -->\n";
-
-echo '<div align="center">';
+print '<div align="center" style="padding-top:20px;">';
 OpenTable();
 footmsg();
 CloseTable();
@@ -99,5 +95,6 @@ echo '</table>'.PHP_EOL;
 echo '</div>'.PHP_EOL;
 echo '</section>'.PHP_EOL;
 echo '<!-- FOOTER END -->'.PHP_EOL.PHP_EOL;
+
 
 ?>
