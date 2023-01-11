@@ -135,7 +135,7 @@ else:
 $marquee_one .= ' login to our facebook app and you will be able to use the like and comments sections of this web portal...';
 endif;
 global $board_config;
-$serverdate = EvoDate($board_config['default_dateformat'], time(), $board_config['board_timezone']);
+$serverdate = FormatDate($board_config['default_dateformat'], time(), $board_config['board_timezone']);
 
 $date .= '::: <span style=color:orange> QUOTE OF THE DAY “If you don\'t want to do something, you\'ll find an excuse. If you really do, you\'ll find a way.” Open-Source for Life ❤️️ ~ Tomas Votruba</span> ::: Today is <span style="color:'.$textcolor2.'">'.$serverdate.'</span>';
 

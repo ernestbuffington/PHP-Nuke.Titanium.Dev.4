@@ -55,7 +55,7 @@ include(NUKE_BASE_DIR.'header.php');
 OpenTable();
 print '<div align="center" style="padding-top:6px;">';
 print '</div>';
-$serverdate = EvoDate($board_config['default_dateformat'], time(), $board_config['board_timezone']);
+$serverdate = FormatDate($board_config['default_dateformat'], time(), $board_config['board_timezone']);
 
 echo("<p align=\"center\"><strong>$sitename</strong> - " . _4nwho00 . "<br /><br />" . _4nwho01 . "<a href=\"" . $admin_file . ".php\">".$admlang['global']['header_return']."</a><br /><br />" . _4nwho02 . "$serverdate</p>");
 

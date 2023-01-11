@@ -126,7 +126,7 @@ if ($topic_data):
 		$table .= '    <td class="'.$row_class.'" nowrap>'.$topic_info['topic_replies'].'&nbsp;'.$blockslang['global']['replies'].'<br />'.$topic_info['topic_views'].'&nbsp;'.$blockslang['global']['views'].'</td>'.PHP_EOL;
 
 		$table .= '    <td class="'.$row_class.' lastpost" nowrap><a href="modules.php?name=Forums&amp;file=viewtopic&amp;p='.$topic_info['topic_last_post_id'].'#'.$topic_info['topic_last_post_id'].'"><i 
-		class="fa fa-arrow-right tooltip-html-side-interact" aria-hidden="true" title="'.$blockslang['forums']['view_latest'].'"></i></a>'.EvoDate( 'M jS Y g:i a' , $topic_info['post_time'] , $userinfo['user_timezone'] ).'
+		class="fa fa-arrow-right tooltip-html-side-interact" aria-hidden="true" title="'.$blockslang['forums']['view_latest'].'"></i></a>'.FormatDate( 'M jS Y g:i a' , $topic_info['post_time'] , $userinfo['user_timezone'] ).'
 		<br />'.sprintf($blockslang['forums']['by'],'<a href="modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u='.$topic_info['poster_id'].'">'.UsernameColor($topic_info['poster_name']).'</a>').'</td>'.PHP_EOL;
 
 		$table .= '  </tr>'.PHP_EOL;

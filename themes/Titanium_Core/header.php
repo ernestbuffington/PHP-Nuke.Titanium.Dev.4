@@ -127,7 +127,7 @@ else:
 $marquee_one .= ' login to our facebook app and you will be able to use the like and comments sections of this web portal...';
 endif;
 global $board_config;
-$serverdate = EvoDate($board_config['default_dateformat'], time(), $board_config['board_timezone']);
+$serverdate = FormatDate($board_config['default_dateformat'], time(), $board_config['board_timezone']);
 
 $date .= '::: <span style=color:orange> QUOTE OF THE DAY “Every saint has a past, and every sinner has a future.”  ~ Oscar Wilde</span> ::: Today is <span style="color:'.$textcolor2.'">'.$serverdate.'</span>';
 

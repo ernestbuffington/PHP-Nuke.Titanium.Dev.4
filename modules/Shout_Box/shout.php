@@ -478,11 +478,11 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
 			if (!$ShoutError) {
 
 				if ($is_user) {
-					$day = EvoDate('d/m/Y', time(), $userinfo['user_timezone']);
-					$time = EvoDate('H:i', time(), $userinfo['user_timezone']);
+					$day = FormatDate('d/m/Y', time(), $userinfo['user_timezone']);
+					$time = FormatDate('H:i', time(), $userinfo['user_timezone']);
 				} else {
-					$day = EvoDate('d/m/Y', time(), $board_config['board_timezone']);
-					$time = EvoDate('H:i', time(), $board_config['board_timezone']);
+					$day = FormatDate('d/m/Y', time(), $board_config['board_timezone']);
+					$time = FormatDate('H:i', time(), $board_config['board_timezone']);
 				}
 
 				$currentTime = time();
@@ -605,10 +605,10 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
             $mid_content .= "<strong>"._SB_ADMIN.":</strong> ".$stickyRow0['comment'];
             if ($conf['date']== 'yes') {
                 if ($is_user) {
-                    $unixTime = EvoDate($userinfo['user_dateformat'], $stickyRow0['timestamp'], $userinfo['user_timezone']);
+                    $unixTime = FormatDate($userinfo['user_dateformat'], $stickyRow0['timestamp'], $userinfo['user_timezone']);
                     $mid_content .= "<br />$unixTime";
                 } else {
-                    $unixTime = EvoDate($board_config['default_dateformat'], $stickyRow0['timestamp'], $board_config['board_timezone']);
+                    $unixTime = FormatDate($board_config['default_dateformat'], $stickyRow0['timestamp'], $board_config['board_timezone']);
                     $mid_content .= "<br />$unixTime";
                 }
             }
@@ -625,10 +625,10 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
             $mid_content .= "<strong>"._SB_ADMIN.":</strong> ".$stickyRow1['comment'];
             if ($conf['date']== 'yes') {
                 if ($is_user) {
-                    $unixTime = EvoDate($userinfo['user_dateformat'], $stickyRow1['timestamp'], $userinfo['user_timezone']);
+                    $unixTime = FormatDate($userinfo['user_dateformat'], $stickyRow1['timestamp'], $userinfo['user_timezone']);
                     $mid_content .= "<br />$unixTime";
                 } else {
-                    $unixTime = EvoDate($board_config['default_dateformat'], $stickyRow1['timestamp'], $board_config['board_timezone']);
+                    $unixTime = FormatDate($board_config['default_dateformat'], $stickyRow1['timestamp'], $board_config['board_timezone']);
                     $mid_content .= "<br />$unixDay&nbsp;$unixTime";
                 }
             }
@@ -705,12 +705,12 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
                     // reads unix timestamp && formats it to the viewer's timezone
                     if ($is_user) 
 					{
-                        $unixTime = EvoDate($userinfo['user_dateformat'], $row['timestamp'], $userinfo['user_timezone']);
+                        $unixTime = FormatDate($userinfo['user_dateformat'], $row['timestamp'], $userinfo['user_timezone']);
                         $tempContent[$i] .= "<br />$unixTime<br /><br />"; # added a space between shouts
                     } 
 					else 
 					{
-                        $unixTime = EvoDate($board_config['default_dateformat'], $row['timestamp'], $board_config['board_timezone']);
+                        $unixTime = FormatDate($board_config['default_dateformat'], $row['timestamp'], $board_config['board_timezone']);
                         $tempContent[$i] .= "<br />$unixTime<br /><br />"; # added a space between shouts
                     }
                 } 

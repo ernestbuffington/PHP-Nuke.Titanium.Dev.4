@@ -204,3 +204,115 @@ function get_time_relative($ptime) {
         endif;
     endforeach;
 }
+
+// JeFFb68CAM, ReOrGaNiSaTiOn, and TheGhost
+// Changed for internatinal users by 
+function FormatDate($format, $gmepoch, $tz)
+{
+/*****[BEGIN]******************************************
+ [ Mod:    Advanced Time Management            v2.2.0 ]
+ ******************************************************/
+    global $board_config, $lang, $userdata, $pc_dateTime;
+	getusrinfo();
+	static $translate;
+
+	if(empty($translate) && $board_config['default_lang'] != 'english' )
+    {
+    	  include(NUKE_FORUMS_DIR.'language/lang_'.$lang.'/lang_time.php');
+
+		  if(!(empty($langtime['datetime'])))
+    	  {
+        	foreach ($langtime['datetime'] as $match => $replace) 
+			{
+               $translate[$match] = $replace;
+            }
+			unset($replace); // break the reference with the last element
+        }
+    }
+
+	if (isset($userdata['user_id']) && $userdata['user_id'] != 1 )
+	{
+		switch ( $userdata['user_time_mode'] )
+		{
+			case 1:
+			$dst_sec = $userdata['user_dst_time_lag'] * 60;
+			return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec);
+			break;
+			case 2:
+			$dst_sec = date('I', $gmepoch) * $userdata['user_dst_time_lag'] * 60;
+			return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec);
+			break;
+			case 3:
+			return ( !empty($translate) ) ? strtr(date((string)$format, (int)$gmepoch), (string)$translate) : date((string)$format, (int)$gmepoch);
+			break;
+			case 4:
+				if ( isset($pc_dateTime['pc_timezoneOffset']) )
+				{
+					$tzo_sec = $pc_dateTime['pc_timezoneOffset'];
+				} else
+				{
+					$user_pc_timeOffsets = explode("/", $userdata['user_pc_timeOffsets']);
+					$tzo_sec = $user_pc_timeOffsets[0];
+				}
+				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec);
+				break;
+			case 6:
+				if ( isset($pc_dateTime['pc_timeOffset']) )
+				{
+					$tzo_sec = $pc_dateTime['pc_timeOffset'];
+				} else
+				{
+					$user_pc_timeOffsets = explode("/", $userdata['user_pc_timeOffsets']);
+					$tzo_sec = $user_pc_timeOffsets ?? null;
+				}
+				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec);
+				break;
+			default:
+				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz)), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz));
+				break;
+		}
+	} else
+	{
+		switch ( $board_config['default_time_mode'] )
+		{
+			case 1:
+			$dst_sec = $board_config['default_dst_time_lag'] * 60;
+			return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec);
+			break;
+			case 2:
+			$dst_sec = date('I', $gmepoch) * $board_config['default_dst_time_lag'] * 60;
+			return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec);
+			break;
+			case 3:
+			return ( !empty($translate) ) ? strtr(date((string)$format, (int)$gmepoch), (string)$translate) : date((string)$format, (int)$gmepoch);
+			break;
+			case 4:
+			if ( isset($pc_dateTime['pc_timezoneOffset']) )
+			{
+				$tzo_sec = $pc_dateTime['pc_timezoneOffset'];
+				} 
+				else
+				{
+					$tzo_sec = 0;
+				}
+				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec);
+				break;
+			case 6:
+				if ( isset($pc_dateTime['pc_timeOffset']) )
+				{
+					$tzo_sec = $pc_dateTime['pc_timeOffset'];
+				} else
+				{
+					$tzo_sec = 0;
+				}
+				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec);
+				break;
+			default:
+				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz)), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz));
+				break;
+		}
+	}
+/*****[END]********************************************
+ [ Mod:    Advanced Time Management            v2.2.0 ]
+ ******************************************************/
+}

@@ -272,7 +272,7 @@ function preview_review($date, $title, $text, $reviewer, $email, $score, $cover,
         $year2 = substr($date,0,4);
         $month = substr($date,5,2);
         $day = substr($date,8,2);
-				$fdate = EvoDate($board_config['default_dateformat'], mktime (0,0,0,$month,$day,$year), $board_config['board_timezone']);
+				$fdate = FormatDate($board_config['default_dateformat'], mktime (0,0,0,$month,$day,$year), $board_config['board_timezone']);
         echo "<table border=\"0\" width=\"100%\"><tr><td colspan=\"2\">";
         echo "<p><span class=\"title\"><i><strong>".stripslashes($title)."</strong></i></span><br />";
         echo "<blockquote><p>";
@@ -683,7 +683,7 @@ function showcontent($id, $page) {
     $year = substr($date,0,4);
     $month = substr($date,5,2);
     $day = substr($date,8,2);
-		$fdate = EvoDate($board_config['default_dateformat'], mktime (0,0,0,$month,$day,$year), $board_config['board_timezone']);
+		$fdate = FormatDate($board_config['default_dateformat'], mktime (0,0,0,$month,$day,$year), $board_config['board_timezone']);
     $title = $myrow['title'];
     $title = Fix_Quotes(check_html($title, nohtml));
 /*****[BEGIN]******************************************

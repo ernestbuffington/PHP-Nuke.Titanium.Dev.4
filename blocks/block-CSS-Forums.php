@@ -424,7 +424,7 @@ if ($topic_data):
 			</div>
 
 			<div class="'.$colClass3.' block-latest-post-last '.$bg__backwardsCompat.'">
-				<div class="block-latest-post-time">'.EvoDate( 'M jS Y g:i a' , $topic_info['post_time'] , $userinfo['user_timezone'] ).'</div>
+				<div class="block-latest-post-time">'.FormatDate( 'M jS Y g:i a' , $topic_info['post_time'] , $userinfo['user_timezone'] ).'</div>
 				<div class="block-latest-post-author">'.sprintf($blockslang['forums']['by'],'<a 
 				href="modules.php?name=Forums&amp;file=profile&amp;mode=viewprofile&amp;u='.$topic_info['poster_id'].'">'.UsernameColor($topic_info['poster_name']).'</a>').' 
 				<a href="modules.php?name=Forums&amp;file=viewtopic&amp;p='.$topic_info['topic_last_post_id'].'#'.$topic_info['topic_last_post_id'].'"><i class="fas fa-arrow-right" data-toggle="btn-tooltip" 

@@ -28,9 +28,9 @@ XtremeV4
 error_log.php
 *.iso
 *.zip
-error_log
+error_log*
 pspbrwse.jbf
 BlackHole
-error.log
+
 
 

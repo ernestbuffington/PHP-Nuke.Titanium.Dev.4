@@ -1361,13 +1361,13 @@ function formatTimestamp($time, $format='', $dateonly='')
 	endif;
 
     setlocale(LC_TIME, $locale);
-
+	
 	if(!is_numeric($time)): 
       preg_match('/(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})/', (string) $time, $datetime);
-      $time = gmmktime(isset($datetime[4]),isset($datetime[5]),isset($datetime[6]),isset($datetime[2]),isset($datetime[3]),isset($datetime[1]));
+      $time = gmmktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
     endif;
 
-	$datetime = EvoDate($format, $time, $tz);
+	$datetime = FormatDate($format, $time, $tz);
 
 	return $datetime;
 }
