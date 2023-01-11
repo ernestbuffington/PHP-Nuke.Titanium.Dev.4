@@ -65,10 +65,3 @@ if (!defined('IN_PHPBB'))
 $phpEx = "php";
 $starttime = 0;
 
-# Vendor Autoload - only if vendor directory exists with an autoload file! START
-if(file_exists(NUKE_VENDOR_DIR.'autoload.php')):
-  require_once(NUKE_VENDOR_DIR.'autoload.php');
-endif;  
-# Vendor Autoload - only if vendor directory exists with an autoload file! END
-
-?>

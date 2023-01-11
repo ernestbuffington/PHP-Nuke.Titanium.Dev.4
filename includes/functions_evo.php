@@ -447,7 +447,8 @@ function UpdateCookie()
         while (list($config_name, $config_value) = $db->sql_fetchrow($configresult, SQL_NUM)) 
         {
             // if (!get_magic_quotes_gpc()) { $config_value = stripslashes($config_value); }
-            $ya_config[$config_name] = $config_value;
+            //$ya_config[$config_name] = $config_value;
+			$config_value = stripslashes($config_value);
         }
         $db->sql_freeresult($configresult);
         /*****[BEGIN]******************************************
@@ -472,7 +473,7 @@ function UpdateCookie()
     $db->sql_freeresult($result);
 
     $cookiedata = base64_encode("$uid:$username:$pass:$storynum:$umode:$uorder:$thold:$noscore:$ublockon:$theme:$commentmax");
-    if ($ya_config['cookietimelife'] != '-') {
+    if (isset($ya_config['cookietimelife']) && $ya_config['cookietimelife'] != '-') {
         if (trim($ya_config['cookiepath']) != '') {
             setcookie('user',$cookiedata,time()+$ya_config['cookietimelife'],$ya_config['cookiepath']);
         } else {

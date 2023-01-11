@@ -1,0 +1,7 @@
+{
+    "require": {
+        "ezyang/htmlpurifier": "^4.16",
+        "php81_bc/strftime": "^0.5.0",
+        "mobiledetect/mobiledetectlib": "^3.74"
+    }
+}

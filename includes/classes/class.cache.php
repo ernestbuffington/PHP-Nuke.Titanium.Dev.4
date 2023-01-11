@@ -41,6 +41,8 @@ if (!defined('CACHE_PREFIX')) {
 }
 
 //Cache
+require_once(NUKE_ZEND_DIR.'Cache.php');
+
 class cache 
 {
     var $changed = false;

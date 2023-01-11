@@ -286,9 +286,7 @@ define('TITANIUM_STATS_DIR', TITANIUM_THEMES_DIR);
 define('NUKE_BASE_DIR', __DIR__ . '/');
 # Absolute Nuke directory + includes
 define('NUKE_VENDOR_DIR', NUKE_BASE_DIR . 'includes/vendor/');
-
-define('NUKE_ZEND_DIR', NUKE_BASE_DIR . 'includes/vendor/shardj/zf1-future/library/Zend/');
-define('NUKE_BACKEND_ZEND_DIR', NUKE_BASE_DIR . 'includes/vendor/shardj/zf1-future/library/Zend/');
+define('NUKE_ZEND_DIR', NUKE_BASE_DIR . 'includes/Zend/');
 
 define('NUKE_BLOCKS_DIR', NUKE_BASE_DIR . 'blocks/');
 
@@ -1117,44 +1115,50 @@ function headlines($bid, $side=0, $row='')
 
 function blog_ultramode() 
 {
+    $content = null;
+
     global $db, $prefix, $multilingual, $currentlang;
     
-	$querylang = ($multilingual == 1) ? "AND (s.alanguage='".$currentlang."' OR s.alanguage='')" : "";
+	if($multilingual == 1)
+	$querylang = '';
+	else
+	$querylang = "AND s.alanguage = ''";
     
-	$sql = "SELECT `s.sid`, 
-	             `s.catid`, 
-				   `s.aid`, 
-				 `s.title`, 
-		 `s.datePublished`, 
-		  `s.dateModified`, 
-		      `s.hometext`, 
-			  `s.comments`, 
-			     `s.topic`, 
-				 `s.ticon`, 
-		     `t.topictext`, 
-		    `t.topicimage` 
+	$sql = "SELECT `s`.`sid`, 
+	             `s`.`catid`, 
+				   `s`.`aid`, 
+				 `s`.`title`, 
+		 `s`.`datePublished`, 
+		  `s`.`dateModified`, 
+		      `s`.`hometext`, 
+			  `s`.`comments`, 
+			     `s`.`topic`, 
+				 `s`.`ticon`, 
+		     `t`.`topictext`, 
+		    `t`.`topicimage` 
 			
-	FROM `".$prefix."_stories` s 
+	FROM `".$prefix."_stories` `s` 
 	
-	LEFT JOIN `".$prefix."_topics` t 
+	LEFT JOIN `".$prefix."_topics` `t` 
 	
-	ON t.topicid = s.topic 
+	ON `t`.`topicid` = `s`.`topic` 
 	
-	WHERE s.ihome = '0' ".$querylang." 
+	WHERE `s`.`ihome` = '0' ".$querylang." 
 	
-	ORDER BY s.datePublished DESC LIMIT 0,10";
+	ORDER BY `s`.`datePublished` DESC LIMIT 0,10";
     
 	$result = $db->sql_query($sql);
     
 	while($row = $db->sql_fetchrow($result, SQL_ASSOC)): 
       $rsid = $row['sid'];
       $raid = $row['aid'];
-      $rtitle = htmlspecialchars(stripslashes($row['title']));
+      $rtitle = htmlspecialchars(stripslashes((string) $row['title']));
+
 	  $rtime = $row['datePublished'];
 	  $rmodified = $row['dateModified'];
       $rcomments = $row['comments'];
       $topictext = $row['topictext'];
-      $topicimage = ($row['ticon']) ? stripslashes($row['topicimage']) : '';
+      $topicimage = ($row['ticon']) ? stripslashes((string) $row['topicimage']) : '';
       $rtime = formatTimestamp($rtime, 'l, F d');
       $content .= "%%\n".$rtitle."\n/modules.php?name=Blogs&file=article&sid=".$rsid."\n".$rtime."\n".$raid."\n".$topictext."\n".$rcomments."\n".$topicimage."\n";
     endwhile;
@@ -1175,7 +1179,10 @@ function ultramode()
 {
     global $db, $prefix, $multilingual, $currentlang;
 
-    $querylang = ($multilingual == 1) ? "AND (s.alanguage='".$currentlang."' OR s.alanguage='')" : "";
+	if($multilingual == 1)
+	$querylang = '';
+	else
+	$querylang = "AND s.alanguage = ''";
 
     $sql = "SELECT `s.sid`, 
 	             `s.catid`, 
@@ -1335,11 +1342,11 @@ function actualTime() {
 # formatTimestamp function by ReOrGaNiSaTiOn
 function formatTimestamp($time, $format='', $dateonly='') 
 {
-    global $datetime, $locale, $userinfo, $board_config;
+    global $datetime, $locale, $userdata, $board_config;
 
     if(empty($format)): 
-        if(isset($userinfo['user_dateformat']) && !empty($userinfo['user_dateformat'])): 
-          $format = $userinfo['user_dateformat'];
+        if(isset($userdata['user_dateformat']) && !empty($userdata['user_dateformat'])): 
+          $format = $userdata['user_dateformat'];
 		elseif (isset($board_config['default_dateformat']) && !empty($board_config['default_dateformat'])): 
           $format = $board_config['default_dateformat'];
 		else: 
@@ -1352,8 +1359,8 @@ function formatTimestamp($time, $format='', $dateonly='')
       $format = str_replace($replaces, '', (string) $format);
     endif;
 
-	if((isset($userinfo['user_timezone']) && !empty($userinfo['user_timezone'])) && $userinfo['user_id'] != 1): 
-      $tz = $userinfo['user_timezone'];
+	if((isset($userdata['user_timezone']) && !empty($userdata['user_timezone'])) && $userdata['user_id'] != 1): 
+      $tz = $userdata['user_timezone'];
 	elseif (isset($board_config['board_timezone']) && !empty($board_config['board_timezone'])): 
       $tz = $board_config['board_timezone'];
 	else: 
@@ -1362,7 +1369,7 @@ function formatTimestamp($time, $format='', $dateonly='')
 
     setlocale(LC_TIME, $locale);
 	
-	if(!is_numeric($time)): 
+	if(!is_numeric($time)):
       preg_match('/(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})/', (string) $time, $datetime);
       $time = gmmktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
     endif;

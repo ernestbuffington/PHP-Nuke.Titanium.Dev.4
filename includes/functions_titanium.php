@@ -226,7 +226,7 @@ function FormatDate($format, $gmepoch, $tz)
 			{
                $translate[$match] = $replace;
             }
-			unset($replace); // break the reference with the last element
+			//unset($replace); // break the reference with the last element
         }
     }
 

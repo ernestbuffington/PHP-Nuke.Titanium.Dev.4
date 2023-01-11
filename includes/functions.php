@@ -1345,7 +1345,7 @@ function decode_ip($int_ip)
 # Create date/time from format and timezone
 function create_date($format, $gmepoch, $tz)
 {
-    global $board_config, $lang, $userinfo, $pc_dateTime;
+    global $board_config, $lang, $userdata, $pc_dateTime;
 
     static $translate;
 
@@ -1363,20 +1363,20 @@ function create_date($format, $gmepoch, $tz)
 
     endif;
 
-   if($userinfo['user_id'] != ANONYMOUS):
+   if(isset($userdata['user_id']) && $userdata['user_id'] != ANONYMOUS):
 
-      switch($userinfo['user_time_mode']):
+      switch($userdata['user_time_mode']):
 
 	  case MANUAL_DST:
-	  $dst_sec = $userinfo['user_dst_time_lag'] * 60;
+	  $dst_sec = $userdata['user_dst_time_lag'] * 60;
       return (!empty($translate)) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec);
       break;
 
 	  case SERVER_SWITCH:
 	  if(!empty($gmepoch) && is_long($gmepoch)): 
-      $dst_sec = date('I', $gmepoch) * $userinfo['user_dst_time_lag'] * 60;
+      $dst_sec = date('I', $gmepoch) * $userdata['user_dst_time_lag'] * 60;
 	  else: 
-      $dst_sec = date('I') * $userinfo['user_dst_time_lag'] * 60;
+      $dst_sec = date('I') * $userdata['user_dst_time_lag'] * 60;
       endif;
 	  return (!empty($translate)) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec);
       break;
@@ -1399,7 +1399,7 @@ function create_date($format, $gmepoch, $tz)
 	  if(isset($pc_dateTime['pc_timeOffset'])):
       $tzo_sec = $pc_dateTime['pc_timeOffset'];
 	  else:
-      $user_pc_timeOffsets = explode("/", (string) $userinfo['user_pc_timeOffsets']);
+      $user_pc_timeOffsets = explode("/", (string) $userdata['user_pc_timeOffsets']);
       $tzo_sec = $user_pc_timeOffsets[1] ?? '';
       endif;
 	  return (!empty($translate)) ? strtr(gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (int)$tzo_sec);
@@ -1422,9 +1422,9 @@ else:
 
 	case SERVER_SWITCH:
     if(!empty($gmepoch) && is_long($gmepoch)): 
-    $dst_sec = date('I', $gmepoch) * $userinfo['user_dst_time_lag'] * 60;
+    $dst_sec = date('I', $gmepoch) * $userdata['user_dst_time_lag'] * 60;
 	else: 
-    $dst_sec = date('I') * $userinfo['user_dst_time_lag'] * 60;
+    $dst_sec = date('I') * $userdata['user_dst_time_lag'] * 60;
     endif;
 	return (!empty($translate)) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec);
 	break;

@@ -1851,13 +1851,16 @@ function editBlog($sid)
         
 		getTopics($sid);
         
-		global $topicname, $topicimage, $topictext;
+		global $topicname, $topicimage, $topictext, $counter;
         
 		if ($topic_icon != 0) 
         $topicimage = $topicname = $topictext = '';
         
 		$informant = UsernameColor($informant);
-        
+		
+		if(!isset($counter))
+        $counter = 0;
+		
 		themearticle($aid, $informant, $time, $modified, $subject, $counter, $hometext_bb, $topic, $topicname, $topicimage, $topictext);
         
 		echo "<br />"
@@ -1868,7 +1871,7 @@ function editBlog($sid)
 /*****[END]********************************************
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
-        $toplist = $db->sql_query("select topicid, topictext from ".$prefix."_topics order by topictext");
+        $toplist = $db->sql_query("SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext");
         
 		echo "<option value=\"\">"._ALLTOPICS."</option>\n";
         
@@ -3222,7 +3225,7 @@ switch($op)
     break;
 
     case "adminBlog":
-    adminBlog($sid);
+    adminBlog(isset($sid));
     break;
 
     case "PreviewAdminBlog":

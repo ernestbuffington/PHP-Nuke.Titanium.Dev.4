@@ -46,38 +46,5 @@
             'reference' => '4c1b56eaae4bb3f02f994ba47c2e5a225378e62f',
             'dev_requirement' => false,
         ),
-        'shardj/zf1-future' => array(
-            'pretty_version' => '1.21.4',
-            'version' => '1.21.4.0',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../shardj/zf1-future',
-            'aliases' => array(),
-            'reference' => '7b57530525f48c173a7cf61f5cdfb7d652f3c5d8',
-            'dev_requirement' => false,
-        ),
-        'symfony/polyfill-mbstring' => array(
-            'pretty_version' => 'v1.27.0',
-            'version' => '1.27.0.0',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../symfony/polyfill-mbstring',
-            'aliases' => array(),
-            'reference' => '8ad114f6b39e2c98a8b0e3bd907732c207c2b534',
-            'dev_requirement' => false,
-        ),
-        'symfony/polyfill-php81' => array(
-            'pretty_version' => 'v1.27.0',
-            'version' => '1.27.0.0',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../symfony/polyfill-php81',
-            'aliases' => array(),
-            'reference' => '707403074c8ea6e2edaf8794b0157a0bfa52157a',
-            'dev_requirement' => false,
-        ),
-        'zendframework/zendframework1' => array(
-            'dev_requirement' => false,
-            'replaced' => array(
-                0 => '>=1.12.20',
-            ),
-        ),
     ),
 );
