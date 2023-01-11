@@ -64,8 +64,8 @@ function displayadmins()
         while ($row = $db->sql_fetchrow($result)) 
         {
             $admlanguage    = $row['admlanguage'];
-            $authorID       = substr((string) $row['aid'], 0,25);
-            $name           = substr((string) $row['name'], 0,50);
+            $authorID       = substr($row['aid'], 0,25);
+            $name           = substr($row['name'], 0,50);
             if (empty($admlanguage)) 
                 $admlanguage = $admlang['global']['all'];
 
@@ -130,11 +130,11 @@ function displayadmins()
             echo '    <td class="row1" style="width: 50%;">'.$admlang['global']['language'].'</td>'."\n";
             echo '    <td class="row1" style="width: 50%;">';
             echo '      <select name="add_admlanguage">';
-            for ($i = 0, $maxi = is_countable($languageslist) ? count($languageslist) : 0; $i < $maxi; $i++) 
+            for ($i = 0, $maxi = count($languageslist); $i < $maxi; $i++) 
             {
                 if(!empty($languageslist[$i])) 
                 {
-                    echo '        <option name="xlanguage" value="'.$languageslist[$i].'"'.(($languageslist[$i]==$language) ? ' selected="selected"' : '').'>'.ucwords((string) $languageslist[$i]).'</option>';     
+                    echo '        <option name="xlanguage" value="'.$languageslist[$i].'"'.(($languageslist[$i]==$language) ? ' selected="selected"' : '').'>'.ucwords($languageslist[$i]).'</option>';     
                 }
             }            
             echo '      </select>';
@@ -158,7 +158,7 @@ function displayadmins()
         echo '        <tr>';
         while ($row = $db->sql_fetchrow($result)) 
         {
-            $title = str_replace("_", " ", (string) $row['title']);
+            $title = str_replace("_", " ", $row['title']);
             if (file_exists('modules/'.$row['title'].'/admin/index.php') AND file_exists('modules/'.$row['title'].'/admin/links.php') AND file_exists('modules/'.$row['title'].'/admin/case.php')) 
             {
                 echo '          <td class="row1" style="width: 33%;"><input  type="checkbox" name="auth_modules[]" value="'.intval($row['mid']).'">&nbsp;'.$title.'</td>';
@@ -202,26 +202,22 @@ function displayadmins()
 
 function modifyadmin($chng_aid) 
 {
-    $language = null;
-    $sel = null;
-    $a = null;
-    $sel1 = null;
     global $admin, $prefix, $db, $multilingual, $admin_file, $admlang;
     if (is_admin()) 
     {
         include_once(NUKE_BASE_DIR.'header.php');
         OpenTable();
         $adm_aid = $chng_aid;
-        $adm_aid = trim((string) $adm_aid);
+        $adm_aid = trim($adm_aid);
         $row = $db->sql_fetchrow($db->sql_query("SELECT aid, name, url, email, pwd, radminsuper, admlanguage from " . $prefix . "_authors where aid='$chng_aid'"));
         $chng_aid = $row['aid'];
         $chng_name = $row['name'];
-        $chng_url = stripslashes((string) $row['url']);
-        $chng_email = stripslashes((string) $row['email']);
+        $chng_url = stripslashes($row['url']);
+        $chng_email = stripslashes($row['email']);
         $chng_pwd = $row['pwd'];
         $chng_radminsuper = intval($row['radminsuper']);
         $chng_admlanguage = $row['admlanguage'];
-        $chng_aid = substr((string) $chng_aid, 0,25);
+        $chng_aid = substr($chng_aid, 0,25);
         $aid = $chng_aid;
 
         echo '<div style="text-align: center; margin-bottom: 20px;"><a href="'.$admin_file.'.php?op=mod_authors">'.$admlang['authors']['header'].'</a><br /><br/><a href="'.$admin_file.'.php">'.$admlang['global']['header_return'].'</a></div>';
@@ -257,11 +253,11 @@ function modifyadmin($chng_aid)
             echo '    <td class="row1" style="width:50%">';
             echo "<select name=\"chng_admlanguage\">";
             $languageslist = lang_list();
-            for ($i=0, $maxi = is_countable($languageslist) ? count($languageslist) : 0; $i < $maxi; $i++) {
+            for ($i=0, $maxi = count($languageslist); $i < $maxi; $i++) {
                 if(!empty($languageslist[$i])) {
                     echo "<option name='xlanguage' value='".$languageslist[$i]."' ";
                     if($languageslist[$i]==$language) echo "selected";
-                    echo ">".ucwords((string) $languageslist[$i])."\n";
+                    echo ">".ucwords($languageslist[$i])."\n";
                 }
             }
             if (empty($chng_admlanguage)) {
@@ -286,12 +282,12 @@ function modifyadmin($chng_aid)
             $result = $db->sql_query("SELECT mid, title, admins FROM ".$prefix."_modules ORDER BY title ASC");
             while ($row = $db->sql_fetchrow($result)):
 
-                $title = str_replace("_", " ", (string) $row['title']);
+                $title = str_replace("_", " ", $row['title']);
                 if (file_exists(NUKE_MODULES_DIR.$row['title'].'/admin/index.php') AND file_exists(NUKE_MODULES_DIR.$row['title'].'/admin/links.php') AND file_exists(NUKE_MODULES_DIR.$row['title'].'/admin/case.php')):
 
                     if(!empty($row['admins'])):
 
-                        $admins = explode(",", (string) $row['admins']);
+                        $admins = explode(",", $row['admins']);
                         $sel = '';
                         for ($i=0, $maxi=count($admins); $i < $maxi; $i++):
 
@@ -358,7 +354,6 @@ function modifyadmin($chng_aid)
 }
 
 function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radminsuper, $chng_pwd, $chng_pwd2, $chng_admlanguage, $adm_aid, $auth_modules) {
-    $dummy = null;
     global $admin, $prefix, $db, $admin_file;
     if (is_admin()) {
         Validate($chng_aid, 'username', 'Modify Authors', 0, 1, 0, 2, 'Nickname:', '<br /><center>'. _GOBACK .'</center>');
@@ -372,15 +367,15 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
 /*****[BEGIN]******************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
-            $chng_pwd = md5((string) $chng_pwd);
+            $chng_pwd = md5($chng_pwd);
 /*****[END]********************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
-            $chng_aid = substr((string) $chng_aid, 0,25);
+            $chng_aid = substr($chng_aid, 0,25);
             if ($chng_radminsuper == 1) {
                 $result = $db->sql_query("SELECT mid, admins FROM ".$prefix."_modules");
                 while ($row = $db->sql_fetchrow($result)) {
-                    $admins = explode(",", (string) $row['admins']);
+                    $admins = explode(",", $row['admins']);
                     $adm = '';
                     for ($a=0, $maxi=count($admins); $a < $maxi; $a++) {
                         if ($admins[$a] != $chng_name && !empty($admins[$a])) {
@@ -402,7 +397,7 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
                 }
                 $result = $db->sql_query("SELECT mid, admins FROM ".$prefix."_modules");
                 while ($row = $db->sql_fetchrow($result)) {
-                    $admins = explode(",", (string) $row['admins']);
+                    $admins = explode(",", $row['admins']);
                     $adm = '';
                     for ($a=0, $maxa = count($admins); $a < $maxa; $a++) {
                         if ($admins[$a] != $chng_name && !empty($admins[$a])) {
@@ -412,10 +407,10 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
                     $db->sql_query("UPDATE ".$prefix."_authors SET radminsuper='$chng_radminsuper' WHERE name='$chng_name' AND aid='$adm_aid'");
                     $db->sql_query("UPDATE ".$prefix."_modules SET admins='$adm' WHERE mid='".intval($row['mid'])."'");
                 }
-                for ($i=0, $maxi=is_countable($auth_modules) ? count($auth_modules) : 0; $i < $maxi; $i++) {
+                for ($i=0, $maxi=count($auth_modules); $i < $maxi; $i++) {
                     $row = $db->sql_fetchrow($db->sql_query("SELECT admins FROM ".$prefix."_modules WHERE mid='".intval($auth_modules[$i])."'"));
                     if(!empty($row['admins'])) {
-                        $admins = explode(",", (string) $row['admins']);
+                        $admins = explode(",", $row['admins']);
                         for ($a=0, $maxa = count($admins); $a < $maxa; $a++) {
                             if ($admins[$a] == $chng_name) {
                                 $dummy = 1;
@@ -435,7 +430,7 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
             if ($chng_radminsuper == 1) {
                 $result = $db->sql_query("SELECT mid, admins FROM ".$prefix."_modules");
                 while ($row = $db->sql_fetchrow($result)) {
-                    $admins = explode(",", (string) $row['admins']);
+                    $admins = explode(",", $row['admins']);
                     $adm = '';
                     for ($a=0, $maxa = count($admins); $a < $maxa; $a++) {
                         if ($admins[$a] != $chng_name && !empty($admins[$a])) {
@@ -453,7 +448,7 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
                 }
                 $result = $db->sql_query("SELECT mid, admins FROM ".$prefix."_modules");
                 while ($row = $db->sql_fetchrow($result)) {
-                    $admins = explode(",", (string) $row['admins']);
+                    $admins = explode(",", $row['admins']);
                     $adm = '';
                     for ($a=0, $maxa = count($admins); $a < $maxa; $a++) {
                         if ($admins[$a] != $chng_name && !empty($admins[$a])) {
@@ -463,10 +458,10 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
                     $db->sql_query("UPDATE ".$prefix."_authors SET radminsuper='$chng_radminsuper' WHERE name='$chng_name' AND aid='$adm_aid'");
                     $db->sql_query("UPDATE ".$prefix."_modules SET admins='$adm' WHERE mid='".intval($row['mid'])."'");
                 }
-                for ($i=0, $maxi=is_countable($auth_modules) ? count($auth_modules) : 0; $i < $maxi; $i++) {
+                for ($i=0, $maxi=count($auth_modules); $i < $maxi; $i++) {
                     $row = $db->sql_fetchrow($db->sql_query("SELECT admins FROM ".$prefix."_modules WHERE mid='".intval($auth_modules[$i])."'"));
                     if(!empty($row['admins'])) {
-                        $admins = explode(",", (string) $row['admins']);
+                        $admins = explode(",", $row['admins']);
                         for ($a=0, $maxa=count($admins); $a < $maxa; $a++) {
                             if ($admins[$a] == $chng_name) {
                                 $dummy = 1;
@@ -487,9 +482,9 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
             while ($row2 = $db->sql_fetchrow($result2)) {
                 $sid = intval($row2['sid']);
                 $old_aid = $row2['aid'];
-                $old_aid = substr((string) $old_aid, 0,25);
+                $old_aid = substr($old_aid, 0,25);
                 $informant = $row2['informant'];
-                $informant = substr((string) $informant, 0,25);
+                $informant = substr($informant, 0,25);
                 if ($old_aid == $informant) {
                     $db->sql_query("update " . $prefix . "_stories set informant='$chng_aid' where sid='$sid'");
                 }
@@ -502,15 +497,13 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
 }
 
 function deladmin2($del_aid) {
-    $radminarticle = null;
-    $admlang = [];
     global $admin, $prefix, $db, $admin_file;
     if (is_admin()) {
-        $del_aid = substr((string) $del_aid, 0,25);
+        $del_aid = substr($del_aid, 0,25);
         $result = $db->sql_query("SELECT admins FROM ".$prefix."_modules WHERE title='Blog'");
         $row2 = $db->sql_fetchrow($db->sql_query("SELECT name FROM ".$prefix."_authors WHERE aid='$del_aid'"));
         while ($row = $db->sql_fetchrow($result)) {
-            $admins = explode(",", (string) $row['admins']);
+            $admins = explode(",", $row['admins']);
             $auth_user = 0;
             for ($i=0, $maxi=count($admins); $i < $maxi; $i++) {
                 if ($row2['name'] == $admins[$i]) {
@@ -544,7 +537,7 @@ function deladmin2($del_aid) {
                 echo "<form action=\"".$admin_file.".php\" method=\"post\"><select name=\"newaid\">";
                 while ($row3 = $db->sql_fetchrow($result3)) {
                     $oaid = $row3['aid'];
-                    $oaid = substr((string) $oaid, 0,25);
+                    $oaid = substr($oaid, 0,25);
                     echo "<option name=\"newaid\" value=\"$oaid\">$oaid</option>";
                 }
                 $db->sql_freeresult($result3);
@@ -589,8 +582,8 @@ switch ($op) {
     case "AddAuthor":
         global $admin_file;
 
-        $add_aid = substr((string) $add_aid, 0,25);
-        $add_name = substr((string) $add_name, 0,25);
+        $add_aid = substr($add_aid, 0,25);
+        $add_name = substr($add_name, 0,25);
         Validate($add_aid, 'username', 'Add Authors', 0, 1, 0, 2, 'Nickname:', '<br /><center>'. _GOBACK .'</center>');
         Validate($add_name, 'username', 'Add Authors', 0, 1, 0, 2, 'Name:', '<br /><center>'. _GOBACK .'</center>');
         Validate($add_url, 'url', 'Add Authors', 0, 0, 0, 0, '', '<br /><center>'. _GOBACK .'</center>');
@@ -599,11 +592,11 @@ switch ($op) {
 /*****[BEGIN]******************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
-        $add_pwd = md5((string) $add_pwd);
+        $add_pwd = md5($add_pwd);
 /*****[END]********************************************
  [ Base:     Evolution Functions               v1.5.0 ]
  ******************************************************/
-        for ($i=0,$maxi=is_countable($auth_modules) ? count($auth_modules) : 0; $i < $maxi; $i++) {
+        for ($i=0,$maxi=count($auth_modules); $i < $maxi; $i++) {
             $row = $db->sql_fetchrow($db->sql_query("SELECT admins FROM ".$prefix."_modules WHERE mid='".intval($auth_modules[$i])."'"));
             $adm = $row['admins'] . $add_name;
             $db->sql_query("UPDATE ".$prefix."_modules SET admins='$adm,' WHERE mid='".intval($auth_modules[$i])."'");
@@ -618,7 +611,7 @@ switch ($op) {
 
     case "deladmin":
         include_once(NUKE_BASE_DIR.'header.php');
-        $del_aid = trim((string) $del_aid);
+        $del_aid = trim($del_aid);
         OpenTable();
         echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=mod_authors\">" . $admlang['authors']['header'] . "</a></div>\n";
         echo "<br /><br />";
@@ -638,7 +631,7 @@ switch ($op) {
     break;
 
     case "assignstories":
-        $del_aid = trim((string) $del_aid);
+        $del_aid = trim($del_aid);
         $result = $db->sql_query("SELECT sid from " . $prefix . "_stories where aid='$del_aid'");
         while ($row = $db->sql_fetchrow($result)) {
             $sid = intval($row['sid']);
@@ -650,11 +643,11 @@ switch ($op) {
     break;
 
     case "deladminconf":
-        $del_aid = trim((string) $del_aid);
+        $del_aid = trim($del_aid);
         $db->sql_query("delete from " . $prefix . "_authors where aid='$del_aid' AND name!='God'");
         $result = $db->sql_query("SELECT mid, admins FROM ".$prefix."_modules");
         while ($row = $db->sql_fetchrow($result)) {
-            $admins = explode(",", (string) $row['admins']);
+            $admins = explode(",", $row['admins']);
                $adm = "";
                for ($a=0, $maxa=count($admins); $a < $maxa; $a++) {
                 if ($admins[$a] != $del_aid && !empty($admins[$a])) {

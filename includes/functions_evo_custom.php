@@ -864,8 +864,8 @@ function get_user_avatar($user_id) {
 				break;
 		}
 	}
-	$default_member_avatar = evo_image('avatar_member.png', 'Forums');
-	$default_guest_avatar  = evo_image('avatar_guest.png', 'Forums');
+	$default_member_avatar = img('blank.png', 'Forums');
+	$default_guest_avatar  = img('blank.png', 'Forums');
 	if ( empty($poster_avatar) && $user_id != ANONYMOUS) {
 		$poster_avatar = '<img src="'.  $default_member_avatar .'" alt="" border="0" />';
 	}
@@ -878,47 +878,6 @@ function get_user_avatar($user_id) {
 	
 	$avatarData[$user_id] = $poser_avatar;
 	return ($poster_avatar);
-}
-
-// evo_image function by ReOrGaNiSaTiOn
-function get_evo_image($imgfile='', $mymodule='') {
-	global $currentlang, $ThemeSel, $Default_Theme, $cache;
-	$tmp_imgfile = explode('.', $imgfile);
-	$cache_imgfile = $tmp_imgfile[0];
-	//$evoimage = $cache->load($mymodule, 'EvoImage');
-	//if(!empty($evoimage[$ThemeSel][$currentlang][$cache_imgfile])) {
-	//	return($evoimage[$ThemeSel][$currentlang][$cache_imgfile]);
-	//}
-
-	if (file_exists(NUKE_THEMES_DIR . $ThemeSel . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$ThemeSel."/images/$mymodule/lang_".$currentlang."/$imgfile";
-	} elseif (file_exists(NUKE_THEMES_DIR . $ThemeSel . '/images/lang_' . $currentlang . '/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$ThemeSel."/images/lang_".$currentlang."/$imgfile";
-	} elseif (file_exists(NUKE_THEMES_DIR . $ThemeSel . '/images/' . $mymodule . '/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$ThemeSel."/images/$mymodule/$imgfile";
-	} elseif (file_exists(NUKE_THEMES_DIR . $ThemeSel . '/images/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$ThemeSel."/images/$imgfile";
-	} elseif (file_exists(NUKE_THEMES_DIR . $Default_Theme . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$Default_Theme."/images/$mymodule/lang_".$currentlang."/$imgfile";
-	} elseif (file_exists(NUKE_THEMES_DIR . $Default_Theme . '/images/lang_' . $currentlang . '/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$Default_Theme."/images/lang_".$currentlang."/$imgfile";
-	} elseif (file_exists(NUKE_THEMES_DIR . $Default_Theme . '/images/' . $mymodule . '/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$Default_Theme."/images/$mymodule/$imgfile";
-	} elseif (file_exists(NUKE_THEMES_DIR . $Default_Theme . '/images/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$Default_Theme."/images/$imgfile";
-	} elseif (file_exists(NUKE_MODULES_DIR . $mymodule . '/images/lang_' . $currentlang . '/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "modules/".$mymodule."/images/lang_".$currentlang."/$imgfile";
-	} elseif (file_exists(NUKE_MODULES_DIR . $mymodule . '/images/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] =  "modules/".$mymodule."/images/$imgfile";
-	} elseif (file_exists(NUKE_IMAGES_DIR . $mymodule . '/' . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "images/".$mymodule."/$imgfile";
-	} elseif (file_exists(NUKE_IMAGES_DIR . $imgfile)) {
-		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = "images/$imgfile";
-	} else {
-		$evoimage[$ThemeSel][$currentlang][$cache_imgfile] = '';
-	}
-	//$cache->save($mymodule, 'EvoImage', $evoimage);
-	return($evoimage[$ThemeSel][$currentlang][$cache_imgfile]);
 }
 
 /**

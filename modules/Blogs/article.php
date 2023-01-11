@@ -116,8 +116,8 @@ $bodytext = decode_bbcode(set_smilies(stripslashes((string) $row["bodytext"])), 
 /*****[END]********************************************
  [ Mod:     Blog BBCodes                       v1.0.0 ]
  ******************************************************/
-$hometext = evo_img_tag_to_resize($hometext);
-$bodytext = evo_img_tag_to_resize($bodytext);
+$hometext = img_tag_to_resize($hometext);
+$bodytext = img_tag_to_resize($bodytext);
 
 $topic = (int) $row["topic"];
 $informant = stripslashes((string) $row["informant"]);

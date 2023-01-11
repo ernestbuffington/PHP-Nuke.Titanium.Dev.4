@@ -50,7 +50,7 @@ init_userprefs($userdata);
 // Load the appropriate Rules file
 //
 $lang_file = 'lang_rules';
-$l_title = $lang['rules'];
+$l_title = $lang['rules'] = $lang['rules'] ?? '';
 
 //
 // Include the rules settings
@@ -96,7 +96,6 @@ include('includes/page_header.'.$phpEx);
 $template->set_filenames(array(
     'body' => 'rules_body.tpl')
 );
-make_jumpbox('viewforum.'.$phpEx, $forum_id);
 
 $template->assign_vars(array(
     'L_FAQ_TITLE' => $l_title, 
@@ -116,10 +115,10 @@ for($i = 0; $i < count($faq_block); $i++)
 
         for($j = 0; $j < count($faq_block[$i]); $j++)
         {
+            $bbcode_uid = $bbcode_uid ?? ''; 
             $row_color = ( !($j % 2) ) ? $theme['td_color1'] : $theme['td_color2'];
             $row_class = ( !($j % 2) ) ? $theme['td_class1'] : $theme['td_class2'];
       $message = bbencode_first_pass($faq_block[$i][$j]['answer'], $bbcode_uid);
-      //$bbcode_uid = ($bbcode_on) ? make_bbcode_uid() : '';
       $message = bbencode_second_pass($message, $bbcode_uid);
             $template->assign_block_vars('faq_block.faq_row', array(
                 'ROW_COLOR' => '#' . $row_color,

@@ -297,7 +297,7 @@ include(NUKE_BASE_DIR . '/includes/posting_icons.'. $phpEx);
                  [ Mod:     Post Icons                         v1.0.1 ]
                  ******************************************************/
                 $topic_icon = get_icon_title($latest_RectorPrefix202212news['topic_icon']);
-                $topic_icon_id = $latest_RectorPrefix202212news['topic_icon'];
+                $topic_icon_id = $latest_RectorPrefix202212news['topic_icon'] = $latest_RectorPrefix202212news['topic_icon'] ?? '0';
                 /*****[END]********************************************
                  [ Mod:     Post Icons                         v1.0.1 ]
                  ******************************************************/
@@ -448,7 +448,7 @@ include(NUKE_BASE_DIR . '/includes/posting_icons.'. $phpEx);
                  [ Mod:     Post Icons                         v1.0.1 ]
                  ******************************************************/
                 $topic_icon = get_icon_title($latest_topic['topic_icon']);
-                $topic_icon_id = $latest_topic['topic_icon'];
+                $topic_icon_id = $latest_topic['topic_icon'] = $latest_topic['topic_icon'] ?? '0';
                 /*****[END]********************************************
                  [ Mod:     Post Icons                         v1.0.1 ]
                  ******************************************************/

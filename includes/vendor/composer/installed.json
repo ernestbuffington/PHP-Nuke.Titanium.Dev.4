@@ -1,0 +1,409 @@
+{
+    "packages": [
+        {
+            "name": "ezyang/htmlpurifier",
+            "version": "v4.16.0",
+            "version_normalized": "4.16.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ezyang/htmlpurifier.git",
+                "reference": "523407fb06eb9e5f3d59889b3978d5bfe94299c8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/523407fb06eb9e5f3d59889b3978d5bfe94299c8",
+                "reference": "523407fb06eb9e5f3d59889b3978d5bfe94299c8",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~5.6.0 || ~7.0.0 || ~7.1.0 || ~7.2.0 || ~7.3.0 || ~7.4.0 || ~8.0.0 || ~8.1.0 || ~8.2.0"
+            },
+            "require-dev": {
+                "cerdic/css-tidy": "^1.7 || ^2.0",
+                "simpletest/simpletest": "dev-master"
+            },
+            "suggest": {
+                "cerdic/css-tidy": "If you want to use the filter 'Filter.ExtractStyleBlocks'.",
+                "ext-bcmath": "Used for unit conversion and imagecrash protection",
+                "ext-iconv": "Converts text to and from non-UTF-8 encodings",
+                "ext-tidy": "Used for pretty-printing HTML"
+            },
+            "time": "2022-09-18T07:06:19+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "library/HTMLPurifier.composer.php"
+                ],
+                "psr-0": {
+                    "HTMLPurifier": "library/"
+                },
+                "exclude-from-classmap": [
+                    "/library/HTMLPurifier/Language/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Edward Z. Yang",
+                    "email": "admin@htmlpurifier.org",
+                    "homepage": "http://ezyang.com"
+                }
+            ],
+            "description": "Standards compliant HTML filter written in PHP",
+            "homepage": "http://htmlpurifier.org/",
+            "keywords": [
+                "html"
+            ],
+            "support": {
+                "issues": "https://github.com/ezyang/htmlpurifier/issues",
+                "source": "https://github.com/ezyang/htmlpurifier/tree/v4.16.0"
+            },
+            "install-path": "../ezyang/htmlpurifier"
+        },
+        {
+            "name": "mobiledetect/mobiledetectlib",
+            "version": "3.74.0",
+            "version_normalized": "3.74.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/serbanghita/Mobile-Detect.git",
+                "reference": "812a4aa4605c63fc33d7fe32ca82f29275940b9d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/812a4aa4605c63fc33d7fe32ca82f29275940b9d",
+                "reference": "812a4aa4605c63fc33d7fe32ca82f29275940b9d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "v2.19.3",
+                "phpunit/phpunit": "^7.0.0",
+                "squizlabs/php_codesniffer": "3.*"
+            },
+            "time": "2022-12-04T15:37:32+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Detection\\": "src/"
+                },
+                "classmap": [
+                    "src/MobileDetect.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Serban Ghita",
+                    "email": "serbanghita@gmail.com",
+                    "homepage": "http://mobiledetect.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Mobile_Detect is a lightweight PHP class for detecting mobile devices. It uses the User-Agent string combined with specific HTTP headers to detect the mobile environment.",
+            "homepage": "https://github.com/serbanghita/Mobile-Detect",
+            "keywords": [
+                "detect mobile devices",
+                "mobile",
+                "mobile detect",
+                "mobile detector",
+                "php mobile detect"
+            ],
+            "support": {
+                "issues": "https://github.com/serbanghita/Mobile-Detect/issues",
+                "source": "https://github.com/serbanghita/Mobile-Detect/tree/3.74.0"
+            },
+            "install-path": "../mobiledetect/mobiledetectlib"
+        },
+        {
+            "name": "php81_bc/strftime",
+            "version": "0.5.0",
+            "version_normalized": "0.5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alphp/strftime.git",
+                "reference": "4c1b56eaae4bb3f02f994ba47c2e5a225378e62f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alphp/strftime/zipball/4c1b56eaae4bb3f02f994ba47c2e5a225378e62f",
+                "reference": "4c1b56eaae4bb3f02f994ba47c2e5a225378e62f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "@stable"
+            },
+            "time": "2022-04-10T22:31:16+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "src/php-8.1-strftime.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fernando Herrero",
+                    "homepage": "https://github.com/alphp/strftime/graphs/contributors"
+                }
+            ],
+            "description": "Locale-formatted strftime using IntlDateFormatter (PHP 8.1 compatible)",
+            "support": {
+                "issues": "https://github.com/alphp/strftime/issues",
+                "source": "https://github.com/alphp/strftime"
+            },
+            "install-path": "../php81_bc/strftime"
+        },
+        {
+            "name": "shardj/zf1-future",
+            "version": "1.21.4",
+            "version_normalized": "1.21.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Shardj/zf1-future.git",
+                "reference": "7b57530525f48c173a7cf61f5cdfb7d652f3c5d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Shardj/zf1-future/zipball/7b57530525f48c173a7cf61f5cdfb7d652f3c5d8",
+                "reference": "7b57530525f48c173a7cf61f5cdfb7d652f3c5d8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1",
+                "symfony/polyfill-mbstring": "^1.26",
+                "symfony/polyfill-php81": "^1.24"
+            },
+            "replace": {
+                "zendframework/zendframework1": ">=1.12.20"
+            },
+            "require-dev": {
+                "php-parallel-lint/php-parallel-lint": "1.0.0",
+                "phpunit/dbunit": "1.3.*",
+                "zf1s/phpunit": "3.7.39"
+            },
+            "suggest": {
+                "ext-mbstring": "Multibyte strings handling"
+            },
+            "time": "2022-09-22T11:00:12+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.12.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-0": {
+                    "Zend_": "library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "library/"
+            ],
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Zend Framework 1. The aim is to keep ZF1 working with the latest PHP versions",
+            "homepage": "http://framework.zend.com/",
+            "keywords": [
+                "ZF1",
+                "framework"
+            ],
+            "support": {
+                "issues": "https://github.com/Shardj/zf1-future/issues",
+                "source": "https://github.com/Shardj/zf1-future/tree/release-1.21.4"
+            },
+            "install-path": "../shardj/zf1-future"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "version": "v1.27.0",
+            "version_normalized": "1.27.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-mbstring.git",
+                "reference": "8ad114f6b39e2c98a8b0e3bd907732c207c2b534"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/8ad114f6b39e2c98a8b0e3bd907732c207c2b534",
+                "reference": "8ad114f6b39e2c98a8b0e3bd907732c207c2b534",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "provide": {
+                "ext-mbstring": "*"
+            },
+            "suggest": {
+                "ext-mbstring": "For best performance"
+            },
+            "time": "2022-11-03T14:55:06+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.27-dev"
+                },
+                "thanks": {
+                    "name": "symfony/polyfill",
+                    "url": "https://github.com/symfony/polyfill"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the Mbstring extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "mbstring",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.27.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "install-path": "../symfony/polyfill-mbstring"
+        },
+        {
+            "name": "symfony/polyfill-php81",
+            "version": "v1.27.0",
+            "version_normalized": "1.27.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-php81.git",
+                "reference": "707403074c8ea6e2edaf8794b0157a0bfa52157a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-php81/zipball/707403074c8ea6e2edaf8794b0157a0bfa52157a",
+                "reference": "707403074c8ea6e2edaf8794b0157a0bfa52157a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "time": "2022-11-03T14:55:06+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.27-dev"
+                },
+                "thanks": {
+                    "name": "symfony/polyfill",
+                    "url": "https://github.com/symfony/polyfill"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php81\\": ""
+                },
+                "classmap": [
+                    "Resources/stubs"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting some PHP 8.1+ features to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-php81/tree/v1.27.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "install-path": "../symfony/polyfill-php81"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}

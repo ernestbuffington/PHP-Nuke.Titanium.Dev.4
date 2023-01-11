@@ -630,8 +630,8 @@ function autoEditBlog($anid)
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
     
-	$hometext_bb = evo_img_tag_to_resize($hometext_bb);
-    $bodytext_bb = evo_img_tag_to_resize($bodytext_bb);
+	$hometext_bb = img_tag_to_resize($hometext_bb);
+    $bodytext_bb = img_tag_to_resize($bodytext_bb);
     
 	themepreview($subject, $hometext_bb, $bodytext_bb);
     
@@ -953,8 +953,8 @@ function displayBlog($qid)
  ******************************************************/
     $storyext_bb = decode_bbcode(set_smilies(stripslashes($storyext)), 1, true);
     $story_bb = decode_bbcode(set_smilies(stripslashes($story)), 1, true);
-    $storyext_bb = evo_img_tag_to_resize($storyext_bb);
-    $story_bb = evo_img_tag_to_resize($story_bb);
+    $storyext_bb = img_tag_to_resize($storyext_bb);
+    $story_bb = img_tag_to_resize($story_bb);
 /*****[END]********************************************
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
@@ -1292,8 +1292,8 @@ function previewBlog($automated,
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
 
-    $hometext_bb = evo_img_tag_to_resize($hometext_bb);
-    $bodytext_bb = evo_img_tag_to_resize($bodytext_bb);
+    $hometext_bb = img_tag_to_resize($hometext_bb);
+    $bodytext_bb = img_tag_to_resize($bodytext_bb);
 
     themepreview($subject, $hometext_bb, $bodytext_bb, $notes);
 
@@ -1843,8 +1843,8 @@ function editBlog($sid)
  ******************************************************/
         $hometext_bb = decode_bbcode(set_smilies(stripslashes(nl2br($hometext))), 1, true);
         $bodytext_bb = decode_bbcode(set_smilies(stripslashes(nl2br($bodytext))), 1, true);
-        $hometext_bb = evo_img_tag_to_resize($hometext_bb);
-        $bodytext_bb = evo_img_tag_to_resize($bodytext_bb);
+        $hometext_bb = img_tag_to_resize($hometext_bb);
+        $bodytext_bb = img_tag_to_resize($bodytext_bb);
         
 		if($writes == 0) 
         define_once('WRITES', true);
@@ -2599,8 +2599,8 @@ function previewAdminBlog($automated,
  [ Mod:     Blog BBCodes                       v1.0.0 ]
  ******************************************************/
 
-    $hometext_bb = evo_img_tag_to_resize($hometext_bb);
-    $bodytext_bb = evo_img_tag_to_resize($bodytext_bb);
+    $hometext_bb = img_tag_to_resize($hometext_bb);
+    $bodytext_bb = img_tag_to_resize($bodytext_bb);
 
     if($writes == 0) 
     define_once('WRITES', true);

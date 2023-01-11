@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <title>Access Denied</title>
+    <style>
+    	body {
+    		background-color: #f1f1f1;
+    		font-family:Helvetica, sans-serif;
+    	}
+
+    	a {
+    		text-decoration: none;
+    	}
+
+    	h1 
+		{
+			color: red;
+			
+			font-size: 24pt;
+			font-style:italic;
+		}
+		
+    	.access-denied-panel {
+    		width: 50%;
+		    position: relative;
+		    overflow: auto;
+		    margin: 16px 0;
+		    padding: 10px 0 10px;
+		    border: 1px solid #e5e5e5;
+		    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+		    background: #fff;
+		    font-size: 13px;
+		    line-height: 2.1em;
+		    margin: auto;
+		    margin-top:10%;
+		}
+
+		.access-denied-text {
+			text-align: center;
+			white-space: nowrap;
+		}
+
+		.access-denied-message {
+			text-align: center;
+		}
+
+	</style>
+  </head>
+  <body>
+    <div id="access-denied-panel" class="access-denied-panel">
+    	<div class="access-denied-text"><h1>Access Denied</h1></div>
+    	<div class="access-denied-message">This is a restricted area which you should not be trying to access!<br />Please <a href="/index.php">return</a> to the mainsite.</div>
+    </div>
+  </body>
+</html>

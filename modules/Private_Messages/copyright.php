@@ -21,7 +21,7 @@
       Nuke Patched                             v3.1.0       06/26/2005
  ************************************************************************/
 
-define('CP_INCLUDE_DIR', dirname(__FILE__, 3));
+define('CP_INCLUDE_DIR', dirname(dirname(dirname(__FILE__))));
 require_once(CP_INCLUDE_DIR.'/includes/showcp.php');
 
 // To have the Copyright window work in your module just fill the following

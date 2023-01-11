@@ -206,6 +206,9 @@ switch($op):
         $db->sql_query("UPDATE ".$user_prefix."_users SET agreedtos='1' WHERE username='$username'");
         endif;
 		
+		if(!isset($redirect))
+		$redirect = 'modules.php?name=Your_Account';
+		
 		$forward = str_replace("redirect=", "", "$redirect");
         
 		if (preg_match("#privmsg#", $forward)): 

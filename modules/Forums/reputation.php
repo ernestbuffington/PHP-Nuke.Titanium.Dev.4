@@ -28,6 +28,7 @@
 if (!defined('MODULE_FILE')) {
    die ("You can't access this file directly...");
 }
+global $userdata;
 
 define('IN_PHPBB', true);
 $phpbb_root_path = NUKE_FORUMS_DIR;
@@ -39,11 +40,11 @@ include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/
 $userdata = session_pagestart($user_ip, PAGE_REPUTATION);
 init_userprefs($userdata);
 
-if ( empty($HTTP_GET_VARS["a"]) )
+if ( empty($_GET["a"]) )
 {
   message_die(GENERAL_MESSAGE, $lang['No_action_specified']);
 }
-$action = $HTTP_GET_VARS["a"];
+$action = $_GET["a"];
 
 $page_title = $lang['Reputation'];
 $gen_simple_header = TRUE;
@@ -51,8 +52,7 @@ include('includes/page_header.'.$phpEx);
 include('includes/functions_reputation.'.$phpEx);
 include('includes/bbcode.'.$phpEx);
 
-$template->set_filenames(array(
-        'body' => 'reputation.tpl')
+$template->set_filenames(['body' => 'reputation.tpl']
 );
 
 if ( !$userdata['session_logged_in'] )
@@ -64,30 +64,30 @@ if ( !$userdata['session_logged_in'] )
 switch( $action  )
 {
   case 'post':
-    if ( empty($HTTP_POST_VARS['user_id_to_give']) || !isset($HTTP_POST_VARS['user_id_to_give']) )
+    if ( empty($_POST['user_id_to_give']) || !isset($_POST['user_id_to_give']) )
     {
       message_die(GENERAL_MESSAGE, $lang['No_user']);
     }
-    if ( empty($HTTP_POST_VARS['post_id_to_give']) || !isset($HTTP_POST_VARS['post_id_to_give']) )
+    if ( empty($_POST['post_id_to_give']) || !isset($_POST['post_id_to_give']) )
     {
       message_die(GENERAL_MESSAGE, $lang['No_post']);
     }
-    if ( empty($HTTP_POST_VARS['submit']) || !isset($HTTP_POST_VARS['submit']) )
+    if ( empty($_POST['submit']) || !isset($_POST['submit']) )
     {
       message_die(GENERAL_MESSAGE, $lang['No_action_specified']);
     }
-    if ( empty($HTTP_POST_VARS['ccode']) || !isset($HTTP_POST_VARS['ccode']) )
+    if ( empty($_POST['ccode']) || !isset($_POST['ccode']) )
     {
       message_die(GENERAL_MESSAGE, $lang['No_check_code']);
     }
 
-    $userid = intval($HTTP_POST_VARS['user_id_to_give']);
-    $postid = intval($HTTP_POST_VARS['post_id_to_give']);
-    $repsum = intval($HTTP_POST_VARS['rep_sum_to_give']);
-    $repneg = intval($HTTP_POST_VARS['rep_neg_to_give']);
-    $repcom = htmlspecialchars($HTTP_POST_VARS['rep_comment_to_give']);
+    $userid = intval($_POST['user_id_to_give']);
+    $postid = intval($_POST['post_id_to_give']);
+    $repsum = intval($_POST['rep_sum_to_give']);
+    $repneg = intval($_POST['rep_neg_to_give']);
+    $repcom = htmlspecialchars((string) $_POST['rep_comment_to_give']);
     $reptime = time();
-    $ccode = htmlspecialchars($HTTP_POST_VARS['ccode']);
+    $ccode = htmlspecialchars((string) $_POST['ccode']);
 
     if ($repsum > $userdata['user_reputation'])
     {
@@ -113,7 +113,7 @@ switch( $action  )
       message_die(GENERAL_ERROR, "Could not obtain information from posts", '', __LINE__, __FILE__, $sql);
     }
     $row = $db->sql_fetchrow($result);
-    if ( !(substr(md5($row['bbcode_uid']),0,8) == $ccode) )
+    if ( !(substr(md5((string) $row['bbcode_uid']),0,8) == $ccode) )
     {
       message_die(GENERAL_MESSAGE, $lang['Wrong_check_code']);
     }
@@ -192,7 +192,7 @@ switch( $action  )
     }
     $sql = "UPDATE " . USERS_TABLE . "
         SET user_reputation = user_reputation - $repsum
-        WHERE user_id = " . $userdata[user_id];
+        WHERE user_id = " . $userdata['user_id'];
     if ( !($result = $db->sql_query($sql)) )
     {
       message_die(GENERAL_ERROR, "Could not update reputation for the user", '', __LINE__, __FILE__, $sql);
@@ -216,11 +216,11 @@ switch( $action  )
     {
       message_die(GENERAL_MESSAGE, $lang['You_have_neg_rep']);
     }
-    if ( empty($HTTP_GET_VARS[POST_USERS_URL]) || $HTTP_GET_VARS[POST_USERS_URL] == ANONYMOUS )
+    if ( empty($_GET[POST_USERS_URL]) || $_GET[POST_USERS_URL] == ANONYMOUS )
     {
       message_die(GENERAL_MESSAGE, $lang['No_user_id_specified']);
     }
-    $userid = intval($HTTP_GET_VARS[POST_USERS_URL]);
+    $userid = intval($_GET[POST_USERS_URL]);
     $sql = "SELECT u.user_id, u.username
         FROM " . USERS_TABLE . " AS u
         WHERE u.user_id = " . $userid;
@@ -234,11 +234,11 @@ switch( $action  )
     } else {
       $username = $row['username'];
     }
-    if ( empty($HTTP_GET_VARS[POST_POST_URL]) )
+    if ( empty($_GET[POST_POST_URL]) )
     {
       message_die(GENERAL_MESSAGE, $lang['No_post_id_specified']);
     }
-    if ( empty($HTTP_GET_VARS["c"]) )
+    if ( empty($_GET["c"]) )
     {
       message_die(GENERAL_MESSAGE, $lang['No_check_code']);
     }
@@ -246,14 +246,16 @@ switch( $action  )
     {
       message_die(GENERAL_MESSAGE, $lang['Cant_give_yourself']);
     }
-    $ccode = $HTTP_GET_VARS["c"];
-    $postid = intval($HTTP_GET_VARS[POST_POST_URL]);
+    $ccode = $_GET["c"];
+    $postid = intval($_GET[POST_POST_URL]);
 
     if ( $userdata['user_level'] != ADMIN && $userdata['user_level'] != MOD )
     {
       // Is the user the same as the last one the GIVER has given the reputation to?
       // And get the last reputation given time of the GIVER to compute flood time
-      $sql = "SELECT r.user_id, r.user_id_2, r.rep_time
+      $row = [];
+	  
+	  $sql = "SELECT r.user_id, r.user_id_2, r.rep_time
           FROM " . REPUTATION_TABLE . " AS r
           WHERE r.user_id_2 = " . $userdata['user_id'] . "
           ORDER BY r.rep_time DESC LIMIT 1";
@@ -262,7 +264,11 @@ switch( $action  )
         message_die(GENERAL_ERROR, "Could not obtain user", '', __LINE__, __FILE__, $sql);
       }
       $row = $db->sql_fetchrow($result);
-      if ($row['user_id'] == $userid)
+	  
+	  if(!isset($row['rep_time']))
+	  $row['rep_time'] = 0;
+	  
+      if (isset($row['user_id']) == $userid)
       {
         message_die(GENERAL_MESSAGE, $lang['Cant_give_the_same_user']);
       }
@@ -281,53 +287,49 @@ switch( $action  )
       message_die(GENERAL_ERROR, "Could not obtain information from posts", '', __LINE__, __FILE__, $sql);
     }
     $row = $db->sql_fetchrow($result);
-    if ( !(substr(md5($row['bbcode_uid']),0,8) == $ccode) )
+    if ( !(substr(md5((string) $row['bbcode_uid']),0,8) == $ccode) )
     {
       message_die(GENERAL_MESSAGE, $lang['Wrong_check_code']);
     }
 
-    $template->assign_block_vars("rep_add", array(
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-      "USERNAME" => UsernameColor($username),
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-      "U_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $userid),
-      "STATREP_COLOR" => ($rep_sum >= 0) ? "green" : "red",
-      "REPSUM" => round($userdata['user_reputation'],1),
-      "USER_ID_TO_GIVE" => $userid,
-      "POST_ID_TO_GIVE" => $postid,
-
-      "L_REPUTATIONGIVING" => $lang['Rep_giving'],
-      "L_YOUHAVEPOINTS" => $lang['You_have_points'],
-      "L_DESCR" => $lang['Description'],
-      "L_FORM" => $lang['Form'],
-      "L_ENTERREPSUM" => $lang['Enter_repsum'],
-      "L_ENTERREPSUM_EXPLAIN" => $lang['Enter_repsum_explain'],
-      "L_CHOOSEDIR" => $lang['Choose_dir'],
-      "L_CHOOSEDIR_EXPLAIN" => $lang['Choose_dir_explain'],
-      "L_ENTERCOMMENT" => $lang['Enter_comment'],
-      "L_ENTERCOMMENT_EXPLAIN" => $lang['Enter_comment_explain'],
-      "L_GIVE" => $lang['Give'],
-      "CCODE" => $ccode,
-    ));
+    $template->assign_block_vars("rep_add", [
+        /*****[BEGIN]******************************************
+         [ Mod:    Advanced Username Color             v1.0.5 ]
+         ******************************************************/
+        "USERNAME" => UsernameColor($username),
+        /*****[END]********************************************
+         [ Mod:    Advanced Username Color             v1.0.5 ]
+         ******************************************************/
+        "U_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $userid),
+        "STATREP_COLOR" => (isset($rep_sum) >= 0) ? "green" : "red",
+        "REPSUM" => round($userdata['user_reputation'],1),
+        "USER_ID_TO_GIVE" => $userid,
+        "POST_ID_TO_GIVE" => $postid,
+        "L_REPUTATIONGIVING" => $lang['Rep_giving'],
+        "L_YOUHAVEPOINTS" => $lang['You_have_points'],
+        "L_DESCR" => $lang['Description'],
+        "L_FORM" => $lang['Form'],
+        "L_ENTERREPSUM" => $lang['Enter_repsum'],
+        "L_ENTERREPSUM_EXPLAIN" => $lang['Enter_repsum_explain'],
+        "L_CHOOSEDIR" => $lang['Choose_dir'],
+        "L_CHOOSEDIR_EXPLAIN" => $lang['Choose_dir_explain'],
+        "L_ENTERCOMMENT" => $lang['Enter_comment'],
+        "L_ENTERCOMMENT_EXPLAIN" => $lang['Enter_comment_explain'],
+        "L_GIVE" => $lang['Give'],
+        "CCODE" => $ccode,
+    ]);
 
     if ($rep_config['default_amount'] > 0)
     {
-      $template->assign_vars(array(
-        "SIMPLE_HIDDEN" => '<input type="hidden" name="rep_sum_to_give" value="' . $rep_config['default_amount'] . '">'
-      ));
+      $template->assign_vars(["SIMPLE_HIDDEN" => '<input type="hidden" name="rep_sum_to_give" value="' . $rep_config['default_amount'] . '">']);
     } else {
-      $template->assign_block_vars("rep_add.switch_adv_mode", array(
-      ));
+      $template->assign_block_vars("rep_add.switch_adv_mode", []);
     }
     break;
 
 
   case 'globalstats':
-    $start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
+    $start = ( isset($_GET['start']) ) ? intval($_GET['start']) : 0;
     $sql = "SELECT COUNT(user_id) AS total_count, SUM(rep_sum) AS total_sum
         FROM " . REPUTATION_TABLE;
     if ( !($result = $db->sql_query($sql)) )
@@ -402,48 +404,45 @@ switch( $action  )
     $active_user_count_sum = $row['count_sum'];
 
     $pagination = generate_pagination("reputation.$phpEx?a=globalstats", $total_count, 15, $start). '&nbsp;';
-    $template->assign_block_vars("rep_globalstats", array(
-      "L_WHO" => $lang['Who'],
-      "L_WHOM" => $lang['Whom'],
-      "L_DIR" => $lang['Dir'],
-      "L_HOWMUCH" => $lang['How_much'],
-      "L_POST" => $lang['Post'],
-      "L_COMMENT" => $lang['Comment'],
-      "L_DATE" => $lang['Date'],
-      "L_REPUTATION" => $lang['Reputation'],
-      "L_RECEIVEDREPUTATION" => $lang['Received_rep'],
-      "L_GIVENREPUTATION" => $lang['Given_rep'],
-      "L_GLOBALSTATS" => $lang['Global_stats'],
-      "L_TOTAL_GIVEN_BY_USERS" => $lang['Total_given_by_users'],
-      "L_ACTIVE_USER" => $lang['Active_user'],
-      "L_BEST_REP_USER" => $lang['Best_rep_user'],
-      "L_WORST_REP_USER" => $lang['Worst_rep_user'],
-      "L_MAX_GIVEN_SUM" => $lang['Max_given_sum'],
-
-      "TOTAL_GIVEN_BY_USERS" => sprintf($lang['Points_in_givings'],$total_sum,$total_count),
-      "MAX_USERREP" => $max_userrep,
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-      "MAX_USERREP_USERNAME" => UsernameColor($max_userrep_username),
-      "MIN_USERREP" => $min_userrep,
-      "MIN_USERREP_USERNAME" => UsernameColor($min_userrep_username),
-      "ACTIVE_USER" => $active_user,
-      "TOTAL_GIVEN_BY_ACTIVE_USER" => sprintf($lang['Points_in_givings'],$active_user_repsum,$active_user_count_sum),
-      "MAX_USERNAME" => UsernameColor($max_username),
-      "MAX_REPSUM" => $max_repsum,
-      "MAX_REPSUM_USERNAME" => UsernameColor($max_repsum_username),
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-
-      "U_MAX_USERREP_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $max_userrep_userid),
-      "U_MIN_USERREP_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $min_userrep_userid),
-      "U_MAX_REPSUM_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $max_repsum_userid),
-      "U_ACTIVE_USER_ID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $active_user_id),
-
-      "PAGINATION" => $pagination,
-    ));
+    $template->assign_block_vars("rep_globalstats", [
+        "L_WHO" => $lang['Who'],
+        "L_WHOM" => $lang['Whom'],
+        "L_DIR" => $lang['Dir'],
+        "L_HOWMUCH" => $lang['How_much'],
+        "L_POST" => $lang['Post'],
+        "L_COMMENT" => $lang['Comment'],
+        "L_DATE" => $lang['Date'],
+        "L_REPUTATION" => $lang['Reputation'],
+        "L_RECEIVEDREPUTATION" => $lang['Received_rep'],
+        "L_GIVENREPUTATION" => $lang['Given_rep'],
+        "L_GLOBALSTATS" => $lang['Global_stats'],
+        "L_TOTAL_GIVEN_BY_USERS" => $lang['Total_given_by_users'],
+        "L_ACTIVE_USER" => $lang['Active_user'],
+        "L_BEST_REP_USER" => $lang['Best_rep_user'],
+        "L_WORST_REP_USER" => $lang['Worst_rep_user'],
+        "L_MAX_GIVEN_SUM" => $lang['Max_given_sum'],
+        "TOTAL_GIVEN_BY_USERS" => sprintf($lang['Points_in_givings'],$total_sum,$total_count),
+        "MAX_USERREP" => $max_userrep,
+        /*****[BEGIN]******************************************
+         [ Mod:    Advanced Username Color             v1.0.5 ]
+         ******************************************************/
+        "MAX_USERREP_USERNAME" => UsernameColor($max_userrep_username),
+        "MIN_USERREP" => $min_userrep,
+        "MIN_USERREP_USERNAME" => UsernameColor($min_userrep_username),
+        "ACTIVE_USER" => $active_user,
+        "TOTAL_GIVEN_BY_ACTIVE_USER" => sprintf($lang['Points_in_givings'],$active_user_repsum,$active_user_count_sum),
+        "MAX_USERNAME" => UsernameColor($max_username),
+        "MAX_REPSUM" => $max_repsum,
+        "MAX_REPSUM_USERNAME" => UsernameColor($max_repsum_username),
+        /*****[END]********************************************
+         [ Mod:    Advanced Username Color             v1.0.5 ]
+         ******************************************************/
+        "U_MAX_USERREP_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $max_userrep_userid),
+        "U_MIN_USERREP_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $min_userrep_userid),
+        "U_MAX_REPSUM_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $max_repsum_userid),
+        "U_ACTIVE_USER_ID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $active_user_id),
+        "PAGINATION" => $pagination,
+    ]);
 
     $sql = "SELECT r.*, u.username, u.user_id, t.topic_title, f.forum_id, p.post_id
         FROM " . REPUTATION_TABLE . " AS r
@@ -483,7 +482,7 @@ switch( $action  )
       //
       // Start auth check
       //
-      $is_auth = array();
+      $is_auth = [];
       $is_auth = auth(AUTH_ALL, $row['forum_id'], $userdata);
 
       if( !$is_auth['auth_view'] || !$is_auth['auth_read'] )
@@ -495,24 +494,24 @@ switch( $action  )
       // End auth check
       //
 
-      $template->assign_block_vars("rep_globalstats.row", array(
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-        "USERNAME" => UsernameColor($row['username']),
-        "U_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['user_id']),
-        "USERNAME2" => UsernameColor($row2['username']),
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-        "U_USERID2" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['user_id_2']),
-        "REPNEG" => $row['rep_neg'],
-        "REPSUM" => $row['rep_sum'],
-        "REPCOMMENT" => $row['rep_comment'],
-        "U_POST" => $u_post,
-        "POST" => $post,
-        "REPTIME" => create_date($board_config['default_dateformat'], $row['rep_time'], $board_config['board_timezone']),
-      ));
+      $template->assign_block_vars("rep_globalstats.row", [
+          /*****[BEGIN]******************************************
+           [ Mod:    Advanced Username Color             v1.0.5 ]
+           ******************************************************/
+          "USERNAME" => UsernameColor($row['username']),
+          "U_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['user_id']),
+          "USERNAME2" => UsernameColor($row2['username']),
+          /*****[END]********************************************
+           [ Mod:    Advanced Username Color             v1.0.5 ]
+           ******************************************************/
+          "U_USERID2" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['user_id_2']),
+          "REPNEG" => $row['rep_neg'],
+          "REPSUM" => $row['rep_sum'],
+          "REPCOMMENT" => $row['rep_comment'],
+          "U_POST" => $u_post,
+          "POST" => $post,
+          "REPTIME" => create_date($board_config['default_dateformat'], $row['rep_time'], $board_config['board_timezone']),
+      ]);
     }
     break;
 
@@ -523,12 +522,12 @@ switch( $action  )
     {
       message_die(GENERAL_MESSAGE, $lang['Stats_only_for_admins']);
     }
-    if ( empty($HTTP_GET_VARS[POST_USERS_URL]) || $HTTP_GET_VARS[POST_USERS_URL] == ANONYMOUS )
+    if ( empty($_GET[POST_USERS_URL]) || $_GET[POST_USERS_URL] == ANONYMOUS )
     {
       message_die(GENERAL_MESSAGE, $lang['No_user_id_specified']);
     }
-    $start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
-    $userid = intval($HTTP_GET_VARS[POST_USERS_URL]);
+    $start = ( isset($_GET['start']) ) ? intval($_GET['start']) : 0;
+    $userid = intval($_GET[POST_USERS_URL]);
     $sql = "SELECT u.user_id, u.username, u.user_reputation
         FROM " . USERS_TABLE . " AS u
         WHERE u.user_id = " . $userid . "
@@ -585,44 +584,42 @@ switch( $action  )
     }
 
     $pagination = generate_pagination("reputation.$phpEx?a=stats&amp;" . POST_USERS_URL . "=" . $userid . "&amp;", $total_count, 15, $start). '&nbsp;';
-    $template->assign_block_vars("rep_stats", array(
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-      "USERNAME" => UsernameColor($username),
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-      "U_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $userid),
-      "STATREP_COLOR" => ($rep_sum >= 0) ? "green" : "red",
-      "STATREP_SUM" => $rep_sum,
-      "STATREP_SUMPOS" => $rep_poss,
-      "STATREP_SUMNEG" => $rep_negs,
-      "STATREP_SUM_GIVEN" => $rep_given_sum,
-      "STATREP_SUMPOS_GIVEN" => $rep_given_poss,
-      "STATREP_SUMNEG_GIVEN" => $rep_given_negs,
-
-      "L_REPUTATION" => $lang['Reputation'],
-      "L_REPUTATION2" => $lang['Reputation2'],
-      "L_TOTALRECEIVED" => $lang['Total_received'],
-      "L_POSITIVE" => $lang['Positive'],
-      "L_NEGATIVE" => $lang['Negative'],
-      "L_TOTALGIVEN" => $lang['Total_given'],
-      "L_VOTES" => $lang['Votes'],
-      "L_WHO" => $lang['Who'],
-      "L_WHOM" => $lang['Whom'],
-      "L_DIR" => $lang['Dir'],
-      "L_HOWMUCH" => $lang['How_much'],
-      "L_POST" => $lang['Post'],
-      "L_COMMENT" => $lang['Comment'],
-      "L_DATE" => $lang['Date'],
-      "L_RECEIVEDREPUTATION" => $lang['Received_rep'],
-      "L_GIVENREPUTATION" => $lang['Given_rep'],
-      "L_GLOBALSTATS" => $lang['Global_stats'],
-      "U_GLOBALSTATS" => append_sid("reputation.$phpEx?a=globalstats"),
-
-      "PAGINATION" => $pagination,
-    ));
+    $template->assign_block_vars("rep_stats", [
+        /*****[BEGIN]******************************************
+         [ Mod:    Advanced Username Color             v1.0.5 ]
+         ******************************************************/
+        "USERNAME" => UsernameColor($username),
+        /*****[END]********************************************
+         [ Mod:    Advanced Username Color             v1.0.5 ]
+         ******************************************************/
+        "U_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $userid),
+        "STATREP_COLOR" => ($rep_sum >= 0) ? "green" : "red",
+        "STATREP_SUM" => $rep_sum,
+        "STATREP_SUMPOS" => $rep_poss,
+        "STATREP_SUMNEG" => $rep_negs,
+        "STATREP_SUM_GIVEN" => $rep_given_sum,
+        "STATREP_SUMPOS_GIVEN" => $rep_given_poss,
+        "STATREP_SUMNEG_GIVEN" => $rep_given_negs,
+        "L_REPUTATION" => $lang['Reputation'],
+        "L_REPUTATION2" => $lang['Reputation2'],
+        "L_TOTALRECEIVED" => $lang['Total_received'],
+        "L_POSITIVE" => $lang['Positive'],
+        "L_NEGATIVE" => $lang['Negative'],
+        "L_TOTALGIVEN" => $lang['Total_given'],
+        "L_VOTES" => $lang['Votes'],
+        "L_WHO" => $lang['Who'],
+        "L_WHOM" => $lang['Whom'],
+        "L_DIR" => $lang['Dir'],
+        "L_HOWMUCH" => $lang['How_much'],
+        "L_POST" => $lang['Post'],
+        "L_COMMENT" => $lang['Comment'],
+        "L_DATE" => $lang['Date'],
+        "L_RECEIVEDREPUTATION" => $lang['Received_rep'],
+        "L_GIVENREPUTATION" => $lang['Given_rep'],
+        "L_GLOBALSTATS" => $lang['Global_stats'],
+        "U_GLOBALSTATS" => append_sid("reputation.$phpEx?a=globalstats"),
+        "PAGINATION" => $pagination,
+    ]);
 
     $sql = "SELECT r.*, u.username, u.user_id, t.topic_title, f.forum_id, p.post_id
         FROM " . REPUTATION_TABLE . " AS r
@@ -665,7 +662,7 @@ switch( $action  )
       //
       // Start auth check
       //
-      $is_auth = array();
+      $is_auth = [];
       $is_auth = auth(AUTH_ALL, $row['forum_id'], $userdata);
 
       if( !$is_auth['auth_view'] || !$is_auth['auth_read'] )
@@ -675,32 +672,30 @@ switch( $action  )
       }
       //
       // End auth check
-      $template->assign_block_vars("rep_stats.row", array(
-        "ROW" => ($row['user_id'] == $userid) ? "row1" : "row3",
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-        "USERNAME" => UsernameColor($row['username']),
-        "U_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['user_id']),
-        "USERNAME2" => UsernameColor($row2['username']),
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-        "U_USERID2" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['user_id_2']),
-        "REPNEG" => $row['rep_neg'],
-        "REPSUM" => $row['rep_sum'],
-        "REPCOMMENT" => $row['rep_comment'],
-        "U_POST" => $u_post,
-        "POST" => $post,
-        "REPTIME" => create_date($board_config['default_dateformat'], $row['rep_time'], $board_config['board_timezone']),
-      ));
+      $template->assign_block_vars("rep_stats.row", [
+          "ROW" => ($row['user_id'] == $userid) ? "row1" : "row3",
+          /*****[BEGIN]******************************************
+           [ Mod:    Advanced Username Color             v1.0.5 ]
+           ******************************************************/
+          "USERNAME" => UsernameColor($row['username']),
+          "U_USERID" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['user_id']),
+          "USERNAME2" => UsernameColor($row2['username']),
+          /*****[END]********************************************
+           [ Mod:    Advanced Username Color             v1.0.5 ]
+           ******************************************************/
+          "U_USERID2" => append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . '=' . $row['user_id_2']),
+          "REPNEG" => $row['rep_neg'],
+          "REPSUM" => $row['rep_sum'],
+          "REPCOMMENT" => $row['rep_comment'],
+          "U_POST" => $u_post,
+          "POST" => $post,
+          "REPTIME" => create_date($board_config['default_dateformat'], $row['rep_time'], $board_config['board_timezone']),
+      ]);
     }
     break;
 }
 
-$template->assign_vars(array(
-  "L_CLOSEWINDOW" => $lang['Close_window'],
-));
+$template->assign_vars(["L_CLOSEWINDOW" => $lang['Close_window']]);
 
 $template->pparse('body');
 include('includes/page_tail.'.$phpEx);

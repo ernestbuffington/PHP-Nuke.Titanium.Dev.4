@@ -156,7 +156,7 @@ switch ($op):
             endif;
 			
 			$artinfo["hometext"] =  decode_bbcode(set_smilies(stripslashes((string) $artinfo["hometext"])), 1, true);
-            $artinfo["hometext"] = evo_img_tag_to_resize($artinfo["hometext"]);
+            $artinfo["hometext"] = img_tag_to_resize($artinfo["hometext"]);
             $artinfo["notes"] = stripslashes((string) $artinfo["notes"]);
             $artinfo["sid"] = (int) $artinfo["sid"];
             $artinfo["aid"] = stripslashes((string) $artinfo["aid"]);

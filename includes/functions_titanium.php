@@ -164,20 +164,6 @@ function _ig($image)
 
 }
 
-function img_tag_to_resize($text) {
-    global $img_resize;
-    if(!$img_resize) return $text;
-    if(empty($text)) return $text;
-    if(preg_match('/<NO RESIZE>/',$text)) {
-        $text = str_replace('<NO RESIZE>', '', $text);
-        return $text;
-    }
-    // $text = preg_replace('/<\s*?img/',"<img resizemod=\"on\" ",$text);
-    # <div class="reimg-loading"></div><img class="reimg" onload="reimg(this);" onerror="reimg(this);"
-    $text = preg_replace('/<\s*?img/',"<div align=\"center\" class=\"reimg-loading\"></div><img class=\"reimg\" onload=\"reimg(this);\" onerror=\"reimg(this);\" ",$text);
-    return $text;
-}
-
 function titanium_site_up($url) {
     //Set the address
     $address = parse_url($url);

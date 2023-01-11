@@ -587,7 +587,7 @@ function make_bbcode_uid()
 function bbencode_first_pass($text, $uid)
 {
     global $bbcode_tpl;
-    define('_BBCODE_UNIQUE_ID',$uid);
+	defined('_BBCODE_UNIQUE_ID') or define('_BBCODE_UNIQUE_ID', $uid);
     // pad it with a space so we can distinguish between FALSE and matching the 1st char (index 0).
     // This is important; bbencode_quote(), bbencode_list(), and bbencode_code() all depend on it.
     $text = " " . $text;

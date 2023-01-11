@@ -506,39 +506,6 @@ function GetColorGroups($in_admin = false)
     return $ColorGroupsCache;
 }
 
-// avatar_resize function by JeFFb68CAM (based off phpBB mod)
-// recoded & removed cache-function and added static variable (ReOrGaNiSaTiOn)
-function avatar_resize($avatar_url) 
-{
-    global $board_config;
-    static $loaded_avatars;
-    if(!isset($loaded_avatars[$avatar_url])) {
-        $loaded_avatars[$avatar_url] = array();
-        list($avatar_width, $avatar_height) = getimagesize($avatar_url);
-        if ($avatar_width > $board_config['avatar_max_width'] && $avatar_height <= $board_config['avatar_max_height']) {
-            $cons_width  = $board_config['avatar_max_width'];
-            $cons_height = round((($board_config['avatar_max_width'] * $avatar_height) / $avatar_width), 0);
-        }
-        elseif($avatar_width <= $board_config['avatar_max_width'] && $avatar_height > $board_config['avatar_max_height']) {
-            $cons_width  = round((($board_config['avatar_max_height'] * $avatar_width) / $avatar_height), 0);
-            $cons_height = $board_config['avatar_max_height'];
-        }
-        elseif($avatar_width > $board_config['avatar_max_width'] && $avatar_height > $board_config['avatar_max_height']) {
-            if($avatar_width >= $avatar_height) {
-                $cons_width = $board_config['avatar_max_width'];
-                $cons_height = round((($board_config['avatar_max_width'] * $avatar_height) / $avatar_width), 0);
-            }
-            elseif($avatar_width < $avatar_height) {
-                $cons_width = round((($board_config['avatar_max_height'] * $avatar_width) / $avatar_height), 0);
-                $cons_height = $board_config['avatar_max_height'];
-            }
-        }
-        // $loaded_avatars[$avatar_url] = '<img src="' . $avatar_url . '" width="' . $cons_width . '" height="' . $cons_height . '" alt="" border="0" />';
-        $loaded_avatars[$avatar_url] = $avatar_url;
-    }
-    return $loaded_avatars[$avatar_url];
-}
-
 // EvoCrypt function by JeFFb68CAM
 function EvoCrypt($pass) 
 {
@@ -624,7 +591,7 @@ function EvoDate($format, $gmepoch, $tz)
 				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec);
 				break;
 			case 2:
-				$dst_sec = date('I', $gmepoch) * $userdata['user_dst_time_lag'] * 60;
+				$dst_sec = date('I', $gmepoch) * $userinfo['user_dst_time_lag'] * 60;
 				return ( !empty($translate) ) ? strtr(gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec), (string)$translate) : gmdate((string)$format, (int)$gmepoch + (3600 * (int)$tz) + (int)$dst_sec);
 				break;
 			case 3:
@@ -1144,31 +1111,17 @@ function GetRank($user_id)
 # redirect function by Quake
 function redirect($url, $refresh = 0) 
 {
-    global $db, $cache;
+    global $db, $db2, $cache;
     if(is_object($cache)) $cache->resync();
     if(is_object($db)) $db->sql_close();
-    $type = preg_match('/IIS|Microsoft|WebSTAR|Xitami/', $_SERVER['SERVER_SOFTWARE']) ? 'Refresh: '.$refresh.'; URL=' : 'Location: ';
+	if(is_object($db2)) $db2->sql_close();
+	$type = preg_match('/IIS|Microsoft|WebSTAR|Xitami/', (string) $_SERVER['SERVER_SOFTWARE']) ? 'Refresh: '.$refresh.'; URL=' : 'Location: ';
 	$url = str_replace('&amp;', "&", $url);
     header($type . $url);
     exit;
 }
 
 include_once(NUKE_INCLUDE_DIR.'functions_deprecated.php');
-
-function evo_img_tag_to_resize($text) 
-{
-    global $img_resize;
-    if(!$img_resize) return $text;
-    if(empty($text)) return $text;
-    if(preg_match('/<NO RESIZE>/',$text)) {
-        $text = str_replace('<NO RESIZE>', '', $text);
-        return $text;
-    }
-    // $text = preg_replace('/<\s*?img/',"<img resizemod=\"on\" ",$text);
-    # <div class="reimg-loading"></div><img class="reimg" onload="reimg(this);" onerror="reimg(this);"
-    $text = preg_replace('/<\s*?img/',"<div class=\"reimg-loading\"></div><img class=\"reimg\" onload=\"reimg(this);\" onerror=\"reimg(this);\" ",$text);
-    return $text;
-}
 
 function referer() 
 {
@@ -1397,135 +1350,3 @@ function evo_mail_batch($array_recipients)
     }
     return $recipients;
 }
-
-// evo_image function by ReOrGaNiSaTiOn
-function evo_image($imgfile='', $mymodule='') 
-{
-    global $currentlang, $ThemeSel, $Default_Theme, $cache;
-    $tmp_imgfile = explode('.', $imgfile);
-    $cache_imgfile = $tmp_imgfile[0];
-    $evoimage = [];
-	//$evoimage = $cache->load($mymodule, 'EvoImage');
-    //if(!empty($evoimage[$ThemeSel][$currentlang][$cache_imgfile])) {
-    //    return($evoimage[$ThemeSel][$currentlang][$cache_imgfile]);
-    //}
-
-    if (file_exists('themes/'. $ThemeSel . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$ThemeSel."/images/$mymodule/lang_".$currentlang."/$imgfile";
-    } elseif (file_exists('themes/'. $ThemeSel . '/images/lang_' . $currentlang . '/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$ThemeSel."/images/lang_".$currentlang."/$imgfile";
-    } elseif (file_exists('themes/'. $ThemeSel . '/images/' . $mymodule . '/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$ThemeSel."/images/$mymodule/$imgfile";
-    } elseif (file_exists('themes/'. $ThemeSel . '/images/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$ThemeSel."/images/$imgfile";
-    } elseif (file_exists('themes/'. $Default_Theme . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$Default_Theme."/images/$mymodule/lang_".$currentlang."/$imgfile";
-    } elseif (file_exists('themes/'. $Default_Theme . '/images/lang_' . $currentlang . '/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$Default_Theme."/images/lang_".$currentlang."/$imgfile";
-    } elseif (file_exists('themes/'. $Default_Theme . '/images/' . $mymodule . '/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$Default_Theme."/images/$mymodule/$imgfile";
-    } elseif (file_exists('themes/'. $Default_Theme . '/images/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'themes/'.$Default_Theme."/images/$imgfile";
-    } elseif (file_exists('modules/'.  $mymodule . '/images/lang_' . $currentlang . '/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = 'modules/'.  $mymodule ."/images/lang_".$currentlang."/$imgfile";
-    } elseif (file_exists('modules/'.  $mymodule . '/images/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] =  'modules/'. $mymodule ."/images/$imgfile";
-    } elseif (file_exists(NUKE_IMAGES_DIR . $mymodule . '/' . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = NUKE_IMAGES_BASE_DIR . $mymodule ."/$imgfile";
-    } elseif (file_exists(NUKE_IMAGES_DIR . $imgfile)) {
-        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = NUKE_IMAGES_BASE_DIR . $imgfile;
-    } else {
-        $evoimage[$ThemeSel][$currentlang][$cache_imgfile] = '';
-    }
-    //$cache->save($mymodule, 'EvoImage', $evoimage);
-    return($evoimage[$ThemeSel][$currentlang][$cache_imgfile]);
-
-}
-
-// evo_image_make_tag function by ReOrGaNiSaTiOn
-function evo_image_make_tag($imgname, $mymodule_name, $mytitle='', $myborder=0, $myname='', $resize=FALSE , $mywidth='100%', $myheight='100%') 
-{
-    $temp_alttext = explode('.', $imgname);
-    $temp_image = evo_image($imgname, $mymodule_name);
-    if (!empty($temp_image)) {
-        $imgfile = '<img src="'.$temp_image.'" width="'.$mywidth.'" height="'.$myheight.'" border="'.$myborder.'" title="'.$mytitle.'" name="'.$myname.'" alt="" />';
-        if ( $resize ) 
-		{
-            $imgfile = evo_img_tag_to_resize($imgfile);
-        }
-        return $imgfile;
-    }
-    return '';
-}
-
-// evo_help_img function by ReOrGaNiSaTiOn
-// based on various codefragments from Internet
-function evo_help_img($helptext) 
-{
-    global $bgcolor1, $bgcolor2, $textcolor1, $textcolor2;
-    return "<a href=\"javascript:void(0);\" onclick=\"return overlib('".addslashes($helptext)."', STICKY, CAPTION, 'Help System', STATUS, 'Help System', WIDTH, 400, FGCOLOR, '".$bgcolor1."', BGCOLOR, '".$bgcolor2."', TEXTCOLOR, '".$textcolor1."', CAPCOLOR, '".$textcolor2."', CLOSECOLOR, '".$textcolor2."', CAPICON, 'images/evo/helpicon.png', BORDER, '2');\"><img src='images/evo/helpicon.png' border='0' height='12' width='12' alt='' title='' /></a>";
-}
-
-// select_gallery function by ReOrGaNiSaTiOn
-function select_gallery($name='default', $gallery='', $img_show = FALSE, $selected='') 
-{
-    if (empty($gallery)) {
-        $select = '<select class="set" name="'.$name.'" id="'.$name."\">\n";
-        $select .= "<option value=\"".FALSE."\" >"._NONE."</option>\n";
-        return $select.'</select>';
-    }
-    if ( substr($gallery, 0, 1) == '/' ) {
-        $gallery = substr($gallery, 1);
-    }
-    if ( substr($gallery, -1) == '/' ) {
-        $gallery = substr($gallery, 0, strlen($gallery) -1);
-    }
-    $dir = NUKE_BASE_DIR . $gallery;
-    $href_dir = NUKE_HREF_BASE_DIR . $gallery;
-    if (is_dir($dir)) {
-        if (!defined('GALLERY_JAVASCRIPT') && ($img_show == TRUE)) {
-            $select = '<script>
-                        <!--
-                        function update_gallery(newimage)
-                        {
-                            document.gallery_image.src = newimage;
-                        }
-                        //-->
-                        </script>';
-            define('GALLERY_JAVASCRIPT', TRUE);
-        }
-        $opendir = opendir($gallery);
-        if ( $img_show == TRUE ) {
-            $select .= '<select class="set" name="'.$name.'" id="'.$name."\" onchange=\"update_gallery(this.options[selectedIndex].value);\">\n";
-        } else {
-            $select .= '<select class="set" name="'.$name.'" id="'.$name."\">\n";
-        }
-        if ( empty($selected)) {
-            $select .= "<option value=\"". NUKE_IMAGES_BASE_DIR . "evo/spacer.gif\" selected=\"selected\">"._NONE."</option>\n";
-        } else {
-            $select .= "<option value=\"". NUKE_IMAGES_BASE_DIR . "evo/spacer.gif\" >"._NONE."</option>\n";
-        }
-        while (false !== ($entry = readdir($opendir))) {
-            if( preg_match('/(\.gif$|\.png$|\.jpg|\.jpeg)$/is', $entry)) {
-                if( $entry != '.' && $entry != '..' && is_file($dir . '/' . $entry) && !is_link($dir . '/' . $entry) ) {
-                    $extension = substr($entry, strrpos($entry, '.'));
-                    if ($selected == "$href_dir/$entry") {
-                        $select .= "<option value=\"" . $href_dir . "/" .$entry."\" selected=\"selected\">".str_replace($extension, '', $entry)."</option>\n";
-                    } else {
-                        $select .= "<option value=\"" . $href_dir . "/" .$entry."\" >".str_replace($extension, '', $entry)."</option>\n";
-                    }
-                }
-            }
-        }
-        closedir($dir);
-    } else {
-        $select = '<select class="set" name="'.$name.'" id="'.$name."\">\n";
-        $select .= "<option value=\"".FALSE."\" >"._NONE."</option>\n";
-    }
-    if ( $img_show == TRUE ) {
-        return $select.'</select>&nbsp;<img name="gallery_image" src="'.NUKE_IMAGES_BASE_DIR . 'evo/spacer.gif" border="0" alt="" />';
-    } else {
-        return $select.'</select>';
-    }
-}
-?>

@@ -100,7 +100,7 @@ while (list($mid, $title, $content, $date, $expire, $view, $groups) = $db->sql_f
 					$remain = ($etime < 1) ? _EXPIRELESSHOUR : _EXPIREIN." $etime "._HOURS;
 				}
 			}
-			$content = evo_img_tag_to_resize($content);
+			$content = img_tag_to_resize($content);
 			
 			OpenTable();
 			

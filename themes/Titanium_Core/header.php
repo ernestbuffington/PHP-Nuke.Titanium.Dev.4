@@ -105,7 +105,8 @@ $scrollmsg .= ' Ezekiel 25,17. "The path of the righteous man is beset of all si
 
 $scrollmsg .= 'The current Beta release of PHP-Nuke Titanium is v'.NUKE_TITANIUM.' ::: ';
 
-$detect = new Mobile_Detect;
+//$detect = new Mobile_Detect;
+$detect = new \Detection\MobileDetect;
 
 $scrollmsg .= 'It\'s nice to see you using Windows v'.$detect->version('Windows NT').' :::';
 

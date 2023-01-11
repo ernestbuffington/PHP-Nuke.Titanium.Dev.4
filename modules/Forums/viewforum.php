@@ -137,6 +137,9 @@ $has_subforums  = '';
 else
 $has_subforums = 0;
 
+if(!isset($recent_item['ICON_ID']))
+$recent_item['ICON_ID'] = 0;
+	
 # Check if the user has actually sent a forum ID with his/her request
 # If not give them a nice error page.
 if(!empty($forum_id)):

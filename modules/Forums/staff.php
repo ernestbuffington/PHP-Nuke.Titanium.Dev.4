@@ -16,7 +16,7 @@ if (!defined('MODULE_FILE')) {
    die ("You can't access this file directly...");
 }
 
-if ($popup != "1"){
+if (!isset($popup)){
     $module_name = basename(dirname(__FILE__));
     require("modules/".$module_name."/nukebb.php");
 }
@@ -26,8 +26,12 @@ else
 }
 
 define('IN_PHPBB', true);
+
+global $db, $board_config, $template, $auth, $lang, $images, $phpEx, $user_ip, $session_length, $userdata;
+
 include($phpbb_root_path . 'extension.inc');
 include($phpbb_root_path . 'common.'.$phpEx);
+
 
 $userdata = session_pagestart($user_ip, PAGE_STAFF, $session_length);
 init_userprefs($userdata);
@@ -157,11 +161,6 @@ while($staff = $db->sql_fetchrow($results))
         $pmto = append_sid("privmsg.$phpEx?mode=post&amp;" . POST_USERS_URL . "=$staff[user_id]");
         $pm = '<a href="' . $pmto . '"><img src="' . $images['icon_pm'] . '" alt="' . $lang['Send_private_message'] . '" title="' . $lang['Send_private_message'] . '" border="0" /></a>';
 
-        $msn = ( $staff['user_msnm'] ) ? '<a href="mailto: '.$staff['user_msnm'].'"><img src="' . $images['icon_msnm'] . '" alt="' . $lang['MSNM'] . '" title="' . $lang['MSNM'] . '" border="0" /></a>' : '';
-        $yim = ( $staff['user_yim'] ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target=' . $staff['user_yim'] . '&amp;.src=pg"><img src="' . $images['icon_yim'] . '" alt="' . $lang['YIM'] . '" title="' . $lang['YIM'] . '" border="0" /></a>' : '';
-        $aim = ( $staff['user_aim'] ) ? '<a href="aim:goim?screenname=' . $staff['user_aim'] . '&amp;message=Hello+Are+you+there?"><img src="' . $images['icon_aim'] . '" alt="' . $lang['AIM'] . '" title="' . $lang['AIM'] . '" border="0" /></a>' : '';
-        $icq = ( $staff['user_icq'] ) ? '<a href="http://wwp.icq.com/scripts/contact.dll?msgto=' . $staff['user_icq'] . '"><img src="' . $images['icon_icq'] . '" alt="' . $lang['ICQ'] . '" title="' . $lang['ICQ'] . '" border="0" /></a>' : '';
-
         $www = ( $staff['user_website'] ) ? '<a href="' . $staff['user_website'] . '" target="_userwww"><img src="' . $images['icon_www'] . '" alt="' . $lang['Visit_website'] . '" title="' . $lang['Visit_website'] . '" border="0" /></a>' : '';
 
         $sql = "SELECT * FROM " . RANKS_TABLE . " ORDER BY rank_special, rank_min";
@@ -223,10 +222,6 @@ while($staff = $db->sql_fetchrow($results))
                 'LAST_POST' => $last_post,
                 'MAIL' => $mail,
                 'PM' => $pm,
-                'MSN' => $msn,
-                'YIM' => $yim,
-                'AIM' => $aim,
-                'ICQ' => $icq,
                 'WWW' => $www)
         );
 }

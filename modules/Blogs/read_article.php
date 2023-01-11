@@ -84,8 +84,8 @@ $hometext = decode_bbcode(set_smilies(stripslashes($row["hometext"])), 1, true);
 
 $bodytext = decode_bbcode(set_smilies(stripslashes($row["bodytext"])), 1, true);
 
-$bodytext = evo_img_tag_to_resize($bodytext);
-$hometext = evo_img_tag_to_resize($hometext);
+$bodytext = img_tag_to_resize($bodytext);
+$hometext = img_tag_to_resize($hometext);
 
 $topic = $row["topic"];
 
