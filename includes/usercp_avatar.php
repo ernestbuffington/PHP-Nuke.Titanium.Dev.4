@@ -243,7 +243,7 @@ function user_avatar_upload($mode, $avatar_mode, &$current_avatar, &$current_typ
  [ Mod:     Member Country Flags               v2.0.7 ]
  [ Mod:     Gender                             v1.2.6 ]
  [ Mod:     Birthdays                          v3.0.0 ]
- ******************************************************/
+ ******************************************************/ 
 function display_avatar_gallery($mode, 
                             $category, 
 							 $user_id, 
@@ -289,7 +289,7 @@ function display_avatar_gallery($mode,
 					 $quickreply_mode, 
 				$user_open_quickreply, 
 				          $session_id, 
-					   $xdata = false, 
+				 string $xdata = null, 
 					           $rname, 
 						  $extra_info, 
 						  $newsletter, 

@@ -654,12 +654,19 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
         						$error = TRUE;
         						$error_msg .= ( ( empty($error_msg) ) ? '' : '<br />' ) . $lang['Birthday_invalid'];
         				}
-            $user_birthday = sprintf('%02d%02d%04d',$bday_month,$bday_day,$bday_year);
-            $user_birthday2 = ( $birthday_display != BIRTHDAY_DATE && $birthday_display != BIRTHDAY_NONE && !$empty_month && !$empty_day && !$empty_year ) ? sprintf('%04d%02d%02d',$bday_year,$bday_month,$bday_day) : 'NULL';
+            
+			$user_birthday = sprintf('%02d%02d%04d',$bday_month,$bday_day,$bday_year);
+            
+			$user_birthday2 = ( $birthday_display != BIRTHDAY_DATE 
+			                    && $birthday_display != BIRTHDAY_NONE 
+								&& !$empty_month 
+								&& !$empty_day 
+								&& !$empty_year ) ? sprintf('%04d%02d%02d',$bday_year,$bday_month,$bday_day) : '0';
+								
             if ( $birthday_greeting && !( $board_config['bday_greeting'] & 1<<($birthday_greeting-1) ) )
-        				{
-        					$birthday_greeting = 0;
-        				}
+        	{
+        	  $birthday_greeting = 0;
+			}
             /*****[END]********************************************
              [ Mod:  Birthdays                             v3.0.0 ]
              ******************************************************/
@@ -992,57 +999,60 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
  [ Mod:    Users Reputations Systems           v1.0.0 ]
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
+                    if(!isset($username_sql))
+					$username_sql = '';
+					
                     $sql = "UPDATE " . USERS_TABLE . "
-                                SET " . $username_sql = $username_sql ?? '' . $passwd_sql . "user_email = '" . str_replace("\'", "''", (string) $email) . "', 
+                                SET " . $username_sql . $passwd_sql . "user_email = '" . str_replace("\'", "''", (string) $email) . "', 
 								user_reputation = '" . str_replace("\'", "''", (string) $reputation) . "', 
-								user_birthday = $user_birthday, 
-								user_birthday2 = $user_birthday2, 
-								birthday_display = $birthday_display, 
-								birthday_greeting = $birthday_greeting, 
+								user_birthday = '".$user_birthday."', 
+								user_birthday2 = '".$user_birthday2."', 
+								birthday_display = '".$birthday_display."', 
+								birthday_greeting = '".$birthday_greeting."', 
 								user_website = '" . str_replace("\'", "''", (string) $website) . "', 
 								user_occ = '" . str_replace("\'", "''", (string) $occupation) . "', 
 								user_from = '" . str_replace("\'", "''", (string) $location) . "', 
-								user_from_flag = '$user_flag', 
+								user_from_flag = '".$user_flag."', 
 								user_interests = '" . str_replace("\'", "''", (string) $interests) . "', 
 								user_glance_show = '" . str_replace("\'", "''", (string) $glance_show) . "', 
 								user_sig = '" . str_replace("\'", "''", (string) $signature) . "', 
 								user_admin_notes = '" . str_replace("\'", "''", (string) $user_admin_notes) . "', 
-								user_viewemail = $viewemail, 
+								user_viewemail = '".$viewemail."', 
 								user_facebook = '" . str_replace("\'", "''", (string) $facebook) . "', 
-								user_attachsig = '$attachsig', 
-								user_sig_bbcode_uid = '".$signature_bbcode_uid = $signature_bbcode_uid ?? ''."', 
-								user_allowsmile = '$allowsmilies', 
-								user_showavatars = '$showavatars', 
-								user_showsignatures = '$showsignatures', 
-								user_allowhtml = '$allowhtml', 
-								user_allowavatar = '$user_allowavatar', 
-								user_allowbbcode = '$allowbbcode', 
-								user_allow_viewonline = '$allowviewonline', 
-								user_notify = '$notifyreply', 
-								user_allow_pm = '$user_allowpm', 
-								user_notify_pm = '$notifypm', 
-								user_popup_pm = '$popuppm', 
-								user_wordwrap = '$user_wordwrap', 
+								user_attachsig = '".$attachsig."', 
+								user_sig_bbcode_uid = '".$signature_bbcode_uid."', 
+								user_allowsmile = '".$allowsmilies."', 
+								user_showavatars = '".$showavatars."', 
+								user_showsignatures = '".$showsignatures."', 
+								user_allowhtml = '".$allowhtml."', 
+								user_allowavatar = '".$user_allowavatar."', 
+								user_allowbbcode = '".$allowbbcode."', 
+								user_allow_viewonline = '".$allowviewonline."', 
+								user_notify = '".$notifyreply."', 
+								user_allow_pm = '".$user_allowpm."', 
+								user_notify_pm = '".$notifypm."', 
+								user_popup_pm = '".$popuppm."', 
+								user_wordwrap = '".$user_wordwrap."', 
 								user_lang = '" . str_replace("\'", "''", (string) $user_lang) . "', 
-								theme = '$user_style', 
-								user_timezone = '$user_timezone', 
-								user_time_mode = '$time_mode', 
-								user_dst_time_lag = '$dst_time_lag', 
+								theme = '".$user_style."', 
+								user_timezone = '".$user_timezone."', 
+								user_time_mode = '".$time_mode."', 
+								user_dst_time_lag = '".$dst_time_lag."', 
 								user_dateformat = '" . str_replace("\'", "''", (string) $user_dateformat) . "', 
-								user_show_quickreply = '$user_show_quickreply', 
-								user_quickreply_mode = '$user_quickreply_mode', 
-								user_open_quickreply = $user_open_quickreply, 
-								user_active = '$user_status', 
-								user_hide_images = '$hide_images', 
-								user_rank = '$user_rank', 
-								user_rank2 = '$user_rank2', 
-								user_rank3 = '$user_rank3', 
-								user_rank4 = '$user_rank4', 
-								user_rank5 = '$user_rank5', 
-								user_gender = '$gender', 
-								user_posts='$user_posts'" . $avatar_sql . "
+								user_show_quickreply = '".$user_show_quickreply."', 
+								user_quickreply_mode = '".$user_quickreply_mode."', 
+								user_open_quickreply = '".$user_open_quickreply."', 
+								user_active = '".$user_status."', 
+								user_hide_images = '".$hide_images."', 
+								user_rank =  '".$user_rank."', 
+								user_rank2 = '".$user_rank2."', 
+								user_rank3 = '".$user_rank3."', 
+								user_rank4 = '".$user_rank4."', 
+								user_rank5 = '".$user_rank5."', 
+								user_gender = '".$gender."', 
+								user_posts  = '".$user_posts.$avatar_sql."'
                                 
-								WHERE user_id = '$user_id'";
+								WHERE user_id = '".$user_id."'";
 /*****[END]********************************************
  [ Mod:    Birthdays                           v3.0.0 ]
  [ Mod:    Gender                              v1.2.6 ]
@@ -1058,6 +1068,8 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
  [ Mod:    Users Reputations Systems           v1.0.0 ]
  [ Mod:    Admin User Notes                    v1.0.0 ]
  ******************************************************/
+                    $xdata = [];
+					
                     if( $result = $db->sql_query($sql) )
                     {
                             if( isset($rename_user) )
@@ -1578,7 +1590,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
 /*****[BEGIN]******************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
-						$s_hidden_fields .= '<input type="hidden" name="user_rank" value="' . $user_rank . '" />';
+						$s_hidden_fields .= '<input type="hidden" name="user_rank"  value="' . $user_rank  . '" />';
 						$s_hidden_fields .= '<input type="hidden" name="user_rank2" value="' . $user_rank2 . '" />';
 						$s_hidden_fields .= '<input type="hidden" name="user_rank3" value="' . $user_rank3 . '" />';
 						$s_hidden_fields .= '<input type="hidden" name="user_rank4" value="' . $user_rank4 . '" />';
@@ -1587,7 +1599,17 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
  ******************************************************/
 
-                        $template->assign_vars(["L_USER_TITLE" => $lang['User_admin'], "L_USER_EXPLAIN" => $lang['User_admin_explain'], "L_AVATAR_GALLERY" => $lang['Avatar_gallery'], "L_SELECT_AVATAR" => $lang['Select_avatar'], "L_RETURN_PROFILE" => $lang['Return_profile'], "L_CATEGORY" => $lang['Select_category'], "L_GO" => $lang['Go'], "S_OPTIONS_CATEGORIES" => $s_categories, "S_COLSPAN" => $s_colspan, "S_PROFILE_ACTION" => append_sid("admin_users.$phpEx?mode=$mode"), "S_HIDDEN_FIELDS" => $s_hidden_fields]
+                        $template->assign_vars(["L_USER_TITLE" => $lang['User_admin'], 
+						                        "L_USER_EXPLAIN" => $lang['User_admin_explain'], 
+												"L_AVATAR_GALLERY" => $lang['Avatar_gallery'], 
+												"L_SELECT_AVATAR" => $lang['Select_avatar'], 
+												"L_RETURN_PROFILE" => $lang['Return_profile'], 
+												"L_CATEGORY" => $lang['Select_category'], 
+												"L_GO" => $lang['Go'], 
+												"S_OPTIONS_CATEGORIES" => $s_categories, 
+												"S_COLSPAN" => $s_colspan, 
+												"S_PROFILE_ACTION" => append_sid("admin_users.$phpEx?mode=$mode"), 
+												"S_HIDDEN_FIELDS" => $s_hidden_fields]
                         );
                 }
         }
