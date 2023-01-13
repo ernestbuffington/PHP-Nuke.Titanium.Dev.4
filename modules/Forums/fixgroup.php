@@ -71,7 +71,7 @@ if (is_admin())
               
        }
 
-              if (!($row1['group_id'] != ''))
+              if (!isset($row1['group_id']) && $row1['group_id'] != '')
               {
                   
              $sql2 = "SELECT MAX(group_id) AS total

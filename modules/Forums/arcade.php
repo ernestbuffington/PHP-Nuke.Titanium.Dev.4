@@ -307,7 +307,16 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
       $nbjeux = ( $nbjeux < $games_par_categorie ) ? $nbjeux : $games_par_categorie;
 
       for($i = 0; $i < $nbjeux; $i++ ):
+        
+		if(!isset($liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'username' ]))
+		$liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'username' ] = 'Nobody';
 
+		if(!isset($liste_jeux[$row['arcade_catid']][$i]['game_name']))
+		$liste_jeux[$row['arcade_catid']][$i]['game_name'] = 'No Game Name';
+
+		if(!isset($liste_jeux[ $row['arcade_catid']][$i]['game_id']))
+		$liste_jeux[ $row['arcade_catid']][$i]['game_id'] = '0';
+		
         $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'username' ] = UsernameColor( $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'username' ] );
 
 	    if(empty($liste_jeux[$row['arcade_catid']][$i]['game_desc']))
@@ -319,7 +328,28 @@ if(($arcade_catid == 0 ) && ($arcade_config['use_category_mod'])):
 	    if(!isset($liste_jeux[$row['arcade_catid']][$i]['score_game']))
         $liste_jeux[$row['arcade_catid']][$i]['score_game'] = 0;
 
-        # arcade full listing with all categories
+	    if(!isset($liste_jeux[$row['arcade_catid'] ][ $i ]['game_width' ]))
+        $liste_jeux[$row['arcade_catid'] ][ $i ]['game_width' ] = '550';
+
+	    if(!isset($liste_jeux[$row['arcade_catid'] ][ $i ]['game_height']))
+        $liste_jeux[$row['arcade_catid'] ][ $i ]['game_height'] = '380';
+
+	    if(!isset($liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_pic' ]))
+        $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_pic' ] = '';
+
+        if(!isset($liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_set' ]))
+        $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_set' ] = 0;
+        
+        if(!isset($liste_jeux[$row['arcade_catid']][$i]['game_highuser']))
+		$liste_jeux[$row['arcade_catid']][$i]['game_highuser'] = 0;
+		
+        if(!isset($liste_jeux[$row['arcade_catid']][$i]['game_highdate']))
+		$liste_jeux[$row['arcade_catid']][$i]['game_highdate'] = '';
+		
+        if(!isset($liste_jeux[ $row['arcade_catid']][$i]['score_date']))
+		$liste_jeux[ $row['arcade_catid']][$i]['score_date'] = '';
+
+		# arcade full listing with all categories
         $template->assign_block_vars( 'cat_row.game_row', array(
           
 		  'GAMENAME' => $liste_jeux[ $row[ 'arcade_catid' ] ][ $i ][ 'game_name' ],

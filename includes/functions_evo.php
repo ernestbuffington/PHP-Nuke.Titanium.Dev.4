@@ -324,7 +324,9 @@ function load_evoconfig()
         while(list($word, $replacement) = $db->sql_fetchrow($resultwords)) {
             $wordrow[$word] = $replacement;
         }
-        $evoconfig['censor_words'] = $wordrow;
+        
+		if(isset($wordrow))
+		$evoconfig['censor_words'] = $wordrow;
 
         $cache->save('evoconfig', 'config', $evoconfig);
         $db->sql_freeresult($result);

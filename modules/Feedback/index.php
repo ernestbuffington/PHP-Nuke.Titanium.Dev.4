@@ -52,7 +52,7 @@ OpenTable();
 
 echo '<div class="nuketitle acenter">'.sprintf($lang_new[the_module()]['title'], $sitename).'</div><br /><br />';
 
-if ( $_POST['action'] == 'submit' ):
+if (isset($_POST['action']) && $_POST['action'] == 'submit' ):
 
 	# Throw an error, If the user fails the reCaptcha.
 	if (!security_code_check($_POST['g-recaptcha-response'], array(0,1,2,3,4,5,6,7))):
@@ -125,6 +125,9 @@ if ( $_POST['action'] == 'submit' ):
 endif;
 
 echo '<div>'.$lang_new[$module_name]['note'].'</div><br />';
+
+if(!isset($_POST['message']))
+$_POST['message'] = '';
 
 echo '<form action="modules.php?name='.$module_name.'" method="post" name="feedback">';
 echo '<input type="hidden" name="action" value="submit">';

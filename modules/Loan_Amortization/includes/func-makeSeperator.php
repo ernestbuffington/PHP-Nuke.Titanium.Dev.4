@@ -17,6 +17,8 @@
  *************************************************************************/ 
 function makeSeperator($myChar, $numMultiple)
 {
+   $sep = '';
+   $seperator = '';
    // create a 5 char line
    for ($i = 0; $i < 5; $i++)
    {

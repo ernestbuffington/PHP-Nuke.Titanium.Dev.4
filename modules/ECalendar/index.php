@@ -17,7 +17,15 @@ global $prefix, $db;
 title($sitename.' '.'eCalendar');
 OpenTable();
 
-   
+$month = '';
+$year = '';
+
+if(!isset($_GET['month']))
+$_GET['month'] = '';
+
+if(!isset($_GET['year']))
+$_GET['year'] = '';
+
 $month = (int) ($_GET['month'] ? $_GET['month'] : date('m'));
 $year = (int)  ($_GET['year'] ? $_GET['year'] : date('Y'));
 
@@ -89,7 +97,7 @@ $lcontrol = '<span style="float:left; font-size:11px;"><a href="modules.php?name
 				$et .='&nbsp;<span style="font-size: smaller; color:#FF0000;">'._DATEPAT.'</span></td></tr>' . PHP_EOL;
 				$et .='<tr><td style="width:75px;"><strong>'._REOCCURRING.':</strong></td><td style="width:300px;">'.$treocc.'</td></tr>' . PHP_EOL;
           		$et .='</table>' . PHP_EOL;
-				$x++;
+				//$x++; < what the fuck was this X for???
       	    }
 			$et .='-----------------------------------------------------' . PHP_EOL;
 		  $et .='</div></div>' . PHP_EOL;

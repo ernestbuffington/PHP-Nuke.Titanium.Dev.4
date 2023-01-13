@@ -85,7 +85,7 @@ if (!empty($topicimage))
 			$content .= $thetext.$notes;
 	}
 
-$posted .= '<strong>Posted by '.get_author($aid).' '.$datetime.'</strong>';
+$posted = '<strong>Posted by '.get_author($aid).' '.$datetime.'</strong>';
 $reads = '(<span style="color: '.$digits_txt_color.';"> Reads :</span> <span style="color: '.$digits_color.';"><strong>'.$counter.'</strong></span> )';
 
 print '<table class=blockz cellSpacing="0" cellPadding="0" border="0" width="100%">'."\n";

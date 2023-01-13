@@ -23,7 +23,12 @@ include (TITANIUM_MODULES_DIR.$module_name.'/includes/func-makeSeperator.php');
 include (TITANIUM_MODULES_DIR.$module_name.'/includes/func-padMe.php');
 include (TITANIUM_MODULES_DIR.$module_name.'/includes/objLoan.php');  
 
+$ins = [];
+
 $ins =& $_POST;
+
+$PHP_SELF = $PHP_SELF ?? '';
+$ins['step'] = $ins['step'] ?? '';
 
 switch($ins['step'])
 {
@@ -61,9 +66,9 @@ switch($ins['step'])
    // OPEN TABLE FOR USER INPUT 
    echo "<div align=\"center\"><table bgcolor=\"FFFFCC\" width=\"70%\" height=\"500\" border=\"4\" cellpadding=\"4\" cellspacing=\"4\" bordercolor=\"#FF8080\">";
  
-   $temp1 = $ins['principle'];
-   $temp2 = $ins['interest'];
-   $temp3 = $ins['term'];
+   $temp1 = $ins['principle'] = $ins['principle'] ?? '';
+   $temp2 = $ins['interest'] = $ins['interest'] ?? '';
+   $temp3 = $ins['term'] = $ins['term'] ?? '';
 
 echo '<style>'; 
 echo '.scottybcoder';
@@ -123,7 +128,7 @@ echo '</style>';
    echo "</table></div>";
    // CLOSE TABLE FOR USER INPUT
 
-   echo "</td></tr></table></fieldset></div>";
+   echo "</td></tr></table><div style=\"padding: 13px;\"></div></fieldset></div>";
    // CLOSE OPEN TABLE CASE 1
 
    global $domain, $name, $facebook_plugin_width;
@@ -326,7 +331,7 @@ echo '</style>';
 
    echo "</table></div></span>";
    // CLOSE TABLE LOAN PROGRAM
-   echo "</td></tr></table></fieldset></div>";
+   echo "</td></tr></table><div style=\"padding: 13px;\"></div></fieldset></div>";
    // CLOSE TABLE CASE 2
    echo '<br />';
    echo '<div align="center">Written by: Truman "ScottyBcoder" Buffington</div>';
@@ -423,7 +428,7 @@ echo '</style>';
 
    echo "</table></div>";
    // CLOSE TABLE MESSAGE AND BACK BUTTON 
-   echo "</td></tr></table></fieldset></div>";
+   echo "</td></tr></table><div style=\"padding: 13px;\"></div></fieldset></div>";
    // CLOSE TABLE THANK YOU MESSAGE PAGE
    echo '<br />';
    echo '<div align="center">Written by: Truman "ScottyBcoder" Buffington</div>';
@@ -609,7 +614,7 @@ echo '</style>';
    // CLOSE FORM 
    
    // CLOSE TABLE
-   echo "</td></tr></table></fieldset></div></div>";
+   echo "</td></tr></table><div style=\"padding: 13px;\"></div></fieldset></div></div>";
    echo '<br />';
    echo '<div align="center">Written by: Truman "ScottyBcoder" Buffington</div>';
    

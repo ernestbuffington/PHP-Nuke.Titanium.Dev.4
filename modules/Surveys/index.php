@@ -45,7 +45,7 @@ if(!isset($pollID)) {
     include_once(NUKE_BASE_DIR.'footer.php');
 } elseif(isset($forwarder)) {
     pollCollector($pollID, $voteID, $forwarder);
-} elseif($op == 'results' && $pollID > 0) {
+} elseif(isset($op) == 'results' && $pollID > 0) {
     include_once(NUKE_BASE_DIR.'header.php');
     OpenTable();
     echo "<center><span class=\"title\"><strong>"._CURRENTPOLLRESULTS."</strong></span></center>";
@@ -72,12 +72,12 @@ if(!isset($pollID)) {
     echo "<a href=\"modules.php?name=$module_name\"><strong>"._MOREPOLLS."</strong></a>";
     CloseTable();
     echo "</td></tr></table>";
-    if ($pollcomm && $mode != "nocomments") {
+    if ($pollcomm && isset($mode) != "nocomments") {
         echo "<br /><br />";
         include(NUKE_MODULES_DIR.$module_name."/comments.php");
     }
     include_once(NUKE_BASE_DIR.'footer.php');
-} elseif($voteID > 0) {
+} elseif(isset($voteID) > 0) {
     pollCollector($pollID, $voteID);
 } elseif($pollID != pollLatest()) {
     include_once(NUKE_BASE_DIR.'header.php');
@@ -260,7 +260,7 @@ function pollResults($pollID) {
     echo "<strong>"._TOTALVOTES." $sum</strong><br />";
     echo "<br /><br />";
     $article = "";
-    if ($holdtitle[3] > 0) { $article = "<br /><br />"._GOBACK; }
+    if (isset($holdtitle[3]) && $holdtitle[3] > 0) { $article = "<br /><br />"._GOBACK; }
     echo "[ <a href=\"modules.php?name=$module_name&amp;pollID=$pollID\">"._VOTING."</a> | "
         ."<a href=\"modules.php?name=$module_name\">"._OTHERPOLLS."</a> ] $article </span></center>";
     if (is_mod_admin($module_name)) {

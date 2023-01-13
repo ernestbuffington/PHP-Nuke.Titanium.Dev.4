@@ -12,10 +12,16 @@ function avatar_resize($avatar_url)
 {
     global $board_config;
     static $loaded_avatars;
-    if(!isset($loaded_avatars[$avatar_url])) {
+    
+	//$avatar_url = str_replace('.','',$avatar_url); # remove the dot from the end of the string if needed
+
+	if(!isset($loaded_avatars[$avatar_url])) 
+	{
         $loaded_avatars[$avatar_url] = array();
-        list($avatar_width, $avatar_height) = getimagesize($avatar_url);
-        if ($avatar_width > $board_config['avatar_max_width'] && $avatar_height <= $board_config['avatar_max_height']) {
+    
+	    list($avatar_width, $avatar_height) = getimagesize($avatar_url);
+	    
+		if ($avatar_width > $board_config['avatar_max_width'] && $avatar_height <= $board_config['avatar_max_height']) {
             $cons_width  = $board_config['avatar_max_width'];
             $cons_height = round((($board_config['avatar_max_width'] * $avatar_height) / $avatar_width), 0);
         }
@@ -33,8 +39,7 @@ function avatar_resize($avatar_url)
                 $cons_height = $board_config['avatar_max_height'];
             }
         }
-        // $loaded_avatars[$avatar_url] = '<img src="' . $avatar_url . '" width="' . $cons_width . '" height="' . $cons_height . '" alt="" border="0" />';
-        $loaded_avatars[$avatar_url] = $avatar_url;
+         $loaded_avatars[$avatar_url] = '<img src="' . $avatar_url . '" width="' . isset($cons_width) . '" height="' . isset($cons_height) . '" alt="" border="0" />';
     }
     return $loaded_avatars[$avatar_url];
 }

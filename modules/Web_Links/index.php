@@ -2,7 +2,7 @@
 /*======================================================================= 
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
-
+use function PHP81_BC\strftime;
 /************************************************************************/
 /* PHP-NUKE: Web Portal System                                          */
 /* ===========================                                          */
@@ -77,9 +77,18 @@ function weblinks_parentlink($parentid,$title)
     
 	$parentid = intval($parentid);
     $row = $db->sql_fetchrow($db->sql_query("SELECT `cid`, `title`, `parentid` FROM ".$prefix."_links_categories WHERE cid='$parentid'"));
-    $cid = intval($row['cid']);
-    $ptitle = stripslashes(check_html($row['title'], "nohtml"));
-    $pparentid = intval($row['parentid']);
+    
+	if(isset($row['cid']))
+	$cid = intval($row['cid']);
+    
+	if(isset($row['title']))
+	$ptitle = stripslashes((string) check_html($row['title'], "nohtml"));
+
+	if(isset($row['parentid']))
+	$pparentid = intval($row['parentid']);
+    else
+	$pparentid = 0;
+	
 	if (!empty($ptitle)) 
 	$title="<a href=modules.php?name=$module_name&amp;l_op=viewlink&amp;cid=$cid>$ptitle</a>/".$title;
 	if ($pparentid!=0) 
@@ -957,7 +966,7 @@ function viewlink($cid, $min, $orderby, $show)
     echo "<td><span class=\"option\"><strong><big><i class=\"bi bi-arrow-return-right\"></i></big></strong> <a href=\"modules.php?name=Web_Links&amp;l_op=viewlink&amp;cid=$cid2\"><strong>$title2</strong></a></span>";
     categorynewlinkgraphic($cid2);
     
-	if ($description2) 
+	if (isset($description2)) 
     echo "<span class=\"content\">$cdescription2</span><br />";
     else 
     echo "<br />";
@@ -1191,7 +1200,6 @@ function categorynewlinkgraphic($cat)
 	$time = $row['date'];
     
     echo "&nbsp;";
-    
     setlocale (LC_TIME, $locale);
     preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/", (string) $time, $datetime);
     $datetime = strftime(""._LINKSDATESTRING."", mktime(isset($datetime[4]),isset($datetime[5]),isset($datetime[6]),isset($datetime[2]),isset($datetime[3]),isset($datetime[1])));
