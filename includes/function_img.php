@@ -148,9 +148,9 @@ function img_make_tag($imgname, $mymodule_name, $mytitle='', $myborder=0, $mynam
 }
 
 /**
- * @horndonkle image cache v1.0
+ * @horndonkle image cache v1.1
  * @author Ernest Allen Buffington
- * @date 1/10/2023 2:21 am
+ * @date 1/13/2023 10:32 pm
  * @not to be confused with cornsponkle
  * @only search through the directory structure once!
  * @ToDo: width and height theme images should be static and pre-cached as well
@@ -162,7 +162,7 @@ function img($imgfile='', $mymodule='') {
 	$tmp_imgfile = explode('.', (string) $imgfile);
 	$cache_imgfile = $tmp_imgfile[0];
 	static $cached_image;
-	$horndonkle = md5($imgfile); //maybe I should call this HornDonkleCrypt (just kidding, you know I love ya Technocrat)
+	$horndonkle = md5($imgfile.$ThemeSel); //maybe I should call this HornDonkleCrypt (just kidding, you know I love ya Technocrat)
   if(!($cached_image = $cache->load($mymodule,'titanium_horndonkle_image_'. $horndonkle))):
 	if (file_exists(NUKE_THEMES_DIR . $ThemeSel . '/images/' . $mymodule . '/lang_' . $currentlang . '/' . $imgfile)):
 	  $cached_image[$ThemeSel][$currentlang][$cache_imgfile] = "themes/".$ThemeSel."/images/$mymodule/lang_".$currentlang."/$imgfile";
