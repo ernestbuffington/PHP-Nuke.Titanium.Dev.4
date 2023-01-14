@@ -206,9 +206,7 @@ switch($op):
         $db->sql_query("UPDATE ".$user_prefix."_users SET agreedtos='1' WHERE username='$username'");
         endif;
 		
-		if(!isset($redirect))
-		$redirect = 'modules.php?name=Your_Account';
-		
+		if(isset($redirect))
 		$forward = str_replace("redirect=", "", "$redirect");
         
 		if (preg_match("#privmsg#", $forward)): 
@@ -232,7 +230,7 @@ switch($op):
 		  AND !empty($setinfo['user_password']) 
 		  AND $setinfo['user_active'] >0 AND $setinfo['user_level'] >0): 
         
-          $dbpass     = $setinfo['user_password'];
+          $dbpass         = $setinfo['user_password'];
           $non_crypt_pass = $user_password;
           $old_crypt_pass = crypt($user_password,substr($dbpass,0,2));
           
