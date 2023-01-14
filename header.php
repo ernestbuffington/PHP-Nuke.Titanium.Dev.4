@@ -435,7 +435,7 @@ function online()
      * We now add resoultion to the visitor log! 10/07/2022 TheGhost
      * @since 4.0.3
      */
-     if ( $guest == 0 ):
+     if ($guest == 0 ):
      $db->sql_query("REPLACE INTO `".$prefix."_users_who_been` (`user_ID`, 
 	                                                           `username`, 
 											                 `last_visit`,
