@@ -1413,7 +1413,12 @@ else
             'user' => 'groupcp_user_body.tpl'
         ));
         //make_jumpbox('viewforum.' . $phpEx);
-        
+        if(!isset($s_pending_groups_opt))
+		$s_pending_groups_opt = '';
+
+        if(!isset($s_member_groups_opt))
+		$s_member_groups_opt = '';
+		
         if($s_pending_groups_opt != '' || $s_member_groups_opt != '') 
         $template->assign_block_vars('switch_groups_joined', array());
         
@@ -1440,8 +1445,8 @@ else
             'S_USERGROUP_ACTION' => append_sid("groupcp.$phpEx"),
             'S_HIDDEN_FIELDS' => $s_hidden_fields,
             'GROUP_LIST_SELECT' => $s_group_list,
-            'GROUP_PENDING_SELECT' => $s_pending_groups,
-            'GROUP_MEMBER_SELECT' => $s_member_groups
+            'GROUP_PENDING_SELECT' => $s_pending_groups = $s_pending_groups ?? '',
+            'GROUP_MEMBER_SELECT' => $s_member_groups = $s_member_groups ?? ''
         ));
         
         $template->pparse('user');

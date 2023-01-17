@@ -23,7 +23,7 @@ CarryMenu();
 blockedrangemenu();
 CloseMenu();
 CloseTable();
-echo '<br />'."\n";
+
 OpenTable();
 $getIPs = $db->sql_fetchrow($db->sql_query("SELECT * FROM `".$prefix."_nsnst_blocked_ranges` WHERE `ip_lo`='$ip_lo' AND `ip_hi`='$ip_hi' LIMIT 0,1"));
 //$getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);

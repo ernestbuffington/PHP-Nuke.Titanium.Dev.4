@@ -333,7 +333,7 @@ if (isset($_POST['order']))
 if (isset($_POST['evouserinfo_ec']) && is_int(intval($_POST['evouserinfo_ec']))) {
     global $db, $prefix, $cache, $evouserinfo_ec;
     $db->sql_query("UPDATE ".$prefix."_evolution SET evo_value='".$_POST['evouserinfo_ec']."' WHERE evo_field='evouserinfo_ec'");
-    $cache->delete('evoconfig', 'config');
+    $cache->delete('titanium_evoconfig', 'config');
     $cache->resync();
     $evouserinfo_ec = intval($_POST['evouserinfo_ec']);
 }

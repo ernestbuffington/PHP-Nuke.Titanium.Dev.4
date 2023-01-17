@@ -23,7 +23,7 @@ CarryMenu();
 configmenu();
 CloseMenu();
 CloseTable();
-echo '<br />'."\n";
+
 OpenTable();
 echo '<form action="'.$admin_file.'.php" method="post">'."\n";
 echo '<input type="hidden" name="xblocker_row[block_name]" value="admin" />'."\n";
@@ -101,7 +101,14 @@ for($i=0; $i < sizeof($templatelist); $i++) {
 }
 echo '</select></td></tr>'."\n";
 echo '<tr><td bgcolor="'.$bgcolor2.'">'.help_img(_AB_HELP_016).' '._AB_EMAILLOOKUP.':</td>'."\n";
-$mailtest = @mail();
+
+$hostname = gethostbyaddr($_SERVER['SERVER_ADDR']);
+$hostname = exec('hostname');
+$targetEmail = 'ernest.buffington@gmail.com';
+$subject = 'This is a Test e-mail from ADMIN Blocker Settings in PHP-Nuke Titanium v'.NUKE_TITANIUM.'!';
+$message = 'Sent From Server: '.$hostname.' This message was sent by NukeSentinel v2.6.0.9~!';
+$mailtest = mail($targetEmail, $subject, $message);
+
 if(!$mailtest AND !stristr($_SERVER['SERVER_SOFTWARE'], "PHP-CGI")) {
   $sel0 = $sel1 = $sel2 = $sel3 = "";
   if($blocker_row['email_lookup']==1) { $sel1 = ' selected="selected"'; }

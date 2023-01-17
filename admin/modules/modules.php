@@ -948,7 +948,7 @@ if(isset($_POST['collapse']) && is_int(intval($_POST['collapse'])))
    global $db, $prefix, $module_collapse, $cache;
    $db->sql_query('UPDATE `'.$prefix.'_evolution` SET `evo_value`="'.intval($_POST['collapse']).'" WHERE `evo_field`= "module_collapse"');
    $module_collapse = intval($_POST['collapse']);
-   $cache->delete('evoconfig');
+   $cache->delete('titanium_evoconfig');
    $cache->resync();
 }
 

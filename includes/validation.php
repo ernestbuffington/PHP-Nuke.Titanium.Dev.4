@@ -49,7 +49,11 @@ define('REGEXP_EMAIL', "!^".REGEXP_EMAIL_LOCAL_PART."\\x40".REGEXP_EMAIL_DOMAIN.
  $append = Anything you want to add to the error message ex. 'Thank you'
 */
 function Validate($item, $type, $where, $silent=0, $required=0, $high=0, $low=0, $type_lang='', $append='') {
-    if (file_exists('language/custom/lang-'.$currentlang.'.php')) {
+    
+	if(!isset($currentlang))
+	$currentlang = 'english';
+	
+	if (file_exists('language/custom/lang-'.$currentlang.'.php')) {
         include_once('language/custom/lang-'.$currentlang.'.php');
     } else {
         include_once('language/custom/lang-english.php');

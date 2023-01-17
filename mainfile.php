@@ -233,49 +233,22 @@ define('TITANIUM_DB_DIR', TITANIUM_INCLUDE_DIR . 'db/');
 define('TITANIUM_HREF_MODULES_DIR', $href_path . '/modules/'); 
 define('TITANIUM_MODULES_DIR', TITANIUM_BASE_DIR . 'modules/');
 define('TITANIUM_MODULES_IMAGE_DIR', $href_path . '/modules/');
-
-# Coppermine Directory
-define('TITANIUM_HREF_COPPERMINE_DIR', $href_path . '/modules/Coppermine/'); 
-define('TITANIUM_COPPERMINE_DIR', TITANIUM_BASE_DIR . 'modules/Coppermine/');
-define('TITANIUM_COPPERMINE_IMAGES_DIR', $href_path . '/modules/Coppermine/images/');
-
-# Coppermine Include Directory
-define('TITANIUM_HREF_COPPERMINE_INCLUDE_DIR', $href_path . '/modules/Coppermine/include/'); 
-define('TITANIUM_COPPERMINE_INCLUDE_DIR', TITANIUM_BASE_DIR . 'modules/Coppermine/include/');
-
-# Coppermine Java Script Directory
-define('TITANIUM_HREF_COPPERMINE_JS_DIR', $href_path . '/modules/Coppermine/js/'); 
-define('TITANIUM_COPPERMINE_JS_DIR', TITANIUM_BASE_DIR . 'modules/Coppermine/js/');
-
-# Coppermine Docs Directory
-define('TITANIUM_HREF_COPPERMINE_DOCS_DIR', $href_path . '/modules/Coppermine/docs/'); 
-define('TITANIUM_COPPERMINE_DOCS_DIR', TITANIUM_BASE_DIR . 'modules/Coppermine/docs/');
-
-# Coppermine Fonts Directory
-define('TITANIUM_HREF_COPPERMINE_FONTS_DIR', $href_path . '/modules/Coppermine/images/fonts/'); 
-define('TITANIUM_COPPERMINE_FONTS_DIR', TITANIUM_BASE_DIR . 'modules/Coppermine/images/fonts/');
-
 # BLOCKS Directory
 define('TITANIUM_BLOCKS_DIR', TITANIUM_BASE_DIR . 'blocks/');
-
 # IMAGES Directory
 define('TITANIUM_IMAGES_DIR', TITANIUM_BASE_DIR . '/images/');
 define('TITANIUM_IMAGES_BASE_DIR', $href_path . '/images/');
-
 # LANGUAGE Directory
 define('TITANIUM_LANGUAGE_DIR', TITANIUM_BASE_DIR . 'language/');
 define('TITANIUM_LANGUAGE_CUSTOM_DIR', TITANIUM_LANGUAGE_DIR . 'custom/');
-
 # STYLE Directory
 define('TITANIUM_THEMES_DIR', TITANIUM_BASE_DIR . 'themes/');
 define('TITANIUM_THEMES_IMAGE_DIR', $href_path . '/themes/');
 define('TITANIUM_THEMES_MAIN_DIR',  $href_path . '/themes/');
-
 # FORUMS Directory
 define('TITANIUM_FORUMS_DIR', TITANIUM_MODULES_DIR . 'Forums/');
 define('TITANIUM_FORUMS_ADMIN_DIR', TITANIUM_FORUMS_DIR . 'admin/');
 define('TITANIUM_FORUMS_ADMIN_HREF_DIR', $href_path . '/modules/Forums/admin/');
-
 # OTHER Directories
 define('TITANIUM_RSS_DIR', TITANIUM_INCLUDE_DIR . 'rss/');
 define('TITANIUM_STATS_DIR', TITANIUM_THEMES_DIR);
@@ -319,6 +292,8 @@ define('NUKE_ADMIN_MODULE_DIR', NUKE_ADMIN_DIR . 'modules/');
 define('NUKE_FORUMS_DIR', (defined("IN_ADMIN") ? './../' : 'modules/Forums/'));
 
 define('NUKE_CACHE_DIR', NUKE_INCLUDE_DIR . 'cache/');
+define('NUKE_CACHE_DELETE_DIR', NUKE_INCLUDE_DIR . 'cache');
+
 
 define('NUKE_CLASSES_DIR', NUKE_INCLUDE_DIR . 'classes/');
 
@@ -1333,6 +1308,7 @@ function filter_text($Message, $strip='') {
 }
 
 # actualTime function by ReOrGaNiSaTiOn
+# currently not being used anywhere as of 1/13/2023
 function actualTime() {
   $date = date('Y-m-d H:i:s');
   $actualTime_tempdate = formatTimestamp($date, $format='Y-m-d H:i:s');
@@ -1342,40 +1318,42 @@ function actualTime() {
 # formatTimestamp function by ReOrGaNiSaTiOn
 function formatTimestamp($time, $format='', $dateonly='') 
 {
-    global $datetime, $locale, $userdata, $board_config;
-
-    if(empty($format)): 
-        if(isset($userdata['user_dateformat']) && !empty($userdata['user_dateformat'])): 
-          $format = $userdata['user_dateformat'];
+    global $datetime, $locale, $userinfo, $board_config;
+  
+        if(isset($userinfo['user_dateformat']) && !empty($userinfo['user_dateformat'])): 
+          $format = $userinfo['user_dateformat'];
 		elseif (isset($board_config['default_dateformat']) && !empty($board_config['default_dateformat'])): 
           $format = $board_config['default_dateformat'];
 		else: 
           $format = 'D M d, Y g:i a';
 		endif;
-    endif;
 
 	if(!empty($dateonly)): 
       $replaces = ['a', 'A', 'B', 'c', 'D', 'g', 'G', 'h', 'H', 'i', 'I', 'O', 'r', 's', 'U', 'Z', ':'];
       $format = str_replace($replaces, '', (string) $format);
     endif;
 
-	if((isset($userdata['user_timezone']) && !empty($userdata['user_timezone'])) && $userdata['user_id'] != 1): 
-      $tz = $userdata['user_timezone'];
+	if((isset($userinfo['user_timezone']) && !empty($userinfo['user_timezone'])) && $userinfo['user_id'] > 1): 
+      $tz = $userinfo['user_timezone'];
 	elseif (isset($board_config['board_timezone']) && !empty($board_config['board_timezone'])): 
       $tz = $board_config['board_timezone'];
 	else: 
-      $tz = '10';
+     $tz = '10';
 	endif;
 
     setlocale(LC_TIME, $locale);
-	
+
 	if(!is_numeric($time)):
-      preg_match('/(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})/', (string) $time, $datetime);
-      $time = gmmktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
-    endif;
-
-	$datetime = FormatDate($format, $time, $tz);
-
+	  # https://stackoverflow.com/questions/5145133/preg-match-for-mysql-date-format
+	  $adate= date_create($time); //date format that you don't want
+      $mysqldate = $adate->format($format);//date format that you do want
+	  $datetime = $mysqldate;
+ 	  //preg_match('/(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})/', (string) $time, $datetime);
+      //$time = gmmktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]);
+	else:
+	  $datetime = FormatDate($format, $time, $tz);
+	endif;
+	//
 	return $datetime;
 }
 
@@ -1919,11 +1897,15 @@ function addJSToBody($content, $type='file')
 	if (($type == 'file') 
 	&& (is_array($bodyJS) 
 	&& count($bodyJS) > 0) 
-	&& (in_array(array($type, $content), $bodyJS))): 
+	//&& (in_array(array($type, $content), $bodyJS))):
+	&& (in_array([$type, $content], $bodyJS))): 
+ 
 	  return;
 	endif;
     
-	$bodyJS[] = array($type, $content);
+	//$bodyJS[] = array($type, $content);
+	$bodyJS[] = [$type, $content];
+
     
 	return;
 }
@@ -2006,20 +1988,27 @@ function writeBODYJS()
 
 function makePass() 
 {
+    $con = [];
+    $voc = [];	
+
     $cons = 'bcdfghjklmnpqrstvwxyz';
     $vocs = 'aeiou';
 
     for($x=0; $x < 6; $x++):
       //mt_srand ((double) microtime() * 1000000);
 	  mt_srand(0, MT_RAND_MT19937);
-      $con[$x] = substr($cons, mt_rand(0, strlen($cons)-1), 1);
-      $voc[$x] = substr($vocs, mt_rand(0, strlen($vocs)-1), 1);
+      //$con[$x] = substr($cons, mt_rand(0, strlen($cons)-1), 1);
+      //$voc[$x] = substr($vocs, mt_rand(0, strlen($vocs)-1), 1);
+      $con[$x] = substr($cons, random_int(0, strlen($cons)-1), 1);
+      $voc[$x] = substr($vocs, random_int(0, strlen($vocs)-1), 1);	  
     endfor;
 
     //mt_srand((double)microtime()*1000000);
 	mt_srand(0, MT_RAND_MT19937);
-    $num1 = mt_rand(0, 9);
-    $num2 = mt_rand(0, 9);
+    //$num1 = mt_rand(0, 9);
+    //$num2 = mt_rand(0, 9);
+    $num1 = random_int(0, 9);
+    $num2 = random_int(0, 9);	
     $makepass = $con[0] . $voc[0] .$con[2] . $num1 . $num2 . $con[3] . $voc[3] . $con[4];
 
     return $makepass;
@@ -2050,7 +2039,9 @@ function get_theme()
         $ThemeSel = $_REQUEST['tpreview'];
     
 	    if(!is_user()): 
-          setcookie('guest_theme', $ThemeSel, time()+84600);
+          //setcookie('guest_theme', $ThemeSel, time()+84600);
+          setcookie('guest_theme', (string) $ThemeSel, ['expires' => time()+84600]);
+
 		endif;
 
         return $ThemeSel;
@@ -2063,7 +2054,8 @@ function get_theme()
 	endif;
 
     #New feature to grab a backup theme if the one we are trying to use does not exist, no more missing theme errors :)
-    $ThemeSel = (ThemeAllowed($nTheme = (isset($cookie[9]) ? $cookie[9] : $Default_Theme))) ? $nTheme : ThemeBackup($nTheme);
+    //$ThemeSel = (ThemeAllowed($nTheme = (isset($cookie[9]) ? $cookie[9] : $Default_Theme))) ? $nTheme : ThemeBackup($nTheme);
+    $ThemeSel = (ThemeAllowed($nTheme = ($cookie[9] ?? $Default_Theme))) ? $nTheme : ThemeBackup($nTheme);
 
     return $ThemeSel;
 }
@@ -2075,13 +2067,19 @@ function get_theme()
 // Function to translate Datestrings
 function translate($phrase) 
 {
-	switch($phrase):
-      case'xdatestring': $tmp='%A, %B %d @ %T %Z'; break;
-      case'linksdatestring': $tmp='%d-%b-%Y'; break;
-      case'xdatestring2': $tmp='%A, %B %d'; break;
-      default: $tmp=$phrase; break;
-    endswitch;
-	
+	//switch($phrase):
+    //  case'xdatestring': $tmp='%A, %B %d @ %T %Z'; break;
+    //  case'linksdatestring': $tmp='%d-%b-%Y'; break;
+    //  case'xdatestring2': $tmp='%A, %B %d'; break;
+    //  default: $tmp=$phrase; break;
+    //endswitch;
+
+	$tmp = match ($phrase) {
+     'xdatestring' => '%A, %B %d @ %T %Z',
+     'linksdatestring' => '%d-%b-%Y',
+     'xdatestring2' => '%A, %B %d',
+     default => $phrase,
+ };	
     return $tmp;
 }
 
@@ -2092,7 +2090,9 @@ function removecrlf($str)
 
 function validate_mail($email) 
 {
-    if(strlen($email) < 7 || !preg_match('/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/', $email)): 
+    //if(strlen($email) < 7 || !preg_match('/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/', $email)):
+    if(strlen((string) $email) < 7 || !preg_match('/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/', (string) $email)): 
+ 
 	
         DisplayError(_ERRORINVEMAIL);
         return false;
@@ -2106,8 +2106,12 @@ function encode_mail($email)
 {
     $finished = '';
 
-    for($i=0, $j = strlen($email); $i<$j; ++$i):
-        $n = mt_rand(0, 1);
+  //for($i=0, $j = strlen($email); $i<$j; ++$i):
+  //      $n = mt_rand(0, 1);
+		
+    for($i=0, $j = strlen((string) $email); $i<$j; ++$i):
+        $n = random_int(0, 1);
+		
         $finished .= ($n) ? '&#x'.sprintf('%X',ord($email[$i])).';' : '&#'.ord($email[$i]).';';
     endfor;
 
@@ -2258,7 +2262,9 @@ function get_plus_minus_image ()
 	  endif;
 	endif;
 
-    $theme_folder = (!empty($theme)) ? ((defined(NUKE_THEMES_DIR)) ? NUKE_THEMES_DIR.$theme.'/images/' : dirname(__FILE__) . '/themes/'.$theme.'/images/') : '';
+    //$theme_folder = (!empty($theme)) ? ((defined(NUKE_THEMES_DIR)) ? NUKE_THEMES_DIR.$theme.'/images/' : dirname(__FILE__) . '/themes/'.$theme.'/images/') : '';
+    $theme_folder = (!empty($theme)) ? ((defined(NUKE_THEMES_DIR)) ? NUKE_THEMES_DIR.$theme.'/images/' : __DIR__ . '/themes/'.$theme.'/images/') : '';
+
     $image['plus'] = (file_exists($theme_folder.'plus.gif')) ? 'themes/'.$theme.'/images/plus.gif' : 'images/plus.gif';
     $image['minus'] = (file_exists($theme_folder.'minus.gif')) ? 'themes/'.$theme.'/images/minus.gif' : 'images/minus.gif';
 

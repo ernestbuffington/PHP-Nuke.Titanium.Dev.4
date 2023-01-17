@@ -92,7 +92,11 @@ $_SESSION['YA2'] = true;
     if (!$stop) {
         $datekey = date("F j");
         global $sitekey, $evoconfig;
-        $rcode = hexdec(md5($_SERVER['HTTP_USER_AGENT'] . $sitekey . $_POST['random_num'] . $datekey));
+		
+		if(!isset($_POST['random_num']))
+		$_POST['random_num'] = '';
+        
+		$rcode = hexdec(md5($_SERVER['HTTP_USER_AGENT'] . $sitekey . $_POST['random_num'] . $datekey));
         $code = substr($rcode, 2, $evoconfig['codesize']);
        $gfxchk = array(3,4,6,7);
         if (!security_code_check($_POST['g-recaptcha-response'], $gfxchk)) {

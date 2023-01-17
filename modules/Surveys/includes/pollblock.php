@@ -55,7 +55,7 @@ if ($db->sql_numrows($result) < 1) {
     $db->sql_freeresult($result);
     $pollTitle = stripslashes((string) $pollTitle);
     $url = "modules.php?name=Surveys&amp;op=results&amp;pollID=$pollID";
-    $sum = "";
+    //$sum = "";
     $button = "";
     $content = "<span class=\"content\"><strong>$pollTitle</strong></span><br /><br />\n";
     $content .= '<form action="modules.php?name=Surveys" method="post">';
@@ -65,6 +65,13 @@ if ($db->sql_numrows($result) < 1) {
     $past = time()-86400*$number_of_days;
     $result = $db->sql_query("SELECT ip FROM ".$prefix."_poll_check WHERE ip='$ip' AND pollID='$pollID'");
     $result2 = $db->sql_query("SELECT optionText, voteID, optionCount FROM ".$prefix."_poll_data WHERE pollID='$pollID' AND optionText!='' ORDER BY voteID");
+
+	if(!isset($sum))
+	$sum = 0;
+
+	if(!isset($percent))
+	$percent = 0;
+
     if ($db->sql_numrows($result) > 0) {
         while ($row = $db->sql_fetchrow($result2)) {
             $options[] = $row;
@@ -101,11 +108,14 @@ if ($db->sql_numrows($result) < 1) {
         $button = '';
     }
     else {
-        while ($row = $db->sql_fetchrow($result2)) {
+        
+		while ($row = $db->sql_fetchrow($result2)) 
+		{
             $content .= "<tr><td valign=\"top\"><input type=\"radio\" name=\"voteID\" value=\"".$row['voteID']."\"></td><td width=\"100%\"><span class=\"content\">".$row['optionText']."</span></td></tr>\n";
-            $sum += (int) $row['optionCount'];
+			$sum += (int) $row['optionCount'];
         }
-        $button .= '<input type="hidden" name="pollID" value="'.$pollID.'">';
+        
+		$button .= '<input type="hidden" name="pollID" value="'.$pollID.'">';
         $button .= '<input type="hidden" name="forwarder" value="'.$url.'">';
         $button .= '<input type="submit" value="'._VOTE.'"><br /><br />';
     }

@@ -130,17 +130,21 @@ else:
 endif;
 
 // Load Blocker Arrays
-//if(($blocker_array = $cache->load('blockers', 'sentinel')) === false):
+if(($blocker_array = $cache->load('titanium_blockers', 'sentinel')) === false):
 	$result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_blockers` ORDER BY `blocker`");
 	$num_rows = $db->sql_numrows($result);
 	for ($i = 0; $i < $num_rows; $i++):
 		$row = $db->sql_fetchrow($result);
+		if(!isset($row['block_name'])):
+		$row['block_name'] = '';
 		$blockernametemp = $row['block_name'];
 		$blocker_array[$blockernametemp] = $row;
+		endif;
+		
 	endfor;
 	$db->sql_freeresult($result);
-//	$cache->save('blockers', 'sentinel', $blocker_array);
-//endif;
+	$cache->save('titanium_blockers', 'sentinel', $blocker_array);
+endif;
 
 function string_bypass ($str) 
 {
@@ -308,8 +312,8 @@ $blockedrange_row = abget_blockedrange($nsnst_const['remote_ip']);
 if($blockedrange_row) blockedrange($blockedrange_row); 
 
 // AUTHOR Protection
-$blocker_row = $blocker_array['author'];
-if($blocker_row['activate'] > 0):
+$blocker_row = isset($blocker_array['author']);
+if(isset($blocker_row['activate']) && $blocker_row['activate'] > 0):
   if(isset($op)):
 	  if(($op=="mod_authors" OR $op=="modifyadmin" 
 	  OR $op=="UpdateAuthor" OR $op=="AddAuthor" 
@@ -321,6 +325,7 @@ if($blocker_row['activate'] > 0):
 endif;
 
 // ADMIN protection
+if(isset($blocker_array['admin'])):
 $blocker_row = $blocker_array['admin'];
 if($blocker_row['activate'] > 0):
   if(stristr($_SERVER['PHP_SELF'],$admin_file.".php") 
@@ -328,10 +333,11 @@ if($blocker_row['activate'] > 0):
   AND $op!="login" 
   AND $op!="adminMain" 
   AND $op!="gfx" 
-  AND isset($op)) AND !is_admin()) 
+  AND isset($op)) AND !is_admin()): 
 	block_ip($blocker_row);
+  endif;
+ endif;
 endif;
-
 // Check for UNION attack
 // Copyright 2004(c) Raven PHP Scripts
 /*****[BEGIN]******************************************
@@ -340,11 +346,16 @@ endif;
 function union_check($item) 
 {
 	global $blocker_array;
+	
+	$blocker_array = [];
+	
+	if(isset($blocker_array['union']))
 	$blocker_row = $blocker_array['union'];
 	
-	if($blocker_row['activate'] > 0):
-	  if (preg_match(REGEX_UNION, $item)) 
-	  block_ip($blocker_row);
+	if(isset($blocker_row['activate']) && $blocker_row['activate'] > 0):
+	  if (preg_match(REGEX_UNION, (string) $item)): 
+ 	  block_ip($blocker_row);
+	  endif;
 	  
 	endif;
 }
@@ -355,8 +366,10 @@ union_check($nsnst_const['request_string'].$nsnst_const['request_string_base64']
 
 // Check for CLIKE attack
 // Copyright 2004(c) Raven PHP Scripts
+if(isset($blocker_array['clike']))
 $blocker_row = $blocker_array['clike'];
-if($blocker_row['activate'] > 0):
+
+if(isset($blocker_row['activate']) && $blocker_row['activate'] > 0):
   if(stristr($nsnst_const['query_string'],'/*')
 	 OR stristr($nsnst_const['query_string_base64'],'/*')
 	 OR stristr($nsnst_const['query_string'],'*/')
@@ -365,8 +378,10 @@ if($blocker_row['activate'] > 0):
 endif;
 
 // Check Filters
+if(isset($blocker_array['filter']))
 $blocker_row = $blocker_array['filter'];
-if($blocker_row['activate'] > 0):
+
+if(isset($blocker_row['activate']) && $blocker_row['activate'] > 0):
   // Check for Forum attack
   // Copyright 2004(c) GanjaUK & ChatServ
   if (!stristr($nsnst_const['query_string'],'&file=nickpage') 
@@ -409,8 +424,10 @@ if($blocker_row['activate'] > 0):
 endif;
 
 // Check for Referer
+if(isset($blocker_array['referer']))
 $blocker_row = $blocker_array['referer'];
-if($blocker_row['activate'] > 0):
+
+if(isset($blocker_row['activate']) && $blocker_row['activate'] > 0):
   $referer_request = '/'.$_SERVER['REQUEST_METHOD'].$_SERVER['REQUEST_URI'];
   if($blocker_row['list'] > ""):
 	$RefererList = explode("\r\n",$blocker_row['list']);
@@ -423,8 +440,10 @@ if($blocker_row['activate'] > 0):
 endif;
 
 // Check for Harvester
+if(isset($blocker_array['harvester']))
 $blocker_row = $blocker_array['harvester'];
-if($blocker_row['activate'] > 0):
+
+if(isset($blocker_row['activate']) && $blocker_row['activate'] > 0):
   if($blocker_row['list'] > ""):
 	$HarvestList = explode("\r\n",$blocker_row['list']);
 	for ($i=0; $i < count($HarvestList); $i++):
@@ -436,8 +455,10 @@ if($blocker_row['activate'] > 0):
 endif;
 
 // Check for Strings
+if(isset($blocker_array['string']))
 $blocker_row = $blocker_array['string'];
-if($blocker_row['activate'] > 0):
+
+if(isset($blocker_row['activate']) && $blocker_row['activate'] > 0):
   if($ab_config['list_string'] > ""):
 	$StringList = explode("\r\n", $ab_config['list_string']);
 	for ($i=0; $i < count($StringList); $i++):
@@ -451,8 +472,10 @@ if($blocker_row['activate'] > 0):
 endif;
 
 // Check for Request
+if(isset($blocker_array['request']))
 $blocker_row = $blocker_array['request'];
-if($blocker_row['activate'] > 0):
+
+if(isset($blocker_row['activate']) && $blocker_row['activate'] > 0):
   if($blocker_row['list'] > ""):
 	$RequestList = explode("\r\n",$blocker_row['list']);
 	for ($i=0; $i < count($RequestList); $i++):
@@ -1081,19 +1104,21 @@ function get_remote_addr ()
 function clear_session()
 {
   global $prefix, $db, $nsnst_const;
-  // Clear nuke_session location
+  // Clear location
   $x_forwarded = $nsnst_const['forward_ip'];
   $client_ip = $nsnst_const['client_ip'];
   $remote_addr = $nsnst_const['remote_addr'];
   $db->sql_query("DELETE FROM `".$prefix."_session` WHERE `host_addr`='$x_forwarded' OR `host_addr`='$client_ip' OR `host_addr`='$remote_addr'");
-  // Clear nuke_bbsessions location
-  $x_f = explode(".", $x_forwarded);
-  $x_forwarded = str_pad(dechex($x_f[0]), 2, "0", STR_PAD_LEFT).str_pad(dechex($x_f[1]), 2, "0", STR_PAD_LEFT).str_pad(dechex($x_f[2]), 2, "0", STR_PAD_LEFT).str_pad(dechex($x_f[3]), 2, "0", STR_PAD_LEFT);
-  $c_p = explode(".", $client_ip);
-  $client_ip = str_pad(dechex($c_p[0]), 2, "0", STR_PAD_LEFT).str_pad(dechex($c_p[1]), 2, "0", STR_PAD_LEFT).str_pad(dechex($c_p[2]), 2, "0", STR_PAD_LEFT).str_pad(dechex($c_p[3]), 2, "0", STR_PAD_LEFT);
-  $r_a = explode(".", $remote_addr);
-  $remote_addr = str_pad(dechex($r_a[0]), 2, "0", STR_PAD_LEFT).str_pad(dechex($r_a[1]), 2, "0", STR_PAD_LEFT).str_pad(dechex($r_a[2]), 2, "0", STR_PAD_LEFT).str_pad(dechex($r_a[3]), 2, "0", STR_PAD_LEFT);
+  // Clear sessions location
+  if(!isset($x_forwarded)):
+  $x_f = explode(".", (string) $x_forwarded);
+  $x_forwarded = str_pad(dechex((int)$x_f[0]), 2, "0", STR_PAD_LEFT).str_pad(dechex((int)$x_f[1]), 2, "0", STR_PAD_LEFT).str_pad(dechex((int)$x_f[2]), 2, "0", STR_PAD_LEFT).str_pad(dechex((int)$x_f[3]), 2, "0", STR_PAD_LEFT);
+  $c_p = explode(".", (string) $client_ip);
+  $client_ip = str_pad(dechex((int)$c_p[0]), 2, "0", STR_PAD_LEFT).str_pad(dechex((int)$c_p[1]), 2, "0", STR_PAD_LEFT).str_pad(dechex((int)$c_p[2]), 2, "0", STR_PAD_LEFT).str_pad(dechex((int)$c_p[3]), 2, "0", STR_PAD_LEFT);
+  $r_a = explode(".", (string) $remote_addr);
+  $remote_addr = str_pad(dechex($r_a[0]), 2, "0", STR_PAD_LEFT).str_pad(dechex((int)$r_a[1]), 2, "0", STR_PAD_LEFT).str_pad(dechex((int)$r_a[2]), 2, "0", STR_PAD_LEFT).str_pad(dechex((int)$r_a[3]), 2, "0", STR_PAD_LEFT);
   $db->sql_query("DELETE FROM `".$prefix."_bbsessions` WHERE `session_ip`='$x_forwarded' OR `session_ip`='$client_ip' OR `session_ip`='$remote_addr'");
+  endif;
 }
 
 function is_excluded($rangeip)
@@ -1133,8 +1158,17 @@ function abget_blocked($remoteip)
 {
   global $prefix, $db;
   static $blocked_row;
-  if(isset($blocked_row)) { return $blocked_row; }
-  $ip = explode(".", $remoteip);
+  
+  $ip = [];
+  
+  if(isset($blocked_row)) 
+  { 
+    return $blocked_row; 
+  }
+
+  if(isset($remoteip)):
+
+  $ip = explode('.', is_string($remoteip));
   $ip[0] = (isset($ip[0])) ? intval($ip[0]) : '';
   $ip[1] = (isset($ip[1])) ? intval($ip[1]) : '';
   $ip[2] = (isset($ip[2])) ? intval($ip[2]) : '';
@@ -1147,6 +1181,8 @@ function abget_blocked($remoteip)
   $blocked_row = $db->sql_fetchrow($blocked_result);
   $db->sql_freeresult($blocked_result);
   return $blocked_row;
+  
+  endif;
 }
 
 function abget_blockedrange($remoteip)
@@ -1166,6 +1202,10 @@ function abget_blocker($blocker_name)
 {
 	global $prefix, $db, $cache;
 	if(($blocker_array = $cache->load('blockers', 'sentinel')) === false):
+	    $blocker_array = [];
+		$result = [];
+		$num_rows = [];
+		$row = [];
 		$result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_blockers` ORDER BY `blocker`");
 		$num_rows = $db->sql_numrows($result);
 		for ($i = 0; $i < $num_rows; $i++):
@@ -1216,31 +1256,29 @@ function abget_config($config_name)
   return $abget_config;
 }
 
-function abget_configs()
-{
+function abget_configs(){
+  
   global $prefix, $db, $cache;
   static $sentinel;
   if(isset($sentinel)) return $sentinel;
-/*****[BEGIN]******************************************
- [ Base:    Caching System                     v3.0.0 ]
- ******************************************************/
-  //if(($sentinel = $cache->load('sentinel', 'config')) === false):
-/*****[END]********************************************
- [ Base:    Caching System                     v3.0.0 ]
- ******************************************************/
+  
+  if(!($sentinel = $cache->load('titanium_sentinel', 'config'))) {
+	  
+	  # Deprecated: Automatic conversion of false to array is deprecated Fix Start
+	  $sentinel = [];
+      $configresult = [];
+	  # Deprecated: Automatic conversion of false to array is deprecated Fix End
+
 	  $configresult = $db->sql_query("SELECT `config_name`, `config_value` FROM `".$prefix."_nsnst_config`");
-	  while (list($config_name, $config_value) = $db->sql_fetchrow($configresult)):
+	  
+	  while (list($config_name, $config_value) = $db->sql_fetchrow($configresult)) {
 		$sentinel[$config_name] = $config_value;
-	  endwhile;
+	    echo $config_name.': '.$sentinel[$config_name].'</br>';
+	  }
 	  $db->sql_freeresult($configresult);
-/*****[BEGIN]******************************************
- [ Base:    Caching System                     v3.0.0 ]
- ******************************************************/
-	//  $cache->save('sentinel', 'config', $sentinel);
-/*****[END]********************************************
- [ Base:    Caching System                     v3.0.0 ]
- ******************************************************/
-  //endif;
+	  //var_dump($sentinel);
+	  $cache->save('titanium_sentinel', 'config', $sentinel);
+  }
   return $sentinel;
 }
 
@@ -1528,6 +1566,9 @@ function abget_template($template="")
   $display_page = fread($handle, filesize($filename));
   fclose($handle);
 
+   if(!isset($abmatch))
+   $abmatch = '';
+   
   $display_page = str_replace("__MATCH__", $abmatch, $display_page);
   $display_page = str_replace("__SITENAME__", $sitename, $display_page);
   $display_page = str_replace("__ADMINMAIL1__", $adminmail, $display_page);
@@ -1577,7 +1618,7 @@ function blocked($blocked_row="", $blocker_row="")
 	$display_page = abget_template($blocker_row['template']);
 	$display_page = str_replace("__TIMEDATE__", date("Y-m-d \@ H:i:s T \G\M\T O", $blocked_row['date']), $display_page);
 	
-	if($blocked_row['expires']>0) 
+	if(isset($blocked_row['expires']) && $blocked_row['expires'] > 0) 
 	  $display_page = str_replace("__DATEEXPIRES__", date("Y-m-d \@ H:i:s T \G\M\T O", $blocked_row['expires']), $display_page);
 	elseif(isset($blocked_row['expires'])) 
 	  $display_page = str_replace("__DATEEXPIRES__", _AB_PERMENANT, $display_page);

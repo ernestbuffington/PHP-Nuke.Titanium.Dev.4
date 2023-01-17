@@ -111,7 +111,7 @@ function select_gallery($name='default', $gallery='', $img_show = FALSE, $select
 // not currently used anywhere
 // help_img function by ReOrGaNiSaTiOn
 // based on various codefragments from Internet
-function help_img($helptext) 
+function help_img_old($helptext) 
 {
     global $bgcolor1, $bgcolor2, $textcolor1, $textcolor2;
     return "<a href=\"javascript:void(0);\" onclick=\"return overlib('".addslashes($helptext)."', STICKY, CAPTION, 'Help System', STATUS, 'Help System', WIDTH, 400, FGCOLOR, '".$bgcolor1."', BGCOLOR, '".$bgcolor2."', TEXTCOLOR, '".$textcolor1."', CAPCOLOR, '".$textcolor2."', CLOSECOLOR, '".$textcolor2."', CAPICON, 'images/evo/helpicon.png', BORDER, '2');\"><img src='images/evo/helpicon.png' border='0' height='12' width='12' alt='' title='' /></a>";

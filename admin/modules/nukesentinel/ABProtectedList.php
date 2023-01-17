@@ -23,13 +23,16 @@ CarryMenu();
 protectedmenu();
 CloseMenu();
 CloseTable();
-echo '<br />'."\n";
+
 OpenTable();
 $perpage = $ab_config['block_perpage'];
 if($perpage == 0) { $perpage = 25; }
 if(!isset($min)) $min=0;
 if(!isset($max)) $max=$min+$perpage;
-if(!$column or $column=="") $column = "ip_lo";
+
+if(!isset($column) or $column=="") 
+$column = "ip_lo";
+
 if(!isset($direction) or !$direction or $direction=="") $direction = "asc";
 $totalselected = $db->sql_numrows($db->sql_query("SELECT * FROM `".$prefix."_nsnst_protected_ranges`"));
 if($totalselected > 0) {

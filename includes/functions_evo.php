@@ -303,8 +303,9 @@ function load_evoconfig()
     // mainfile.php is only loaded once. So static makes no sense
     //static $evoconfig;
     //if(isset($evoconfig) && is_array($evoconfig)) { return $evoconfig; }
-    if ((($evoconfig = $cache->load('evoconfig', 'config')) === false) || empty($evoconfig)) {
+    if ((($evoconfig = $cache->load('titanium_evoconfig', 'config')) === false) || empty($evoconfig)) {
         $evoconfig = array();
+		$wordrow = array();
         $result = $db->sql_query('SELECT `evo_field`, `evo_value` FROM '._EVOCONFIG_TABLE.' WHERE `evo_field` != "cache_data"');
         while(list($evo_field, $evo_value) = $db->sql_fetchrow($result)) {
             if($evo_field != 'cache_data') {
@@ -325,16 +326,13 @@ function load_evoconfig()
             $wordrow[$word] = $replacement;
         }
         
-		if(isset($wordrow))
-		$evoconfig['censor_words'] = $wordrow;
-
-        $cache->save('evoconfig', 'config', $evoconfig);
+        $cache->save('titanium_evoconfig', 'config', $evoconfig);
         $db->sql_freeresult($result);
     }
     if(is_array($evoconfig)) {
         return $evoconfig;
     } else {
-        $cache->delete('evoconfig', 'config');
+        $cache->delete('titanium_evoconfig', 'config');
         $debugger->handle_error('There is an error in your evoconfig data', 'Error');
         return array();
     }
@@ -1157,9 +1155,6 @@ function evo_mail($to, $subject, $content, $header='', $params='', $batch=false)
 {
     global $board_config, $nukeconfig, $cache;
 	
-	// Include the swift class
-    require_once(NUKE_INCLUDE_DIR.'mail/swift_required.php');
-
     if (empty($to)) return false;
 	
 	// Set the from email
@@ -1178,11 +1173,14 @@ function evo_mail($to, $subject, $content, $header='', $params='', $batch=false)
     $content = str_replace("\n", "<br />", $content);
 	
 	// Set the message vars
-	$message = Swift_Message::newInstance()
+	$message = (new Swift_Message())
 		->setSubject($subject)
 		->setFrom($from)
 		->setTo($to)
-		->setBody($content, 'text/html');
+		->setBody($content)
+		->addPart($content, 'text/html') # Without this line gmail will not process <br> etc.
+		//->attach(Swift_Attachment::fromPath('my-document.pdf')) # if we wanted to sebd along a file with rules for whatever etc.
+		;
 	
 	// SMTP mail
 	if (isset($board_config['smtp_delivery']) && $board_config['smtp_delivery'] == '1'){
@@ -1198,24 +1196,22 @@ function evo_mail($to, $subject, $content, $header='', $params='', $batch=false)
 				$smtp['port'] = 25;
 			}
 			
-			$smtp = Swift_SmtpTransport::newInstance($smtp['host'], $smtp['port']);
-			
-			// Set the username and password
-			$smtp->setUsername($board_config['smtp_username']);
-            $smtp->setpassword($board_config['smtp_password']);
+			$smtp = (new Swift_SmtpTransport($smtp['host'], $smtp['port']))
+            ->setUsername($board_config['smtp_username'])
+            ->setPassword($board_config['smtp_password'])
+            ;
 			
 			// Set a new mailer class to send the message
-			$mailer = Swift_Mailer::newInstance($smtp);
+			$mailer = new Swift_Mailer($smtp);
 			
 			// Now send the message
 			$sent = $mailer->send($message);
 		}
 	} else { 
 		// Create a new mail transport
-		$transport = Swift_MailTransport::newInstance();
-		
+		$transport = new Swift_SendmailTransport('/usr/sbin/sendmail -bs');
 		// Create the mailer gateway
-		$mailer = Swift_Mailer::newInstance($transport);
+		$mailer = new Swift_Mailer($transport);
 		
 		// Standard method for sending mail
 		if ($batch && is_object($to)){
@@ -1228,14 +1224,11 @@ function evo_mail($to, $subject, $content, $header='', $params='', $batch=false)
     return $sent;
 }
 
+//this is only used in the Admin News Letter Module
 function evo_mail_batch($array_recipients)
 {
-	// Include the swift class
-    require_once(NUKE_INCLUDE_DIR.'mail/swift_required.php');
-
     if (!is_array($array_recipients)) return '';
-
-    $recipients = Swift_Message::newInstance();
+	$recipients = (new Swift_Message('PHP-Nuke Titanium'));
     foreach ($array_recipients as $username => $email){
         $recipients->addTo($email, $username);
     }

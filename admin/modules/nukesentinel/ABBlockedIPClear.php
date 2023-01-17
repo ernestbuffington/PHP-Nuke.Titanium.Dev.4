@@ -23,7 +23,7 @@ CarryMenu();
 blockedipmenu();
 CloseMenu();
 CloseTable();
-echo '<br />'."\n";
+
 OpenTable();
 echo '<form action="'.$admin_file.'.php" method="post">'."\n";
 echo '<input type="hidden" name="op" value="ABBlockedIPClearSave" />'."\n";

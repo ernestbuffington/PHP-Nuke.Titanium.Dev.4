@@ -23,8 +23,6 @@ function phpmailer($to, $subject, $message, $headers = '', $attachments = array(
 	global $mail, $board_config, $nukeconfig;
 
 	if ( ! ( $mail instanceof PHPMailer ) ) {
-		require_once 'includes/classes/class.phpmailer.php';
-		require_once 'includes/classes/class.smtp.php';
 		$mail = new PHPMailer;
 	}
 
@@ -221,8 +219,8 @@ function phpmailer($to, $subject, $message, $headers = '', $attachments = array(
 	$mail->FromName = $from_name;
 
 	// Set whether it's plaintext, depending on $content_type
-	if ( 'text/html' == $content_type )
-		$mail->isHTML(true);
+	//if ( 'text/html' == $content_type ) # we want html on all the time!
+	$mail->isHTML(true);
 
 	$mail->Subject = $subject;
 	$mail->Body = $message;

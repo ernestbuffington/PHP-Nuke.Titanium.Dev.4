@@ -23,7 +23,7 @@ CarryMenu();
 blockedipmenu();
 CloseMenu();
 CloseTable();
-echo '<br />'."\n";
+
 OpenTable();
 $getIPs = $db->sql_fetchrow($db->sql_query("SELECT * FROM `".$prefix."_nsnst_blocked_ips` WHERE `ip_addr`='$xIPs' LIMIT 0,1"));
 $getIPs['date'] = date("Y-m-d H:i:s",$getIPs['date']);

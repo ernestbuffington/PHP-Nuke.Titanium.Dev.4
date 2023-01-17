@@ -35,8 +35,10 @@ function cache_header()
     $cache_num_files = $cache->count_rows();
     $last_cleared_img = ((time() - $evoconfig['cache_last_cleared']) >= 604800) ? get_evo_icon('evo-sprite bad') : get_evo_icon('evo-sprite good');
     $clear_needed = ((time() - $evoconfig['cache_last_cleared']) >= 604800) ? "(<a href=\"$admin_file.php?op=cache_clear\"><font color=\"red\">" . _CACHE_CLEARNOW . "</font></a>)" : "";
-    $last_cleared = date('F j, Y, g:i a', $evoconfig['cache_last_cleared']);
-    $user_can_clear = ($usrclearcache) ? "[ <strong>" . _CACHE_YES . "</strong> | <a href=\"$admin_file.php?op=usrclearcache&amp;opt=0\">" . _CACHE_NO . "</a> ]" : "[ <a href=\"$admin_file.php?op=usrclearcache&amp;opt=1\">" . _CACHE_YES . "</a> | <strong>" . _CACHE_NO . "</strong> ]";
+    
+	$last_cleared = date('F j, Y, g:i a', $evoconfig['cache_last_cleared']);
+    
+	$user_can_clear = ($usrclearcache) ? "[ <strong>" . _CACHE_YES . "</strong> | <a href=\"$admin_file.php?op=usrclearcache&amp;opt=0\">" . _CACHE_NO . "</a> ]" : "[ <a href=\"$admin_file.php?op=usrclearcache&amp;opt=1\">" . _CACHE_YES . "</a> | <strong>" . _CACHE_NO . "</strong> ]";
     $cache_good = (is_writable(NUKE_CACHE_DIR) && !ini_get('safe_mode')) ? "<font color=\"green\">" . _CACHE_GOOD . "</font>" : "<font color=\"red\">" . _CACHE_BAD . "</font>";
     $cache_good_img = (is_writable(NUKE_CACHE_DIR) && !ini_get('safe_mode')) ? get_evo_icon('evo-sprite good') : get_evo_icon('evo-sprite bad');
     $cache_good = (ini_get('safe_mode')) ? "<font color=red>" . _CACHESAFEMODE . "</font>" : $cache_good;
@@ -98,7 +100,6 @@ function cache_header()
         ."[ <a href=\"$admin_file.php?op=cache_clear\">" . _CACHE_CLEAR . "</a> ]"
         ."</center>";
     CloseTable();
-    echo "<br />";
 }
 
 function get_cache_types() {
@@ -121,72 +122,46 @@ function get_cache_types() {
 }
 
 function display_main() {
+   
    global $admin_file, $cache;
 
    $open = get_evo_icon('evo-sprite folder-live');
-   $closed = get_evo_icon('evo-sprite folder');
+   //$closed = get_evo_icon('evo-sprite folder');
 
-   // echo "<script>
-   //      <!--
+    OpenTable();
+    echo '<div align="center">Compare Cache Dates With Current Time When You Refresh</div>';
+	$rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(NUKE_CACHE_DELETE_DIR));
 
-   //      var folder_closed = new Image();
-   //      folder_closed.src = \"images/folder_closed.png\";
-   //      var folder_open = new Image();
-   //      folder_open.src = \"images/folder_open.png\";
+    $file_htaccess = (NUKE_CACHE_DELETE_DIR.'/.htaccess');
+	$file_infotxt = (NUKE_CACHE_DELETE_DIR.'/info.txt');
+	$file_index = (NUKE_CACHE_DELETE_DIR.'/index.html');
+	$i = 0;
+	$files = array(); 
 
-   //      function show(name, count)
-   //      {
-   //          i=1;
-   //          while(i<=count){
-   //              if(document.getElementById(name + i).style.display == \"none\") {
-   //                  document.getElementById(name + i).style.display = \"\";
-   //              } else {
-   //                  document.getElementById(name + i).style.display = \"none\";
-   //              }
-   //          i++;
-   //          }
-
-   //          var img = document['folder-' + name].src;
-   //          if (img == folder_open.src) {
-   //              document['folder-' + name].src = folder_closed.src;
-   //          } else {
-   //              document['folder-' + name].src = folder_open.src;
-   //          }
-   //      }
-   //      -->
-   //      </script>";
-
-   /* OpenTable();
-    echo  "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"1\" class=\"forumline\">\n";
-    echo  "\n"
-         ."<tr><th width='40%' align='center'><span class=\"content\"><strong>" . _CACHE_FILENAME . "</strong></span></th>\n"
-         ."<th width='15%' align='center'><span class=\"content\"><strong>" . _CACHE_OPTIONS . "</strong></span></th></tr>\n"
-         ."\n";
-
-    $all_cache = $cache->saved;
-    $total = count($all_cache);
-    $cat_names = array_keys($all_cache);
-    if(is_array($cat_names)) {
-        foreach($cat_names as $file) {
-            $img = "open";
-            $num_files = $cache->count_rows($file);
-            echo  "<tr valign=\"middle\">"
-            ."<td width='40%' align='left' colspan=\"1\" class=\"row1\"><a id=\"$file\" href=\"javascript:show('$file', '$num_files');\">&nbsp;<img name='folder-$file' src='images/evo/folder_$img.gif' alt='' border='0' style='vertical-align: middle;' /></a> <strong>" . $file . " ($num_files)</strong></td>\n"
-            ."<td width='15%' align='center' colspan=\"1\" class=\"row1\"><strong><a href=\"$admin_file.php?op=cache_delete&amp;name=$file\">" . _CACHE_DELETE . "</a></strong></td>\n"
-            ."</tr>\n";
-            $subNames = array_keys($all_cache[$file]);
-            $id = 1;
-            foreach($subNames as $subFile) {
-                echo  "<tr valign='middle' id='$file$id'>\n"
-                ."<td class=\"row3\" width='40%' align='left' style='text-indent: 15pt;'>$subFile</td>\n"
-                ."<td class=\"row3\" width='15%' align='center'><span class=\"content\">[ <a href=\"$admin_file.php?op=cache_delete&amp;file=$subFile&amp;name=$file\">" . _CACHE_DELETE . "</a> | <a href=\"$admin_file.php?op=cache_view&amp;file=$subFile&amp;name=$file\">" . _CACHE_VIEW . "</a> ]</span></td>\n"
-                ."</tr>\n";
-                $id++;
-            }
-        }
+    foreach ($rii as $file) 
+	{
+      if ($file->isDir())
+	  { 
+        continue;
+      }
+      
+	  $files[] = $file->getPathname(); 
+	  if($file == $file_index)
+	  continue;
+	  if($file == $file_htaccess)
+	  continue;
+	  if($file == $file_infotxt)
+	  continue;
+      
+	  $z= $i++;
+      $filedate = formatTimestamp(filemtime($file));
+	  
+	  echo $open.' <span style="color: red;">'.$filedate.'</span>&nbsp;&nbsp;'.$file.'</br>';
     }
-    echo  "</table>\n";
-    CloseTable();*/
+	
+	echo $z.' Cache Files';
+	
+    CloseTable();
 }
 
 function delete_cache($file, $name) {
@@ -228,25 +203,7 @@ function delete_cache($file, $name) {
 function cache_view($file, $name) {
     global $admin_file, $cache;
     OpenTable();
-        echo  "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"1\" align=\"center\" class=\"forumline\">\n";
-        echo  "<tr>\n"
-             ."<td class=\"row1\" width='33%' align='center'><span class=\"content\"><a href=\"$admin_file.php?op=cache_delete&amp;file=$file&amp;name=$name\">" . _CACHE_DELETE . "</a></span></td>\n"
-             ."<td class=\"row1\" width='33%' align='center'><span class=\"content\"><a href=\"$admin_file.php?op=cache\">" . _CACHE_RETURNCACHE . "</a></span></td>\n"
-             ."</tr>\n"
-             ."</table>\n";
-        echo "<br />\n";
-        echo  "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"1\" align=\"left\" class=\"forumline\">\n";
-        echo  "<tr>\n"
-             ."<td class=\"row1\" width='100%' align='left'>\n";
-        if(is_array($cache->saved[$name][$file])) {
-            $file = "<?php\n\n\$$file = array(\n".$cache->array_parse($cache->saved[$name][$file]).");\n\n?>";
-        } else {
-            $file = "<?php\n\n\$$file = \"" . $cache->saved[$name][$file] . "\";\n\n?>";
-        }
-        @highlight_string($file);
-        echo  "</td>\n";
-        echo  "</tr>\n";
-        echo "</table>\n";
+
     CloseTable();
 }
 
@@ -278,19 +235,19 @@ function usrclearcache($opt) {
     $opt = intval($opt);
     if($opt == 1 || $opt == 0) {
         $db->sql_query("UPDATE ".$prefix."_evolution SET evo_value='" . $opt . "' WHERE evo_field='usrclearcache'");
-        $cache->delete('evoconfig');
+        $cache->delete('titanium_evoconfig');
         OpenTable();
-            echo "<center>\n";
+            echo "<div align=\"center\">\n";
             echo "<strong>" . _CACHE_PREF_UPDATED_SUCC . "</strong><br /><br />\n";
             redirect("$admin_file.php?op=cache");
-            echo "</center>\n";
+            echo "</div>\n";
         CloseTable();
     } else {
         OpenTable();
-            echo "<center>\n";
+            echo "<div align=\"center\">\n";
             echo "<strong>" . _CACHE_INVALID . "</strong><br /><br />\n";
             redirect("$admin_file.php?op=cache");
-            echo "</center>\n";
+            echo "</div>\n";
         CloseTable();
     }
 }

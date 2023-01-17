@@ -67,7 +67,7 @@ function version_check()
 			$ret_ver = $version_info['current_version'];
 			$db->sql_query("UPDATE ".$prefix."_evolution SET evo_value='".time()."' WHERE evo_field='ver_check'");
 			$db->sql_query("UPDATE ".$prefix."_evolution SET evo_value='".$ret_ver."' WHERE evo_field='ver_previous'");
-			$cache->delete('evoconfig');
+			$cache->delete('titanium_evoconfig');
 
 		else:
 			title($admlang['versions']['version_checked'].' '.date('Y-m-d', $Version_Check).' @'.date('H:i', $Version_Check));
@@ -116,7 +116,7 @@ function evo_compare(){
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $cache->delete('evoconfig');
+        $cache->delete('titanium_evoconfig');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

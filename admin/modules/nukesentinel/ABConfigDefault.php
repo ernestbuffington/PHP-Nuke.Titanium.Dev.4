@@ -23,7 +23,7 @@ CarryMenu();
 configmenu();
 CloseMenu();
 CloseTable();
-echo '<br />'."\n";
+
 OpenTable();
 echo '<form action="'.$admin_file.'.php" method="post">'."\n";
 echo '<input type="hidden" name="xblocker_row[block_name]" value="other" />'."\n";

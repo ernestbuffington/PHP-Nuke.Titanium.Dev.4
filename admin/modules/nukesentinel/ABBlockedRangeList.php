@@ -23,7 +23,7 @@ CarryMenu();
 blockedrangemenu();
 CloseMenu();
 CloseTable();
-echo '<br />'."\n";
+
 OpenTable();
 $perpage = $ab_config['block_perpage'];
 if($perpage == 0) { $perpage = 25; }

@@ -23,7 +23,7 @@ CarryMenu();
 blockedipmenu();
 CloseMenu();
 CloseTable();
-echo '<br />'."\n";
+
 OpenTable();
 if (!isset($sip)) $sip = '';
 if (!isset($xIPs)) $xIPs = '';

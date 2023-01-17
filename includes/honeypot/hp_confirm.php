@@ -181,9 +181,14 @@ exit ();
 }
 }
 
+$botblock = '';
+
+if(!isset($_POST["addition"]))
+$_POST["addition"] = '';
 
 if ($check1 == 1){
 $botblock = strtolower($_POST["addition"]);
+
 if (!empty($botblock)) {
 
 $reason = _HONEYPOT_ANSWEREDWITH." $botblock";

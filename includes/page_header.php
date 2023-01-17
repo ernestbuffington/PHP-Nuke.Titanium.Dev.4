@@ -55,6 +55,9 @@ global $userdata, $name, $sitename, $is_inline_review, $prefix, $db, $cache, $Th
 
 OpenTable();
 
+if(!isset($userdata['session_logged_in']))
+$userdata['session_logged_in'] = '';
+
 # Mod: Advanced Time Management v2.2.0 START
 if(!file_exists(@phpbb_realpath($phpbb_root_path.'language/lang_'.$board_config['default_lang'].'/lang_adv_time.'.$phpEx)))
 include_once($phpbb_root_path . 'language/lang_english/lang_adv_time.' . $phpEx);

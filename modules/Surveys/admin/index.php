@@ -604,7 +604,7 @@ if(is_mod_admin($module_name)) {
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
             global $cache;
-            $cache->delete('evoconfig');
+            $cache->delete('titanium_evoconfig');
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/

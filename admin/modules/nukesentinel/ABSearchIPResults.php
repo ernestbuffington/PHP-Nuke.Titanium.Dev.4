@@ -17,7 +17,7 @@ if (!defined('NUKESENTINEL_ADMIN')) {
 
 include_once(NUKE_BASE_DIR.'header.php');
 if(!empty($sip)) { $torun = 1; } else { $torun = 0; }
-$sip = str_replace("X", "%", $sip);
+$sip = str_replace("X", "%", isset($sip));
 OpenTable();
 OpenMenu(_AB_SEARCHIPS);
 mastermenu();

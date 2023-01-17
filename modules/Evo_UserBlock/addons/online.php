@@ -64,8 +64,15 @@ function evouserinfo_get_members_online()
     $out = array();
     $out['text'] = '';
     
+	if(!isset($user_flag))
+	$user_flag = '';
+	
 	while ($session = $db->sql_fetchrow($result)) 
-    {   # spacer
+    {   
+	    if(!isset($session['user_from_flag']))
+		$session['user_from_flag'] = '';
+		
+		# spacer
         $num 			= ($i < 10) ? ''.'0'.$i : $i;
 		$uname 			= $session['uname'];
         $uname_color 	= UsernameColor($session['uname']);
@@ -77,7 +84,7 @@ function evouserinfo_get_members_online()
         $where 			= (is_admin()) ? $where : $num.'.&nbsp;';
         $user_from 		= $session['user_from'];
         $user_flag 		= str_replace('.png','',$session['user_from_flag']);
-        
+
 		if($evouserinfo_addons['online_country_flag'] == 'yes'):
           $user_flag = (($session['user_from_flag']) ? '<span class="countries '.$user_flag.'" title="'.$user_from.'"></span>&nbsp;' : '');
         else:

@@ -25,7 +25,7 @@ CarryMenu();
 blankmenu();
 CloseMenu();
 CloseTable();
-echo '<br />'."\n";
+
 OpenTable();
 
 $whoisservers = array(

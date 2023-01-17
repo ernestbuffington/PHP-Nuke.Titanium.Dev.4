@@ -23,7 +23,7 @@ CarryMenu();
 trackedmenu();
 CloseMenu();
 CloseTable();
-echo '<br />'."\n";
+
 OpenTable();
 $perpage = $ab_config['track_perpage'];
 if($perpage == 0) { $perpage = 25; }

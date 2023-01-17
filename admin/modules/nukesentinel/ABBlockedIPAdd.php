@@ -23,7 +23,7 @@ CarryMenu();
 blockedipmenu();
 CloseMenu();
 CloseTable();
-echo '<br />'."\n";
+
 OpenTable();
 echo '<form action="'.$admin_file.'.php" method="post" class="nuke-sentienl-blocked-ip-form">'."\n";
 echo '<table summary="" align="center" border="0" cellpadding="2" cellspacing="2">'."\n";

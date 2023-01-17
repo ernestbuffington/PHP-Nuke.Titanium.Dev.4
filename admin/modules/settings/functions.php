@@ -400,7 +400,7 @@ function save_settings($sub)
     //$db->sql_query("UPDATE ".$prefix."_config(datePublished, dateModified) values(null, null)");
 	
 	$cache->delete('nukeconfig', 'config');
-    $cache->delete('evoconfig', 'config');
+    $cache->delete('titanium_evoconfig', 'config');
     redirect($admin_file.'.php?op=Configure&sub='.$sub);
 }
 

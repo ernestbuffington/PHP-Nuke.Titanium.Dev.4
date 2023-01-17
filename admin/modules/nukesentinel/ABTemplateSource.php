@@ -26,7 +26,7 @@ CarryMenu();
 templatemenu();
 CloseMenu();
 CloseTable();
-echo '<br />'."\n";
+
 OpenTable();
 echo '<center class="title">'._AB_SOURCEOF.' '.$template.'<br /></center>'."\n";
 echo '<center class="content"><strong>'._AB_NOTEDITOR.'</strong></center><br />'."\n";
