@@ -66,7 +66,7 @@ class DB {
         
 		# doing some DOS-CRLF magic...
         # this looks better under WinX
-        if (preg_match('/[^(]*\((.*)\)[^)]*/',$_SERVER['HTTP_USER_AGENT'],$regs)):
+        if (preg_match('/[^(]*\((.*)\)[^)]*/',(string) $_SERVER['HTTP_USER_AGENT'],$regs)):
           if(preg_match('/Win/',$regs[1])): 
 		    $crlf="\r\n";
 		  endif;
@@ -90,7 +90,7 @@ class DB {
         
 		header("Content-disposition: attachment; filename=$filename");
 
-        DB::output("# ========================================================$crlf"
+        (new DB())->output("# ========================================================$crlf"
             ."#$crlf"
             ."# Database : $database$crlf"
             ."# "._ON." ".date('m-d-Y')."$crlf"
@@ -102,19 +102,19 @@ class DB {
         foreach($tables AS $table):
 
  			if($structure): 
-               DB::output("$crlf#$crlf"."# Table structure for table '$table'$crlf"."#$crlf$crlf", $compress);
-                DB::output(DB::get_table_struct($database, $table, $crlf, $drop).";$crlf$crlf", $compress);
+               (new DB())->output("$crlf#$crlf"."# Table structure for table '$table'$crlf"."#$crlf$crlf", $compress);
+                (new DB())->output((new DB())->get_table_struct($database, $table, $crlf, $drop).";$crlf$crlf", $compress);
             endif;
             
 			if($data): 
-                DB::output("$crlf#$crlf"."# Dumping data for table '$table'$crlf"."#$crlf$crlf", $compress);
-                DB::get_table_content($database, $table, $crlf, false, true, $compress);
+                (new DB())->output("$crlf#$crlf"."# Dumping data for table '$table'$crlf"."#$crlf$crlf", $compress);
+                (new DB())->get_table_content($database, $table, $crlf, false, true, $compress);
             endif;
 
         endforeach;
 		
         if($compress): 
-		DB::output('', true, true);
+		(new DB())->output('', true, true);
 		endif;
         
 		exit;
@@ -162,7 +162,7 @@ class DB {
         
         $result = $db->sql_query("SHOW KEYS FROM $table");
         
-		$index = array();
+		$index = [];
         
 		while($row = $db->sql_fetchrow($result)): 
 
@@ -177,7 +177,7 @@ class DB {
 			endif;
                 
 			if(!isset($index[$kname])):
-              $index[$kname] = array();
+              $index[$kname] = [];
 			endif;
               
 			$index[$kname][] = $row['Column_name'];
@@ -192,9 +192,9 @@ class DB {
             
 			if($x == "PRIMARY"):
                 $schema_create .= "   PRIMARY KEY (" . implode($columns, ", ") . ")";
-            elseif (substr((string) $x,0,6) == "UNIQUE"):
+            elseif (str_starts_with((string) $x, "UNIQUE")):
                $schema_create .= "   UNIQUE ".substr((string) $x,7)." (" . implode($columns, ", ") . ")";
-            elseif (substr((string) $x,0,8) == "FULLTEXT"):
+            elseif (str_starts_with((string) $x, "FULLTEXT")):
                $schema_create .= "   FULLTEXT ".substr((string) $x,9)." (" . implode($columns, ", ") . ")";
             else:
                $schema_create .= "   KEY $x (" . implode($columns, ", ") . ")";
@@ -212,7 +212,7 @@ class DB {
     {
         global $db;
         
-		$str = $fields = '';
+		$str = $fields = [];
         
 		$result = $db->sql_query("SELECT * FROM $database.$table");
         
@@ -220,7 +220,7 @@ class DB {
         
 		if($complete): 
         
-		    $fields = array();
+		    $fields = [];
         
 		    for($j=0; $j<$fieldcount;$j++): 
                 $fields[] = $db->sql_fieldname($j, $result);
@@ -255,7 +255,7 @@ class DB {
             
 			if($echo)
 			{
-                DB::output($str, $compress);
+                (new DB())->output($str, $compress);
                 $str = '';
             }
         endwhile;
@@ -267,12 +267,14 @@ class DB {
 
     function query_file($file, &$error, $replace_prefix=false)
     {
+        $tmp = [];
+        $filedata = null;
         $error = false;
         
 		if(!is_array($file)): 
 		
             $tmp['name'] = $tmp['tmp_name'] = $file;
-            $tmp['type'] = preg_match("/\.gz$/is",$file) ? 'application/x-gzip' : 'text/plain';
+            $tmp['type'] = preg_match("/\.gz$/is",(string) $file) ? 'application/x-gzip' : 'text/plain';
             $file = $tmp;
         
 		endif;
@@ -282,7 +284,7 @@ class DB {
 		endif;
         
 		# Most servers identify a .gz as x-tar
-        if(preg_match("/^(text\/[a-zA-Z]+)|(application\/(x\-)?(gzip|tar)(\-compressed)?)|(application\/octet-stream)$/is", $file['type'])): 
+        if(preg_match("/^(text\/[a-zA-Z]+)|(application\/(x\-)?(gzip|tar)(\-compressed)?)|(application\/octet-stream)$/is", (string) $file['type'])): 
 		
             $filedata = '';
             $open = 'gzopen';
@@ -292,7 +294,7 @@ class DB {
         
 		    if(!GZIPSUPPORT): 
 			
-                if(preg_match("/\.gz$/is",$file['name'])): 
+                if(preg_match("/\.gz$/is",(string) $file['name'])): 
 				
                     $error = "Can't decompress file";
                     return false;
@@ -325,10 +327,10 @@ class DB {
 		  return false; 
 		endif;
         
-		$filedata = DB::remove_remarks($filedata);
-        $queries = DB::split_sql_file($filedata, ";\n");
+		$filedata = (new DB())->remove_remarks($filedata);
+        $queries = (new DB())->split_sql_file($filedata, ";\n");
         
-		if(count($queries) < 1): 
+		if((is_countable($queries) ? count($queries) : 0) < 1): 
 		
             $error = 'There are no queries in '.$file['name'];
             return false;
@@ -342,16 +344,16 @@ class DB {
 		foreach($queries AS $query): 
 		
             if(!$replace_prefix): 
-                $query = preg_replace('#(TABLE|INTO|EXISTS|ON) ([a-zA-Z]*?(_))#i', "\\1 $prefix".'_', $query);
+                $query = preg_replace('#(TABLE|INTO|EXISTS|ON) ([a-zA-Z]*?(_))#i', "\\1 $prefix".'_', (string) $query);
 			else: 
                 foreach($replace_prefix AS $oldprefix => $newprefix): 
                     if($oldprefix != $newprefix): 
-                        $query = preg_replace("/$oldprefix/", $newprefix, $query);
+                        $query = preg_replace("/$oldprefix/", (string) $newprefix, (string) $query);
                     endif;
                 endforeach;
             endif;
             
-			if(SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' && preg_match('/^CREATE TABLE /', $query) && !preg_match('/ENGINE=MyISAM/', $query)):
+			if(SQL_LAYER == 'mysql' || SQL_LAYER == 'mysqli' && preg_match('/^CREATE TABLE /', (string) $query) && !preg_match('/ENGINE=MyISAM/', (string) $query)):
                 $query .= ' ENGINE=MyISAM';
             endif;
             
@@ -365,7 +367,7 @@ class DB {
     # remove_remarks will strip the sql comment lines out of an uploaded sql file
     function remove_remarks($lines)
     {
-        $lines = explode("\n", $lines);
+        $lines = explode("\n", (string) $lines);
      
 	    $linecount = count($lines);
      
@@ -394,12 +396,12 @@ class DB {
     function split_sql_file(&$sql, $delimiter)
     {
         # Split up our string into "possible" SQL statements.
-        $tokens = explode($delimiter, $sql);
+        $tokens = explode($delimiter, (string) $sql);
         unset($sql);
-        $output = array();
+        $output = [];
 
         # we don't actually care about the matches preg gives us.
-        $matches = array();
+        $matches = [];
 
         # this is faster than calling count($tokens) every time thru the loop.
         $token_count = count($tokens);

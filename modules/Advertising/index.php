@@ -530,7 +530,14 @@ switch (isset($op)) {
     break;
 
     case "sitestats":
-        sitestats();
+	include(NUKE_BASE_DIR.'header.php');
+	OpenTable();
+	echo '<div align="center"><img class="icons" align="absmiddle" width="200" src="'.img('unknown-error.png','error').'"></div><br />';
+	echo '<div align="center"><strong>This section is still under development!</strong></div><br />';
+	echo '<div align="center"><strong><span class="blink-one" style="color: red;">Under Construction</span></strong></div><br />';
+    CloseTable();
+    include(NUKE_BASE_DIR.'footer.php');
+//        sitestats();
     break;
 
     case "plans":

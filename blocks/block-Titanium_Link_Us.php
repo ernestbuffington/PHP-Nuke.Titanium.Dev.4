@@ -29,11 +29,14 @@ function block_Link_Us_cache($block_cachetime)
 {
 	global $prefix;
 	
-	$blockcache[0]['stat_created'] = [];
+	$blockcache = [];
 	
-	if ((($blockcache = cache_load('link_us', 'titanium_blocks')) === false) 
+	if(!isset($blockcache[0]['stat_created']))
+	$blockcache[0]['stat_created'] = '';
+	
+	if ((($blockcache = cache_load('titanium_link_us', 'blocks')) === false) 
 	|| empty($blockcache) 
-	|| intval(isset($blockcache[0]['stat_created'])) < (time() - intval($block_cachetime))) 
+	|| intval($blockcache[0]['stat_created']) < (time() - intval($block_cachetime))) 
 	{
 		$sql = "SELECT `id`, 
 		        `site_name`, 
@@ -44,8 +47,10 @@ function block_Link_Us_cache($block_cachetime)
 		$result = dbquery($sql);
 		$blockcache = dbrowset($result);
 		dbfree($result);
-		cache_set('link_us', 'titanium_blocks', $blockcache);
+		$blockcache[0]['stat_created'] = time();
+		cache_set('titanium_link_us', 'blocks', $blockcache);
 	}
+
 	return $blockcache;
 }
 

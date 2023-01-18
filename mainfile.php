@@ -812,7 +812,7 @@ function is_active($module)
       return(isset($active_modules[$module]) ? 1 : 0);
 	endif;
 
-	if((($active_modules = $cache->load('active_modules', 'titanium_config')) === false) || empty($active_modules)):
+	if((($active_modules = $cache->load('titanium_active_modules', 'config')) === false) || empty($active_modules)):
 
 		$active_modules = [];
         $result = $db->sql_query('SELECT `title` FROM `'.$prefix.'_modules` WHERE `active`="1"');
@@ -822,7 +822,7 @@ function is_active($module)
         endwhile;
 
 		$db->sql_freeresult($result);
-        $cache->save('active_modules', 'titanium_config', $active_modules);
+        $cache->save('titanium_active_modules', 'config', $active_modules);
 
 	endif;
 
@@ -2120,6 +2120,44 @@ function encode_mail($email)
 
 /**
 * @get user name colors
+* @Alternative, saves user colors in seperate cache files!
+* @version 4.0.3
+* @cache zf1-future
+* @author Ernest Allen Buffington
+*/
+function UsernameColorBBC($username, $old_name=false) {
+    global $db, $user_prefix, $use_colors, $cache;
+	
+	$cached_names = [];
+    static $cached_names;
+
+	$horndonkle_username = md5($username); 
+
+    if($old_name) { $username = $old_name; }
+    
+    if ((($cached_names = $cache->load('Horndonkle_UserColors', 'titanium_config'.$horndonkle_username)) === false) || empty($cached_names) && !isset($cached_names)) 
+	{
+	        list($user_color, $uname) = $db->sql_ufetchrow("SELECT `user_color_gc`, `username` FROM `" . $user_prefix . "_users` WHERE `username` = '" . str_replace("'", "\'", $username) . "'", SQL_NUM);
+
+         if(isset($uname)):  
+            if(isset($user_color)):
+			$username = '<span style="color: #'. $user_color .'">'. $uname .'</span>';
+            else:
+			$username = $uname;
+			endif;
+ 			$cached_names = $username;
+            $cache->save('Horndonkle_UserColors', 'titanium_config'.$horndonkle_username, $cached_names);
+		endif;
+    }
+
+  
+  return $cached_names;
+    
+}
+
+/**
+* @Horndonkle user name colors
+* @saves user colors in seperate cache files!
 * @version 4.0.3
 * @cache zf1-future
 * @author Ernest Allen Buffington
@@ -2129,6 +2167,8 @@ function UsernameColor($username, $old_name=false)
     global $db, $user_prefix, $use_colors, $cache;
 
     static $cached_names;
+	
+	$horndonkle_name = md5($username);
 
     if($old_name): 
 	  $username = $old_name; 
@@ -2145,9 +2185,10 @@ function UsernameColor($username, $old_name=false)
 	endif;
     
     if(!is_array($cached_names)): 
-      $cached_names = $cache->load('UserNameColors', 'titanium_config');
+      $cached_names = $cache->load('Horndonkle_UserNameColors_'.$horndonkle_name, 'titanium_config');
     endif;
-	
+
+   if (!($cached_names = $cache->load('Horndonkle_UserNameColors_'.$horndonkle_name, 'titanium_config'))):
     if (!isset($cached_names[$plain_username])):
         $cached_names = [];
 		[$user_color, $uname] = $db->sql_ufetchrow("SELECT `user_color_gc`, `username` FROM `" . $user_prefix . "_users` WHERE `username` = '" . str_replace("'", "\'", (string) $username) . "'", SQL_NUM);
@@ -2155,8 +2196,9 @@ function UsernameColor($username, $old_name=false)
         $username = (strlen((string) $user_color) == 6) ? '<span style="color: #'. $user_color .'">'. $uname .'</span>' : $uname;
         if(!empty($username))
 		$cached_names[$plain_username] = $username;
-        $cache->save('UserNameColors', 'titanium_config', $cached_names);
+        $cache->save('Horndonkle_UserNameColors_'.$horndonkle_name, 'titanium_config', $cached_names);
 	endif;
+   endif;
 
     return $cached_names[$plain_username] = $cached_names[$plain_username] ?? $username;
 }
@@ -2167,59 +2209,41 @@ function UsernameColor($username, $old_name=false)
 * @cache zf1-future
 * @author Ernest Allen Buffington
 */
-function GroupColor($group_name, $short=0) 
-{
+function GroupColor($group_name, $short=0) {
     global $db, $use_colors, $cache;
-
     static $cached_groups;
-
-    if(!$use_colors): 
-	  return $group_name;
-	endif;
-    
-	$plaingroupname = ( $short !=0 ) ? $group_name.'_short' : $group_name;
-    
-	if(!empty($cached_groups[$plaingroupname])): 
-      return $cached_groups[$plaingroupname];
-	endif;
-    
-    if((!($cached_groups = $cache->load('GroupNameColors', 'titanium_config'))) || empty($cached_groups)):
-        
-		$cached_groups = array();
-        
-		$sql = 'SELECT `auc`.`group_color` 
+	$cached_groups = [];
+    if(!$use_colors) return $group_name;
+    $plaingroupname = ( $short !=0 ) ? $group_name.'_short' : $group_name;
+    if (!empty($cached_groups[$plaingroupname])) {
+        return $cached_groups[$plaingroupname];
+    }
+    if ((($cached_groups = $cache->load('titanium_GroupNameColors', 'config')) === false) || empty($cached_groups)) {
+        $cached_groups = array();
+        $sql = 'SELECT `auc`.`group_color` 
 		
 		AS `group_color`, `gr`.`group_name` as`group_name` 
-		
 		FROM ( `'.GROUPS_TABLE.'` `gr` 
-		
 		LEFT JOIN  `' . AUC_TABLE . '` `auc` 
-		
 		ON `gr`.`group_color` =  `auc`.`group_id`) 
-		
 		WHERE `gr`.`group_description` <> "Personal User" 
-		
 		ORDER BY `gr`.`group_name` ASC';
         
 		$result = $db->sql_query($sql);
-    
-	    while (list($group_color, $groupcolor_name) = $db->sql_fetchrow($result)): 
-          $colorgroup_short = (strlen($groupcolor_name) > 13) ? substr($groupcolor_name,0,10).'...' : $groupcolor_name;
-          $colorgroup_name  = $groupcolor_name;
-          $cached_groups[$groupcolor_name.'_short'] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $colorgroup_short .'</strong></span>' : $colorgroup_short;
-          $cached_groups[$groupcolor_name] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $colorgroup_name .'</strong></span>' : $colorgroup_name;
-        endwhile;
-    
-	    $db->sql_freeresult($result);
-        $cache->save('GroupNameColors', 'titanium_config', $cached_groups);
-    
-	endif;
-    
-	if(!empty($cached_groups[$plaingroupname])): 
-      return $cached_groups[$plaingroupname];
-    else :
-      return $plaingroupname;
-	endif;
+        while (list($group_color, $groupcolor_name) = $db->sql_fetchrow($result)) {
+            $colorgroup_short = (strlen($groupcolor_name) > 13) ? substr($groupcolor_name,0,10).'...' : $groupcolor_name;
+            $colorgroup_name  = $groupcolor_name;
+            $cached_groups[$groupcolor_name.'_short'] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $colorgroup_short .'</strong></span>' : $colorgroup_short;
+            $cached_groups[$groupcolor_name] = (strlen($group_color) == 6) ? '<span style="color: #'. $group_color .'"><strong>'. $colorgroup_name .'</strong></span>' : $colorgroup_name;
+        }
+        $db->sql_freeresult($result);
+        $cache->save('titanium_GroupNameColors', 'config', $cached_groups);
+    }
+    if (!empty($cached_groups[$plaingroupname])) {
+        return $cached_groups[$plaingroupname];
+    } else {
+        return $plaingroupname;
+    }
 }
 
 function check_priv_mess($user_id) 

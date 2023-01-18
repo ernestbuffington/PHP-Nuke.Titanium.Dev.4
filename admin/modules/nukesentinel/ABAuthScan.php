@@ -86,7 +86,7 @@ if(is_god($admin)) {
   authmenu();
   CloseMenu();
   CloseTable();
-  echo '<br />'."\n";
+
   OpenTable();
   echo '<center><strong>'._AB_SCANADMINSDONE.'</strong></center><br />'."\n";
   echo '<center><strong>'._AB_ADMINSADDED.':</strong> '.$importadded;

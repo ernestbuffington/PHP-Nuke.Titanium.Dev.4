@@ -24,7 +24,7 @@ if(is_god($admin)) {
   authmenu();
   CloseMenu();
   CloseTable();
-  echo '<br />'."\n";
+
   OpenTable();
   echo '<table summary="" align="center" border="0" cellpadding="2" cellspacing="2" bgcolor="'.$bgcolor2.'" width="80%">'."\n";
   if($ab_config['staccess_path'] > "" AND is_writable($ab_config['staccess_path'])){

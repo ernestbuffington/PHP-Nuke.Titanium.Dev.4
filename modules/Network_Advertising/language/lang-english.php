@@ -27,7 +27,7 @@ if (!defined('_SITESTATS')) define("_SITESTATS","Site Stats");
 if (!defined('_MAINPAGE')) define("_MAINPAGE","Main Page");
 if (!defined('_TERMS')) define("_TERMS","Network Ad Terms");
 if (!defined('_PLANSPRICES')) define("_PLANSPRICES","Network Plans and Prices");
-if (!defined('_ADVERTISING')) define("_ADVERTISING","Network Advertising");
+if (!defined('_ADVERTISING')) define("_ADVERTISING","Network Advertising"); #1
 if (!defined('_HEREARENUMBERS')) define("_HEREARENUMBERS","Here are some numbers about our network that you might find interesting before proceeding to purchase your advertising:");
 if (!defined('_GENERALSTATS')) define("_GENERALSTATS","Network Ad General Statistics");
 if (!defined('_TOTALVIEWS')) define("_TOTALVIEWS","Network Total pages views until now:");

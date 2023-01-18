@@ -34,6 +34,12 @@ global $db, $evoconfig, $startdate;
 
 function block_Hits_cache($block_cachetime) {
     global $db, $cache;
+	
+	$blockcache = [];
+	
+	if(!isset($blockcache[0]['stat_created']))
+	$blockcache[0]['stat_created'] = '';
+	
     if ((($blockcache = $cache->load('hits', 'blocks')) === false) || empty($blockcache) || intval($blockcache[0]['stat_created']) < (time() - intval($block_cachetime))) {
         $result = $db->sql_ufetchrow('SELECT `count` FROM `'._COUNTER_TABLE.'` WHERE `type`="total" AND `var`="hits" LIMIT 1');
         $blockcache[1]['count'] = $result['count'];
@@ -51,7 +57,6 @@ if (empty($blocksession[1]['count'])) {
     $content .= "<p style='text-align:center;'>"._BLOCKPROBLEM2."</p>\n";
 } else {
     $content .= "<p style='text-align: center;'>"._WERECEIVED."</p>\n";
-    // $content .= "<p style='text-align: center; font-weight: bold; font-size: large;'><a href='modules.php?name=Statistics'>".$blocksession[1]['count']."</a></p>";
     $content .= "<p style='text-align: center; font-weight: bold; font-size: large;'><a href='modules.php?name=Statistics'>".number_format ( $blocksession[1]['count'] , 0 , "." , "," )."</a></p>";
     $content .= "<p style='text-align: center;'>"._PAGESVIEWS."&nbsp;".$startdate."</p>\n";
 }

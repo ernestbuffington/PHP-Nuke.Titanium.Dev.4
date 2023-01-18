@@ -25,7 +25,7 @@ if(is_god($admin)) {
   authmenu();
   CloseMenu();
   CloseTable();
-  echo '<br />'."\n";
+
   OpenTable();
   $admin_row = abget_admin($a_aid);
   echo '<form action="'.$admin_file.'.php" method="post">'."\n";

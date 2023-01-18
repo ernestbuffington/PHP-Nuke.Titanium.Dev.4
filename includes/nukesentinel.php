@@ -1273,10 +1273,10 @@ function abget_configs(){
 	  
 	  while (list($config_name, $config_value) = $db->sql_fetchrow($configresult)) {
 		$sentinel[$config_name] = $config_value;
-	    echo $config_name.': '.$sentinel[$config_name].'</br>';
+	    //echo $config_name.': '.$sentinel[$config_name].'</br>'; <- TESTING
 	  }
 	  $db->sql_freeresult($configresult);
-	  //var_dump($sentinel);
+	  //var_dump($sentinel); <- TESTING
 	  $cache->save('titanium_sentinel', 'config', $sentinel);
   }
   return $sentinel;

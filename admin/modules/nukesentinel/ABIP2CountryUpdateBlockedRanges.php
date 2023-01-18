@@ -31,7 +31,7 @@ if(!isset($min)) {
   ip2cmenu();
   CloseMenu();
   CloseTable();
-  echo '<br />'."\n";
+
   OpenTable();
   echo _AB_IP2CUPDATEBLOCKEDRANGES01.'<br />'."\n";
   echo _AB_IP2CUPDATEBLOCKEDRANGES02.'<br />'."\n";
@@ -87,7 +87,7 @@ if(!isset($min)) {
   ip2cmenu();
   CloseMenu();
   CloseTable();
-  echo '<br />'."\n";
+
   OpenTable();
   echo '<center><strong>'._AB_IP2CUPDATEBLOCKEDRANGES.' '._AB_COMPLETED.'</strong></center>'."\n";
   CloseTable();

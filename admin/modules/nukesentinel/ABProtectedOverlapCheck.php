@@ -31,7 +31,7 @@ if(!isset($min)) {
   protectedmenu();
   CloseMenu();
   CloseTable();
-  echo '<br />'."\n";
+
   OpenTable();
   echo _AB_PROTECTEDOVERLAPCHECK01.'<br />'."\n";
   echo _AB_PROTECTEDOVERLAPCHECK02.'<br />'."\n";
@@ -227,7 +227,7 @@ if(!isset($min)) {
   protectedmenu();
   CloseMenu();
   CloseTable();
-  echo '<br />'."\n";
+
   OpenTable();
   echo '<center><strong>'._AB_PROTECTEDOVERLAPCHECK.' '._AB_COMPLETED.'</strong></center>'."\n";
   CloseTable();

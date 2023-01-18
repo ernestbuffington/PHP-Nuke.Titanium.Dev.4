@@ -31,7 +31,7 @@ if(!isset($min)) {
   blockedrangemenu();
   CloseMenu();
   CloseTable();
-  echo '<br />'."\n";
+
   OpenTable();
   echo _AB_BLOCKEDOVERLAPCHECK01.'<br />'."\n";
   echo _AB_BLOCKEDOVERLAPCHECK02.'<br />'."\n";
@@ -227,7 +227,7 @@ if(!isset($min)) {
   blockedrangemenu();
   CloseMenu();
   CloseTable();
-  echo '<br />'."\n";
+
   OpenTable();
   echo '<center><strong>'._AB_BLOCKEDOVERLAPCHECK.' '._AB_COMPLETED.'</strong></center>'."\n";
   CloseTable();

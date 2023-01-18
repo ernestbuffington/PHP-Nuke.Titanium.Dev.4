@@ -600,6 +600,10 @@ function ShoutBox($ShoutSubmit, $ShoutComment, $shoutuid)
             } else {
                 if ($flag == 1) { $flag = 2; }
                 elseif ($flag == 2) { $flag = 1; }
+				
+				$mid_content .= "<tr><td style=\"background-color: none;\">";
+				
+				if(isset($rowColor['blockColor1']))
                 $mid_content .= "<tr><td style=\"background-color: ".$rowColor['blockColor1'].";\">";
             }
             $mid_content .= "<strong>"._SB_ADMIN.":</strong> ".$stickyRow0['comment'];

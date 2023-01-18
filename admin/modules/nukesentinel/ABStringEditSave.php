@@ -26,7 +26,7 @@ if($testnum1 > 0) {
   stringmenu();
   CloseMenu();
   CloseTable();
-  echo '<br />'."\n";
+
   OpenTable();
   echo '<center><strong>'._AB_STRINGEXISTS.'</strong></center><br />'."\n";
   echo '<center><strong>'._GOBACK.'</strong></center><br />'."\n";
@@ -41,7 +41,7 @@ if($testnum1 > 0) {
   stringmenu();
   CloseMenu();
   CloseTable();
-  echo '<br />'."\n";
+
   OpenTable();
   echo '<center><strong>'._AB_STRINGEMPTY.'</strong></center><br />'."\n";
   echo '<center><strong>'._GOBACK.'</strong></center><br />'."\n";

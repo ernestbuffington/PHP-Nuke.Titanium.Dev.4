@@ -71,7 +71,9 @@ function the_network_menu() {
         $ad_client_opt = "<a href=\"modules.php?name=$module_name&amp;op=network_ad_client\">"._CLIENTLOGIN."</a>";
     }
     OpenTable();
-    echo "<center><strong>"._ADSMENU."</strong><br /><br />[ <a href=\"modules.php?name=$module_name\">"._MAINPAGE."</a> | " . (is_active('Statistics') ? "<a href=\"modules.php?name=Statistics\">"._SITESTATS."</a> |" : "") . "  <a href=\"modules.php?name=$module_name&amp;op=network_ad_terms\">"._TERMS."</a> | <a href=\"modules.php?name=$module_name&amp;op=ad_plans\">"._PLANSPRICES."</a> | $ad_client_opt ]</center>";
+    echo "<center><strong>"._ADSMENU."</strong><br /><br />[ <a href=\"modules.php?name=$module_name\">"._MAINPAGE."</a> | " . (is_active('Statistics') ? "<a 
+	href=\"modules.php?name=Statistics\">"._SITESTATS."</a> |" : "") . "  <a href=\"modules.php?name=$module_name&amp;op=network_ad_terms\">"._TERMS."</a> | <a 
+	href=\"modules.php?name=$module_name&amp;op=ad_plans\">"._PLANSPRICES."</a> | $ad_client_opt ]</center>";
     CloseTable();
 }
 
@@ -535,7 +537,14 @@ switch (isset($op)) {
     break;
 
     case "sitestats":
-        sitestats();
+	include(NUKE_BASE_DIR.'header.php');
+	OpenTable();
+	echo '<div align="center"><img class="icons" align="absmiddle" width="200" src="'.img('unknown-error.png','error').'"></div><br />';
+	echo '<div align="center"><strong>This section is still under development!</strong></div><br />';
+	echo '<div align="center"><strong><span class="blink-one" style="color: red;">Under Construction</span></strong></div><br />';
+    CloseTable();
+    include(NUKE_BASE_DIR.'footer.php');
+//        sitestats();
     break;
 
     case "ad_plans":

@@ -26,7 +26,7 @@ if($testnum1 > 0) {
   trackedmenu();
   CloseMenu();
   CloseTable();
-  echo '<br />'."\n";
+
   OpenTable();
   echo '<center><strong>'._AB_HARVESTEREXISTS.'</strong></center><br />'."\n";
   echo '<center><strong>'._GOBACK.'</strong></center><br />'."\n";
@@ -41,7 +41,7 @@ if($testnum1 > 0) {
   trackedmenu();
   CloseMenu();
   CloseTable();
-  echo '<br />'."\n";
+
   OpenTable();
   echo '<center><strong>'._AB_HARVESTEREMPTY.'</strong></center><br />'."\n";
   echo '<center><strong>'._GOBACK.'</strong></center><br />'."\n";

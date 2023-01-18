@@ -68,7 +68,7 @@ function cache_header()
     CloseTable();
 
     OpenTable();
-        echo "<center>"
+        echo "<div align=\"center\">\n"
         ."<table border='0' width='70%'><tr><td>"
         ."$enabled_img</td><td>"
         ."<i>" . _CACHE_STATUS . "</i></td><td>" . $enabled . "</td>"
@@ -98,7 +98,7 @@ function cache_header()
         ."</table>"
         .'<br />'
         ."[ <a href=\"$admin_file.php?op=cache_clear\">" . _CACHE_CLEAR . "</a> ]"
-        ."</center>";
+        ."</div>";
     CloseTable();
 }
 
@@ -169,33 +169,33 @@ function delete_cache($file, $name) {
     OpenTable();
     if (!empty($file) && !empty($name)) {
             if ($cache->delete($file, $name)) {
-                echo "<center>\n";
+                echo "<div align=\"center\">\n";
                 echo "<strong>" . _CACHE_FILE_DELETE_SUCC . "</strong><br /><br />\n";
                 redirect("$admin_file.php?op=cache");
-                echo "</center>\n";
+                echo "</div>\n";
             } else {
-                echo "<center>\n";
+                echo "<div align=\"center\">\n";
                 echo "<strong>" . _CACHE_FILE_DELETE_FAIL . "</strong><br /><br />\n";
                 redirect("$admin_file.php?op=cache");
-                echo "</center>\n";
+                echo "</div>\n";
             }
     } elseif (empty($file) && (!empty($name))) {
             if ($cache->delete('', $name)) {
-                echo "<center>\n";
+                echo "<div align=\"center\">\n";
                 echo "<strong>" . _CACHE_CAT_DELETE_SUCC . "</strong><br /><br />\n";
                 redirect("$admin_file.php?op=cache");
-                echo "</center>\n";
+                echo "</div>\n";
             } else {
-                echo "<center>\n";
+                echo "<div align=\"center\">\n";
                 echo "<strong>" . _CACHE_CAT_DELETE_FAIL . "</strong><br /><br />\n";
                 redirect("$admin_file.php?op=cache");
-                echo "</center>\n";
+                echo "</div>\n";
             }
     } else {
-            echo "<center>\n";
+            echo "<div align=\"center\">\n";
             echo "<strong>" . _CACHE_INVALID . "</strong><br /><br />\n";
             redirect("$admin_file.php?op=cache");
-            echo "</center>\n";
+            echo "</div>\n";
     }
     CloseTable();
 }
@@ -216,15 +216,15 @@ function clear_cache() {
         // Update the last cleared time stamp
         $db->sql_query("UPDATE `" . $prefix . "_evolution` SET evo_value='" . time() . "' WHERE evo_field='cache_last_cleared'");
         
-        echo "<center>\n";
+        echo "<div align=\"center\">\n";
         echo "<strong>" . _CACHE_CLEARED_SUCC . "</strong><br /><br />\n";
         redirect("$admin_file.php?op=cache");
-        echo "</center>\n";
+        echo "</div>\n";
     } else {
-        echo "<center>\n";
+        echo "<div align=\"center\">\n";
         echo "<strong>" . _CACHE_CLEARED_FAIL . "</strong><br /><br />\n";
         redirect("$admin_file.php?op=cache");
-        echo "</center>\n";
+        echo "</div>\n";
     }
     
     CloseTable();
@@ -255,11 +255,11 @@ function usrclearcache($opt) {
 function howto_enable_cache() {
     global $admin_file;
     OpenTable();
-        echo "<center>\n";
+        echo "<div align=\"center\">\n";
         echo "<strong>" . _CACHE_ENABLE_HOW . "</strong><br />";
         echo "<br />\n";
         redirect("$admin_file.php?op=cache");
-        echo "</center>\n";
+        echo "</div>\n";
     CloseTable();
 }
 

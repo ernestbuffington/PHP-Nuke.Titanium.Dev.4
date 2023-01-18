@@ -40,7 +40,10 @@ return static function (RectorConfig $rectorConfig): void {
 		//__DIR__ . '/modules/Forums/groupmsg.php',
 		//__DIR__ . '/includes/emailer.php',
 		//__DIR__ . '/modules/Forums/reputation.php',
-		  __DIR__ . '/modules/Forums/search.php',
+		//__DIR__ . '/modules/Forums/search.php',
+		//__DIR__ . '/admin/modules/backup.php',
+		//__DIR__ . '/includes/classes/class.database.php',
+		  __DIR__ . '/includes/bbcode.php',
     ]);
 
     // register a single rule

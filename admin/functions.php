@@ -260,7 +260,12 @@ function adminmenu($url, $title, $image)
 		$image_file = '';
 	endif;
 
-	if (!is_god($admin) && ($title == 'Edit Admins' || $title == 'Nuke Sentinel(tm)'))
+	if (!is_god($admin) && ($title == 'Edit Admins' 
+	|| $title == 'Nuke Sentinel(tm)' 
+	|| $title == 'Nuke Honeypot' 
+	|| $title == 'Database' 
+	|| $title == 'Newsletter' 
+	|| $title == 'Messages'))
 	{
 		if(defined('BOOTSTRAP')):
 		?>

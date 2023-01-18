@@ -263,15 +263,41 @@ if (!isset($admincookie[4]) && $admintest){
 	exit;
 }
 
-if (!isset($op)){
+if (!isset($op))
+{
     $op = 'adminMain';
-} elseif (($op == 'mod_authors' || $op == 'modifyadmin' || $op == 'UpdateAuthor' || $op == 'AddAuthor' || $op == 'deladmin2' || $op == 'deladmin' || $op == 'assignstories' || $op == 'deladminconf') && $admdata['name'] != 'God'){
-    die('Illegal Operation');
+} 
+elseif (($op == 'mod_authors' 
+      || $op == 'modifyadmin' 
+	  || $op == 'UpdateAuthor' 
+	  || $op == 'AddAuthor' 
+  	  || $op == 'ABMain' 
+  	  || $op == 'honeypot' 
+  	  || $op == 'database' 
+  	  || $op == 'messages' 
+  	  || $op == 'newsletter' 
+	  || $op == 'deladmin2' 
+	  || $op == 'deladmin' 
+	  || $op == 'assignstories' 
+	  || $op == 'deladminconf') 
+	  && $admdata['name'] != 'God')
+{
+    include(NUKE_BASE_DIR.'header.php');
+	OpenTable();
+	echo '<div align="center"><img class="icons" align="absmiddle" width="200" src="'.img('unknown-error.png','error').'"></div><br />';
+	echo '<div align="center"><strong>You Do Not Have The Necessary Security Clearance To Access This Area!</strong></div><br />';
+	echo '<div align="center"><strong><span class="blink-one" style="color: red;">You Must Have A God Security Level</span></strong></div><br />';
+//	die('Illegal Operation');
+    CloseTable();
+    include(NUKE_BASE_DIR.'footer.php');
+
 }
 
 if ($admintest){
-    if (!$admin) exit('Illegal Operation');
-    switch($op){
+    if (!isset($admin)) 
+	exit('Illegal Operation');
+    
+	switch($op){
         case "do_gfx":
             do_gfx();
         break;

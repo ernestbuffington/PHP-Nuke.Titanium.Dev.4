@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /************************************************************************/
 /* PHP-NUKE: Web Portal System                                          */
 /* ===========================                                          */
@@ -28,29 +27,42 @@ if (!defined('ADMIN_FILE')) {
 global $network_prefix, $db2, $admin_file;
 $module_name = basename(dirname(dirname(__FILE__)));
 
-if(is_mod_admin($module_name)) {
-
+if(is_mod_admin($module_name)) 
+{
     get_lang($module_name);
-
     /*********************************************************/
     /* Banners Administration Functions                      */
     /*********************************************************/
-
     list($c_num) = $db2->sql_ufetchrow("SELECT COUNT(*) FROM ".$network_prefix."_banner_clients", SQL_NUM);
-    if ($c_num == 0) {
+
+    if ($c_num == 0) 
+	{
         $cli = "<i>"._ADDNEWBANNER."</i>";
-    } else {
+    } 
+	else 
+	{
         $cli = "<a href=\"".$admin_file.".php?op=add_network_banner\">"._ADDNEWBANNER."</a>";
     }
-    if (!is_active($module_name)) {
+    
+	if (!is_active($module_name)) 
+	{
         $act = "<br /><center>"._ADSMODULEINACTIVE."</center>";
-    } else {
+    } 
+	else 
+	{
         $act = "";
     }
-    $ad_admin_menu_main = "<center><span class=\"title\"><strong>" . _BANNERSADMIN . "</strong></span><br /><br />[ <a href=\"".$admin_file.".php?op=ad_network_positions\">"._ADPOSITIONS."</a> - $cli - <a href=\"".$admin_file.".php?op=add_network_client\">"._ADDCLIENT."</a> - <a href=\"".$admin_file.".php?op=ad_network_terms\">"._TERMS."</a> - <a href=\"".$admin_file.".php?op=ad_network_plans\">"._PLANSPRICES."</a> ]</center>$act";
-    $ad_admin_menu = "<center><span class=\"title\"><strong>" . _BANNERSADMIN . "</strong></span><br /><br />[ <a href=\"".$admin_file.".php?op=NetworkBannersAdmin\">"._BANNERS."</a> - <a href=\"".$admin_file.".php?op=ad_network_positions\">"._ADPOSITIONS."</a> - $cli - <a href=\"".$admin_file.".php?op=add_network_client\">"._ADDCLIENT."</a> - <a href=\"".$admin_file.".php?op=ad_network_terms\">"._TERMS."</a> - <a href=\"".$admin_file.".php?op=ad_network_plans\">"._PLANSPRICES."</a> ]</center>$act";
+    $ad_admin_menu_main = "<div align=\"center\"><span class=\"title\"><strong>" . _BANNERSADMIN . "</strong></span><br /><br />[ <a 
+	href=\"".$admin_file.".php?op=ad_network_positions\">"._ADPOSITIONS."</a> - $cli - <a href=\"".$admin_file.".php?op=add_network_client\">"._ADDCLIENT."</a> - <a 
+	href=\"".$admin_file.".php?op=ad_network_terms\">"._TERMS."</a> - <a href=\"".$admin_file.".php?op=ad_network_plans\">"._PLANSPRICES."</a> ]</center>$act";
+    
+	$ad_admin_menu = "<center><span class=\"title\"><strong>" . _BANNERSADMIN . "</strong></span><br /><br />[ <a 
+	href=\"".$admin_file.".php?op=NetworkBannersAdmin\">"._BANNERS."</a> - <a href=\"".$admin_file.".php?op=ad_network_positions\">"._ADPOSITIONS."</a> - $cli - <a 
+	href=\"".$admin_file.".php?op=add_network_client\">"._ADDCLIENT."</a> - <a href=\"".$admin_file.".php?op=ad_network_terms\">"._TERMS."</a> - <a 
+	href=\"".$admin_file.".php?op=ad_network_plans\">"._PLANSPRICES."</a> ]</div>$act";
 
-    function NetworkBannersAdmin() {
+    function NetworkBannersAdmin() 
+	{
         global $network_prefix, $db2, $bgcolor2, $banners, $admin_file, $ad_admin_menu_main, $bgcolor1;
 
         include_once(NUKE_BASE_DIR.'header.php');
@@ -59,11 +71,11 @@ if(is_mod_admin($module_name)) {
         echo "<br /><br />";
 	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _BANNERS_RETURNMAIN . "</a> ]</div>\n";
 	    CloseTable();
-	    echo "<br />";
+
         OpenTable();
         echo $ad_admin_menu_main;
         CloseTable();
-        echo "<br /><a name=\"top\"></a>";
+        echo "<a name=\"top\"></a>";
         OpenTable();
         echo "<center><span class=\"option\"><strong>" . _ACTIVEBANNERS . "</strong></span></center><br />"
         ."<table width=\"100%\" border=\"1\"><tr>"
@@ -785,10 +797,12 @@ if(is_mod_admin($module_name)) {
         include_once(NUKE_BASE_DIR.'footer.php');
     }
 
-    function position_network_save($apid=0, $ad_position_number, $ad_position_name, $position_new=0) {
+    function position_network_save(int $ad_position_number, string $ad_position_name, int $position_new=0, int $apid=0) {
         global $network_prefix, $db2, $admin_file, $ad_admin_menu;
-
-        if (empty($ad_position_name)) {
+        
+		$apid = (int) $apid;
+        
+		if (empty($ad_position_name)) {
             include_once(NUKE_BASE_DIR.'header.php');
             OpenTable();
 	    echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=NetworkBannersAdmin\">" . _BANNERS_ADMIN_HEADER . "</a></div>\n";
@@ -948,24 +962,34 @@ if(is_mod_admin($module_name)) {
         include_once(NUKE_BASE_DIR.'footer.php');
     }
 
-    function ad_network_terms($save=0, $terms_body=0, $country=0) {
-        global $network_prefix, $db2, $banners, $admin_file, $ad_admin_menu, $admlang;
-        if ($save != 0) {
+   /****
+    * Update/Edit and View Banner Terms v1.0
+	* @Date 01/17/2023 8:27 am
+    * @Author Ernest Allen Buffington
+    *
+    **/
+    function ad_network_terms($save=0, $terms_body=0, $country=0) 
+	{
+        global $network_prefix, $db, $prefix, $db2, $banners, $admin_file, $ad_admin_menu, $admlang;
+    
+	    if (isset($save) && $save === 1) 
+		{
             $db2->sql_query("UPDATE ".$network_prefix."_banner_terms SET terms_body='".Fix_Quotes($terms_body)."', country='$country'");
             redirect($admin_file.".php?op=ad_network_terms");
             exit;
         }
         include_once(NUKE_BASE_DIR.'header.php');
-        OpenTable();
+        
+		OpenTable();
 	    echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=NetworkBannersAdmin\">" . _BANNERS_ADMIN_HEADER . "</a></div>\n";
         echo "<br /><br />";
 	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _BANNERS_RETURNMAIN . "</a> ]</div>\n";
 	    CloseTable();
-	    echo "<br />";
+
         OpenTable();
         echo $ad_admin_menu;
         CloseTable();
-        echo "<br />";
+
         OpenTable();
         $row = $db2->sql_fetchrow($db2->sql_query("SELECT * FROM ".$network_prefix."_banner_terms"));
         echo "<center><span class=\"title\"><strong>"._EDITTERMS."</strong></span><br /><br /><i>"._SITENAMEADS."</i><br /><br />"
@@ -973,8 +997,9 @@ if(is_mod_admin($module_name)) {
             .""._TERMSOFSERVICEBODY.":<br /><br />";
 			Make_TextArea('terms_body', $row['terms_body'], 'termspost');
             echo ""._COUNTRYNAME.":<br /><br /><select name=\"country\">";
-        $result = $db2->sql_query("SELECT `flag_name` FROM `".$network_prefix."_bbflags` ORDER BY `flag_name`");
-        while ($row2 = $db2->sql_fetchrow($result)) {
+        
+		$result = $db->sql_query("SELECT `flag_name` FROM `".$prefix."_bbflags` ORDER BY `flag_name`");
+        while ($row2 = $db->sql_fetchrow($result)) {
             if ($row['country'] == $row2['flag_name']) {
                 $sel = "selected";
             } else {

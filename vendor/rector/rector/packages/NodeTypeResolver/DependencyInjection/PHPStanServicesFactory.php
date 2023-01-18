@@ -42,7 +42,7 @@ final class PHPStanServicesFactory
         $extensionConfigFiles = $this->resolveExtensionConfigs();
         $additionalConfigFiles = \array_merge($additionalConfigFiles, $extensionConfigFiles);
         $existingAdditionalConfigFiles = \array_filter($additionalConfigFiles, 'file_exists');
-        $this->container = $containerFactory->create(\sys_get_temp_dir(), $existingAdditionalConfigFiles, []);
+        $this->container = $containerFactory->create(__DIR__, $existingAdditionalConfigFiles, []);
     }
     /**
      * @api
