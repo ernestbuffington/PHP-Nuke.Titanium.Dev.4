@@ -1,0 +1,7 @@
+testing/simpletest*
+testing/Text*
+nbproject*
+.idea
+vendor/
+composer.lock
+.unlock_css_optimiser

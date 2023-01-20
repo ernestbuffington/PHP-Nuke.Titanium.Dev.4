@@ -4,6 +4,9 @@
         "php81_bc/strftime": "^0.5.0",
         "mobiledetect/mobiledetectlib": "^3.74",
         "swiftmailer/swiftmailer": "^6.3",
-        "phpmailer/phpmailer": "^6.7"
+        "phpmailer/phpmailer": "^6.7",
+        "symfony/mailer": "^5.4",
+        "cerdic/css-tidy": "^2.0",
+        "league/oauth2-google": "^4.0"
     }
 }
