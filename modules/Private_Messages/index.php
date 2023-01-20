@@ -54,6 +54,8 @@ if (!defined('MODULE_FILE'))
    die('You can\'t access this file directly...');
 }
 
+global $board_config, $userdata;
+
 if (isset($privmsg_id)) 
 {
     $privmsg_id = intval($privmsg_id);
