@@ -784,7 +784,8 @@ if(is_mod_admin($module_name)) {
         include_once(NUKE_BASE_DIR.'footer.php');
     }
 
-    function position_save($apid=0, $ad_position_number, $ad_position_name, $position_new=0) {
+    //function position_save($apid=0, $ad_position_number, $ad_position_name, $position_new=0) {
+    function position_save(int $ad_position_number, string $ad_position_name, int $position_new=0, int $apid=0) {		
         global $prefix, $db, $admin_file, $ad_admin_menu;
 
         if (empty($ad_position_name)) {

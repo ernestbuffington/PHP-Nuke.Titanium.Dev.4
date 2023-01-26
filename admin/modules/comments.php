@@ -40,7 +40,7 @@ function removeSubComments($tid)
     global $prefix, $db;
 
     $tid = intval($tid);
-    $result = $db->sql_query("SELECT tid from ".$prefix."_comments where pid='$tid'");
+    $result = $db->sql_query("SELECT tid from ".$prefix."_blogs_comments where pid='$tid'");
     $numrows = $db->sql_numrows($result);
 
     if($numrows>0) 
@@ -50,11 +50,11 @@ function removeSubComments($tid)
             $stid = intval($row['tid']);
             removeSubComments($stid);
             $stid = intval($stid);
-            $db->sql_query("delete from ".$prefix."_comments where tid='$stid'");
+            $db->sql_query("delete from ".$prefix."_blogs_comments where tid='$stid'");
         }
     }
     
-	$db->sql_query("delete from ".$prefix."_comments where tid='$tid'");
+	$db->sql_query("delete from ".$prefix."_blogs_comments where tid='$tid'");
 }
 
 function removeComment ($tid, $sid, $ok=0) 
@@ -65,13 +65,13 @@ function removeComment ($tid, $sid, $ok=0)
 	{
         $tid = intval($tid);
 		
-        $result = $db->sql_query("SELECT datePublished from ".$prefix."_comments WHERE pid='$tid'");
+        $result = $db->sql_query("SELECT datePublished from ".$prefix."_blogs_comments WHERE pid='$tid'");
         
 		$numresults = $db->sql_numrows($result);
         
 		$sid = intval($sid);
         
-		$db->sql_query("UPDATE ".$prefix."_stories SET comments=comments-1-'$numresults' where sid='$sid'");
+		$db->sql_query("UPDATE ".$prefix."_blogs SET comments=comments-1-'$numresults' where sid='$sid'");
         
 		removeSubComments($tid);
     
@@ -142,6 +142,8 @@ function RemovePollComment ($tid, $pollID, $ok=0)
     switch($op) 
     {
        case "RemoveComment":
+	   if(!isset($ok))
+	   $ok = '';
        removeComment ($tid, $sid, $ok);
        break;
        case "removeSubComments":

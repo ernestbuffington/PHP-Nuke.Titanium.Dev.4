@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium | Nuke-Evolution Basic : Enhanced and Advanced
+ PHP-Nuke Titanium v4.0.3 : Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /************************************************************************/
@@ -20,6 +20,22 @@
 /*      http://www.nukefixes.com -- http://www.nukeresources.com        */
 /************************************************************************/
 
+/*****[CHANGES]**********************************************************
+-=[Base]=-
+      Nuke Patched                             v3.1.0       06/26/2005
+      Caching System                           v1.0.0       10/31/2005
+	  Titanium Patched                         v4.0.3       01/25/2023
+-=[Mod]=-
+      Blogs BBCodes                            v1.0.0       10/05/2005
+      Custom Text Area                         v1.0.0       11/23/2005
+-=[Applied Rules]=-
+ * LongArrayToShortArrayRector
+ * AddDefaultValueForUndefinedVariableRector (https://github.com/vimeo/psalm/blob/29b70442b11e3e66113935a2ee22e165a70c74a4/docs/fixing_code.md#possiblyundefinedvariable)
+ * MultiDirnameRector
+ * ListToArrayDestructRector (https://wiki.php.net/rfc/short_list_syntax https://www.php.net/manual/en/migration71.new-features.php#migration71.new-features.symmetric-array-destructuring)
+ * NullToStrictStringFuncCallArgRector
+ ************************************************************************/
+
 /********************************************************/
 /* NSN Blogs                                            */
 /* By: NukeScripts Network (webmaster@nukescripts.net)  */
@@ -34,7 +50,7 @@ if (!defined('ADMIN_FILE')) {
 
 
 global $prefix, $db, $admdata;
-$module_name = basename(dirname(dirname(__FILE__)));
+$module_name = basename(dirname(__FILE__, 2));
 if(is_mod_admin($module_name)) {
 
 include_once(NUKE_INCLUDE_DIR.'functions_blog.php');
@@ -46,6 +62,9 @@ $pnt_blogs_config = get_blog_configs();
 
 function topicsmanager() 
 {
+    $topicname = null;
+    $topictext = null;
+	$result = [];
     global $prefix, $db, $admin_file, $tipath;
 
     include(NUKE_BASE_DIR."header.php");
@@ -53,21 +72,23 @@ function topicsmanager()
     OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=topicsmanager\">" . _TOPICS_ADMIN_HEADER . "</a></div>\n";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _TOPICS_RETURNMAIN . "</a> ]</div>\n";
-    echo "<center><span class=\"title\"><strong>"._TOPICSMANAGER . "</strong></span></center>";
+    echo "<div align=\"center\"><span class=\"title\"><strong>"._TOPICSMANAGER . "</strong></span></div>";
     CloseTable();
    
     OpenTable();
-    echo "<center><span class=\"option\"><strong>"._CURRENTTOPICS . "</strong></span><br />"._CLICK2EDIT . "</span></center><br />"
+    echo "<div align=\"center\"><span class=\"option\"><strong>"._CURRENTTOPICS . "</strong></span><br />"._CLICK2EDIT . "</span></div><br />"
         ."<table border=\"0\" width=\"100%\" align=\"center\" cellpadding=\"2\">";
     $count = 0;
-    $result = $db->sql_query("SELECT topicid, topicname, topicimage, topictext from " . $prefix . "_topics order by topicname");
+
+    $result = $db->sql_query("SELECT topicid, topicname, topicimage, topictext from " . $prefix . "_blogs_topics order by topicname");
+
     while ($row = $db->sql_fetchrow($result)):
         $topicid = intval($row['topicid']);
         $topicname = $row['topicname'];
         $topicimage = $row['topicimage'];
         $topictext = $row['topictext'];
         echo "<td align=\"center\" width='17%' valign='top'>"
-            ."<a href=\"".$admin_file.".php?op=topicedit&amp;topicid=$topicid\"><img src=\"$tipath$topicimage\" border=\"0\" alt=\"\" /></a><br />"
+            ."<a href=\"".$admin_file.".php?op=topicedit&amp;topicid=$topicid\"><img src=\"$tipath$topicimage\" alt=\"\" /></a><br />"
             ."<span class=\"content\"><strong>$topictext</td>";
         $count++;
 
@@ -103,20 +124,22 @@ function topicsmanager()
      
     echo "<select id=\"imageSelector\" name=\"topicimage\" required>";
 	$handle=opendir($tipath);
-    
-	while($file = readdir($handle)): 
-            if ((preg_match("~^([_0-9a-zA-Z]+)([.]{1})([_0-9a-zA-Z]{3})$~", $file)) AND $file != "AllTopics.gif") {
-                $tlist .= "$file ";
+	while(($file = readdir($handle)) !== false): 
+            if ((preg_match("~^([_0-9a-zA-Z]+)([.]{1})([_0-9a-zA-Z]{3})$~", $file)) AND $file != "index.html") {
+				$tlist .= "$file ";
+				
             }
         endwhile;
     closedir($handle);
-    $tlist = explode(" ", $tlist);
+    $tlist = explode(" ", (string) $tlist);
     sort($tlist);
-    for ($i=0; $i < count($tlist); $i++): 
-        if (!empty($tlist[$i])) {
+    
+	for ($i=0; $i < (is_countable($tlist) ? count($tlist) : 0); $i++): 
+
+        if (isset($tlist[$i])) {
                 echo "<option name=\"topicimage\" value=\"$tlist[$i]\">$tlist[$i]\n";
             }
-        endfor;
+    endfor;
  
     echo "</select>";
 	echo '<div align="center" id="imagePreview"></div>';
@@ -142,6 +165,11 @@ function topicsmanager()
 
 function topicedit($topicid) 
 {
+    
+    $topicname = null;
+    $topictext = null;
+    $query = [];
+
     global $prefix, $db, $admin_file, $tipath;
 
     include(NUKE_BASE_DIR."header.php");
@@ -149,7 +177,7 @@ function topicedit($topicid)
     OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=topicsmanager\">"._TOPICS_ADMIN_HEADER."</a></div>\n";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">"._TOPICS_RETURNMAIN."</a> ]</div>\n";
-    echo "<center><span class=\"title\"><strong>"._TOPICSMANAGER."</strong></span></center>";
+    echo "<div align=\"center\"><span class=\"title\"><strong>"._TOPICSMANAGER."</strong></span></div>";
     CloseTable();
    
     OpenTable();
@@ -157,9 +185,8 @@ function topicedit($topicid)
 	# 6 pixel spacer
     echo '<div align="center" style="padding-top:6px;">';
     echo '</div>';
-
-    $query = $db->sql_query("SELECT topicid, topicname, topicimage, topictext from ".$prefix . "_topics where topicid='$topicid'");
-    list($topicid, $topicname, $topicimage, $topictext) = $db->sql_fetchrow($query);
+    $query = $db->sql_query("SELECT topicid, topicname, topicimage, topictext from ".$prefix . "_blogs_topics where topicid='$topicid'");
+    [$topicid, $topicname, $topicimage, $topictext] = $db->sql_fetchrow($query);
     $topicid = intval($topicid);
     echo "<img src=\"$tipath$topicimage\" align=\"right\" alt=\"$topictext\" />";
     echo "<span class=\"option\"><strong><span class=\"over-ride\">"._EDITTOPIC.": $topictext</span></strong></span>";
@@ -182,34 +209,32 @@ function topicedit($topicid)
     echo '});';
     echo '});';
     echo '</script>';
-    
    
     echo "<select id=\"imageSelector\" name=\"topicimage\">";
     
 	$handle=opendir($tipath);
     
 	while ($file = readdir($handle)):
-            if ((preg_match("#^([_0-9a-zA-Z]+)([.]{1})([_0-9a-zA-Z]{3})$#", $file)) AND $file != "AllTopics.gif") {
-                $tlist .= "$file ";
-            }
-        endwhile;
+      if ((preg_match("#^([_0-9a-zA-Z]+)([.]{1})([_0-9a-zA-Z]{3})$#", $file)) AND $file != "AllTopics.gif") 
+	  {
+		$tlist .= "$file ";
+      }
+    endwhile;
     
 	closedir($handle);
     
-	$tlist = explode(" ", $tlist);
+	$tlist = explode(" ", (string) $tlist);
     
 	sort($tlist);
     
-	for($i=0; $i < count($tlist); $i++): 
-      if(!empty($tlist[$i])): 
-          if ($topicimage == $tlist[$i]) {
-                    $sel = "selected";
-                } else {
-                    $sel = "";
-                }
-                echo "<option name=\"topicimage\" value=\"$tlist[$i]\" $sel>$tlist[$i]\n";
-      endif;
+	for($i=0; $i < (is_countable($tlist) ? count($tlist) : 0); $i++): 
+		  if ($topicimage == $tlist[$i]) 
+            $sel = "selected";
+		  else 
+            $sel = "";
+          echo "<option name=\"topicimage\" value=\"$tlist[$i]\" $sel>$tlist[$i]\n";
     endfor;
+	
     echo "</select><br /><br />";
 	echo '<div align="center" id="imagePreview"></div>';
     echo '<script src="assets/jquery/jquery.js"></script>';
@@ -239,7 +264,7 @@ function topicedit($topicid)
         while($row2 = $db->sql_fetchrow($res)):
             $rid = intval($row2['rid']);
             $name = $row2['name'];
-            $url = stripslashes($row2['url']);
+            $url = stripslashes((string) $row2['url']);
         echo "<tr><td align=\"left\"><span class=\"content\"><strong><big>&middot;</big></strong>&nbsp;&nbsp;<a href=\"$url\">$name</a></td>"
             ."<td align=\"center\"><span class=\"content\"><a 
 			href=\"$url\">$url</a></td><td align=\"right\"><span class=\"content\">[ <a 
@@ -267,27 +292,25 @@ function relatededit($tid, $rid) {
     include(NUKE_BASE_DIR."header.php");
     OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=topicsmanager\">" . _TOPICS_ADMIN_HEADER . "</a></div>\n";
-   // echo "<br /><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _TOPICS_RETURNMAIN . "</a> ]</div>\n";
-	//CloseTable();
-	
-   // OpenTable();
-    echo "<center><span class=\"title\"><strong>"._TOPICSMANAGER . "</strong></span></center>";
+
+    echo "<div align=\"center\"><span class=\"title\"><strong>"._TOPICSMANAGER . "</strong></span></div>";
     CloseTable();
    
     $rid = intval($rid);
     $tid = intval($tid);
     $row = $db->sql_fetchrow($db->sql_query("SELECT name, url from ".$prefix . "_related where rid='$rid'"));
-        $name = $row['name'];
-        $url = $row['url'];
-    $row2 = $db->sql_fetchrow($db->sql_query("SELECT topictext, topicimage from ".$prefix . "_topics where topicid='$tid'"));
-        $topictext = $row2['topictext'];
-        $topicimage = $row2['topicimage'];
-    OpenTable();
-    echo "<center>"
+    $name = $row['name'];
+    $url = $row['url'];
+    $row2 = $db->sql_fetchrow($db->sql_query("SELECT topictext, topicimage from ".$prefix . "_blogs_topics where topicid='$tid'"));
+    $topictext = $row2['topictext'];
+    $topicimage = $row2['topicimage'];
+    
+	OpenTable();
+    echo "<div align=\"center\">"
         ."<img src=\"images/topics/$topicimage\" align=\"right\" alt=\"$topictext\" />"
         ."<span class=\"option\"><strong>"._EDITRELATED . "</strong></span><br />"
-        ."<strong>"._TOPIC . ":</strong> $topictext</center>"
+        ."<strong>"._TOPIC . ":</strong> $topictext</div>"
         ."<form action=\"".$admin_file.".php\" method=\"post\">"
         .""._SITENAME . ": <input type=\"text\" name=\"name\" value=\"$name\" size=\"30\" maxlength=\"30\"><br /><br />"
         .""._URL . ": <input type=\"text\" name=\"url\" value=\"$url\" size=\"60\" maxlength=\"200\"><br /><br />"
@@ -319,7 +342,7 @@ function topicmake($topicname, $topicimage, $topictext) {
     $topicname = Fix_Quotes($topicname);
     $topicimage = Fix_Quotes($topicimage);
     $topictext = Fix_Quotes($topictext);
-    $db->sql_query("INSERT INTO ".$prefix . "_topics VALUES (NULL,'$topicname','$topicimage','$topictext','0')");
+    $db->sql_query("INSERT INTO ".$prefix . "_blogs_topics VALUES (NULL,'$topicname','$topicimage','$topictext','0')");
     redirect($admin_file.".php?op=topicsmanager#Add");
 }
 
@@ -331,7 +354,7 @@ function topicchange($topicid, $topicname, $topicimage, $topictext, $name, $url)
     $name = Fix_Quotes($name);
     $url = Fix_Quotes($url);
     $topicid = intval($topicid);
-    $db->sql_query("update ".$prefix . "_topics set topicname='$topicname', topicimage='$topicimage', topictext='$topictext' where topicid='$topicid'");
+    $db->sql_query("update ".$prefix . "_blogs_topics set topicname='$topicname', topicimage='$topicimage', topictext='$topictext' where topicid='$topicid'");
     if (!$name) {
     } else {
         $db->sql_query("insert into ".$prefix . "_related VALUES (NULL, '$topicid','$name','$url')");
@@ -343,40 +366,36 @@ function topicdelete($topicid, $ok=0) {
     global $prefix, $db, $pnt_blogs_config, $admin_file;
     $topicid = intval($topicid);
     if ($ok==1) {
-    $row = $db->sql_fetchrow($db->sql_query("SELECT sid from " . $prefix . "_stories where topic='$topicid'"));
+    $row = $db->sql_fetchrow($db->sql_query("SELECT sid from " . $prefix . "_blogs where topic='$topicid'"));
         $sid = intval($row['sid']);
         // Copyright (c) 2000-2005 by NukeScripts Network
         if($pnt_blogs_config['hometopic'] == $topicid) { blog_save_config("hometopic", "0"); }
         // Copyright (c) 2000-2005 by NukeScripts Network
-        $db->sql_query("delete from " . $prefix . "_stories where topic='$topicid'");
-        $db->sql_query("delete from " . $prefix . "_topics where topicid='$topicid'");
+        $db->sql_query("delete from " . $prefix . "_blogs where topic='$topicid'");
+        $db->sql_query("delete from " . $prefix . "_blogs_topics where topicid='$topicid'");
         $db->sql_query("delete from " . $prefix . "_related where tid='$topicid'");
-    $row2 = $db->sql_fetchrow($db->sql_query("SELECT sid from " . $prefix . "_comments where sid='$sid'"));
+    $row2 = $db->sql_fetchrow($db->sql_query("SELECT sid from " . $prefix . "_blogs_comments where sid='$sid'"));
         $sid = intval($row2['sid']);
-        $db->sql_query("delete from " . $prefix . "_comments where sid='$sid'");
+        $db->sql_query("delete from " . $prefix . "_blogs_comments where sid='$sid'");
         redirect($admin_file.".php?op=topicsmanager");
     } else {
         global $topicimage;
         include(NUKE_BASE_DIR."header.php");
         OpenTable();
 	    echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=topicsmanager\">" . _TOPICS_ADMIN_HEADER . "</a></div>\n";
-        //echo "<br /><br />";
 	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _TOPICS_RETURNMAIN . "</a> ]</div>\n";
-	   // CloseTable();
-	    
-        //OpenTable();
-        echo "<center><span class=\"title\"><strong>" . _TOPICSMANAGER . "</strong></span></center>";
+        echo "<div align=\"center\"><span class=\"title\"><strong>" . _TOPICSMANAGER . "</strong></span></div>";
         CloseTable();
        
-    $row3 = $db->sql_fetchrow($db->sql_query("SELECT topicimage, topictext from " . $prefix . "_topics where topicid='$topicid'"));
+        $row3 = $db->sql_fetchrow($db->sql_query("SELECT topicimage, topictext from " . $prefix . "_blogs_topics where topicid='$topicid'"));
         $topicimage = $row3['topicimage'];
         $topictext = $row3['topictext'];
         OpenTable();
-        echo "<center><img src=\"images/topics/$topicimage\" alt=\"$topictext\" /><br /><br />"
+        echo "<div align=\"center\"><img src=\"images/topics/$topicimage\" alt=\"$topictext\" /><br /><br />"
             ."<strong>" . _DELETETOPIC . " $topictext</strong><br /><br />"
             ."" . _TOPICDELSURE . " <i>$topictext</i>?<br />"
             ."" . _TOPICDELSURE1 . "<br /><br />"
-            ."[ <a href=\"".$admin_file.".php?op=topicsmanager\">" . _NO . "</a> | <a href=\"".$admin_file.".php?op=topicdelete&amp;topicid=$topicid&amp;ok=1\">" . _YES . "</a> ]</center><br /><br />";
+            ."[ <a href=\"".$admin_file.".php?op=topicsmanager\">" . _NO . "</a> | <a href=\"".$admin_file.".php?op=topicdelete&amp;topicid=$topicid&amp;ok=1\">" . _YES . "</a> ]</div><br /><br />";
         CloseTable();
         include(NUKE_BASE_DIR."footer.php");
     }
@@ -421,16 +440,12 @@ switch ($op) {
 } 
 else 
 {
-        include(NUKE_BASE_DIR."header.php");
-        OpenTable();
-	    echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=topicsmanager\">" . _TOPICS_ADMIN_HEADER . "</a></div>\n";
-       // echo "<br /><br />";
-	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _TOPICS_RETURNMAIN . "</a> ]</div>\n";
-	   // CloseTable();
-
-       // OpenTable();
-        echo "<center><strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$module_name\"</center>";
-        CloseTable();
-        include(NUKE_BASE_DIR."footer.php");
+   include(NUKE_BASE_DIR."header.php");
+   OpenTable();
+   echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=topicsmanager\">" . _TOPICS_ADMIN_HEADER . "</a></div>\n";
+   echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _TOPICS_RETURNMAIN . "</a> ]</div>\n";
+   echo "<div align=\"center\"><strong>"._ERROR."</strong><br /><br />You do not have administration permission for module \"$module_name\"</div>";
+   CloseTable();
+   include(NUKE_BASE_DIR."footer.php");
 }
 

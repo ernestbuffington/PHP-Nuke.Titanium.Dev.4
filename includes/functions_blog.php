@@ -81,7 +81,7 @@ function automated_blogs()
 {
     global $prefix, $multilingual, $currentlang, $db;
     
-	$result = $db->sql_query('SELECT * FROM '.$prefix.'_autonews WHERE datePublished<="'.date('Y-m-d G:i:s', time()).'"');
+	$result = $db->sql_query('SELECT * FROM '.$prefix.'_blogs_autoblog WHERE datePublished<="'.date('Y-m-d G:i:s', time()).'"');
     
 	while ($row2 = $db->sql_fetchrow($result)) 
 	{
@@ -90,7 +90,7 @@ function automated_blogs()
         $bodytext = addslashes($row2['bodytext']);
         $notes = addslashes($row2['notes']);
 
-        $db->sql_query("INSERT INTO ".$prefix."_stories VALUES (NULL, 
+        $db->sql_query("INSERT INTO ".$prefix."_blogs VALUES (NULL, 
 		                                              '$row2[catid]', 
 													    '$row2[aid]', 
 														    '$title', 
@@ -116,9 +116,8 @@ function automated_blogs()
     }
     if ($db->sql_numrows($result)) 
 	{
-        $db->sql_query('DELETE FROM '.$prefix.'_autonews WHERE datePublished<="'.date('Y-m-d G:i:s', time()).'"');
+        $db->sql_query('DELETE FROM '.$prefix.'_blogs_autoblog WHERE datePublished<="'.date('Y-m-d G:i:s', time()).'"');
     }
     $db->sql_freeresult($result);
 }
 
-?>

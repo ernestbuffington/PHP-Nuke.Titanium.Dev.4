@@ -483,7 +483,7 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
             }
         }
         if ($adm_aid != $chng_aid) {
-            $result2 = $db->sql_query("SELECT sid, aid, informant from " . $prefix . "_stories where aid='$adm_aid'");
+            $result2 = $db->sql_query("SELECT sid, aid, informant from " . $prefix . "_blogs where aid='$adm_aid'");
             while ($row2 = $db->sql_fetchrow($result2)) {
                 $sid = intval($row2['sid']);
                 $old_aid = $row2['aid'];
@@ -491,9 +491,9 @@ function updateadmin($chng_aid, $chng_name, $chng_email, $chng_url, $chng_radmin
                 $informant = $row2['informant'];
                 $informant = substr((string) $informant, 0,25);
                 if ($old_aid == $informant) {
-                    $db->sql_query("update " . $prefix . "_stories set informant='$chng_aid' where sid='$sid'");
+                    $db->sql_query("update " . $prefix . "_blogs set informant='$chng_aid' where sid='$sid'");
                 }
-                $db->sql_query("update " . $prefix . "_stories set aid='$chng_aid' WHERE sid='$sid'");
+                $db->sql_query("update " . $prefix . "_blogs set aid='$chng_aid' WHERE sid='$sid'");
             }
         }
     } else {
@@ -523,7 +523,7 @@ function deladmin2($del_aid) {
         }
         $db->sql_freeresult($result);
         if ($radminarticle == 1) {
-            $row2 = $db->sql_fetchrow($db->sql_query("SELECT sid from " . $prefix . "_stories where aid='$del_aid'"));
+            $row2 = $db->sql_fetchrow($db->sql_query("SELECT sid from " . $prefix . "_blogs where aid='$del_aid'"));
             $sid = intval($row2['sid']);
             if (!empty($sid)) {
                 include_once(NUKE_BASE_DIR.'header.php');
@@ -639,10 +639,10 @@ switch ($op) {
 
     case "assignstories":
         $del_aid = trim((string) $del_aid);
-        $result = $db->sql_query("SELECT sid from " . $prefix . "_stories where aid='$del_aid'");
+        $result = $db->sql_query("SELECT sid from " . $prefix . "_blogs where aid='$del_aid'");
         while ($row = $db->sql_fetchrow($result)) {
             $sid = intval($row['sid']);
-            $db->sql_query("update " . $prefix . "_stories set aid='$newaid', informant='$newaid' where aid='$del_aid'");
+            $db->sql_query("update " . $prefix . "_blogs set aid='$newaid', informant='$newaid' where aid='$del_aid'");
             $db->sql_query("update " . $prefix . "_authors set counter=counter+1 where aid='$newaid'");
         }
         $db->sql_freeresult($result);

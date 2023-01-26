@@ -32,6 +32,7 @@
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
       Caching System                           v1.0.0       10/31/2005
+	  Titanium Patched                         v4.0.3       01/25/2023
 -=[Other]=-
       Blogs Fix                                 v1.0.0      06/26/2005
 -=[Mod]=-
@@ -43,12 +44,22 @@
 	  Titanium Patched                         v3.0.0       08/26/2019
 	  New Blogs Last 100 Admin Mod             v3.0.0       08/27/2019
 	  New Blogs Programmed Admin Mod           v3.0.0       08/27/2019
+-=[Applied Rules]=-	  
+ * LongArrayToShortArrayRector
+ * AddDefaultValueForUndefinedVariableRector (https://github.com/vimeo/psalm/blob/29b70442b11e3e66113935a2ee22e165a70c74a4/docs/fixing_code.md#possiblyundefinedvariable)
+ * MultiDirnameRector
+ * TernaryToNullCoalescingRector
+ * CountOnNullRector (https://3v4l.org/Bndc9)
+ * RemoveExtraParametersRector (https://www.reddit.com/r/PHP/comments/a1ie7g/is_there_a_linter_for_argumentcounterror_for_php/)
+ * ListToArrayDestructRector (https://wiki.php.net/rfc/short_list_syntax https://www.php.net/manual/en/migration71.new-features.php#migration71.new-features.symmetric-array-destructuring)
+ * SensitiveConstantNameRector (https://wiki.php.net/rfc/case_insensitive_constant_deprecation)
+ * NullToStrictStringFuncCallArgRector	  
  ************************************************************************/
 if (!defined('ADMIN_FILE')) die('Access Denied');
 
 global $prefix, $db, $admdata;
 
-$module_name = basename(dirname(dirname(__FILE__)));
+$module_name = basename(dirname(__FILE__, 2));
 
 if(is_mod_admin($module_name)) 
 {
@@ -61,6 +72,8 @@ if(is_mod_admin($module_name))
 /*********************************************************/
 function topicicon($topic_icon) 
 {
+    $sel1 = null;
+    $sel2 = null;
     echo "<br /><strong>"._DISPLAY_TOPIC_ICON."</strong>&nbsp;&nbsp;";
     
 	if (($topic_icon == 0) OR (empty($topic_icon))) 
@@ -82,6 +95,8 @@ function topicicon($topic_icon)
 
 function writes($writes) 
 {
+    $sel1 = null;
+    $sel2 = null;
     echo "<br /><strong>"._DISPLAY_WRITES."</strong>&nbsp;&nbsp;";
 
     if (($writes == 1) || (!is_int($writes))) 
@@ -102,6 +117,8 @@ function writes($writes)
 
 function puthome($ihome, $acomm) 
 {
+    $sel1 = null;
+    $sel2 = null;
     echo "<br /><strong>"._PUBLISHINHOME."</strong>&nbsp;&nbsp;";
 
     if (($ihome == 0) OR (empty($ihome))) 
@@ -143,7 +160,7 @@ function deleteBlog($qid)
 {
     global $prefix, $db, $admin_file, $cache;
     $qid = intval($qid);
-    $result = $db->sql_query("delete from ".$prefix."_queue where qid='$qid'");
+    $result = $db->sql_query("delete from ".$prefix."_blogs_queue where qid='$qid'");
 
     if (!$result) 
     return;
@@ -162,7 +179,7 @@ function deleteBlog($qid)
 function SelectBlogCategory($cat) 
 {
     global $prefix, $db, $admin_file;
-    $selcat = $db->sql_query("select catid, title from ".$prefix."_stories_cat order by title");
+    $selcat = $db->sql_query("select catid, title from ".$prefix."_blogs_cat order by title");
     $a = 1;
     echo "<strong>"._BLOG_POST_CATEGORY."</strong> ";
     echo "<select name=\"catid\">";
@@ -172,9 +189,9 @@ function SelectBlogCategory($cat)
 	else 
         $sel = "";
     
-	echo "<option name=\"catid\" value=\"0\" $sel>"._ARTICLES."</option>";
+	echo "<option name=\"catid\" value=\"0\" $sel>"._BLOGS."</option>";
     
-	while(list($catid, $title) = $db->sql_fetchrow($selcat)) 
+	while([$catid, $title] = $db->sql_fetchrow($selcat)) 
 	{
         $catid = intval($catid);
     
@@ -202,7 +219,7 @@ function putpoll($pollTitle, $optionText)
 
     for($i = 1; $i <= 12; $i++)        
 	{
-        $optional = isset($optionText[$i]) ? $optionText[$i] : '';
+        $optional = $optionText[$i] ?? '';
     
 	    echo "<tr>"
             ."<td>"._OPTION." $i:</td><td><input type=\"text\" name=\"optionText[$i]\" size=\"50\" maxlength=\"50\" value=\"".$optional."\"></td>"
@@ -240,12 +257,13 @@ function AddBlogCategory ()
 
 function EditBlogCategory($catid) 
 {
+    $sel = null;
     global $prefix, $db, $admin_file;
 
     $catid = intval($catid);
-    $result = $db->sql_query("select title from ".$prefix."_stories_cat where catid='$catid'");
+    $result = $db->sql_query("select title from ".$prefix."_blogs_cat where catid='$catid'");
     
-	list($title) = $db->sql_fetchrow($result);
+	[$title] = $db->sql_fetchrow($result);
     
 	include(NUKE_BASE_DIR.'header.php');
 
@@ -255,14 +273,14 @@ function EditBlogCategory($catid)
     
 	if (!$catid) 
 	{
-        $selcat = $db->sql_query("select catid, title from ".$prefix."_stories_cat");
+        $selcat = $db->sql_query("select catid, title from ".$prefix."_blogs_cat");
         
 		echo "<form action=\"".$admin_file.".php\" method=\"post\">";
         echo "<strong>"._ASELECTCATEGORY."</strong>";
         echo "<select name=\"catid\">";
         echo "<option name=\"catid\" value=\"0\" $sel>Blogs</option>";
     
-	    while(list($catid, $title) = $db->sql_fetchrow($selcat)) 
+	    while([$catid, $title] = $db->sql_fetchrow($selcat)) 
 		{
             $catid = intval($catid);
             echo "<option name=\"catid\" value=\"$catid\" $sel>$title</option>";
@@ -297,8 +315,8 @@ function DelCategory($cat)
     global $prefix, $db, $admin_file;
 
     $cat = intval($cat);
-    $result = $db->sql_query("select title from ".$prefix."_stories_cat where catid='$cat'");
-    list($title) = $db->sql_fetchrow($result);
+    $result = $db->sql_query("select title from ".$prefix."_blogs_cat where catid='$cat'");
+    [$title] = $db->sql_fetchrow($result);
 
     include(NUKE_BASE_DIR.'header.php');
 
@@ -308,13 +326,13 @@ function DelCategory($cat)
 
     if (!$cat) 
 	{
-        $selcat = $db->sql_query("select catid, title from ".$prefix."_stories_cat");
+        $selcat = $db->sql_query("select catid, title from ".$prefix."_blogs_cat");
     
 	    echo "<form action=\"".$admin_file.".php\" method=\"post\">"
             ."<strong>"._SELECTCATDEL.": </strong>"
             ."<select name=\"cat\">";
     
-	    while(list($catid, $title) = $db->sql_fetchrow($selcat)) 
+	    while([$catid, $title] = $db->sql_fetchrow($selcat)) 
 		{
             $catid = intval($catid);
             echo "<option name=\"cat\" value=\"$catid\">$title</option>";
@@ -327,12 +345,12 @@ function DelCategory($cat)
     } 
 	else 
 	{
-        $result2 = $db->sql_query("select * from ".$prefix."_stories where catid='$cat'");
+        $result2 = $db->sql_query("select * from ".$prefix."_blogs where catid='$cat'");
         $numrows = $db->sql_numrows($result2);
         
 		if ($numrows == 0) 
 		{
-            $db->sql_query("delete from ".$prefix."_stories_cat where catid='$cat'");
+            $db->sql_query("delete from ".$prefix."_blogs_cat where catid='$cat'");
             echo "<br /><br />"._CATDELETED."<br /><br />"._GOTOADMIN."";
         } 
 		else 
@@ -358,14 +376,14 @@ function YesDelBlogCategory($catid)
     global $prefix, $db, $admin_file;
 
     $catid = intval($catid);
-    $db->sql_query("delete from ".$prefix."_stories_cat where catid='$catid'");
-    $result = $db->sql_query("select sid from ".$prefix."_stories where catid='$catid'");
+    $db->sql_query("delete from ".$prefix."_blogs_cat where catid='$catid'");
+    $result = $db->sql_query("select sid from ".$prefix."_blogs where catid='$catid'");
 
-    while(list($sid) = $db->sql_fetchrow($result)) 
+    while([$sid] = $db->sql_fetchrow($result)) 
 	{
         $sid = intval($sid);
-        $db->sql_query("delete from ".$prefix."_stories where catid='$catid'");
-        $db->sql_query("delete from ".$prefix."_comments where sid='$sid'");
+        $db->sql_query("delete from ".$prefix."_blogs where catid='$catid'");
+        $db->sql_query("delete from ".$prefix."_blogs_comments where sid='$sid'");
     }
     
 	redirect($admin_file.".php?op=adminBlog");
@@ -376,24 +394,24 @@ function NoMoveBlogCategory($catid, $newcat)
     global $prefix, $db, $admin_file;
 
     $catid = intval($catid);
-    $result = $db->sql_query("select title from ".$prefix."_stories_cat where catid='$catid'");
+    $result = $db->sql_query("select title from ".$prefix."_blogs_cat where catid='$catid'");
 
-    list($title) = $db->sql_fetchrow($result);
+    [$title] = $db->sql_fetchrow($result);
 
     include(NUKE_BASE_DIR.'header.php');
 
-    echo "<div align=\"center\"> enter><span class=\"option\"><strong>"._MOVESTORIES."</strong></span></div><br /><br />";
+    echo "<div align=\"center\"> enter><span class=\"option\"><strong>"._MOVE_BLOGS."</strong></span></div><br /><br />";
 
     if (!$newcat) 
 	{
-        echo ""._ALLSTORIES." <strong>$title</strong> "._WILLBEMOVED."<br /><br />";
-        $selcat = $db->sql_query("select catid, title from ".$prefix."_stories_cat");
+        echo ""._ALL_BLOGS." <strong>$title</strong> "._WILLBEMOVED."<br /><br />";
+        $selcat = $db->sql_query("select catid, title from ".$prefix."_blogs_cat");
         echo "<form action=\"".$admin_file.".php\" method=\"post\">";
         echo "<strong>"._SELECTNEWCAT.":</strong> ";
         echo "<select name=\"newcat\">";
-        echo "<option name=\"newcat\" value=\"0\">"._ARTICLES."</option>";
+        echo "<option name=\"newcat\" value=\"0\">"._BLOGS."</option>";
     
-	    while(list($newcat, $title) = $db->sql_fetchrow($selcat)) 
+	    while([$newcat, $title] = $db->sql_fetchrow($selcat)) 
 		{
           echo "<option name=\"newcat\" value=\"$newcat\">$title</option>";
         }
@@ -406,15 +424,15 @@ function NoMoveBlogCategory($catid, $newcat)
     } 
 	else 
 	{
-        $resultm = $db->sql_query("select sid from ".$prefix."_stories where catid='$catid'");
+        $resultm = $db->sql_query("select sid from ".$prefix."_blogs where catid='$catid'");
     
-	    while(list($sid) = $db->sql_fetchrow($resultm)) 
+	    while([$sid] = $db->sql_fetchrow($resultm)) 
 		{
           $sid = intval($sid);
-          $db->sql_query("update ".$prefix."_stories set catid='$newcat' where sid='$sid'");
+          $db->sql_query("update ".$prefix."_blogs set catid='$newcat' where sid='$sid'");
         }
         
-		$db->sql_query("delete from ".$prefix."_stories_cat where catid='$catid'");
+		$db->sql_query("delete from ".$prefix."_blogs_cat where catid='$catid'");
 
         echo ""._MOVEDONE."";
     }
@@ -428,8 +446,8 @@ function SaveEditBlogCategory($catid, $title)
 {
     global $prefix, $db, $admin_file;
 
-    $title = str_replace("\"","",$title);
-    $result = $db->sql_query("select catid from ".$prefix."_stories_cat where title='$title'");
+    $title = str_replace("\"","",(string) $title);
+    $result = $db->sql_query("select catid from ".$prefix."_blogs_cat where title='$title'");
     $catid = intval($catid);
     $check = $db->sql_numrows($result);
 
@@ -442,7 +460,7 @@ function SaveEditBlogCategory($catid, $title)
 	{
         $what1 = _CATSAVED;
         $what2 = "[ <a href=\"".$admin_file.".php\">"._GOTOADMIN."</a> ]";
-        $result = $db->sql_query("update ".$prefix."_stories_cat set title='$title' where catid='$catid'");
+        $result = $db->sql_query("update ".$prefix."_blogs_cat set title='$title' where catid='$catid'");
     
 	    if (!$result) 
         return;
@@ -453,8 +471,8 @@ function SaveEditBlogCategory($catid, $title)
     OpenTable();
     
 	echo "<div align=\"center\"><span class=\"title\"><strong>"._CATEGORIESADMIN."</strong></span></div><br />";
-	echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _NEWS_ADMIN_HEADER . "</a></div>";
-	echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
+	echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _BLOGS_ADMIN_HEADER . "</a></div>";
+	echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _BLOGS_RETURNMAIN . "</a> ]</div><br />";
 
     echo "<div align=\"center\"><span class=\"content\"><strong>$what1</strong></span><br /><br />";
     echo "$what2</div>";
@@ -468,8 +486,8 @@ function SaveBlogCategory($title)
 {
     global $prefix, $db, $admin_file;
 
-    $title = str_replace("\"","",$title);
-    $result = $db->sql_query("select catid from ".$prefix."_stories_cat where title='$title'");
+    $title = str_replace("\"","",(string) $title);
+    $result = $db->sql_query("select catid from ".$prefix."_blogs_cat where title='$title'");
     $check = $db->sql_numrows($result);
  
     if ($check) 
@@ -481,7 +499,7 @@ function SaveBlogCategory($title)
 	{
         $what1 = _CATADDED;
         $what2 = _GOTOADMIN;
-        $result = $db->sql_query("insert into ".$prefix."_stories_cat values (NULL, '$title', '0')");
+        $result = $db->sql_query("insert into ".$prefix."_blogs_cat values (NULL, '$title', '0')");
     
 	    if (!$result) 
         return;
@@ -503,20 +521,23 @@ function autodeleteblog($anid)
 {
     global $prefix, $db, $admin_file;
     $anid = intval($anid);
-    $db->sql_query("delete from ".$prefix."_autonews where anid='$anid'");
+    $db->sql_query("delete from ".$prefix."_blogs_autoblog where anid='$anid'");
     redirect($admin_file.".php?op=adminBlog");
 }
 
 function autoEditBlog($anid) 
 {
+    $sid = null;
+    $subject = null;
+    $sel = null;
     global $aid, $bgcolor1, $bgcolor2, $prefix, $db, $multilingual, $admin_file, $module_name;
 
     $sid = intval($sid);
-    $aid = substr($aid, 0,25);
+    $aid = substr((string) $aid, 0,25);
 
-    list($aaid) = $db->sql_ufetchrow("SELECT aid from ".$prefix."_stories WHERE sid='$sid'", SQL_NUM);
+    [$aaid] = $db->sql_ufetchrow("SELECT aid from ".$prefix."_blogs WHERE sid='$sid'", SQL_NUM);
     
-	$aaid = substr($aaid, 0,25);
+	$aaid = substr((string) $aaid, 0,25);
 
     if (is_mod_admin($module_name)) 
 	{
@@ -540,61 +561,47 @@ function autoEditBlog($anid)
 								 ticon, 
 								writes 
 								
-								FROM ".$prefix."_autonews 
+								FROM ".$prefix."_blogs_autoblog 
 								
 								WHERE anid='$anid'");
 								
-      list($catid, 
-	         $aid, 
-		   $title, 
-		    $time, 
-	    $modified, 
-		$hometext, 
-		$bodytext, 
-		   $topic, 
-	   $informant, 
-	       $notes, 
-		   $ihome, 
-	   $alanguage, 
-	       $acomm, 
-	  $topic_icon, 
-	      $writes) = $db->sql_fetchrow($result);
+      [$catid, $aid, $title, $time, $modified, $hometext, $bodytext, $topic, $informant, $notes, $ihome, $alanguage, $acomm, $topic_icon, $writes] = $db->sql_fetchrow($result);
 
       $catid = intval($catid);
-      $aid = substr($aid, 0,25);
-      $informant = substr($informant, 0,25);
+      $aid = substr((string) $aid, 0,25);
+      $informant = substr((string) $informant, 0,25);
       $ihome = intval($ihome);
       $acomm = intval($acomm);
       $topic_icon = intval($topic_icon);
       $writes = intval($writes);
       
-	  preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/", $time, $datetime);
+	  preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/", (string) $time, $datetime);
 
       OpenTable();
 	  
-      echo "<div align=\"center\"><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></div><br />";
-	  echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _NEWS_ADMIN_HEADER . "</a></div>";
-	  echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>";
+      echo "<div align=\"center\"><span class=\"title\"><strong>"._BLOG_ADMIN."</strong></span></div><br />";
+	  echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _BLOGS_ADMIN_HEADER . "</a></div>";
+	  echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _BLOGS_RETURNMAIN . "</a> ]</div>";
       
 	  $today = getdate();
-      $tday = $today[mday];
+      $tday = $today[\MDAY];
       
 	  if ($tday < 10)
       $tday = "0$tday";
       
-	  $tmonth = $today[month];
-      $tyear = $today[year];
-      $thour = $today[hours];
+	  $tmonth = $today[\MONTH];
+      $tyear = $today[\YEAR];
+      $thour = $today[\HOURS];
       
 	  if ($thour < 10)
       $thour = "0$thour";
       
-	  $tmin = $today[minutes];
+	  $tmin = $today[\MINUTES];
       
 	  if ($tmin < 10)
       $tmin = "0$tmin";
 
-      $tsec = $today[seconds];
+      $tsec = $today[\SECONDS];
 
       if ($tsec < 10)
       $tsec = "0$tsec";
@@ -605,15 +612,15 @@ function autoEditBlog($anid)
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
     echo "<div align=\"center\"><span class=\"option\"><strong>"._AUTOSTORYEDIT."</strong></span></div><br /><br />"
-        ."<form action=\"".$admin_file.".php\" method=\"post\" name=\"postnews\">";
+        ."<form action=\"".$admin_file.".php\" method=\"post\" name=\"postblog\">";
 
-    $title = stripslashes($title);
-    $hometext = stripslashes($hometext);
-    $bodytext = stripslashes($bodytext);
-    $notes = stripslashes($notes);
-    $result=$db->sql_query("select topicimage from ".$prefix."_topics where topicid='$topic'");
+    $title = stripslashes((string) $title);
+    $hometext = stripslashes((string) $hometext);
+    $bodytext = stripslashes((string) $bodytext);
+    $notes = stripslashes((string) $notes);
+    $result=$db->sql_query("select topicimage from ".$prefix."_blogs_topics where topicid='$topic'");
 
-    list($topicimage) = $db->sql_fetchrow($result);
+    [$topicimage] = $db->sql_fetchrow($result);
     
 	echo "<table border=\"0\" width=\"75%\" cellpadding=\"0\" cellspacing=\"1\" bgcolor=\"$bgcolor2\" align=\"center\"><tr><td>"
         ."<table border=\"0\" width=\"100%\" cellpadding=\"8\" cellspacing=\"1\" bgcolor=\"$bgcolor1\"><tr><td>";
@@ -640,11 +647,11 @@ function autoEditBlog($anid)
         ."<input type=\"text\" name=\"title\" size=\"50\" value=\"$title\"><br /><br />"
         ."<strong>"._TOPIC."</strong> <select name=\"topic\">";
  
-    $toplist = $db->sql_query("select topicid, topictext from ".$prefix."_topics order by topictext");
+    $toplist = $db->sql_query("select topicid, topictext from ".$prefix."_blogs_topics order by topictext");
     
 	echo "<option value=\"\">"._ALLTOPICS."</option>\n";
  
-    while(list($topicid, $topics) = $db->sql_fetchrow($toplist)) 
+    while([$topicid, $topics] = $db->sql_fetchrow($toplist)) 
 	{
         $topicid = intval($topicid);
     
@@ -675,10 +682,10 @@ function autoEditBlog($anid)
         
 		echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
     
-	    for ($i=0, $j = count($languages); $i < $j; $i++) 
+	    for ($i=0, $j = is_countable($languages) ? count($languages) : 0; $i < $j; $i++) 
 		{
             if ($languages[$i] != '') 
-            echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+            echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst((string) $languages[$i])."</option>\n";
         }
 
         echo '</select>';
@@ -686,16 +693,16 @@ function autoEditBlog($anid)
 	else 
     echo "<input type=\"hidden\" name=\"alanguage\" value=\"\">";
 
-    echo "<br /><br /><strong>"._STORYTEXT."</strong>";
+    echo "<br /><br /><strong>"._BLOG_TEXT."</strong>";
 
 /*****[BEGIN]******************************************
  [ Mod:     Custom Text Area                   v1.0.0 ]
  ******************************************************/
     global $wysiwyg_buffer;
     $wysiwyg_buffer = 'hometext,bodytext';
-    Make_TextArea('hometext', $hometext, 'postnews');
-    echo "<strong>"._EXTENDEDTEXT."</strong>";
-    Make_TextArea('bodytext', $bodytext, 'postnews');
+    Make_TextArea('hometext', $hometext, 'postblog');
+    echo "<strong>"._EXTENDED_BLOG_TEXT."</strong>";
+    Make_TextArea('bodytext', $bodytext, 'postblog');
     echo "<span class=\"content\">"._ARESUREURL."</span><br /><br />";
 /*****[END]********************************************
  [ Mod:     Custom Text Area                   v1.0.0 ]
@@ -803,9 +810,9 @@ function autoEditBlog($anid)
 
         OpenTable();
 
-        echo "<div align=\"center\"><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></div><br />";
-	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _NEWS_ADMIN_HEADER . "</a></div>";
-	    echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
+        echo "<div align=\"center\"><span class=\"title\"><strong>"._BLOG_ADMIN."</strong></span></div><br />";
+	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _BLOGS_ADMIN_HEADER . "</a></div>";
+	    echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _BLOGS_RETURNMAIN . "</a> ]</div><br />";
 
         echo "<div align=\"center\"><strong>"._NOTAUTHORIZED_EDIT1."</strong></div><br /><br />"
             .""._NOTAUTHORIZED_EDIT2."<br /><br />"
@@ -819,14 +826,15 @@ function autoEditBlog($anid)
 
 function autoSaveEditBlog($anid, $year, $day, $month, $hour, $min, $title, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes) 
 {
+    $sid = null;
     global $aid, $ultramode, $prefix, $db, $admin_file, $module_name;
 
     $sid = intval($sid);
-    $aid = substr($aid, 0,25);
+    $aid = substr((string) $aid, 0,25);
 	
-    list($aaid) = $db->sql_ufetchrow("SELECT aid from ".$prefix."_stories WHERE sid='$sid'", SQL_NUM);
+    [$aaid] = $db->sql_ufetchrow("SELECT aid from ".$prefix."_blogs WHERE sid='$sid'", SQL_NUM);
     
-	$aaid = substr($aaid, 0,25);
+	$aaid = substr((string) $aaid, 0,25);
 
     if (is_mod_admin($module_name)) 
 	{
@@ -844,7 +852,7 @@ function autoSaveEditBlog($anid, $year, $day, $month, $hour, $min, $title, $home
       $bodytext = Fix_Quotes($bodytext);
       $notes = Fix_Quotes($notes);
     
-	  $result = $db->sql_query("UPDATE ".$prefix."_autonews set 
+	  $result = $db->sql_query("UPDATE ".$prefix."_blogs_autoblog set 
 	 
 	       catid='$catid', 
 	       title='$title', 
@@ -876,9 +884,9 @@ function autoSaveEditBlog($anid, $year, $day, $month, $hour, $min, $title, $home
     
         OpenTable();
 
-        echo "<div align=\"center\"><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></div><br />";
-	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _NEWS_ADMIN_HEADER . "</a></div>";
-        echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
+        echo "<div align=\"center\"><span class=\"title\"><strong>"._BLOG_ADMIN."</strong></span></div><br />";
+	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _BLOGS_ADMIN_HEADER . "</a></div>";
+        echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _BLOGS_RETURNMAIN . "</a> ]</div><br />";
    
         echo "<center><strong>"._NOTAUTHORIZED_EDIT1."</strong><br /><br />"
             .""._NOTAUTHORIZED_EDIT2."<br /><br />"
@@ -892,6 +900,7 @@ function autoSaveEditBlog($anid, $year, $day, $month, $hour, $min, $title, $home
 
 function displayBlog($qid) 
 {
+    $sel = null;
     global $user, $admin_file, $subject, $story, $bgcolor1, $bgcolor2, $anonymous, $user_prefix, $prefix, $db, $multilingual;
 
     include(NUKE_BASE_DIR.'header.php');
@@ -936,17 +945,17 @@ function displayBlog($qid)
 								   topic, 
 							    alanguage 
 								
-								FROM ".$prefix."_queue 
+								FROM ".$prefix."_blogs_queue 
 								
 								WHERE qid='$qid'");
 
-    list($qid, $uid, $uname, $subject, $story, $storyext, $topic, $alanguage) = $db->sql_fetchrow($result);
+    [$qid, $uid, $uname, $subject, $story, $storyext, $topic, $alanguage] = $db->sql_fetchrow($result);
 
     $qid = intval($qid);
     $uid = intval($uid);
-    $subject = stripslashes($subject);
-    $story = stripslashes($story);
-    $storyext = stripslashes($storyext);
+    $subject = stripslashes((string) $subject);
+    $story = stripslashes((string) $story);
+    $storyext = stripslashes((string) $storyext);
 
 /*****[BEGIN]******************************************
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
@@ -962,14 +971,14 @@ function displayBlog($qid)
     OpenTable();
     
 	echo "<div align=\"center\"><span class=\"title\"><strong>"._BLOG_SUBMISSIONSADMIN."</strong></span></div><br />";
- 	echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _NEWS_ADMIN_HEADER . "</a></div>";
- 	echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
+ 	echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _BLOGS_ADMIN_HEADER . "</a></div>";
+ 	echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _BLOGS_RETURNMAIN . "</a> ]</div><br />";
 
 /*****[BEGIN]******************************************
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
     echo "<font class=\"content\">"
-        ."<form action=\"".$admin_file.".php\" method=\"post\" name=\"postnews\">"
+        ."<form action=\"".$admin_file.".php\" method=\"post\" name=\"postblog\">"
         ."<strong>"._NAME."</strong><br />"
         ."<input type=\"text\" NAME=\"author\" size=\"25\" value=\"$uname\">";
 /*****[END]********************************************
@@ -979,7 +988,7 @@ function displayBlog($qid)
 	{
       $res = $db->sql_query("SELECT user_email from ".$user_prefix."_users WHERE username='$uname'");
       
-	  list($email) = $db->sql_fetchrow($res);
+	  [$email] = $db->sql_fetchrow($res);
       
 	  echo "&nbsp;&nbsp;<span class=\"content\">[ <a href=\"mailto:$email?Subject=Re: $subject\">"._EMAILUSER."</a> | <a href='modules.php?name=Your_Account&op=userinfo&username=$uname'>"._USERPROFILE."</a> | <a href=\"modules.php?name=Private_Messages&amp;mode=post&amp;u=$uid\">"._SENDPM."</a> ]</span>";
     }
@@ -990,14 +999,14 @@ function displayBlog($qid)
 	if(empty($topic)) 
     $topic = 1;
     
-	$result = $db->sql_query("select topicimage from ".$prefix."_topics where topicid='$topic'");
+	$result = $db->sql_query("select topicimage from ".$prefix."_blogs_topics where topicid='$topic'");
 
-    list($topicimage) = $db->sql_fetchrow($result);
+    [$topicimage] = $db->sql_fetchrow($result);
 
     echo "<table border=\"0\" width=\"70%\" cellpadding=\"0\" cellspacing=\"1\" bgcolor=\"$bgcolor2\" align=\"center\"><tr><td>"
         ."<table border=\"0\" width=\"100%\" cellpadding=\"8\" cellspacing=\"1\" bgcolor=\"$bgcolor1\"><tr><td>";
 
-    if ($topic_icon == 0) 
+    if (isset($topic_icon) && $topic_icon == 0) 
     echo "<img src=\"images/Blog_Topics/$topicimage\" border=\"0\" align=\"right\" alt=\"\">";
 
     $storypre = "$story_bb<br /><br />$storyext_bb";
@@ -1010,11 +1019,11 @@ function displayBlog($qid)
     echo "</td></tr></table></td></tr></table>"
         ."<br /><strong>"._TOPIC."</strong> <select name=\"topic\">";
 
-    $toplist = $db->sql_query("select topicid, topictext from ".$prefix."_topics order by topictext");
+    $toplist = $db->sql_query("select topicid, topictext from ".$prefix."_blogs_topics order by topictext");
 
-    echo "<option value=\"\">"._SELECTTOPIC."</option>\n";
+    echo "<option value=\"\">"._SELECT_BLOG_TOPIC."</option>\n";
 
-    while(list($topicid, $topics) = $db->sql_fetchrow($toplist)) 
+    while([$topicid, $topics] = $db->sql_fetchrow($toplist)) 
 	{
         $topicid = intval($topicid);
         
@@ -1030,7 +1039,7 @@ function displayBlog($qid)
     echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOCIATED_BLOG_TOPICS."</strong></td><td width='100%'>"
         ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
 
-    $sql = "SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext";
+    $sql = "SELECT topicid, topictext FROM ".$prefix."_blogs_topics ORDER BY topictext";
     $result = $db->sql_query($sql);
     $a = 0;
     
@@ -1048,6 +1057,21 @@ function displayBlog($qid)
 
     echo "</tr></table></td></tr></table><br /><br />";
     
+	if(!isset($cat))
+	$cat = '';
+
+	if(!isset($topic_icon))
+	$topic_icon = '';
+
+	if(!isset($writes))
+	$writes = '';
+
+	if(!isset($ihome))
+	$ihome = '';
+
+	if(!isset($acomm))
+	$acomm = '';
+	
 	SelectBlogCategory($cat);
     echo '<br />';
     topicicon($topic_icon);
@@ -1064,10 +1088,10 @@ function displayBlog($qid)
 
         echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
     
-	    for ($i=0, $j = count($languages); $i < $j; $i++) 
+	    for ($i=0, $j = is_countable($languages) ? count($languages) : 0; $i < $j; $i++) 
 		{
             if ($languages[$i] != '') 
-            echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+            echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst((string) $languages[$i])."</option>\n";
         }
         
 		echo '</select>';
@@ -1075,16 +1099,16 @@ function displayBlog($qid)
 	else 
     echo "<input type=\"hidden\" name=\"alanguage\" value=\"\">";
     
-	echo "<br /><br /><strong>"._STORYTEXT."</strong>";
+	echo "<br /><br /><strong>"._BLOG_TEXT."</strong>";
 
 /*****[BEGIN]******************************************
  [ Mod:     Custom Text Area                   v1.0.0 ]
  ******************************************************/
     global $wysiwyg_buffer;
     $wysiwyg_buffer = 'hometext,bodytext';
-    Make_TextArea('hometext', $story, 'postnews');
-    echo "<strong>"._EXTENDEDTEXT."</strong>";
-    Make_TextArea('bodytext', $storyext, 'postnews');
+    Make_TextArea('hometext', $story, 'postblog');
+    echo "<strong>"._EXTENDED_BLOG_TEXT."</strong>";
+    Make_TextArea('bodytext', $storyext, 'postblog');
     echo "<span class=\"content\">"._ARESUREURL."</span><br /><br />";
 /*****[END]********************************************
  [ Mod:     Custom Text Area                   v1.0.0 ]
@@ -1135,7 +1159,7 @@ function displayBlog($qid)
 	echo "</select>";
 
     $date = getdate();
-    $year = $date[year];
+    $year = $date['year'];
 
     echo ""._YEAR.": <input type=\"text\" name=\"year\" value=\"$year\" size=\"5\" maxlength=\"4\">";
     echo "<br />"._HOUR.": <select name=\"hour\">";
@@ -1181,6 +1205,12 @@ function displayBlog($qid)
 
         CloseTable();
 
+    if(!isset($pollTitle))
+    $pollTitle = '';
+
+    if(!isset($optionText))
+    $optionText = '';
+
     putpoll($pollTitle, $optionText);
 
     echo "</form>";
@@ -1212,50 +1242,54 @@ function previewBlog($automated,
 					 $optionText, 
 					    $assotop) 
 {
+    $sel = null;
+    $associated = null;
+    $checked = null;
+    $language = null;
     global $user, $admin_file, $boxstuff, $anonymous, $bgcolor1, $bgcolor2, $user_prefix, $prefix, $db, $multilingual, $Version_Num;
 
     include(NUKE_BASE_DIR.'header.php');
 
     $today = getdate();
-    $tday = $today[mday];
+    $tday = $today['mday'];
     
 	if ($tday < 10)
     $tday = "0$tday";
     
-	$tmonth = $today[month];
-    $tyear = $today[year];
-    $thour = $today[hours];
+	$tmonth = $today['month'];
+    $tyear = $today['year'];
+    $thour = $today['hours'];
     
 	if ($thour < 10)
     $thour = "0$thour";
     
-	$tmin = $today[minutes];
+	$tmin = $today['minutes'];
     
 	if ($tmin < 10)
     $tmin = "0$tmin";
     
-	$tsec = $today[seconds];
+	$tsec = $today['seconds'];
     
 	if ($tsec < 10)
     $tsec = "0$tsec";
     
 	$date = "$tmonth $tday, $tyear @ $thour:$tmin:$tsec";
-    $subject = stripslashes($subject);
-    $hometext = stripslashes($hometext);
-    $bodytext = stripslashes($bodytext);
-    $notes = stripslashes($notes);
+    $subject = stripslashes((string) $subject);
+    $hometext = stripslashes((string) $hometext);
+    $bodytext = stripslashes((string) $bodytext);
+    $notes = stripslashes((string) $notes);
     
 	OpenTable();
 	
-    echo "<div align=\"center\"><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></div><br />";
-	echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _NEWS_ADMIN_HEADER . "</a></div>";
-	echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
+    echo "<div align=\"center\"><span class=\"title\"><strong>"._BLOG_ADMIN."</strong></span></div><br />";
+	echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _BLOGS_ADMIN_HEADER . "</a></div>";
+	echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _BLOGS_RETURNMAIN . "</a> ]</div><br />";
 
 /*****[BEGIN]******************************************
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
     echo "<font class=\"content\">"
-        ."<form action=\"".$admin_file.".php\" method=\"post\" name=\"postnews\">"
+        ."<form action=\"".$admin_file.".php\" method=\"post\" name=\"postblog\">"
         ."<strong>"._NAME."</strong><br />"
         ."<input type=\"text\" name=\"author\" size=\"25\" value=\"$author\">";
 /*****[END]********************************************
@@ -1265,7 +1299,7 @@ function previewBlog($automated,
     if ($author != $anonymous) 
 	{
         $res = $db->sql_query("select user_id, user_email from ".$user_prefix."_users where username='$author'");
-        list($pm_userid, $email) = $db->sql_fetchrow($res);
+        [$pm_userid, $email] = $db->sql_fetchrow($res);
         $pm_userid = intval($pm_userid);
         echo "&nbsp;&nbsp;<span class=\"content\">[ <a href=\"mailto:$email?Subject=Re: $subject\">"._EMAILUSER."</a> | <a href='modules.php?name=Your_Account&op=userinfo&username=$author'>"._USERPROFILE."</a> | <a href=\"modules.php?name=Private_Messages&amp;mode=post&amp;u=$uid\">"._SENDPM."</a> ]</span>";
     }
@@ -1273,9 +1307,9 @@ function previewBlog($automated,
 	echo "<br /><br /><strong>"._TITLE."</strong><br />"
         ."<input type=\"text\" name=\"subject\" size=\"50\" value=\"$subject\"><br /><br />";
 
-    $result = $db->sql_query("select topicimage from ".$prefix."_topics where topicid='$topic'");
+    $result = $db->sql_query("select topicimage from ".$prefix."_blogs_topics where topicid='$topic'");
 
-    list($topicimage) = $db->sql_fetchrow($result);
+    [$topicimage] = $db->sql_fetchrow($result);
 
     echo "<table width=\"70%\" bgcolor=\"$bgcolor2\" cellpadding=\"0\" cellspacing=\"1\" border=\"0\"align=\"center\"><tr><td>"
         ."<table width=\"100%\" bgcolor=\"$bgcolor1\" cellpadding=\"8\" cellspacing=\"1\" border=\"0\"><tr><td>";
@@ -1300,11 +1334,11 @@ function previewBlog($automated,
     echo "</td></tr></table></td></tr></table>"
         ."<br /><strong>"._TOPIC."</strong> <select name=\"topic\">";
     
-	$toplist = $db->sql_query("SELECT topicid, topictext FROM ".$prefix."_topics order by topictext");
+	$toplist = $db->sql_query("SELECT topicid, topictext FROM ".$prefix."_blogs_topics order by topictext");
     
 	echo "<option value=\"\">"._ALLTOPICS."</option>\n";
 
-    while(list($topicid, $topics) = $db->sql_fetchrow($toplist)) 
+    while([$topicid, $topics] = $db->sql_fetchrow($toplist)) 
 	{
         $topicid = intval($topicid);
     
@@ -1320,7 +1354,7 @@ function previewBlog($automated,
     
     if($Version_Num >= 6.6) 
 	{
-        for ($i=0; $i<count($assotop); $i++) 
+        for ($i=0; $i<(is_countable($assotop) ? count($assotop) : 0); $i++) 
 	    $associated .= "$assotop[$i]-"; 
     
 	    $asso_t = explode("-", $associated);
@@ -1328,7 +1362,7 @@ function previewBlog($automated,
         echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOCIATED_BLOG_TOPICS."</strong></td><td width='100%'>"
             ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
 
-        $sql = "SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext";
+        $sql = "SELECT topicid, topictext FROM ".$prefix."_blogs_topics ORDER BY topictext";
         $result = $db->sql_query($sql);
         $a = 0;
     
@@ -1374,10 +1408,10 @@ function previewBlog($automated,
         $languages = lang_list();
         echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
     
-	    for ($i=0, $j = count($languages); $i < $j; $i++) 
+	    for ($i=0, $j = is_countable($languages) ? count($languages) : 0; $i < $j; $i++) 
 		{
             if ($languages[$i] != '') 
-            echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+            echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst((string) $languages[$i])."</option>\n";
         }
         echo '</select>';
     } 
@@ -1387,7 +1421,7 @@ function previewBlog($automated,
 /*****[BEGIN]******************************************
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
-    echo "<br /><br /><strong>"._STORYTEXT."</strong>";
+    echo "<br /><br /><strong>"._BLOG_TEXT."</strong>";
 
 
 /*****[BEGIN]******************************************
@@ -1395,9 +1429,9 @@ function previewBlog($automated,
  ******************************************************/
     global $wysiwyg_buffer;
     $wysiwyg_buffer = 'hometext,bodytext';
-    Make_TextArea('hometext', $hometext, 'postnews');
-    echo "<strong>"._EXTENDEDTEXT."</strong>";
-    Make_TextArea('bodytext', $bodytext, 'postnews');
+    Make_TextArea('hometext', $hometext, 'postblog');
+    echo "<strong>"._EXTENDED_BLOG_TEXT."</strong>";
+    Make_TextArea('bodytext', $bodytext, 'postblog');
     echo "<span class=\"content\">"._ARESUREURL."</span><br /><br />";
 /*****[END]********************************************
  [ Mod:     Custom Text Area                   v1.0.0 ]
@@ -1545,12 +1579,13 @@ function postStory($automated,
 				  $optionText, 
 				     $assotop) 
 {
+    $associated = null;
     global $aid, $admin_file, $ultramode, $prefix, $db, $user_prefix, $Version_Num, $pnt_blogs_config, $adminmail, $sitename, $nukeurl, $cache;
 
     // Copyright (c) 2000-2005 by NukeScripts Network
     if($Version_Num >= 6.6) 
 	{ 
-	   for ($i=0; $i<count($assotop); $i++) 
+	   for ($i=0; $i<(is_countable($assotop) ? count($assotop) : 0); $i++) 
        $associated .= "$assotop[$i]-"; 
 	     
 	}
@@ -1581,7 +1616,7 @@ function postStory($automated,
         $notes = Fix_Quotes($notes);
         
 		// Copyright (c) 2000-2005 by NukeScripts Network
-        $new_sql  = "INSERT INTO ".$prefix."_autonews values (NULL, 
+        $new_sql  = "INSERT INTO ".$prefix."_blogs_autoblog values (NULL, 
 		                                                   '$catid', 
 														     '$aid', 
 														 '$subject', 
@@ -1607,16 +1642,16 @@ function postStory($automated,
         if (!$result) 
 	    return; 
 		
-        $result = $db->sql_query("SELECT sid from ".$prefix."_stories WHERE title='$subject' order by time DESC limit 0,1");
+        $result = $db->sql_query("SELECT sid from ".$prefix."_blogs WHERE title='$subject' order by time DESC limit 0,1");
         
-		list($artid) = $db->sql_fetchrow($result);
+		[$artid] = $db->sql_fetchrow($result);
         
 		$artid = intval($artid);
         
 		if ($uid != 1) 
 		{
             $db->sql_query("UPDATE ".$user_prefix."_users SET counter=counter+1 WHERE user_id='$uid'");
-            
+
 			// Copyright (c) 2000-2005 by NukeScripts Network
             if($pnt_blogs_config["notifyauth"] == 1) 
 			{
@@ -1643,7 +1678,7 @@ function postStory($automated,
 	    blog_ultramode(); 
         
 		$qid = intval($qid);
-        $db->sql_query("DELETE FROM ".$prefix."_queue WHERE qid='$qid'");
+        $db->sql_query("DELETE FROM ".$prefix."_blogs_queue WHERE qid='$qid'");
 
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -1681,7 +1716,7 @@ function postStory($automated,
             $id = $object["pollID"];
             $id = intval($id);
             
-			for($i = 1, $maxi = count($optionText); $i <= $maxi; $i++) 
+			for($i = 1, $maxi = is_countable($optionText) ? count($optionText) : 0; $i <= $maxi; $i++) 
 			{
                 if(!empty($optionText[$i])) 
                 $optionText[$i] = Fix_Quotes($optionText[$i]);
@@ -1696,35 +1731,62 @@ function postStory($automated,
             $id = 0;
         }
 
-        // Copyright (c) 2000-2005 by NukeScripts Network
-        $new_sql  = "INSERT INTO ".$prefix."_stories VALUES (NULL, 
-		                                                  '$catid', 
-														    '$aid', 
-													    '$subject', 
-													         now(),
-															 now(), 
-													   '$hometext', 
-													   '$bodytext', 
-													           '0', 
-														  	   '0', 
-														  '$topic', 
-														 '$author', 
-														  '$notes', 
-														  '$ihome', 
-													  '$alanguage', 
-													      '$acomm', 
-													    '$haspoll', 
-													         '$id', 
-															   '0', 
-															   '0'";
-        $new_sql .= ", '$associated'";
-        $new_sql .= ",'$topic_id', '$writes')";
-        $result = $db->sql_query($new_sql);
+    // Copyright (c) 2000-2005 by NukeScripts Network
+	if(!isset($topic_id))
+	$topic_id = 0;														   
+															   
+   $new_sql = "INSERT INTO `".$prefix."_blogs` (`sid`, 
+		                                      `catid`, 
+											    `aid`, 
+											  `title`, 
+									  `datePublished`, 
+									   `dateModified`, 
+									       `hometext`, 
+										   `bodytext`, 
+										   `comments`, 
+										    `counter`, 
+											  `topic`, 
+										  `informant`, 
+										      `notes`, 
+											  `ihome`, 
+										  `alanguage`, 
+										      `acomm`, 
+											`haspoll`, 
+											 `pollID`, 
+											  `score`, 
+											`ratings`, 
+										 `associated`, 
+										      `ticon`, 
+											 `writes`) VALUES (NULL, 
+											               '$catid', 
+												             '$aid', 
+									                     '$subject', 
+										                      now(), 
+									  	                      now(), 
+												        '$hometext', 
+												        '$bodytext', 
+												                  0, 
+												                  0, 
+												           '$topic', 
+												          '$author', 
+												           '$notes', 
+												             $ihome, 
+												       '$alanguage', 
+												             $acomm, 
+												           $haspoll, 
+												                $id, 
+												                  0, 
+												                  0, 
+												      '$associated', 
+												        '$topic_id', 
+												           $writes);"; 													   
+															   
+		$result = $db->sql_query($new_sql);
         
 		// Copyright (c) 2000-2005 by NukeScripts Network
-        $result = $db->sql_query("SELECT sid from ".$prefix."_stories WHERE title='$subject' order by time DESC limit 0,1");
+        $result = $db->sql_query("SELECT sid from ".$prefix."_blogs WHERE title='$subject' order by datePublished DESC limit 0,1");
        
-	    list($artid) = $db->sql_fetchrow($result);
+	    [$artid] = $db->sql_fetchrow($result);
        
 	    $artid = intval($artid);
         $db->sql_query("UPDATE ".$prefix."_poll_desc SET artid='$artid' WHERE pollID='$id'");
@@ -1735,14 +1797,14 @@ function postStory($automated,
 		if ($uid != 1) 
 		{
             $db->sql_query("UPDATE ".$user_prefix."_users SET counter=counter+1 WHERE user_id='$uid'");
-            
+            global $sitename;
 			// Copyright (c) 2000-2005 by NukeScripts Network
 		    if($pnt_blogs_config["notifyauth"] == 1) 
 			{
                 $urow = $db->sql_fetchrow($db->sql_query("SELECT username, user_email FROM ".$user_prefix."_users WHERE user_id='$uid'"));
-                $Mto = $urow["username"]." <".$urow["user_email"].">";
-                $Msubject = _BLOG_ARTPUB;
-                $Mbody = _BLOG_HASPUB."\n$nukeurl/modules.php?name=Blogs&file=article&sid=$artid";
+                $Mto = $urow["user_email"];
+                $Msubject = $sitename.' - '._BLOG_ARTPUB;
+                $Mbody = $sitename.' - '._BLOG_HASPUB."\n$nukeurl/modules.php?name=Blogs&file=article&sid=$artid";
                 $Mheaders  = "From: ".$sitename." <$adminmail>\r\n";
                 $Mheaders .= "Reply-To: $adminmail\r\n";
                 $Mheaders .= "Return-Path: $adminmail\r\n";
@@ -1768,14 +1830,15 @@ function postStory($automated,
 
 function editBlog($sid) 
 {
+    $sel = null;
     global $user, $admin_file, $bgcolor1, $bgcolor2, $aid, $prefix, $db, $multilingual, $Version_Num, $module_name;
 
-    $aid = substr($aid, 0,25);
+    $aid = substr((string) $aid, 0,25);
     $sid = intval($sid);
     
-	list($aaid) = $db->sql_ufetchrow("SELECT aid FROM ".$prefix."_stories WHERE sid='$sid'", SQL_NUM);
+	[$aaid] = $db->sql_ufetchrow("SELECT aid FROM ".$prefix."_blogs WHERE sid='$sid'", SQL_NUM);
     
-	$aaid = substr($aaid, 0,25);
+	$aaid = substr((string) $aaid, 0,25);
 
     if (is_mod_admin($module_name)) 
 	{
@@ -1797,45 +1860,30 @@ function editBlog($sid)
 								 datePublished,
 								  dateModified, 
 										   sid 
-	    FROM ".$prefix."_stories 
+	    FROM ".$prefix."_blogs 
 		WHERE sid='$sid'");
 		
-        list($catid, 
-		   $subject, 
-		  $hometext, 
-		  $bodytext, 
-		     $topic, 
-			 $notes, 
-			 $ihome, 
-		 $alanguage, 
-		     $acomm, 
-		$topic_icon, 
-		    $writes, 
-			   $aid, 
-		 $informant, 
-		      $time,
-		  $modified,  
-			   $sid) = $db->sql_fetchrow($result);
+        [$catid, $subject, $hometext, $bodytext, $topic, $notes, $ihome, $alanguage, $acomm, $topic_icon, $writes, $aid, $informant, $time, $modified, $sid] = $db->sql_fetchrow($result);
         
 		$catid = intval($catid);
-        $subject = stripslashes($subject);
-        $hometext = stripslashes($hometext);
-        $bodytext = stripslashes($bodytext);
-        $notes = stripslashes($notes);
+        $subject = stripslashes((string) $subject);
+        $hometext = stripslashes((string) $hometext);
+        $bodytext = stripslashes((string) $bodytext);
+        $notes = stripslashes((string) $notes);
         $ihome = intval($ihome);
         $acomm = intval($acomm);
         $aid = $aid;
         $topic_icon = intval($topic_icon);
         $writes = intval($writes);
         
-		$result2=$db->sql_query("SELECT topicimage from ".$prefix."_topics WHERE topicid='$topic'");
+		$result2=$db->sql_query("SELECT topicimage from ".$prefix."_blogs_topics WHERE topicid='$topic'");
         
-		list($topicimage) = $db->sql_fetchrow($result2);
+		[$topicimage] = $db->sql_fetchrow($result2);
         
 		OpenTable();
 
 	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\"><strong>Admin - Edit Blog Module</strong></a></div>";
-	    echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
+	    echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _BLOGS_RETURNMAIN . "</a> ]</div><br />";
         echo "<div align=\"center\"><span class=\"option\"><strong>"._EDITBLOGPOST."</strong></span></div>";
 
 /*****[BEGIN]******************************************
@@ -1864,18 +1912,18 @@ function editBlog($sid)
 		themearticle($aid, $informant, $time, $modified, $subject, $counter, $hometext_bb, $topic, $topicname, $topicimage, $topictext);
         
 		echo "<br />"
-            ."<form action=\"".$admin_file.".php\" method=\"post\" name=\"postnews\">"
+            ."<form action=\"".$admin_file.".php\" method=\"post\" name=\"postblog\">"
             ."<strong>"._TITLE."</strong><br />"
             ."<input type=\"text\" name=\"subject\" size=\"50\" value=\"$subject\"><br /><br />"
             ."<strong>"._TOPIC."</strong> <select name=\"topic\">";
 /*****[END]********************************************
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
-        $toplist = $db->sql_query("SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext");
+        $toplist = $db->sql_query("SELECT topicid, topictext FROM ".$prefix."_blogs_topics ORDER BY topictext");
         
 		echo "<option value=\"\">"._ALLTOPICS."</option>\n";
         
-		while(list($topicid, $topics) = $db->sql_fetchrow($toplist)) 
+		while([$topicid, $topics] = $db->sql_fetchrow($toplist)) 
 		{
            $topicid = intval($topicid);
            
@@ -1892,15 +1940,15 @@ function editBlog($sid)
 		// Copyright (c) 2000-2005 by NukeScripts Network
         if($Version_Num >= 6.6) 
 		{
-            $asql = "SELECT associated FROM ".$prefix."_stories WHERE sid='$sid'";
+            $asql = "SELECT associated FROM ".$prefix."_blogs WHERE sid='$sid'";
             $aresult = $db->sql_query($asql);
             $arow = $db->sql_fetchrow($aresult);
-            $asso_t = explode("-", $arow['associated']);
+            $asso_t = explode("-", (string) $arow['associated']);
         
 		    echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOCIATED_BLOG_TOPICS."</strong></td><td width='100%'>"
                 ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
    
-            $sql = "SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext";
+            $sql = "SELECT topicid, topictext FROM ".$prefix."_blogs_topics ORDER BY topictext";
             $result = $db->sql_query($sql);
             $a = 0;
         
@@ -1948,10 +1996,10 @@ function editBlog($sid)
    
             echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
         
-		    for ($i=0, $j = count($languages); $i < $j; $i++) 
+		    for ($i=0, $j = is_countable($languages) ? count($languages) : 0; $i < $j; $i++) 
 			{
                 if ($languages[$i] != '') 
-                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst((string) $languages[$i])."</option>\n";
             }
             
 			echo '</select>';
@@ -1959,16 +2007,16 @@ function editBlog($sid)
 		else 
         echo "<input type=\"hidden\" name=\"alanguage\" value=\"\">";
 
-        echo "<br /><br /><strong>"._STORYTEXT."</strong>";
+        echo "<br /><br /><strong>"._BLOG_TEXT."</strong>";
 
 /*****[BEGIN]******************************************
  [ Mod:     Custom Text Area                   v1.0.0 ]
  ******************************************************/
     global $wysiwyg_buffer;
     $wysiwyg_buffer = 'hometext,bodytext';
-    Make_TextArea('hometext', $hometext, 'postnews');
-    echo "<strong>"._EXTENDEDTEXT."</strong>";
-    Make_TextArea('bodytext', $bodytext, 'postnews');
+    Make_TextArea('hometext', $hometext, 'postblog');
+    echo "<strong>"._EXTENDED_BLOG_TEXT."</strong>";
+    Make_TextArea('bodytext', $bodytext, 'postblog');
 /*****[END]********************************************
  [ Mod:     Custom Text Area                   v1.0.0 ]
  ******************************************************/
@@ -1990,9 +2038,9 @@ function editBlog($sid)
         
         OpenTable();
         
-		echo "<div align=\"center\"><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></div><br />";
-	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _NEWS_ADMIN_HEADER . "</a></div>";
-	    echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
+		echo "<div align=\"center\"><span class=\"title\"><strong>"._BLOG_ADMIN."</strong></span></div><br />";
+	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _BLOGS_ADMIN_HEADER . "</a></div>";
+	    echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _BLOGS_RETURNMAIN . "</a> ]</div><br />";
 
         echo "<div align=\"center\"><strong>"._NOTAUTHORIZED_EDIT1."</strong></div><br /><br />"
             .""._NOTAUTHORIZED_EDIT2."<br /><br />"
@@ -2009,21 +2057,21 @@ function removeBlog($sid, $ok=0)
     global $ultramode, $aid, $prefix, $db, $admin_file, $module_name;
     
 	$sid = intval($sid);
-    $aid = substr($aid, 0,25);
+    $aid = substr((string) $aid, 0,25);
     
-	list($aaid) = $db->sql_ufetchrow("SELECT aid from ".$prefix."_stories WHERE sid='$sid'", SQL_NUM);
+	[$aaid] = $db->sql_ufetchrow("SELECT aid from ".$prefix."_blogs WHERE sid='$sid'", SQL_NUM);
     
-	$aaid = substr($aaid, 0,25);
+	$aaid = substr((string) $aaid, 0,25);
 
     if (is_mod_admin($module_name)) 
 	{
         if($ok) 
 		{
-			list($counter) = $db->sql_ufetchrow("SELECT counter from ".$prefix."_authors WHERE aid='$aaid'", SQL_NUM);
+			[$counter] = $db->sql_ufetchrow("SELECT counter from ".$prefix."_authors WHERE aid='$aaid'", SQL_NUM);
             $counter--;
     
-	        $db->sql_query("DELETE FROM ".$prefix."_stories WHERE sid='$sid'");
-            $db->sql_query("DELETE FROM ".$prefix."_comments WHERE sid='$sid'");
+	        $db->sql_query("DELETE FROM ".$prefix."_blogs WHERE sid='$sid'");
+            $db->sql_query("DELETE FROM ".$prefix."_blogs_comments WHERE sid='$sid'");
             $db->sql_query("UPDATE ".$prefix."_poll_desc SET artid='0' where artid='$sid'");
            
 		    $result = $db->sql_query("UPDATE ".$prefix."_authors SET counter='$counter' WHERE aid='$aaid'");
@@ -2040,7 +2088,7 @@ function removeBlog($sid, $ok=0)
             OpenTable();
 	
 	        echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog&amp;sid=$sid\"><strong>Back To Current Blog</strong></a></div>";
-	        echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
+	        echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _BLOGS_RETURNMAIN . "</a> ]</div><br />";
 
             echo "<div align=\"center\"><strong>"._REMOVESTORY." $sid "._ANDCOMMENTS."</strong>";
            	echo "<br /><br />[ <a href=\"".$admin_file.".php?op=adminBlog\">"._NO."</a> | <a href=\"".$admin_file.".php?op=RemoveBlog&amp;sid=$sid&amp;ok=1\">"._YES."</a> ]</div>";
@@ -2056,9 +2104,9 @@ function removeBlog($sid, $ok=0)
 
         OpenTable();
         
-		echo "<div align=\"center\"><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></div><br /><br />";
-	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _NEWS_ADMIN_HEADER . "</a></div>";
-	    echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
+		echo "<div align=\"center\"><span class=\"title\"><strong>"._BLOG_ADMIN."</strong></span></div><br /><br />";
+	    echo "<div align=\"center\"><a href=\"$admin_file.php?op=adminBlog\">" . _BLOGS_ADMIN_HEADER . "</a></div>";
+	    echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _BLOGS_RETURNMAIN . "</a> ]</div><br />";
         echo "<div align=\"center\"><strong>"._NOTAUTHORIZED_EDIT1."</strong></div><br /><br />"
             .""._NOTAUTHORIZED_EDIT2."<br /><br />"
             .""._GOBACK."";
@@ -2072,22 +2120,24 @@ function removeBlog($sid, $ok=0)
 function changeBlog($sid, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $assotop) 
 {
 
+    $version_Num = null;
+    $associated = null;
     global $aid, $ultramode, $prefix, $db, $Version_Num, $admin_file, $module_name;
     
 	// Copyright (c) 2000-2005 by NukeScripts Network
     if($version_Num >= 6.6) 
 	{ 
-	  for ($i=0; $i<count($assotop); $i++) 
+	  for ($i=0; $i<(is_countable($assotop) ? count($assotop) : 0); $i++) 
       $associated .= "$assotop[$i]-"; 
 	}
     // Copyright (c) 2000-2005 by NukeScripts Network
     
 	$sid = intval($sid);
-    $aid = substr($aid, 0,25);
+    $aid = substr((string) $aid, 0,25);
     
-	list($aaid) = $db->sql_ufetchrow("SELECT aid from ".$prefix."_stories WHERE sid='$sid'", SQL_NUM);
+	[$aaid] = $db->sql_ufetchrow("SELECT aid from ".$prefix."_blogs WHERE sid='$sid'", SQL_NUM);
     
-	$aaid = substr($aaid, 0,25);
+	$aaid = substr((string) $aaid, 0,25);
     
 	if (is_mod_admin($module_name)) 
 	{
@@ -2098,7 +2148,7 @@ function changeBlog($sid, $subject, $hometext, $bodytext, $topic, $notes, $catid
         $topic = (empty($topic)) ? '1' : $topic;
         
 		// Copyright (c) 2000-2005 by NukeScripts Network
-        $db->sql_query("UPDATE ".$prefix."_stories SET catid='$catid', 
+        $db->sql_query("UPDATE ".$prefix."_blogs SET catid='$catid', 
 		                                             title='$subject', 
 												 hometext='$hometext', 
 												 bodytext='$bodytext', 
@@ -2112,7 +2162,7 @@ function changeBlog($sid, $subject, $hometext, $bodytext, $topic, $notes, $catid
 												
 												    WHERE sid='$sid'");
         
-		$db->sql_query("UPDATE ".$prefix."_stories SET associated='$associated' WHERE sid='$sid'");
+		$db->sql_query("UPDATE ".$prefix."_blogs SET associated='$associated' WHERE sid='$sid'");
         
 		// Copyright (c) 2000-2005 by NukeScripts Network
         if ($ultramode) { blog_ultramode(); }
@@ -2130,9 +2180,9 @@ function lastTwentyBlogs()
  ******************************************************/
     OpenTable();    
     
-	echo "<div align=\"center\"><strong>Admin "._LAST." 100 "._ARTICLES."</strong></div>";
+	echo "<div align=\"center\"><strong>Admin "._LAST." 100 "._BLOGS."</strong></div>";
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminBlog\"><strong>Add New Blog</strong></a></div><br />";
-	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
+	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _BLOGS_RETURNMAIN . "</a> ]</div><br />";
     
 	$result6 = $db->sql_query("SELECT sid, 
 	                                  aid, 
@@ -2143,7 +2193,7 @@ function lastTwentyBlogs()
 								informant, 
 								alanguage 
 							   
-							   FROM ".$prefix."_stories 
+							   FROM ".$prefix."_blogs 
 							   
 							   ORDER BY datePublished DESC LIMIT 0,100");
     
@@ -2162,7 +2212,7 @@ function lastTwentyBlogs()
 		$topic = $row6["topic"];
         $informant = $row6["informant"];
         $alanguage = $row6["alanguage"];
-        $row7 = $db->sql_fetchrow($db->sql_query("SELECT topicname FROM ".$prefix."_topics WHERE topicid='$topic'"));
+        $row7 = $db->sql_fetchrow($db->sql_query("SELECT topicname FROM ".$prefix."_blogs_topics WHERE topicid='$topic'"));
         $topicname = $row7["topicname"];
     
 	    if (empty($alanguage)) 
@@ -2235,12 +2285,12 @@ function programmedBlogs()
 								 datePublished, 
 									 alanguage 
 									 
-									FROM ".$prefix."_autonews $queryalang ORDER BY datePublished ASC");
+									FROM ".$prefix."_blogs_autoblog $queryalang ORDER BY datePublished ASC");
 
-        while (list($anid, $aid, $listtitle, $time, $alanguage) = $db->sql_fetchrow($result5)) 
+        while ([$anid, $aid, $listtitle, $time, $alanguage] = $db->sql_fetchrow($result5)) 
 		{
             $anid = intval($anid);
-            $said = substr($aid, 0,25);
+            $said = substr((string) $aid, 0,25);
             $title = $listtitle;
         
 		    if (empty($alanguage)) 
@@ -2253,9 +2303,9 @@ function programmedBlogs()
                     echo "<table border=\"1\" width=\"100%\">";
                     $count = 1;
                 }
-                
-				$time = str_replace(" ", "@", $time);
-                
+
+				$time = str_replace(" ", "@", (string) $time);
+
 				if (is_mod_admin('Blog')) 
 				{
                     if ($aid == $said) 
@@ -2285,6 +2335,9 @@ function programmedBlogs()
 
 function adminBlog() 
 {
+    $topic = null;
+    $sel = null;
+    $alanguage = null;
     global $prefix, $db, $language, $multilingual, $Version_Num, $admin_file, $aid, $module_name, $bgcolor1;
 
     include(NUKE_BASE_DIR.'header.php');
@@ -2335,20 +2388,20 @@ function adminBlog()
 /*****[BEGIN]******************************************
  [ Mod:     Blog BBCodes                       v1.0.0 ]
  ******************************************************/
-        echo "<div align=\"center\"><span class=\"option\"><strong>"._ADDARTICLE."</strong></span></div><br /><br />"
-            ."<form action=\"".$admin_file.".php\" method=\"post\" name=\"postnews\">"
+        echo "<div align=\"center\"><span class=\"option\"><strong>"._ADD_BLOG."</strong></span></div><br /><br />"
+            ."<form action=\"".$admin_file.".php\" method=\"post\" name=\"postblog\">"
             ."<strong>"._TITLE."</strong><br />"
             ."<input type=\"text\" name=\"subject\" size=\"50\"><br /><br />"
             ."<strong>"._TOPIC."</strong> ";
 /*****[END]********************************************
  [ Mod:     Blog BBCodes                       v1.0.0 ]
  ******************************************************/
-    $toplist = $db->sql_query("SELECT topicid, topictext from ".$prefix."_topics ORDER by topictext");
+    $toplist = $db->sql_query("SELECT topicid, topictext from ".$prefix."_blogs_topics ORDER by topictext");
     
 	echo "<select name=\"topic\">";
-    echo "<option value=\"\">"._SELECTTOPIC."</option>\n";
+    echo "<option value=\"\">"._SELECT_BLOG_TOPIC."</option>\n";
     
-	while(list($topicid, $topics) = $db->sql_fetchrow($toplist)) 
+	while([$topicid, $topics] = $db->sql_fetchrow($toplist)) 
 	{
         $topicid = intval($topicid);
         
@@ -2366,7 +2419,7 @@ function adminBlog()
 	{
         echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOCIATED_BLOG_TOPICS."</strong></td><td width='100%'>"
             ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
-        $sql = "SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext";
+        $sql = "SELECT topicid, topictext FROM ".$prefix."_blogs_topics ORDER BY topictext";
         $result = $db->sql_query($sql);
         $a = 0;
     
@@ -2404,10 +2457,10 @@ function adminBlog()
 
         echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
     
-	    for ($i=0, $j = count($languages); $i < $j; $i++) 
+	    for ($i=0, $j = is_countable($languages) ? count($languages) : 0; $i < $j; $i++) 
 		{
             if ($languages[$i] != '') 
-            echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+            echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst((string) $languages[$i])."</option>\n";
         }
 
         echo '</select>';
@@ -2415,16 +2468,16 @@ function adminBlog()
 	else 
     echo "<input type=\"hidden\" name=\"alanguage\" value=\"$language\">";
 
-    echo "<br /><br /><strong>"._STORYTEXT."</strong>";
+    echo "<br /><br /><strong>"._BLOG_TEXT."</strong>";
 
 /*****[BEGIN]******************************************
  [ Mod:     Custom Text Area                   v1.0.0 ]
  ******************************************************/
     global $wysiwyg_buffer;
     $wysiwyg_buffer = 'hometext,bodytext';
-    Make_TextArea('hometext', '', 'postnews');
-    echo "<strong>"._EXTENDEDTEXT."</strong>";
-    Make_TextArea('bodytext', '', 'postnews');
+    Make_TextArea('hometext', '', 'postblog');
+    echo "<strong>"._EXTENDED_BLOG_TEXT."</strong>";
+    Make_TextArea('bodytext', '', 'postblog');
 /*****[END]********************************************
  [ Mod:     Custom Text Area                   v1.0.0 ]
  ******************************************************/
@@ -2543,6 +2596,18 @@ function previewAdminBlog($automated,
 						  $optionText, 
 						     $assotop) 
 {
+    $sid = null;
+    $informant = null;
+    $aid = null;
+    $time = null;
+    $modified = null;
+    $counter = null;
+    $sel = null;
+    $Version_num = null;
+    $associated = null;
+    $a = null;
+    $checked = null;
+    $language = null;
     global $user, $admin_file, $bgcolor1, $bgcolor2, $prefix, $db, $alanguage, $multilingual, $Version_Num;
     
 	include(NUKE_BASE_DIR.'header.php');
@@ -2580,18 +2645,18 @@ function previewAdminBlog($automated,
 	OpenTable();
 
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminBlog\"><strong>Preview Currrent Blog<strong></a></div>\n";
-	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>";
+	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _BLOGS_RETURNMAIN . "</a> ]</div>";
 
-    echo "<form action=\"".$admin_file.".php\" method=\"post\" name=\"postnews\">"
+    echo "<form action=\"".$admin_file.".php\" method=\"post\" name=\"postblog\">"
         ."<input type=\"hidden\" name=\"catid\" value=\"$catid\">";
 
-    $subject = stripslashes($subject);
+    $subject = stripslashes((string) $subject);
     $subject = str_replace("\"", "''", $subject);
-    $hometext = stripslashes($hometext);
-    $bodytext = stripslashes($bodytext);
-    $result=$db->sql_query("select topicimage, topicname, topictext  from ".$prefix."_topics where topicid='$topic'");
+    $hometext = stripslashes((string) $hometext);
+    $bodytext = stripslashes((string) $bodytext);
+    $result=$db->sql_query("select topicimage, topicname, topictext  from ".$prefix."_blogs_topics where topicid='$topic'");
 
-    list($topicimage, $topicname, $topictext) = $db->sql_fetchrow($result);
+    [$topicimage, $topicname, $topictext] = $db->sql_fetchrow($result);
 
 /*****[BEGIN]******************************************
  [ Mod:     Blog BBCodes                       v1.0.0 ]
@@ -2621,11 +2686,11 @@ function previewAdminBlog($automated,
         ."<input type=\"text\" name=\"subject\" size=\"50\" value=\"$subject\"><br /><br />"
         ."<strong>"._TOPIC."</strong><select name=\"topic\">";
     
-	$toplist = $db->sql_query("SELECT topicid, topictext FROM ".$prefix."_topics ORDER by topictext");
+	$toplist = $db->sql_query("SELECT topicid, topictext FROM ".$prefix."_blogs_topics ORDER by topictext");
     
 	echo "<option value=\"\">"._ALLTOPICS."</option>\n";
     
-	while(list($topicid, $topics) = $db->sql_fetchrow($toplist)) 
+	while([$topicid, $topics] = $db->sql_fetchrow($toplist)) 
 	{
         $topicid = intval($topicid);
     
@@ -2641,7 +2706,7 @@ function previewAdminBlog($automated,
 	// Copyright (c) 2000-2005 by NukeScripts Network
     if($Version_num >= 6.6) 
 	{
-        for ($i=0; $i<count($assotop); $i++) 
+        for ($i=0; $i<(is_countable($assotop) ? count($assotop) : 0); $i++) 
 		{ 
 		  $associated .= "$assotop[$i]-"; 
 		}
@@ -2651,7 +2716,7 @@ function previewAdminBlog($automated,
 		echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOCIATED_BLOG_TOPICS."</strong></td><td width='100%'>"
             ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
 
-        $sql = "SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext";
+        $sql = "SELECT topicid, topictext FROM ".$prefix."_blogs_topics ORDER BY topictext";
         $result = $db->sql_query($sql);
         
 		while ($row = $db->sql_fetchrow($result)) 
@@ -2697,10 +2762,10 @@ function previewAdminBlog($automated,
     
 	    echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
     
-	    for ($i=0, $j = count($languages); $i < $j; $i++) 
+	    for ($i=0, $j = is_countable($languages) ? count($languages) : 0; $i < $j; $i++) 
 		{
             if ($languages[$i] != '') 
-            echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+            echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst((string) $languages[$i])."</option>\n";
         }
         
 		echo '</select>';
@@ -2708,7 +2773,7 @@ function previewAdminBlog($automated,
 	else 
     echo "<input type=\"hidden\" name=\"alanguage\" value=\"$language\">";
 
-    echo "<br /><br /><strong>"._STORYTEXT."</strong>";
+    echo "<br /><br /><strong>"._BLOG_TEXT."</strong>";
 
 
 /*****[BEGIN]******************************************
@@ -2716,9 +2781,9 @@ function previewAdminBlog($automated,
  ******************************************************/
     global $wysiwyg_buffer;
     $wysiwyg_buffer = 'hometext,bodytext';
-    Make_TextArea('hometext', $hometext, 'postnews');
-    echo "<strong>"._EXTENDEDTEXT."</strong>";
-    Make_TextArea('bodytext', $bodytext, 'postnews');
+    Make_TextArea('hometext', $hometext, 'postblog');
+    echo "<strong>"._EXTENDED_BLOG_TEXT."</strong>";
+    Make_TextArea('bodytext', $bodytext, 'postblog');
 /*****[END]********************************************
  [ Mod:     Custom Text Area                   v1.0.0 ]
  ******************************************************/
@@ -2852,6 +2917,8 @@ function postAdminBlog($automated,
 					   $optionText, 
 					      $assotop) 
 {
+    $associated = null;
+    $notes = null;
     global $ultramode, $aid, $prefix, $db, $Version_Num, $admin_file;
     
 	// Copyright (c) 2000-2005 by NukeScripts Network
@@ -2881,13 +2948,13 @@ function postAdminBlog($automated,
 		$notes = "";
         $author = $aid;
         $subject = Fix_Quotes($subject);
-        $subject = str_replace("\"", "''", $subject);
+        $subject = str_replace("\"", "''", (string) $subject);
         $hometext = Fix_Quotes($hometext);
         $bodytext = Fix_Quotes($bodytext);
         $notes = Fix_Quotes($notes);
         
 		// Copyright (c) 2000-2005 by NukeScripts Network
-        $new_sql  = "INSERT INTO ".$prefix."_autonews values (NULL, 
+        $new_sql  = "INSERT INTO ".$prefix."_blogs_autoblog values (NULL, 
 		                                                   '$catid', 
 														     '$aid', 
 													     '$subject', 
@@ -2941,7 +3008,7 @@ function postAdminBlog($automated,
 			$id = $object["pollID"];
             $id = intval($id);
             
-			for($i = 1, $maxi = count($optionText); $i <= $maxi; $i++) 
+			for($i = 1, $maxi = is_countable($optionText) ? count($optionText) : 0; $i <= $maxi; $i++) 
 			{
                 if(!empty($optionText[$i])) 
                 $optionText[$i] = Fix_Quotes($optionText[$i]);
@@ -2967,7 +3034,7 @@ function postAdminBlog($automated,
         
 		
 		// Copyright (c) 2000-2005 by NukeScripts Network 
-        $new_sql  = "INSERT INTO ".$prefix."_stories values (NULL, 
+        $new_sql  = "INSERT INTO ".$prefix."_blogs values (NULL, 
 		                                                 '$catid', 
 														   '$aid', 
 													   '$subject', 
@@ -2994,9 +3061,9 @@ function postAdminBlog($automated,
 		
         // Copyright (c) 2000-2005 by NukeScripts Network
 
-        $result = $db->sql_query("SELECT sid from ".$prefix."_stories WHERE title='$subject' ORDER by datePublished DESC limit 0,1");
+        $result = $db->sql_query("SELECT sid from ".$prefix."_blogs WHERE title='$subject' ORDER by datePublished DESC limit 0,1");
         
-		list($artid) = $db->sql_fetchrow($result);
+		[$artid] = $db->sql_fetchrow($result);
         
 		$artid = intval($artid);
         
@@ -3025,9 +3092,9 @@ function blog_submissions()
     OpenTable();
 
 	echo "<div align=\"center\"><a href=\"$admin_file.php?op=submissions\"><strong>Blog Submissions</strong></a></div>"; 
-	echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
+	echo "<div align=\"center\">[ <a href=\"$admin_file.php\">" . _BLOGS_RETURNMAIN . "</a> ]</div><br />";
 
-    $result = $db->sql_query("SELECT qid, uid, uname, subject, timestamp, alanguage FROM ".$prefix."_queue order by timestamp DESC");
+    $result = $db->sql_query("SELECT qid, uid, uname, subject, timestamp, alanguage FROM ".$prefix."_blogs_queue order by timestamp DESC");
         
 		if($db->sql_numrows($result) == 0) 
             echo "<table width=\"100%\"><tr><td align=\"center\"><strong>"._NO_BLOG_SUBMISSIONS."</strong></td></tr></table>\n";
@@ -3040,7 +3107,7 @@ function blog_submissions()
 
             echo "<td><center><strong>&nbsp;"._AUTHOR."&nbsp;</strong></center></td><td><center><strong>&nbsp;"._DATE."&nbsp;</strong></center></td><td><center><strong>&nbsp;"._FUNCTIONS."&nbsp;</strong></center></td></tr>\n";
             
-			while (list($qid, $uid, $uname, $subject, $timestamp, $alanguage) = $db->sql_fetchrow($result)) 
+			while ([$qid, $uid, $uname, $subject, $timestamp, $alanguage] = $db->sql_fetchrow($result)) 
 			{
                 $qid = intval($qid);
                 $uid = intval($uid);
@@ -3074,7 +3141,7 @@ function blog_submissions()
 				else 
                 echo "</td><td align=\"center\" nowrap><font size=\"2\">&nbsp;$uname&nbsp;</font>\n";
                 
-				$timestamp = explode(" ", $timestamp);
+				$timestamp = explode(" ", (string) $timestamp);
                 echo "</td><td align=\"right\" nowrap><span class=\"content\">&nbsp;$timestamp[0]&nbsp;</span></td><td align=\"center\"><font class=\"content\">&nbsp;<a href=\"".$admin_file.".php?op=DeleteBlog&amp;qid=$qid\">"._DELETE."</a>&nbsp;</td></tr>\n";
                 $dummy++;
             }
@@ -3100,7 +3167,7 @@ function blog_submissions()
 function blog_subdelete() 
 {
     global $prefix, $db, $admin_file, $cache;
-    $db->sql_query("delete from ".$prefix."_queue");
+    $db->sql_query("delete from ".$prefix."_blogs_queue");
 
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -3168,6 +3235,8 @@ switch($op)
     break;
 
     case "PreviewBlogAgain":
+	if(!isset($assotop))
+	$assotop = '';
     previewBlog($automated, 
 	                  $year, 
 					   $day, 
@@ -3194,13 +3263,17 @@ switch($op)
     break;
 
     case "PostBlog":
-    break;
+//postAdminBlog($automated, $year, $day, $month, $hour, $min, $subject, $hometext, $bodytext, $topic, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $pollTitle, $optionText, $assotop);
+      postStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $pollTitle, $optionText, $assotop); 
+	break;
 
     case "EditBlog":
     editBlog($sid);
     break;
 
     case "RemoveBlog":
+	if(!isset($ok))
+	$ok = '';
     removeBlog($sid, $ok);
     break;
 
@@ -3225,10 +3298,12 @@ switch($op)
     break;
 
     case "adminBlog":
-    adminBlog(isset($sid));
+    adminBlog();
     break;
 
     case "PreviewAdminBlog":
+	if(!isset($assotop))
+	$assotop = '';
     previewAdminBlog($automated, $year, $day, $month, $hour, $min, $subject, $hometext, $bodytext, $topic, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $pollTitle, $optionText, $assotop);
     break;
 
@@ -3262,7 +3337,7 @@ switch($op)
         OpenTable();
 	    
 		echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=BlogsConfig\"><strong>Blogs Main Configuration</strong></a></div>";
-	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div><br />";
+	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _BLOGS_RETURNMAIN . "</a> ]</div><br />";
 
         echo "<form action='".$admin_file.".php?op=BlogsConfigSave' method='post'>\n";
         echo "<center>\n<table border='0' cellpadding='2' cellspacing='2'>\n";
@@ -3334,9 +3409,9 @@ switch($op)
 		echo " selected"; 
         
 		echo ">"._BLOG_ALLTOPICS."</option>\n";
-        $result = $db->sql_query("SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext");
+        $result = $db->sql_query("SELECT topicid, topictext FROM ".$prefix."_blogs_topics ORDER BY topictext");
         
-		while(list($topicid, $topicname) = $db->sql_fetchrow($result)) 
+		while([$topicid, $topicname] = $db->sql_fetchrow($result)) 
 		{
             echo "<option value='$topicid'";
         

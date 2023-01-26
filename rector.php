@@ -43,7 +43,16 @@ return static function (RectorConfig $rectorConfig): void {
 		//__DIR__ . '/modules/Forums/search.php',
 		//__DIR__ . '/admin/modules/backup.php',
 		//__DIR__ . '/includes/classes/class.database.php',
-		  __DIR__ . '/includes/bbcode.php',
+		//__DIR__ . '/modules/Blogs/associates.php',
+		//__DIR__ . '/install/functions.php',
+		//__DIR__ . '/install.php',
+		//__DIR__ . '/install/file.inc',
+		//__DIR__ . '/modules/Statistics/functions.php',
+		//__DIR__ . '/modules/Forums/comments_list.php',
+		//__DIR__ . '/modules/Forums/comments.php',
+		//__DIR__ . '/admin/modules/settings/graphicadmin.php',
+		//__DIR__ . '/admin/modules/sommaire.php',
+		  __DIR__ . '/modules/Evo_UserBlock/admin/includes/functions.php',
     ]);
 
     // register a single rule

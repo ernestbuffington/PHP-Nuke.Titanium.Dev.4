@@ -1138,7 +1138,7 @@ echo "<!-- END Titanium Portal Menu Javascript Functions v1.0 -->\n\n";
     } elseif ($nomdumodule == "Blog" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup] != "-1") {
         global $db, $prefix;
         $where = (preg_match("/^cid=\\d*\$/",$temponomdumodule[2])) ? " WHERE ".str_replace("new_","",$temponomdumodule[1])."" : "";
-        $sqlimgnew="SELECT datePublished FROM ".$prefix."_stories".$where." order by datePublished desc limit 1";
+        $sqlimgnew="SELECT datePublished FROM ".$prefix."_blogs".$where." order by datePublished desc limit 1";
         $resultimgnew=$db->sql_query($sqlimgnew);
         $rowimgnew = $db->sql_fetchrow($resultimgnew);
         if($rowimgnew['datePublished']) 

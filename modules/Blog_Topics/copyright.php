@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium v3.0.0
+ PHP-Nuke Titanium v4.0.3 : Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /************************************************************************/
@@ -15,15 +15,28 @@
 /* the Free Software Foundation; either version 2 of the License.       */
 /*                                                                      */
 /************************************************************************/
-/* Additional security checking code 2003 by chatserv                   */
-/* http://www.nukefixes.com -- http://www.nukeresources.com             */
+/*         Additional security & Abstraction layer conversion           */
+/*                           2003 chatserv                              */
+/*      http://www.nukefixes.com -- http://www.nukeresources.com        */
 /************************************************************************/
 
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
-	  Titanium Patched                         v3.0.0       08/14/2019
+      Caching System                           v1.0.0       10/31/2005
+	  Titanium Patched                         v4.0.3       01/25/2023
+-=[Mod]=-
+      Blogs BBCodes                            v1.0.0       10/05/2005
+      Custom Text Area                         v1.0.0       11/23/2005
  ************************************************************************/
+
+/********************************************************/
+/* NSN Blogs                                            */
+/* By: NukeScripts Network (webmaster@nukescripts.net)  */
+/* Contributer(s): Ernest Buffington aka TheGhost       */
+/* http://www.nukescripts.net                           */
+/* Copyright (c) 2000-2005 by NukeScripts Network       */
+/********************************************************/
 
 define('CP_INCLUDE_DIR', dirname(dirname(dirname(__FILE__))));
 require_once(CP_INCLUDE_DIR.'/includes/showcp.php');
@@ -33,12 +46,12 @@ require_once(CP_INCLUDE_DIR.'/includes/showcp.php');
 // module's directory. It's all, as easy as it sounds ;)
 // NOTE: in $download_location PLEASE give the direct download link to the file!!!
 
-$author_name = "Ernest Buffington";
+$author_name = "Bob Marion, Ernest Buffington";
 $author_email = "webmaster@www.86it.us";
 $author_homepage = "http://www.86it.us";
 $license = "GNU/GPL";
 $download_location = "";
-$module_version = "v3.0.0";
+$module_version = "v4.0.3";
 $module_description = "Blog Topics";
 
 // DO NOT TOUCH THE FOLLOWING COPYRIGHT CODE. YOU'RE JUST ALLOWED TO CHANGE YOUR "OWN"
@@ -49,4 +62,3 @@ $module_description = "Blog Topics";
 // YOU'RE NOT THIS MODULE'S AUTHOR.
 
 show_copyright($author_name, $author_email, $author_homepage, $license, $download_location, $module_version, $module_description);
-?>

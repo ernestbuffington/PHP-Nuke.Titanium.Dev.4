@@ -26,12 +26,12 @@ $row2 = $db2->sql_fetchrow($db2->sql_query("SELECT `name`, `radminsuper` FROM `"
 $admins = explode(",", $row['admins']);
 $auth_user = 0;
 for ($i=0; $i < sizeof($admins); $i++) {
-    if ($row2['name'] == "$admins[$i]" AND !empty($row['admins'])) {
+    if (isset($row2['name']) == "$admins[$i]" AND !empty($row['admins'])) {
         $auth_user = 1;
     }
 }
 
-if ($row2['radminsuper'] == 1 || $auth_user == 1) {
+if (isset($row2['radminsuper']) == 1 || $auth_user == 1) {
   if(!defined('NETWORK_SUPPORT_FUNC')) { $op = "LoadError"; }
   switch ($op) {
     case "Config":include_once(NUKE_MODULES_DIR.$module_name."/admin/Config.php");break;

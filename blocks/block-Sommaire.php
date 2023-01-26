@@ -745,7 +745,7 @@ $cache->save('sommaire_row3', 'block', $row3);
                                     }
                                     elseif ($nomdumodule=="Blog" && $newdaysinthisgroup[$som_groupmenu][$keyinthisgroup]!="-1") {
                                         $where = (preg_match("/^new_topic=[0-9]*$/",$temponomdumodule[1])) ? " WHERE ".str_replace("new_","",$temponomdumodule[1])."" : "";
-                                        $sqlimgnew="SELECT datePublished FROM ".$prefix."_stories".$where." ORDER BY datePublished DESC LIMIT 1";
+                                        $sqlimgnew="SELECT datePublished FROM ".$prefix."_blogs".$where." ORDER BY datePublished DESC LIMIT 1";
                                         $resultimgnew=$db->sql_query($sqlimgnew);
                                         $rowimgnew = $db->sql_fetchrow($resultimgnew);
                                         if ($rowimgnew['datePublished']) {

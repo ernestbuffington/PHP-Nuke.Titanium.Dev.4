@@ -21,7 +21,7 @@ function _file_repository_files()
 //-------------------------------------------------------------------------------------
 //	THIS IS THE DEFAULT PAGINATION CLASS THAT COMES WITH EVOLUTION XTREME.
 //-------------------------------------------------------------------------------------
-	$pagination = new Paginator($_GET['page'],$count_downloads);
+	$pagination = new Paginator(isset($_GET['page']),$count_downloads);
 	$pagination->set_Limit($settings['most_popular']);
 	$pagination->set_Links(3);
 	$limit1 = $pagination->getRange1();

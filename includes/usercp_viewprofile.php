@@ -321,6 +321,7 @@ display_upload_attach_box_limits($profiledata['user_id']);
 /*****[END]********************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/
+if(isset($profiledata['user_from']))
 $profiledata['user_from'] = str_replace(".png", "", $profiledata['user_from']);
 
 /*****[BEGIN]******************************************

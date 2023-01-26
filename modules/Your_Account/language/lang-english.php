@@ -85,7 +85,7 @@ define_once("_ALLOWUSERS","Allow other users to view my email address");
 define_once("_ALLREQUIRED","All fields are required");
 define_once("_ALWAYSSHOWEMAIL","Always show my Email Address");
 define_once("_APPLICATIONSUB","New User Account Application");
-define_once("_ARTICLES","Articles");
+define_once("_BLOGS","Blogs");
 define_once("_ASREG1","Post comments with your name");
 define_once("_ASREG2","Send news with your name");
 define_once("_ASREG3","Have a personal box in the Home");

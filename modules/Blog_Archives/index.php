@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium v3.0.0 : Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium v4.0.3 : Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /************************************************************************/
@@ -22,35 +22,47 @@
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
+	  Titanium Patched                         v4.0.3       01/25/2023
+
+-=[Applied Rules]=-
+ * DirNameFileConstantToDirConstantRector
+ * LongArrayToShortArrayRector
+ * AddDefaultValueForUndefinedVariableRector (https://github.com/vimeo/psalm/blob/29b70442b11e3e6611
+ * TernaryToNullCoalescingRector
+ * ListToArrayDestructRector (https://wiki.php.net/rfc/short_list_syntax https://www.php.net/manual/
+ * NullCoalescingOperatorRector (https://wiki.php.net/rfc/null_coalesce_equal_operator)
+ * ChangeSwitchToMatchRector (https://wiki.php.net/rfc/match_expression_v2)
+ * NullToStrictStringFuncCallArgRector  
  ************************************************************************/
 
 if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$module_name = basename(dirname(__FILE__));
+$module_name = basename(__DIR__);
 get_lang($module_name);
 
 function select_month() 
 {
+    $month = null;
     global $prefix, $user_prefix, $db, $module_name;
 
     include_once(NUKE_BASE_DIR.'header.php');
-    //title($sitename.' '._STORIESARCHIVE);
+
     OpenTable();
     
-	echo '<div align="center"><span class="title"><strong>'._STORIESARCHIVE.'</strong></span><br /><br /></div>';
+	echo '<div align="center"><span class="title"><strong>'._BLOGS_ARCHIVE.'</strong></span><br /><br /></div>';
 	echo '<div align="center"><span class="content">'._SELECTMONTH2VIEW.'</span><br /><br /></div><br /><br />';
     
-	$result = $db->sql_query("SELECT datePublished FROM ".$prefix."_stories ORDER BY datePublished DESC");
+	$result = $db->sql_query("SELECT datePublished FROM ".$prefix."_blogs ORDER BY datePublished DESC");
     
 	echo "<ul>";
 
     $thismonth = '';
     
-	while(list($time) = $db->sql_fetchrow($result)) 
+	while([$time] = $db->sql_fetchrow($result)) 
 	{
-        preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/i", $time, $getdate);
+        preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/i", (string) $time, $getdate);
 
         if ($getdate[2] == "01") 
 		{ 
@@ -105,7 +117,8 @@ function select_month()
 		{
             $year = $getdate[1];
         
-		    echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
+		    echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a 
+			href=\"modules.php?name=$module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
         
 		    $thismonth = $month;
         }
@@ -118,7 +131,7 @@ function select_month()
     ."<input type=\"text\" name=\"query\" size=\"30\"> "
     ."<input type=\"submit\" value=\""._SEARCH."\">"
     ."</form><br /><br />"
-    ."[ <a href=\"modules.php?name=$module_name&amp;sa=show_all\">"._SHOWALLSTORIES."</a> ]</div><br />";
+    ."[ <a href=\"modules.php?name=$module_name&amp;sa=show_all\">"._SHOW_ALL_BLOGS."</a> ]</div><br />";
     
 	CloseTable();
     
@@ -130,12 +143,10 @@ function show_month($year, $month, $month_l)
     global $userinfo, $prefix, $user_prefix, $db, $bgcolor1, $bgcolor2, $user, $cookie, $sitename, $multilingual, $language, $module_name, $articlecomm;
     
 	$year = intval($year);
-    $month = htmlentities($month);
-    $month_l = htmlentities($month_l);
+    $month = htmlentities((string) $month);
+    $month_l = htmlentities((string) $month_l);
 
     include_once(NUKE_BASE_DIR.'header.php');
-    
-	title($sitename.' '._STORIESARCHIVE);
     
 	$month_title = "$sitename: $month_l $year";
 	
@@ -161,11 +172,11 @@ function show_month($year, $month, $month_l)
     
 	OpenTable();
 
-    echo '<div align="center"><strong>'._STORIESARCHIVE.'</strong></div>';    
+    echo '<div align="center"><strong>'._BLOGS_ARCHIVE.'</strong></div>';    
 	echo '<div align="center"><strong>'.$month_title.'</strong></div><br />';    
 	
 	echo "<table border=\"0\" width=\"100%\"><tr>"
-		."<td bgcolor=\"$bgcolor2\" align=\"left\"><strong>"._ARTICLES."</strong></td>"
+		."<td bgcolor=\"$bgcolor2\" align=\"left\"><strong>"._BLOGS."</strong></td>"
         ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._COMMENTS."</strong></td>"
         ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._READS."</strong></td>"
         ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._USCORE."</strong></td>"
@@ -183,27 +194,28 @@ function show_month($year, $month, $month_l)
 							   alanguage, 
 							       score, 
 								 ratings 
-	FROM ".$prefix."_stories 
+	FROM ".$prefix."_blogs 
 	WHERE datePublished >= '$year-$month-01 00:00:00' AND datePublished <= '$year-$month-31 23:59:59' ORDER BY sid DESC");
     
 	while ($row = $db->sql_fetchrow($result)) 
 	{
         $sid = intval($row['sid']);
         $catid = intval($row['catid']);
-        $title = stripslashes(check_html($row['title'], "nohtml"));
+        $title = stripslashes((string) check_html($row['title'], "nohtml"));
 		
         $time = $row['datePublished'];
 		$modified = $row['dateModified'];
         
-		$comments = stripslashes($row['comments']);
+		$comments = stripslashes((string) $row['comments']);
         $counter = intval($row['counter']);
         $topic = intval($row['topic']);
         $alanguage = $row['alanguage'];
         $score = intval($row['score']);
         $ratings = intval($row['ratings']);
-        $time = explode(" ", $time);
+        $time = explode(" ", (string) $time);
         
-		$actions = "<a href=\"modules.php?name=Blogs&amp;file=print&amp;sid=$sid\"><i class=\"fa fa-print\"></i></a>&nbsp;<a href=\"modules.php?name=Blogs&amp;file=friend&amp;op=FriendSend&amp;sid=$sid\"><i class=\"fa fa-envelope\"></i></a>";
+		$actions = "<a href=\"modules.php?name=Blogs&amp;file=print&amp;sid=$sid\"><i class=\"fa fa-print\"></i></a>&nbsp;<a 
+		href=\"modules.php?name=Blogs&amp;file=friend&amp;op=FriendSend&amp;sid=$sid\"><i class=\"fa fa-envelope\"></i></a>";
         
 		if ($score != 0) 
 		{
@@ -220,9 +232,10 @@ function show_month($year, $month, $month_l)
         } 
 		elseif ($catid != 0) 
 		{
-            $row_res = $db->sql_fetchrow($db->sql_query("SELECT title FROM ".$prefix."_stories_cat WHERE catid='$catid'"));
+            $row_res = $db->sql_fetchrow($db->sql_query("SELECT title FROM ".$prefix."_blogs_cat WHERE catid='$catid'"));
             $cat_title = $row_res['title'];
-            $title = "<a href=\"modules.php?name=Blogs&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><i>$cat_title</i></a>: <a href=\"modules.php?name=Blogs&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
+            $title = "<a href=\"modules.php?name=Blogs&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><i>$cat_title</i></a>: <a 
+			href=\"modules.php?name=Blogs&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
         }
         
 		if ($multilingual == 1)
@@ -232,8 +245,7 @@ function show_month($year, $month, $month_l)
 			  $alanguage = $language;
             }
 
-            $alt_language = ucfirst($alanguage);
-            //$lang_img = "<img src=\"images/language/flag-$alanguage.png\" border=\"0\" hspace=\"2\" alt=\"$alt_language\" title=\"$alt_language\">";
+            $alt_language = ucfirst((string) $alanguage);
             $lang_img = 'Language: '.$alanguage.' -';
         } 
 		else 
@@ -260,7 +272,7 @@ function show_month($year, $month, $month_l)
     ."<br /><br /><br /><hr size=\"1\" noshade>"
     ."<span class=\"content\">"._SELECTMONTH2VIEW."</span><br /><br />";
     
-	$result2 = $db->sql_query("SELECT datePublished FROM ".$prefix."_stories ORDER BY datePublished DESC");
+	$result2 = $db->sql_query("SELECT datePublished FROM ".$prefix."_blogs ORDER BY datePublished DESC");
     
 	echo "<ul>";
     
@@ -270,7 +282,7 @@ function show_month($year, $month, $month_l)
 	{
         $time = $row2['datePublished'];
         
-		preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/i", $time, $getdate);
+		preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/i", (string) $time, $getdate);
     
 	    if ($getdate[2] == "01") 
 		{ 
@@ -324,8 +336,11 @@ function show_month($year, $month, $month_l)
 	    if ($month != $thismonth) 
 		{
             $year = $getdate[1];
-            echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
-            $thismonth = $month;
+            
+			echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a 
+			href=\"modules.php?name=$module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
+            
+			$thismonth = $month;
         }
     }
     $db->sql_freeresult($result2);
@@ -335,7 +350,7 @@ function show_month($year, $month, $month_l)
     ."<input type=\"text\" name=\"query\" size=\"30\"> "
     ."<input type=\"submit\" value=\""._SEARCH."\">"
     ."</form><br />"
-    ."[ <a href=\"modules.php?name=$module_name\">"._ARCHIVESINDEX."</a> | <a href=\"modules.php?name=$module_name&amp;sa=show_all\">"._SHOWALLSTORIES."</a> ]</div><br />";
+    ."[ <a href=\"modules.php?name=$module_name\">"._BLOGS_INDEX."</a> | <a href=\"modules.php?name=$module_name&amp;sa=show_all\">"._SHOW_ALL_BLOGS."</a> ]</div><br />";
     
 	CloseTable();
     
@@ -344,6 +359,7 @@ function show_month($year, $month, $month_l)
 
 function show_all($min) 
 {
+    $month = null;
     global $prefix, $user_prefix, $db, $bgcolor1, $bgcolor2, $user, $cookie, $sitename, $multilingual, $language, $module_name, $userinfo;
 
     if (!isset($min) || (!is_numeric($min) || ((int)$min) != $min)) 
@@ -355,12 +371,8 @@ function show_all($min)
     $max = 250;
     
 	include_once(NUKE_BASE_DIR.'header.php');
-    title($sitename.' '._STORIESARCHIVE);
-
-	//title(_STORIESARCHIVE);
-    //title($sitename.': '._ALLSTORIESARCH);
     
-	$showall_title = $sitename.': '._ALLSTORIESARCH;    
+	$showall_title = $sitename.': '._ALL_BLOGS_SEARCH;    
 	
 	$r_options = '';
     
@@ -384,38 +396,39 @@ function show_all($min)
     
 	OpenTable();
     
-    echo '<div align="center"><strong>'._STORIESARCHIVE.'</strong></div>';    
+    echo '<div align="center"><strong>'._BLOGS_ARCHIVE.'</strong></div>';    
 	echo '<div align="center"><strong>'.$showall_title.'</strong></div><br />';    
 	
 	echo "<table border=\"0\" width=\"100%\"><tr>"
-    ."<td bgcolor=\"$bgcolor2\" align=\"left\"><strong>"._ARTICLES."</strong></td>"
+    ."<td bgcolor=\"$bgcolor2\" align=\"left\"><strong>"._BLOGS."</strong></td>"
     ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._COMMENTS."</strong></td>"
     ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._READS."</strong></td>"
     ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._USCORE."</strong></td>"
     ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._DATE."</strong></td>"
     ."<td bgcolor=\"$bgcolor2\" align=\"center\"><strong>"._ACTIONS."</strong></td></tr>";
     
-	$result = $db->sql_query("SELECT sid, catid, title, datePublished, dateModified, comments, counter, topic, alanguage, score, ratings FROM ".$prefix."_stories ORDER BY sid DESC LIMIT $min,$max");
+	$result = $db->sql_query("SELECT sid, catid, title, datePublished, dateModified, comments, counter, topic, alanguage, score, ratings FROM ".$prefix."_blogs ORDER BY sid DESC LIMIT $min,$max");
     
-	$numrows = $db->sql_numrows($db->sql_query("select * FROM ".$prefix."_stories"));
+	$numrows = $db->sql_numrows($db->sql_query("select * FROM ".$prefix."_blogs"));
     
 	while($row = $db->sql_fetchrow($result)) 
 	{
         $sid = intval($row['sid']);
         $catid = intval($row['catid']);
-        $title = stripslashes(check_html($row['title'], "nohtml"));
+        $title = stripslashes((string) check_html($row['title'], "nohtml"));
 		
         $time = $row['datePublished'];
 		$modified = $row['dateModified'];
         
-		$comments = stripslashes($row['comments']);
+		$comments = stripslashes((string) $row['comments']);
         $counter = intval($row['counter']);
         $topic = intval($row['topic']);
         $alanguage = $row['alanguage'];
         $score = intval($row['score']);
         $ratings = intval($row['ratings']);
-        $time = explode(" ", $time);
-        $actions = "<a href=\"modules.php?name=Blogs&amp;file=print&amp;sid=$sid\"><i class=\"fa fa-print\"></i></a>&nbsp;<a href=\"modules.php?name=Blogs&amp;file=friend&amp;op=FriendSend&amp;sid=$sid\"><i class=\"fa fa-envelope\"></i></a>";
+        $time = explode(" ", (string) $time);
+        $actions = "<a href=\"modules.php?name=Blogs&amp;file=print&amp;sid=$sid\"><i class=\"fa fa-print\"></i></a>&nbsp;<a 
+		href=\"modules.php?name=Blogs&amp;file=friend&amp;op=FriendSend&amp;sid=$sid\"><i class=\"fa fa-envelope\"></i></a>";
 
 	    if ($score != 0) 
 		{
@@ -432,9 +445,10 @@ function show_all($min)
         } 
 		elseif ($catid != 0) 
 		{
-            $row_res = $db->sql_fetchrow($db->sql_query("SELECT title FROM ".$prefix."_stories_cat WHERE catid='$catid'"));
-            $cat_title = stripslashes($row_res['title']);
-            $title = "<a href=\"modules.php?name=Blogs&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><i>$cat_title</i></a>: <a href=\"modules.php?name=Blogs&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
+            $row_res = $db->sql_fetchrow($db->sql_query("SELECT title FROM ".$prefix."_blogs_cat WHERE catid='$catid'"));
+            $cat_title = stripslashes((string) $row_res['title']);
+            $title = "<a href=\"modules.php?name=Blogs&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><i>$cat_title</i></a>: <a 
+			href=\"modules.php?name=Blogs&amp;file=article&amp;sid=$sid$r_options\">$title</a>";
         }
         
 		if ($multilingual == 1) 
@@ -444,8 +458,7 @@ function show_all($min)
                 $alanguage = $language;
             }
             
-            $alt_language = ucfirst($alanguage);
-            //$lang_img = "<img src=\"images/language/flag-$alanguage.png\" border=\"0\" hspace=\"2\" alt=\"$alt_language\" title=\"$alt_language\">";
+            $alt_language = ucfirst((string) $alanguage);
             $lang_img = 'Language: '.$alanguage.' -';
             
         } 
@@ -479,7 +492,8 @@ function show_all($min)
         $pmin = $min-250;
         $min = $min+250;
         $a++;
-        echo "<div align=\"center\">[ <a href=\"modules.php?name=$module_name&amp;sa=show_all&amp;min=$pmin\">"._PREVIOUSPAGE."</a> | <a href=\"modules.php?name=$module_name&amp;sa=show_all&amp;min=$min\">"._NEXTPAGE."</a> ]</div><br />";
+        echo "<div align=\"center\">[ <a href=\"modules.php?name=$module_name&amp;sa=show_all&amp;min=$pmin\">"._PREVIOUSPAGE."</a> | <a 
+		href=\"modules.php?name=$module_name&amp;sa=show_all&amp;min=$min\">"._NEXTPAGE."</a> ]</div><br />";
     }
     
 	if (($numrows <= 250) && ($a != 1) && ($min != 0)) 
@@ -491,15 +505,15 @@ function show_all($min)
 	echo "<hr size=\"1\" noshade>"
     ."<span class=\"content\">"._SELECTMONTH2VIEW."</span><br /><br />";
    
-    $result2 = $db->sql_query("SELECT datePublished FROM ".$prefix."_stories ORDER BY datePublished DESC");
+    $result2 = $db->sql_query("SELECT datePublished FROM ".$prefix."_blogs ORDER BY datePublished DESC");
    
     echo "<ul>";
    
     $thismonth = "";
    
-    while(list($time) = $db->sql_fetchrow($result)) 
+    while([$time] = $db->sql_fetchrow($result)) 
 	{
-        preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/i", $time, $getdate);
+        preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/i", (string) $time, $getdate);
     
 	    if ($getdate[2] == "01") 
 		{ 
@@ -553,8 +567,11 @@ function show_all($min)
 		if ($month != $thismonth) 
 		{
             $year = $getdate[1];
-            echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a href=\"modules.php?name=$module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
-            $thismonth = $month;
+            
+			echo "<img align=\"absmiddle\" width=\"20\" src=\"".img('calender-icon.png','Blog_Archive')."\"> <a 
+			href=\"modules.php?name=$module_name&amp;sa=show_month&amp;year=$year&amp;month=$getdate[2]&amp;month_l=$month\">$month, $year</a><br />";
+            
+			$thismonth = $month;
         }
     }
     $db->sql_freeresult($result2);
@@ -564,27 +581,20 @@ function show_all($min)
     ."<input type=\"text\" name=\"query\" size=\"30\"> "
     ."<input type=\"submit\" value=\""._SEARCH."\">"
     ."</form><br />"
-    ."[ <a href=\"modules.php?name=$module_name\">"._ARCHIVESINDEX."</a> ]</div><br />";
+    ."[ <a href=\"modules.php?name=$module_name\">"._BLOGS_INDEX."</a> ]</div><br />";
     CloseTable();
     include_once(NUKE_BASE_DIR.'footer.php');
 }
 
-$sa = isset($sa) ? $sa : '';
+$sa ??= '';
 $min = isset($min) ? intval($min) : 0;
 $year = isset($year) ? intval($year) : 0;
 $month = isset($month) ? intval($month) : 0;
 $month_l = isset($month_l)? Fix_Quotes($month_l) : "";
 
-switch($sa) 
-{
-    case "show_all":
-        show_all($min);
-    break;
-    case "show_month":
-        show_month($year, $month, $month_l);
-    break;
-    default:
-        select_month();
-    break;
-}
-?>
+match ($sa) {
+    "show_all" => show_all($min),
+    "show_month" => show_month($year, $month, $month_l),
+    default => select_month(),
+};
+

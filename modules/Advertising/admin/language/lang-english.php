@@ -43,10 +43,9 @@ define_once("_CONTACTEMAIL","Contact Email");
 define_once("_POSITION","Position");
 define_once("_INACTIVEBANNERS","Inactive Banners");
 define_once("_PURCHASEDIMPRESSIONS","Purchased Impressions");
-//define_once("_IMAGEURL","Image URL");
-//define_once("_CLICKURL","Click URL");
+define_once("_IMAGEURL","Image URL");
+define_once("_CLICKURL","Click URL");
 define_once("_ADDBANNER","Add Banner");
-
 define_once("_CLIENTLOGIN","Client Login");
 define_once("_CLIENTPASSWD","Client Password");
 define_once("_ADDCLIENT2","Add Client");
@@ -63,9 +62,7 @@ define_once("_DELCLIENTHASBANNERS","This client has the following ACTIVE BANNERS
 define_once("_EDITCLIENT","Edit Advertising Client");
 define_once("_REMOVECOMMENTS","Delete Comments");
 define_once("_SURETODELCOMMENTS","Are you sure you want to delete selected Comment and all its replies?");
-
 define_once("_EXTRAINFO","Extra Info");
-
 define_once("_CLASS","Class");
 define_once("_CLASSNOTE","If your Ad Class is Javascript/HTML Code the next 4 fields will be ignored and will count only the Code area below. If your Ad Class is Flash you must put the .SWF complete URL in the next field and set width and height of the Flash movie (Click URL and Alternate Text fields will be ignored).");
 define_once("_ADCLASS","Ad Class");
@@ -134,5 +131,3 @@ define_once("_SURETODELPLAN","Your are about to delete an Advertising Plan. Are 
 define_once("_CANTDELETEPOSITION","<strong>Error:</strong> You can't delete ALL positions. At least one should be in the database.<br />Edit the position if you need to change it or add a new one.");
 define_once("_BANNERNAME","Banner Name");
 define_once("_CLIENT","Client");
-
-?>

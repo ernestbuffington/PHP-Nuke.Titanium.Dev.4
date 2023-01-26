@@ -1,4 +1,23 @@
 <?php
+/*=======================================================================
+ PHP-Nuke Titanium : Enhanced and Advanced PHP-Nuke Web Portal System
+ =======================================================================*/
+/************************************************************************
+  PHP-Nuke Titanium / Nuke-Evolution: Advanced Installer
+  ============================================
+  Copyright (c) 2023 by The Titanium Group
+
+  Filename           : functions.php
+  Author             : Technocrat, The Mortal, Ernest Allen Buffington
+  Design Layout      : The Mortal (RealmDesignz.com)
+  Version            : 4.0.3
+  Date               : 01.26.2023 (mm.dd.yyyy)
+
+  Notes              : You may NOT use this installer for your own
+                       needs or script. It is written specifically
+                       for PHP-Nuke Titanium, Nuke-Evolution and/or Xtreme
+
+************************************************************************/
 
 echo '<h3>Testing file read, write and delete access</h3>';
 test_create_file('newfile.php');
@@ -8,7 +27,7 @@ test_create_dir($root_path.'/test', 'absolute path directory/file');
 function test_create_file($file){
 	if ($file){ echo '<br /><br />'; }
 	echo 'Create file \'test/test.php\' ';
-	if (@touch($file)){
+	if (touch($file)){
 		chmod($file, 0666);
 		echo '<font color="green">succeed</font><br /><br />Writing to file \'test/test.php\' ';
 		$fp = fopen($file, 'w');
@@ -26,7 +45,7 @@ function test_create_file($file){
 function test_create_dir($test_dir,$type){
 	echo '<h3>Testing '.$type.' read, write and delete access</h3>';
 	echo 'Create directory \'test\' ';
-	if (@mkdir($test_dir, 0777)){
+	if (mkdir($test_dir, 0777)){
 		if (permissions($test_dir, true) != '0777'){
 			echo '<font color="green">succeed</font>, but 0777 failed so forcing thru chmod()<br /><br />';
 			chmod($test_dir, 0777);

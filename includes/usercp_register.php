@@ -1280,6 +1280,7 @@ else if ( $mode == 'editprofile' && !isset($_POST['avatargallery']) && !isset($_
  ******************************************************/
 	$facebook = $userdata['user_facebook'];
 	$website = $userdata['user_website'];
+	if(isset($userdata['user_from']))
 	$userdata['user_from'] = str_replace(".gif", "", $userdata['user_from']);
 	$location = $userdata['user_from'];
 /*****[BEGIN]******************************************
@@ -1711,10 +1712,11 @@ else
 
 		$selected = ( isset( $user_flag) ) ? ((str_replace('.png','',$user_flag) == str_replace('.png', '', $flag_row['flag_image'])) ? ' selected' : '' ) : '';
 		$flag_select .= '	<option value="'.$flag_row['flag_image'].'"'.$selected.'>'.$flag_row['flag_name'].'</option>';
-		// if ( isset( $user_flag ) && $user_flag == str_replace('.png', '', $flag_row['flag_image']) )
-		// {
-			$flag_start_image = str_replace('.png', '', $user_flag);
-		// }
+
+        if(isset($user_flag))
+		$flag_start_image = str_replace('.png', '', $user_flag);
+		else
+		$flag_start_image = 'countries blank';
 
 	endwhile;
 	$flag_select .= '</select>';
@@ -2016,7 +2018,7 @@ else
 				'SCEDITOR_STATE' => $wysiwyg,
 
 				'WEBSITE' => $website,
-				'SIGNATURE' => str_replace('<br />', "\n", $signature),
+				'SIGNATURE' => str_replace('<br />', "\n", $signature ?? ''),
 /*****[BEGIN]******************************************
  [ Mod:    Gender                              v1.2.6 ]
  ******************************************************/

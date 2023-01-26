@@ -12,6 +12,8 @@
 if (!defined('ADMIN_FILE')) {
    die('Access Denied');
 }
+if(!isset($addJStoBody))
+$addJStoBody = '';
 $addJStoBody .= "\n".'<script>'."\n";
 $addJStoBody .= 'nuke_jq(function($) {'."\n";
 $addJStoBody .= '    $( "#datepicker" ).datepicker({dateFormat: \'yy/mm/dd\', minDate:0});'."\n";
@@ -212,6 +214,8 @@ function edit_event($eid) {
 function events_display() {
 	global $prefix, $db, $admin_file;
 	$count_events = $db->sql_numrows($db->sql_query("SELECT * FROM ".$prefix."_ecalendar"));
+	if(!isset($_GET['page']))
+	$_GET['page'] = '';
 	$pagination = new Paginator($_GET['page'],$count_events);
 	$pagination->set_Limit(10);
 	$pagination->set_Links(3);

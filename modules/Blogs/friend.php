@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium v3.0.0 : Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium v4.0.3 : Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /************************************************************************/
@@ -23,6 +23,7 @@
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
+	  Titanium Patched                         v4.0.3       01/25/2023
 -=[Mod]=-
       Advanced Username Color                  v1.0.5       07/29/2005
       Blog BBCodes                             v1.0.0       08/19/2005
@@ -30,16 +31,21 @@
       Display Writes                           v1.0.0       10/14/2005
 	  Titanium Patched                         v3.0.0       08/26/2019
 	  reCAPTCHA                                v2.0.0       08/27/2019
+-=[Applied Rules]=-
+ * DirNameFileConstantToDirConstantRector
+ * LongArrayToShortArrayRector
+ * AddDefaultValueForUndefinedVariableRector (https://github.com/vimeo/psalm/blob/29b70442b11e3e66113935a2ee22e165a70c74a4/docs/fixing_code.md#possiblyundefinedvariable)
+ * NullToStrictStringFuncCallArgRector	  
  ************************************************************************/
 if (!defined('MODULE_FILE')) die('You can\'t access this file directly...'); 
 
 if (!file_exists("includes/nukesentinel.php")) 
 {
-   if (stristr($_SERVER['QUERY_STRING'],'%25')) 
+   if (stristr((string) $_SERVER['QUERY_STRING'],'%25')) 
    redirect("index.php");
 }
 
-$module_name = basename(dirname(__FILE__));
+$module_name = basename(__DIR__);
 
 get_lang($module_name);
 
@@ -53,6 +59,8 @@ if (!is_user())
 
 function FriendSend($sid) 
 {
+    $yn = null;
+    $ye = null;
     global $user, $cookie, $prefix, $db, $user_prefix, $module_name;
 
     $sid = intval($sid);
@@ -62,12 +70,12 @@ function FriendSend($sid)
     
 	include_once(NUKE_BASE_DIR."header.php");
     
-	$row = $db->sql_fetchrow($db->sql_query("SELECT title FROM ".$prefix."_stories WHERE sid='$sid'"));
-    $title = stripslashes(check_html($row["title"], "nohtml"));
+	$row = $db->sql_fetchrow($db->sql_query("SELECT title FROM ".$prefix."_blogs WHERE sid='$sid'"));
+    $title = stripslashes((string) check_html($row["title"], "nohtml"));
     
     OpenTable();
     
-	echo "<div align=\"center\"><span class=\"content\"><strong>"._FRIEND."</strong></span></div><br /><br />"
+	echo "<div align=\"center\"><span class=\"content\"><strong>"._SEND_BLOG_TO_FRIEND."</strong></span></div><br /><br />"
         .""._YOUSENDSTORY." <strong>$title</strong> "._TOAFRIEND."<br /><br />"
         ."<form action=\"modules.php?name=$module_name&amp;file=friend\" method=\"post\">"
         ."<input type=\"hidden\" name=\"sid\" value=\"$sid\">";
@@ -75,8 +83,8 @@ function FriendSend($sid)
 	if (is_user()) 
 	{
         $row2 = $db->sql_fetchrow($db->sql_query("SELECT name, username, user_email FROM ".$user_prefix."_users WHERE user_id = '".intval($cookie[0])."'"));
-        $yn = stripslashes($row2["name"]);
-        $ye = stripslashes($row2["user_email"]);
+        $yn = stripslashes((string) $row2["name"]);
+        $ye = stripslashes((string) $row2["user_email"]);
     }
     
 	echo "<strong>"._FYOURNAME." </strong> <input type=\"text\" name=\"yname\" value=\"$yn\"><br /><br />\n";
@@ -86,13 +94,13 @@ function FriendSend($sid)
     echo "<input type=\"hidden\" name=\"op\" value=\"SendStory\">\n";
 	
 	#recaptcha add Ernest Buffington	
-	echo "<table>".security_code(array(0,1,2,3,4,5,6,7), 'normal')."</table><br />";
+	echo "<table>".security_code([0, 1, 2, 3, 4, 5, 6, 7], 'normal')."</table><br />";
     #recaptcha add Ernest Buffington		
 	
 	echo "<br /><input type=\"submit\" value="._SEND.">\n";
     echo "</form>\n";
     CloseTable();
-    @include_once('footer.php');
+    include_once('footer.php');
 }
 
 
@@ -101,7 +109,7 @@ function SendEmailVirus($sid, $yname, $ymail, $fname, $fmail) {
 	global $sitename, $nukeurl, $prefix, $db, $module_name;
 
     #recaptcha add Ernest Buffington	
-	if (!security_code_check($_POST['g-recaptcha-response'], array(0,1,2,3,4,5,6,7))):
+	if (!security_code_check($_POST['g-recaptcha-response'], [0, 1, 2, 3, 4, 5, 6, 7])):
         include_once(NUKE_BASE_DIR."header.php");
         OpenTable();
 
@@ -115,17 +123,17 @@ function SendEmailVirus($sid, $yname, $ymail, $fname, $fmail) {
 	endif;
     #recaptcha add Ernest Buffington		
 
-    $fname = stripslashes(removecrlf($fname));
-    $fmail = stripslashes(removecrlf($fmail));
-    $yname = stripslashes(removecrlf($yname));
-    $ymail = stripslashes(removecrlf($ymail));
+    $fname = stripslashes((string) removecrlf($fname));
+    $fmail = stripslashes((string) removecrlf($fmail));
+    $yname = stripslashes((string) removecrlf($yname));
+    $ymail = stripslashes((string) removecrlf($ymail));
     $sid = intval($sid);
-    $row = $db->sql_fetchrow($db->sql_query("SELECT title, time, topic FROM ".$prefix."_stories WHERE sid='$sid'"));
-    $title = stripslashes(check_html($row["title"], "nohtml"));
+    $row = $db->sql_fetchrow($db->sql_query("SELECT title, time, topic FROM ".$prefix."_blogs WHERE sid='$sid'"));
+    $title = stripslashes((string) check_html($row["title"], "nohtml"));
     $time = $row["time"];
     $topic = intval($row["topic"]);
-    $row2 = $db->sql_fetchrow($db->sql_query("SELECT topictext FROM ".$prefix."_topics WHERE topicid='$topic'"));
-    $topictext = stripslashes(check_html($row2["topictext"], "nohtml"));
+    $row2 = $db->sql_fetchrow($db->sql_query("SELECT topictext FROM ".$prefix."_blogs_topics WHERE topicid='$topic'"));
+    $topictext = stripslashes((string) check_html($row2["topictext"], "nohtml"));
     $subject = ""._INTERESTING." $sitename";
     $message = ""._HELLO." $fname:\n\n"._YOURFRIEND." $yname "._CONSIDERED."\n\n\n$title\n("._FDATE." $time)\n"._FTOPIC." $topictext\n\n"._URL.": $nukeurl/modules.php?name=$module_name&file=article&sid=$sid\n\n"._YOUCANREAD." $sitename\n$nukeurl";
     evo_mail($fmail, $subject, $message, "From: \"$yname\" <$ymail>\nX-Mailer: PHP/" . phpversion());
@@ -138,7 +146,7 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail) {
     global $sitename, $nukeurl, $prefix, $db, $module_name;
 
     #recaptcha add Ernest Buffington	
-	if (!security_code_check($_POST['g-recaptcha-response'], array(0,1,2,3,4,5,6,7))):
+	if (!security_code_check($_POST['g-recaptcha-response'], [0, 1, 2, 3, 4, 5, 6, 7])):
         include_once(NUKE_BASE_DIR."header.php");
         OpenTable();
         echo '<div align="center"><strong>reCaptcha Security Check Failed</strong></div>';
@@ -154,17 +162,17 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail) {
 	endif;
     #recaptcha add Ernest Buffington		
 
-    $fname = stripslashes(removecrlf($fname));
-    $fmail = stripslashes(removecrlf($fmail));
-    $yname = stripslashes(removecrlf($yname));
-    $ymail = stripslashes(removecrlf($ymail));
+    $fname = stripslashes((string) removecrlf($fname));
+    $fmail = stripslashes((string) removecrlf($fmail));
+    $yname = stripslashes((string) removecrlf($yname));
+    $ymail = stripslashes((string) removecrlf($ymail));
     $sid = intval($sid);
-    $row = $db->sql_fetchrow($db->sql_query("SELECT title, datePublished, topic FROM ".$prefix."_stories WHERE sid='$sid'"));
-    $title = stripslashes(check_html($row["title"], "nohtml"));
+    $row = $db->sql_fetchrow($db->sql_query("SELECT title, datePublished, topic FROM ".$prefix."_blogs WHERE sid='$sid'"));
+    $title = stripslashes((string) check_html($row["title"], "nohtml"));
     $time = $row["datePublished"];
     $topic = intval($row["topic"]);
-    $row2 = $db->sql_fetchrow($db->sql_query("SELECT topictext FROM ".$prefix."_topics WHERE topicid='$topic'"));
-    $topictext = stripslashes(check_html($row2["topictext"], "nohtml"));
+    $row2 = $db->sql_fetchrow($db->sql_query("SELECT topictext FROM ".$prefix."_blogs_topics WHERE topicid='$topic'"));
+    $topictext = stripslashes((string) check_html($row2["topictext"], "nohtml"));
     $subject = ""._INTERESTING." $sitename";
     $message = ""._HELLO." $fname:\n\n"._YOURFRIEND." $yname "._CONSIDERED."\n\n\n$title\n("._FDATE." $time)\n"._FTOPIC." $topictext\n\n"._URL.": $nukeurl/modules.php?name=$module_name&file=article&sid=$sid\n\n"._YOUCANREAD." $sitename\n$nukeurl";
     evo_mail($fmail, $subject, $message, "From: \"$yname\" <$ymail>\nX-Mailer: PHP/" . phpversion());
@@ -173,11 +181,11 @@ function SendStory($sid, $yname, $ymail, $fname, $fmail) {
     redirect("modules.php?name=$module_name&file=friend&op=StorySent&title=$title&fname=$fname");
 }
 
-function StorySent($title, $fname) 
+function StorySent($title, $fname)  
 {
     include_once(NUKE_BASE_DIR."header.php");
-    $title = htmlspecialchars(urldecode(check_html($title, "nohtml")));
-    $fname = htmlspecialchars(urldecode($fname));
+    $title = htmlspecialchars(urldecode((string) check_html($title, "nohtml")));
+    $fname = htmlspecialchars(urldecode((string) $fname)); 
 
     OpenTable();
 
@@ -186,7 +194,7 @@ function StorySent($title, $fname)
 	echo "<div align=\"center\"><strong>[ <a href=\"javascript:history.go(-1)\">Send To More Friends</a> ]</strong></div>";
 
 	CloseTable();
-    @include_once("footer.php");
+    include_once("footer.php");
 }
 
 switch($op) 
@@ -197,11 +205,11 @@ switch($op)
     case "StorySent":
     StorySent($title, $fname);
     break;
-    case "SendEmailVirus": /* This was put here as a joke - Ghost's Idea of a funny Easter Egg - 08/27/2019 */
+    case "SendEmailVirus": /* This was put here as a joke - Ghost's Idea of a funny Easter Egg - 08/27/2019 (Not REal)*/
     SendEmailVirus($sid, $yname, $ymail, $fname, $fmail);
     break;
     case "FriendSend":
     FriendSend($sid);
     break;
 }
-?>
+

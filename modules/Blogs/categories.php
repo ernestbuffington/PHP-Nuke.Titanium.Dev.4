@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium | Nuke-Evolution Basic : Enhanced and Advanced
+ PHP-Nuke Titanium v4.0.3 : Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /************************************************************************/
@@ -31,12 +31,15 @@
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
+	  Titanium Patched                         v4.0.3       01/25/2023
 -=[Mod]=-
       Advanced Username Color                  v1.0.5       07/29/2005
       Blog BBCodes                             v1.0.0       08/19/2005
       Display Topic Icon                       v1.0.0       06/27/2005
       Display Writes                           v1.0.0       10/14/2005
 	  Titanium Patched                         v3.0.0       08/26/2019
+-=[Applied Rules]=-
+	  No Changes 
  ************************************************************************/
 if(!defined('MODULE_FILE')): 
   die('You can\'t access this file directly...');
@@ -94,11 +97,11 @@ switch ($op)
             echo "</script>\n";
         }
 
-        $db->sql_query("update ".$prefix."_stories_cat set counter=counter+1 where catid='$catid'");
-        $result = $db->sql_query("SELECT * FROM ".$prefix."_stories WHERE catid='$catid' $querylang");
+        $db->sql_query("update ".$prefix."_blogs_cat set counter=counter+1 where catid='$catid'");
+        $result = $db->sql_query("SELECT * FROM ".$prefix."_blogs WHERE catid='$catid' $querylang");
         $totalarticles = $db->sql_numrows($result);
         $db->sql_freeresult($result);
-        $result = $db->sql_query("SELECT * FROM ".$prefix."_stories WHERE catid='$catid' $querylang ORDER BY sid DESC LIMIT $min,$storynum");
+        $result = $db->sql_query("SELECT * FROM ".$prefix."_blogs WHERE catid='$catid' $querylang ORDER BY sid DESC LIMIT $min,$storynum");
         
 		if($neconfig["columns"] == 1) // DUAL
         echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
@@ -229,7 +232,7 @@ switch ($op)
 
             if ($artinfo["catid"] != 0) 
 			{
-                $result3 = $db->sql_query("SELECT title FROM ".$prefix."_stories_cat WHERE catid='".$artinfo["catid"]."'");
+                $result3 = $db->sql_query("SELECT title FROM ".$prefix."_blogs_cat WHERE catid='".$artinfo["catid"]."'");
                 $catinfo = $db->sql_fetchrow($result3);
                 $morelink .= " | <a href='modules.php?name=$module_name&amp;file=categories&amp;op=newindex&amp;catid=".$artinfo["catid"]."'>".$catinfo["title"]."</a>";
             }
@@ -332,4 +335,4 @@ switch ($op)
         include_once(NUKE_BASE_DIR . "/footer.php");
     break;
 }
-?>
+

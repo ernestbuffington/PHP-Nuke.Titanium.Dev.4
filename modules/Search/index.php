@@ -59,7 +59,7 @@ switch($op) {
         title($sitename.' '._SEARCH);
 		$topic = intval($topic);
         if ($topic>0) {
-            $result = $db->sql_query("SELECT `topicimage`, `topictext` FROM `".$prefix."_topics` WHERE `topicid`='$topic'");
+            $result = $db->sql_query("SELECT `topicimage`, `topictext` FROM `".$prefix."_blogs_topics` WHERE `topicid`='$topic'");
             $row = $db->sql_fetchrow($result);
             $topicimage = stripslashes($row['topicimage']);
             $topictext = stripslashes(check_html($row['topictext'], "nohtml"));
@@ -102,7 +102,7 @@ switch($op) {
         } elseif ($type == 'reviews') {
             echo "<div align=\"center\"><span class=\"title\"><strong>"._SEARCHREVIEWS."</strong></span></div><br />\n";
         } elseif ($type == 'comments' AND isset($sid)) {
-            $res = $db->sql_query("SELECT `title` FROM ".$prefix."_stories WHERE `sid`='$sid'");
+            $res = $db->sql_query("SELECT `title` FROM ".$prefix."_blogs WHERE `sid`='$sid'");
             list($st_title) = $db->sql_fetchrow($res);
             $db->sql_freeresult($res);
             $st_title = stripslashes(check_html($st_title, "nohtml"));
@@ -125,7 +125,7 @@ switch($op) {
             echo "<input type='hidden' name='sid' value='$sid'>";
         }
         echo "<!-- Topic Selection -->\n";
-        $toplist = $db->sql_query("SELECT `topicid`, `topictext` FROM `".$prefix."_topics` ORDER BY `topictext`");
+        $toplist = $db->sql_query("SELECT `topicid`, `topictext` FROM `".$prefix."_blogs_topics` ORDER BY `topictext`");
         echo "<select name=\"topic\">";
         echo "<option value=\"\">"._ALLTOPICS."</option>\n";
         while($row2 = $db->sql_fetchrow($toplist)) {
@@ -139,8 +139,8 @@ switch($op) {
         /* Category Selection */
         $category = intval($category);
         echo "&nbsp;<select name=\"category\">";
-        echo "<option value=\"0\">"._ARTICLES."</option>\n";
-        $result3 = $db->sql_query("SELECT `catid`, `title` FROM `".$prefix."_stories_cat` ORDER BY `title`");
+        echo "<option value=\"0\">"._BLOGS."</option>\n";
+        $result3 = $db->sql_query("SELECT `catid`, `title` FROM `".$prefix."_blogs_cat` ORDER BY `title`");
         while ($row3 = $db->sql_fetchrow($result3)) {
             $catid = intval($row3['catid']);
             $title = stripslashes(check_html($row3['title'], "nohtml"));
@@ -209,7 +209,7 @@ switch($op) {
 						s.bodytext, 
 						     a.url, 
 						s.comments, 
-						   s.topic FROM ".$prefix."_stories s, ".$prefix."_authors a WHERE s.aid=a.aid $queryalang $categ";
+						   s.topic FROM ".$prefix."_blogs s, ".$prefix."_authors a WHERE s.aid=a.aid $queryalang $categ";
                 
 				if (isset($query)) $q .= "AND (s.title LIKE '%$query%' OR s.hometext LIKE '%$query%' OR s.bodytext LIKE '%$query%' OR s.notes LIKE '%$query%') ";
                 if (!empty($author)) $q .= "AND s.aid='".Fix_Quotes($author)."' ";
@@ -235,7 +235,7 @@ switch($op) {
                             $url = stripslashes($row5['url']);
                             $comments = intval($row5['comments']);
                             $topic = intval($row5['topic']);
-                            $row6 = $db->sql_fetchrow($db->sql_query("SELECT `topictext` FROM `".$prefix."_topics` WHERE `topicid`='$topic'"));
+                            $row6 = $db->sql_fetchrow($db->sql_query("SELECT `topictext` FROM `".$prefix."_blogs_topics` WHERE `topicid`='$topic'"));
                             $topictext = stripslashes(check_html($row6['topictext'], "nohtml"));
 
                             $furl = "modules.php?name=Blogs&amp;file=article&amp;sid=$sid";
@@ -308,7 +308,7 @@ switch($op) {
                 }
 
             } elseif ($type == 'comments') {
-                $result8 = $db->sql_query("SELECT `tid`, `sid`, `subject`, `datePublished`, `name` FROM `".$prefix."_comments` WHERE (`subject` LIKE '%$query%' OR `comment` LIKE '%$query%') ORDER BY `datePublished` DESC LIMIT $min,$offset");
+                $result8 = $db->sql_query("SELECT `tid`, `sid`, `subject`, `datePublished`, `name` FROM `".$prefix."_blogs_comments` WHERE (`subject` LIKE '%$query%' OR `comment` LIKE '%$query%') ORDER BY `datePublished` DESC LIMIT $min,$offset");
                 $nrows = $db->sql_numrows($result8);
                 $x=0;
                 if (!empty($query)) {
@@ -321,9 +321,9 @@ switch($op) {
                             $subject = stripslashes(check_html($row8['subject'], "nohtml"));
                             $date = $row8['date'];
                             $name = stripslashes($row8['name']);
-                            $row_res = $db->sql_fetchrow($db->sql_query("SELECT `title` FROM `".$prefix."_stories` WHERE `sid`='$sid'"));
+                            $row_res = $db->sql_fetchrow($db->sql_query("SELECT `title` FROM `".$prefix."_blogs` WHERE `sid`='$sid'"));
                             $title = stripslashes(check_html($row_res['title'], "nohtml"));
-                            $reply = $db->sql_numrows($db->sql_query("SELECT * FROM ".$prefix."_comments WHERE pid='$tid'"));
+                            $reply = $db->sql_numrows($db->sql_query("SELECT * FROM ".$prefix."_blogs_comments WHERE pid='$tid'"));
                             $furl = "modules.php?name=Blogs&amp;file=article&amp;thold=-1&amp;mode=flat&amp;order=1&amp;sid=$sid#$tid";
                             if(!$name) {
                                 $name = $anonymous;

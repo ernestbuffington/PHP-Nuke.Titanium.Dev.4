@@ -421,6 +421,13 @@ if($guest == 0 || $guest == 2) {
   }
 }
 echo ("</tr></table><br />");
+
+if(!isset($DataOnlineWho))
+$DataOnlineWho = '';
+
+if(!isset($numUsersOnline))
+$numUsersOnline = 0;
+
 $resultws = $db->sql_query("SELECT uname, guest FROM " . $prefix . "_session WHERE guest=1 OR guest=3");
 $guest_online_count = $db->sql_numrows($resultws);
 $result4thd = $db->sql_query("SELECT uname, guest FROM " . $prefix . "_session WHERE guest=0 OR guest=2");

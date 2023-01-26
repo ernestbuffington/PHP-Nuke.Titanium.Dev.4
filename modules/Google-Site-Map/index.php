@@ -674,7 +674,7 @@ while ($row2 = $db->sql_fetchrow($result2)):
 		break;
 		# Blog Topics  
 		case 'Blog_Topics':
-			$result9 = $db->sql_query("SELECT topictext,topicid FROM ".$prefix."_topics ORDER BY topictext");
+			$result9 = $db->sql_query("SELECT topictext,topicid FROM ".$prefix."_blogs_topics ORDER BY topictext");
 			while ($row9 = $db->sql_fetchrow($result9)):
 				$topiclink=$row9['topictext'];
 				$cidtopic=$row9['topicid'];
@@ -689,7 +689,7 @@ while ($row2 = $db->sql_fetchrow($result2)):
 		break;
 		# Blog  
 		case 'Blogs':
-			$result10 = $db->sql_query('SELECT `title`, `sid` FROM `'.$prefix.'_stories` ORDER BY `sid` DESC LIMIT 0,'.$nnews);
+			$result10 = $db->sql_query('SELECT `title`, `sid` FROM `'.$prefix.'_blogs` ORDER BY `sid` DESC LIMIT 0,'.$nnews);
 			while ($row10 = $db->sql_fetchrow($result10)): 
 				$newslink = $row10['title'];
 				$cidnews = $row10['sid'];

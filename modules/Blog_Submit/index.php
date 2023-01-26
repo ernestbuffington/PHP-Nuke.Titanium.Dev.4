@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium v3.0.0 : Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium v4.0.3 : Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /************************************************************************/
@@ -24,16 +24,23 @@
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
       Caching System                           v1.0.0       10/31/2005
+	  Titanium Patched                         v4.0.3       01/25/2023
 -=[Mod]=-
-      Blogs BBCodes                             v1.0.0       10/05/2005
+      Blogs BBCodes                            v1.0.0       10/05/2005
       Custom Text Area                         v1.0.0       11/23/2005
+-=[Applied Rules]=-
+ * DirNameFileConstantToDirConstantRector
+ * AddDefaultValueForUndefinedVariableRector (https://github.com/vimeo/psalm/blob/29b70442b11e3e66113935a2ee22e165a70c74a4/docs/fixing_code.md#possiblyundefinedvariable)
+ * CountOnNullRector (https://3v4l.org/Bndc9)
+ * ChangeSwitchToMatchRector (https://wiki.php.net/rfc/match_expression_v2)
+ * NullToStrictStringFuncCallArgRector	  
  ************************************************************************/
 
 if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
 
-$module_name = basename(dirname(__FILE__));
+$module_name = basename(__DIR__);
 get_lang($module_name);
 
 function defaultDisplay() 
@@ -41,18 +48,13 @@ function defaultDisplay()
     global $prefix, $cookie, $anonymous, $currentlang, $multilingual, $db, $module_name;
 
     include_once(NUKE_BASE_DIR.'header.php');
-//    title($sitename. '._SUBMITNEWS.');
-//    OpenTable();
-//    echo '<div class="nuketitle">'._SUBMITNEWS.'</div><br /><br />';
-//    echo "<div style=\"font-style: italic; text-align: center;\">"._SUBMITADVICE."</div><br />\n";
-//    CloseTable();
-//    echo '<br />';
+
     OpenTable();
-	echo '<div align="center" class="title"><strong>'._SUBMITNEWS.'</strong></div><br /><br />'; 
+	echo '<div align="center" class="title"><strong>'._SUBMIT_BLOG.'</strong></div><br /><br />'; 
 /*****[BEGIN]******************************************
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
-    echo "<p><form name=\"postnews\" action=\"modules.php?name=$module_name\" method=\"post\">\n";
+    echo "<p><form name=\"postblog\" action=\"modules.php?name=$module_name\" method=\"post\">\n";
 /*****[END]********************************************
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
@@ -63,17 +65,17 @@ function defaultDisplay()
         echo $anonymous ."<span class=\"content\">[ <a href=\"modules.php?name=Your_Account\">"._NEWUSER."</a> ]</span>\n";
     }
     echo '<br /><br />'
-        ."<span class=\"textbold\">"._SUBTITLE."</span> "
+        ."<span class=\"textbold\">"._BLOG_SUB_TITLE."</span> "
         .'('._BEDESCRIPTIVE.')<br />'
-        .'<input type="text" name="subject" size="50" maxlength="80"><br /><span class="content">('._BADTITLES.')</span>'
+        .'<input type="text" name="subject" size="50" maxlength="80"><br /><span class="content">('._BAD_BLOG_TITLES.')</span>'
         .'<br /><br />'
         .'<span class="textbold">'._TOPIC.":</span>\n";
     echo "<select name=\"topic\">\n";
-    $result = $db->sql_query("SELECT `topicid`, `topictext` FROM `".$prefix."_topics` ORDER BY `topictext`");
-    echo "<option value=\"\">"._SELECTTOPIC."</option>\n";
+    $result = $db->sql_query("SELECT `topicid`, `topictext` FROM `".$prefix."_blogs_topics` ORDER BY `topictext`");
+    echo "<option value=\"\">"._SELECT_BLOG_TOPIC."</option>\n";
     while ($row = $db->sql_fetchrow($result)) {
         $topicid = (int)$row['topicid'];
-        $topics = stripslashes(check_html($row['topictext'], "nohtml"));
+        $topics = stripslashes((string) check_html($row['topictext'], "nohtml"));
         echo "<option value=\"$topicid\">$topics</option>\n";
     }
     $db->sql_freeresult($result);
@@ -83,9 +85,9 @@ function defaultDisplay()
         echo "<select name=\"alanguage\">\n";
         $languages = lang_list();
         echo '<option value=""'.(($currentlang == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-        for ($i=0, $j = count($languages); $i < $j; $i++) {
+        for ($i=0, $j = is_countable($languages) ? count($languages) : 0; $i < $j; $i++) {
             if ($languages[$i] != '') {
-                echo '<option value="'.$languages[$i].'"'.(($currentlang == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+                echo '<option value="'.$languages[$i].'"'.(($currentlang == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst((string) $languages[$i])."</option>\n";
             }
         }
         echo '</select>';
@@ -93,20 +95,20 @@ function defaultDisplay()
         echo "<input type=\"hidden\" name=\"alanguage\" value=\"$currentlang\">\n";
     }
     echo '<br /><br />';
-    echo '<span class="textbold">'._STORYTEXT.":</span> ("._HTMLISFINE.")<br />\n";
+    echo '<span class="textbold">'._BLOG_TEXT.":</span> ("._HTMLISFINE.")<br />\n";
 /*****[BEGIN]******************************************
  [ Mod:     Custom Text Area                   v1.0.0 ]
  ******************************************************/
     global $wysiwyg_buffer;
     $wysiwyg_buffer = 'story,storyext';
-    Make_TextArea('story', '', 'postnews');
-    echo '<br /><br /><span class="textbold">'._EXTENDEDTEXT.':</span><br />';
-    Make_TextArea('storyext', '', 'postnews');
+    Make_TextArea('story', '', 'postblog');
+    echo '<br /><br /><span class="textbold">'._EXTENDED_BLOG_TEXT.':</span><br />';
+    Make_TextArea('storyext', '', 'postblog');
     echo '<span class="content">('._AREYOUSURE.')</span><br /><br />';
 /*****[END]********************************************
  [ Mod:     Custom Text Area                   v1.0.0 ]
  ******************************************************/
-    echo "<br /><br /><div style=\"font-style: italic; text-align: center;\">"._SUBMITADVICE."</div><br />\n";
+    echo "<br /><br /><div style=\"font-style: italic; text-align: center;\">"._SUBMIT_BLOG_ADVICE."</div><br />\n";
 	
 	echo '<br /><br /><div align="center"> <input type="submit" name="op" value="'._PREVIEW."\">\n";
     echo '<br />('._SUBPREVIEW.")</form>";
@@ -117,22 +119,25 @@ function defaultDisplay()
 
 function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $alanguage, $posttype) 
 {
+    $counter = null;
+    $topictext = null;
+    $sel = null;
     global $user, $cookie, $bgcolor1, $bgcolor2, $anonymous, $prefix, $multilingual, $AllowableHTML, $db, $module_name, $tipath, $userinfo;
 
     include_once(NUKE_BASE_DIR.'header.php');
 
-    $subject = stripslashes(check_html($subject, 'nohtml'));
-    $story = stripslashes($story);
-    $storyext = stripslashes($storyext);
+    $subject = stripslashes((string) check_html($subject, 'nohtml'));
+    $story = stripslashes((string) $story);
+    $storyext = stripslashes((string) $storyext);
 
     if (empty($story) && empty($storyext)) 
 	{
-        DisplayError(_ERROR_STORY);
+        DisplayError(_ERROR_BLOG);
     }
     
 	if (empty($subject)) 
 	{
-        DisplayError(_ERROR_SUBJECT);
+        DisplayError(_ERROR_BLOG_SUBJECT);
     }
     $story2 = $story.'<br /><br />'.$storyext;
     Validate($topic, 'int', $module_name, 0, 0, 0, 0, 'topic');
@@ -143,35 +148,27 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
 /*****[END]********************************************
  [ Mod:     Blogs BBCodes                    v1.0.0 ]
  ******************************************************/
-    //OpenTable();
-    //echo '<div class="nuketitle">'._NEWSUBPREVIEW."</div>\n";
-    //CloseTable();
-    //echo '<br />';
-    //OpenTable();
-    //echo '<div style="font-style: italic; text-align: center;">'._STORYLOOK.'</div><br /><br />';
-    
 	if (empty($topic)) 
 	{
         $topicimage = 'AllTopics.png';
-        $warning = '<div style="font-style: italic; text-align: center;"><blink>'._SELECTTOPIC.'</blink></div>';
+        $warning = '<div style="font-style: italic; text-align: center;"><blink>'._SELECT_BLOG_TOPIC.'</blink></div>';
     } 
 	else 
 	{
         $warning = '';
-        $row = $db->sql_fetchrow($db->sql_query("SELECT `topicimage`, `topictext` FROM `".$prefix."_topics` WHERE `topicid`='$topic'"));
-        $topicimage = stripslashes($row['topicimage']);
-        $topictext = stripslashes($row['topictext']);
+        $row = $db->sql_fetchrow($db->sql_query("SELECT `topicimage`, `topictext` FROM `".$prefix."_blogs_topics` WHERE `topicid`='$topic'"));
+        $topicimage = stripslashes((string) $row['topicimage']);
+        $topictext = stripslashes((string) $row['topictext']);
     }
-    themearticle($userinfo['username'], UsernameColor($userinfo['username']), '',$subject, $counter, $story, $topic, $topic, $topicimage, $topictext);
+    themearticle($userinfo['username'], UsernameColor($userinfo['username']),'','',$subject,$counter,$story,$topic,$topic,$topicimage,$topictext);
+//	themearticle(                 $aid,                           $informant, $datetime, $modified,   $title, $counter, $thetext, $topic,  $topicname, $topicimage, $topictext, $writes = false)
+	
     echo $warning;
-    //echo '<br /><br /><center><span class="tiny">'._CHECKSTORY."</span></center>\n";
-    //CloseTable();
-    //echo '<br />';
     OpenTable();
 /*****[BEGIN]******************************************
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
-    echo "<p><form name=\"postnews\" action=\"modules.php?name=$module_name\" method=\"post\">\n";
+    echo "<p><form name=\"postblog\" action=\"modules.php?name=$module_name\" method=\"post\">\n";
     echo '<strong>'._YOURNAME.':</strong> ';
 /*****[END]********************************************
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
@@ -181,14 +178,14 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
     } else {
         echo $anonymous;
     }
-    echo "<br /><br /><div class=\"textbold\">"._SUBTITLE.":</div><br />\n";
+    echo "<br /><br /><div class=\"textbold\">"._BLOG_SUB_TITLE.":</div><br />\n";
     echo "<input type=\"text\" name=\"subject\" size=\"50\" maxlength=\"80\" value=\"$subject\">\n";
     echo '<br /><br /><div class="textbold">'._TOPIC.": </div><select name=\"topic\">\n";
-    $result2 = $db->sql_query("SELECT `topicid`, `topictext` FROM `".$prefix."_topics` ORDER BY `topictext`");
-    echo '<option VALUE="">'._SELECTTOPIC."</option>\n";
+    $result2 = $db->sql_query("SELECT `topicid`, `topictext` FROM `".$prefix."_blogs_topics` ORDER BY `topictext`");
+    echo '<option VALUE="">'._SELECT_BLOG_TOPIC."</option>\n";
     while ($row2 = $db->sql_fetchrow($result2)) {
         $topicid = (int)$row2['topicid'];
-        $topics = stripslashes(check_html($row2['topictext'], "nohtml"));
+        $topics = stripslashes((string) check_html($row2['topictext'], "nohtml"));
         if ($topicid == $topic) {
             $sel = 'selected ';
         }
@@ -202,9 +199,9 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
         echo "<select name=\"alanguage\">\n";
         $languages = lang_list();
         echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-        for ($i=0, $j = count($languages); $i < $j; $i++) {
+        for ($i=0, $j = is_countable($languages) ? count($languages) : 0; $i < $j; $i++) {
             if ($languages[$i] != '') {
-                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst((string) $languages[$i])."</option>\n";
             }
         }
         echo '</select>';
@@ -214,10 +211,10 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
  ******************************************************/
     global $wysiwyg_buffer;
     $wysiwyg_buffer = 'story,storyext';
-    echo '<br /><br /><div class="textbold">'._STORYTEXT.":</div> ("._HTMLISFINE.")<br />";
-    Make_TextArea('story', $story, 'postnews');
-    echo '<br /><br /><div class="textbold">'._EXTENDEDTEXT.':</div><br />';
-    Make_TextArea('storyext', $storyext, 'postnews');
+    echo '<br /><br /><div class="textbold">'._BLOG_TEXT.":</div> ("._HTMLISFINE.")<br />";
+    Make_TextArea('story', $story, 'postblog');
+    echo '<br /><br /><div class="textbold">'._EXTENDED_BLOG_TEXT.':</div><br />';
+    Make_TextArea('storyext', $storyext, 'postblog');
     echo '<div class="content">('._AREYOUSURE.')</div><br /><br />';
 /*****[END]********************************************
  [ Mod:     Custom Text Area                   v1.0.0 ]
@@ -248,9 +245,9 @@ function submitStory($name, $address, $subject, $story, $storyext, $topic, $alan
     }
     
 	$subject = Fix_Quotes(filter_text($subject, "nohtml"));
-    $story = Fix_Quotes(nl2br(check_words($story)));
-    $storyext = Fix_Quotes(nl2br(check_words($storyext)));
-    $result = $db->sql_query("INSERT INTO ".$prefix."_queue VALUES (NULL, '$uid', '$name', '$subject', '$story', '$storyext', now(), '$topic', '$alanguage')");
+    $story = Fix_Quotes(nl2br((string) check_words($story)));
+    $storyext = Fix_Quotes(nl2br((string) check_words($storyext)));
+    $result = $db->sql_query("INSERT INTO ".$prefix."_blogs_queue VALUES (NULL, '$uid', '$name', '$subject', '$story', '$storyext', now(), '$topic', '$alanguage')");
     
 	if(!$result) 
 	{
@@ -279,7 +276,7 @@ function submitStory($name, $address, $subject, $story, $storyext, $topic, $alan
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-        $result = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".$prefix."_queue");
+        $result = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".$prefix."_blogs_queue");
         $numwaits = $db->sql_fetchrow($result);
         $db->sql_freeresult($result);
 /*****[BEGIN]******************************************
@@ -291,8 +288,8 @@ function submitStory($name, $address, $subject, $story, $storyext, $topic, $alan
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
     $numwaits = $numwaits['numrows'];
-    echo "<div class=\"nuketitle\">"._SUBSENT."</div>"
-    ."<span class=\"content\"><strong>"._THANKSSUB."</strong></span><br /><br />"
+    echo "<div class=\"nuketitle\">"._BLOG_RECIEVED."</div>"
+    ."<span class=\"content\"><strong>"._THANKS_BLOG_SUBMISSION."</strong></span><br /><br />"
     ._SUBTEXT
     ."<br />"._WEHAVESUB." $numwaits "._WAITING."</center>";
     CloseTable();
@@ -303,17 +300,11 @@ if (!isset($address)) { $address = ''; }
 if (!isset($alanguage)) { $alanguage = ''; }
 if (!isset($op)) { $op = ''; }
 
-switch($op) 
-{
-    case _PREVIEW:
-        PreviewStory($name, $address, $subject, $story, $storyext, $topic, $alanguage, $posttype);
-    break;
+if(!isset($posttype))
+$posttype = '';
 
-    case _OK:
-        SubmitStory($name, $address, $subject, $story, $storyext, $topic, $alanguage, $posttype);
-    break;
-    default:
-        defaultDisplay();
-    break;
-}
-?>
+match ($op) {
+    _PREVIEW => PreviewStory($name, $address, $subject, $story, $storyext, $topic, $alanguage, $posttype),
+    _OK => SubmitStory($name, $address, $subject, $story, $storyext, $topic, $alanguage, $posttype),
+    default => defaultDisplay(),
+};

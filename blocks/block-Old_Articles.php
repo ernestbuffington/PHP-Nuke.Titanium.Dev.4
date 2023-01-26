@@ -55,7 +55,7 @@ if (isset($userinfo['storynum']) AND $user_news == 1) {
 }
 $boxstuff = "<table border=\"0\" width=\"100%\">";
 $boxTitle = _PASTARTICLES;
-$sql = "SELECT sid, title, datePublished, comments FROM ".$prefix."_stories $querylang ORDER BY datePublished DESC LIMIT $storynum, $oldnum";
+$sql = "SELECT sid, title, datePublished, comments FROM ".$prefix."_blogs $querylang ORDER BY datePublished DESC LIMIT $storynum, $oldnum";
 $result = $db->sql_query($sql);
 $vari = 0;
 

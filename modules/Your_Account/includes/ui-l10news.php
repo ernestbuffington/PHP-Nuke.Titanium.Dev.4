@@ -39,7 +39,7 @@ if (!defined('CNBYA')) {
 
     // Last 10 Comments
     if ($articlecomm == 1) {
-        $result6 = $db->sql_query("SELECT tid, sid, subject FROM ".$prefix."_comments WHERE name='$usrinfo[username]' ORDER BY tid DESC LIMIT 0,10");
+        $result6 = $db->sql_query("SELECT tid, sid, subject FROM ".$prefix."_blogs_comments WHERE name='$usrinfo[username]' ORDER BY tid DESC LIMIT 0,10");
         if (($db->sql_numrows($result6) > 0)) {
             echo "<br />";
             OpenTable();
@@ -61,7 +61,7 @@ if (!defined('CNBYA')) {
         }
     }
     // Last 10 Submissions
-    $result7 = $db->sql_query("SELECT sid, title FROM ".$prefix."_stories WHERE informant='$usrinfo[username]' ORDER BY sid DESC LIMIT 0,10");
+    $result7 = $db->sql_query("SELECT sid, title FROM ".$prefix."_blogs WHERE informant='$usrinfo[username]' ORDER BY sid DESC LIMIT 0,10");
     if (($db->sql_numrows($result7) > 0)) {
         echo "<br />";
         OpenTable();

@@ -485,7 +485,7 @@ function _category_parents($name,$value=0)
 	$category_list .= 'margin: 0px 1px 1px; ';
 	$category_list .= ((!defined('NUKE_EVO')) ? 'padding: 4px; ' : 'padding: 5px; ');
 	$category_list .= 'text-transform: '.(($settings['utext'] == 1) ? 'uppercase' : 'none').';" name="'.$name.'">';
-	$category_list .= '  <option value="'.intval($row['cid']).'">'.$lang_new[$module_name]['CATEGORY_PARENT_NEW'].'</option>';
+	$category_list .= '  <option value="'.intval($row['cid'] ?? '').'">'.$lang_new[$module_name]['CATEGORY_PARENT_NEW'].'</option>';
 	if($db->sql_numrows($result))
 	{
 		while($row = $db->sql_fetchrow($result))

@@ -30,8 +30,8 @@
       Display Writes                           v1.0.0       10/14/2005
 	  Titanium Patched                         v3.0.0       08/26/2019
  ************************************************************************/
-define_once('_NEWS','Blog Posts');
-define_once("_LASTTWENTY","Last 100 Blog Posts");
+define_once('_BLOGS','Blog Posts');
+define_once("_LAST_BLOG_POSTS","Last 100 Blog Posts");
 define_once("_PROGRAMMEDBLOGS","Programmed Blog Posts");
 
 # COMMENTS
@@ -40,14 +40,14 @@ define_once('_SURETODELCOMMENTS','Are you <strong>SURE</strong> you would like t
 
 define_once("_SEND","Send");
 define_once("_URL","URL");
-define_once("_PRINTER","Printer Friendly");
-define_once("_FRIEND","Send to a Friend");
+define_once("_PRINTER_FRIENDLY_BLOG_POST_VIEW","Printer Friendly Page");
+define_once("_SEND_BLOG_TO_FRIEND","Send to a Friend");
 define_once("_YOURNAME","Your Name");
 define_once("_OK","Ok!");
 define_once("_RELATED","Related Links");
 define_once("_MOREABOUT","More about");
-define_once("_NEWSBY","Blog Post by");
-define_once("_MOSTREAD","Most read Blog Post");
+define_once("_BLOG_BY","Blog Post by");
+define_once("_MOST_READ_BLOGS","Most read Blog Post");
 define_once("_READMORE","Read More...");
 define_once("_BYTESMORE","bytes more");
 define_once("_COMMENTSQ","Likes & comments?");

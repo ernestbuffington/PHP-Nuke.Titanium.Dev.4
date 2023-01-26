@@ -29,10 +29,10 @@ CREATE TABLE `nuke_authors` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nuke_autonews`
+-- Table structure for table `nuke_blogs_autoblog`
 --
 
-CREATE TABLE `nuke_autonews` (
+CREATE TABLE `nuke_blogs_autoblog` (
   `anid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `catid` int(11) NOT NULL DEFAULT '0',
   `aid` varchar(30) NOT NULL,
@@ -6157,10 +6157,10 @@ CREATE TABLE `nuke_stats_hour` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nuke_stories`
+-- Table structure for table `nuke_blogs`
 --
 
-CREATE TABLE `nuke_stories` (
+CREATE TABLE `nuke_blogs` (
   `sid` int(11) NOT NULL AUTO_INCREMENT,
   `catid` int(11) NOT NULL DEFAULT '0',
   `aid` varchar(25) NOT NULL DEFAULT '',
@@ -6190,10 +6190,10 @@ CREATE TABLE `nuke_stories` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `nuke_stories`
+-- Dumping data for table `nuke_blogs`
 --
 
-INSERT INTO `nuke_stories` (`sid`, `catid`, `aid`, `title`, `time`, `hometext`, `bodytext`, `comments`, `counter`, `topic`, `informant`, `notes`, `ihome`, `alanguage`, `acomm`, `haspoll`, `pollID`, `score`, `ratings`, `associated`, `ticon`, `writes`) VALUES
+INSERT INTO `nuke_blogs` (`sid`, `catid`, `aid`, `title`, `time`, `hometext`, `bodytext`, `comments`, `counter`, `topic`, `informant`, `notes`, `ihome`, `alanguage`, `acomm`, `haspoll`, `pollID`, `score`, `ratings`, `associated`, `ticon`, `writes`) VALUES
 (1, 0, 'admin', 'Welcome to Nuke Evolution Xtreme 2.0.9F', '2018-11-03 05:56:20', 'Thank you for choosing nuke evolution, we hope you enjoy using our cms and we appreciate feedback and donations.
 
 [b]NOTE:[/b] Your admin and user accounts have already been logged in for you so please visit [url=admin.php]this link[/url] to get started. 
@@ -6203,10 +6203,10 @@ You can remove this new story by going into the News Administration or by clicki
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nuke_stories_cat`
+-- Table structure for table `nuke_blogs_cat`
 --
 
-CREATE TABLE `nuke_stories_cat` (
+CREATE TABLE `nuke_blogs_cat` (
   `catid` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(20) NOT NULL DEFAULT '',
   `counter` int(11) NOT NULL DEFAULT '0',

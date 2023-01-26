@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium | Nuke-Evolution Basic : Enhanced and Advanced
+ PHP-Nuke Titanium v4.0.3 : Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /************************************************************************/
@@ -31,16 +31,19 @@
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
+	  Titanium Patched                         v4.0.3       01/25/2023
 -=[Mod]=-
       Advanced Username Color                  v1.0.5       07/29/2005
+-=[Applied Rules]=-
+ * DirNameFileConstantToDirConstantRector
+ * NullToStrictStringFuncCallArgRector
  ************************************************************************/
-
 if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
-$module_name = basename(dirname(__FILE__));
+$module_name = basename(__DIR__);
 get_lang($module_name);
-@include_once(NUKE_INCLUDE_DIR.'functions_blog.php');
+include_once(NUKE_INCLUDE_DIR.'functions_blog.php');
 $neconfig = get_blog_configs();
 
 define('INDEX_FILE', true);
@@ -49,7 +52,7 @@ $topics = 1;
 automated_blogs();
 if ($topic == 0 OR empty($topic)) { redirect("modules.php?name=$module_name"); }
 
-switch ($op) {
+switch (isset($op)) {
 
     default:
     case "newindex":
@@ -75,38 +78,38 @@ switch ($op) {
             echo "//  End -->\n";
             echo "</script>\n";
         }
-        $db->sql_query("UPDATE ".$prefix."_topics SET counter=counter+1 WHERE topicid='$topic'");
-        $result = $db->sql_query("SELECT * FROM ".$prefix."_stories WHERE topic='$topic' $querylang");
+        $db->sql_query("UPDATE ".$prefix."_blogs_topics SET counter=counter+1 WHERE topicid='$topic'");
+        $result = $db->sql_query("SELECT * FROM ".$prefix."_blogs WHERE topic='$topic' $querylang");
         $totalarticles = $db->sql_numrows($result);
-        $result = $db->sql_query("SELECT * FROM ".$prefix."_stories WHERE topic='$topic' $querylang ORDER BY sid DESC LIMIT $min,$storynum");
+        $result = $db->sql_query("SELECT * FROM ".$prefix."_blogs WHERE topic='$topic' $querylang ORDER BY sid DESC LIMIT $min,$storynum");
         if($neconfig["columns"] == 1) { // DUAL
             echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
         }
         $a = 0;
         while ($artinfo = $db->sql_fetchrow($result)) {
-            formatTimestamp($artinfo["time"]);
-            $subject = stripslashes(check_html($subject, "nohtml"));
-            $artinfo["hometext"] = decode_bbcode(set_smilies(stripslashes($artinfo["hometext"])), 1, true);
-            $artinfo["notes"] = stripslashes($artinfo["notes"]);
+            formatTimestamp(isset($artinfo["time"]));
+            $subject = stripslashes((string) check_html(isset($subject), "nohtml"));
+            $artinfo["hometext"] = decode_bbcode(set_smilies(stripslashes((string) $artinfo["hometext"])), 1, true);
+            $artinfo["notes"] = stripslashes((string) $artinfo["notes"]);
             $artinfo["sid"] = intval($artinfo["sid"]);
-            $artinfo["aid"] = stripslashes($artinfo["aid"]);
-            $artinfo["title"] = stripslashes(check_html($artinfo["title"], "nohtml"));
+            $artinfo["aid"] = stripslashes((string) $artinfo["aid"]);
+            $artinfo["title"] = stripslashes((string) check_html($artinfo["title"], "nohtml"));
             $artinfo["comments"] = intval($artinfo["comments"]);
             $artinfo["counter"] = intval($artinfo["counter"]);
             $artinfo["topic"] = intval($artinfo["topic"]);
-            $artinfo["informant"] = stripslashes($artinfo["informant"]);
-            $artinfo["notes"] = stripslashes($artinfo["notes"]);
+            $artinfo["informant"] = stripslashes((string) $artinfo["informant"]);
+            $artinfo["notes"] = stripslashes((string) $artinfo["notes"]);
             $artinfo["acomm"] = intval($artinfo["acomm"]);
             $artinfo["score"] = intval($artinfo["score"]);
             $artinfo["ratings"] = intval($artinfo["ratings"]);
             getTopics($artinfo["sid"]);
 
             if($neconfig["texttype"] == 0) {
-                $introcount = strlen($artinfo["hometext"]);
-                $fullcount = strlen($artinfo["bodytext"]);
+                $introcount = strlen((string) $artinfo["hometext"]);
+                $fullcount = strlen((string) $artinfo["bodytext"]);
             } else {
-                $introcount = strlen(strip_tags($artinfo["hometext"], "<br />"));
-                $fullcount = strlen($artinfo["bodytext"]);
+                $introcount = strlen(strip_tags((string) $artinfo["hometext"], "<br />"));
+                $fullcount = strlen((string) $artinfo["bodytext"]);
             }
 
             $totalcount = $introcount + $fullcount;
@@ -116,13 +119,6 @@ switch ($op) {
             if (isset($cookie[6])) { $r_options .= "&amp;thold=$cookie[6]"; } else { $r_options .= "&amp;thold=0"; }
             $the_icons = "";
             
-			//if (is_user()) {
-            //    $the_icons .= " | <a href='modules.php?name=$module_name&amp;file=print&amp;sid=".$artinfo["sid"]."'><img src='images/print.gif' border='0' alt='"._PRINTER."' title='"._PRINTER."' width='11' height='11'></a>&nbsp;<a href='modules.php?name=$module_name&amp;file=friend&amp;op=FriendSend&amp;sid=".$artinfo["sid"]."'><img src='images/friend.gif' border='0' alt='"._FRIEND."' title='"._FRIEND."' width='11' height='11'></a>\n";
-            //}
-            //if (is_mod_admin($module_name)) {
-            //    $the_icons .= " | <a href=\"".$admin_file.".php?op=EditBlog&amp;sid=".$artinfo["sid"]."\"><img src=\"images/edit.gif\" border=\"0\" alt=\""._EDIT."\" title=\""._EDIT."\" width=\"11\" height=\"11\"></a>&nbsp;<a href=\"".$admin_file.".php?op=RemoveBlog&amp;sid=".$artinfo["sid"]."\"><img src=\"images/delete.gif\" border=\"0\" alt=\""._DELETE."\" title=\""._DELETE."\" width=\"11\" height=\"11\"></a>\n";
-            //}
-			
 	        if (is_user()) 
             {
               $the_icons .= ' | <a href="modules.php?name='.$module_name.'&amp;file=print&amp;sid='.$artinfo["sid"].'"><i class="fa fa-print"></i></a>'.PHP_EOL;
@@ -156,7 +152,7 @@ switch ($op) {
                     }
                 } else { $morelink .= ""; }
                 if ($introcount > 255) {
-                    $artinfo["hometext"] = strip_tags($artinfo["hometext"], "<br />");
+                    $artinfo["hometext"] = strip_tags((string) $artinfo["hometext"], "<br />");
                     $artinfo["hometext"] = substr($artinfo["hometext"], 0, 255);
                 }
             }
@@ -174,7 +170,7 @@ switch ($op) {
             $morelink .= "$the_icons";
             $sid = $artinfo["sid"];
             if ($artinfo["catid"] != 0) {
-                $result3 = $db->sql_query("SELECT title FROM ".$prefix."_stories_cat WHERE catid='".$artinfo["catid"]."'");
+                $result3 = $db->sql_query("SELECT title FROM ".$prefix."_blogs_cat WHERE catid='".$artinfo["catid"]."'");
                 $catinfo = $db->sql_fetchrow($result3);
                 $morelink .= " | <a href='modules.php?name=$module_name&amp;file=categories&amp;op=newindex&amp;catid=".$artinfo["catid"]."'>".$catinfo["title"]."</a>";
             }
@@ -202,7 +198,19 @@ switch ($op) {
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                themeindex($artinfo["aid"], $informant, $datetime, $modified, $artinfo["title"], $artinfo["counter"], $artinfo["topic"], $artinfo["hometext"], $artinfo["notes"], $morelink, $topicname, $topicimage, $topictext);
+                themeindex($artinfo["aid"], 
+				                $informant, 
+								 $datetime, 
+						  isset($modified), 
+						 $artinfo["title"], 
+					   $artinfo["counter"], 
+					     $artinfo["topic"], 
+					  $artinfo["hometext"], 
+					     $artinfo["notes"], 
+						         $morelink, 
+								$topicname, 
+							   $topicimage, 
+							    $topictext);
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
@@ -246,8 +254,8 @@ switch ($op) {
             CloseTable();
         }
         echo "<!-- CLOSE PAGING -->\n";
-        @include_once("footer.php");
+        include_once("footer.php");
     break;
 
 }
-?>
+

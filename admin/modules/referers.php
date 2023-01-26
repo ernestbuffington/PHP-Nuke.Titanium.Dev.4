@@ -45,6 +45,8 @@ if (is_mod_admin()):
 		echo '<td class="catHead" style="width: 20%; text-align: center; font-weight: bold;">'.$admlang['referers']['date'].'</td></tr>' , PHP_EOL;
 		if($db->sql_numrows($result) > 0): 
             while (list($url, $link, $time) = $db->sql_fetchrow($result)): 
+				if(!isset($x))
+				$x = 0;
 				$x++;
                 $bgcolor = ($x%2 == 0) ? 'row2' : 'row3';
 				$date = date("F d, Y - h:ia", $time);

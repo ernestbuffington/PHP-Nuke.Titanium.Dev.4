@@ -133,7 +133,7 @@ if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     echo "<input type=\"hidden\" name=\"add_admlanguage\" value=\"\">";
     }
     echo "<tr><td>" . _PERMISSIONS . ":</td>"
-    ."<td><input type=\"checkbox\" name=\"add_radminarticle\" value=\"1\"> " . _ARTICLES . "</td>"
+    ."<td><input type=\"checkbox\" name=\"add_radminarticle\" value=\"1\"> " . _BLOGS . "</td>"
     ."<td><input type=\"checkbox\" name=\"add_radmintopic\" value=\"1\"> " . _TOPICS . "</td>"
     ."<td><input type=\"checkbox\" name=\"add_radminuser\" value=\"1\"> " . _USERS . "</td>"
     ."</tr><tr><td>&nbsp;</td>"
@@ -196,7 +196,7 @@ if (isset($min)) { echo "<input type='hidden' name='min' value='$min'>\n"; }
     echo "<input type=\"hidden\" name=\"add_admlanguage\" value=\"\">";
     }
     echo "<tr><td>" . _PERMISSIONS . ":</td>"
-    ."<td><input type=\"checkbox\" name=\"add_radminarticle\" value=\"1\"> " . _ARTICLES . "</td>"
+    ."<td><input type=\"checkbox\" name=\"add_radminarticle\" value=\"1\"> " . _BLOGS . "</td>"
     ."<td><input type=\"checkbox\" name=\"add_radmintopic\" value=\"1\"> " . _TOPICS . "</td>"
     ."<td><input type=\"checkbox\" name=\"add_radminuser\" value=\"1\"> " . _USERS . "</td>"
     ."</tr><tr><td>&nbsp;</td>"

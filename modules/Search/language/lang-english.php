@@ -29,7 +29,7 @@ define_once("_SEARCHUSERS","Search in User's Database");
 define_once("_SEARCHSECTIONS","Search in Special Sections");
 define_once("_SEARCHREVIEWS","Search in Reviews");
 define_once("_SEARCHIN","Search in");
-define_once("_ARTICLES","Articles");
+define_once("_BLOGS","Blogs");
 define_once("_ALLAUTHORS","All Authors");
 define_once("_ALL","All");
 define_once("_WEEK","week");

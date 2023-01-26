@@ -40,7 +40,7 @@ if(is_active('Submit_Blog'))
 
     if(($numwaits = $cache->load('numwaits', 'submissions')) === false) 
 	{
-        list($numwaits) = $db->sql_fetchrow($db->sql_query("SELECT COUNT(*) FROM ".$prefix."_queue"), SQL_NUM);
+        list($numwaits) = $db->sql_fetchrow($db->sql_query("SELECT COUNT(*) FROM ".$prefix."_blogs_queue"), SQL_NUM);
         $cache->save('numwaits', 'submissions', $numwaits);
     }
     

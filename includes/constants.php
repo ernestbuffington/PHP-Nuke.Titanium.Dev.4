@@ -199,9 +199,9 @@ define_once('HIDDEN_CAT', 0); // NOTE: change this value to the forum id, of the
 
 # PHP-Nuke Titanium/Evolution Core Tables
 define_once('_AUTHOR_TABLE', $prefix.'_authors');
-define_once('_AUTONEWS_TABLE', $prefix.'_autonews');
+define_once('_AUTONEWS_TABLE', $prefix.'_blogs_autoblog');
 define_once('_BLOCKS_TABLE', $prefix.'_blocks');
-define_once('_COMMENTS_TABLE', $prefix.'_comments');
+define_once('_COMMENTS_TABLE', $prefix.'_blogs_comments');
 define_once('_COUNTER_TABLE', $prefix.'_counter');
 define_once('_COUNTRY_TABLE', $prefix.'_country');
 define_once('_EVOCONFIG_TABLE', $prefix.'_evolution');
@@ -217,7 +217,7 @@ define_once('_MODULES_EXLINKS_TABLE', $prefix.'_modules_links');
 define_once('_MODULES_POPUPS_TABLE', $prefix.'_modules_popups');
 define_once('_MOSTONLINE_TABLE', $prefix.'_mostonline');
 define_once('_NUKE_CONFIG_TABLE', $prefix.'_config');
-define_once('_QUEUE_TABLE', $prefix.'_queue');
+define_once('_QUEUE_TABLE', $prefix.'_blogs_queue');
 define_once('_REFERER_TABLE', $prefix.'_referer');
 define_once('_SECURITY_BOT_TABLE', $prefix.'_security_agents');
 define_once('_SESSION_TABLE', $prefix.'_session');
@@ -261,8 +261,8 @@ define_once('_SOMMAIRE_CATEGORIES_TABLE', $prefix.'_sommaire_categories');
 define_once('_STATS_HOUR_TABLE', $prefix.'_stats_hour');
 
 # Stories Archive
-define_once('_STORIES_TABLE', $prefix.'_stories');
-define_once('_STORIES_CATEGORIES_TABLE', $prefix.'_stories_cat');
+define_once('_BLOGS_TABLE', $prefix.'_blogs');
+define_once('_BLOGS_CATEGORIES_TABLE', $prefix.'_blogs_cat');
 
 # Supporters
 define_once('_NSNSP_SITES_TABLE', $prefix.'_nsnsp_sites');
@@ -274,8 +274,8 @@ define_once('_POLL_DESC_TABLE', $prefix.'_poll_desc');
 define_once('_POLL_DATA_TABLE', $prefix.'_poll_data');
 define_once('_POLL_CHECK_TABLE', $prefix.'_poll_check');
 
-# Topics
-define_once('_TOPICS_TABLE', $prefix.'_topics');
+# Blog Topics
+define_once('_BLOG_TOPICS_TABLE', $prefix.'_blogs_topics');
 
 # Web Links
 define_once('_WEBLINKS_CONFIG_TABLE', $prefix.'_links_config');

@@ -17,6 +17,11 @@
    Last Update   : 12.12.2022 (mm.dd.yyyy)
 
    Notes         : Evo User Block Online Administration
+ 
+ * LongArrayToShortArrayRector
+ * AddDefaultValueForUndefinedVariableRector (https://github.com/vimeo/psalm/blob/29b70442b11e3e66113935a2ee22e165a70c74a4/docs/fixing_code.md#possiblyundefinedvariable)
+ * WrapVariableVariableNameInCurlyBracesRector (https://www.php.net/manual/en/language.variables.variable.php)
+ * NullToStrictStringFuncCallArgRector   
 ************************************************************************/
 
 if (!defined('ADMIN_FILE')) {
@@ -24,7 +29,8 @@ if (!defined('ADMIN_FILE')) {
 }
 
 function evouserinfo_parse_data($data) {
-  $containers = explode(":", $data);
+  $final = [];
+  $containers = explode(":", (string) $data);
   foreach($containers AS $container)
   {
       $container = str_replace(")", "", $container);
@@ -46,35 +52,46 @@ function evouserinfo_parse_data($data) {
 
 function evouserinfo_getactive () {
     global $prefix, $db, $lang_evo_userblock, $cache;
-    static $active;
-    if(isset($active) && is_array($active)) return $active;
+
+    if(isset($active) && is_array($active)) 
+	return $active;
     
-    if ((($active = $cache->load('active', 'evouserinfo')) === false) || !isset($active)) {
-        $sql = 'SELECT * FROM '.$prefix.'_evo_userinfo WHERE active=1 ORDER BY position ASC';
+    if ((($active = $cache->load('active', 'titanium_evouserinfo')) === false) || !isset($active)) 
+	{
+        $active = [];
+		$sql = 'SELECT * FROM '.$prefix.'_evo_userinfo WHERE active=1 ORDER BY position ASC';
         $result = $db->sql_query($sql);
-        while($row = $db->sql_fetchrow($result)) {
-            if(isset($row))
-			$active[] = $row;
+
+        while($row = $db->sql_fetchrow($result)) 
+		{
+            $active[] = $row;
         }
-        $db->sql_freeresult($result);
-        $cache->save('active', 'evouserinfo', $active);
+        
+		$db->sql_freeresult($result);
+        
+		$cache->save('active', 'titanium_evouserinfo', $active);
     }
-    return $active;
+    
+	return $active;
 }
 
 function evouserinfo_getinactive () {
     global $prefix, $db, $lang_evo_userblock, $cache;
-    static $inactive;
-    if(isset($inactive) && is_array($inactive)) return $inactive;
     
-    if ((($inactive = $cache->load('inactive', 'evouserinfo')) === false) || !isset($inactive)) {
+	static $inactive;
+    
+	if(isset($inactive) && is_array($inactive)) 
+	return $inactive;
+    
+    if ((($inactive = $cache->load('inactive', 'titanium_evouserinfo')) === false) || !isset($inactive)){ 		
+        $inactive = [];
         $sql = 'SELECT * FROM `'.$prefix.'_evo_userinfo` WHERE `active`=0 ORDER BY `position` ASC';
         $result = $db->sql_query($sql);
         while($row = $db->sql_fetchrow($result)) {
             $inactive[] = $row;
         }
         $db->sql_freeresult($result);
-        $cache->save('inactive', 'evouserinfo', $inactive);
+        $cache->save('inactive', 'titanium_evouserinfo', $inactive);
     }
     return $inactive;
 }
@@ -95,8 +112,8 @@ function evouserinfo_load_addon ($name) {
             return '';
         }
         $output = 'evouserinfo_'.$name;
-        global $$output, $evouserinfo_rank;
-        $content .= $$output;
+        global ${$output}, $evouserinfo_rank;
+        $content .= ${$output};
     }
     return $content;
 }
@@ -158,6 +175,8 @@ function evouserinfo_text ($name, $text, $size='', $max='') {
     Notes:       N/A
 ================================================================================================*/
 function evouserinfo_text_area ($name, $text, $rows=5, $cols=20) {
+    $size = null;
+    $max = null;
     $size = ($size) ? "size=\"".$size."\"" : '';
     $max = ($max) ? "maxlength=\"".$max."\"" : '';
     return "<TEXTAREA name=\"".$name."\" rows=\"".$rows."\" cols=\"".$cols."\" />".$text."</TEXTAREA>";

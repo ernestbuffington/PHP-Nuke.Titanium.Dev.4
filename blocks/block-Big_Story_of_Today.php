@@ -51,7 +51,7 @@ $year = $today['year'];
 
 $tdate = "$year-$month-$day";
 
-list($sid, $title) = $db->sql_ufetchrow("SELECT sid, title FROM ".$prefix."_stories WHERE (datePublished LIKE '%$tdate%') $querylang ORDER BY counter DESC LIMIT 0,1", SQL_NUM);
+list($sid, $title) = $db->sql_ufetchrow("SELECT sid, title FROM ".$prefix."_blogs WHERE (datePublished LIKE '%$tdate%') $querylang ORDER BY counter DESC LIMIT 0,1", SQL_NUM);
 
 $fsid = intval($sid);
 

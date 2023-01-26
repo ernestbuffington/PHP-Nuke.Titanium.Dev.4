@@ -29,7 +29,7 @@ if(is_mod_admin($module_name))
 //-------------------------------------------------------------------------
 	include_once(NUKE_MODULES_DIR.$module_name.'/includes/functions.php');
 //-------------------------------------------------------------------------
-	if(!$_SERVER['HTTP_X_REQUESTED_WITH']):
+	if(!isset($_SERVER['HTTP_X_REQUESTED_WITH'])):
 		include_once(NUKE_BASE_DIR.'header.php');
 		OpenTable();
 	endif;
@@ -75,7 +75,7 @@ if(is_mod_admin($module_name))
 			break;	
 	}
 
-	if (!$_SERVER['HTTP_X_REQUESTED_WITH']):
+	if (!isset($_SERVER['HTTP_X_REQUESTED_WITH'])):
 		CloseTable();
 		include_once(NUKE_BASE_DIR.'footer.php');
 	endif;

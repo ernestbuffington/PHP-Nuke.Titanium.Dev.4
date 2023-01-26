@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium | Nuke-Evolution Basic : Enhanced and Advanced
+ PHP-Nuke Titanium v4.0.3 : Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /************************************************************************/
@@ -31,12 +31,12 @@
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
+	  Titanium Patched                         v3.0.0       08/26/2019
 -=[Mod]=-
       Advanced Username Color                  v1.0.5       07/29/2005
       Blog BBCodes                             v1.0.0       08/19/2005
       Display Topic Icon                       v1.0.0       06/27/2005
       Display Writes                           v1.0.0       10/14/2005
-	  Titanium Patched                         v3.0.0       08/26/2019
 -=[LAst Updated]=-
       11/20/2022 1:01 pm Ernest Allen Buffington	  
  ************************************************************************/
@@ -132,14 +132,14 @@ switch ($op):
 			endif;
         endif;
 
-        $result = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".$prefix."_stories $querylang");
+        $result = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".$prefix."_blogs $querylang");
 
         [$totalarticles] = $db->sql_fetchrow($result);
 
         $db->sql_freeresult($result);
 
         $querylang = (!isset($querylang) || empty($querylang)) ? 'WHERE `datePublished` <= now()' : $querylang . ' AND `datePublished` <= now()';
-        $result = $db->sql_query("SELECT * FROM ".$prefix."_stories $querylang ORDER BY sid DESC LIMIT $min,$storynum");
+        $result = $db->sql_query("SELECT * FROM ".$prefix."_blogs $querylang ORDER BY sid DESC LIMIT $min,$storynum");
 
         if($neconfig["columns"] == 1): # DUAL BLOG
           echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
@@ -269,7 +269,7 @@ switch ($op):
             $sid = $artinfo["sid"];
 
             if ($artinfo["catid"] != 0): 
-                $result3 = $db->sql_query("SELECT title FROM ".$prefix."_stories_cat WHERE catid='".$artinfo["catid"]."'");
+                $result3 = $db->sql_query("SELECT title FROM ".$prefix."_blogs_cat WHERE catid='".$artinfo["catid"]."'");
                 $catinfo = $db->sql_fetchrow($result3);
                 $db->sql_freeresult($result3);
                 $morelink .= " | <a href='modules.php?name=$module_name&amp;file=categories&amp;op=newindex&amp;catid=".$artinfo["catid"]."'>".$catinfo["title"]."</a>";
@@ -490,7 +490,7 @@ switch ($op):
 			if($a == 1): 
                 redirect("modules.php?name=$module_name&op=rate_complete&sid=$sid&rated=1");
 			else: 
-                $result = $db->sql_query("update ".$prefix."_stories set score=score+$score, ratings=ratings+1 where sid='$sid'");
+                $result = $db->sql_query("update ".$prefix."_blogs set score=score+$score, ratings=ratings+1 where sid='$sid'");
                 $db->sql_freeresult($result);
                 $info = base64_encode("$rcookie$sid:");
                 setcookie("ratecookie","$info",['expires' => time()+86400]);
@@ -554,4 +554,4 @@ switch ($op):
 		include_once(NUKE_BASE_DIR . "/footer.php");
     break;
 endswitch;
-?>
+

@@ -107,7 +107,7 @@ if ( $_POST['msnl_stats'] == "yes" && $msnl_sTemplateNm != "notemplate" ) {
 
 	//Total Blogs
 	
-	$sql										= "SELECT * FROM `".$prefix."_stories`";
+	$sql										= "SELECT * FROM `".$prefix."_blogs`";
 	$result2 								= msnl_fSQLCall( $sql );
 
 	if ( !$result2 ) { //Bad SQL call
@@ -122,7 +122,7 @@ if ( $_POST['msnl_stats'] == "yes" && $msnl_sTemplateNm != "notemplate" ) {
 
 	//Total News categories
 	
-	$sql										= "SELECT * FROM `".$prefix."_stories_cat`";
+	$sql										= "SELECT * FROM `".$prefix."_blogs_cat`";
 	$result3 								= msnl_fSQLCall( $sql );
 
 	if ( !$result3 ) { //Bad SQL call
@@ -272,8 +272,8 @@ if ( $_POST['msnl_news'] > 0 && $msnl_sTemplateNm != "notemplate" ) {
 	$msnl_sRows	= "";
 
 	$sql				= "SELECT `sid`, `informant`, `title`, `topic`, `topictext`, a.`counter` AS counter FROM `"
-							. $prefix."_stories` a, `"
-							. $prefix."_topics` b "
+							. $prefix."_blogs` a, `"
+							. $prefix."_blogs_topics` b "
 							. "WHERE a.`topic` = b.`topicid` "
 							. "ORDER BY `time` DESC LIMIT 0, ". $_POST['msnl_news'];
 

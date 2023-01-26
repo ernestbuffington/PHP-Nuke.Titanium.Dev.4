@@ -86,6 +86,11 @@ global $admin, $cookie;
 $admin = base64_decode($admin);
 $admin = explode(":", $admin);
 
+if(!is_user()):
+  if (isset($_SERVER["HTTP_REFERER"]))
+  header("Location: " . $_SERVER["HTTP_REFERER"]);
+endif;
+
 $admin_info = get_admin_field(array('name', 'pwd', 'radminsuper'), $admin[0]);
 $user_info = get_user_field(array('user_id', 'user_password', 'user_level'), $cookie[1], true);
 
@@ -117,4 +122,3 @@ if ( empty($no_page_header) )
         include('./page_header_admin.'.$phpEx);
 }
 
-?>

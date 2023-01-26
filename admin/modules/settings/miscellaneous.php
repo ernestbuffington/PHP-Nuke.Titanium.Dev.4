@@ -61,6 +61,9 @@ $use_floating_admin,
 	    $img_viewer, 
 		   $admLang;
 
+if(!isset($admlang['misc']['header']))
+$admlang['misc']['header'] = '';
+
 echo '  <tr>'.PHP_EOL;
 echo '    <td class="catHead" colspan="3" style="font-weight: bold; text-align: center; text-transform: uppercase;">'.$admlang['misc']['header'].'</td>'.PHP_EOL;
 echo '  </tr>'.PHP_EOL;
@@ -124,6 +127,9 @@ if (is_god($admin))
   echo '        </tr>'.PHP_EOL;
 }
 # Mod:     Lazy Google Tap
+if(!isset($admlang['preferences']['lazy_tap_admin']))
+$admlang['preferences']['lazy_tap_admin'] = '';
+
 echo '        <tr>'.PHP_EOL;
 echo '          <td class="row1" style="width: 50%;">'.$admlang['misc']['lazy_tap'].'</td>'.PHP_EOL;
 echo '          <td class="row1" style="width: 50%;">'.select_box('xlazytap',$lazy_tap,array(0 => $admlang['global']['disabled'], 1 => $admlang['misc']['lazy_tap_bots'], 2 => $admlang['misc']['lazy_tap_everyone'], 3 => $admlang['preferences']['lazy_tap_admin'])).'</td>'.PHP_EOL;

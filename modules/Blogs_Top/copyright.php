@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium v3.0.0
+ PHP-Nuke Titanium v4.0.3 : Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /************************************************************************/
@@ -22,7 +22,7 @@
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
-	  Titanium Patched                         v3.0.0       08/14/2019
+	  Titanium Patched                         v4.0.3       01/25/2023
  ************************************************************************/
 
 define('CP_INCLUDE_DIR', dirname(dirname(dirname(__FILE__))));
@@ -33,7 +33,7 @@ require_once(CP_INCLUDE_DIR.'/includes/showcp.php');
 // module's directory. It's all, as easy as it sounds ;)
 // NOTE: in $download_location PLEASE give the direct download link to the file!!!
 
-$author_name = "Ernest Buffington";
+$author_name = "Bob Marion, Ernest Buffington";
 $author_email = "webmaster@www.86it.us";
 $author_homepage = "http://www.86it.us";
 $license = "GNU/GPL";

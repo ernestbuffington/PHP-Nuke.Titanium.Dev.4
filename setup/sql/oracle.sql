@@ -295,7 +295,7 @@ CREATE TABLE IF NOT EXISTS `#prefix#_client_ban" (
 -- Table structure for table `torrent_comments`
 --
 
-CREATE TABLE IF NOT EXISTS `#prefix#_comments" (
+CREATE TABLE IF NOT EXISTS `#prefix#_blogs_comments" (
   "id" int(10) unsigned NOT NULL,
   "user" int(10) unsigned NOT NULL DEFAULT '0',
   "torrent" int(10) unsigned NOT NULL DEFAULT '0',
@@ -1690,7 +1690,7 @@ CREATE TABLE IF NOT EXISTS `#prefix#_time_offset" (
 -- Table structure for table `torrent_topics`
 --
 
-CREATE TABLE IF NOT EXISTS `#prefix#_topics" (
+CREATE TABLE IF NOT EXISTS `#prefix#_blogs_topics" (
   "topic_id" mediumint(8) unsigned NOT NULL,
   "forum_id" mediumint(8) unsigned NOT NULL DEFAULT '0',
   "icon_id" mediumint(8) unsigned NOT NULL DEFAULT '0',

@@ -38,7 +38,7 @@ if ($multilingual == 1) {
     $querylang = '';
 }
 $content = "<table width=\"100%\" border=\"0\">";
-$sql = "SELECT sid, title, comments, counter FROM ".$prefix."_stories $querylang ORDER BY sid DESC LIMIT 0,5";
+$sql = "SELECT sid, title, comments, counter FROM ".$prefix."_blogs $querylang ORDER BY sid DESC LIMIT 0,5";
 $result = $db->sql_query($sql);
 while (list($sid, $title, $comments, $counter) = $db->sql_fetchrow($result)) {
     $title = stripslashes($title);

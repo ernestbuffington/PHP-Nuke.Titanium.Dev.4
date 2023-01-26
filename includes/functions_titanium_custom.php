@@ -187,11 +187,11 @@ function title_and_meta_tags() {
 
             if ($file == 'article' && isset($sid) && is_numeric($sid)):
 
-                list($art, $top) = $db->sql_ufetchrow("SELECT `title`, `topic` FROM `" . $prefix . "_stories` WHERE `sid`='" . $sid . "'", SQL_NUM);
+                list($art, $top) = $db->sql_ufetchrow("SELECT `title`, `topic` FROM `" . $prefix . "_blogs` WHERE `sid`='" . $sid . "'", SQL_NUM);
 
                 if ($top) {
                     $topicimage = '';
-                    list($top, $topicimage) = $db->sql_ufetchrow("SELECT `topictext`,`topicimage` FROM `" . $prefix . "_topics` WHERE `topicid`='" . $top . "'", SQL_NUM);
+                    list($top, $topicimage) = $db->sql_ufetchrow("SELECT `topictext`,`topicimage` FROM `" . $prefix . "_blogs_topics` WHERE `topicid`='" . $top . "'", SQL_NUM);
 
                     if ($sitename == $top):
                         $newpagetitle = "$sitename $item_delim $art";
@@ -210,7 +210,7 @@ function title_and_meta_tags() {
                     $facebook_ia_rules_url = "<meta property=\"ia:rules_url\" content=\"" . HTTPS . "modules.php?name=$name&file=article&sid=$sid\">\n";
                     $facebook_ia_rules_url_dev = "<meta property=\"ia:rules_url_dev\" content=\"" . HTTPS . "modules.php?name=$name&file=article&sid=$sid\">\n";
 
-                    list($hometext) = $db->sql_ufetchrow("SELECT `hometext` FROM `" . $prefix . "_stories` WHERE `sid`='" . $sid . "'", SQL_NUM);
+                    list($hometext) = $db->sql_ufetchrow("SELECT `hometext` FROM `" . $prefix . "_blogs` WHERE `sid`='" . $sid . "'", SQL_NUM);
 
                     $hometext = stripslashes(check_html($hometext, "nohtml"));
 
@@ -234,12 +234,12 @@ function title_and_meta_tags() {
                     $structured_data .= '  "' . HTTPS . 'images/google/16x9.png"' . "\n";
                     $structured_data .= '  ],' . "\n\n";
 
-                    list($time) = $db->sql_ufetchrow("SELECT `datePublished` FROM `" . $prefix . "_stories` WHERE `sid`='" . $sid . "'", SQL_NUM);
+                    list($time) = $db->sql_ufetchrow("SELECT `datePublished` FROM `" . $prefix . "_blogs` WHERE `sid`='" . $sid . "'", SQL_NUM);
                     $structured_data .= '  "datePublished": "' . $time . '",' . "\n";
-                    list($dtm) = $db->sql_ufetchrow("SELECT `dateModified` FROM `" . $prefix . "_stories` WHERE `sid`='" . $sid . "'", SQL_NUM);
+                    list($dtm) = $db->sql_ufetchrow("SELECT `dateModified` FROM `" . $prefix . "_blogs` WHERE `sid`='" . $sid . "'", SQL_NUM);
                     $structured_data .= '  "dateModified": "' . $dtm . '",' . "\n\n";
 
-                    list($name) = $db->sql_ufetchrow("SELECT `informant` FROM `" . $prefix . "_stories` WHERE `sid`='" . $sid . "'", SQL_NUM);
+                    list($name) = $db->sql_ufetchrow("SELECT `informant` FROM `" . $prefix . "_blogs` WHERE `sid`='" . $sid . "'", SQL_NUM);
                     list($username) = $db->sql_ufetchrow("SELECT `name` FROM `" . $prefix . "_users` WHERE `username`='" . $name . "'", SQL_NUM);
                     $structured_data .= '  "author": {' . "\n";
                     $structured_data .= '  "@type": "Person",' . "\n";

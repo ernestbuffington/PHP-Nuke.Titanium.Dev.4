@@ -1914,7 +1914,7 @@ $leave_out['show_sig_once'] = false;
           if($rep_config['rep_disable'] == 0):
 
             if($postrow[$i]['user_reputation'] == 0):
-              $reputation = $lang['Zero_reputation'];
+              $reputation = $lang['Zero_reputation'] ?? 'Zero Reputation';
 			else:
               if($rep_config['graphic_version'] == 0):
                 # Text version
@@ -2164,7 +2164,7 @@ $leave_out['show_sig_once'] = false;
                 'POSTER_FROM' => $poster_from,
 
 				# Mod: Users Reputations Systems v1.0.0 START
-                'REPUTATION_ADD' => $reputation_add,
+                'REPUTATION_ADD' => $reputation_add ?? '',
                 'REPUTATION' => $reputation,
 				# Mod: Users Reputations Systems v1.0.0 END
 

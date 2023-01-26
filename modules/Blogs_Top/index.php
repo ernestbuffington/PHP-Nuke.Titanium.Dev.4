@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium v3.0.0 : Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium v4.0.3 : Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 /************************************************************************/
 /* PHP-NUKE: Web Portal System                                          */
@@ -18,7 +18,7 @@
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
-	  Titanium Updated                         v3.0.0       08/26/2019
+	  Titanium Patched                         v4.0.3       08/26/2019
  ************************************************************************/
 if (!defined('MODULE_FILE'))
 exit('You can\'t access this file directly...');
@@ -31,8 +31,6 @@ include_once(NUKE_BASE_DIR.'header.php');
 
 global $fieldset_color, $fieldset_border_width, $digits_color;
 global $prefix, $db, $textcolor1;
-
-title($sitename.' '.'Blog Top 10');
 
 if($multilingual == 1): 
     $queryalang = "WHERE (alanguage='$currentlang' OR alanguage='')"; /* top stories */
@@ -59,7 +57,7 @@ echo '<legend align="center" id="Legend5" runat="server" visible="true" style="w
       style="color:'.$textcolor1.'"><h1>'.$top.' '._MOST_READ_BLOG_POSTS.'</h1></span></strong></legend>';
 
 //echo '<br />';
-$result = $db->sql_query("SELECT `sid`, `title`, `counter` FROM `".$prefix."_stories` $queryalang ORDER BY `counter` DESC LIMIT 0,$top");
+$result = $db->sql_query("SELECT `sid`, `title`, `counter` FROM `".$prefix."_blogs` $queryalang ORDER BY `counter` DESC LIMIT 0,$top");
 
 if ($db->sql_numrows($result) > 0) 
 {
@@ -88,7 +86,7 @@ $db->sql_freeresult($result);
 ##############################
 # Top 10 most voted stories 
 ##############################
-$result2 = $db->sql_query("SELECT `sid`, `title`, `ratings` FROM `".$prefix."_stories` $querya1lang score!='0' ORDER BY `ratings` DESC LIMIT 0,$top");
+$result2 = $db->sql_query("SELECT `sid`, `title`, `ratings` FROM `".$prefix."_blogs` $querya1lang score!='0' ORDER BY `ratings` DESC LIMIT 0,$top");
 if ($db->sql_numrows($result2) > 0) 
 {
 
@@ -120,7 +118,7 @@ $db->sql_freeresult($result2);
 ##############################
 # Top 10 best rated stories 
 ##############################
-$result3 = $db->sql_query("SELECT sid, title, score, ratings FROM ".$prefix."_stories $querya1lang score!='0' ORDER BY ratings+score DESC LIMIT 0,$top");
+$result3 = $db->sql_query("SELECT sid, title, score, ratings FROM ".$prefix."_blogs $querya1lang score!='0' ORDER BY ratings+score DESC LIMIT 0,$top");
 if ($db->sql_numrows($result3) > 0) 
 {
 
@@ -154,7 +152,7 @@ $db->sql_freeresult($result3);
 #############################
 if ($articlecomm == 1) 
 {
-    $result4 = $db->sql_query("SELECT sid, title, comments FROM ".$prefix."_stories $queryalang ORDER BY comments DESC LIMIT 0,$top");
+    $result4 = $db->sql_query("SELECT sid, title, comments FROM ".$prefix."_blogs $queryalang ORDER BY comments DESC LIMIT 0,$top");
 
     if ($db->sql_numrows($result4) > 0) 
 	{
@@ -189,7 +187,7 @@ $db->sql_freeresult($result4);
 ######################
 # Top 10 categories 
 ######################
-$result5 = $db->sql_query("SELECT catid, title, counter FROM ".$prefix."_stories_cat ORDER BY counter DESC LIMIT 0,$top");
+$result5 = $db->sql_query("SELECT catid, title, counter FROM ".$prefix."_blogs_cat ORDER BY counter DESC LIMIT 0,$top");
 if ($db->sql_numrows($result5) > 0) 
 {
     echo '<fieldset style="border-color: '.$fieldset_color.'; border-width: '.$fieldset_border_width.'; border-style: solid;">';
@@ -395,4 +393,4 @@ $db->sql_freeresult($result11);
 
 CloseTable();
 include_once(NUKE_BASE_DIR.'footer.php');
-?>
+

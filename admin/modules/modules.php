@@ -23,7 +23,7 @@ function modadmin_get_modules ($mid = '')
 
     $mid = (!empty($mid)) ? 'WHERE mid='.$mid : '';
 
-    if(!$result = $db->sql_query("SELECT `mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `blocks`, `groups` FROM `".$prefix."_modules` $mid ORDER BY `mid` ASC")) 
+    if(!$result = $db->sql_query("SELECT `mid`, `title`, `custom_title`, `active`, `view`, `inmenu`, `blocks`, `groups` FROM `".$prefix."_modules` $mid ORDER BY `title` ASC")) 
     DisplayError($admlang['modblock']['no_values']);
 
     if (!$out = $db->sql_fetchrowset($result)) 

@@ -47,24 +47,24 @@ if(is_mod_admin($module_name)) {
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
     function showblogs_home($text) {
-       /* $news_bbtable = bbcode_table('hometext', 'postnews', 1);
-        $smiles = smilies_table('onerow','hometext', 'postnews');
+       /* $news_bbtable = bbcode_table('hometext', 'postblog', 1);
+        $smiles = smilies_table('onerow','hometext', 'postblog');
         echo "<br /><br />$news_bbtable"
             ."<textarea style=\"wrap: virtual\" cols=\"80\" rows=\"20\" name=\"hometext\">$text</textarea><br />$smiles<br /><br />";*/
        global $wysiwyg_buffer;
        $wysiwyg_buffer = 'hometext,bodytext';
        echo "<br /><br />\n";
-       echo Make_TextArea('hometext', $text,'postnews');
+       echo Make_TextArea('hometext', $text,'postblog');
        echo "<br />\n";
     }
 
     function showblogs_body($text) {
-       /* $news_bbtable = bbcode_table('bodytext', 'postnews', 1);
-        $smiles = smilies_table('onerow','bodytext', 'postnews');
+       /* $news_bbtable = bbcode_table('bodytext', 'postblog', 1);
+        $smiles = smilies_table('onerow','bodytext', 'postblog');
         echo "<br /><br />$news_bbtable"
             ."<textarea style=\"wrap: virtual\" cols=\"80\" rows=\"20\" name=\"bodytext\">$text</textarea><br />$smiles<br /><br />";*/
        echo "<br /><br />\n";
-       echo Make_TextArea('bodytext', $text,'postnews');
+       echo Make_TextArea('bodytext', $text,'postblog');
        echo "<br />\n";
     }
 /*****[END]********************************************
@@ -199,7 +199,7 @@ if(is_mod_admin($module_name)) {
 
     function SelectBlogCategory($cat) {
         global $prefix, $db, $admin_file;
-        $selcat = $db->sql_query("SELECT catid, title FROM ".$prefix."_stories_cat ORDER BY title");
+        $selcat = $db->sql_query("SELECT catid, title FROM ".$prefix."_blogs_cat ORDER BY title");
         $a = 1;
         echo "<strong>"._CATEGORY."</strong> ";
         echo "<select name=\"catid\">";
@@ -208,7 +208,7 @@ if(is_mod_admin($module_name)) {
         } else {
             $sel = "";
         }
-        echo "<option name=\"catid\" value=\"0\" $sel>"._ARTICLES."</option>";
+        echo "<option name=\"catid\" value=\"0\" $sel>"._BLOGS."</option>";
         while(list($catid, $title) = $db->sql_fetchrow($selcat)) {
             $catid = intval($catid);
             if ($catid == $cat) {
@@ -239,7 +239,7 @@ if(is_mod_admin($module_name)) {
 /*****[BEGIN]******************************************
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
-            ."<br /><form action=\"".$admin_file.".php\" method=\"post\" name=\"postnews\">"
+            ."<br /><form action=\"".$admin_file.".php\" method=\"post\" name=\"postblog\">"
 /*****[END]********************************************
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
@@ -295,7 +295,7 @@ if(is_mod_admin($module_name)) {
         echo "<br />";
         puthome($ihome, $acomm);
         echo "<strong>" . _TOPIC . "</strong> <select name=\"topic\">";
-        $toplist = $db->sql_query("SELECT topicid, topictext FROM " . $prefix . "_topics ORDER BY topictext");
+        $toplist = $db->sql_query("SELECT topicid, topictext FROM " . $prefix . "_blogs_topics ORDER BY topictext");
         echo "<option value=\"\">" . _SELECTTOPIC . "</option>\n";
         while ($row = $db->sql_fetchrow($toplist)) {
             $topicid = intval($row['topicid']);
@@ -306,10 +306,10 @@ if(is_mod_admin($module_name)) {
 /*****[BEGIN]******************************************
  [ Mod:     Blogs BBCodes                       v1.0.0 ]
  ******************************************************/
-        echo "<br /><br /><strong>" . _STORYTEXT . "</strong><br />";
+        echo "<br /><br /><strong>" . _BLOG_TEXT . "</strong><br />";
             //."<textarea style=\"wrap:virtual\" cols=\"50\" rows=\"7\" name=\"hometext\">$story</textarea><br /><br />"
         showblogs_home($hometext);
-        echo "<strong>" . _EXTENDEDTEXT . "</strong><br />";
+        echo "<strong>" . _EXTENDED_BLOG_TEXT . "</strong><br />";
             //."<textarea style=\"wrap:virtual\" cols=\"50\" rows=\"8\" name=\"bodytext\"></textarea><br />"
         showblogs_body($bodytext);
 /*****[END]********************************************
@@ -360,7 +360,7 @@ if(is_mod_admin($module_name)) {
  ******************************************************/
             $topic_icon = intval($topic_icon);
             $writes = intval($writes);
-            $result = $db->sql_query("INSERT INTO ".$prefix."_stories VALUES (NULL, 
+            $result = $db->sql_query("INSERT INTO ".$prefix."_blogs VALUES (NULL, 
 			                                                              '$catid', 
 																		    '$aid', 
 																		  '$title', 

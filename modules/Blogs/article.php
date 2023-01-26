@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium | Nuke-Evolution Basic : Enhanced and Advanced
+ PHP-Nuke Titanium v4.0.3 : Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /************************************************************************/
@@ -31,12 +31,12 @@
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
+	  Titanium Patched                         v3.0.0       08/26/2019
 -=[Mod]=-
       Advanced Username Color                  v1.0.5       07/29/2005
       Blog BBCodes                             v1.0.0       08/19/2005
       Display Topic Icon                       v1.0.0       06/27/2005
       Display Writes                           v1.0.0       10/14/2005
-	  Titanium Patched                         v3.0.0       08/26/2019
  ************************************************************************/
  
 if (!defined('MODULE_FILE')) die('You can\'t access this file directly...');
@@ -90,7 +90,7 @@ if (isset($op) && $op == "Reply")
 	redirect("modules.php?name=$module_name&file=comments&op=Reply&pid=0&sid=".$sid.$display);
 }
 
-$result = $db->sql_query("select catid, aid, datePublished, dateModified, title, counter, hometext, bodytext, topic, informant, notes, acomm, haspoll, pollID, score, ratings, ticon FROM ".$prefix."_stories where sid='$sid'");
+$result = $db->sql_query("select catid, aid, datePublished, dateModified, title, counter, hometext, bodytext, topic, informant, notes, acomm, haspoll, pollID, score, ratings, ticon FROM ".$prefix."_blogs where sid='$sid'");
 
 $numrows = $db->sql_numrows($result);
 
@@ -132,7 +132,7 @@ $topic_icon = (int) $row["ticon"];
 if (empty($aaid)) 
 redirect("modules.php?name=".$module_name);
 
-$db->sql_query("UPDATE ".$prefix."_stories SET counter=counter+1 where sid='$sid'");
+$db->sql_query("UPDATE ".$prefix."_blogs SET counter=counter+1 where sid='$sid'");
 
 $artpage = 1;
 
@@ -160,7 +160,7 @@ $informant = $anonymous;
 getTopics($sid);
 
 if ($catid != 0) {
-    $row2 = $db->sql_fetchrow($db->sql_query("select title from ".$prefix."_stories_cat where catid='$catid'"));
+    $row2 = $db->sql_fetchrow($db->sql_query("select title from ".$prefix."_blogs_cat where catid='$catid'"));
     $title1 = stripslashes((string) check_html($row2["title"], "nohtml"));
     $title = "<a href=\"modules.php?name=$module_name&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><font class=\"storycat\">$title1</font></a>: $title";
 }
@@ -175,7 +175,7 @@ themearticle($aaid, $informant, $datetime, $modified, $title, $counter, $bodytex
 include_once("modules/$module_name/associates.php");
 
 if (empty($mode) || $mode != "nocomments" || $acomm == 0 || $articlecomm == 1) 
-@include_once("modules/$module_name/comments.php");
+include_once("modules/$module_name/comments.php");
 
 echo "</td><td>&nbsp;</td><td valign=\"top\">\n";
 
@@ -250,7 +250,7 @@ while ($row_eight = $db->sql_fetchrow($url_result))
 $db->sql_freeresult($url_result);
 
 $boxstuff .= "<hr noshade width=\"95%\" size=\"1\"><div align=\"center\"><strong>"._MOREABOUT."<strong><br /><a href=\"modules.php?name=Search&amp;topic=$topic\">[ $topictext ]</a><br />\n";
-$boxstuff .= "<hr noshade width=\"95%\" size=\"1\">"._NEWSBY."<br /><a href=\"modules.php?name=Search&amp;author=$aaid\">[ $aaid ]</a></div>\n";
+$boxstuff .= "<hr noshade width=\"95%\" size=\"1\">"._BLOG_BY."<br /><a href=\"modules.php?name=Search&amp;author=$aaid\">[ $aaid ]</a></div>\n";
 
 $boxstuff .= "</span><hr noshade width=\"95%\" size=\"1\"><div align=\"center\"><span class=\"content\"><strong>Current Blog Topic<br/> ( $topictext )</strong><br />\n";
 
@@ -258,7 +258,7 @@ global $multilingual, $currentlang;
     
 $querylang = $multilingual == 1 ? "AND (alanguage='$currentlang' OR alanguage='')" : "";
 
-$row9 = $db->sql_fetchrow($db->sql_query("select sid, title from ".$prefix."_stories where topic='$topic' $querylang order by counter desc limit 0,1"));
+$row9 = $db->sql_fetchrow($db->sql_query("select sid, title from ".$prefix."_blogs where topic='$topic' $querylang order by counter desc limit 0,1"));
 $topstory = (int) $row9["sid"];
 $ttitle = stripslashes((string) check_html($row9["title"], "nohtml")); 
 
@@ -425,12 +425,13 @@ else
 $ratecontent .= "<input type=\"submit\" value=\""._CASTMYVOTE."\"></form><br />";
 $ratecontent .= "<img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"1\" ></div>";
 
-themesidebox($ratetitle, $ratecontent, "newsvote");
+themesidebox($ratetitle, $ratecontent, "blogsvote");
 
 $optiontitle = ""._OPTIONS."";
 $optionbox = "<br />";
-$optionbox .= '&nbsp;<a href="modules.php?name='.the_module().'&amp;file=print&amp;sid='.$sid.'"><i class="fa fa-print"></i></a>&nbsp;<a href="modules.php?name='.the_module().'&amp;file=print&amp;sid='.$sid.'">'._PRINTER.'</a><br />'."\n";
-$optionbox .= '&nbsp;<a href="modules.php?name='.the_module().'&amp;file=friend&amp;op=FriendSend&amp;sid='.$sid.'"><i class="fa fa-envelope"></i></a> <a href="modules.php?name='.the_module().'&amp;file=friend&amp;op=FriendSend&amp;sid='.$sid.'">'._FRIEND.'</a><br /><br />'."\n";
+$optionbox .= '&nbsp;<a href="modules.php?name='.the_module().'&amp;file=print&amp;sid='.$sid.'"><i class="fa fa-print"></i></a>&nbsp;<a 
+               href="modules.php?name='.the_module().'&amp;file=print&amp;sid='.$sid.'">'._PRINTER_FRIENDLY_BLOG_POST_VIEW.'</a><br />'."\n";
+$optionbox .= '&nbsp;<a href="modules.php?name='.the_module().'&amp;file=friend&amp;op=FriendSend&amp;sid='.$sid.'"><i class="fa fa-envelope"></i></a> <a href="modules.php?name='.the_module().'&amp;file=friend&amp;op=FriendSend&amp;sid='.$sid.'">'._SEND_BLOG_TO_FRIEND.'</a><br /><br />'."\n";
 
 if (is_mod_admin($module_name)) 
 {
@@ -442,4 +443,4 @@ themesidebox($optiontitle, $optionbox, "newsopt");
 echo "</td></tr></table>\n";
 
 include_once(NUKE_BASE_DIR.'footer.php');
-?>
+

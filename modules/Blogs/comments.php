@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium | Nuke-Evolution Basic : Enhanced and Advanced
+ PHP-Nuke Titanium v4.0.3 : Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /************************************************************************/
@@ -22,28 +22,38 @@
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
+	  Titanium Patched                         v4.0.3       01/25/2023
+-=[Applied Rules]=-
+ * DirNameFileConstantToDirConstantRector
+ * LongArrayToShortArrayRector
+ * AddDefaultValueForUndefinedVariableRector (https://github.com/vimeo/psalm/blob/29b70442b11e3e66113935a2ee22e165a70c74a4/docs/fixing_code.md#possiblyundefinedvariable)
+ * WrapVariableVariableNameInCurlyBracesRector (https://www.php.net/manual/en/language.variables.variable.php)
+ * BinaryOpBetweenNumberAndStringRector (https://3v4l.org/XPEEl)
+ * ListToArrayDestructRector (https://wiki.php.net/rfc/short_list_syntax https://www.php.net/manual/en/migration71.new-features.php#migration71.new-features.symmetric-array-destructuring)
+ * NullToStrictStringFuncCallArgRector	  
  ************************************************************************/
 if (!defined('MODULE_FILE')) die('You can\'t access this file directly...');
 
-$module_name = basename(dirname(__FILE__));
+$module_name = basename(__DIR__);
 get_lang($module_name);
 
 function format_url($comment) 
 {
+    $linkpos = null;
     global $nukeurl;
     unset($location);
     $comment = $comment;
-    $links = array();
-    $hrefs = array();
+    $links = [];
+    $hrefs = [];
     $pos = 0;
-    while (!(($pos = strpos($comment,"<",$pos)) === false)): 
+    while (!(($pos = strpos((string) $comment,"<",$pos)) === false)): 
       $pos++;
-      $endpos = strpos($comment,">",$pos);
-      $tag = substr($comment,$pos,$endpos-$pos);
+      $endpos = strpos((string) $comment,">",$pos);
+      $tag = substr((string) $comment,$pos,$endpos-$pos);
       $tag = trim($tag);
 	  if (isset($location)): 
         if (!strcasecmp(strtok($tag," "),"/A")): 
-          $link = substr($comment,$linkpos,$pos-1-$linkpos);
+          $link = substr((string) $comment,$linkpos,$pos-1-$linkpos);
           $links[] = $link;
           $hrefs[] = $location;
           unset($location);
@@ -64,12 +74,12 @@ function format_url($comment)
     endif;
 	endwhile;
     for ($i=0; $i<count($links); $i++): 
-      if (!preg_match("#http://#i", $hrefs[$i])): 
+      if (!preg_match("#http://#i", (string) $hrefs[$i])): 
         $hrefs[$i] = $nukeurl;
-	  elseif (!preg_match("#mailto://#i", $hrefs[$i])): 
-        $href = explode("/",$hrefs[$i]);
+	  elseif (!preg_match("#mailto://#i", (string) $hrefs[$i])): 
+        $href = explode("/",(string) $hrefs[$i]);
         $href = " [$href[2]]";
-        $comment = str_replace(">$links[$i]</a>", "title='$hrefs[$i]'> $links[$i]</a>$href", $comment);
+        $comment = str_replace(">$links[$i]</a>", "title='$hrefs[$i]'> $links[$i]</a>$href", (string) $comment);
       endif;
     endfor;
     return($comment);
@@ -106,9 +116,10 @@ function nocomm() {
 
 function navbar($sid, $title, $thold, $mode, $order) 
 {
+    $pid = null;
     global $user, $bgcolor1, $bgcolor2, $textcolor1, $textcolor2, $anonpost, $prefix, $db, $module_name;
 
-    $query = $db->sql_query("SELECT * FROM ".$prefix."_comments WHERE sid='$sid'");
+    $query = $db->sql_query("SELECT * FROM ".$prefix."_blogs_comments WHERE sid='$sid'");
 
     if(!$query) {
         $count = 0;
@@ -119,9 +130,9 @@ function navbar($sid, $title, $thold, $mode, $order)
 
     $sid = intval($sid);
 
-    $query = $db->sql_query("SELECT title FROM ".$prefix."_stories WHERE sid='$sid'");
+    $query = $db->sql_query("SELECT title FROM ".$prefix."_blogs WHERE sid='$sid'");
 
-    list($un_title) = $db->sql_fetchrow($query);
+    [$un_title] = $db->sql_fetchrow($query);
 
     $db->sql_freeresult($query);
 
@@ -171,7 +182,9 @@ function navbar($sid, $title, $thold, $mode, $order)
 
 function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblwidth=99) {
     
-	global $datetime, $user, $cookie, $bgcolor1, $reasons, $anonymous, $anonpost, $commentlimit, $prefix, $textcolor2, $db, $module_name, $user_prefix, $userinfo;
+	$ruid = null;
+ $r_modified = null;
+ global $datetime, $user, $cookie, $bgcolor1, $reasons, $anonymous, $anonpost, $commentlimit, $prefix, $textcolor2, $db, $module_name, $user_prefix, $userinfo;
     
 	$comments = 0;
     
@@ -193,7 +206,7 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
 													    `score`, 
 													   `reason` 
 													   
-													FROM ".$prefix."_comments WHERE pid='$tid' ORDER BY datePublished, tid");
+													FROM ".$prefix."_blogs_comments WHERE pid='$tid' ORDER BY datePublished, tid");
     
 	
 	if ($mode == 'nested') 
@@ -209,11 +222,11 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
 	    $r_date   = $row["datePublished"];
 		$r_modified = $row["dateModified"];
     
-	    $r_name = stripslashes($row["name"]);
-        $r_email = stripslashes($row["email"]);
+	    $r_name = stripslashes((string) $row["name"]);
+        $r_email = stripslashes((string) $row["email"]);
         $r_host_name = $row["host_name"];
-        $r_subject = stripslashes(check_html($row["subject"], "nohtml"));
-        $r_comment = stripslashes($row["comment"]);
+        $r_subject = stripslashes((string) check_html($row["subject"], "nohtml"));
+        $r_comment = stripslashes((string) $row["comment"]);
         $r_score = intval($row["score"]);
         $r_reason = intval($row["reason"]);
     
@@ -256,19 +269,29 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
         }
         if ($r_name != $anonymous) {
             $row3 = $db->sql_fetchrow($db->sql_query("SELECT user_id FROM ".$user_prefix."_users WHERE username='$r_name'"));
-            $$ruid = intval($row3['user_id']);
-            echo "<br />(<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$r_name\">"._USERINFO."</a> | <a href=\"modules.php?name=Private_Messages&amp;mode=post&amp;u=$ruid\">"._SENDAMSG."</a>) ";
+            ${$ruid} = intval($row3['user_id']);
+            echo "<br />(<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$r_name\">"._USERINFO."</a> | <a 
+			href=\"modules.php?name=Private_Messages&amp;mode=post&amp;u=$ruid\">"._SENDAMSG."</a>) ";
         }
         $row_url = $db->sql_fetchrow($db->sql_query("SELECT user_website FROM ".$user_prefix."_users WHERE username='$r_name'"));
-        $url = stripslashes($row_url["user_website"]);
+        $url = stripslashes((string) $row_url["user_website"]);
         if ($url != "http://" AND $url != "" AND preg_match("#http://#i", $url)) { echo "<a href=\"$url\" target=\"new\">$url</a> "; }
         echo "</font></td></tr><tr><td>";
-        if((isset($userinfo['commentmax'])) && (strlen($r_comment) > $userinfo['commentmax'])) echo substr("$r_comment", 0, $userinfo['commentmax'])."<br /><br /><strong><a href=\"modules.php?name=$module_name&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
-        elseif(strlen($r_comment) > $commentlimit) echo substr("$r_comment", 0, $commentlimit)."<br /><br /><strong><a href=\"modules.php?name=$module_name&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
-        else echo $r_comment;
+        if((isset($userinfo['commentmax'])) && (strlen($r_comment) > $userinfo['commentmax']))
+		 
+		 echo substr("$r_comment", 0, $userinfo['commentmax'])."<br /><br /><strong><a 
+		 href=\"modules.php?name=$module_name&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
+        
+		elseif(strlen($r_comment) > $commentlimit) 
+		
+		echo substr("$r_comment", 0, $commentlimit)."<br /><br /><strong><a 
+		href=\"modules.php?name=$module_name&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
+        
+		else echo $r_comment;
         echo "</td></tr></table><br /><br />";
         if ($anonpost==1 OR is_mod_admin($module_name) OR is_user()) {
-            echo "<font class=\"content\" color=\"$textcolor2\"> [ <a href=\"modules.php?name=$module_name&amp;file=comments&amp;op=Reply&amp;pid=$r_tid&amp;sid=$r_sid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
+            echo "<font class=\"content\" color=\"$textcolor2\"> [ <a 
+			href=\"modules.php?name=$module_name&amp;file=comments&amp;op=Reply&amp;pid=$r_tid&amp;sid=$r_sid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
         }
         modtwo($r_tid, $r_score, $r_reason);
         echo " ]</font><br /><br />";
@@ -284,11 +307,11 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
 		$r_date = $row["datePublished"];
         $r_modified = $row["dateModified"];
 		
-		$r_name = stripslashes($row["name"]);
-        $r_email = stripslashes($row["email"]);
+		$r_name = stripslashes((string) $row["name"]);
+        $r_email = stripslashes((string) $row["email"]);
         $r_host_name = $row["host_name"];
-        $r_subject = stripslashes(check_html($row["subject"], "nohtml"));
-        $r_comment = stripslashes($row["comment"]);
+        $r_subject = stripslashes((string) check_html($row["subject"], "nohtml"));
+        $r_comment = stripslashes((string) $row["comment"]);
         $r_score = intval($row["score"]);
         $r_reason = intval($row["reason"]);
         if($r_score >= $thold) {
@@ -323,15 +346,25 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
             echo "<br />(<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$r_name\">"._USERINFO."</a> | <a href=\"modules.php?name=Private_Messages&amp;mode=post&amp;u=$ruid\">"._SENDAMSG."</a>) ";
             }
             $row_url2 = $db->sql_fetchrow($db->sql_query("SELECT user_website FROM ".$user_prefix."_users WHERE username='$r_name'"));
-            $url = stripslashes($row_url2["user_website"]);
+            $url = stripslashes((string) $row_url2["user_website"]);
             if ($url != "http://" AND $url != "" AND preg_match("#http://#i", $url)) { echo "<a href=\"$url\" target=\"new\">$url</a> "; }
             echo "</font></td></tr><tr><td>";
-            if((isset($userinfo['commentmax'])) && (strlen($r_comment) > $userinfo['commentmax'])) echo substr("$r_comment", 0, $userinfo['commentmax'])."<br /><br /><strong><a href=\"modules.php?name=$module_name&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
-            elseif(strlen($r_comment) > $commentlimit) echo substr("$r_comment", 0, $commentlimit)."<br /><br /><strong><a href=\"modules.php?name=$module_name&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
-            else echo $r_comment;
+            if((isset($userinfo['commentmax'])) && (strlen($r_comment) > $userinfo['commentmax'])) 
+			
+			echo substr("$r_comment", 0, $userinfo['commentmax'])."<br /><br /><strong><a 
+			href=\"modules.php?name=$module_name&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
+            
+			elseif(strlen($r_comment) > $commentlimit) 
+			
+			echo substr("$r_comment", 0, $commentlimit)."<br /><br /><strong><a 
+			href=\"modules.php?name=$module_name&amp;file=comments&amp;sid=$r_sid&amp;tid=$r_tid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._READREST."</a></strong>";
+            
+			else echo $r_comment;
             echo "</td></tr></table><br /><br />";
-            if ($anonpost==1 OR is_mod_admin($module_name) OR is_user()) {
-            echo "<font class=\"content\" color=\"$textcolor2\"> [ <a href=\"modules.php?name=$module_name&amp;file=comments&amp;op=Reply&amp;pid=$r_tid&amp;sid=$r_sid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
+            
+			if ($anonpost==1 OR is_mod_admin($module_name) OR is_user()) {
+            echo "<font class=\"content\" color=\"$textcolor2\"> [ <a 
+			href=\"modules.php?name=$module_name&amp;file=comments&amp;op=Reply&amp;pid=$r_tid&amp;sid=$r_sid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
             }
             modtwo($r_tid, $r_score, $r_reason);
             echo " ]</font><br /><br />";
@@ -347,11 +380,11 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
 		$r_date = $row["datePublished"];
 		$r_modified - $row["dateModified"];
         
-		$r_name = stripslashes($row["name"]);
-        $r_email = stripslashes($row["email"]);
+		$r_name = stripslashes((string) $row["name"]);
+        $r_email = stripslashes((string) $row["email"]);
         $r_host_name = $row["host_name"];
-        $r_subject = stripslashes(check_html($row["subject"], "nohtml"));
-        $r_comment = stripslashes($row["comment"]);
+        $r_subject = stripslashes((string) check_html($row["subject"], "nohtml"));
+        $r_comment = stripslashes((string) $row["comment"]);
         $r_score = intval($row["score"]);
         $r_reason = intval($row["reason"]);
         if($r_score >= $thold) {
@@ -368,7 +401,8 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
 			formatTimestamp($r_date);
             formatTimestamp($r_modified);
 			
-			echo "<li><font class=\"content\" color=\"$textcolor2\"><a href=\"modules.php?name=$module_name&amp;file=comments&amp;op=showreply&amp;tid=$r_tid&amp;sid=$r_sid&amp;pid=$r_pid&amp;mode=$mode&amp;order=$order&amp;thold=$thold#$r_tid\">$r_subject</a> "._BY." $r_name "._ON." $r_date</font><br />";
+			echo "<li><font class=\"content\" color=\"$textcolor2\"><a 
+			href=\"modules.php?name=$module_name&amp;file=comments&amp;op=showreply&amp;tid=$r_tid&amp;sid=$r_sid&amp;pid=$r_pid&amp;mode=$mode&amp;order=$order&amp;thold=$thold#$r_tid\">$r_subject</a> "._BY." $r_name "._ON." $r_date</font><br />";
             DisplayKids($r_tid, $mode, $order, $thold, $level+1, $dummy+1);
         }
         }
@@ -379,6 +413,9 @@ function DisplayKids ($tid, $mode, $order=0, $thold=0, $level=0, $dummy=0, $tblw
 }
 
 function DisplayBabies ($tid, $level=0, $dummy=0) {
+    $mode = null;
+    $order = null;
+    $thold = null;
     global $datetime, $anonymous, $prefix, $db, $module_name;
     $comments = 0;
                          $result = $db->sql_query("SELECT `tid`, 
@@ -393,7 +430,7 @@ function DisplayBabies ($tid, $level=0, $dummy=0) {
 													  `subject`, 
 													  `comment`, 
 													    `score`, 
-													   `reason` FROM ".$prefix."_comments WHERE pid='$tid' ORDER BY date, tid");
+													   `reason` FROM ".$prefix."_blogs_comments WHERE pid='$tid' ORDER BY date, tid");
 	
 	while ($row = $db->sql_fetchrow($result)) {
         $r_tid = intval($row["tid"]);
@@ -403,11 +440,11 @@ function DisplayBabies ($tid, $level=0, $dummy=0) {
         $r_date = $row["datePublished"];
         $r_modified = $row["dateModified"];
         
-		$r_name = stripslashes($row["name"]);
-        $r_email = stripslashes($row["email"]);
+		$r_name = stripslashes((string) $row["name"]);
+        $r_email = stripslashes((string) $row["email"]);
         $r_host_name = $row["host_name"];
-        $r_subject = stripslashes(check_html($row["subject"], "nohtml"));
-        $r_comment = stripslashes($row["comment"]);
+        $r_subject = stripslashes((string) check_html($row["subject"], "nohtml"));
+        $r_comment = stripslashes((string) $row["comment"]);
         $r_score = intval($row["score"]);
         $r_reason = intval($row["reason"]);
     if (!isset($level)) {
@@ -435,7 +472,11 @@ function DisplayBabies ($tid, $level=0, $dummy=0) {
 function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0, $level=0, $nokids=0) 
 {
     
-	global $hr, $user, $datetime, $cookie, $mainfile, $admin, $commentlimit, 
+ $journal = null;
+ $r_comment = null;
+ $r_sid = null;
+ $r_tid = null;
+ global $hr, $user, $datetime, $cookie, $mainfile, $admin, $commentlimit, 
 	$anonymous, $reasons, $anonpost, $foot1, $foot2, $foot3, $foot4, $prefix, 
 	$acomm, $articlecomm, $db, $module_name, $nukeurl, $admin_file, $user_prefix, $userinfo, $cookie;
     
@@ -446,7 +487,7 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
 	else 
 	{
         global $title, $bgcolor1, $bgcolor2, $bgcolor3;
-        include_once(dirname(__FILE__)."/mainfile.php");
+        include_once(__DIR__."/mainfile.php");
         include_once(NUKE_BASE_DIR."header.php");
     }
     if ($pid!=0)
@@ -469,7 +510,7 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
 		       `score`, 
 		      `reason` 
 													   
-	FROM ".$prefix."_comments WHERE sid='$sid' and pid='$pid'";
+	FROM ".$prefix."_blogs_comments WHERE sid='$sid' and pid='$pid'";
 	
 	if($thold != "") 
 	{
@@ -499,7 +540,6 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
     modone();
     
 	while ($count_times < $num_tid) {
-    //echo "<br />";
     OpenTable();
     
 	$row_q = $db->sql_fetchrow($something);
@@ -511,11 +551,11 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
 	$date = $row_q["datePublished"];
     $modified = $row_q["dateModified"];
 	
-	$c_name = stripslashes($row_q["name"]);
-    $email = stripslashes($row_q["email"]);
+	$c_name = stripslashes((string) $row_q["name"]);
+    $email = stripslashes((string) $row_q["email"]);
     $host_name = $row_q["host_name"];
-    $subject = stripslashes(check_html($row_q["subject"], "nohtml"));
-    $comment = stripslashes($row_q["comment"]);
+    $subject = stripslashes((string) check_html($row_q["subject"], "nohtml"));
+    $comment = stripslashes((string) $row_q["comment"]);
     $score = intval($row_q["score"]);
     $reason = intval($row_q["reason"]);
     
@@ -551,7 +591,7 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
     if (is_active("Journal")) {
         $row = $db->sql_fetchrow($db->sql_query("SELECT jid FROM ".$prefix."_journal WHERE aid='$c_name' AND status='yes' ORDER BY pdate,jid DESC LIMIT 0,1"));
         $jid = intval($row["jid"]);
-        if ($jid != "" AND isset($jid)) {
+        if ($jid != 0 AND isset($jid)) {
         $journal = " | <a href=\"modules.php?name=Journal&amp;file=display&amp;jid=$jid\">"._JOURNAL."</a>";
         } else {
         $journal = "";
@@ -563,11 +603,11 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
         echo "<br />(<a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$c_name\">"._USERINFO."</a> | <a href=\"modules.php?name=Private_Messages&amp;mode=post&amp;u=$r_uid\">"._SENDAMSG."</a>$journal) ";
     }
     $row_url = $db->sql_fetchrow($db->sql_query("SELECT user_website FROM ".$user_prefix."_users WHERE username='$c_name'"));
-    $url = stripslashes($row_url["user_website"]);
+    $url = stripslashes((string) $row_url["user_website"]);
     if ($url != "http://" AND $url != "" AND preg_match("#http://#i", $url)) { echo "<a href=\"$url\" target=\"new\">$url</a> "; }
 
     if(is_mod_admin($module_name)) {
-        $row3 = $db->sql_fetchrow($db->sql_query("SELECT host_name FROM ".$prefix."_comments WHERE tid='$tid'"));
+        $row3 = $db->sql_fetchrow($db->sql_query("SELECT host_name FROM ".$prefix."_blogs_comments WHERE tid='$tid'"));
         $host_name = $row3["host_name"];
         echo "<br /><strong>(IP: $host_name)</strong>";
     }
@@ -580,7 +620,7 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
         echo "<font class=\"content\"> [ <a href=\"modules.php?name=$module_name&amp;file=comments&amp;op=Reply&amp;pid=$tid&amp;sid=$sid&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._REPLY."</a>";
     }
     if ($pid != 0) {
-        $row4 = $db->sql_fetchrow($db->sql_query("SELECT pid FROM ".$prefix."_comments WHERE tid='$pid'"));
+        $row4 = $db->sql_fetchrow($db->sql_query("SELECT pid FROM ".$prefix."_blogs_comments WHERE tid='$pid'"));
         $erin = intval($row4["pid"]);
         echo " | <a href=\"modules.php?name=$module_name&amp;file=comments&amp;sid=$sid&amp;pid=$erin&amp;mode=$mode&amp;order=$order&amp;thold=$thold\">"._PARENT."</a>";
     }
@@ -602,12 +642,12 @@ function DisplayTopic ($sid, $pid=0, $tid=0, $mode="thread", $order=0, $thold=0,
     modthree($sid, $mode, $order, $thold);
     if ($pid==0) 
 	{
-    return array($sid, $pid, $subject);
+    return [$sid, $pid, isset($subject)];
 
     } 
 	else 
 	{
-    @include_once("footer.php");
+    include_once("footer.php");
     }
 }
 
@@ -617,15 +657,15 @@ function singlecomment($tid, $sid, $mode, $order, $thold)
 
     include_once(NUKE_BASE_DIR."header.php");
 
-    $row = $db->sql_fetchrow($db->sql_query("SELECT datePublished, dateModified, name, email, subject, comment, score, reason FROM ".$prefix."_comments WHERE tid='$tid' AND sid='$sid'"));
+    $row = $db->sql_fetchrow($db->sql_query("SELECT datePublished, dateModified, name, email, subject, comment, score, reason FROM ".$prefix."_blogs_comments WHERE tid='$tid' AND sid='$sid'"));
 
     $date = $row["datePublished"];
 	$modified = $row["dateModified"];
 
-    $name = stripslashes($row["name"]);
-    $email = stripslashes($row["email"]);
-    $subject = stripslashes(check_html($row["subject"], "nohtml"));
-    $comment = stripslashes($row["comment"]);
+    $name = stripslashes((string) $row["name"]);
+    $email = stripslashes((string) $row["email"]);
+    $subject = stripslashes((string) check_html($row["subject"], "nohtml"));
+    $comment = stripslashes((string) $row["comment"]);
     $score = intval($row["score"]);
     $reason = intval($row["reason"]);
     $titlebar = "<strong>$subject</strong>";
@@ -648,11 +688,16 @@ function singlecomment($tid, $sid, $mode, $order, $thold)
     echo " ]";
     modthree($sid, $mode, $order, $thold);
     CloseTable();
-    @include_once("footer.php");
+    include_once("footer.php");
 }
 
 function reply($pid, $sid, $mode, $order, $thold) 
 {
+    $prefix = null;
+    $comment2 = null;
+    $score = null;
+    $email = null;
+    $notes = null;
     include_once(NUKE_BASE_DIR."header.php");
 
     global $module_name, $user, $cookie, $bgcolor1, $bgcolor2, $bgcolor3, $db, $anonpost, $anonymous, $admin, $AllowableHTML;
@@ -671,29 +716,29 @@ function reply($pid, $sid, $mode, $order, $thold)
 	{
     if ($pid != 0) 
 	{
-        $row = $db->sql_fetchrow($db->sql_query("SELECT datePublished, dateModified, name, email, subject, comment, score FROM ".$prefix."_comments WHERE tid='$pid'"));
+        $row = $db->sql_fetchrow($db->sql_query("SELECT datePublished, dateModified, name, email, subject, comment, score FROM ".$prefix."_blogs_comments WHERE tid='$pid'"));
     
 	    $date = isset($row["datePublished"]);
         $modified = isset($row["dateModified"]);
 		
 	    $name = stripslashes(isset($row["name"]));
         $email = stripslashes(isset($row["email"]));
-        $subject = stripslashes(check_html(isset($row["subject"]), "nohtml"));
+        $subject = stripslashes((string) check_html(isset($row["subject"]), "nohtml"));
         $comment = stripslashes(isset($row["comment"]));
         $score = intval(isset($row["score"]));
     } 
 	else 
 	{
-        $row2 = $db->sql_fetchrow($db->sql_query("SELECT datePublished, dateModified, title, hometext, bodytext, informant, notes FROM ".$prefix."_stories WHERE sid='$sid'"));
+        $row2 = $db->sql_fetchrow($db->sql_query("SELECT datePublished, dateModified, title, hometext, bodytext, informant, notes FROM ".$prefix."_blogs WHERE sid='$sid'"));
         
 		$date = $row2["datePublished"];
 		$modified = $row2["dateModified"];
         
-		$subject = stripslashes(check_html($row2["title"], "nohtml"));
-        $temp_comment = stripslashes($row2["hometext"]);
-        $comment2 = stripslashes($row2["bodytext"]);
-        $name = stripslashes($row2["informant"]);
-        $notes = stripslashes($row2["notes"]);
+		$subject = stripslashes((string) check_html($row2["title"], "nohtml"));
+        $temp_comment = stripslashes((string) $row2["hometext"]);
+        $comment2 = stripslashes((string) $row2["bodytext"]);
+        $name = stripslashes((string) $row2["informant"]);
+        $notes = stripslashes((string) $row2["notes"]);
     }
     if(empty($comment)) 
 	{
@@ -739,11 +784,11 @@ function reply($pid, $sid, $mode, $order, $thold)
     }
     if (!isset($pid) || !isset($sid)) { echo "Something is not right. This message is just to keep things from messing up down the road"; exit(); }
     if ($pid == 0) {
-        $row3 = $db->sql_fetchrow($db->sql_query("SELECT title FROM ".$prefix."_stories WHERE sid='$sid'"));
-        $subject = stripslashes(check_html($row3["title"], "nohtml"));
+        $row3 = $db->sql_fetchrow($db->sql_query("SELECT title FROM ".$prefix."_blogs WHERE sid='$sid'"));
+        $subject = stripslashes((string) check_html($row3["title"], "nohtml"));
     } else {
-        $row4 = $db->sql_fetchrow($db->sql_query("SELECT subject FROM ".$prefix."_comments WHERE tid='$pid'"));
-        $subject = stripslashes(check_html(isset($row4["subject"]), "nohtml"));
+        $row4 = $db->sql_fetchrow($db->sql_query("SELECT subject FROM ".$prefix."_blogs_comments WHERE tid='$pid'"));
+        $subject = stripslashes((string) check_html(isset($row4["subject"]), "nohtml"));
     }
     CloseTable();
     //echo "<br />";
@@ -784,7 +829,7 @@ function reply($pid, $sid, $mode, $order, $thold)
         ."</select></font></form>\n";
     CloseTable();
     }
-    @include_once("footer.php");
+    include_once("footer.php");
 }
 
 function replyPreview ($pid, $sid, $subject, $comment, $xanonpost, $mode, $order, $thold, $posttype) 
@@ -798,8 +843,8 @@ function replyPreview ($pid, $sid, $subject, $comment, $xanonpost, $mode, $order
     CloseTable();
     //echo "<br />";
     OpenTable();
-    $subject = stripslashes(check_html($subject, "nohtml"));
-    $comment = stripslashes($comment);
+    $subject = stripslashes((string) check_html($subject, "nohtml"));
+    $comment = stripslashes((string) $comment);
     if (!isset($pid) || !isset($sid)) {
         echo ""._NOTRIGHT."";
         exit();
@@ -865,13 +910,15 @@ function replyPreview ($pid, $sid, $subject, $comment, $xanonpost, $mode, $order
     }
     echo ">"._PLAINTEXT."</option></select></font></form>";
     CloseTable();
-    @include_once("footer.php");
+    include_once("footer.php");
 }
 
 function CreateTopic ($xanonpost, $subject, $comment, $pid, $sid, $host_name, $mode, $order, $thold, $posttype) 
 {
     
-	global $module_name, $user, $userinfo, $EditedMessage, $cookie, $AllowableHTML, $ultramode, $prefix, $anonpost, $articlecomm, $db;
+	$author = null;
+ $options = null;
+ global $module_name, $user, $userinfo, $EditedMessage, $cookie, $AllowableHTML, $ultramode, $prefix, $anonpost, $articlecomm, $db;
     
 	$author = Fix_Quotes($author);
     
@@ -881,11 +928,11 @@ function CreateTopic ($xanonpost, $subject, $comment, $pid, $sid, $host_name, $m
     
 	if($posttype=="exttrans") 
 	{
-        $comment = Fix_Quotes(nl2br(htmlspecialchars(check_words($comment))));
+        $comment = Fix_Quotes(nl2br(htmlspecialchars((string) check_words($comment))));
     } 
 	elseif($posttype=="plaintext") 
 	{
-        $comment = Fix_Quotes(nl2br(filter_text($comment)));
+        $comment = Fix_Quotes(nl2br((string) filter_text($comment)));
     } 
 	else 
 	{
@@ -904,9 +951,9 @@ function CreateTopic ($xanonpost, $subject, $comment, $pid, $sid, $host_name, $m
         $score = 0;
     }
     $ip = identify::get_ip();
-    $fakeresult = $db->sql_query("SELECT acomm FROM ".$prefix."_stories WHERE sid='$sid'");
+    $fakeresult = $db->sql_query("SELECT acomm FROM ".$prefix."_blogs WHERE sid='$sid'");
     $fake = $db->sql_numrows($fakeresult);
-    $comment = trim($comment);
+    $comment = trim((string) $comment);
     
 	if (($fake == 1) AND ($articlecomm == 1)) 
 	{
@@ -931,7 +978,7 @@ function CreateTopic ($xanonpost, $subject, $comment, $pid, $sid, $host_name, $m
 	  if(empty($score))
 	  $score = 1;
 	  
-	  $db->sql_query("INSERT INTO `".$prefix."_comments` (`tid`, 
+	  $db->sql_query("INSERT INTO `".$prefix."_blogs_comments` (`tid`, 
 	                                                      `pid`, 
 														  `sid`, 
 												`datePublished`, 
@@ -959,7 +1006,7 @@ function CreateTopic ($xanonpost, $subject, $comment, $pid, $sid, $host_name, $m
 													   '$score', 
 															'0')");
 
-	  $db->sql_query("UPDATE ".$prefix."_stories SET comments=comments+1 WHERE sid='$sid'");
+	  $db->sql_query("UPDATE ".$prefix."_blogs SET comments=comments+1 WHERE sid='$sid'");
     
 	  if ($ultramode) 
 	  {
@@ -978,7 +1025,7 @@ function CreateTopic ($xanonpost, $subject, $comment, $pid, $sid, $host_name, $m
     echo "According to my records, the topic you are trying "
         ."to reply to does not exist. If you're just trying to be "
         ."annoying, well then too bad.";
-    @include_once("footer.php");
+    include_once("footer.php");
     exit;
     }
     $db->sql_freeresult($fakeresult);
@@ -988,7 +1035,7 @@ function CreateTopic ($xanonpost, $subject, $comment, $pid, $sid, $host_name, $m
     redirect("modules.php?name=$module_name&file=article&sid=$sid$options");
 }
 
-switch($op) {
+switch(isset($op)) {
 
     case "Reply":
     reply($pid, $sid, isset($mode), isset($order), isset($thold));
@@ -1004,7 +1051,7 @@ switch($op) {
 
     case "moderate":
     if(!is_mod_admin($module_name)) {
-       @include_once(dirname(__FILE__)."/mainfile.php");
+       include_once(__DIR__."/mainfile.php");
     }
    
     if(($admintest==1) || ($moderate==2)) 
@@ -1015,10 +1062,10 @@ switch($op) {
         
 		if (preg_match("#dkn#i",$tdw)) 
 		{
-            $emp = explode(":", $emp);
+            $emp = explode(":", (string) $emp);
             if($emp[1] != 0) {
             $tdw = str_replace("dkn", "", $tdw);
-            $q = "UPDATE ".$prefix."_comments SET";
+            $q = "UPDATE ".$prefix."_blogs_comments SET";
             if(($emp[1] == 9) && ($emp[0]>=0)) { # Overrated
                 $q .= " score=score-1 where tid='$tdw'";
             } elseif (($emp[1] == 10) && ($emp[0]<=4)) { # Underrated
@@ -1051,9 +1098,8 @@ switch($op) {
 	else 
 	{
         if(!isset($pid)) $pid=0;
-        DisplayTopic($sid, $pid, $tid, $mode, $order, $thold);
+        DisplayTopic($sid, $pid, isset($tid), $mode, $order, $thold);
     }
     break;
 
 }
-?>

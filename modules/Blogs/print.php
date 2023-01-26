@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium v3.0.0 : Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium v4.0.3 : Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /************************************************************************/
@@ -23,14 +23,18 @@
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
+	  Titanium Patched                         v4.0.3       01/25/2023
 -=[Mod]=-
       Advanced Username Color                  v1.0.5       07/29/2005
       Blog BBCodes                             v1.0.0       08/19/2005
 	  Titanium Patched                         v3.0.0       08/26/2019
+-=[Applied Rules]=-
+ * DirNameFileConstantToDirConstantRector
+ * NullToStrictStringFuncCallArgRector	  
  ************************************************************************/
 if (!defined('MODULE_FILE')) { die('You can\'t access this file directly...'); }
 
-$module_name = basename(dirname(__FILE__));
+$module_name = basename(__DIR__);
 
 get_lang($module_name);
 
@@ -46,8 +50,8 @@ function PrintPage($sid)
 	//<img src=\"images/$site_logo\" alt=\"$sitename\" title=\"$sitename\" /><br /><br />
 
     $sid = intval($sid);
-    $row = $db->sql_fetchrow($db->sql_query("SELECT aid, title, datePublished, dateModified, hometext, bodytext, topic, notes FROM ".$prefix."_stories WHERE sid='$sid'"));
-    $title = stripslashes(check_html($row["title"], "nohtml"));
+    $row = $db->sql_fetchrow($db->sql_query("SELECT aid, title, datePublished, dateModified, hometext, bodytext, topic, notes FROM ".$prefix."_blogs WHERE sid='$sid'"));
+    $title = stripslashes((string) check_html($row["title"], "nohtml"));
     
 	// START Ernest Buffington 0/31/2022 12:45am Wednesday
 	$aid = $row["aid"];
@@ -56,12 +60,12 @@ function PrintPage($sid)
 	$time = $row["datePublished"];
     $modified = $row["dateModified"];
 	
-	$hometext = decode_bbcode(set_smilies(stripslashes($row["hometext"])), 1, true);
-    $bodytext = decode_bbcode(set_smilies(stripslashes($row["bodytext"])), 1, true);
+	$hometext = decode_bbcode(set_smilies(stripslashes((string) $row["hometext"])), 1, true);
+    $bodytext = decode_bbcode(set_smilies(stripslashes((string) $row["bodytext"])), 1, true);
     $topic = intval($row["topic"]);
-    $notes = stripslashes($row["notes"]);
-    $row2 = $db->sql_fetchrow($db->sql_query("SELECT topictext FROM ".$prefix."_topics WHERE topicid='$topic'"));
-    $topictext = stripslashes($row2["topictext"]);
+    $notes = stripslashes((string) $row["notes"]);
+    $row2 = $db->sql_fetchrow($db->sql_query("SELECT topictext FROM ".$prefix."_blogs_topics WHERE topicid='$topic'"));
+    $topictext = stripslashes((string) $row2["topictext"]);
 
     formatTimestamp($time);
 
@@ -110,4 +114,4 @@ function PrintPage($sid)
     exit;
 }
 PrintPage($sid);
-?>
+

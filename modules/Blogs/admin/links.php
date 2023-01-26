@@ -47,9 +47,9 @@ $module_name = basename(dirname(dirname(__FILE__)));
 
 get_lang($module_name);
 
-adminmenu($admin_file.'.php?op=adminBlog', _NEWS, 'logo_red.png');
+adminmenu($admin_file.'.php?op=adminBlog', _BLOGS, 'logo_red.png');
 adminmenu($admin_file.'.php?op=submissions', _BLOG_SUBMISSIONS, 'logo_blue2.png');
 adminmenu($admin_file.'.php?op=BlogsConfig', _BLOGS_CONFIG, 'logo_green.png');
-adminmenu($admin_file.'.php?op=LastTwentyBlogs', _LASTTWENTY, 'logo_purple.png');
+adminmenu($admin_file.'.php?op=LastTwentyBlogs', _LAST_BLOG_POSTS, 'logo_purple.png');
 adminmenu($admin_file.'.php?op=ProgrammedBlogs', _PROGRAMMEDBLOGS, 'logo_red_purp.png');
 ?>

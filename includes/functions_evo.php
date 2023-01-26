@@ -40,7 +40,8 @@ function get_user_field($field_name, $user, $is_name = false)
 {
     global $db, $identify;
     static $actual_user;
-    if (!$user) return NULL;
+    
+	if (!$user) return null;
 
     if ($is_name || !is_numeric($user))  
 	{

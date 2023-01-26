@@ -1,6 +1,6 @@
 <?php
 /*=======================================================================
- PHP-Nuke Titanium v3.0.0 : Enhanced PHP-Nuke Web Portal System
+ PHP-Nuke Titanium v4.0.3 : Enhanced PHP-Nuke Web Portal System
  =======================================================================*/
 
 /************************************************************************/
@@ -23,12 +23,12 @@
 /*****[CHANGES]**********************************************************
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
+	  Titanium Patched                         v3.0.0       08/26/2019
 -=[Mod]=-
       Advanced Username Color                  v1.0.5       07/29/2005
       Blog BBCodes                             v1.0.0       08/19/2005
       Display Topic Icon                       v1.0.0       06/27/2005
       Display Writes                           v1.0.0       10/14/2005
-	  Titanium Patched                         v3.0.0       08/26/2019
  ************************************************************************/
 define('CP_INCLUDE_DIR', dirname(dirname(dirname(__FILE__))));
 require_once(CP_INCLUDE_DIR.'/includes/showcp.php');
@@ -36,7 +36,7 @@ require_once(CP_INCLUDE_DIR.'/includes/showcp.php');
 $module_name = basename(dirname(__FILE__));
 $author_email = "webmaster@www.86it.us";
 $author_homepage = "http://www.86it.us";
-$author_name = "Ernest Allen Buffington";
+$author_name = "Bob Marion, Ernest Allen Buffington";
 $license = "GNU/GPL";
 $download_location = "http://www.86it.us";
 $module_version = "3.0.0";

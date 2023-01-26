@@ -42,15 +42,21 @@ function _file_repository_add_category()
 {
 	global $db, $admin_file, $lang_new, $module_name, $settings;
 	_admin_navigation_menu();
-	$row = $db->sql_fetchrow($db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `cid`='".$_GET['cid']."'"));
+	$row = $db->sql_fetchrow($db->sql_query("SELECT * FROM `"._FILE_REPOSITORY_CATEGORIES."` WHERE `cid`='".isset($_GET['cid'])."'"));
 	echo '<form action="'.$admin_file.'.php?op=file_repository&action=savecat" method="post">'."\n";
 //---------------------------------------------------------------------
 //	HIDDEN FIELD USED FOR UPDATING CATEGORY VARIABLES
 //---------------------------------------------------------------------
-	echo '<input type="hidden" name="cid" value="'.$row['cid'].'" />';
+	echo '<input type="hidden" name="cid" value="'.isset($row['cid']).'" />';
 //---------------------------------------------------------------------
 //	HIDDEN FIELD USED FOR UPDATING CATEGORY VARIABLES
 //---------------------------------------------------------------------
+    if (!isset($row['parentid'])) $row['parentid'] = 0;
+    if (!isset($row['cname'])) $row['cname'] = 'Not Set';
+    if (!isset($row['color'])) $row['color'] = 'Not Set';
+    if (!isset($row['isallowed'])) $row['isallowed'] = '';
+    if (!isset($row['permissions'])) $row['permissions'] = '';
+
 	echo '<table style="width: 100%;" border="0" cellpadding="4" cellspacing="1" class="forumline">'."\n";
 	echo '  <tr'._bgColor(2).'>'."\n";
 	echo '    <td'._tdcss(FALSE,'center',_sh(),2).'>'._suh($lang_new[$module_name]['CATEGORY_ADD']).'</td>'."\n";

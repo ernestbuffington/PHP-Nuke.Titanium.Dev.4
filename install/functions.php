@@ -3,20 +3,28 @@
  PHP-Nuke Titanium : Enhanced and Advanced PHP-Nuke Web Portal System
  =======================================================================*/
 /************************************************************************
-  Nuke-Evolution: Advanced Installer
+  PHP-Nuke Titanium / Nuke-Evolution: Advanced Installer
   ============================================
-  Copyright (c) 2010 by The Nuke-Evolution Team
+  Copyright (c) 2023 by The Titanium Group
 
   Filename           : functions.php
-  Author             : Technocrat
+  Author             : Technocrat, The Mortal, Ernest Allen Buffington
   Design Layout      : The Mortal (RealmDesignz.com)
-  Code Modifications : The Mortal
-  Version            : 1.0.3
-  Date               : 01.05.2019 (mm.dd.yyyy)
+  Version            : 4.0.3
+  Date               : 01.26.2023 (mm.dd.yyyy)
 
   Notes              : You may NOT use this installer for your own
                        needs or script. It is written specifically
-                       for Nuke-Evolution and/or Xtreme
+                       for PHP-Nuke Titanium, Nuke-Evolution and/or Xtreme
+					   
+ * TernaryToElvisRector (http://php.net/manual/en/language.operators.comparison.php#language.operators.comparison.ternary https://stackoverflow.com/a/1993455/1348344)
+ * LongArrayToShortArrayRector
+ * AddDefaultValueForUndefinedVariableRector (https://github.com/vimeo/psalm/blob/29b70442b11e3e66113935a2ee22e165a70c74a4/docs/fixing_code.md#possiblyundefinedvariable)
+ * TernaryToNullCoalescingRector
+ * ListToArrayDestructRector (https://wiki.php.net/rfc/short_list_syntax https://www.php.net/manual/en/migration71.new-features.php#migration71.new-features.symmetric-array-destructuring)
+ * SetCookieRector (https://www.php.net/setcookie https://wiki.php.net/rfc/same-site-cookie)
+ * AddLiteralSeparatorToNumberRector (https://wiki.php.net/rfc/numeric_literal_separator)
+ * NullToStrictStringFuncCallArgRector					   
 ************************************************************************/
 
 define('IN_PHPBB', true);
@@ -31,7 +39,7 @@ $data = fread($open_data, filesize($data_file));
 
 fclose($open_data);
 
-list($required_files, $chmods) = explode("\n###", $data);
+[$required_files, $chmods] = explode("\n###", $data);
 
 $required_files = explode("\n", $required_files);
 
@@ -53,7 +61,7 @@ function permissions($file, $ord=false){
 	$perms = fileperms($file);
 	clearstatcache();
 	// type
-	if (($perms & 0xC000) == 0xC000) { $info = 's'; } // Socket
+	if (($perms & 0xC000) == 0xC000) { $info = 's'; }     // Socket
 	elseif (($perms & 0xA000) == 0xA000) { $info = 'l'; } // Symbolic Link
 	elseif (($perms & 0x8000) == 0x8000) { $info = '-'; } // Regular
 	elseif (($perms & 0x6000) == 0x6000) { $info = 'b'; } // Block special
@@ -137,13 +145,14 @@ function generate_config(){
 }
 
 function chmod_files(){
+    $failed = null;
     global $directory_mode, $file_mode, $install_lang, $chmods;
 
     $message = '';
 
     foreach($chmods as $file){
-		if (!(trim($file) == '')){
-			$file = explode(" ", $file);
+		if (!(trim((string) $file) == '')){
+			$file = explode(" ", (string) $file);
 			$perm = $file[1];
 			$perm = str_replace("[", "", str_replace("]", "", $perm));
 			$file = $file[0];
@@ -185,7 +194,7 @@ function check_required_files(){
     global $install_lang, $required_files;
 
     foreach($required_files as $file){
-        $file = trim($file);
+        $file = trim((string) $file);
         #looping to make sure all required files are there..
         if (!is_file($file)){
             $message .= $install_lang['thefile'] . " \"" . $file . "\" " . $install_lang['is_missing'];
@@ -220,13 +229,13 @@ function validate_data($post){
 
 	$error = '';
     $message = '';
-    $dbhost = (isset($_POST['dbhost'])) ? $_POST['dbhost'] : $error .= '<font color="red">'.$install_lang['dbhost_error'].'</font><br />';
-    $dbname = (isset($_POST['dbname'])) ? $_POST['dbname'] : $error .= '<font color="red">'.$install_lang['dbname_error'].'</font><br />';
-    $dbuser = (isset($_POST['dbuser'])) ? $_POST['dbuser'] : $error .= '<font color="red">'.$install_lang['dbuser_error'].'</font>br />';
-    $dbpass = (isset($_POST['dbpass'])) ? $_POST['dbpass'] : '';
-    $prefix = (isset($_POST['prefix'])) ? $_POST['prefix'] : $error .= '<font color="red">'.$install_lang['prefix_error'].'</font><br />';
-    $user_prefix = (isset($_POST['user_prefix'])) ? $_POST['user_prefix'] : $error .= '<font color="red">'.$install_lang['uprefix_error'].'</font><br />';
-    $dbtype = (isset($_POST['dbtype'])) ? $_POST['dbtype'] : $error .= '<font color="red">'.$install_lang['dbtype_error'].'</font><br />';
+    $dbhost = $_POST['dbhost'] ?? ($error .= '<font color="red">'.$install_lang['dbhost_error'].'</font><br />');
+    $dbname = $_POST['dbname'] ?? ($error .= '<font color="red">'.$install_lang['dbname_error'].'</font><br />');
+    $dbuser = $_POST['dbuser'] ?? ($error .= '<font color="red">'.$install_lang['dbuser_error'].'</font>br />');
+    $dbpass = $_POST['dbpass'] ?? '';
+    $prefix = $_POST['prefix'] ?? ($error .= '<font color="red">'.$install_lang['prefix_error'].'</font><br />');
+    $user_prefix = $_POST['user_prefix'] ?? ($error .= '<font color="red">'.$install_lang['uprefix_error'].'</font><br />');
+    $dbtype = $_POST['dbtype'] ?? ($error .= '<font color="red">'.$install_lang['dbtype_error'].'</font><br />');
     if (!empty($error)){
     $error .= '<div align="center"><input type="hidden" name="step" value="'.$next_step.'" /><input type="submit" class="button" name="submit" value="'.$install_lang['continue'].' '.$next_step.'" disabled="disabled" /></div>';
     return $error;
@@ -261,6 +270,7 @@ function validate_data($post){
 
 function do_sql($install_file){
 
+    $message = null;
     global $nuke_name, $next_step, $step, $install_lang, $prefix, $user_prefix, $server_check;
 
     if(!$handle = fopen($install_file, 'r')){
@@ -272,7 +282,7 @@ function do_sql($install_file){
     $filename = $install_file;
 
     $filesize      = filesize($filename);
-    $file_position = isset($_GET['pos']) ? $_GET['pos'] : 0;
+    $file_position = $_GET['pos'] ?? 0;
     $errors        = isset($_GET['ignore_errors']) ? 0 : 1;
 
     if (!$fp = fopen($filename,'rb')){
@@ -352,8 +362,8 @@ function do_sql($install_file){
 }
 
 function validate_admin(){
-	global $install_lang, $next_step, $step, $server_check;
-
+	global $cookiedata_admin, $cookiedata, $install_lang, $next_step, $step, $server_check;
+    
 	$error = false;
 
 	$message = '';
@@ -365,13 +375,13 @@ function validate_admin(){
 	} 
 	else 
 	{
-		if (strlen($_POST['admin_nick']) < 4 || strlen($_POST['admin_nick']) > 25 || preg_match('/[^a-zA-Z0-9_-]/', trim($_POST['admin_nick']))){
+		if (strlen((string) $_POST['admin_nick']) < 4 || strlen((string) $_POST['admin_nick']) > 25 || preg_match('/[^a-zA-Z0-9_-]/', trim((string) $_POST['admin_nick']))){
 			$message .= '<font color="red">'.$install_lang['admin_nfail'].'</font><br />';
 			$message .= '<input type="hidden" name="step" value="6" /><br /><input type="submit" class="button" name="submit" value="'.$install_lang['go_back'].'" />';
 			return $message;
 		}
 		
-		if (strlen($_POST['admin_email']) < 7 || !preg_match('/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/', $_POST['admin_email'])){
+		if (strlen((string) $_POST['admin_email']) < 7 || !preg_match('/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/', (string) $_POST['admin_email'])){
 			$message .= '<font color="red">'.$install_lang['admin_efail'].'</font><br />';
 			$message .= '<input type="hidden" name="step" value="6" /><br /><input type="submit" class="button" name="submit" value="'.$install_lang['go_back'].'" />';
 			return $message;
@@ -382,15 +392,12 @@ function validate_admin(){
 			$message .= '<font color="red">'.$install_lang['nsnst_fail'].'</font><br />';
 		}
 
-		$cookie_location = str_replace('/install.php', '', $_SERVER['PHP_SELF']);
+		$cookie_location = str_replace('/install.php', '', (string) $_SERVER['PHP_SELF']);
 		$user_nick = $_POST['admin_nick'];
-		$user_pass = md5($_POST['admin_pass']);
+		$user_pass = md5((string) $_POST['admin_pass']);
 
 		$cookiedata_admin = base64_encode("$user_nick:$user_pass:english:1:new");
-		setcookie('admin',$cookiedata_admin,time()+2592000,$cookie_location);
-
         $cookiedata = base64_encode("2:$user_nick:$user_pass");
-        setcookie('user',$cookiedata,time()+2592000,$cookie_location);
 
         $user_regdate = date('M d, Y');
         $user_avatar = 'blank.png';
@@ -454,6 +461,9 @@ function validate_admin(){
 }
 
 function site_form($display=1,$return=false){
+    $default_config = [];
+    $new = [];
+    $error = null;
     global $install_lang, $server_check;
 
     $form = '';
@@ -468,17 +478,17 @@ function site_form($display=1,$return=false){
         $config_name = $row['config_name'];
         $config_value = $row['config_value'];
         $default_config[$config_name] = isset($_POST['submit']) ? str_replace("'", "\'", $config_value) : $config_value;
-        $new[$config_name] = ( isset($_POST[$config_name]) ) ? $_POST[$config_name] : $default_config[$config_name];
+        $new[$config_name] = $_POST[$config_name] ?? $default_config[$config_name];
 
         if ($submit){
-            $sql = "UPDATE " . $_SESSION['prefix'] . "_bbconfig SET config_value = '" . str_replace("\'", "''", $new[$config_name]) . "' WHERE config_name = '$config_name'";
+            $sql = "UPDATE " . $_SESSION['prefix'] . "_bbconfig SET config_value = '" . str_replace("\'", "''", (string) $new[$config_name]) . "' WHERE config_name = '$config_name'";
             if (!mysqli_query($server_check, $sql)){
                 $error .= $install_lang['update_fail'].' '.$config_name.'<br />'.mysqli_error($server_check);
                 return $error;
             }
 
             if ($config_name == "server_name"){
-                $sql = "UPDATE " . $_SESSION['prefix'] . "_config SET nukeurl = 'http://" . str_replace("\'", "''", $new[$config_name]) . "'";
+                $sql = "UPDATE " . $_SESSION['prefix'] . "_config SET nukeurl = 'http://" . str_replace("\'", "''", (string) $new[$config_name]) . "'";
                 if (!mysqli_query($server_check, $sql)){
                     $error .= $install_lang['update_fail'].' '.$config_name.'<br />'.mysqli_error($server_check);
                     return $error;
@@ -487,15 +497,15 @@ function site_form($display=1,$return=false){
         }
 
         if ($config_name == 'cookie_name'){
-            $cookie_name = str_replace('.', '_', $new['cookie_name']);
+            $cookie_name = str_replace('.', '_', (string) $new['cookie_name']);
         }
     }
 
 	if ($submit){
 		
 		
-		$fuck_apostrophes = str_replace("'", "''", $_POST['nsitename']);
-		$fuck_apostrophes_again = str_replace("'", "''", $_POST['slogan']);
+		$fuck_apostrophes = str_replace("'", "''", (string) $_POST['nsitename']);
+		$fuck_apostrophes_again = str_replace("'", "''", (string) $_POST['slogan']);
 		
 		$sql = "UPDATE " . $_SESSION['prefix'] . "_config 
 		
@@ -521,7 +531,7 @@ function site_form($display=1,$return=false){
 	$startdate = $row['startdate'];
 	$adminmail = $row['adminmail'];
 	$get_cookie_name = _get_domain_cookie_name($_SERVER['SERVER_NAME']);
-    $http_scheme = ( $_SERVER['REQUEST_SCHEME'] ) ? $_SERVER['REQUEST_SCHEME'] : 'http';
+    $http_scheme = $_SERVER['REQUEST_SCHEME'] ?: 'http';
 
 	mysqli_free_result($result);
 
@@ -535,8 +545,8 @@ function site_form($display=1,$return=false){
 		$form .= '<dl>';
 		$form .= '<dt><label>'.$install_lang['site_url'].'</label></dt>';
 		
-		$form .= '<dd>'.(($submit) ? (!empty($nukeurl) ? $nukeurl : $http_scheme.'://'.$_SERVER['HTTP_HOST'].str_replace('/install.php', '', $_SERVER['PHP_SELF'])) : '<input 
-		type="text" name="nukeurl" size="40" class="input" value="'.(($return) ? $nukeurl : $http_scheme.'://'.$_SERVER['HTTP_HOST'].str_replace('/install.php', '', $_SERVER['PHP_SELF'])).'" />').'</dd>';
+		$form .= '<dd>'.(($submit) ? (!empty($nukeurl) ? $nukeurl : $http_scheme.'://'.$_SERVER['HTTP_HOST'].str_replace('/install.php', '', (string) $_SERVER['PHP_SELF'])) : '<input 
+		type="text" name="nukeurl" size="40" class="input" value="'.(($return) ? $nukeurl : $http_scheme.'://'.$_SERVER['HTTP_HOST'].str_replace('/install.php', '', (string) $_SERVER['PHP_SELF'])).'" />').'</dd>';
 		
 		$form .= '</dl>';
 		$form .= '<dl>';
@@ -574,7 +584,7 @@ function site_form($display=1,$return=false){
 		$form .= '</dl>';
 		$form .= '<dl>';
 		$form .= '<dt><label>'.$install_lang['cookie_path'].'</label></dt>';
-		$path2cookie = str_replace('/install.php', '', $_SERVER['PHP_SELF']);
+		$path2cookie = str_replace('/install.php', '', (string) $_SERVER['PHP_SELF']);
 		$cookie_path = (!empty($path2cookie)) ? $path2cookie : '/';
 		
 		$form .= '<dd>'.(($submit) ? (!empty($new['cookie_path']) ? $new['cookie_path'] : $cookie_path) : '<input type="text" value="'.(($return) ? $new['cookie_path'] : $cookie_path).'" name="cookie_path" 
@@ -585,7 +595,7 @@ function site_form($display=1,$return=false){
 		$form .= '<dt><label>'.$install_lang['cookie_domain'].'</label></dt>';
 		
 		$form .= '<dd>'.(($submit) ? (!empty($new['cookie_domain']) ? $new['cookie_domain'] : $_SERVER['HTTP_HOST']) : '<input type="text" 
-		value="'.(($return) ? $new['cookie_domain'] : preg_replace('/^www\./', '', $_SERVER['HTTP_HOST'])).'" name="cookie_domain" size="40" class="input" />').'</dd>';
+		value="'.(($return) ? $new['cookie_domain'] : preg_replace('/^www\./', '', (string) $_SERVER['HTTP_HOST'])).'" name="cookie_domain" size="40" class="input" />').'</dd>';
 		
 		$form .= '</dl>';
 		$form .= '<dl>';
@@ -633,7 +643,7 @@ function _get_domain_cookie_name($url) {
     $matches = [];
 	if(!isset($matches[0]))
 	$matches[0] = 'savant';
-    preg_match('/[\w-]+(?=(?:\.\w{2,6}){1,2}(?:\/|$))/', $url, $matches);
-    return $matches[0];
+    preg_match('/[\w-]+(?=(?:\.\w{2,6}){1,2}(?:\/|$))/', (string) $url, $matches);
+    return 'savant';
 }
 

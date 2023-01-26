@@ -30,7 +30,8 @@ $evouserinfo_language = '';
 if($multilingual): 
 
     $langlist = lang_list();
-    
+    if(!isset($lang_evo_userblock['BLOCK']['LANG']['SELECT']))
+	$lang_evo_userblock['BLOCK']['LANG']['SELECT'] = '';
     $menulist = '';
     $evouserinfo_language = '<div align="center">'.$lang_evo_userblock['BLOCK']['LANG']['SELECT'].'<br /><br />';
 
@@ -59,7 +60,11 @@ if($multilingual):
         <select name="newlanguage" onchange="top.location.href=this.options[this.selectedIndex].value">';
     
 	    for($i=0, $maxi=count($langlist); $i < $maxi; $i++): 
-            if($langlist[$i]!=''): 
+            
+			if(isset($langlist[$i]) && $langlist[$i] != ''): 
+			
+			   if(!isset($qs)) $qs = '';
+			   
                 if(defined('ADMIN_FILE')): 
                     $evouserinfo_language .= '<option value="'.$qs.$langlist[$i].'"';
 				elseif(!$name): 
