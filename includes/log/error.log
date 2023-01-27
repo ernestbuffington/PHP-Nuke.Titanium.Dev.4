@@ -1,11 +1,41 @@
 ---------[Message die() called multiple times]------------------------------------------------------------------------------------------------------------
-- [03 Jan 2023 - 09:38:42] - 
+- [27 Jan 2023 - 06:26:19] - 
 User: 
 IP: 162.55.85.221
-URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums&file=statarcade">/modules.php?name=Forums&file=statarcade</a>
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums&file=viewtopic&printertopic=1&t=113&start=0&postdays=0&postorder=asc&vote=viewresult">/modules.php?name=Forums&file=viewtopic&printertopic=1&t=113&start=0&postdays=0&postorder=asc&vote=viewresult</a>
 
 Error Code: 202
-Error Message : Unknown user
+Error Message : You must first vote to see the results of this poll
+Error Title: 
+Error Line: 
+Error File: 
+Error SQL: 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+---------[Message die() called multiple times]------------------------------------------------------------------------------------------------------------
+- [27 Jan 2023 - 06:28:33] - 
+User: 
+IP: 162.55.85.221
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums&file=viewtopic&printertopic=1&t=154&start=0&postdays=0&postorder=asc&vote=viewresult">/modules.php?name=Forums&file=viewtopic&printertopic=1&t=154&start=0&postdays=0&postorder=asc&vote=viewresult</a>
+
+Error Code: 202
+Error Message : You must first vote to see the results of this poll
+Error Title: 
+Error Line: 
+Error File: 
+Error SQL: 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+---------[Message die() called multiple times]------------------------------------------------------------------------------------------------------------
+- [27 Jan 2023 - 06:28:56] - 
+User: 
+IP: 162.55.85.221
+URL: <a href="http://www.php-nuke-titanium.86it.us/modules.php?name=Forums&file=viewtopic&printertopic=1&t=165&start=0&postdays=0&postorder=asc&vote=viewresult">/modules.php?name=Forums&file=viewtopic&printertopic=1&t=165&start=0&postdays=0&postorder=asc&vote=viewresult</a>
+
+Error Code: 202
+Error Message : You must first vote to see the results of this poll
 Error Title: 
 Error Line: 
 Error File: 

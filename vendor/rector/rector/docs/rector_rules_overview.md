@@ -1,4 +1,4 @@
-# 418 Rules Overview
+# 419 Rules Overview
 
 <br>
 
@@ -8,7 +8,7 @@
 
 - [CodeQuality](#codequality) (79)
 
-- [CodingStyle](#codingstyle) (39)
+- [CodingStyle](#codingstyle) (40)
 
 - [Compatibility](#compatibility) (1)
 
@@ -48,7 +48,7 @@
 
 - [Php81](#php81) (12)
 
-- [Php82](#php82) (2)
+- [Php82](#php82) (3)
 
 - [Privatization](#privatization) (8)
 
@@ -2018,6 +2018,38 @@ Change count array comparison to empty array comparison to improve performance
 +$array === [];
 +$array !== [];
 +$array === [];
+```
+
+<br>
+
+### DataProviderArrayItemsNewlinedRector
+
+Change data provider in PHPUnit test case to newline per item
+
+- class: [`Rector\CodingStyle\Rector\ClassMethod\DataProviderArrayItemsNewlinedRector`](../rules/CodingStyle/Rector/ClassMethod/DataProviderArrayItemsNewlinedRector.php)
+
+```diff
+ use PHPUnit\Framework\TestCase;
+
+ final class ImageBinaryTest extends TestCase
+ {
+     /**
+      * @dataProvider provideData()
+      */
+     public function testGetBytesSize(string $content, int $number): void
+     {
+         // ...
+     }
+
+     public function provideData(): array
+     {
+-        return [['content', 8], ['content123', 11]];
++        return [
++            ['content', 8],
++            ['content123', 11]
++        ];
+     }
+ }
 ```
 
 <br>
@@ -6569,6 +6601,19 @@ Refactor Spatie enum method calls
 <br>
 
 ## Php82
+
+### FilesystemIteratorSkipDotsRector
+
+Prior PHP 8.2 FilesystemIterator::SKIP_DOTS was always set and could not be removed, therefore FilesystemIterator::SKIP_DOTS is added in order to keep this behaviour.
+
+- class: [`Rector\Php82\Rector\New_\FilesystemIteratorSkipDotsRector`](../rules/Php82/Rector/New_/FilesystemIteratorSkipDotsRector.php)
+
+```diff
+-new \FilesystemIterator(__DIR__, \FilesystemIterator::KEY_AS_FILENAME);
++new \FilesystemIterator(__DIR__, \FilesystemIterator::KEY_AS_FILENAME | \FilesystemIterator::SKIP_DOTS);
+```
+
+<br>
 
 ### ReadOnlyClassRector
 

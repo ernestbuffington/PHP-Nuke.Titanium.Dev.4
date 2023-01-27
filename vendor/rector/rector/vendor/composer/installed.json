@@ -504,17 +504,17 @@
         },
         {
             "name": "nette\/utils",
-            "version": "v3.2.8",
-            "version_normalized": "3.2.8.0",
+            "version": "v3.2.9",
+            "version_normalized": "3.2.9.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/nette\/utils.git",
-                "reference": "02a54c4c872b99e4ec05c4aec54b5a06eb0f6368"
+                "reference": "c91bac3470c34b2ecd5400f6e6fdf0b64a836a5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/nette\/utils\/zipball\/02a54c4c872b99e4ec05c4aec54b5a06eb0f6368",
-                "reference": "02a54c4c872b99e4ec05c4aec54b5a06eb0f6368",
+                "url": "https:\/\/api.github.com\/repos\/nette\/utils\/zipball\/c91bac3470c34b2ecd5400f6e6fdf0b64a836a5c",
+                "reference": "c91bac3470c34b2ecd5400f6e6fdf0b64a836a5c",
                 "shasum": ""
             },
             "require": {
@@ -524,6 +524,7 @@
                 "nette\/di": "<3.0.6"
             },
             "require-dev": {
+                "jetbrains\/phpstorm-attributes": "dev-master",
                 "nette\/tester": "~2.0",
                 "phpstan\/phpstan": "^1.0",
                 "tracy\/tracy": "^2.3"
@@ -537,7 +538,7 @@
                 "ext-tokenizer": "to use Nette\\Utils\\Reflection::getUseStatements()",
                 "ext-xml": "to use Strings::length() etc. when mbstring is not available"
             },
-            "time": "2022-09-12T23:36:20+00:00",
+            "time": "2023-01-18T03:26:20+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -586,23 +587,23 @@
             ],
             "support": {
                 "issues": "https:\/\/github.com\/nette\/utils\/issues",
-                "source": "https:\/\/github.com\/nette\/utils\/tree\/v3.2.8"
+                "source": "https:\/\/github.com\/nette\/utils\/tree\/v3.2.9"
             },
             "install-path": "..\/nette\/utils"
         },
         {
             "name": "nikic\/php-parser",
-            "version": "v4.15.2",
-            "version_normalized": "4.15.2.0",
+            "version": "v4.15.3",
+            "version_normalized": "4.15.3.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/nikic\/PHP-Parser.git",
-                "reference": "f59bbe44bf7d96f24f3e2b4ddc21cd52c1d2adbc"
+                "reference": "570e980a201d8ed0236b0a62ddf2c9cbb2034039"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/nikic\/PHP-Parser\/zipball\/f59bbe44bf7d96f24f3e2b4ddc21cd52c1d2adbc",
-                "reference": "f59bbe44bf7d96f24f3e2b4ddc21cd52c1d2adbc",
+                "url": "https:\/\/api.github.com\/repos\/nikic\/PHP-Parser\/zipball\/570e980a201d8ed0236b0a62ddf2c9cbb2034039",
+                "reference": "570e980a201d8ed0236b0a62ddf2c9cbb2034039",
                 "shasum": ""
             },
             "require": {
@@ -613,7 +614,7 @@
                 "ircmaxell\/php-yacc": "^0.0.7",
                 "phpunit\/phpunit": "^6.5 || ^7.0 || ^8.0 || ^9.0"
             },
-            "time": "2022-11-12T15:38:23+00:00",
+            "time": "2023-01-16T22:05:37+00:00",
             "bin": [
                 "bin\/php-parse"
             ],
@@ -662,7 +663,7 @@
             ],
             "support": {
                 "issues": "https:\/\/github.com\/nikic\/PHP-Parser\/issues",
-                "source": "https:\/\/github.com\/nikic\/PHP-Parser\/tree\/v4.15.2"
+                "source": "https:\/\/github.com\/nikic\/PHP-Parser\/tree\/v4.15.3"
             },
             "install-path": "..\/nikic\/php-parser"
         },
@@ -797,17 +798,17 @@
         },
         {
             "name": "phpstan\/phpstan",
-            "version": "1.9.8",
-            "version_normalized": "1.9.8.0",
+            "version": "1.9.14",
+            "version_normalized": "1.9.14.0",
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/phpstan\/phpstan.git",
-                "reference": "45411d15bf85a33b4a8ee9b75a6e82998c9adb97"
+                "reference": "e5fcc96289cf737304286a9b505fbed091f02e58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/phpstan\/phpstan\/zipball\/45411d15bf85a33b4a8ee9b75a6e82998c9adb97",
-                "reference": "45411d15bf85a33b4a8ee9b75a6e82998c9adb97",
+                "url": "https:\/\/api.github.com\/repos\/phpstan\/phpstan\/zipball\/e5fcc96289cf737304286a9b505fbed091f02e58",
+                "reference": "e5fcc96289cf737304286a9b505fbed091f02e58",
                 "shasum": ""
             },
             "require": {
@@ -816,7 +817,7 @@
             "conflict": {
                 "phpstan\/phpstan-shim": "*"
             },
-            "time": "2023-01-08T21:26:18+00:00",
+            "time": "2023-01-19T10:47:09+00:00",
             "bin": [
                 "phpstan",
                 "phpstan.phar"
@@ -839,7 +840,7 @@
             ],
             "support": {
                 "issues": "https:\/\/github.com\/phpstan\/phpstan\/issues",
-                "source": "https:\/\/github.com\/phpstan\/phpstan\/tree\/1.9.8"
+                "source": "https:\/\/github.com\/phpstan\/phpstan\/tree\/1.9.14"
             },
             "funding": [
                 {
@@ -1913,12 +1914,12 @@
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/rectorphp\/rector-downgrade-php.git",
-                "reference": "6cf8d9dc726e3fcf577c1c166bfe2b9893623d48"
+                "reference": "cda9d4d04cf31f229fdcb96e63573957d7612f3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/rectorphp\/rector-downgrade-php\/zipball\/6cf8d9dc726e3fcf577c1c166bfe2b9893623d48",
-                "reference": "6cf8d9dc726e3fcf577c1c166bfe2b9893623d48",
+                "url": "https:\/\/api.github.com\/repos\/rectorphp\/rector-downgrade-php\/zipball\/cda9d4d04cf31f229fdcb96e63573957d7612f3e",
+                "reference": "cda9d4d04cf31f229fdcb96e63573957d7612f3e",
                 "shasum": ""
             },
             "require": {
@@ -1937,14 +1938,17 @@
                 "rector\/rector-debugging": "dev-main",
                 "rector\/rector-generator": "^0.6.14",
                 "rector\/rector-src": "dev-main",
-                "symplify\/easy-ci": "^11.1",
+                "symplify\/easy-ci": "^11.2",
                 "symplify\/easy-coding-standard": "^11.1",
                 "symplify\/phpstan-extensions": "^11.1",
                 "symplify\/phpstan-rules": "^11.1",
                 "symplify\/rule-doc-generator": "^11.1",
-                "symplify\/vendor-patches": "^11.1"
+                "symplify\/vendor-patches": "^11.1",
+                "tomasvotruba\/cognitive-complexity": "^0.0.5",
+                "tomasvotruba\/type-coverage": "^0.0.9",
+                "tomasvotruba\/unused-public": "^0.0.34"
             },
-            "time": "2022-12-23T16:38:50+00:00",
+            "time": "2023-01-21T14:25:10+00:00",
             "default-branch": true,
             "type": "rector-extension",
             "extra": {
@@ -2053,12 +2057,12 @@
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/rectorphp\/rector-phpunit.git",
-                "reference": "97cab8de4f7c6cd2b1006e3394409a7c98425bde"
+                "reference": "2cfc0a554e0e5e56713a824f66d2322e7bd6eca7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/rectorphp\/rector-phpunit\/zipball\/97cab8de4f7c6cd2b1006e3394409a7c98425bde",
-                "reference": "97cab8de4f7c6cd2b1006e3394409a7c98425bde",
+                "url": "https:\/\/api.github.com\/repos\/rectorphp\/rector-phpunit\/zipball\/2cfc0a554e0e5e56713a824f66d2322e7bd6eca7",
+                "reference": "2cfc0a554e0e5e56713a824f66d2322e7bd6eca7",
                 "shasum": ""
             },
             "require": {
@@ -2084,7 +2088,7 @@
                 "symplify\/rule-doc-generator": "^11.1",
                 "symplify\/vendor-patches": "^11.1"
             },
-            "time": "2023-01-05T09:34:47+00:00",
+            "time": "2023-01-11T08:23:06+00:00",
             "default-branch": true,
             "type": "rector-extension",
             "extra": {
@@ -2122,12 +2126,12 @@
             "source": {
                 "type": "git",
                 "url": "https:\/\/github.com\/rectorphp\/rector-symfony.git",
-                "reference": "3b132c15485836be4f16d9810a8390ce80ed553b"
+                "reference": "65d1307213ea07e2e4012ccf147f62b9df88c866"
             },
             "dist": {
                 "type": "zip",
-                "url": "https:\/\/api.github.com\/repos\/rectorphp\/rector-symfony\/zipball\/3b132c15485836be4f16d9810a8390ce80ed553b",
-                "reference": "3b132c15485836be4f16d9810a8390ce80ed553b",
+                "url": "https:\/\/api.github.com\/repos\/rectorphp\/rector-symfony\/zipball\/65d1307213ea07e2e4012ccf147f62b9df88c866",
+                "reference": "65d1307213ea07e2e4012ccf147f62b9df88c866",
                 "shasum": ""
             },
             "require": {
@@ -2158,7 +2162,7 @@
                 "symplify\/rule-doc-generator": "^11.1",
                 "symplify\/vendor-patches": "^11.1"
             },
-            "time": "2023-01-10T10:35:17+00:00",
+            "time": "2023-01-19T15:00:18+00:00",
             "default-branch": true,
             "type": "rector-extension",
             "extra": {
@@ -2185,7 +2189,7 @@
             "description": "Rector upgrades rules for Symfony Framework",
             "support": {
                 "issues": "https:\/\/github.com\/rectorphp\/rector-symfony\/issues",
-                "source": "https:\/\/github.com\/rectorphp\/rector-symfony\/tree\/0.14.2"
+                "source": "https:\/\/github.com\/rectorphp\/rector-symfony\/tree\/main"
             },
             "install-path": "..\/rector\/rector-symfony"
         },
