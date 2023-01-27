@@ -2193,7 +2193,7 @@ function UsernameColor($username, $old_name=false)
 	  return $username;
 	endif;
 
-	$horndonkle_name = md5(isset($username));
+	$horndonkle_name = md5($username);
 
     $plain_username = strtolower((string) $username);
  
