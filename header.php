@@ -60,7 +60,7 @@ function head()
 	echo "<!-- Loading Auto MimeType v1.0.0 from header.php -->\n";
 	if (file_exists(NUKE_THEMES_DIR.$ThemeSel.'/includes/mimetype.php')):  
     include(NUKE_THEMES_DIR.$ThemeSel.'/includes/mimetype.php');
-	else: 
+	else:  # OLD SCHOOL DEFAULT MIMETYPE START
       echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd" />'."\n";
       echo '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="'._LANGCODE.'" />'."\n";
       echo '<html xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="https://www.facebook.com/2008/fbml" />'."\n"; 
@@ -73,7 +73,7 @@ function head()
       echo '<meta http-equiv="Content-Language" content="'._LANGCODE.'" />'."\n";
       echo '<meta http-equiv="Content-Style-Type" content="text/css" />'."\n";
       echo '<meta http-equiv="Content-Script-Type" content="text/javascript" />'."\n";
-    endif;	
+    endif;	# OLD SCHOOL DEFAULT MIMETYPE END
 
 	echo "<!-- Loading dynamic meta tags from database from includes/meta.php -->\n";
     include_once(NUKE_INCLUDE_DIR.'meta.php');
@@ -88,15 +88,15 @@ function head()
 	echo "\n<!-- Loadiing class.browsers.php from header.php -->\n";#
 	if (file_exists(TITANIUM_CLASSES_DIR . 'class.browsers.php'))   #      Added by Ernest Buffington
 	include(TITANIUM_CLASSES_DIR . 'class.browsers.php');           #----- Load Browser class - used for checking your browser types
-    #                                                               #      Start date Jan 1st 2012 till Present - It is a work in progress!
+                                                                    #      Start date Jan 1st 2012 till Present - It is a work in progress!
     #################################################################
-	echo "\n<!-- Loadiing cookies.php from header.php -->\n";#
-	if (file_exists(TITANIUM_INCLUDE_DIR . 'cookies.php'))   #            Added by Ernest Buffington
-	include(TITANIUM_INCLUDE_DIR . 'cookies.php');           #----------- Load the custom cookies file if it exist COOKIE CONTROL
-    ##########################################################            Jan 1st 2012 
-	echo "\n<!-- Loadiing includes/javascript.php from header.php -->\n";
-	include_once(NUKE_INCLUDE_DIR.'javascript.php');         #------ Javascript Loader 09/21/2019
-    ########################################################## 
+	echo "\n<!-- Loadiing cookies.php from header.php -->\n";       #
+	if (file_exists(TITANIUM_INCLUDE_DIR . 'cookies.php'))          #            Added by Ernest Buffington Jan 1st 2012 
+	include(TITANIUM_INCLUDE_DIR . 'cookies.php');                  #----------- Load the custom cookies file if it exist COOKIE CONTROL
+    ########################################################################               
+	echo "\n<!-- Loadiing includes/javascript.php from header.php -->\n";  #------ Javascript Loader 09/21/2019
+	include_once(NUKE_INCLUDE_DIR.'javascript.php');                       #
+    ######################################################################## 
 
 
 	global $titanium_browser;
