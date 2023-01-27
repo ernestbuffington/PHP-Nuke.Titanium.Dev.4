@@ -22,8 +22,7 @@ endif;
 global $screen_res, $screen_width, $screen_height;
 
 if(!isset($_COOKIE["theme_resolution"])):
-?>
-<script>
+echo '<script>
 <!--
 writeCookie();
 function writeCookie() 
@@ -36,15 +35,13 @@ function writeCookie()
   document.cookie=the_cookie;
 }
 //-->
-</script>
-<?php
+</script>';
 else: 
   $theme["theme_res"] = $_COOKIE["theme_resolution"]; 
 endif;
 
 if(!isset($_COOKIE["titanium_resolution"])): 
-?>
-<script>
+echo '<script>
 <!--
 function writeCookie() 
 {
@@ -58,8 +55,7 @@ function writeCookie()
 writeCookie();
 location.reload();
 //-->
-</script>
-<?
+</script>';
 $screen_res = '';
 $screen_res = isset($_COOKIE["titanium_resolution"]);
 $screen_res_tmp = explode("x", $screen_res);
@@ -75,5 +71,3 @@ $screen_height = $screen_res_tmp[1];
 $_COOKIE["titanium_resolution_width"] = $screen_width;
 $_COOKIE["titanium_resolution_height"] = $screen_height;
 endif;
-
-?>
