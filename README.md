@@ -119,13 +119,27 @@ There have been existing efforts to re-implement the Flash Player, including Gna
 <h2>PHP-Nuke Titanium v4.0.3 Test Server Information</h2>
 
 <ul>
-	<li>Apache/2.4.54</li>
-	<li>MySQL Server Version: 5.5.5-10.2.44-MariaDB (MariaDB Server) The fastest on the planet!</li>
-	<li>PHP 7.4.33 (we are working on a version for PHP 8)</li>
-	<li>cURL&nbsp;7.84.0</li>
+	<li><b>You will need Network Database Access for the Network Projects Module</b>- edit your nconfig.php file</li>
+	<code>$portaladmin = 2;
+    define('network', 'enabled');
+    if ( defined('network') ):
+    $dbhost2 = 'your.domain.name.here';
+    $dbname2 = 'hub_db';
+    $dbuname2 = 'ask for a hub user name and put it here';
+    $dbpass2 = 'you need to request an access password to put here';
+    $network_prefix = 'network';
+    endif;</code>
+	<li><b>This Config is needed to submit Bug Reports!</b></li>
+</ul>
+
+<ul>
+	<li>Easy Apache 4 / Apache 2.4.54</li>
+	<li>MySQL Server Version: 5.5.5-10.3.37-MariaDB (MariaDB Server) The fastest on the planet!</li>
+	<li>PHP 8.1.14 / php-fpm 8.1.14 (we are working on a version for PHP 9)</li>
+	<li>cURL&nbsp;7.86.0</li>
 	<li>GD Support bundled (2.1.0 compatible)</li>
-	<li>Client API library version (mysqlnd/mysqli 7.4.30)</li>
-	<li>OpenSSL 1.1.1q 5 Jul 2022</li>
+	<li>Client API library version (mysqlnd/mysqli 8.1.14)</li>
+	<li>OpenSSL 1.1.1s 1 Nov 2022</li>
 	<li>libxml Version 2.9.7</li>
 	<li>json support</li>
 	<li>Phar API version v1.1.1</li>
