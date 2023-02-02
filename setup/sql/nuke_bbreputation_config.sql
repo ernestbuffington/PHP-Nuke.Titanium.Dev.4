@@ -1,0 +1,15 @@
+INSERT INTO `#prefix#_bbreputation_config` (`config_name`, `config_value`) VALUES
+('posts_to_earn', '5'),
+('rep_disable', '0'),
+('days_to_earn', '30'),
+('flood_control_time', '30'),
+('graphic_version', '0'),
+('medal4_to_earn', '10'),
+('medal3_to_earn', '50'),
+('medal2_to_earn', '100'),
+('medal1_to_earn', '200'),
+('given_rep_to_earn', '20'),
+('show_stats_to_mods', '0'),
+('repsum_limit', '0'),
+('pm_notify', '0'),
+('default_amount', '0');

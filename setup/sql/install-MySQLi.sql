@@ -1,2349 +1,2073 @@
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_acl_groups`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_acl_groups` (
-  `group_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `forum_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `auth_option_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `auth_role_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `auth_setting` tinyint(2) NOT NULL DEFAULT '0',
-  KEY `group_id` (`group_id`),
-  KEY `auth_opt_id` (`auth_option_id`),
-  KEY `auth_role_id` (`auth_role_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_acl_options`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_acl_options` (
-  `auth_option_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `auth_option` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `is_global` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `is_local` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `founder_only` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`auth_option_id`),
-  UNIQUE KEY `auth_option` (`auth_option`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_acl_roles`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_acl_roles` (
-  `role_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `role_name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `role_description` text COLLATE utf8_bin NOT NULL,
-  `role_type` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `role_order` smallint(4) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`role_id`),
-  KEY `role_type` (`role_type`),
-  KEY `role_order` (`role_order`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_acl_roles_data`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_acl_roles_data` (
-  `role_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `auth_option_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `auth_setting` tinyint(2) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`role_id`,`auth_option_id`),
-  KEY `ath_op_id` (`auth_option_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_acl_users`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_acl_users` (
-  `user_id` int(12) unsigned NOT NULL DEFAULT '0',
-  `forum_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `auth_option_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `auth_role_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `auth_setting` tinyint(2) NOT NULL DEFAULT '0',
-  KEY `user_id` (`user_id`),
-  KEY `auth_option_id` (`auth_option_id`),
-  KEY `auth_role_id` (`auth_role_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_ar_categories`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_ar_categories` (
-  `category_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `category_name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_ar_comments`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_ar_comments` (
-  `comment_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `comment_user` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `comment_game` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `comment` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `bbcode_uid` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `bbcode_bitfield` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `enable_bbcode` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `enable_smilies` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `enable_urls` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  PRIMARY KEY (`comment_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_ar_favorites`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_ar_favorites` (
-  `favorite_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `favorite_game` mediumint(8) unsigned NOT NULL,
-  `favorite_user` mediumint(8) unsigned NOT NULL,
-  PRIMARY KEY (`favorite_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_ar_games`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_ar_games` (
-  `game_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `game_name` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `game_image` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'no_image.gif',
-  `game_directions` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `game_description` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `game_category` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `game_filename` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `game_plays` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `game_rating` mediumint(8) NOT NULL DEFAULT '0',
-  `game_num_ratings` mediumint(8) NOT NULL DEFAULT '0',
-  `game_width` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `game_height` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `game_highscore` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `game_newscore` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `game_rev_score` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `game_enabled` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `game_keyboard` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `game_mouse` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`game_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_ar_highscores`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_ar_highscores` (
-  `highscore_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `highscore_game` mediumint(8) unsigned NOT NULL,
-  `highscore_user` mediumint(8) unsigned NOT NULL,
-  `highscore` double(21,1) NOT NULL,
-  PRIMARY KEY (`highscore_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_ar_hotlinks`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_ar_hotlinks` (
-  `hotlink_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `hotlink_game` mediumint(8) unsigned NOT NULL,
-  `hotlink_file` varchar(255) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`hotlink_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_ar_played`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_ar_played` (
-  `played_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `played_user` mediumint(8) unsigned NOT NULL,
-  `played_games` mediumtext COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`played_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_ar_ratings`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_ar_ratings` (
-  `rating_id` mediumint(8) NOT NULL AUTO_INCREMENT,
-  `rating_game` mediumint(8) NOT NULL DEFAULT '0',
-  `rating_user` mediumint(8) NOT NULL DEFAULT '0',
-  `rating_score` mediumint(8) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`rating_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_ar_settings`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_ar_settings` (
-  `setting_id` mediumint(8) NOT NULL AUTO_INCREMENT,
-  `setting_name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `setting_value` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '0',
-  PRIMARY KEY (`setting_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_ar_trophies`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_ar_trophies` (
-  `trophy_game` mediumint(8) unsigned NOT NULL,
-  `trophy_user_gold` mediumint(8) unsigned NOT NULL,
-  `trophy_user_silver` mediumint(8) unsigned NOT NULL,
-  `trophy_user_bronze` mediumint(8) unsigned NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_ar_viewing`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_ar_viewing` (
-  `viewing_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `viewing_user` mediumint(8) unsigned NOT NULL,
-  `viewing_game` mediumint(8) unsigned NOT NULL,
-  PRIMARY KEY (`viewing_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_attachments`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_attachments` (
-  `attach_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `post_msg_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `topic_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `in_message` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `poster_id` int(20) unsigned NOT NULL DEFAULT '0',
-  `is_orphan` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `physical_filename` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `real_filename` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `download_count` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `attach_comment` text COLLATE utf8_bin NOT NULL,
-  `extension` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `mimetype` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `filesize` int(20) unsigned NOT NULL DEFAULT '0',
-  `filetime` int(11) unsigned NOT NULL DEFAULT '0',
-  `thumbnail` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`attach_id`),
-  KEY `filetime` (`filetime`),
-  KEY `post_msg_id` (`post_msg_id`),
-  KEY `topic_id` (`topic_id`),
-  KEY `poster_id` (`poster_id`),
-  KEY `is_orphan` (`is_orphan`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_attachments_config`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_attachments_config` (
-  `config_name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `config_value` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `is_dynamic` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`config_name`),
-  KEY `is_dynamic` (`is_dynamic`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_avatar_config`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_avatar_config` (
-  `enable_avatars` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `enable_gallery_avatars` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `enable_remote_avatars` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `enable_avatar_uploading` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `enable_remote_avatar_uploading` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `maximum_avatar_file_size` varchar(225) COLLATE utf8_bin NOT NULL DEFAULT '0',
-  `avatar_storage_path` varchar(225) COLLATE utf8_bin NOT NULL DEFAULT 'avatar/user',
-  `avatar_gallery_path` varchar(225) COLLATE utf8_bin NOT NULL DEFAULT 'avatar',
-  `minimum_avatar_dimensions_ht` varchar(225) COLLATE utf8_bin NOT NULL DEFAULT '0',
-  `minimum_avatar_dimensions_wt` varchar(225) COLLATE utf8_bin NOT NULL DEFAULT '0',
-  `maximum_avatar_dimensions_ht` varchar(225) COLLATE utf8_bin NOT NULL DEFAULT '0',
-  `maximum_avatar_dimensions_wt` varchar(225) COLLATE utf8_bin NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_avps`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_avps` (
-  `arg` varchar(20) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `value_s` text COLLATE utf8_bin NOT NULL,
-  `value_i` int(11) NOT NULL DEFAULT '0',
-  `value_u` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`arg`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_bans`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_bans` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `ban_userid` mediumint(8) NOT NULL DEFAULT '0',
-  `ban_email` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `ipstart` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `ipend` int(10) unsigned NOT NULL DEFAULT '0',
-  `ban_start` int(11) NOT NULL DEFAULT '0',
-  `ban_end` int(11) NOT NULL DEFAULT '0',
-  `ban_exclude` int(1) NOT NULL DEFAULT '0',
-  `reason` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `ban_give_reason` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `date` datetime NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_bbcodes`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_bbcodes` (
-  `bbcode_id` tinyint(3) NOT NULL DEFAULT '0',
-  `bbcode_tag` varchar(16) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `bbcode_helpline` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `display_on_posting` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `bbcode_match` text COLLATE utf8_bin NOT NULL,
-  `bbcode_tpl` mediumtext COLLATE utf8_bin NOT NULL,
-  `first_pass_match` mediumtext COLLATE utf8_bin NOT NULL,
-  `first_pass_replace` mediumtext COLLATE utf8_bin NOT NULL,
-  `second_pass_match` mediumtext COLLATE utf8_bin NOT NULL,
-  `second_pass_replace` mediumtext COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`bbcode_id`),
-  KEY `display_on_post` (`display_on_posting`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_bonus`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_bonus` (
-  `id` int(5) NOT NULL AUTO_INCREMENT,
-  `bonusname` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `points` decimal(4,1) NOT NULL DEFAULT '0.0',
-  `description` longtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `art` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'traffic',
-  `menge` bigint(20) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_bonus_points`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_bonus_points` (
-  `active` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `upload` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `comment` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `offer` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `fill_request` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `seeding` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `by_torrent` int(10) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_bookmarks`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_bookmarks` (
-  `topic_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `order_id` int(10) unsigned NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_cache_con`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_cache_con` (
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `value` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_categories`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_categories` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `sort_index` int(10) unsigned NOT NULL DEFAULT '0',
-  `image` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `parent_id` mediumint(5) NOT NULL DEFAULT '-1',
-  `tabletype` tinyint(2) unsigned NOT NULL DEFAULT '1',
-  `subcount` varchar(225) COLLATE utf8_bin NOT NULL,
-  `offensive` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `sort_index` (`sort_index`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_client_ban`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_client_ban` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `client` varchar(60) COLLATE utf8_bin NOT NULL,
-  `reason` varchar(255) COLLATE utf8_bin NOT NULL,
-  `date` datetime NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `client` (`client`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_comments`
---
+CREATE TABLE IF NOT EXISTS `#prefix#_admin_fc` (
+  `fc_datetime` varchar(25) NOT NULL DEFAULT '',
+  `fc_ip` varchar(255) NOT NULL DEFAULT '',
+  `fc_attempts` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_authors` (
+  `aid` varchar(25) NOT NULL DEFAULT '',
+  `name` varchar(50) DEFAULT NULL,
+  `url` varchar(255) NOT NULL DEFAULT '',
+  `email` varchar(255) NOT NULL DEFAULT '',
+  `pwd` varchar(40) DEFAULT NULL,
+  `counter` int(11) NOT NULL DEFAULT 0,
+  `radminsuper` tinyint(1) NOT NULL DEFAULT 1,
+  `admlanguage` varchar(30) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_banner` (
+  `bid` int(11) NOT NULL,
+  `cid` int(11) NOT NULL DEFAULT 0,
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `imptotal` int(11) NOT NULL DEFAULT 0,
+  `impmade` int(11) NOT NULL DEFAULT 0,
+  `clicks` int(11) NOT NULL DEFAULT 0,
+  `imageurl` varchar(100) NOT NULL DEFAULT '',
+  `clickurl` varchar(200) NOT NULL DEFAULT '',
+  `alttext` varchar(255) NOT NULL DEFAULT '',
+  `date` datetime DEFAULT NULL,
+  `dateend` datetime DEFAULT NULL,
+  `position` int(11) NOT NULL DEFAULT 0,
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `ad_class` varchar(5) NOT NULL DEFAULT '',
+  `ad_code` text NOT NULL,
+  `ad_width` int(11) DEFAULT 0,
+  `ad_height` int(11) DEFAULT 0,
+  `type` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_banner_clients` (
+  `cid` int(11) NOT NULL,
+  `name` varchar(60) NOT NULL DEFAULT '',
+  `contact` varchar(60) NOT NULL DEFAULT '',
+  `email` varchar(60) NOT NULL DEFAULT '',
+  `login` varchar(10) NOT NULL DEFAULT '',
+  `passwd` varchar(10) NOT NULL DEFAULT '',
+  `extrainfo` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_banner_plans` (
+  `pid` int(10) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 0,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `description` text NOT NULL,
+  `delivery` varchar(10) NOT NULL DEFAULT '',
+  `delivery_type` varchar(25) NOT NULL DEFAULT '',
+  `price` varchar(25) NOT NULL DEFAULT '0',
+  `buy_links` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+
+CREATE TABLE IF NOT EXISTS `#prefix#_banner_positions` (
+  `apid` int(10) NOT NULL,
+  `position_number` int(5) NOT NULL DEFAULT 0,
+  `position_name` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_banner_terms` (
+  `terms_body` text NOT NULL,
+  `country` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbadvanced_username_color` (
+  `group_id` int(10) UNSIGNED NOT NULL,
+  `group_name` varchar(255) NOT NULL DEFAULT '',
+  `group_color` varchar(6) NOT NULL DEFAULT '',
+  `group_weight` smallint(2) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbarcade` (
+  `arcade_name` varchar(255) NOT NULL DEFAULT '',
+  `arcade_value` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbarcade_categories` (
+  `arcade_catid` mediumint(8) UNSIGNED NOT NULL,
+  `arcade_cattitle` varchar(100) NOT NULL DEFAULT '',
+  `arcade_nbelmt` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `arcade_catorder` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `arcade_catauth` tinyint(2) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbarcade_comments` (
+  `game_id` mediumint(8) NOT NULL DEFAULT 0,
+  `comments_value` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbarcade_fav` (
+  `order` mediumint(8) NOT NULL DEFAULT 0,
+  `user_id` mediumint(8) NOT NULL DEFAULT 0,
+  `game_id` mediumint(8) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbattachments` (
+  `attach_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `privmsgs_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `user_id_1` mediumint(8) NOT NULL DEFAULT 0,
+  `user_id_2` mediumint(8) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbattachments_config` (
+  `config_name` varchar(255) NOT NULL DEFAULT '',
+  `config_value` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbattachments_desc` (
+  `attach_id` mediumint(8) UNSIGNED NOT NULL,
+  `physical_filename` varchar(255) NOT NULL DEFAULT '',
+  `real_filename` varchar(255) NOT NULL DEFAULT '',
+  `download_count` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `comment` varchar(255) DEFAULT NULL,
+  `extension` varchar(100) DEFAULT NULL,
+  `mimetype` varchar(100) DEFAULT NULL,
+  `filesize` int(20) NOT NULL DEFAULT 0,
+  `filetime` int(11) NOT NULL DEFAULT 0,
+  `thumbnail` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbattach_quota` (
+  `user_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `group_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `quota_type` smallint(2) NOT NULL DEFAULT 0,
+  `quota_limit_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbauth_access` (
+  `group_id` mediumint(8) NOT NULL DEFAULT 0,
+  `forum_id` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
+  `auth_view` tinyint(1) NOT NULL DEFAULT 0,
+  `auth_read` tinyint(1) NOT NULL DEFAULT 0,
+  `auth_post` tinyint(1) NOT NULL DEFAULT 0,
+  `auth_reply` tinyint(1) NOT NULL DEFAULT 0,
+  `auth_edit` tinyint(1) NOT NULL DEFAULT 0,
+  `auth_delete` tinyint(1) NOT NULL DEFAULT 0,
+  `auth_sticky` tinyint(1) NOT NULL DEFAULT 0,
+  `auth_announce` tinyint(1) NOT NULL DEFAULT 0,
+  `auth_globalannounce` tinyint(1) NOT NULL DEFAULT 0,
+  `auth_vote` tinyint(1) NOT NULL DEFAULT 0,
+  `auth_pollcreate` tinyint(1) NOT NULL DEFAULT 0,
+  `auth_attachments` tinyint(1) NOT NULL DEFAULT 0,
+  `auth_mod` tinyint(1) NOT NULL DEFAULT 0,
+  `auth_download` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbauth_arcade_access` (
+  `group_id` mediumint(8) NOT NULL DEFAULT 0,
+  `arcade_catid` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbbanlist` (
+  `ban_id` mediumint(8) UNSIGNED NOT NULL,
+  `ban_userid` mediumint(8) NOT NULL DEFAULT 0,
+  `ban_ip` varchar(8) NOT NULL DEFAULT '',
+  `ban_email` varchar(255) DEFAULT NULL,
+  `ban_time` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbcategories` (
+  `cat_id` mediumint(8) UNSIGNED NOT NULL,
+  `cat_title` varchar(100) DEFAULT NULL,
+  `cat_order` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbconfig` (
+  `config_name` varchar(255) NOT NULL DEFAULT '',
+  `config_value` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbdisallow` (
+  `disallow_id` mediumint(8) UNSIGNED NOT NULL,
+  `disallow_username` varchar(25) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbextensions` (
+  `ext_id` mediumint(8) UNSIGNED NOT NULL,
+  `group_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `extension` varchar(100) NOT NULL DEFAULT '',
+  `comment` varchar(100) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbextension_groups` (
+  `group_id` mediumint(8) NOT NULL,
+  `group_name` varchar(20) NOT NULL DEFAULT '',
+  `cat_id` tinyint(2) NOT NULL DEFAULT 0,
+  `allow_group` tinyint(1) NOT NULL DEFAULT 0,
+  `download_mode` tinyint(1) UNSIGNED NOT NULL DEFAULT 1,
+  `upload_icon` varchar(100) DEFAULT '',
+  `max_filesize` int(20) NOT NULL DEFAULT 0,
+  `forum_permissions` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbflags` (
+  `flag_id` int(10) NOT NULL,
+  `flag_name` varchar(50) DEFAULT NULL,
+  `flag_image` varchar(50) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbforbidden_extensions` (
+  `ext_id` mediumint(8) UNSIGNED NOT NULL,
+  `extension` varchar(100) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbforums` (
+  `forum_id` smallint(5) UNSIGNED NOT NULL,
+  `cat_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `forum_name` varchar(150) DEFAULT NULL,
+  `forum_desc` text DEFAULT NULL,
+  `forum_status` tinyint(4) NOT NULL DEFAULT 0,
+  `forum_order` mediumint(8) UNSIGNED NOT NULL DEFAULT 1,
+  `forum_posts` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `forum_topics` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `forum_last_post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `prune_next` int(11) DEFAULT NULL,
+  `prune_enable` tinyint(1) NOT NULL DEFAULT 1,
+  `auth_view` tinyint(2) NOT NULL DEFAULT 0,
+  `auth_read` tinyint(2) NOT NULL DEFAULT 0,
+  `auth_post` tinyint(2) NOT NULL DEFAULT 0,
+  `auth_reply` tinyint(2) NOT NULL DEFAULT 0,
+  `auth_edit` tinyint(2) NOT NULL DEFAULT 0,
+  `auth_delete` tinyint(2) NOT NULL DEFAULT 0,
+  `auth_sticky` tinyint(2) NOT NULL DEFAULT 0,
+  `auth_announce` tinyint(2) NOT NULL DEFAULT 0,
+  `auth_globalannounce` tinyint(2) NOT NULL DEFAULT 3,
+  `auth_vote` tinyint(2) NOT NULL DEFAULT 0,
+  `auth_pollcreate` tinyint(2) NOT NULL DEFAULT 0,
+  `auth_attachments` tinyint(2) NOT NULL DEFAULT 0,
+  `forum_display_sort` tinyint(1) NOT NULL DEFAULT 0,
+  `forum_display_order` tinyint(1) NOT NULL DEFAULT 0,
+  `auth_download` tinyint(2) NOT NULL DEFAULT 0,
+  `forum_parent` int(11) NOT NULL DEFAULT 0,
+  `forum_color` varchar(6) NOT NULL DEFAULT '',
+  `title_is_link` tinyint(1) NOT NULL DEFAULT 0,
+  `weblink` varchar(200) NOT NULL,
+  `forum_link_icon` varchar(200) NOT NULL,
+  `forum_link_count` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `forum_link_target` tinyint(1) NOT NULL DEFAULT 0,
+  `forum_icon` varchar(255) DEFAULT NULL,
+  `forum_thank` tinyint(1) NOT NULL DEFAULT 0,
+  `forum_password` varchar(20) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbforum_prune` (
+  `prune_id` mediumint(8) UNSIGNED NOT NULL,
+  `forum_id` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
+  `prune_days` tinyint(4) UNSIGNED NOT NULL DEFAULT 0,
+  `prune_freq` tinyint(4) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbgamehash` (
+  `gamehash_id` char(32) NOT NULL,
+  `game_id` mediumint(8) NOT NULL,
+  `user_id` mediumint(8) NOT NULL,
+  `hash_date` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbgames` (
+  `game_id` mediumint(8) NOT NULL,
+  `game_pic` varchar(50) NOT NULL DEFAULT '',
+  `game_desc` longtext NOT NULL DEFAULT 'No Description',
+  `game_highscore` int(11) NOT NULL DEFAULT 0,
+  `game_highdate` int(11) NOT NULL DEFAULT 0,
+  `game_highuser` mediumint(8) NOT NULL DEFAULT 0,
+  `game_name` varchar(50) NOT NULL DEFAULT '',
+  `game_swf` varchar(50) NOT NULL DEFAULT '',
+  `game_scorevar` varchar(50) NOT NULL DEFAULT '',
+  `game_type` tinyint(4) NOT NULL DEFAULT 0,
+  `game_width` mediumint(5) NOT NULL DEFAULT 550,
+  `game_height` varchar(5) NOT NULL DEFAULT '380',
+  `game_order` mediumint(8) NOT NULL DEFAULT 0,
+  `game_set` mediumint(8) NOT NULL DEFAULT 0,
+  `arcade_catid` mediumint(8) NOT NULL DEFAULT 1
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbgroups` (
+  `group_id` mediumint(8) NOT NULL,
+  `group_type` tinyint(4) NOT NULL DEFAULT 1,
+  `group_name` varchar(40) NOT NULL DEFAULT '',
+  `group_description` varchar(255) NOT NULL DEFAULT '',
+  `group_moderator` mediumint(8) NOT NULL DEFAULT 0,
+  `group_single_user` tinyint(1) NOT NULL DEFAULT 1,
+  `group_allow_pm` tinyint(2) NOT NULL DEFAULT 5,
+  `group_color` varchar(15) NOT NULL DEFAULT '',
+  `group_rank` varchar(5) NOT NULL DEFAULT '0',
+  `max_inbox` mediumint(10) NOT NULL DEFAULT 100,
+  `max_sentbox` mediumint(10) NOT NULL DEFAULT 100,
+  `max_savebox` mediumint(10) NOT NULL DEFAULT 100,
+  `override_max_inbox` tinyint(1) NOT NULL DEFAULT 0,
+  `override_max_sentbox` tinyint(1) NOT NULL DEFAULT 0,
+  `override_max_savebox` tinyint(1) NOT NULL DEFAULT 0,
+  `group_count` int(4) UNSIGNED DEFAULT 99999999,
+  `group_count_max` int(4) UNSIGNED DEFAULT 99999999,
+  `group_count_enable` smallint(2) UNSIGNED DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbhackgame` (
+  `user_id` mediumint(8) NOT NULL,
+  `game_id` mediumint(8) NOT NULL,
+  `date_hack` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbinline_ads` (
+  `ad_id` tinyint(5) NOT NULL,
+  `ad_code` text NOT NULL,
+  `ad_name` char(25) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bblogs` (
+  `log_id` mediumint(10) NOT NULL,
+  `mode` varchar(50) DEFAULT '',
+  `topic_id` mediumint(10) DEFAULT 0,
+  `user_id` mediumint(8) DEFAULT 0,
+  `username` varchar(255) DEFAULT '',
+  `user_ip` varchar(8) NOT NULL DEFAULT '0',
+  `time` int(11) DEFAULT 0,
+  `new_topic_id` mediumint(10) NOT NULL DEFAULT 0,
+  `forum_id` mediumint(10) NOT NULL DEFAULT 0,
+  `new_forum_id` mediumint(10) NOT NULL DEFAULT 0,
+  `last_post_id` mediumint(10) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bblogs_config` (
+  `config_name` varchar(255) NOT NULL DEFAULT '',
+  `config_value` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbposts` (
+  `post_id` mediumint(8) UNSIGNED NOT NULL,
+  `topic_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `forum_id` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
+  `poster_id` mediumint(8) NOT NULL DEFAULT 0,
+  `post_time` int(11) NOT NULL DEFAULT 0,
+  `poster_ip` varchar(8) NOT NULL DEFAULT '',
+  `post_username` varchar(25) DEFAULT NULL,
+  `enable_bbcode` tinyint(1) NOT NULL DEFAULT 1,
+  `enable_html` tinyint(1) NOT NULL DEFAULT 0,
+  `enable_smilies` tinyint(1) NOT NULL DEFAULT 1,
+  `enable_sig` tinyint(1) NOT NULL DEFAULT 1,
+  `post_edit_time` int(11) DEFAULT NULL,
+  `post_edit_count` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
+  `post_attachment` tinyint(1) NOT NULL DEFAULT 0,
+  `post_move` tinyint(1) NOT NULL DEFAULT 0,
+  `post_icon` tinyint(2) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbposts_text` (
+  `post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `bbcode_uid` varchar(10) NOT NULL DEFAULT '',
+  `post_subject` varchar(120) DEFAULT NULL,
+  `post_text` text DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbpost_reports` (
+  `report_id` mediumint(8) NOT NULL,
+  `post_id` mediumint(8) NOT NULL DEFAULT 0,
+  `reporter_id` mediumint(8) NOT NULL DEFAULT 0,
+  `report_status` tinyint(1) NOT NULL DEFAULT 0,
+  `report_time` int(11) NOT NULL DEFAULT 0,
+  `report_comments` text DEFAULT NULL,
+  `last_action_user_id` mediumint(8) DEFAULT 0,
+  `last_action_time` int(11) NOT NULL DEFAULT 0,
+  `last_action_comments` text DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbprivmsgs` (
+  `privmsgs_id` mediumint(8) UNSIGNED NOT NULL,
+  `privmsgs_type` tinyint(4) NOT NULL DEFAULT 0,
+  `privmsgs_subject` varchar(255) NOT NULL DEFAULT '0',
+  `privmsgs_from_userid` mediumint(8) NOT NULL DEFAULT 0,
+  `privmsgs_to_userid` mediumint(8) NOT NULL DEFAULT 0,
+  `privmsgs_date` int(11) NOT NULL DEFAULT 0,
+  `privmsgs_ip` varchar(8) NOT NULL DEFAULT '',
+  `privmsgs_enable_bbcode` tinyint(1) NOT NULL DEFAULT 1,
+  `privmsgs_enable_html` tinyint(1) NOT NULL DEFAULT 0,
+  `privmsgs_enable_smilies` tinyint(1) NOT NULL DEFAULT 1,
+  `privmsgs_attach_sig` tinyint(1) NOT NULL DEFAULT 1,
+  `privmsgs_attachment` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbprivmsgs_archive` (
+  `privmsgs_id` mediumint(8) UNSIGNED NOT NULL,
+  `privmsgs_type` tinyint(4) NOT NULL DEFAULT 0,
+  `privmsgs_subject` varchar(255) NOT NULL DEFAULT '0',
+  `privmsgs_from_userid` mediumint(8) NOT NULL DEFAULT 0,
+  `privmsgs_to_userid` mediumint(8) NOT NULL DEFAULT 0,
+  `privmsgs_date` int(11) NOT NULL DEFAULT 0,
+  `privmsgs_ip` varchar(8) NOT NULL DEFAULT '',
+  `privmsgs_enable_bbcode` tinyint(1) NOT NULL DEFAULT 1,
+  `privmsgs_enable_html` tinyint(1) NOT NULL DEFAULT 0,
+  `privmsgs_enable_smilies` tinyint(1) NOT NULL DEFAULT 1,
+  `privmsgs_attach_sig` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbprivmsgs_text` (
+  `privmsgs_text_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `privmsgs_bbcode_uid` varchar(10) NOT NULL DEFAULT '0',
+  `privmsgs_text` text DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbquicksearch` (
+  `search_id` mediumint(8) UNSIGNED NOT NULL,
+  `search_name` varchar(255) NOT NULL DEFAULT '',
+  `search_url1` varchar(255) NOT NULL DEFAULT '',
+  `search_url2` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbquota_limits` (
+  `quota_limit_id` mediumint(8) UNSIGNED NOT NULL,
+  `quota_desc` varchar(20) NOT NULL DEFAULT '',
+  `quota_limit` bigint(20) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbranks` (
+  `rank_id` smallint(5) UNSIGNED NOT NULL,
+  `rank_title` varchar(100) NOT NULL DEFAULT '',
+  `rank_min` mediumint(8) NOT NULL DEFAULT 0,
+  `rank_special` tinyint(1) DEFAULT 0,
+  `rank_image` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbreputation` (
+  `user_id` mediumint(8) NOT NULL DEFAULT 0,
+  `user_id_2` mediumint(8) NOT NULL DEFAULT 0,
+  `post_id` mediumint(8) NOT NULL DEFAULT 0,
+  `rep_sum` float NOT NULL DEFAULT 0,
+  `rep_neg` tinyint(1) NOT NULL DEFAULT 0,
+  `rep_comment` varchar(200) NOT NULL DEFAULT '',
+  `rep_time` int(11) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbreputation_config` (
+  `config_name` varchar(255) NOT NULL,
+  `config_value` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbscores` (
+  `game_id` mediumint(8) NOT NULL DEFAULT 0,
+  `user_id` mediumint(8) NOT NULL DEFAULT 0,
+  `score_game` int(11) NOT NULL DEFAULT 0,
+  `score_date` int(11) NOT NULL DEFAULT 0,
+  `score_time` int(11) NOT NULL DEFAULT 0,
+  `score_set` mediumint(8) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbsearch_rebuild` (
+  `rebuild_session_id` mediumint(8) UNSIGNED NOT NULL,
+  `start_post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `end_post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `start_time` int(11) NOT NULL DEFAULT 0,
+  `end_time` int(11) NOT NULL DEFAULT 0,
+  `last_cycle_time` int(11) NOT NULL DEFAULT 0,
+  `session_time` int(11) NOT NULL DEFAULT 0,
+  `session_posts` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `session_cycles` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `search_size` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `rebuild_session_status` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbsearch_results` (
+  `search_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
+  `session_id` varchar(32) NOT NULL DEFAULT '',
+  `search_array` text NOT NULL,
+  `search_time` int(11) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbsearch_wordlist` (
+  `word_text` varchar(255) NOT NULL DEFAULT '',
+  `word_id` mediumint(8) UNSIGNED NOT NULL,
+  `word_common` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbsearch_wordmatch` (
+  `post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `word_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `title_match` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbsessions` (
+  `session_id` varchar(32) NOT NULL DEFAULT '',
+  `session_user_id` mediumint(8) NOT NULL DEFAULT 0,
+  `session_start` int(11) NOT NULL DEFAULT 0,
+  `session_time` int(11) NOT NULL DEFAULT 0,
+  `session_ip` varchar(8) NOT NULL DEFAULT '0',
+  `session_page` int(11) NOT NULL DEFAULT 0,
+  `session_logged_in` tinyint(1) NOT NULL DEFAULT 0,
+  `session_admin` tinyint(2) NOT NULL DEFAULT 0,
+  `session_url_qs` varchar(255) NOT NULL DEFAULT '',
+  `session_url_ps` varchar(255) NOT NULL DEFAULT '',
+  `session_url_specific` int(10) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbsessions_keys` (
+  `key_id` varchar(32) NOT NULL DEFAULT '0',
+  `user_id` mediumint(8) NOT NULL DEFAULT 0,
+  `last_ip` varchar(8) NOT NULL DEFAULT '0',
+  `last_login` int(11) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbsmilies` (
+  `smilies_id` smallint(5) UNSIGNED NOT NULL,
+  `code` varchar(50) DEFAULT NULL,
+  `smile_url` varchar(100) DEFAULT NULL,
+  `emoticon` varchar(75) DEFAULT NULL,
+  `smile_stat` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbstats_config` (
+  `config_name` varchar(100) NOT NULL DEFAULT '',
+  `config_value` varchar(100) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbstats_modules` (
+  `module_id` mediumint(8) UNSIGNED NOT NULL,
+  `short_name` varchar(100) DEFAULT NULL,
+  `update_time` mediumint(8) NOT NULL DEFAULT 0,
+  `module_order` mediumint(8) NOT NULL DEFAULT 0,
+  `active` tinyint(2) NOT NULL DEFAULT 0,
+  `perm_all` tinyint(2) UNSIGNED NOT NULL DEFAULT 1,
+  `perm_reg` tinyint(2) UNSIGNED NOT NULL DEFAULT 1,
+  `perm_mod` tinyint(2) UNSIGNED NOT NULL DEFAULT 1,
+  `perm_admin` tinyint(2) UNSIGNED NOT NULL DEFAULT 1
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbstats_module_admin_panel` (
+  `module_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `config_name` varchar(255) NOT NULL DEFAULT '',
+  `config_value` varchar(255) NOT NULL DEFAULT '',
+  `config_type` varchar(20) NOT NULL DEFAULT '',
+  `config_title` varchar(100) NOT NULL DEFAULT '',
+  `config_explain` varchar(100) DEFAULT NULL,
+  `config_trigger` varchar(20) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbstats_module_cache` (
+  `module_id` mediumint(8) NOT NULL DEFAULT 0,
+  `module_cache_time` int(12) NOT NULL DEFAULT 0,
+  `db_cache` text NOT NULL,
+  `priority` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbstats_module_group_auth` (
+  `module_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `group_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbstats_module_info` (
+  `module_id` mediumint(8) NOT NULL DEFAULT 0,
+  `long_name` varchar(100) NOT NULL DEFAULT '',
+  `author` varchar(50) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `url` varchar(100) DEFAULT NULL,
+  `version` varchar(10) NOT NULL DEFAULT '',
+  `update_site` varchar(100) DEFAULT NULL,
+  `extra_info` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbstats_smilies_index` (
+  `code` varchar(50) NOT NULL DEFAULT '',
+  `smile_url` varchar(100) DEFAULT NULL,
+  `smile_count` mediumint(8) DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbstats_smilies_info` (
+  `last_post_id` mediumint(8) NOT NULL DEFAULT 0,
+  `last_update_time` int(12) NOT NULL DEFAULT 0,
+  `update_time` mediumint(8) NOT NULL DEFAULT 10080
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbthanks` (
+  `topic_id` mediumint(8) NOT NULL,
+  `user_id` mediumint(8) NOT NULL,
+  `thanks_time` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbthemes` (
+  `themes_id` mediumint(8) UNSIGNED NOT NULL,
+  `template_name` varchar(30) NOT NULL DEFAULT '',
+  `style_name` varchar(30) NOT NULL DEFAULT '',
+  `head_stylesheet` varchar(100) DEFAULT NULL,
+  `body_background` varchar(100) DEFAULT NULL,
+  `body_bgcolor` varchar(6) DEFAULT NULL,
+  `body_text` varchar(6) DEFAULT NULL,
+  `body_link` varchar(6) DEFAULT NULL,
+  `body_vlink` varchar(6) DEFAULT NULL,
+  `body_alink` varchar(6) DEFAULT NULL,
+  `body_hlink` varchar(6) DEFAULT NULL,
+  `tr_color1` varchar(6) DEFAULT NULL,
+  `tr_color2` varchar(6) DEFAULT NULL,
+  `tr_color3` varchar(6) DEFAULT NULL,
+  `tr_class1` varchar(25) DEFAULT NULL,
+  `tr_class2` varchar(25) DEFAULT NULL,
+  `tr_class3` varchar(25) DEFAULT NULL,
+  `th_color1` varchar(6) DEFAULT NULL,
+  `th_color2` varchar(6) DEFAULT NULL,
+  `th_color3` varchar(6) DEFAULT NULL,
+  `th_class1` varchar(25) DEFAULT NULL,
+  `th_class2` varchar(25) DEFAULT NULL,
+  `th_class3` varchar(25) DEFAULT NULL,
+  `td_color1` varchar(6) DEFAULT NULL,
+  `td_color2` varchar(6) DEFAULT NULL,
+  `td_color3` varchar(6) DEFAULT NULL,
+  `td_class1` varchar(25) DEFAULT NULL,
+  `td_class2` varchar(25) DEFAULT NULL,
+  `td_class3` varchar(25) DEFAULT NULL,
+  `fontface1` varchar(50) DEFAULT NULL,
+  `fontface2` varchar(50) DEFAULT NULL,
+  `fontface3` varchar(50) DEFAULT NULL,
+  `fontsize1` tinyint(4) DEFAULT NULL,
+  `fontsize2` tinyint(4) DEFAULT NULL,
+  `fontsize3` tinyint(4) DEFAULT NULL,
+  `fontcolor1` varchar(6) DEFAULT NULL,
+  `fontcolor2` varchar(6) DEFAULT NULL,
+  `fontcolor3` varchar(6) DEFAULT NULL,
+  `span_class1` varchar(25) DEFAULT NULL,
+  `span_class2` varchar(25) DEFAULT NULL,
+  `span_class3` varchar(25) DEFAULT NULL,
+  `img_size_poll` smallint(5) UNSIGNED DEFAULT NULL,
+  `img_size_privmsg` smallint(5) UNSIGNED DEFAULT NULL,
+  `online_color` varchar(6) NOT NULL DEFAULT '',
+  `offline_color` varchar(6) NOT NULL DEFAULT '',
+  `hidden_color` varchar(6) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbthemes_name` (
+  `themes_id` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
+  `tr_color1_name` char(50) DEFAULT NULL,
+  `tr_color2_name` char(50) DEFAULT NULL,
+  `tr_color3_name` char(50) DEFAULT NULL,
+  `tr_class1_name` char(50) DEFAULT NULL,
+  `tr_class2_name` char(50) DEFAULT NULL,
+  `tr_class3_name` char(50) DEFAULT NULL,
+  `th_color1_name` char(50) DEFAULT NULL,
+  `th_color2_name` char(50) DEFAULT NULL,
+  `th_color3_name` char(50) DEFAULT NULL,
+  `th_class1_name` char(50) DEFAULT NULL,
+  `th_class2_name` char(50) DEFAULT NULL,
+  `th_class3_name` char(50) DEFAULT NULL,
+  `td_color1_name` char(50) DEFAULT NULL,
+  `td_color2_name` char(50) DEFAULT NULL,
+  `td_color3_name` char(50) DEFAULT NULL,
+  `td_class1_name` char(50) DEFAULT NULL,
+  `td_class2_name` char(50) DEFAULT NULL,
+  `td_class3_name` char(50) DEFAULT NULL,
+  `fontface1_name` char(50) DEFAULT NULL,
+  `fontface2_name` char(50) DEFAULT NULL,
+  `fontface3_name` char(50) DEFAULT NULL,
+  `fontsize1_name` char(50) DEFAULT NULL,
+  `fontsize2_name` char(50) DEFAULT NULL,
+  `fontsize3_name` char(50) DEFAULT NULL,
+  `fontcolor1_name` char(50) DEFAULT NULL,
+  `fontcolor2_name` char(50) DEFAULT NULL,
+  `fontcolor3_name` char(50) DEFAULT NULL,
+  `span_class1_name` char(50) DEFAULT NULL,
+  `span_class2_name` char(50) DEFAULT NULL,
+  `span_class3_name` char(50) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbtopics` (
+  `topic_id` mediumint(8) UNSIGNED NOT NULL,
+  `forum_id` smallint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `topic_title` char(120) NOT NULL DEFAULT '',
+  `topic_poster` mediumint(8) NOT NULL DEFAULT 0,
+  `topic_time` int(11) NOT NULL DEFAULT 0,
+  `topic_views` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `topic_replies` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `topic_status` tinyint(3) NOT NULL DEFAULT 0,
+  `topic_vote` tinyint(1) NOT NULL DEFAULT 0,
+  `topic_type` tinyint(3) NOT NULL DEFAULT 0,
+  `topic_last_post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `topic_first_post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `topic_moved_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `topic_priority` smallint(6) NOT NULL DEFAULT 0,
+  `topic_attachment` tinyint(1) NOT NULL DEFAULT 0,
+  `topic_glance_priority` smallint(6) NOT NULL DEFAULT 0,
+  `topic_icon` tinyint(2) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbtopics_email` (
+  `user_id` mediumint(8) NOT NULL,
+  `friend_name` varchar(100) NOT NULL,
+  `friend_email` varchar(100) NOT NULL,
+  `message` varchar(255) NOT NULL DEFAULT '',
+  `topic_id` mediumint(8) NOT NULL,
+  `time` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbtopics_watch` (
+  `topic_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `user_id` mediumint(8) NOT NULL DEFAULT 0,
+  `notify_status` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbtopic_moved` (
+  `moved_id` mediumint(8) UNSIGNED NOT NULL,
+  `moved_topic_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `moved_oldtopic_id` mediumint(8) UNSIGNED DEFAULT 0,
+  `moved_type` varchar(8) NOT NULL DEFAULT '0',
+  `moved_parent` mediumint(8) UNSIGNED DEFAULT 0,
+  `moved_target` mediumint(8) UNSIGNED DEFAULT 0,
+  `moved_mod` mediumint(8) NOT NULL DEFAULT 0,
+  `moved_time` int(11) NOT NULL DEFAULT 0,
+  `last_post_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbtopic_view` (
+  `topic_id` mediumint(8) NOT NULL,
+  `user_id` mediumint(8) NOT NULL,
+  `view_time` int(11) NOT NULL,
+  `view_count` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbuser_group` (
+  `group_id` mediumint(8) NOT NULL DEFAULT 0,
+  `user_id` mediumint(8) NOT NULL DEFAULT 0,
+  `user_pending` tinyint(1) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbvote_desc` (
+  `vote_id` mediumint(8) UNSIGNED NOT NULL,
+  `topic_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `vote_text` text NOT NULL,
+  `vote_start` int(11) NOT NULL DEFAULT 0,
+  `vote_length` int(11) NOT NULL DEFAULT 0,
+  `poll_view_toggle` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbvote_results` (
+  `vote_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `vote_option_id` tinyint(4) UNSIGNED NOT NULL DEFAULT 0,
+  `vote_option_text` varchar(255) NOT NULL DEFAULT '',
+  `vote_result` int(11) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbvote_voters` (
+  `vote_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `vote_user_id` mediumint(8) NOT NULL DEFAULT 0,
+  `vote_user_ip` char(8) NOT NULL DEFAULT '',
+  `vote_cast` tinyint(4) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbwords` (
+  `word_id` mediumint(8) UNSIGNED NOT NULL,
+  `word` char(100) NOT NULL DEFAULT '',
+  `replacement` char(100) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbxdata_auth` (
+  `field_id` smallint(5) UNSIGNED NOT NULL,
+  `group_id` mediumint(8) UNSIGNED NOT NULL,
+  `auth_value` tinyint(1) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbxdata_data` (
+  `field_id` smallint(5) UNSIGNED NOT NULL,
+  `user_id` mediumint(8) UNSIGNED NOT NULL,
+  `xdata_value` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_bbxdata_fields` (
+  `field_id` smallint(5) UNSIGNED NOT NULL,
+  `field_name` varchar(255) NOT NULL DEFAULT '',
+  `field_desc` text NOT NULL,
+  `field_type` varchar(255) NOT NULL DEFAULT '',
+  `field_order` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
+  `code_name` varchar(255) NOT NULL DEFAULT '',
+  `field_length` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `field_values` text NOT NULL,
+  `field_regexp` text NOT NULL,
+  `manditory` tinyint(1) NOT NULL DEFAULT 0,
+  `default_auth` tinyint(1) NOT NULL DEFAULT 1,
+  `display_register` tinyint(1) NOT NULL DEFAULT 1,
+  `display_viewprofile` tinyint(1) NOT NULL DEFAULT 0,
+  `display_posting` tinyint(1) NOT NULL DEFAULT 0,
+  `handle_input` tinyint(1) NOT NULL DEFAULT 0,
+  `allow_html` tinyint(1) NOT NULL DEFAULT 0,
+  `allow_bbcode` tinyint(1) NOT NULL DEFAULT 0,
+  `allow_smilies` tinyint(1) NOT NULL DEFAULT 0,
+  `viewtopic` tinyint(1) NOT NULL DEFAULT 0,
+  `signup` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_blocks` (
+  `bid` int(10) NOT NULL,
+  `bkey` varchar(15) NOT NULL DEFAULT '',
+  `title` varchar(60) NOT NULL DEFAULT '',
+  `content` text NOT NULL,
+  `url` varchar(200) NOT NULL DEFAULT '',
+  `bposition` char(1) NOT NULL DEFAULT '',
+  `weight` int(11) NOT NULL DEFAULT 1,
+  `active` int(11) NOT NULL DEFAULT 1,
+  `refresh` int(11) NOT NULL DEFAULT 0,
+  `time` varchar(14) NOT NULL DEFAULT '0',
+  `blanguage` varchar(30) NOT NULL DEFAULT '',
+  `blockfile` varchar(255) NOT NULL DEFAULT '',
+  `view` varchar(50) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_blogs` (
+  `sid` int(11) NOT NULL,
+  `catid` int(11) NOT NULL DEFAULT 0,
+  `aid` varchar(25) NOT NULL DEFAULT '',
+  `title` varchar(80) DEFAULT NULL,
+  `datePublished` timestamp NULL DEFAULT '0000-00-00 00:00:00',
+  `dateModified` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `hometext` text DEFAULT NULL,
+  `bodytext` text NOT NULL,
+  `comments` int(11) DEFAULT 0,
+  `counter` mediumint(8) UNSIGNED DEFAULT NULL,
+  `topic` int(11) NOT NULL DEFAULT 1,
+  `informant` varchar(25) NOT NULL DEFAULT '',
+  `notes` text NOT NULL,
+  `ihome` int(11) NOT NULL DEFAULT 0,
+  `alanguage` varchar(30) NOT NULL DEFAULT '',
+  `acomm` int(11) NOT NULL DEFAULT 0,
+  `haspoll` int(11) NOT NULL DEFAULT 0,
+  `pollID` int(11) NOT NULL DEFAULT 0,
+  `score` int(11) NOT NULL DEFAULT 0,
+  `ratings` int(11) NOT NULL DEFAULT 0,
+  `associated` text NOT NULL,
+  `ticon` tinyint(1) NOT NULL DEFAULT 0,
+  `writes` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_blogs_autoblog` (
+  `anid` int(10) UNSIGNED NOT NULL,
+  `catid` int(11) NOT NULL DEFAULT 0,
+  `aid` varchar(30) NOT NULL,
+  `title` varchar(80) NOT NULL,
+  `datePublished` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `dateModified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `hometext` text NOT NULL,
+  `bodytext` text NOT NULL,
+  `topic` int(11) NOT NULL DEFAULT 1,
+  `informant` varchar(40) NOT NULL,
+  `notes` text NOT NULL,
+  `ihome` tinyint(4) NOT NULL DEFAULT 0,
+  `alanguage` varchar(30) NOT NULL,
+  `acomm` tinyint(4) NOT NULL DEFAULT 0,
+  `associated` text NOT NULL,
+  `ticon` tinyint(1) NOT NULL DEFAULT 0,
+  `writes` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_blogs_cat` (
+  `catid` int(11) NOT NULL,
+  `title` varchar(20) NOT NULL DEFAULT '',
+  `counter` int(11) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `#prefix#_blogs_comments` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user` int(10) unsigned NOT NULL DEFAULT '0',
-  `torrent` int(10) unsigned NOT NULL DEFAULT '0',
-  `added` datetime NOT NULL DEFAULT 0,
-  `text` text COLLATE utf8_bin NOT NULL,
-  `ori_text` text COLLATE utf8_bin,
-  `news` int(10) NOT NULL DEFAULT '0',
-  `nzb` int(10) NOT NULL DEFAULT '0',
-  `offer` int(11) NOT NULL DEFAULT '0',
-  `reqid` int(11) NOT NULL DEFAULT '0',
-  `editedat` datetime NOT NULL DEFAULT 0,
-  `editedby` int(10) unsigned NOT NULL DEFAULT '0',
-  `bbcode_bitfield` varchar(225) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `bbcode_uid` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `ori_bbcode_bitfield` varchar(225) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `ori_bbcode_uid` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  KEY `user` (`user`),
-  KEY `torrent` (`torrent`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_comments_notify`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_comments_notify` (
-  `torrent` int(11) NOT NULL DEFAULT '0',
-  `user` int(11) NOT NULL DEFAULT '0',
-  `status` enum('active','stopped') COLLATE utf8_bin NOT NULL DEFAULT 'active',
-  PRIMARY KEY (`torrent`,`user`),
-  KEY `torrent` (`torrent`,`status`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_complaints`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_complaints` (
-  `torrent` int(15) unsigned NOT NULL DEFAULT '0',
-  `user` int(11) unsigned NOT NULL DEFAULT '0',
-  `host` varchar(60) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `datetime` datetime NOT NULL DEFAULT 0,
-  `score` smallint(1) unsigned zerofill NOT NULL DEFAULT '0',
-  PRIMARY KEY (`torrent`,`user`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_config`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_config` (
-  `sitename` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `siteurl` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `announce_url` longtext COLLATE utf8_bin NOT NULL,
-  `cookiedomain` varchar(225) COLLATE utf8_bin NOT NULL,
-  `cookiepath` varchar(60) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `sourcedir` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `admin_email` varchar(60) COLLATE utf8_bin NOT NULL,
-  `on_line` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'true',
-  `off_line_mess` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `start_date` datetime NOT NULL DEFAULT 0,
-  `time_zone` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'America/Los_Angeles',
-  `language` varchar(15) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `theme` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `force_passkey` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `welcome_message` longtext COLLATE utf8_bin,
-  `announce_ments` longtext COLLATE utf8_bin,
-  `announce_text` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `allow_html` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'true',
-  `allow_magnet` int(10) NOT NULL DEFAULT '1',
-  `rewrite_engine` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'true',
-  `torrent_prefix` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `torrent_per_page` int(10) unsigned NOT NULL DEFAULT '10',
-  `onlysearch` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'true',
-  `max_torrent_size` int(11) unsigned NOT NULL DEFAULT '0',
-  `announce_interval_min` int(10) unsigned NOT NULL DEFAULT '0',
-  `announce_interval` int(10) unsigned NOT NULL DEFAULT '0',
-  `dead_torrent_interval` int(10) unsigned NOT NULL DEFAULT '0',
-  `minvotes` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `time_tracker_update` int(10) unsigned NOT NULL DEFAULT '0',
-  `best_limit` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `down_limit` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `torrent_complaints` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `torrent_global_privacy` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'true',
-  `disclaimer_check` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `gfx_check` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'true',
-  `Public_Key` varchar(60) COLLATE utf8_bin DEFAULT NULL,
-  `Private_Key` varchar(60) COLLATE utf8_bin DEFAULT NULL,
-  `recap_https` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `upload_level` enum('all','user','premium') COLLATE utf8_bin NOT NULL DEFAULT 'user',
-  `download_level` enum('all','user','premium') COLLATE utf8_bin NOT NULL DEFAULT 'all',
-  `announce_level` enum('all','user') COLLATE utf8_bin NOT NULL DEFAULT 'all',
-  `max_num_file` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `max_share_size` bigint(8) unsigned NOT NULL DEFAULT '0',
-  `min_size_seed` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `min_share_seed` bigint(8) unsigned NOT NULL DEFAULT '0',
-  `global_min_ratio` float unsigned NOT NULL DEFAULT '0',
-  `autoscrape` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'true',
-  `min_num_seed_e` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `min_size_seed_e` bigint(8) unsigned NOT NULL DEFAULT '0',
-  `minupload_size_file` int(10) unsigned NOT NULL DEFAULT '0',
-  `allow_backup_tracker` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `stealthmode` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'true',
-  `version` varchar(5) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `upload_dead` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `invites_open` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `invite_only` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `max_members` int(10) unsigned NOT NULL DEFAULT '0',
-  `auto_clean` int(10) unsigned NOT NULL DEFAULT '0',
-  `free_dl` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `GIGSA` int(10) NOT NULL DEFAULT '0',
-  `RATIOA` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `WAITA` int(10) NOT NULL DEFAULT '0',
-  `GIGSB` int(10) NOT NULL DEFAULT '0',
-  `RATIOB` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `WAITB` int(10) NOT NULL DEFAULT '0',
-  `GIGSC` int(10) NOT NULL DEFAULT '0',
-  `RATIOC` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `WAITC` int(10) NOT NULL DEFAULT '0',
-  `GIGSD` int(10) NOT NULL DEFAULT '0',
-  `RATIOD` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `WAITD` int(10) NOT NULL DEFAULT '0',
-  `wait_time` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `addprivate` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `allow_external` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `allow_multy_tracker` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `give_sign_up_credit` bigint(20) NOT NULL DEFAULT '0',
-  `search_cloud_block` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'true',
-  `pivate_mode` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `conferm_email` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'true',
-  `allow_change_email` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'true',
-  `autodel_users` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `inactwarning_time` int(10) NOT NULL DEFAULT '0',
-  `autodel_users_time` int(10) NOT NULL DEFAULT '0',
-  `most_on_line` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '0',
-  `when_most` datetime NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_countries`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_countries` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) COLLATE utf8_bin DEFAULT NULL,
-  `flagpic` varchar(50) COLLATE utf8_bin DEFAULT NULL,
-  `domain` char(3) COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_disallow`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_disallow` (
-  `disallow_id` mediumint(8) unsigned NOT NULL auto_increment,
-  `disallow_username` varchar(255) binary NOT NULL default '',
-  PRIMARY KEY  (`disallow_id`)
-) ENGINE=MyISAM  AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_download_completed`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_download_completed` (
-  `user` int(11) unsigned NOT NULL DEFAULT '0',
-  `torrent` int(15) unsigned NOT NULL DEFAULT '0',
-  `completed` datetime NOT NULL DEFAULT 0,
-  PRIMARY KEY (`user`,`torrent`),
-  KEY `torrent` (`torrent`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_drafts`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_drafts` (
-  `draft_id` mediumint(8) NOT NULL AUTO_INCREMENT,
-  `user_id` int(20) NOT NULL,
-  `topic_id` mediumint(8) NOT NULL,
-  `forum_id` mediumint(8) NOT NULL,
-  `save_time` int(11) NOT NULL,
-  `draft_subject` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `draft_message` mediumtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `draft_type` enum('forum','pm','topic','coment') NOT NULL DEFAULT 'forum',
-  `torrent` mediumint(8) DEFAULT NULL,
-  `user_to` mediumint(8) DEFAULT NULL,
-  PRIMARY KEY (`draft_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_extensions`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_extensions` (
-  `extension_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `group_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `extension` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT '',
-  PRIMARY KEY (`extension_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_extension_groups`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_extension_groups` (
-  `group_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `group_name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `cat_id` tinyint(2) NOT NULL DEFAULT '0',
-  `allow_group` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `download_mode` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `upload_icon` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `max_filesize` int(20) unsigned NOT NULL DEFAULT '0',
-  `allowed_forums` text COLLATE utf8_bin NOT NULL,
-  `allow_in_pm` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`group_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_faq`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_faq` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `type` set('categ','item') COLLATE utf8_bin NOT NULL DEFAULT 'item',
-  `question` text COLLATE utf8_bin NOT NULL,
-  `answer` text COLLATE utf8_bin NOT NULL,
-  `flag` set('0','1','2','3') COLLATE utf8_bin NOT NULL DEFAULT '1',
-  `categ` int(10) NOT NULL DEFAULT '0',
-  `order` int(10) NOT NULL DEFAULT '0',
-  `bbcode_bitfield` varchar(225) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `bbcode_uid` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_files`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_files` (
-  `id` int(20) unsigned NOT NULL AUTO_INCREMENT,
-  `torrent` int(15) unsigned NOT NULL DEFAULT '0',
-  `filename` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `size` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `md5sum` varchar(32) COLLATE utf8_bin DEFAULT NULL,
-  `ed2k` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `magnet` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `torrent_2` (`torrent`,`filename`),
-  KEY `torrent` (`torrent`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_filter`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_filter` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `keyword` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `reason` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `keyword` (`keyword`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_forums`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_forums` (
-  `forum_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `left_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `right_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `forum_parents` mediumtext COLLATE utf8_bin NOT NULL,
-  `forum_name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `forum_desc` text COLLATE utf8_bin NOT NULL,
-  `forum_desc_bitfield` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `forum_desc_options` int(11) unsigned NOT NULL DEFAULT '7',
-  `forum_desc_uid` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `forum_link` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `forum_password` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `forum_style` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `forum_image` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `forum_rules` text COLLATE utf8_bin NOT NULL,
-  `forum_rules_link` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `forum_rules_bitfield` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `forum_rules_options` int(11) unsigned NOT NULL DEFAULT '7',
-  `forum_rules_uid` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `forum_topics_per_page` tinyint(4) NOT NULL DEFAULT '0',
-  `forum_type` tinyint(4) NOT NULL DEFAULT '0',
-  `forum_status` tinyint(4) NOT NULL DEFAULT '0',
-  `forum_posts` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `forum_topics` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `forum_topics_real` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `forum_last_post_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `forum_last_poster_id` int(20) unsigned NOT NULL DEFAULT '0',
-  `forum_last_post_subject` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `forum_last_post_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `forum_last_poster_name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `forum_last_poster_colour` varchar(6) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `forum_flags` tinyint(4) NOT NULL DEFAULT '32',
-  `forum_options` int(20) unsigned NOT NULL DEFAULT '0',
-  `display_subforum_list` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `display_on_index` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `enable_indexing` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `enable_icons` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `enable_prune` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `prune_next` int(11) unsigned NOT NULL DEFAULT '0',
-  `prune_days` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `prune_viewed` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `prune_freq` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `acl_read` varchar(225) COLLATE utf8_bin NOT NULL DEFAULT '0',
-  `acl_write` varchar(225) COLLATE utf8_bin NOT NULL DEFAULT '0',
-  PRIMARY KEY (`forum_id`),
-  KEY `left_right_id` (`left_id`,`right_id`),
-  KEY `forum_lastpost_id` (`forum_last_post_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_forums_access`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_forums_access` (
-  `forum_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `user_id` int(20) unsigned NOT NULL DEFAULT '0',
-  `session_id` char(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  PRIMARY KEY (`forum_id`,`user_id`,`session_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_forums_track`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_forums_track` (
-  `user_id` int(20) unsigned NOT NULL DEFAULT '0',
-  `forum_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `mark_time` int(11) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`user_id`,`forum_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_forums_watch`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_forums_watch` (
-  `forum_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `user_id` int(20) unsigned NOT NULL DEFAULT '0',
-  `notify_status` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  KEY `forum_id` (`forum_id`),
-  KEY `user_id` (`user_id`),
-  KEY `notify_stat` (`notify_status`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_forum_config`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_forum_config` (
-  `forum_open` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `board_disable_msg` text COLLATE utf8_bin NOT NULL,
-  `postsper_page` int(10) NOT NULL,
-  `topics_per_page` int(10) NOT NULL,
-  `max_post_length` int(10) NOT NULL,
-  `show_latest_topic` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `search_word_min` int(10) NOT NULL,
-  `allow_bookmarks` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `shout_new_topic` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `shout_new_post` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `allow_smilies` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `allow_bbcode` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `allow_signatures` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `flood_intervals` int(10) NOT NULL DEFAULT '0',
-  `bump_intervals` int(10) NOT NULL DEFAULT '0',
-  `set_flood_intervals` enum('s','m') COLLATE utf8_bin NOT NULL DEFAULT 's',
-  `bump_type` enum('m','h','d') COLLATE utf8_bin NOT NULL DEFAULT 'm',
-  `email_enable` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `jab_enable` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `allow_topic_notify` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `allow_forum_notify` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `load_search` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `allow_attachments` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `allow_post_links` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `board_hide_emails` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `allow_birthdays` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `display_last_edited` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `load_moderators` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `edit_time` int(10) DEFAULT NULL,
-  `allow_post_flash` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `enable_post_confirm` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `enable_queue_trigger` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `allow_sig_bbcode` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `allow_sig_smilies` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `max_post_font_size` int(10) DEFAULT NULL,
-  `max_poll_options` int(10) NOT NULL DEFAULT '9',
-  `max_post_urls` int(10) NOT NULL DEFAULT '0',
-  `max_post_smilies` int(11) DEFAULT NULL,
-  `max_quote_depth` int(10) NOT NULL DEFAULT '0',
-  `img_link_width` int(10) NOT NULL DEFAULT '0',
-  `img_link_height` int(10) NOT NULL DEFAULT '0',
-  `max_filesize` int(10) NOT NULL DEFAULT '0',
-  `hot_threshold` int(10) NOT NULL DEFAULT '0',
-  `min_post_chars` int(10) NOT NULL DEFAULT '0',
-  `max_attachments` int(10) NOT NULL DEFAULT '0',
-  `enable_urls` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `queue_trigger_posts` int(10) NOT NULL DEFAULT '0',
-  `img_display_inlined` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_forum_permissions`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_forum_permissions` (
-  `forum_id` mediumint(8) NOT NULL DEFAULT '0',
-  `g_moderators` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `g_can_read` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `g_can_write` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `group_only` tinyint(1) NOT NULL DEFAULT '0',
-  `group_allow` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `u_moderators` varchar(225) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `u_can_read` varchar(225) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `u_can_write` varchar(225) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_hit_n_run`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_hit_n_run` (
-  `hnr_system` enum('true','false') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `demote_hnr_users` enum('true','false') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `ban_hnr_users` enum('true','false') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `demote_time` int(10) NOT NULL DEFAULT '0',
-  `after_high_hnr` int(10) NOT NULL DEFAULT '0',
-  `ban_time` int(10) NOT NULL DEFAULT '0',
-  `seedtime` int(10) NOT NULL DEFAULT '0',
-  `time_before_warn` int(10) NOT NULL DEFAULT '0',
-  `maxhitrun` int(10) NOT NULL DEFAULT '0',
-  `warnlength` int(10) NOT NULL DEFAULT '0',
-  `demote_hnr_users_to` varchar(225) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'user'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Config for Hit and Run system';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_icons`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_icons` (
-  `icons_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `icons_url` varchar(255) NOT NULL,
-  `icons_width` tinyint(4) NOT NULL DEFAULT '0',
-  `icons_height` tinyint(4) NOT NULL DEFAULT '0',
-  `icons_order` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `display_on_posting` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  PRIMARY KEY (`icons_id`),
-  KEY `display_on_posting` (`display_on_posting`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_img_bucket`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_img_bucket` (
-  `allow` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `level` varchar(225) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `max_folder_size` varchar(60) COLLATE utf8_bin NOT NULL DEFAULT '0',
-  `max_file_size` varchar(60) COLLATE utf8_bin NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_levels`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_levels` (
-  `level` varchar(60) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `name` varchar(60) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `group_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `group_type` tinyint(4) NOT NULL DEFAULT '1',
-  `color` varchar(60) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `group_desc` text COLLATE utf8_bin,
-  `m_see_admin_cp` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_upload` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_download` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_delete_own_torrents` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `m_delete_others_torrents` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `m_banusers` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `m_bann_torrents` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `m_bann_trackers` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `m_bann_shouts` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `a_see_ip` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_edit_own_comments` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `m_edit_comments` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `m_edit_user` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `m_mass_upload` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_view_nfo` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_requests` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `m_requests` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_offers` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `m_offers` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_top_torrentlist` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_can_comment` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_can_shout` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_can_change_theme` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_can_change_language` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_can_view_profiles` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_can_view_others_email` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_see_member_list` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_can_view_utube` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_can_add_uttube` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_hit_run` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_hnr_demote` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_arcade` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_can_use_bitbucket` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_black_jack` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `u_casino` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `m_can_edit_others_torrents` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `m_manage_faqs` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `m_edit_polls` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `m_modforum` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `m_del_users` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_edit_own_torrents` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `m_edit_others_shouts` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_masspm` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_masspm_group` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_pm_delete` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_pm_forward` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_pm_edit` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_pm_smilies` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_pm_bbcode` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_sig` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_savedrafts` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_pm_img` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_pm_flash` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_ignoreflood` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_sendpm` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_pm_attach` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_groupadd` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_groupdel` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_pm_download` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_sendim` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `group_receive_pm` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_clearlogs` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_forumadd` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_forumdel` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_fauth` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_authusers` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_authgroups` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_mauth` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_forum` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `f_list` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `f_post` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `m_approve` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `f_noapprove` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_warn_sys` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_prune` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_aauth` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_uauth` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_edit_level` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_override_user_pm_block` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_override_email_block` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_can_add_perm` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_add_poster` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_add_screen_shots` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_add_nfo` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_add_smiles_to_details` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_add_bbcode_details` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_add_quote_details` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_add_imgbbcode_details` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_links_in_details` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_flash_in_details` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_upload_notify` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_hide_torrent_owner` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_apply_ratiobuild` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_add_password_torrent` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_advance_upload_setting` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_add_sticky_upload` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_shout_upload` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_torrent_attach` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_can_add_magnet_links` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `m_view_whois` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `m_casin_users` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_games` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `m_mod_helpdesk` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_update_peers` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_delete_comments` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `m_delete_comments` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_mod` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `a_admin` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `m_over_ride_password` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `m_see_hidden_uploader` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_can_view_snatchlist` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_requist_reseed` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `m_down_load_private_torrents` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_attach` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_search` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `u_f_download` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `m_warn` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  UNIQUE KEY `level` (`level`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_level_privlages`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_level_privlages` (
-  `id` mediumint(8) NOT NULL AUTO_INCREMENT,
-  `acc_point` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `descr` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `acc_point` (`acc_point`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_level_settings`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_level_settings` (
-  `group_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `group_type` tinyint(4) NOT NULL DEFAULT '1',
-  `group_default` tinyint(1) NOT NULL DEFAULT '0',
-  `group_founder_manage` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `group_name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `group_desc` text COLLATE utf8_bin NOT NULL,
-  `group_desc_bitfield` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `group_desc_options` int(11) unsigned NOT NULL DEFAULT '7',
-  `group_desc_uid` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `group_display` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `group_avatar` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `group_avatar_type` tinyint(2) NOT NULL DEFAULT '0',
-  `group_avatar_width` smallint(4) unsigned NOT NULL DEFAULT '0',
-  `group_avatar_height` smallint(4) unsigned NOT NULL DEFAULT '0',
-  `group_rank` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `group_colour` varchar(6) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `group_sig_chars` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `group_receive_pm` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `group_message_limit` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `group_max_recipients` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `group_legend` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `group_skip_auth` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`group_id`),
-  KEY `group_legend_name` (`group_legend`,`group_name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_log`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_log` (
-  `event` int(60) unsigned NOT NULL AUTO_INCREMENT,
-  `datetime` timestamp NOT NULL DEFAULT 0,
-  `action` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `results` longtext COLLATE utf8_bin NOT NULL,
-  `ip` int(10) unsigned NOT NULL DEFAULT '0',
-  `host` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `userid` int(60) NOT NULL DEFAULT '0',
-  `reportee_id` mediumint(8) NOT NULL DEFAULT '0',
-  `forum_id` mediumint(8) NOT NULL DEFAULT '0',
-  `torrent_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `topic_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `log_type` tinyint(4) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`event`),
-  KEY `datetime` (`datetime`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_massupload`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_massupload` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_moderator_cache`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_moderator_cache` (
-  `forum_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `user_id` int(12) unsigned NOT NULL DEFAULT '0',
-  `username` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `group_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `group_name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `display_on_index` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  KEY `disp_idx` (`display_on_index`),
-  KEY `forum_id` (`forum_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_modules`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_modules` (
-  `module_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `module_enabled` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `module_display` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `module_basename` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `module_class` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `parent_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `left_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `right_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `module_langname` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `module_mode` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `module_auth` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  PRIMARY KEY (`module_id`),
-  KEY `left_right_id` (`left_id`,`right_id`),
-  KEY `module_enabled` (`module_enabled`),
-  KEY `class_left_id` (`module_class`,`left_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_online_users`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_online_users` (
-  `id` int(60) unsigned NOT NULL DEFAULT '0',
-  `page` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `logged_in` datetime NOT NULL DEFAULT 0,
-  `last_action` datetime NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_paypal`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_paypal` (
-  `siteurl` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `paypal_email` varchar(60) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `sitecost` varchar(60) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `reseaved_donations` varchar(60) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `donatepage` longtext COLLATE utf8_bin NOT NULL,
-  `donation_block` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'true',
-  `nodonate` enum('EU','UK','US') COLLATE utf8_bin NOT NULL DEFAULT 'US'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_peers`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_peers` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `uid` int(11) unsigned NOT NULL DEFAULT '0',
-  `torrent` int(10) unsigned NOT NULL DEFAULT '0',
-  `peer_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `unique_id` varchar(20) COLLATE utf8_bin DEFAULT NULL,
-  `ip` int(10) unsigned NOT NULL DEFAULT '0',
-  `port` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `real_ip` varchar(20) COLLATE utf8_bin NOT NULL,
-  `uploaded` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `downloaded` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `download_speed` int(11) unsigned NOT NULL DEFAULT '0',
-  `upload_speed` int(11) unsigned NOT NULL DEFAULT '0',
-  `to_go` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `seeder` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'no',
-  `started` datetime NOT NULL DEFAULT 0,
-  `last_action` datetime NOT NULL DEFAULT 0,
-  `connectable` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'yes',
-  `client` varchar(60) COLLATE utf8_bin DEFAULT NULL,
-  `version` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `user_agent` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `torrent_peer_id` (`torrent`,`peer_id`),
-  UNIQUE KEY `torrent_3` (`torrent`,`unique_id`),
-  KEY `torrent` (`torrent`),
-  KEY `last_action` (`last_action`),
-  KEY `torrent_2` (`torrent`,`seeder`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_pollanswers`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_pollanswers` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `pollid` int(10) unsigned NOT NULL DEFAULT '0',
-  `topic_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `userid` int(10) unsigned NOT NULL DEFAULT '0',
-  `selection` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `pollid` (`pollid`),
-  KEY `selection` (`selection`),
-  KEY `userid` (`userid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_polls`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_polls` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `added` datetime NOT NULL DEFAULT 0,
-  `question` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `option0` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `option1` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `option2` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `option3` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `option4` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `option5` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `option6` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `option7` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `option8` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `option9` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `sort` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'yes',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_poll_options`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_poll_options` (
-  `poll_option_id` tinyint(4) NOT NULL DEFAULT '0',
-  `topic_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `poll_option_text` text COLLATE utf8_bin NOT NULL,
-  `poll_option_total` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  KEY `poll_opt_id` (`poll_option_id`),
-  KEY `topic_id` (`topic_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_poll_votes`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_poll_votes` (
-  `topic_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `poll_option_id` tinyint(4) NOT NULL DEFAULT '0',
-  `vote_user_id` int(20) unsigned NOT NULL DEFAULT '0',
-  `vote_user_ip` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  KEY `topic_id` (`topic_id`),
-  KEY `vote_user_id` (`vote_user_id`),
-  KEY `vote_user_ip` (`vote_user_ip`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_posts`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_posts` (
-  `post_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `topic_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `forum_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `poster_id` int(20) unsigned NOT NULL DEFAULT '0',
-  `icon_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `poster_ip` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `post_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `post_approved` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `post_reported` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `enable_bbcode` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `enable_smilies` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `enable_magic_url` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `enable_sig` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `post_username` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `post_subject` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `post_text` mediumtext COLLATE utf8_bin NOT NULL,
-  `post_checksum` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `post_attachment` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `bbcode_bitfield` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `bbcode_uid` varchar(8) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `post_postcount` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `post_edit_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `post_edit_reason` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `post_edit_user` int(20) unsigned NOT NULL DEFAULT '0',
-  `post_edit_count` smallint(4) unsigned NOT NULL DEFAULT '0',
-  `post_edit_locked` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`post_id`),
-  KEY `forum_id` (`forum_id`),
-  KEY `topic_id` (`topic_id`),
-  KEY `poster_ip` (`poster_ip`),
-  KEY `poster_id` (`poster_id`),
-  KEY `post_approved` (`post_approved`),
-  KEY `post_username` (`post_username`),
-  KEY `tid_post_time` (`topic_id`,`post_time`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_privacy_backup`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_privacy_backup` (
-  `master` int(11) unsigned NOT NULL DEFAULT '0',
-  `slave` int(11) NOT NULL DEFAULT '0',
-  `torrent` int(11) NOT NULL DEFAULT '0',
-  `status` enum('pending','denied','granted') COLLATE utf8_bin NOT NULL DEFAULT 'pending',
-  PRIMARY KEY (`slave`,`torrent`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_privacy_file`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_privacy_file` (
-  `master` int(11) unsigned NOT NULL DEFAULT '0',
-  `slave` int(11) unsigned NOT NULL DEFAULT '0',
-  `torrent` int(15) unsigned NOT NULL DEFAULT '0',
-  `status` enum('pending','denied','granted') COLLATE utf8_bin NOT NULL DEFAULT 'pending',
-  PRIMARY KEY (`slave`,`torrent`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_privacy_global`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_privacy_global` (
-  `master` int(11) unsigned NOT NULL DEFAULT '0',
-  `torrent` int(11) NOT NULL DEFAULT '0',
-  `slave` int(11) unsigned NOT NULL DEFAULT '0',
-  `status` enum('blacklist','whitelist') COLLATE utf8_bin NOT NULL DEFAULT 'whitelist',
-  PRIMARY KEY (`master`,`slave`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_private_messages`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_private_messages` (
-  `id` int(20) unsigned zerofill NOT NULL AUTO_INCREMENT,
-  `sender` int(11) unsigned NOT NULL DEFAULT '0',
-  `recipient` text COLLATE utf8_bin NOT NULL,
-  `subject` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `text` longtext COLLATE utf8_bin NOT NULL,
-  `is_read` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `sent` datetime NOT NULL DEFAULT 0,
-  `sender_del` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `recipient_del` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `save` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `folder_id` int(11) NOT NULL DEFAULT '0',
-  `bcc_address` text COLLATE utf8_bin NOT NULL,
-  `root_level` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `icon_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `author_ip` varchar(40) COLLATE utf8_bin NOT NULL,
-  `enable_bbcode` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `enable_smilies` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `enable_magic_url` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `enable_sig` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `message_attachment` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `bbcode_bitfield` varchar(255) COLLATE utf8_bin NOT NULL,
-  `bbcode_uid` varchar(8) COLLATE utf8_bin NOT NULL,
-  `message_reported` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `message_edit_reason` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `message_edit_user` int(20) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `from` (`sender`),
-  KEY `root_level` (`root_level`,`author_ip`),
-  FULLTEXT KEY `text` (`text`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_private_messages_blacklist`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_private_messages_blacklist` (
-  `master` int(11) unsigned NOT NULL DEFAULT '0',
-  `slave` int(11) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`master`,`slave`),
-  KEY `master` (`master`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_private_messages_bookmarks`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_private_messages_bookmarks` (
-  `master` int(11) unsigned NOT NULL DEFAULT '0',
-  `slave` int(11) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`master`,`slave`),
-  KEY `master` (`master`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_private_messages_rules`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_private_messages_rules` (
-  `rule_id` mediumint(8) NOT NULL AUTO_INCREMENT,
-  `user_id` int(20) NOT NULL DEFAULT '0',
-  `rule_check` mediumint(8) NOT NULL DEFAULT '0',
-  `rule_connection` mediumint(8) NOT NULL DEFAULT '0',
-  `rule_string` varchar(255) NOT NULL,
-  `rule_user_id` int(20) NOT NULL DEFAULT '0',
-  `rule_group_id` mediumint(8) NOT NULL DEFAULT '0',
-  `rule_action` mediumint(8) NOT NULL DEFAULT '0',
-  `rule_folder_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`rule_id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_privmsgs_folder`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_privmsgs_folder` (
-  `folder_id` mediumint(8) NOT NULL AUTO_INCREMENT,
-  `user_id` int(20) NOT NULL DEFAULT '0',
-  `folder_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `pm_count` mediumint(8) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`folder_id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_privmsgs_to`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_privmsgs_to` (
-  `msg_id` int(20) NOT NULL DEFAULT '0',
-  `user_id` int(20) NOT NULL DEFAULT '0',
-  `author_id` int(20) NOT NULL DEFAULT '0',
-  `pm_deleted` tinyint(1) NOT NULL DEFAULT '0',
-  `pm_new` tinyint(1) NOT NULL DEFAULT '1',
-  `pm_unread` tinyint(1) NOT NULL DEFAULT '1',
-  `pm_replied` tinyint(1) NOT NULL DEFAULT '0',
-  `pm_marked` tinyint(1) NOT NULL DEFAULT '0',
-  `pm_forwarded` tinyint(1) NOT NULL DEFAULT '0',
-  `folder_id` int(11) NOT NULL DEFAULT '0',
-  KEY `msg_id` (`msg_id`,`user_id`,`author_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_ranks`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_ranks` (
-  `rank_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `rank_title` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `rank_min` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `rank_special` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `rank_image` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  PRIMARY KEY (`rank_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_ratings`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_ratings` (
-  `torrent` int(10) unsigned NOT NULL DEFAULT '0',
-  `user` int(10) unsigned NOT NULL DEFAULT '0',
-  `rating` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `added` datetime NOT NULL DEFAULT 0,
-  PRIMARY KEY (`torrent`,`user`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_ratiowarn`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_ratiowarn` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `userid` int(11) NOT NULL DEFAULT '0',
-  `warned` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'no',
-  `banned` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'no',
-  `ratiodate` datetime NOT NULL DEFAULT 0,
-  `warntime` datetime NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_ratiowarn_config`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_ratiowarn_config` (
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `value` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_reports`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_reports` (
-  `report_id` mediumint(8) NOT NULL AUTO_INCREMENT,
-  `reason_id` smallint(4) NOT NULL DEFAULT '0',
-  `post_id` mediumint(8) NOT NULL DEFAULT '0',
-  `pm_id` mediumint(8) NOT NULL DEFAULT '0',
-  `user_id` int(20) NOT NULL DEFAULT '0',
-  `user_notify` tinyint(1) NOT NULL DEFAULT '0',
-  `report_closed` tinyint(1) NOT NULL DEFAULT '0',
-  `report_time` int(11) NOT NULL DEFAULT '0',
-  `report_text` mediumtext NOT NULL,
-  PRIMARY KEY (`report_id`),
-  KEY `post_id` (`post_id`,`pm_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_reports_reasons`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_reports_reasons` (
-  `reason_id` smallint(4) unsigned NOT NULL AUTO_INCREMENT,
-  `reason_title` varchar(255) NOT NULL,
-  `reason_description` mediumtext NOT NULL,
-  `reason_order` smallint(4) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`reason_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_rules`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_rules` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `text` longtext COLLATE utf8_bin NOT NULL,
-  `bbcode_bitfield` varchar(255) COLLATE utf8_bin NOT NULL,
-  `bbcode_uid` varchar(8) COLLATE utf8_bin NOT NULL,
-  `public` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'yes',
-  `level` varchar(255) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_search_cloud`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_search_cloud` (
-  `active` int(11) NOT NULL DEFAULT '0',
-  `user_only` int(11) NOT NULL DEFAULT '0',
-  `how_many` int(11) NOT NULL DEFAULT '10'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_search_results`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_search_results` (
-  `search_key` varbinary(32) NOT NULL DEFAULT '',
-  `search_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `search_keywords` mediumblob NOT NULL,
-  `search_authors` mediumblob NOT NULL,
-  PRIMARY KEY (`search_key`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_search_text`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_search_text` (
-  `id` int(20) unsigned NOT NULL AUTO_INCREMENT,
-  `text` varchar(25) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `hit` int(20) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `text` (`text`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_search_wordlist`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_search_wordlist` (
-  `word_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `word_text` blob NOT NULL,
-  `word_common` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `word_count` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`word_id`),
-  UNIQUE KEY `wrd_txt` (`word_text`(255)),
-  KEY `wrd_cnt` (`word_count`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_search_wordmatch`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_search_wordmatch` (
-  `post_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `word_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `title_match` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  UNIQUE KEY `unq_mtch` (`word_id`,`post_id`,`title_match`),
-  KEY `word_id` (`word_id`),
-  KEY `post_id` (`post_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_seeder_notify`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_seeder_notify` (
-  `torrent` int(11) NOT NULL DEFAULT '0',
-  `user` int(11) NOT NULL DEFAULT '0',
-  `status` enum('active','stopped') COLLATE utf8_bin NOT NULL DEFAULT 'active',
-  PRIMARY KEY (`torrent`,`user`),
-  KEY `contacts` (`torrent`,`status`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_sessions`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_sessions` (
-  `session_id` char(32) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `session_user_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `session_forum_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `session_last_visit` int(11) unsigned NOT NULL DEFAULT '0',
-  `session_start` int(11) unsigned NOT NULL DEFAULT '0',
-  `session_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `session_ip` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `session_browser` varchar(150) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `session_forwarded_for` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `session_page` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `session_viewonline` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `session_autologin` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `session_admin` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`session_id`),
-  KEY `session_time` (`session_time`),
-  KEY `session_user_id` (`session_user_id`),
-  KEY `session_fid` (`session_forum_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_settings`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_settings` (
-  `config_name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `config_value` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `is_dynamic` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`config_name`),
-  KEY `is_dynamic` (`is_dynamic`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_shouts`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_shouts` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `user` int(10) unsigned NOT NULL DEFAULT '0',
-  `text` longtext COLLATE utf8_bin NOT NULL,
-  `bbcode_bitfield` varchar(255) COLLATE utf8_bin NOT NULL,
-  `bbcode_uid` varchar(8) COLLATE utf8_bin NOT NULL,
-  `posted` datetime NOT NULL DEFAULT 0,
-  `id_to` int(10) NOT NULL DEFAULT '0',
-  `f` mediumint(11) UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `posted` (`posted`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_shout_cast`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_shout_cast` (
-  `allow` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `ip` varchar(20) COLLATE utf8_bin NOT NULL DEFAULT '0',
-  `port` mediumint(8) NOT NULL DEFAULT '0',
-  `admin_name` varchar(225) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `admin_pass` varchar(225) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `host_dj` varchar(225) COLLATE utf8_bin NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_shout_config`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_shout_config` (
-  `announce_ment` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `shoutnewuser` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'yes',
-  `shout_new_torrent` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'yes',
-  `shout_new_porn` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'yes',
-  `turn_on` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'yes',
-  `refresh_time` int(10) NOT NULL DEFAULT '30',
-  `idle_time` int(10) NOT NULL DEFAULT '3000',
-  `shouts_to_show` int(10) NOT NULL DEFAULT '25',
-  `bbcode_on` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'yes',
-  `allow_url` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'yes',
-  `autodelete_time` int(10) NOT NULL DEFAULT '30',
-  `canedit_on` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'yes',
-  `candelete_on` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'yes',
-  `autodelet` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `can_quote` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `dateformat` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT 'd M Y H:i'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_sitelist`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_sitelist` (
-  `site_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `site_ip` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `site_hostname` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `ip_exclude` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`site_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_smiles`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_smiles` (
-  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
-  `code` varchar(15) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `file` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `alt` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `sort_index` int(10) NOT NULL,
-  `smiley_url` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `code` (`code`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_snatched`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_snatched` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `torrent` int(10) unsigned NOT NULL DEFAULT '0',
-  `torrentid` int(10) unsigned NOT NULL DEFAULT '0',
-  `userid` int(10) unsigned NOT NULL DEFAULT '0',
-  `ip` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `torrent_name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `torrent_category` int(10) unsigned NOT NULL DEFAULT '0',
-  `port` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `uploaded` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `downloaded` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `to_go` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `speedup` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `speeddown` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `seeder` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'no',
-  `last_action` datetime NOT NULL DEFAULT 0,
-  `startdat` datetime NOT NULL DEFAULT 0,
-  `completedat` datetime NOT NULL DEFAULT 0,
-  `connectable` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'yes',
-  `agent` varchar(60) COLLATE utf8_bin DEFAULT NULL,
-  `finished` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'no',
-  `seeding_time` int(10) DEFAULT '0',
-  `warned` enum('yes','no') COLLATE utf8_bin DEFAULT 'no',
-  `hnr_warning` enum('yes','no') COLLATE utf8_bin DEFAULT 'no',
-  `hitrun` datetime NOT NULL DEFAULT 0,
-  `hitrunwarn` enum('yes','pending','no') COLLATE utf8_bin NOT NULL DEFAULT 'no',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `torrentid_3` (`torrentid`,`userid`),
-  KEY `finished` (`finished`,`torrentid`),
-  KEY `torrentid` (`userid`),
-  KEY `torrentid_2` (`torrentid`),
-  KEY `userid` (`userid`,`torrentid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_thanks`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_thanks` (
-  `tid` bigint(10) NOT NULL AUTO_INCREMENT,
-  `uid` bigint(10) NOT NULL DEFAULT '0',
-  `torid` bigint(10) NOT NULL DEFAULT '0',
-  `thank_date` datetime NOT NULL DEFAULT 0,
-  PRIMARY KEY (`tid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_time_offset`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_time_offset` (
-  `id` smallint(4) NOT NULL AUTO_INCREMENT,
-  `name` varchar(75) COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_topics`
---
+  `tid` int(11) NOT NULL,
+  `pid` int(11) NOT NULL DEFAULT 0,
+  `sid` int(11) NOT NULL DEFAULT 0,
+  `datePublished` timestamp NULL DEFAULT '0000-00-00 00:00:00',
+  `dateModified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `name` varchar(60) NOT NULL DEFAULT '',
+  `email` varchar(60) DEFAULT NULL,
+  `url` varchar(60) DEFAULT NULL,
+  `host_name` varchar(60) DEFAULT NULL,
+  `subject` varchar(85) NOT NULL DEFAULT '',
+  `comment` text NOT NULL,
+  `score` tinyint(4) NOT NULL DEFAULT 0,
+  `reason` tinyint(4) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_blogs_queue` (
+  `qid` smallint(5) UNSIGNED NOT NULL,
+  `uid` mediumint(9) NOT NULL DEFAULT 0,
+  `uname` varchar(40) NOT NULL DEFAULT '',
+  `subject` varchar(100) NOT NULL DEFAULT '',
+  `story` text DEFAULT NULL,
+  `storyext` text NOT NULL,
+  `timestamp` datetime NOT NULL DEFAULT '2018-12-12 00:00:00',
+  `topic` varchar(20) NOT NULL DEFAULT '',
+  `alanguage` varchar(30) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `#prefix#_blogs_topics` (
-  `topic_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `forum_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `icon_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `topic_attachment` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `topic_approved` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `topic_reported` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `topic_title` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `topic_poster` int(20) unsigned NOT NULL DEFAULT '0',
-  `topic_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `topic_time_limit` int(11) unsigned NOT NULL DEFAULT '0',
-  `topic_views` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `topic_replies` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `topic_replies_real` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `topic_status` tinyint(3) NOT NULL DEFAULT '0',
-  `topic_type` tinyint(3) NOT NULL DEFAULT '0',
-  `topic_first_post_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `topic_first_poster_name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `topic_first_poster_colour` varchar(6) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `topic_last_post_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `topic_last_poster_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `topic_last_poster_name` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `topic_last_poster_colour` varchar(6) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `topic_last_post_subject` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `topic_last_post_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `topic_last_view_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `topic_moved_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `topic_bumped` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `topic_bumper` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `poll_title` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `poll_start` int(11) unsigned NOT NULL DEFAULT '0',
-  `poll_length` int(11) unsigned NOT NULL DEFAULT '0',
-  `poll_max_options` tinyint(4) NOT NULL DEFAULT '1',
-  `poll_last_vote` int(11) unsigned NOT NULL DEFAULT '0',
-  `poll_vote_change` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`topic_id`),
-  KEY `forum_id` (`forum_id`),
-  KEY `forum_id_type` (`forum_id`,`topic_type`),
-  KEY `last_post_time` (`topic_last_post_time`),
-  KEY `topic_approved` (`topic_approved`),
-  KEY `forum_appr_last` (`forum_id`,`topic_approved`,`topic_last_post_id`),
-  KEY `fid_time_moved` (`forum_id`,`topic_last_post_time`,`topic_moved_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `topicid` int(3) NOT NULL,
+  `topicname` varchar(20) DEFAULT NULL,
+  `topicimage` varchar(100) DEFAULT NULL,
+  `topictext` varchar(40) DEFAULT NULL,
+  `counter` int(11) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#prefix#_bookmarks` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `name` varchar(256) NOT NULL,
+  `category_id` int(11) NOT NULL DEFAULT 0,
+  `url` varchar(256) NOT NULL,
+  `description` varchar(256) DEFAULT NULL,
+  `mod_date` date NOT NULL DEFAULT '0000-00-00',
+  `popup` tinyint(3) UNSIGNED NOT NULL DEFAULT 1
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Table structure for table `torrent_topics_posted`
---
+CREATE TABLE IF NOT EXISTS `#prefix#_bookmarks_cat` (
+  `category_id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `name` varchar(256) NOT NULL,
+  `description` varchar(256) NOT NULL,
+  `mod_date` date NOT NULL DEFAULT '0000-00-00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `#prefix#_topics_posted` (
-  `user_id` int(20) unsigned NOT NULL DEFAULT '0',
-  `topic_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `topic_posted` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`user_id`,`topic_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE TABLE IF NOT EXISTS `#prefix#_cemetery` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `name` varchar(256) NOT NULL,
+  `category_id` int(11) NOT NULL DEFAULT 0,
+  `url` varchar(256) NOT NULL,
+  `description` varchar(256) DEFAULT NULL,
+  `mod_date` date NOT NULL DEFAULT '0000-00-00',
+  `popup` tinyint(3) UNSIGNED NOT NULL DEFAULT 1
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#prefix#_cemetery_cat` (
+  `category_id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `name` varchar(256) NOT NULL,
+  `description` varchar(256) NOT NULL,
+  `mod_date` date NOT NULL DEFAULT '0000-00-00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Table structure for table `torrent_topics_track`
---
+CREATE TABLE IF NOT EXISTS `#prefix#_cnbya_config` (
+  `config_name` varchar(255) NOT NULL DEFAULT '',
+  `config_value` longtext DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `#prefix#_topics_track` (
-  `user_id` int(20) unsigned NOT NULL DEFAULT '0',
-  `topic_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `forum_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `mark_time` int(11) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`user_id`,`topic_id`),
-  KEY `forum_id` (`forum_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE TABLE IF NOT EXISTS `#prefix#_cnbya_field` (
+  `fid` int(10) NOT NULL,
+  `name` varchar(255) NOT NULL DEFAULT 'field',
+  `value` varchar(255) DEFAULT NULL,
+  `size` int(3) DEFAULT NULL,
+  `need` int(1) NOT NULL DEFAULT 1,
+  `pos` int(3) DEFAULT NULL,
+  `public` int(1) NOT NULL DEFAULT 1
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#prefix#_cnbya_value` (
+  `vid` int(10) NOT NULL,
+  `uid` int(10) NOT NULL DEFAULT 0,
+  `fid` int(10) NOT NULL DEFAULT 0,
+  `value` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Table structure for table `torrent_topics_watch`
---
+CREATE TABLE IF NOT EXISTS `#prefix#_cnbya_value_temp` (
+  `vid` int(10) NOT NULL,
+  `uid` int(10) NOT NULL DEFAULT 0,
+  `fid` int(10) NOT NULL DEFAULT 0,
+  `value` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `#prefix#_topics_watch` (
-  `topic_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `user_id` int(20) unsigned NOT NULL DEFAULT '0',
-  `notify_status` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  KEY `topic_id` (`topic_id`),
-  KEY `user_id` (`user_id`),
-  KEY `notify_stat` (`notify_status`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE TABLE IF NOT EXISTS `#prefix#_config` (
+  `sitename` varchar(255) NOT NULL DEFAULT '',
+  `#prefix#url` varchar(255) NOT NULL DEFAULT '',
+  `site_logo` varchar(255) NOT NULL DEFAULT '',
+  `slogan` varchar(255) NOT NULL DEFAULT '',
+  `startdate` varchar(50) NOT NULL DEFAULT '',
+  `datePublished` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `dateModified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `adminmail` varchar(255) NOT NULL DEFAULT '',
+  `anonpost` tinyint(1) NOT NULL DEFAULT 0,
+  `default_Theme` varchar(255) NOT NULL DEFAULT 'Titanium_Core',
+  `foot1` text DEFAULT NULL,
+  `foot2` text DEFAULT NULL,
+  `foot3` text DEFAULT NULL,
+  `commentlimit` int(9) NOT NULL DEFAULT 4096,
+  `anonymous` varchar(255) NOT NULL DEFAULT '',
+  `minpass` tinyint(1) NOT NULL DEFAULT 5,
+  `pollcomm` tinyint(1) NOT NULL DEFAULT 1,
+  `articlecomm` tinyint(1) NOT NULL DEFAULT 1,
+  `broadcast_msg` tinyint(1) NOT NULL DEFAULT 1,
+  `my_headlines` tinyint(1) NOT NULL DEFAULT 1,
+  `top` int(3) NOT NULL DEFAULT 10,
+  `storyhome` int(2) NOT NULL DEFAULT 10,
+  `user_news` tinyint(1) NOT NULL DEFAULT 1,
+  `oldnum` int(2) NOT NULL DEFAULT 30,
+  `ultramode` tinyint(1) NOT NULL DEFAULT 0,
+  `banners` tinyint(1) NOT NULL DEFAULT 1,
+  `backend_title` varchar(255) NOT NULL DEFAULT '',
+  `backend_language` varchar(10) NOT NULL DEFAULT '',
+  `language` varchar(100) NOT NULL DEFAULT '',
+  `locale` varchar(10) NOT NULL DEFAULT '',
+  `multilingual` tinyint(1) NOT NULL DEFAULT 0,
+  `useflags` tinyint(1) NOT NULL DEFAULT 0,
+  `notify` tinyint(1) NOT NULL DEFAULT 0,
+  `notify_email` varchar(255) NOT NULL DEFAULT '',
+  `notify_subject` varchar(255) NOT NULL DEFAULT '',
+  `notify_message` varchar(255) NOT NULL DEFAULT '',
+  `notify_from` varchar(255) NOT NULL DEFAULT '',
+  `moderate` tinyint(1) NOT NULL DEFAULT 0,
+  `admingraphic` tinyint(1) NOT NULL DEFAULT 1,
+  `httpref` tinyint(1) NOT NULL DEFAULT 1,
+  `httprefmax` int(5) NOT NULL DEFAULT 1000,
+  `CensorMode` tinyint(1) NOT NULL DEFAULT 3,
+  `CensorReplace` varchar(10) NOT NULL DEFAULT '',
+  `copyright` text DEFAULT NULL,
+  `Version_Num` varchar(10) NOT NULL DEFAULT '',
+  `admin_pos` tinyint(1) NOT NULL DEFAULT 1,
+  `admin_log_lines` int(11) NOT NULL DEFAULT 0,
+  `error_log_lines` int(11) NOT NULL DEFAULT 0,
+  `cache_data` mediumblob DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#prefix#_confirm` (
+  `confirm_id` char(32) NOT NULL DEFAULT '',
+  `session_id` char(32) NOT NULL DEFAULT '',
+  `code` char(6) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Table structure for table `torrent_torrents`
---
+CREATE TABLE IF NOT EXISTS `#prefix#_counter` (
+  `type` varchar(80) NOT NULL DEFAULT '',
+  `var` varchar(80) NOT NULL DEFAULT '',
+  `count` int(10) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `#prefix#_torrents` (
-  `id` int(15) unsigned NOT NULL AUTO_INCREMENT,
-  `info_hash` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `md5sum` varchar(32) COLLATE utf8_bin DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `filename` varchar(255) COLLATE utf8_bin NOT NULL,
-  `save_as` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `search_text` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `descr` text COLLATE utf8_bin NOT NULL,
-  `bbcode_bitfield` varchar(255) COLLATE utf8_bin NOT NULL,
-  `bbcode_uid` varchar(8) COLLATE utf8_bin NOT NULL,
-  `post_img` text COLLATE utf8_bin,
-  `screan1` text COLLATE utf8_bin,
-  `screan2` text COLLATE utf8_bin,
-  `screan3` text COLLATE utf8_bin,
-  `screan4` text COLLATE utf8_bin,
-  `plen` bigint(6) DEFAULT NULL,
-  `size` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `category` int(10) unsigned NOT NULL DEFAULT '0',
-  `type` enum('single','multi','link') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'single',
-  `numfiles` int(10) unsigned NOT NULL DEFAULT '0',
-  `added` datetime NOT NULL DEFAULT 0,
-  `exeem` varchar(250) COLLATE utf8_bin DEFAULT NULL,
-  `dht` enum('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
-  `backup_tracker` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `views` int(10) unsigned NOT NULL DEFAULT '0',
-  `downloaded` int(10) unsigned NOT NULL DEFAULT '0',
-  `completed` int(10) unsigned NOT NULL DEFAULT '0',
-  `banned` enum('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `private` enum('true','false') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'false',
-  `min_ratio` float unsigned NOT NULL DEFAULT '0',
-  `visible` enum('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `evidence` tinyint(1) NOT NULL DEFAULT '0',
-  `owner` int(10) unsigned NOT NULL DEFAULT '0',
-  `ownertype` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `uploader_host` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `numratings` int(10) unsigned NOT NULL DEFAULT '0',
-  `ratingsum` int(10) unsigned NOT NULL DEFAULT '0',
-  `seeders` int(10) unsigned NOT NULL DEFAULT '0',
-  `leechers` int(10) unsigned NOT NULL DEFAULT '0',
-  `tot_peer` int(11) unsigned NOT NULL DEFAULT '0',
-  `speed` int(10) unsigned NOT NULL DEFAULT '0',
-  `comments` int(10) unsigned NOT NULL DEFAULT '0',
-  `complaints` char(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '0,0',
-  `tracker` varchar(250) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tracker_list` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
-  `tracker_update` datetime NOT NULL DEFAULT 0,
-  `last_action` datetime NOT NULL DEFAULT 0,
-  `nuked` enum('yes','no','unnuked') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
-  `ratiobuild` enum('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
-  `nukereason` varchar(225) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `thanks` int(10) NOT NULL DEFAULT '0',
-  `imdb` varchar(225) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `info_hash` (`info_hash`),
-  KEY `owner` (`owner`),
-  KEY `visible` (`visible`),
-  KEY `added` (`added`),
-  KEY `seeders` (`seeders`),
-  KEY `leechers` (`leechers`),
-  KEY `tot_peer` (`tot_peer`),
-  KEY `banned` (`banned`),
-  KEY `password` (`password`),
-  KEY `tracker` (`tracker`),
-  KEY `evidence` (`evidence`),
-  KEY `rating` (`numratings`,`ratingsum`),
-  KEY `numfiles` (`numfiles`),
-  KEY `downloaded` (`downloaded`),
-  KEY `category` (`category`),
-  KEY `type` (`type`),
-  FULLTEXT KEY `ft_search` (`search_text`),
-  FULLTEXT KEY `filename` (`filename`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin PACK_KEYS=1 CHECKSUM=1;
+CREATE TABLE IF NOT EXISTS `#prefix#_donators` (
+  `id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL DEFAULT 0,
+  `uname` varchar(60) NOT NULL DEFAULT '',
+  `fname` varchar(25) NOT NULL DEFAULT '',
+  `lname` varchar(25) NOT NULL DEFAULT '',
+  `email` varchar(255) NOT NULL DEFAULT '',
+  `donated` decimal(8,2) NOT NULL DEFAULT 0.00,
+  `dondate` varchar(255) NOT NULL DEFAULT '',
+  `donshow` tinyint(1) NOT NULL DEFAULT 0,
+  `uip` varchar(255) NOT NULL DEFAULT '',
+  `donok` tinyint(1) NOT NULL DEFAULT 0,
+  `msg` text DEFAULT NULL,
+  `donto` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#prefix#_donators_config` (
+  `config_name` varchar(255) NOT NULL DEFAULT '',
+  `config_value` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Table structure for table `torrent_trackers`
---
+CREATE TABLE IF NOT EXISTS `#prefix#_ecalendar` (
+  `eid` int(11) NOT NULL,
+  `month` varchar(11) DEFAULT NULL,
+  `day` varchar(11) DEFAULT NULL,
+  `year` int(11) DEFAULT NULL,
+  `reoccur` int(11) NOT NULL DEFAULT 0,
+  `time` varchar(5) DEFAULT NULL,
+  `ampm` tinyint(1) NOT NULL DEFAULT 0,
+  `title` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `#prefix#_trackers` (
-  `id` tinyint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `url` varchar(120) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `support` enum('selective','global','single') COLLATE utf8_bin NOT NULL DEFAULT 'selective',
-  `status` enum('active','dead','blacklisted') COLLATE utf8_bin NOT NULL DEFAULT 'active',
-  `updated` datetime NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `url` (`url`),
-  KEY `update` (`updated`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE TABLE IF NOT EXISTS `#prefix#_evolution` (
+  `evo_field` varchar(50) NOT NULL DEFAULT '',
+  `evo_value` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#prefix#_evo_userinfo` (
+  `name` varchar(25) NOT NULL,
+  `filename` varchar(25) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 0,
+  `position` int(10) NOT NULL,
+  `image` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Table structure for table `torrent_userautodel`
---
+CREATE TABLE IF NOT EXISTS `#prefix#_evo_userinfo_addons` (
+  `name` varchar(255) NOT NULL,
+  `value` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `#prefix#_userautodel` (
-  `inactwarning_time` int(10) NOT NULL DEFAULT '0',
-  `autodel_users_time` int(10) NOT NULL DEFAULT '0',
-  `autodel_users` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'true'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE TABLE IF NOT EXISTS `#prefix#_faqanswer` (
+  `id` int(25) NOT NULL,
+  `id_cat` int(25) NOT NULL DEFAULT 0,
+  `question` varchar(255) DEFAULT '',
+  `answer` text DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#prefix#_faqcategories` (
+  `id_cat` tinyint(3) NOT NULL,
+  `categories` varchar(255) DEFAULT NULL,
+  `flanguage` varchar(30) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Table structure for table `torrent_users`
---
+CREATE TABLE IF NOT EXISTS `#prefix#_file_repository_categories` (
+  `cid` int(11) NOT NULL,
+  `cname` varchar(100) NOT NULL,
+  `color` varchar(50) NOT NULL,
+  `parentid` int(11) NOT NULL DEFAULT 0,
+  `permissions` int(11) NOT NULL DEFAULT 0,
+  `isallowed` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_file_repository_comments` (
+  `cid` int(11) NOT NULL,
+  `did` int(11) NOT NULL DEFAULT 0,
+  `comment` text DEFAULT NULL,
+  `date` datetime NOT NULL DEFAULT '2018-12-12 00:00:00',
+  `rating` int(11) NOT NULL DEFAULT 0,
+  `uid` int(11) NOT NULL DEFAULT 0,
+  `user` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_file_repository_files` (
+  `fid` int(11) NOT NULL,
+  `did` int(11) NOT NULL,
+  `ftitle` varchar(50) NOT NULL,
+  `filename` varchar(100) NOT NULL,
+  `filesize` int(20) NOT NULL,
+  `last_downloaded` datetime NOT NULL DEFAULT '2018-12-12 00:00:00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_file_repository_items` (
+  `cid` int(11) NOT NULL DEFAULT 0,
+  `author` varchar(100) NOT NULL DEFAULT '',
+  `author_email` varchar(100) NOT NULL DEFAULT '',
+  `author_website` varchar(100) NOT NULL DEFAULT '',
+  `color` varchar(7) NOT NULL DEFAULT '',
+  `currency` varchar(7) NOT NULL DEFAULT '',
+  `date` datetime NOT NULL DEFAULT '2018-12-12 00:00:00',
+  `description` text DEFAULT NULL,
+  `did` int(11) NOT NULL,
+  `fixes` longtext DEFAULT NULL,
+  `groups` int(11) NOT NULL DEFAULT 0,
+  `hits` int(11) NOT NULL DEFAULT 0,
+  `isactive` int(11) NOT NULL DEFAULT 0,
+  `isapproved` int(11) NOT NULL DEFAULT 0,
+  `isbroken` tinyint(1) NOT NULL DEFAULT 0,
+  `isfeatured` int(11) NOT NULL DEFAULT 0,
+  `isnew` int(11) NOT NULL DEFAULT 0,
+  `isupdated` datetime NOT NULL DEFAULT '2018-12-12 00:00:00',
+  `lastdownloaded` datetime NOT NULL DEFAULT '2018-12-12 00:00:00',
+  `paypal` varchar(255) NOT NULL DEFAULT '',
+  `points` int(11) NOT NULL DEFAULT 0,
+  `posts` int(11) NOT NULL DEFAULT 0,
+  `preview` varchar(255) NOT NULL DEFAULT '',
+  `price` int(11) NOT NULL DEFAULT 0,
+  `semail` varchar(100) NOT NULL DEFAULT '',
+  `sname` varchar(100) NOT NULL DEFAULT '',
+  `suid` int(11) NOT NULL DEFAULT 0,
+  `title` varchar(100) NOT NULL DEFAULT '',
+  `version` varchar(30) NOT NULL DEFAULT '',
+  `views` int(11) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_file_repository_screenshots` (
+  `pid` int(11) NOT NULL,
+  `did` int(11) NOT NULL DEFAULT 0,
+  `filename` varchar(255) NOT NULL,
+  `size` int(11) NOT NULL DEFAULT 0,
+  `active` int(11) NOT NULL DEFAULT 1,
+  `submitter` varchar(100) NOT NULL DEFAULT '',
+  `title` varchar(100) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_file_repository_settings` (
+  `config_name` varchar(255) NOT NULL,
+  `config_value` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_file_repository_themes` (
+  `theme_name` varchar(255) NOT NULL,
+  `cell` int(11) NOT NULL,
+  `head` int(11) NOT NULL,
+  `per_row` int(11) NOT NULL,
+  `show_left` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_headlines` (
+  `hid` int(11) NOT NULL,
+  `sitename` varchar(30) NOT NULL DEFAULT '',
+  `headlinesurl` varchar(200) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_hnl_categories` (
+  `cid` int(11) NOT NULL,
+  `ctitle` varchar(50) NOT NULL DEFAULT '',
+  `cdescription` text NOT NULL,
+  `cblocklimit` int(4) NOT NULL DEFAULT 10
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_hnl_cfg` (
+  `cfg_nm` varchar(255) NOT NULL DEFAULT '',
+  `cfg_val` longtext NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_hnl_newsletters` (
+  `nid` int(11) NOT NULL,
+  `cid` int(11) NOT NULL DEFAULT 1,
+  `topic` varchar(100) NOT NULL DEFAULT '',
+  `sender` varchar(20) NOT NULL DEFAULT '',
+  `filename` varchar(32) NOT NULL DEFAULT '',
+  `datesent` date DEFAULT NULL,
+  `view` int(1) NOT NULL DEFAULT 0,
+  `groups` text NOT NULL,
+  `hits` int(11) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_honeypot` (
+  `id` int(11) NOT NULL,
+  `username` varchar(55) NOT NULL,
+  `realname` varchar(75) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `ip` varchar(60) NOT NULL DEFAULT '',
+  `date` varchar(50) NOT NULL DEFAULT '',
+  `potnum` varchar(1) NOT NULL DEFAULT '',
+  `reason` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_honeypot_config` (
+  `usehp` tinyint(1) NOT NULL,
+  `botlisting` tinyint(1) NOT NULL,
+  `perpage` varchar(3) NOT NULL,
+  `pagenumberpos` tinyint(1) NOT NULL,
+  `headcolor` varchar(7) NOT NULL,
+  `rowcolor1` varchar(7) NOT NULL,
+  `rowcolor2` varchar(7) NOT NULL,
+  `pagebgcolor` varchar(7) NOT NULL,
+  `pagebordercolor` varchar(7) NOT NULL,
+  `fontcolor` varchar(7) NOT NULL,
+  `fontcolor2` varchar(7) NOT NULL,
+  `check1` tinyint(1) NOT NULL,
+  `check2` tinyint(1) NOT NULL,
+  `check3` tinyint(1) NOT NULL,
+  `check4` tinyint(1) NOT NULL,
+  `check5` tinyint(1) NOT NULL,
+  `check6` tinyint(1) NOT NULL,
+  `c7opt1` tinyint(1) NOT NULL,
+  `c7opt2` tinyint(1) NOT NULL,
+  `c7amount` varchar(2) NOT NULL,
+  `c8opt1` tinyint(1) NOT NULL,
+  `c8opt2` tinyint(1) NOT NULL,
+  `usebsapi` tinyint(1) NOT NULL,
+  `c8apikey` varchar(255) NOT NULL,
+  `fs9opt1` tinyint(1) NOT NULL,
+  `fs9opt2` tinyint(1) NOT NULL,
+  `fs9apikey` varchar(255) NOT NULL,
+  `check3time` varchar(2) NOT NULL,
+  `check4question` varchar(255) NOT NULL,
+  `check4answer` varchar(255) NOT NULL,
+  `usefeedback` tinyint(1) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `version` varchar(6) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_image_repository_settings` (
+  `config_name` varchar(255) NOT NULL DEFAULT '',
+  `config_value` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_image_repository_uploads` (
+  `pid` int(20) NOT NULL,
+  `filename` varchar(255) DEFAULT NULL,
+  `submitter` varchar(255) DEFAULT NULL,
+  `image` text DEFAULT NULL,
+  `size` int(11) NOT NULL DEFAULT 0,
+  `screensize` varchar(255) DEFAULT NULL,
+  `uploaded` int(11) NOT NULL DEFAULT 0,
+  `bypass_thumb` int(11) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_image_repository_users` (
+  `uid` int(11) NOT NULL,
+  `background_color` varchar(20) DEFAULT NULL,
+  `border_color` varchar(20) DEFAULT NULL,
+  `border_thickness` varchar(3) DEFAULT NULL,
+  `folder` int(11) NOT NULL DEFAULT 0,
+  `percent_color` varchar(20) DEFAULT NULL,
+  `quota` varchar(255) DEFAULT NULL,
+  `quota_request` tinyint(2) NOT NULL DEFAULT 0,
+  `custom_color` varchar(7) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_jmap` (
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `value` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_links_categories` (
+  `cid` int(11) NOT NULL,
+  `title` varchar(50) NOT NULL DEFAULT '',
+  `cdescription` text NOT NULL,
+  `parentid` int(11) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_links_editorials` (
+  `linkid` int(11) NOT NULL DEFAULT 0,
+  `adminid` varchar(60) NOT NULL DEFAULT '',
+  `editorialtimestamp` datetime NOT NULL DEFAULT '2018-12-12 00:00:00',
+  `editorialtext` text NOT NULL,
+  `editorialtitle` varchar(100) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_links_links` (
+  `lid` int(11) NOT NULL,
+  `cid` int(11) NOT NULL DEFAULT 0,
+  `sid` int(11) NOT NULL DEFAULT 0,
+  `title` varchar(100) NOT NULL DEFAULT '',
+  `url` varchar(100) NOT NULL DEFAULT '',
+  `description` text NOT NULL,
+  `date` datetime DEFAULT NULL,
+  `name` varchar(100) NOT NULL DEFAULT '',
+  `email` varchar(100) NOT NULL DEFAULT '',
+  `hits` int(11) NOT NULL DEFAULT 0,
+  `submitter` varchar(60) NOT NULL DEFAULT '',
+  `linkratingsummary` double(6,4) NOT NULL DEFAULT 0.0000,
+  `totalvotes` int(11) NOT NULL DEFAULT 0,
+  `totalcomments` int(11) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_links_modrequest` (
+  `requestid` int(11) NOT NULL,
+  `lid` int(11) NOT NULL DEFAULT 0,
+  `cid` int(11) NOT NULL DEFAULT 0,
+  `sid` int(11) NOT NULL DEFAULT 0,
+  `title` varchar(100) NOT NULL DEFAULT '',
+  `url` varchar(100) NOT NULL DEFAULT '',
+  `description` text NOT NULL,
+  `modifysubmitter` varchar(60) NOT NULL DEFAULT '',
+  `brokenlink` int(3) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_links_newlink` (
+  `lid` int(11) NOT NULL,
+  `cid` int(11) NOT NULL DEFAULT 0,
+  `sid` int(11) NOT NULL DEFAULT 0,
+  `title` varchar(100) NOT NULL DEFAULT '',
+  `url` varchar(100) NOT NULL DEFAULT '',
+  `description` text NOT NULL,
+  `name` varchar(100) NOT NULL DEFAULT '',
+  `email` varchar(100) NOT NULL DEFAULT '',
+  `submitter` varchar(60) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_links_votedata` (
+  `ratingdbid` int(11) NOT NULL,
+  `ratinglid` int(11) NOT NULL DEFAULT 0,
+  `ratinguser` varchar(60) NOT NULL DEFAULT '',
+  `rating` int(11) NOT NULL DEFAULT 0,
+  `ratinghostname` varchar(60) NOT NULL DEFAULT '',
+  `ratingcomments` text NOT NULL,
+  `ratingtimestamp` datetime NOT NULL DEFAULT '2018-12-12 00:00:00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_link_us` (
+  `id` int(255) NOT NULL,
+  `site_name` varchar(60) NOT NULL DEFAULT '',
+  `site_url` varchar(255) NOT NULL DEFAULT '',
+  `site_image` varchar(255) NOT NULL DEFAULT '',
+  `site_description` text NOT NULL,
+  `site_hits` int(10) NOT NULL DEFAULT 0,
+  `site_status` int(1) NOT NULL DEFAULT 0,
+  `date_added` varchar(255) NOT NULL DEFAULT '',
+  `button_type` smallint(1) NOT NULL DEFAULT 0,
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `user_name` varchar(60) NOT NULL DEFAULT '',
+  `user_email` varchar(60) NOT NULL DEFAULT '',
+  `user_ip` varchar(20) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_link_us_config` (
+  `my_image` varchar(255) NOT NULL DEFAULT '',
+  `fade_effect` smallint(1) NOT NULL DEFAULT 0,
+  `marquee` smallint(1) NOT NULL DEFAULT 0,
+  `marquee_direction` smallint(1) NOT NULL DEFAULT 0,
+  `marquee_scroll` smallint(1) NOT NULL DEFAULT 0,
+  `block_height` smallint(1) NOT NULL DEFAULT 0,
+  `show_clicks` smallint(1) NOT NULL DEFAULT 0,
+  `button_seperate` smallint(1) NOT NULL DEFAULT 0,
+  `user_submit` smallint(1) NOT NULL DEFAULT 0,
+  `button_method` smallint(1) NOT NULL DEFAULT 0,
+  `button_height` tinyint(4) NOT NULL DEFAULT 0,
+  `button_banner_height` tinyint(4) NOT NULL DEFAULT 0,
+  `button_ressource_height` tinyint(4) NOT NULL DEFAULT 0,
+  `button_width` tinyint(4) NOT NULL DEFAULT 0,
+  `button_banner_width` tinyint(4) NOT NULL DEFAULT 0,
+  `button_ressource_width` tinyint(4) NOT NULL DEFAULT 0,
+  `upload_file` varchar(255) NOT NULL DEFAULT '',
+  `button_standard` smallint(1) NOT NULL DEFAULT 0,
+  `button_banner` smallint(1) NOT NULL DEFAULT 0,
+  `button_resource` smallint(1) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_main` (
+  `main_module` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_menu` (
+  `groupmenu` int(2) NOT NULL DEFAULT 0,
+  `name` varchar(200) DEFAULT NULL,
+  `image` varchar(99) DEFAULT NULL,
+  `lien` text DEFAULT NULL,
+  `hr` char(2) DEFAULT NULL,
+  `bgcolor` tinytext DEFAULT NULL,
+  `invisible` int(1) NOT NULL DEFAULT 0,
+  `class` varchar(25) DEFAULT 'categories',
+  `bold` char(2) DEFAULT NULL,
+  `new` char(2) DEFAULT NULL,
+  `days` varchar(8) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_menu_categories` (
+  `id` int(11) NOT NULL,
+  `sublevel` tinyint(3) NOT NULL DEFAULT 0,
+  `groupmenu` int(2) NOT NULL DEFAULT 0,
+  `module` varchar(50) NOT NULL DEFAULT '',
+  `url` text NOT NULL,
+  `url_text` text NOT NULL,
+  `image` varchar(50) NOT NULL DEFAULT '',
+  `new` char(2) DEFAULT '3',
+  `new_days` tinyint(4) NOT NULL DEFAULT -1,
+  `class` varchar(20) DEFAULT 'modules',
+  `bold` char(2) DEFAULT NULL,
+  `days` varchar(8) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_message` (
+  `mid` int(11) NOT NULL,
+  `title` varchar(100) NOT NULL DEFAULT '',
+  `content` text NOT NULL,
+  `date` varchar(14) NOT NULL DEFAULT '',
+  `expire` int(7) NOT NULL DEFAULT 0,
+  `active` int(1) NOT NULL DEFAULT 1,
+  `view` int(1) NOT NULL DEFAULT 1,
+  `groups` text NOT NULL,
+  `mlanguage` varchar(30) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_meta` (
+  `meta_name` varchar(50) NOT NULL DEFAULT '',
+  `meta_content` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_modules` (
+  `mid` int(10) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `custom_title` varchar(255) NOT NULL,
+  `active` tinyint(4) NOT NULL DEFAULT 0,
+  `view` tinyint(4) NOT NULL DEFAULT 0,
+  `inmenu` tinyint(4) NOT NULL DEFAULT 1,
+  `pos` tinyint(4) NOT NULL DEFAULT 0,
+  `cat_id` tinyint(4) NOT NULL DEFAULT 0,
+  `blocks` tinyint(4) NOT NULL DEFAULT 1,
+  `admins` varchar(255) NOT NULL DEFAULT '',
+  `groups` varchar(50) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_modules_cat` (
+  `cid` int(10) UNSIGNED NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `image` text NOT NULL,
+  `pos` tinyint(4) NOT NULL DEFAULT 0,
+  `link_type` tinyint(4) NOT NULL DEFAULT 0,
+  `link` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_modules_links` (
+  `lid` int(10) UNSIGNED NOT NULL,
+  `title` varchar(30) NOT NULL,
+  `link_type` tinyint(4) NOT NULL DEFAULT 0,
+  `link` varchar(255) NOT NULL,
+  `active` tinyint(4) NOT NULL DEFAULT 0,
+  `view` tinyint(4) NOT NULL DEFAULT 0,
+  `pos` tinyint(4) NOT NULL DEFAULT 0,
+  `cat_id` tinyint(4) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_mostonline` (
+  `total` int(10) NOT NULL DEFAULT 0,
+  `members` int(10) NOT NULL DEFAULT 0,
+  `nonmembers` int(10) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsncb_blocks` (
+  `rid` tinyint(2) NOT NULL DEFAULT 0,
+  `cgid` tinyint(2) NOT NULL DEFAULT 0,
+  `cbid` tinyint(2) NOT NULL DEFAULT 0,
+  `title` varchar(60) NOT NULL DEFAULT '',
+  `filename` varchar(255) NOT NULL DEFAULT '',
+  `content` text NOT NULL,
+  `wtype` tinyint(1) NOT NULL DEFAULT 0,
+  `width` smallint(6) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsncb_config` (
+  `cgid` tinyint(1) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `height` smallint(6) NOT NULL,
+  `count` tinyint(1) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsnne_config` (
+  `config_name` varchar(255) NOT NULL DEFAULT '',
+  `config_value` longtext NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsnsp_config` (
+  `config_name` varchar(255) NOT NULL DEFAULT '',
+  `config_value` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsnsp_sites` (
+  `site_id` int(11) NOT NULL,
+  `site_name` varchar(60) NOT NULL DEFAULT '',
+  `site_url` varchar(255) NOT NULL DEFAULT '',
+  `site_image` varchar(255) NOT NULL DEFAULT '',
+  `site_status` int(1) NOT NULL DEFAULT 0,
+  `site_hits` int(10) NOT NULL DEFAULT 0,
+  `site_date` date NOT NULL DEFAULT '2018-12-12',
+  `site_description` text NOT NULL,
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `user_name` varchar(60) NOT NULL DEFAULT '',
+  `user_email` varchar(60) NOT NULL DEFAULT '',
+  `user_ip` varchar(20) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsnst_admins` (
+  `aid` varchar(25) NOT NULL DEFAULT '',
+  `login` varchar(25) NOT NULL DEFAULT '',
+  `password` varchar(20) NOT NULL DEFAULT '',
+  `password_md5` varchar(60) NOT NULL DEFAULT '',
+  `password_crypt` varchar(60) NOT NULL DEFAULT '',
+  `protected` tinyint(2) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsnst_blocked_ips` (
+  `ip_addr` varchar(15) NOT NULL DEFAULT '',
+  `ip_long` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `user_id` int(11) NOT NULL DEFAULT 1,
+  `username` varchar(60) NOT NULL DEFAULT 'Anonymous',
+  `user_agent` text NOT NULL,
+  `date` int(20) NOT NULL DEFAULT 0,
+  `notes` text NOT NULL,
+  `reason` tinyint(1) NOT NULL DEFAULT 0,
+  `query_string` text NOT NULL,
+  `get_string` text NOT NULL,
+  `post_string` text NOT NULL,
+  `x_forward_for` varchar(32) NOT NULL DEFAULT 'None',
+  `client_ip` varchar(32) NOT NULL DEFAULT 'None',
+  `remote_addr` varchar(32) NOT NULL DEFAULT '',
+  `remote_port` varchar(11) NOT NULL DEFAULT 'Unknown',
+  `request_method` varchar(10) NOT NULL DEFAULT '',
+  `expires` int(20) NOT NULL DEFAULT 0,
+  `c2c` char(2) NOT NULL DEFAULT '00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsnst_blocked_ranges` (
+  `ip_lo` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `ip_hi` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `date` int(20) NOT NULL DEFAULT 0,
+  `notes` text NOT NULL,
+  `reason` tinyint(1) NOT NULL DEFAULT 0,
+  `expires` int(20) NOT NULL DEFAULT 0,
+  `c2c` char(2) NOT NULL DEFAULT '00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsnst_blockers` (
+  `blocker` int(4) NOT NULL DEFAULT 0,
+  `block_name` varchar(20) NOT NULL DEFAULT '',
+  `activate` int(4) NOT NULL DEFAULT 0,
+  `block_type` int(4) NOT NULL DEFAULT 0,
+  `email_lookup` int(4) NOT NULL DEFAULT 0,
+  `forward` varchar(255) NOT NULL DEFAULT '',
+  `reason` varchar(20) NOT NULL DEFAULT '',
+  `template` varchar(255) NOT NULL DEFAULT '',
+  `duration` int(20) NOT NULL DEFAULT 0,
+  `htaccess` int(4) NOT NULL DEFAULT 0,
+  `list` longtext NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsnst_cidrs` (
+  `cidr` int(2) NOT NULL DEFAULT 0,
+  `hosts` int(10) NOT NULL DEFAULT 0,
+  `mask` varchar(15) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsnst_config` (
+  `config_name` varchar(255) NOT NULL DEFAULT '',
+  `config_value` longtext NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsnst_countries` (
+  `c2c` char(2) NOT NULL DEFAULT '',
+  `country` varchar(60) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsnst_excluded_ranges` (
+  `ip_lo` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `ip_hi` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `date` int(20) NOT NULL DEFAULT 0,
+  `notes` text NOT NULL,
+  `c2c` char(2) NOT NULL DEFAULT '00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsnst_harvesters` (
+  `hid` int(2) NOT NULL,
+  `harvester` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsnst_ip2country` (
+  `ip_lo` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `ip_hi` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `date` int(20) NOT NULL DEFAULT 0,
+  `c2c` char(2) DEFAULT NULL,
+  `country` char(100) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsnst_protected_ranges` (
+  `ip_lo` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `ip_hi` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `date` int(20) NOT NULL DEFAULT 0,
+  `notes` text NOT NULL,
+  `c2c` char(2) NOT NULL DEFAULT '00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsnst_referers` (
+  `rid` int(2) NOT NULL,
+  `referer` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsnst_strings` (
+  `string` varchar(60) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_nsnst_tracked_ips` (
+  `tid` int(11) NOT NULL,
+  `ip_addr` varchar(15) NOT NULL DEFAULT '',
+  `ip_long` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `user_id` int(11) NOT NULL DEFAULT 1,
+  `username` varchar(60) NOT NULL DEFAULT '',
+  `user_agent` text NOT NULL,
+  `refered_from` text NOT NULL,
+  `date` int(11) NOT NULL DEFAULT 0,
+  `page` text NOT NULL,
+  `x_forward_for` varchar(32) NOT NULL DEFAULT '',
+  `client_ip` varchar(32) NOT NULL DEFAULT '',
+  `remote_addr` varchar(32) NOT NULL DEFAULT '',
+  `remote_port` varchar(11) NOT NULL DEFAULT '',
+  `request_method` varchar(10) NOT NULL DEFAULT '',
+  `c2c` char(2) NOT NULL DEFAULT '00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_pages` (
+  `pid` int(10) NOT NULL,
+  `cid` int(10) NOT NULL DEFAULT 0,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `subtitle` varchar(255) NOT NULL DEFAULT '',
+  `active` int(1) NOT NULL DEFAULT 0,
+  `page_header` text NOT NULL,
+  `text` text NOT NULL,
+  `page_footer` text NOT NULL,
+  `signature` text NOT NULL,
+  `date` datetime NOT NULL DEFAULT '2018-12-12 00:00:00',
+  `counter` int(10) NOT NULL DEFAULT 0,
+  `clanguage` varchar(30) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_pages_categories` (
+  `cid` int(10) NOT NULL,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `description` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_pollcomments` (
+  `tid` int(11) NOT NULL,
+  `pid` int(11) NOT NULL DEFAULT 0,
+  `pollID` int(11) NOT NULL DEFAULT 0,
+  `date` datetime DEFAULT NULL,
+  `name` varchar(60) NOT NULL DEFAULT '',
+  `email` varchar(60) DEFAULT NULL,
+  `url` varchar(60) DEFAULT NULL,
+  `host_name` varchar(60) DEFAULT NULL,
+  `subject` varchar(60) NOT NULL DEFAULT '',
+  `comment` text NOT NULL,
+  `score` tinyint(4) NOT NULL DEFAULT 0,
+  `reason` tinyint(4) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_poll_check` (
+  `ip` varchar(20) NOT NULL DEFAULT '',
+  `time` varchar(14) NOT NULL DEFAULT '',
+  `pollID` int(10) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_poll_data` (
+  `pollID` int(11) NOT NULL DEFAULT 0,
+  `optionText` char(50) NOT NULL DEFAULT '',
+  `optionCount` int(11) NOT NULL DEFAULT 0,
+  `voteID` int(11) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_poll_desc` (
+  `pollID` int(11) NOT NULL,
+  `pollTitle` varchar(100) NOT NULL DEFAULT '',
+  `timeStamp` int(11) NOT NULL DEFAULT 0,
+  `voters` mediumint(9) NOT NULL DEFAULT 0,
+  `planguage` varchar(30) NOT NULL DEFAULT '',
+  `artid` int(10) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_quotes` (
+  `qid` int(10) UNSIGNED NOT NULL,
+  `quote` text DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_referer` (
+  `url` varchar(100) NOT NULL,
+  `lasttime` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `link` varchar(100) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_related` (
+  `rid` int(11) NOT NULL,
+  `tid` int(11) NOT NULL DEFAULT 0,
+  `name` varchar(30) NOT NULL DEFAULT '',
+  `url` varchar(200) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_reviews` (
+  `id` int(10) NOT NULL,
+  `date` date NOT NULL DEFAULT '2018-12-12',
+  `title` varchar(150) NOT NULL DEFAULT '',
+  `text` text NOT NULL,
+  `reviewer` varchar(25) DEFAULT NULL,
+  `email` varchar(60) DEFAULT NULL,
+  `score` int(10) NOT NULL DEFAULT 0,
+  `cover` varchar(100) NOT NULL DEFAULT '',
+  `url` varchar(100) NOT NULL DEFAULT '',
+  `url_title` varchar(50) NOT NULL DEFAULT '',
+  `hits` int(10) NOT NULL DEFAULT 0,
+  `rlanguage` varchar(30) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_reviews_add` (
+  `id` int(10) NOT NULL,
+  `date` date DEFAULT NULL,
+  `title` varchar(150) NOT NULL DEFAULT '',
+  `text` text NOT NULL,
+  `reviewer` varchar(25) NOT NULL DEFAULT '',
+  `email` varchar(60) DEFAULT NULL,
+  `score` int(10) NOT NULL DEFAULT 0,
+  `url` varchar(100) NOT NULL DEFAULT '',
+  `url_title` varchar(50) NOT NULL DEFAULT '',
+  `rlanguage` varchar(30) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_reviews_comments` (
+  `cid` int(10) NOT NULL,
+  `rid` int(10) NOT NULL DEFAULT 0,
+  `userid` varchar(25) NOT NULL DEFAULT '',
+  `date` datetime DEFAULT NULL,
+  `comments` text DEFAULT NULL,
+  `score` int(10) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_reviews_main` (
+  `title` varchar(100) DEFAULT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_security_agents` (
+  `agent_name` varchar(20) NOT NULL DEFAULT '',
+  `agent_fullname` varchar(30) DEFAULT '',
+  `agent_hostname` varchar(30) DEFAULT '',
+  `agent_url` varchar(80) DEFAULT '',
+  `agent_ban` int(1) NOT NULL DEFAULT 0,
+  `agent_desc` text DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_session` (
+  `uname` varchar(255) NOT NULL DEFAULT '',
+  `time` varchar(14) NOT NULL DEFAULT '',
+  `starttime` varchar(14) NOT NULL DEFAULT '',
+  `host_addr` varchar(48) NOT NULL DEFAULT '',
+  `guest` int(1) NOT NULL DEFAULT 0,
+  `module` varchar(255) NOT NULL DEFAULT '',
+  `url` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_shoutbox_censor` (
+  `id` int(9) NOT NULL,
+  `text` varchar(30) NOT NULL,
+  `replacement` varchar(30) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_shoutbox_conf` (
+  `id` int(9) NOT NULL DEFAULT 0,
+  `color1` varchar(20) NOT NULL DEFAULT '',
+  `color2` varchar(20) NOT NULL DEFAULT '',
+  `date` varchar(5) NOT NULL DEFAULT '',
+  `time` varchar(5) NOT NULL DEFAULT '',
+  `number` varchar(5) NOT NULL DEFAULT '',
+  `ipblock` varchar(5) NOT NULL DEFAULT '',
+  `nameblock` varchar(5) NOT NULL DEFAULT '',
+  `censor` varchar(5) NOT NULL DEFAULT '',
+  `tablewidth` char(3) NOT NULL DEFAULT '',
+  `urlonoff` varchar(5) NOT NULL DEFAULT '',
+  `delyourlastpost` varchar(5) NOT NULL DEFAULT '',
+  `anonymouspost` varchar(5) NOT NULL DEFAULT '',
+  `height` varchar(5) NOT NULL DEFAULT '',
+  `themecolors` varchar(5) NOT NULL DEFAULT '',
+  `textWidth` varchar(4) NOT NULL DEFAULT '',
+  `nameWidth` varchar(4) NOT NULL DEFAULT '',
+  `smiliesPerRow` varchar(4) NOT NULL DEFAULT '',
+  `reversePosts` varchar(4) NOT NULL DEFAULT '',
+  `timeOffset` varchar(10) NOT NULL DEFAULT '',
+  `urlanononoff` varchar(10) NOT NULL DEFAULT '',
+  `pointspershout` varchar(5) NOT NULL DEFAULT '',
+  `shoutsperpage` varchar(5) NOT NULL DEFAULT '',
+  `serverTimezone` varchar(5) NOT NULL DEFAULT '',
+  `blockxxx` varchar(5) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_shoutbox_date` (
+  `id` int(5) NOT NULL DEFAULT 0,
+  `date` varchar(10) NOT NULL DEFAULT '',
+  `time` varchar(10) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_shoutbox_emoticons` (
+  `id` int(9) NOT NULL,
+  `text` varchar(20) NOT NULL,
+  `image` varchar(70) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_shoutbox_ipblock` (
+  `id` int(9) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_shoutbox_manage_count` (
+  `id` int(9) NOT NULL,
+  `admin` varchar(25) NOT NULL DEFAULT '',
+  `aCount` varchar(5) NOT NULL DEFAULT '10'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_shoutbox_nameblock` (
+  `id` int(9) NOT NULL,
+  `name` varchar(50) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_shoutbox_shouts` (
+  `id` int(9) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `comment` text NOT NULL,
+  `date` varchar(10) NOT NULL,
+  `time` varchar(10) NOT NULL,
+  `ip` varchar(39) DEFAULT NULL,
+  `timestamp` varchar(20) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_shoutbox_sticky` (
+  `id` int(9) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `comment` text NOT NULL,
+  `timestamp` varchar(20) NOT NULL,
+  `stickySlot` varchar(5) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_shoutbox_themes` (
+  `id` int(9) NOT NULL,
+  `themeName` varchar(50) DEFAULT NULL,
+  `blockColor1` varchar(20) DEFAULT NULL,
+  `blockColor2` varchar(20) DEFAULT NULL,
+  `border` varchar(20) DEFAULT NULL,
+  `menuColor1` varchar(20) DEFAULT NULL,
+  `menuColor2` varchar(20) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_shoutbox_theme_images` (
+  `id` int(9) NOT NULL,
+  `themeName` varchar(50) DEFAULT NULL,
+  `blockArrowColor` varchar(50) NOT NULL,
+  `blockBackgroundImage` varchar(50) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_shoutbox_version` (
+  `id` int(5) NOT NULL,
+  `version` varchar(10) NOT NULL,
+  `datechecked` varchar(2) NOT NULL,
+  `versionreported` varchar(10) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_sommaire` (
+  `groupmenu` int(2) NOT NULL DEFAULT 0,
+  `name` varchar(200) DEFAULT NULL,
+  `image` varchar(99) DEFAULT NULL,
+  `lien` text DEFAULT NULL,
+  `hr` char(2) DEFAULT NULL,
+  `center` char(2) DEFAULT NULL,
+  `bgcolor` tinytext DEFAULT NULL,
+  `invisible` int(1) DEFAULT NULL,
+  `class` tinytext DEFAULT NULL,
+  `bold` char(2) DEFAULT NULL,
+  `new` char(2) DEFAULT NULL,
+  `listbox` char(2) DEFAULT NULL,
+  `dynamic` char(2) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_sommaire_categories` (
+  `id` int(11) NOT NULL,
+  `groupmenu` int(2) NOT NULL DEFAULT 0,
+  `module` varchar(50) NOT NULL DEFAULT '',
+  `url` text NOT NULL,
+  `url_text` text NOT NULL,
+  `image` varchar(50) NOT NULL DEFAULT '',
+  `new` char(2) DEFAULT NULL,
+  `new_days` tinyint(4) NOT NULL DEFAULT -1,
+  `class` varchar(20) DEFAULT NULL,
+  `bold` char(2) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_stats_hour` (
+  `year` smallint(6) NOT NULL DEFAULT 0,
+  `month` tinyint(4) NOT NULL DEFAULT 0,
+  `date` tinyint(4) NOT NULL DEFAULT 0,
+  `hour` tinyint(4) NOT NULL DEFAULT 0,
+  `hits` int(11) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_subscriptions` (
+  `id` int(10) NOT NULL,
+  `userid` int(10) NOT NULL DEFAULT 0,
+  `subscription_expire` varchar(50) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `#prefix#_themes` (
+  `theme_name` varchar(100) NOT NULL DEFAULT '',
+  `groups` varchar(50) NOT NULL DEFAULT '',
+  `permissions` tinyint(2) NOT NULL DEFAULT 1,
+  `custom_name` varchar(100) NOT NULL DEFAULT '',
+  `active` tinyint(1) NOT NULL DEFAULT 0,
+  `theme_info` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `#prefix#_users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(25) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `clean_username` varchar(25) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `name` varchar(50) COLLATE utf8_bin DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `regdate` datetime NOT NULL DEFAULT 0,
-  `password` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `theme` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `language` varchar(15) COLLATE utf8_bin DEFAULT NULL,
-  `avatar` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'blank.gif',
-  `avatar_type` bigint(32) NOT NULL DEFAULT '0',
-  `avatar_ht` bigint(32) NOT NULL DEFAULT '0',
-  `avatar_wt` bigint(32) NOT NULL DEFAULT '0',
-  `accept_mail` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'no',
-  `mass_mail` enum('yes','no') COLLATE utf8_bin NOT NULL,
-  `pm_notify` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'true',
-  `pm_popup` enum('true','false') COLLATE utf8_bin NOT NULL,
-  `aim` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `icq` varchar(10) COLLATE utf8_bin DEFAULT NULL,
-  `jabber` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `msn` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `skype` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `yahoo` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `level` enum('user','premium','moderator','admin') COLLATE utf8_bin NOT NULL DEFAULT 'user',
-  `can_do` varchar(225) COLLATE utf8_bin NOT NULL DEFAULT 'user',
-  `user_rank` mediumint(9) NOT NULL DEFAULT '0',
-  `user_type` tinyint(2) NOT NULL DEFAULT '0',
-  `user_permissions` mediumtext COLLATE utf8_bin,
-  `user_colour` varchar(6) COLLATE utf8_bin DEFAULT NULL,
-  `user_perm_from` mediumint(8) unsigned DEFAULT NULL,
-  `uploaded` bigint(32) unsigned NOT NULL DEFAULT '0',
-  `downloaded` bigint(32) unsigned NOT NULL DEFAULT '0',
-  `active` tinyint(1) DEFAULT '0',
-  `ban` int(1) unsigned NOT NULL DEFAULT '0',
-  `act_key` varchar(32) COLLATE utf8_bin DEFAULT NULL,
-  `passkey` varchar(32) COLLATE utf8_bin DEFAULT NULL,
-  `newpasswd` varchar(40) COLLATE utf8_bin DEFAULT NULL,
-  `newemail` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `mail_key` varchar(32) COLLATE utf8_bin DEFAULT NULL,
-  `banreason` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `lastip` int(10) unsigned NOT NULL DEFAULT '0',
-  `lasthost` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `lastlogin` datetime NOT NULL DEFAULT 0,
-  `rem` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'no',
-  `modcomment` longtext COLLATE utf8_bin,
-  `warned` int(1) unsigned NOT NULL DEFAULT '0',
-  `warn_kapta` int(11) NOT NULL DEFAULT '0',
-  `warn_hossz` int(11) NOT NULL DEFAULT '0',
-  `invited_by` int(10) NOT NULL DEFAULT '0',
-  `invitees` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `country` int(10) NOT NULL DEFAULT '0',
-  `seedbox` int(10) unsigned NOT NULL DEFAULT '0',
-  `tzoffset` smallint(4) NOT NULL DEFAULT '0',
-  `can_shout` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'true',
-  `Show_online` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'true',
-  `invites` smallint(5) NOT NULL DEFAULT '0',
-  `invitedate` datetime NOT NULL DEFAULT 0,
-  `seedbonus` decimal(10,1) NOT NULL DEFAULT '0.0',
-  `donator` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `donated` decimal(10,1) unsigned NOT NULL DEFAULT '0.0',
-  `dondate` datetime NOT NULL DEFAULT 0,
-  `torrent_per_page` int(10) DEFAULT NULL,
-  `view_dead_tor` TINYINT(1) NOT NULL DEFAULT '0',
-  `donator_tell` datetime NOT NULL DEFAULT 0,
-  `dongift` int(1) unsigned NOT NULL DEFAULT '0',
-  `inactwarning` tinyint(1) NOT NULL DEFAULT '0',
-  `inactive_warn_time` datetime NOT NULL DEFAULT 0,
-  `user_inactive_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `user_inactive_reason` tinyint(2) NOT NULL DEFAULT '0',
-  `hitruns` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `HNR_W` int(11) NOT NULL DEFAULT '0',
-  `helper` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `help_able` varchar(225) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `signature` varchar(200) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `bbcode_bitfield` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `bbcode_uid` varchar(8) COLLATE utf8_bin DEFAULT NULL,
-  `sig_bbcode_bitfield` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `sig_bbcode_uid` varchar(8) COLLATE utf8_bin DEFAULT NULL,
-  `forumbanned` enum('yes','no') COLLATE utf8_bin NOT NULL DEFAULT 'no',
-  `parked` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `disabled` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `disabled_reason` text COLLATE utf8_bin,
-  `hide_profile` enum('true','false') COLLATE utf8_bin NOT NULL DEFAULT 'false',
-  `birthday` varchar(20) COLLATE utf8_bin DEFAULT NULL,
-  `client` varchar(225) COLLATE utf8_bin DEFAULT NULL,
-  `lastpage` varchar(225) COLLATE utf8_bin DEFAULT NULL,
-  `user_message_rules` int(1) unsigned NOT NULL DEFAULT '0',
-  `user_full_folder` int(11) NOT NULL DEFAULT '6',
-  `user_last_privmsg` int(11) unsigned NOT NULL DEFAULT '0',
-  `user_unread_privmsg` int(4) unsigned NOT NULL DEFAULT '0',
-  `user_new_privmsg` int(4) NOT NULL DEFAULT '0',
-  `user_lastpost_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `user_lastmark` int(11) unsigned NOT NULL DEFAULT '0',
-  `user_allow_pm` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `user_allow_viewemail` tinyint(1) NOT NULL DEFAULT '1',
-  `user_allow_massemail` tinyint(1) NOT NULL DEFAULT '1',
-  `user_posts` int(10) NOT NULL DEFAULT '0',
-  `user_notify` int(1) NOT NULL DEFAULT '0',
-  `user_topic_show_days` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `user_topic_sortby_type` varchar(1) COLLATE utf8_bin NOT NULL DEFAULT 't',
-  `user_topic_sortby_dir` varchar(1) COLLATE utf8_bin NOT NULL DEFAULT 'd',
-  `user_post_show_days` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `user_post_sortby_type` varchar(1) COLLATE utf8_bin NOT NULL DEFAULT 't',
-  `user_post_sortby_dir` varchar(1) COLLATE utf8_bin NOT NULL DEFAULT 'a',
-  `user_notify_pm` tinyint(1) NOT NULL DEFAULT '1',
-  `user_notify_type` tinyint(4) NOT NULL DEFAULT '0',
-  `user_warnings` tinyint(4) NOT NULL DEFAULT '0',
-  `user_last_warning` int(11) NOT NULL DEFAULT '0',
-  `user_options` int(11) unsigned NOT NULL DEFAULT '895',
-  `user_dateformat` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT 'd M Y H:i',
-  `user_dst` tinyint(1) NOT NULL DEFAULT '0',
-  `user_reminded` tinyint(4) NOT NULL DEFAULT '0',
-  `user_reminded_time` int(11) unsigned NOT NULL DEFAULT '0',  PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `passkey` (`passkey`),
-  KEY `lastip` (`lastip`),
-  KEY `lasthost` (`lasthost`),
-  KEY `date` (`regdate`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `user_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL DEFAULT '',
+  `username` varchar(25) NOT NULL DEFAULT '',
+  `user_email` varchar(255) NOT NULL DEFAULT '',
+  `femail` varchar(255) NOT NULL DEFAULT '',
+  `user_website` varchar(255) NOT NULL DEFAULT '',
+  `user_avatar` varchar(255) NOT NULL DEFAULT '',
+  `user_regdate` varchar(20) NOT NULL DEFAULT '',
+  `user_occ` varchar(100) DEFAULT NULL,
+  `user_from` varchar(100) DEFAULT NULL,
+  `user_from_flag` varchar(64) DEFAULT NULL,
+  `user_interests` varchar(150) NOT NULL DEFAULT '',
+  `user_sig` text DEFAULT NULL,
+  `user_viewemail` tinyint(2) DEFAULT NULL,
+  `user_theme` int(3) DEFAULT NULL,
+  `user_facebook` varchar(255) DEFAULT NULL,
+  `user_password` varchar(40) NOT NULL DEFAULT '',
+  `storynum` tinyint(4) NOT NULL DEFAULT 10,
+  `umode` varchar(10) NOT NULL DEFAULT '',
+  `uorder` tinyint(1) NOT NULL DEFAULT 0,
+  `thold` tinyint(1) NOT NULL DEFAULT 0,
+  `noscore` tinyint(1) NOT NULL DEFAULT 0,
+  `bio` longtext DEFAULT NULL,
+  `ublockon` tinyint(1) NOT NULL DEFAULT 0,
+  `ublock` tinytext DEFAULT NULL,
+  `theme` varchar(255) NOT NULL DEFAULT '',
+  `commentmax` int(11) NOT NULL DEFAULT 4096,
+  `counter` int(11) NOT NULL DEFAULT 0,
+  `newsletter` int(1) NOT NULL DEFAULT 0,
+  `user_posts` int(10) NOT NULL DEFAULT 0,
+  `user_attachsig` int(2) NOT NULL DEFAULT 1,
+  `user_rank` int(10) NOT NULL DEFAULT 0,
+  `user_level` int(10) NOT NULL DEFAULT 1,
+  `broadcast` tinyint(1) NOT NULL DEFAULT 1,
+  `popmeson` tinyint(1) NOT NULL DEFAULT 0,
+  `user_active` tinyint(1) DEFAULT 1,
+  `user_session_time` int(11) NOT NULL DEFAULT 0,
+  `user_session_page` smallint(5) NOT NULL DEFAULT 0,
+  `user_lastvisit` int(11) NOT NULL DEFAULT 0,
+  `user_timezone` decimal(5,2) NOT NULL DEFAULT 0.00,
+  `user_style` tinyint(4) DEFAULT NULL,
+  `user_lang` varchar(255) NOT NULL DEFAULT 'english',
+  `user_dateformat` varchar(14) NOT NULL DEFAULT 'D M d, Y g:i a',
+  `user_new_privmsg` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
+  `user_unread_privmsg` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
+  `user_last_privmsg` int(11) NOT NULL DEFAULT 0,
+  `user_emailtime` int(11) DEFAULT NULL,
+  `user_allowhtml` tinyint(1) DEFAULT 1,
+  `user_allowbbcode` tinyint(1) DEFAULT 1,
+  `user_allowsmile` tinyint(1) DEFAULT 1,
+  `user_allowavatar` tinyint(1) NOT NULL DEFAULT 1,
+  `user_allow_pm` tinyint(1) NOT NULL DEFAULT 1,
+  `user_allow_mass_pm` tinyint(1) DEFAULT 4,
+  `user_allow_viewonline` tinyint(1) NOT NULL DEFAULT 1,
+  `user_notify` tinyint(1) NOT NULL DEFAULT 0,
+  `user_notify_pm` tinyint(1) NOT NULL DEFAULT 1,
+  `user_popup_pm` tinyint(1) NOT NULL DEFAULT 1,
+  `user_avatar_type` tinyint(4) NOT NULL DEFAULT 3,
+  `user_sig_bbcode_uid` varchar(10) DEFAULT NULL,
+  `user_actkey` varchar(32) DEFAULT NULL,
+  `user_newpasswd` varchar(32) DEFAULT NULL,
+  `points` int(10) DEFAULT 0,
+  `last_ip` varchar(15) NOT NULL DEFAULT '0',
+  `user_wordwrap` smallint(3) NOT NULL DEFAULT 70,
+  `agreedtos` tinyint(1) NOT NULL DEFAULT 0,
+  `user_allowsignature` tinyint(4) NOT NULL DEFAULT 1,
+  `user_report_optout` tinyint(1) NOT NULL DEFAULT 0,
+  `user_show_quickreply` tinyint(1) NOT NULL DEFAULT 1,
+  `user_quickreply_mode` tinyint(1) NOT NULL DEFAULT 1,
+  `user_color_gc` varchar(6) DEFAULT '',
+  `user_color_gi` text DEFAULT NULL,
+  `user_showavatars` tinyint(1) DEFAULT 1,
+  `user_showsignatures` tinyint(1) DEFAULT 1,
+  `user_time_mode` tinyint(4) NOT NULL DEFAULT 6,
+  `user_dst_time_lag` tinyint(4) NOT NULL DEFAULT 60,
+  `user_pc_timeOffsets` varchar(55) NOT NULL DEFAULT '0',
+  `user_view_log` tinyint(4) NOT NULL DEFAULT 0,
+  `user_glance_show` varchar(255) NOT NULL DEFAULT '1',
+  `user_hide_images` tinyint(2) NOT NULL DEFAULT 0,
+  `user_open_quickreply` tinyint(1) NOT NULL DEFAULT 1,
+  `sceditor_in_source` tinyint(1) NOT NULL DEFAULT 0,
+  `xdata_bbcode` varchar(10) DEFAULT NULL,
+  `user_ftr` smallint(1) NOT NULL DEFAULT 0,
+  `user_ftr_time` int(10) NOT NULL DEFAULT 0,
+  `user_rank2` int(11) DEFAULT -1,
+  `user_rank3` int(11) DEFAULT -2,
+  `user_rank4` int(11) DEFAULT -2,
+  `user_rank5` int(11) DEFAULT -2,
+  `user_gender` tinyint(4) NOT NULL DEFAULT 0,
+  `user_birthday` int(8) NOT NULL DEFAULT 0,
+  `user_birthday2` int(8) DEFAULT NULL,
+  `birthday_display` tinyint(1) NOT NULL DEFAULT 0,
+  `birthday_greeting` tinyint(1) NOT NULL DEFAULT 0,
+  `user_next_birthday` smallint(4) NOT NULL DEFAULT 0,
+  `user_reputation` float NOT NULL DEFAULT 0,
+  `user_rep_last_time` int(11) DEFAULT NULL,
+  `user_admin_notes` text DEFAULT NULL,
+  `user_allow_arcadepm` tinyint(4) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#prefix#_users_countries` (
+  `id_country` int(11) NOT NULL,
+  `name` varchar(64) NOT NULL DEFAULT '',
+  `iso_code_2` char(2) NOT NULL DEFAULT '',
+  `iso_code_3` char(3) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Table structure for table `torrent_user_group`
---
+CREATE TABLE IF NOT EXISTS `#prefix#_users_temp` (
+  `user_id` int(10) NOT NULL,
+  `username` varchar(25) NOT NULL DEFAULT '',
+  `user_email` varchar(255) NOT NULL DEFAULT '',
+  `user_password` varchar(40) NOT NULL DEFAULT '',
+  `user_regdate` varchar(20) NOT NULL DEFAULT '',
+  `check_num` varchar(50) NOT NULL DEFAULT '',
+  `time` varchar(14) NOT NULL DEFAULT '',
+  `realname` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `#prefix#_user_group` (
-  `group_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `user_id` int(20) unsigned NOT NULL DEFAULT '0',
-  `group_leader` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `user_pending` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  KEY `group_id` (`group_id`),
-  KEY `user_id` (`user_id`),
-  KEY `group_leader` (`group_leader`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE TABLE IF NOT EXISTS `#prefix#_users_who_been` (
+  `user_ID` int(11) NOT NULL DEFAULT 0,
+  `username` varchar(25) NOT NULL DEFAULT '',
+  `last_visit` int(15) DEFAULT NULL,
+  `resolution` varchar(50) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `#prefix#_welcome_pm` (
+  `subject` varchar(30) NOT NULL DEFAULT '',
+  `msg` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Table structure for table `torrent_warnings`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_warnings` (
-  `warning_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `post_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `log_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `warning_time` int(11) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`warning_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_words`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_words` (
-	`word_id` mediumint(8) UNSIGNED NOT NULL auto_increment,
-	`word` varchar(255) DEFAULT '' NOT NULL,
-	`replacement` varchar(255) DEFAULT '' NOT NULL,
-	PRIMARY KEY (`word_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `torrent_zebra`
---
-
-CREATE TABLE IF NOT EXISTS `#prefix#_zebra` (
-  `user_id` int(20) unsigned NOT NULL DEFAULT '0',
-  `zebra_id` int(20) unsigned NOT NULL DEFAULT '0',
-  `friend` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `foe` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`user_id`,`zebra_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;

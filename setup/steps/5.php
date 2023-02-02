@@ -22,12 +22,7 @@
 
 require_once(SETUP_INCLUDE_DIR."configdata.php");
 require_once(SETUP_UDL_DIR."database.php");
-//require_once(SETUP_TEXTAREA_DIR."textarea.php");
-
-
-/* echo '<script src='.SETUP_BBCODE_JS.'></script>'; */
-
 $db = new sql_db($db_host, $db_user, $db_pass, $db_name, $db_persistency);
 
-echo 'Fuck You';
+
 ?>

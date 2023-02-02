@@ -1,0 +1,15 @@
+INSERT INTO `#prefix#_image_repository_settings` (`config_name`, `config_value`) VALUES
+('alignment', 'left'),
+('basedir', 'modules/Image_Repository/files'),
+('spacing', '1'),
+('image_view', '2'),
+('perpage', '20'),
+('admin_perpage', '20'),
+('lytebox_color', 'black'),
+('allow_colorization', '0'),
+('thumb_width', '160'),
+('thumb_height', '120'),
+('jquery_prefix', 'nuke_jq'),
+('pagination', '1'),
+('max_upload', '6291456'),
+('quota', '524288000');

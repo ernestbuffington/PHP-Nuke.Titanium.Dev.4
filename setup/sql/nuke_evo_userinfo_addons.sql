@@ -1,0 +1,15 @@
+INSERT INTO `#prefix#_evo_userinfo_addons` (`name`, `value`) VALUES
+('good_afternoon_message', 'Good morning %name%:'),
+('personal_message_message', '<div style=\"text-align:center\">Hello %name%, <br />\r\nWelcome to %site%.</div>'),
+('username_center', 'yes'),
+('online_show_hv', 'no'),
+('online_scroll', 'no'),
+('online_show_members', 'yes'),
+('online_tooltip', 'yes'),
+('online_country_flag', 'yes'),
+('online_user_level_image', 'yes'),
+('rank_show_title', 'no'),
+('rank_show_2nd', 'no'),
+('rank_show_3rd', 'no'),
+('rank_show_4th', 'no'),
+('rank_show_5th', 'no');

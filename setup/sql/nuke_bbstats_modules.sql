@@ -1,0 +1,17 @@
+INSERT INTO `#prefix#_bbstats_modules` (`module_id`, `short_name`, `update_time`, `module_order`, `active`, `perm_all`, `perm_reg`, `perm_mod`, `perm_admin`) VALUES
+(1, 'stats_overview', 360, 10, 1, 1, 1, 1, 1),
+(2, 'top_posters', 360, 30, 1, 1, 1, 1, 1),
+(3, 'admin_statistics', 360, 20, 1, 1, 1, 1, 1),
+(4, 'most_viewed_topics', 360, 80, 1, 1, 1, 1, 1),
+(5, 'top_posters_month', 360, 60, 1, 1, 1, 1, 1),
+(6, 'topics_by_month', 360, 100, 1, 1, 1, 1, 1),
+(7, 'most_interesting_topics', 360, 120, 1, 1, 1, 1, 1),
+(8, 'top_words', 360, 90, 1, 1, 1, 1, 1),
+(9, 'least_interesting_topics', 360, 130, 1, 1, 1, 1, 1),
+(10, 'most_active_topicstarter', 360, 40, 1, 1, 1, 1, 1),
+(11, 'top_smilies', 0, 110, 1, 1, 1, 1, 1),
+(12, 'users_by_month', 360, 140, 1, 1, 1, 1, 1),
+(13, 'posts_by_month', 360, 150, 1, 1, 1, 1, 1),
+(14, 'top_posters_week', 360, 50, 1, 1, 1, 1, 1),
+(15, 'top_attachments', 360, 160, 1, 1, 1, 1, 1),
+(16, 'most_active_topics', 360, 70, 1, 1, 1, 1, 1);

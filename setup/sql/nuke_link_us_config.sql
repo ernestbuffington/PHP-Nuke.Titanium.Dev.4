@@ -1,0 +1,2 @@
+INSERT INTO `#prefix#_link_us_config` (`my_image`, `fade_effect`, `marquee`, `marquee_direction`, `marquee_scroll`, `block_height`, `show_clicks`, `button_seperate`, `user_submit`, `button_method`, `button_height`, `button_banner_height`, `button_ressource_height`, `button_width`, `button_banner_width`, `button_ressource_width`, `upload_file`, `button_standard`, `button_banner`, `button_resource`) VALUES
+('images/titanium/button.png', 1, 1, 1, 2, 3, 1, 1, 1, 0, 31, 45, 31, 88, 127, 88, 'modules/Link_Us/buttons/', 1, 1, 1);

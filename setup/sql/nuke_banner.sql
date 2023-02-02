@@ -1,0 +1,3 @@
+INSERT INTO `#prefix#_banner` (`bid`, `cid`, `name`, `imptotal`, `impmade`, `clicks`, `imageurl`, `clickurl`, `alttext`, `date`, `dateend`, `position`, `active`, `ad_class`, `ad_code`, `ad_width`, `ad_height`, `type`) VALUES
+(4, 1, '86it', 0, 517791, 614, 'https://php-nuke-titanium.86it.us/images/banners/10.png', 'index.php', 'PHP-Nuke Titanium Dev 4', '2019-09-17 17:36:30', '0000-00-00 00:00:00', 0, 1, 'image', '', 472, 79, ''),
+(5, 1, 'Xtreme', 0, 4532, 54, 'https://dev-php-nuke-evolution-xtreme.86it.us/themes/Xtreme_Core/images/HEADER/banner_02.png', 'index.php', 'PHP-Nuke Evolution Xtreme', '2021-05-28 02:54:43', '0000-00-00 00:00:00', 0, 0, 'image', '', 484, 79, '');

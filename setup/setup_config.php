@@ -11,6 +11,7 @@ define('SETUP_STYLE_DIR', BASE_DIR . 'style/');
 define('SETUP_UPGRADES_SQL_DIR', BASE_DIR . 'sql/');
 define('SETUP_UPGRADES_STEPS_DIR', BASE_DIR . 'sql/');
 define('SETUP_TEXTAREA_DIR', $_SERVER['DOCUMENT_ROOT']. '/includes/');
+define('SETUP_NUKE_INCLUDES_DIR', $_SERVER['DOCUMENT_ROOT']. '/includes/');
 define('SETUP_CACHE_DIR', $_SERVER['DOCUMENT_ROOT']. '/includes/cache/');
 define('SETUP_FORUM_AVATARS_DIR', $_SERVER['DOCUMENT_ROOT']. '/modules/Forums/images/avatars/');
 define('SETUP_FORUM_FILE_DIR', $_SERVER['DOCUMENT_ROOT']. '/modules/Forums/files/');
