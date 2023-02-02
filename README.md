@@ -123,7 +123,7 @@ There have been existing efforts to re-implement the Flash Player, including Gna
 	<code>$portaladmin = 2;
     define('network', 'enabled');
     if ( defined('network') ):
-    $dbhost2 = 'your.domain.name.here';
+    $dbhost2 = 'hub.domain.name.here';
     $dbname2 = 'hub_db';
     $dbuname2 = 'ask for a hub user name and put it here';
     $dbpass2 = 'you need to request an access password to put here';
