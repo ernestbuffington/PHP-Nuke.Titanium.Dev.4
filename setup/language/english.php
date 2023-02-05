@@ -2,12 +2,12 @@
 
 /**
 *****************************************************************************************
-** PHP-AN602  (Titanium Edition) v1.0.0 - Project Start Date 11/04/2022 Friday 4:09 am **
+** PHP-Nuke Titanium v4.0.4 - Project Start Date 11/04/2022 Friday 4:09 am             **
 *****************************************************************************************
-** https://an602.86it.us/
-** https://github.com/php-an602/php-an602
-** https://an602.86it.us/index.php (DEMO)
-** Apache License, Version 2.0, MIT license 
+** https://www.php-nuke-titanium.86it.us
+** https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4
+** https://www.php-nuke-titanium.86it.us/index.php (DEMO)
+** Apache License, Version 2.0. MIT license 
 ** Copyright (C) 2022
 ** Formerly Known As PHP-Nuke by Francisco Burzi <fburzi@gmail.com>
 ** Created By Ernest Allen Buffington (aka TheGhost or Ghost) <ernest.buffington@gmail.com>
@@ -35,7 +35,7 @@ define("_reset", "Reset");
 // Step 1
 define("_step1", "<strong>Step 1: Installation Requirements</strong>");
 define("_phpvercheck", "Checking PHP Version");
-define("_phpverfail", "You need at least PHP version 8.1 to Install PHP-AN602.");
+define("_phpverfail", "You need at least PHP version 8.1 to Install PHP-Nuke Titanium.");
 define("_zlibcheck", "Checking Zlib");
 define("_zlibfail", "Installing Zlib allows you to Save Bandwidth.");
 define("_mysqlcheck", "Checking MySQL");
@@ -80,16 +80,16 @@ define("_udp_check", "Checking to make sure UDP:// works on your Server");
 
 define("_udpfail", "Your Server is not Configured to work with Torrents that have a UDP Announce URL.<br />You may still be able to handle External Torrents so as long as their Announce URL is not based on the UDP Protocol.");
 
-define("_step1fail", "You cannot proceed with the Installation of PHP-AN602 as your Server doesn't meet the Minimum System Requirements.");
+define("_step1fail", "You cannot proceed with the Installation of PHP-Nuke Titanium as your Server doesn't meet the Minimum System Requirements.");
 
-define("_step1warn", "You can proceed with the Installation of PHP-AN602, but you will not experience the Best Performance.");
+define("_step1warn", "You can proceed with the Installation of PHP-Nuke Titanium, but you will not experience the Best Performance.");
 
 // Step 2
 define("_step2", "<strong>Step 2: License Agreement</strong>");
 
-define("_gpllicense", "In order to Install PHP-AN602 you must Agree to ALL the Terms of the Apache License, under which PHP-AN602 is Released.");
+define("_gpllicense", "In order to Install PHP-Nuke Titanium you must Agree to ALL the Terms of the Apache License, under which PHP-Nuke Titanium is Released.");
 
-define("_lgpllicense", "You must also Agree to ALL Terms of the GNU/LGPL License because PHP-AN602 uses Open Source Libraries Released under that License.");
+define("_lgpllicense", "You must also Agree to ALL Terms of the GNU/LGPL License because PHP-Nuke Titanium uses Open Source Libraries Released under that License.");
 
 define("_iagree", "I Agree");
 define("_idontagree", "I Do Not Agree");
@@ -98,7 +98,7 @@ define("_step2fail", "You cannot proceed until you Accept both Licenses.");
 // Step 3
 define("_step3", "<strong>Step 3: Basic Configuration</strong>");
 
-define("_step3explain", "You can now Configure PHP-AN602's Basic Settings.  These Settings include Database Access (i.e. username, password...) and some Advanced Settings like Cookie Encryption and the Mass Uploads Directory.  Further details below.");
+define("_step3explain", "You can now Configure PHP-Nuke Titanium's Basic Settings.  These Settings include Database Access (i.e. username, password...) and some Advanced Settings like Cookie Encryption and the Mass Uploads Directory.  Further details below.");
 
 define("_dbconfig", "Database Configuration");
 define("_dbtype", "Database Type");
@@ -125,9 +125,9 @@ define("_privkey", "Private Key");
 
 define("_permissioncmd", "In order to make the Directory Writeable, Run the following Command from your Server Shell, making sure that your Logged in as <em>**User**</em>: <u>**cmd**</u>");
 
-define("_cannotwriteconfig", "Cannot Save the Configuration File.  Please Create a File named <strong>configdata.php</strong> in the <strong>/include</strong> directory of PHP-AN602 and Paste the following code in it (ALL of it -- if you Copy & Pasted correctly, the file starts with <strong><?php</strong> and ends with <strong>?></strong>)");
+define("_cannotwriteconfig", "Cannot Save the Configuration File.  Please Create a File named <strong>configdata.php</strong> in the <strong>/include</strong> directory of PHP-Nuke Titanium and Paste the following code in it (ALL of it -- if you Copy & Pasted correctly, the file starts with <strong><?php</strong> and ends with <strong>?></strong>)");
 
-define("_step3complete", "Configuration Completed.  You can now Install the PHP-AN602 Database.");
+define("_step3complete", "Configuration Completed.  You can now Install the PHP-Nuke Titanium Database.");
 
 // Step  4
 define("_step4", "<strong>Step 4: Installing Database</strong>");
@@ -390,9 +390,9 @@ define("_sql_titanium_welcome_pm", "Creating Default Titanium Welcome PM Table S
 
 
 // Step  5
-define("_step5", "Step 5: PHP-AN602 Configuration");
+define("_step5", "Step 5: PHP-Nuke Titanium Configuration");
 
-define("_step5explain", "Now you have to Configure your New PHP-AN602 Tracker.  The following are the Configuration Parameters that are available that allow you to Customize every aspect of the Tracker.  However, you only need to make sure that the Basic Parameters are Set Correctly.  You will always be able to Change these Settings through the (ACP) Administrator Configuration Panel.");
+define("_step5explain", "Now you have to Configure your New PHP-Nuke Titanium Tracker.  The following are the Configuration Parameters that are available that allow you to Customize every aspect of the Tracker.  However, you only need to make sure that the Basic Parameters are Set Correctly.  You will always be able to Change these Settings through the (ACP) Administrator Configuration Panel.");
 
 define("_admpfree_dl", "<strong>Freeleech Torrents</strong>");
 
@@ -494,7 +494,7 @@ define("_admpcookiedomainexplain", "Cookie Domain.  This Must be Set to the Doma
 
 define("_admpcookiepath", "Cookie Path");
 
-define("_admpcookiepathexplain", "Cookie Path.  Change this Setting <strong>ONLY</strong> if PHP-AN602 is Installed in a <strong>Sub-Directory</strong> on your Server.  If your Installation is in <strong>http://yoursite.com/an602</strong>, the Setting should be <strong>/an602</strong>");
+define("_admpcookiepathexplain", "Cookie Path.  Change this Setting <strong>ONLY</strong> if PHP-Nuke Titanium is Installed in a <strong>Sub-Directory</strong> on your Server.  If your Installation is in <strong>http://yoursite.com/an602</strong>, the Setting should be <strong>/an602</strong>");
 
 define("_admpsourcedir", "Source Directory");
 
@@ -666,7 +666,7 @@ define("_admpallow_backup_trackerexplain", "Runs your Tracker as a Backup Tracke
 
 define("_admpstealthmode", "Disable Local Tracker");
 
-define("_admpstealthmodeexplain", "This will Disable and Hide the Local Tracker.  PHP-AN602 will ONLY Accept Externally Tracked Torrents.");
+define("_admpstealthmodeexplain", "This will Disable and Hide the Local Tracker.  PHP-Nuke Titanium will ONLY Accept Externally Tracked Torrents.");
 
 define("_step5complete", "Tracker is now Configured.  Now Create your Administrator Account and get ready to Log in!");
 
@@ -690,18 +690,18 @@ define("_step6complete", "Administrator Account Successfully Created.  Now you a
 // Step 7
 define("_step7", "<strong>Installation Complete!</strong>");
 
-define("_step7explain", "Congratulations!  PHP-AN602 has now been Installed and Configured.  Now you can start using your Brand New Tracker and Start Sharing Files!  Before starting, keep in mind the following:-");
+define("_step7explain", "Congratulations!  PHP-Nuke Titanium has now been Installed and Configured.  Now you can start using your Brand New Tracker and Start Sharing Files!  Before starting, keep in mind the following:-");
 
 define("_thingstodo", "<ul>\n
-<li><p>Please Delete the <em>setup</em> Directory!  For Security Reasons, PHP-AN602 will NOT work until the Directory is Deleted.</p></li>\n
+<li><p>Please Delete the <em>setup</em> Directory!  For Security Reasons, PHP-Nuke Titanium will NOT work until the Directory is Deleted.</p></li>\n
 <li><p>Use the Account you just Created to Set your Tracker Preferences to Create your Peer-to-Peer Community.  Don't Share your Administrator Password.</p></li>\n
 <li><p>Please remember to Run the Database Optimiser often.  It's an Important Tool to keep the Tracker efficient when Server Load Grows.</p></li>\n
 <li><p>If you need Help from Trusted Users to Manage the Tracker.  Remember that Moderators can Freely Manage Torrents without them needing Access to the Administration Panel.</p></li>\n
 <li><p>Finally, remember that Culture Exchange is Freedom, but Piracy is a Crime.</p></li>\n
-<li><p>If you like PHP-AN602, why don't you consider making a Small <strong>Donation</strong> to those who wrote it in order to help keep the Project Alive and Updated?</p></li>\n
+<li><p>If you like PHP-Nuke Titanium, why don't you consider making a Small <strong>Donation</strong> to those who wrote it in order to help keep the Project Alive and Updated?</p></li>\n
 </ul>\n");
 
-define("_thanks", "Thank you for choosing this fantastic Open Source Software.  Regards, The PHP-AN602 Team!");
-define("_enter", "Enter PHP-AN602");
+define("_thanks", "Thank you for choosing this fantastic Open Source Software.  Regards, The PHP-Nuke Titanium Group!");
+define("_enter", "Enter PHP-Nuke Titanium");
 
 ?>

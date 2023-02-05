@@ -2,12 +2,12 @@
 
 /**
 *****************************************************************************************
-** PHP-AN602  (Titanium Edition) v1.0.0 - Project Start Date 11/04/2022 Friday 4:09 am **
+** PHP-Nuke Titanium v4.0.4 - Project Start Date 11/04/2022 Friday 4:09 am             **
 *****************************************************************************************
-** https://an602.86it.us/
-** https://github.com/php-an602/php-an602
-** https://an602.86it.us/index.php (DEMO)
-** Apache License, Version 2.0, MIT license 
+** https://www.php-nuke-titanium.86it.us
+** https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4
+** https://www.php-nuke-titanium.86it.us/index.php (DEMO)
+** Apache License, Version 2.0. MIT license 
 ** Copyright (C) 2022
 ** Formerly Known As PHP-Nuke by Francisco Burzi <fburzi@gmail.com>
 ** Created By Ernest Allen Buffington (aka TheGhost or Ghost) <ernest.buffington@gmail.com>

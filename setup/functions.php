@@ -26,7 +26,7 @@
  * AddLiteralSeparatorToNumberRector (https://wiki.php.net/rfc/numeric_literal_separator)
  * NullToStrictStringFuncCallArgRector					   
 ************************************************************************/
-
+require_once("setup_config.php");
 define('IN_PHPBB', true);
 $data_file = BASE_DIR.'data.txt';
 
@@ -97,12 +97,17 @@ function message($message, $die=false){
 
 function generate_config(){
     global $directory_mode, $file_mode, $install_lang, $next_step;
-
-    if (is_file('config.php')){
-        unlink('config.php');
+	require_once(__DIR__."/setup_config.php");
+    require_once(__DIR__."/include/configdata.php");
+	
+    $config_php = $_SERVER['DOCUMENT_ROOT'];
+    $config_php .= "/config.php";
+		
+	if (is_file($config_php)){
+        unlink($config_php);
     }
 
-    $filename = BASE_DIR.'config_blank.php';
+    $filename = __DIR__.'/config_blank.php';
     if (!$handle = fopen ($filename, 'r')){
         $message = $install_lang['cant_open'].' '.$filename;
         message($message);
@@ -118,7 +123,7 @@ function generate_config(){
     $contents = str_replace("%user_prefix%", $_SESSION['user_prefix'], $contents);
     $contents = str_replace("%dbtype%", $_SESSION['dbtype'], $contents);
 
-    $filename = 'config.php';
+    $filename = $config_php;
 
     if (!touch($filename)){
         $DownloadData = true;
@@ -158,7 +163,7 @@ function chmod_files(){
 			$file = $file[0];
 			if (!empty($file) && !empty($perm)){
 				if (!(substr($file,strlen($file)-1) == '/') && !is_file($file)){
-					$message .= '<strong>'.$file.'</strong> - <font color="red">'.$install_lang['is_missing'].'</font>';
+					$message .= ''.$file.' - <span style="color: red;">'.$install_lang['is_missing'].'</span>';
 					$failed = true;
 					continue;
 				}
@@ -167,22 +172,22 @@ function chmod_files(){
 				$current = substr(sprintf('%o', fileperms($file)), -4);
 				if ($current != $permission){
 					if (is_writable($file)){
-						$message .= '('.$perm.') <strong>'.$file.'</strong> - <font color="green">'.$install_lang['success'].'</font><br />';
+						$message .= '<span style="font-size: 70%; color: white;">('.$perm.') '.$file.' - <span style="color: green;">'.$install_lang['success'].'</span></span><br />';
 					} elseif (!chmod($file, intval($permission,8))){
-						$message .= '<strong>'.$file.'</strong> - <font color="red">'.$install_lang['failed'].'</font> CHMOD:('.$perm.')<br />';
+						$message .= ''.$file.' - <span style="color: red;">'.$install_lang['failed'].'</span> CHMOD:('.$perm.')<br />';
 						$failed = true;
 					} else {
-						$message .= '('.$perm.') <strong>'.$file.'</strong> - <font color="green">'.$install_lang['success'].'</font><br />';
+						$message .= '<span style="font-size: 70%; color: white;">('.$perm.') '.$file.' - <span style="color: green;">'.$install_lang['success'].'</span></span><br />';
 					}
             	} else {
-            		$message .= '('.$perm.') <strong>'.$file.'</strong> - <font color="green">'.$install_lang['success'].'</font><br />';
+            		$message .= '<span style="font-size: 70%; color: white;">('.$perm.') '.$file.' - <span style="color: green;">'.$install_lang['success'].'</span></span><br />';
 	    		}
 			}
         }
     }
 	if ($message){
 		if ($failed){
-			return $message.'<font color="red">'.$install_lang['chmod_failed'].'</font><br /><br />'.$install_lang['access_files'].'<br />';
+			return $message.'<span style="color: red;">'.$install_lang['chmod_failed'].'</span><br /><br />'.$install_lang['access_files'].'<br />';
 		} else {
 			return $message;
 		}
@@ -192,12 +197,13 @@ function chmod_files(){
 
 function check_required_files(){
     global $install_lang, $required_files;
-
     foreach($required_files as $file){
         $file = trim((string) $file);
         #looping to make sure all required files are there..
         if (!is_file($file)){
-            $message .= $install_lang['thefile'] . " \"" . $file . "\" " . $install_lang['is_missing'];
+            if(!isset($message))
+			$message = '';
+			$message .= $install_lang['thefile'] . " \"" . $file . "\" " . $install_lang['is_missing'];
         }
     }
     #End the loop, check to see if any errors.
@@ -225,7 +231,8 @@ function make_step_list(){
 }
 
 function validate_data($post){
-    global $step, $next_step, $install_lang, $server_check;
+   	global $step, $next_step, $install_lang, $server_check, $db_host, $db_user, $db_pass, $db_name, $db_prefix, $db_persistency;
+
 
 	$error = '';
     $message = '';
@@ -362,8 +369,17 @@ function do_sql($install_file){
 }
 
 function validate_admin(){
-	global $cookiedata_admin, $cookiedata, $install_lang, $next_step, $step, $server_check;
+	global $cookiedata_admin, $cookiedata;
     
+	global $db_type, $db_host, $db_user, $db_pass, $db_name, $db_prefix, $db_persistency, $use_rsa, $rsa_modulo, $rsa_public, $rsa_private, $uploads_dir;
+    global $step, $next_step, $install_lang, $server_check;
+    
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    $path .= "/config.php";
+    include_once($path);
+   
+    $_SESSION['prefix'] = $prefix;
+    $_SESSION['user_prefix'] = $user_prefix;
 	$error = false;
 
 	$message = '';
@@ -387,12 +403,12 @@ function validate_admin(){
 			return $message;
 		}
 
-		if (!mysqli_query($server_check, "INSERT INTO `" . $_SESSION['prefix'] . "_nsnst_admins` (`aid`, `login`, `protected`) VALUES ('".$_POST['admin_nick']."', '".$_POST['admin_nick']."', '1')")){
+		if (!mysqli_query($server_check, "REPLACE INTO `" . $_SESSION['prefix'] . "_nsnst_admins` (`aid`, `login`, `protected`) VALUES ('".$_POST['admin_nick']."', '".$_POST['admin_nick']."', '1')")){
 			$error = true;
 			$message .= '<font color="red">'.$install_lang['nsnst_fail'].'</font><br />';
 		}
 
-		$cookie_location = str_replace('/install.php', '', (string) $_SERVER['PHP_SELF']);
+		$cookie_location = str_replace(BASE_DIR.'/index.php', '', (string) $_SERVER['PHP_SELF']);
 		$user_nick = $_POST['admin_nick'];
 		$user_pass = md5((string) $_POST['admin_pass']);
 
@@ -411,12 +427,12 @@ function validate_admin(){
 			$url = $_POST['admin_website'];
 		}
 
-        if (!mysqli_query($server_check, "INSERT INTO `" . $_SESSION['prefix'] . "_authors` VALUES ('$user_nick', 'God', '".$url."', '".$_POST['admin_email']."', '$user_pass', '0', '1', '')")){
+        if (!mysqli_query($server_check, "REPLACE INTO `" . $_SESSION['prefix'] . "_authors` VALUES ('$user_nick', 'God', '".$url."', '".$_POST['admin_email']."', '$user_pass', '0', '1', '')")){
             $error = true;
             $message .= '<font color="red">'.$install_lang['god_fail'].'</font><br />';
         }
 
-        if (!mysqli_query($server_check, "INSERT INTO " . $_SESSION['user_prefix'] . "_users (`user_id`, 
+        if (!mysqli_query($server_check, "REPLACE INTO " . $_SESSION['user_prefix'] . "_users (`user_id`, 
 		                                                                                     `username`, 
 																						   `user_email`, 
 																						 `user_website`, 
@@ -463,12 +479,28 @@ function validate_admin(){
 function site_form($display=1,$return=false){
     $default_config = [];
     $new = [];
-    $error = null;
-    global $install_lang, $server_check;
+    $error = false;
+    
+    global $db_type, $db_host, $db_user, $db_pass, $db_name, $db_prefix, $db_persistency, $use_rsa, $rsa_modulo, $rsa_public, $rsa_private, $uploads_dir;
+    global $step, $next_step, $install_lang, $server_check;
+	
+	require_once(__DIR__."/setup_config.php");
+    require_once(__DIR__."/include/configdata.php");
 
+    $_SESSION['prefix'] = $db_prefix;
+	
     $form = '';
 	$submit = (isset($_POST['submit'])) ? true : false;
     $sql = "SELECT * FROM " . $_SESSION['prefix'] . "_bbconfig";
+
+    if (!($server_check = mysqli_connect($db_host, $db_user, $db_pass, $db_name))){
+        $error .= '<font color="red">'.$install_lang['connection_failed'].'</font><br />';
+    }
+
+    if ($error){
+        $error .= '<input type="hidden" name="step" value="3" /><br /><input type="submit" class="button" name="submit" value="'.$install_lang['go_back'].'" /><br />';
+        return $error;
+    }
 
     if (!$result = mysqli_query($server_check, $sql)){
         die($install_lang['get_config_error'].mysqli_error($server_check));
@@ -502,7 +534,18 @@ function site_form($display=1,$return=false){
     }
 
 	if ($submit){
-		
+		if(!isset($_POST['nsitename']))
+		$_POST['nsitename'] = '';
+		if(!isset($_POST['slogan']))
+		$_POST['slogan'] = '';
+		if(!isset($_POST['nukeurl']))
+		$_POST['nukeurl'] = '';
+		if(!isset($_POST['startdate']))
+		$_POST['startdate'] = '';
+		if(!isset($_POST['adminmail']))
+		$_POST['adminmail'] = '';
+		if(!isset($_SESSION['admin_email']))
+		$_SESSION['admin_email'] = '';
 		
 		$fuck_apostrophes = str_replace("'", "''", (string) $_POST['nsitename']);
 		$fuck_apostrophes_again = str_replace("'", "''", (string) $_POST['slogan']);
@@ -534,104 +577,126 @@ function site_form($display=1,$return=false){
     $http_scheme = $_SERVER['REQUEST_SCHEME'] ?: 'http';
 
 	mysqli_free_result($result);
+    
+	if(empty($sitename))
+	$sitename = 'A PHP-Nuke Titanium Web Portal';
 
+	if(empty($nukeurl))
+	$nukeurl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+
+	if(empty($startdate))
+	$startdate = date('F Y');
+
+	if(empty($slogan))
+	$slogan = 'It takes a Village or a Savant!';
+
+    $hostname = $_SERVER['HTTP_HOST'];
+	$domain_name = preg_replace('/^www\./', '', $hostname);
+	
+	$new['server_name'] = $hostname;
+	
+	if(empty($adminmail))
+	$adminmail = 'administrator@'.$domain_name;
+	
+	$new['board_email_sig'] = 'administrator@'.$domain_name;
+
+	$new['board_email'] = 'administrator@'.$domain_name;
+	
+	$new['sitename'] = $nukeurl;
+	
+	$new['cookie_domain'] = $domain_name;
+	
+	if(empty($new['site_desc']))
+	$new['site_desc'] = 'Forums, Blogs, Image Hosting, File Hosting';
+	
     if (!$display){
 		$form .= '<dl>';
-		$form .= '<dt><label>'.$install_lang['site_name'].'</label></dt>';
-		
-		$form .= '<dd>'.(($submit) ? (!empty($sitename) ? $sitename : 'My Site') : '<input type="text" name="nsitename" size="40" class="input" value="'.(($return) ? $sitename : 'My Site').'" />').'</dd>';
-		
-		$form .= '</dl>';
-		$form .= '<dl>';
-		$form .= '<dt><label>'.$install_lang['site_url'].'</label></dt>';
-		
-		$form .= '<dd>'.(($submit) ? (!empty($nukeurl) ? $nukeurl : $http_scheme.'://'.$_SERVER['HTTP_HOST'].str_replace('/install.php', '', (string) $_SERVER['PHP_SELF'])) : '<input 
-		type="text" name="nukeurl" size="40" class="input" value="'.(($return) ? $nukeurl : $http_scheme.'://'.$_SERVER['HTTP_HOST'].str_replace('/install.php', '', (string) $_SERVER['PHP_SELF'])).'" />').'</dd>';
+		$form .= '<dt><label><span style="color: green;">'.$install_lang['site_name'].'</span></label></dt>';
+		$form .= '<dd><span style="color: white;"><input type="text" name="nsitename" size="40" class="input" value="'.$sitename.'"></span></dd>';
 		
 		$form .= '</dl>';
 		$form .= '<dl>';
-		$form .= '<dt><label>'.$install_lang['site_slogan'].'</label></dt>';
-		$form .= '<dd>'.(($submit) ? (!empty($slogan) ? $slogan : '&nbsp;') : '<input type="text" name="slogan" size="40" class="input" value="'.(($return) ? $slogan : '').'" />').'</dd>';
-		$form .= '</dl>';
-		$form .= '<dl>';
-		$form .= '<dt><label>'.$install_lang['start_date'].'</label></dt>';
-		$form .= '<dd>'.(($submit) ? (!empty($startdate) ? $startdate : date('F Y')) : '<input type="text" name="startdate" size="40" class="input" value="'.(($return) ? $startdate : date('F Y')).'" />').'</dd>';
-		$form .= '</dl>';
-		$form .= '<dl>';
-		$form .= '<dt><label>'.$install_lang['admin_email'].'</label></dt>';
+		$form .= '<dt><label><span style="color: green;">'.$install_lang['site_url'].'</span></label></dt>';
 		
-		$form .= '<dd>'.(($submit) ? (!empty($adminmail) ? $adminmail : $_SESSION['admin_email']) : '<input type="text" name="adminmail" size="40" class="input" 
-		value="'.(($return) ? $adminmail : $_SESSION['admin_email']).'" />').'</dd>';
+		$form .= '<dd><span style="color: white;"><input type="text" name="nukeurl" size="40" class="input" value="'.$nukeurl.'"</span></dd>';
+		
+		$form .= '</dl>';
+		$form .= '<dl>';
+		$form .= '<dt><label><span style="color: green;">'.$install_lang['site_slogan'].'</span></label></dt>';
+		$form .= '<dd><input type="text" name="slogan" size="40" class="input" value="'.$slogan.'"></dd>';
+		$form .= '</dl>';
+		$form .= '<dl>';
+		$form .= '<dt><label><span style="color: green;">'.$install_lang['start_date'].'</span></label></dt>';
+		$form .= '<dd><input type="text" name="startdate" size="40" class="input" value="'.$startdate.'"></dd>';
+		$form .= '</dl>';
+		$form .= '<dl>';
+		$form .= '<dt><label><span style="color: green;">'.$install_lang['admin_email'].'</span></label></dt>';
+		
+		$form .= '<dd><input type="text" name="adminmail" size="40" class="input" value="'.$adminmail.'"></dd>';
 		
 		$form .= '</dl>';
         $form .= '<dl>';
-		$form .= '<dt><label>'.$install_lang['sitename'].'</label></dt>';
+		$form .= '<dt><label><span style="color: green;">'.$install_lang['sitename'].'</span></label></dt>';
 		
-		$form .= '<dd>'.(($submit) ? (!empty($new['sitename']) ? $new['sitename'] : $http_scheme.'://'.$_SERVER['SERVER_NAME']) : '<input type="text" 
-		name="sitename" size="40" class="input" value="'.(($return) ? $new['sitename'] : $http_scheme.'://'.$_SERVER['SERVER_NAME']).'" />').'</dd>';
-		
-		$form .= '</dl>';
-		$form .= '<dl>';
-		$form .= '<dt><label>'.$install_lang['sitedescr'].'</label></dt>';
-		$form .= '<dd>'.(($submit) ? (!empty($new['site_desc']) ? $new['site_desc'] : '&nbsp;') : '<input type="text" value="'.(($return) ? $new['site_desc'] : '').'" name="site_desc" size="40" class="input" />').'</dd>';
-		$form .= '</dl>';
-		$form .= '<dl>';
-		$form .= '<dt><label>'.$install_lang['cookie_name'].'</label></dt>';
-		
-		$form .= '<dd>'.(($submit) ? (!empty($new['cookie_name']) ? $new['cookie_name'] : '&nbsp;') : '<input type="text" value="'.(($return) ? $new['cookie_name'] : $get_cookie_name).'" name="cookie_name" 
-		size="40" class="input" />').'</dd>';
+		$form .= '<dd><input type="text" name="sitename" size="40" class="input" value="'.$new['sitename'].'"</dd>';
 		
 		$form .= '</dl>';
 		$form .= '<dl>';
-		$form .= '<dt><label>'.$install_lang['cookie_path'].'</label></dt>';
-		$path2cookie = str_replace('/install.php', '', (string) $_SERVER['PHP_SELF']);
-		$cookie_path = (!empty($path2cookie)) ? $path2cookie : '/';
+		$form .= '<dt><label><span style="color: green;">'.$install_lang['sitedescr'].'</span></label></dt>';
+		$form .= '<dd><input type="text" value="'.$new['site_desc'].'" name="site_desc" size="40" class="input"></dd>';
+		$form .= '</dl>';
+		$form .= '<dl>';
+		$form .= '<dt><label><span style="color: green;">'.$install_lang['cookie_name'].'</span></label></dt>';
 		
-		$form .= '<dd>'.(($submit) ? (!empty($new['cookie_path']) ? $new['cookie_path'] : $cookie_path) : '<input type="text" value="'.(($return) ? $new['cookie_path'] : $cookie_path).'" name="cookie_path" 
-		size="40" class="input" />').'</dd>';
+		$form .= '<dd><input type="text" value="'.$get_cookie_name.'" name="cookie_name" size="40" class="input"></dd>';
 		
 		$form .= '</dl>';
 		$form .= '<dl>';
-		$form .= '<dt><label>'.$install_lang['cookie_domain'].'</label></dt>';
+		$form .= '<dt><label><span style="color: green;">'.$install_lang['cookie_path'].'</span></label></dt>';
 		
-		$form .= '<dd>'.(($submit) ? (!empty($new['cookie_domain']) ? $new['cookie_domain'] : $_SERVER['HTTP_HOST']) : '<input type="text" 
-		value="'.(($return) ? $new['cookie_domain'] : preg_replace('/^www\./', '', (string) $_SERVER['HTTP_HOST'])).'" name="cookie_domain" size="40" class="input" />').'</dd>';
+		$form .= '<dd><input type="text" value="'.$new['cookie_path'].'" name="cookie_path" size="40" class="input"></dd>';
 		
 		$form .= '</dl>';
 		$form .= '<dl>';
+		$form .= '<dt><label><span style="color: green;">'.$install_lang['cookie_domain'].'</span></label></dt>';
+		
+		$form .= '<dd><input type="text" value="'.$new['cookie_domain'].'" name="cookie_domain" size="40" class="input"></dd>';
+		
+		$form .= '</dl>';
+		$form .= '<dl>';
+
 		$namechange_checked = ($new['allow_namechange']) ? 'checked="checked"' : '';
 		$namechange_not_checked = (!$new['allow_namechange']) ? 'checked="checked"' : '';
-		$form .= '<dt><label>'.$install_lang['namechange'].'</label></dt>';
 		
-		$form .= '<dd>'.(($submit) ? (($new['allow_namechange']) ? 'Yes' : 'No') : $install_lang['yes'].' <input type="radio" value="1" 
-		name="allow_namechange" '.$namechange_checked.' /> '. $install_lang['no'].' <input type="radio" value="0" name="allow_namechange" '.$namechange_not_checked.' />').'</dd>';
+		$form .= '<dt><label><span style="color: green;">'.$install_lang['namechange'].'</span></label></dt>';
 		
-		$form .= '</dl>';
-		$form .= '<dl>';
-		$form .= '<dt><label>'.$install_lang['email_sig'].'</label></dt>';
-		$form .= '<dd>'.(($submit) ? (!empty($new['board_email_sig']) ? $new['board_email_sig'] : '&nbsp;') : '<textarea name="board_email_sig" style="width: 100%; height: 100px;">'.$new['board_email_sig'].'</textarea>').'</dd>';
-		$form .= '</dl>';
-		$form .= '<dl>';
-		$form .= '<dt><label>'.$install_lang['site_email'].'</label></dt>';
-		
-		$form .= '<dd>'.(($submit) ? (!empty($new['board_email']) ? $new['board_email'] : $_SESSION['admin_email']) : '<input type="text" name="board_email" 
-		value="'.(($return) ? $new['board_email'] : $_SESSION['admin_email']).'" size="40" class="input" />').'</dd>';
+		$form .= '<dd><span style="color: white;">'.(($submit) ? (($new['allow_namechange']) ? 'Yes' : 'No') : $install_lang['yes'].' <input type="radio" value="1" 
+		name="allow_namechange" '.$namechange_checked.' /> '. $install_lang['no'].' <input type="radio" value="0" name="allow_namechange" '.$namechange_not_checked.' />').'</span></dd>';
 		
 		$form .= '</dl>';
 		$form .= '<dl>';
-		$form .= '<dt><label>'.$install_lang['default_lang'].'</label></dt>';
-		$form .= '<dd>'.(($submit) ? $new['default_lang'] : language_select('english', 'default_lang')).'</dd>';
+		$form .= '<dt><label><span style="color: green;">'.$install_lang['email_sig'].'</span></label></dt>';
+		$form .= '<dd><textarea name="board_email_sig" style="width: 100%; height: 100px;">'.$new['board_email_sig'].'</textarea></dd>';
 		$form .= '</dl>';
 		$form .= '<dl>';
-		$form .= '<dt><label>'.$install_lang['server_name'].'</label></dt>';
+		$form .= '<dt><label><span style="color: green;">'.$install_lang['site_email'].'</span></label></dt>';
 		
-		$form .= '<dd>'.(($submit) ? (!empty($new['server_name']) ? $new['server_name'] : $_SERVER['SERVER_NAME']) : '<input type="text" name="server_name" 
-		value="'.(($return) ? $new['server_name'] : rtrim($_SERVER['SERVER_NAME'].$cookie_path, '/')).'" size="40" class="input" />').'</dd>';
+		$form .= '<dd><input type="text" name="board_email" value="'.$new['board_email'].'" size="40" class="input"></dd>';
 		
 		$form .= '</dl>';
 		$form .= '<dl>';
-		$form .= '<dt><label>'.$install_lang['server_port'].'</label></dt>';
-		$form .= '<dd>'.(($submit) ? $new['server_port'] : '<input type="text" name="server_port" value="'.$new['server_port'].'" size="40" class="input" />').'</dd>';
+		$form .= '<dt><label><span style="color: green;">'.$install_lang['default_lang'].'</span></label></dt>';
+		$form .= '<dd><span style="color: white;">'.(($submit) ? $new['default_lang'] : language_select('english', 'default_lang')).'</span></dd>';
+		$form .= '</dl>';
+		$form .= '<dl>';
+		$form .= '<dt><label><span style="color: green;">'.$install_lang['server_name'].'</span></label></dt>';
+		
+		$form .= '<dd><input type="text" name="server_name" value="'.$new['server_name'].'" size="40" class="input"></dd>';
+		
+		$form .= '</dl>';
+		$form .= '<dl>';
+		$form .= '<dt><label><span style="color: green;">'.$install_lang['server_port'].'</span></label></dt>';
+		$form .= '<dd><input type="text" name="server_port" value="'.$new['server_port'].'" size="40" class="input"></dd>';
 		$form .= '</dl>';
         return $form;
     } else {
@@ -647,3 +712,142 @@ function _get_domain_cookie_name($url) {
     return 'savant';
 }
 
+function is__writable($path, $file = '')
+{
+	if($path[strlen((string) $path)-1]=='/' AND $file == ''): 
+	  return is__writable($path, uniqid(random_int(0, mt_getrandmax())).'.tmp');
+	endif;
+	//die($path);
+	if(!is_dir($path)):
+	  return false;
+	else:
+      $path = $path.$file;
+	//die($path);
+	  $fp = fopen($path,"w");
+	  
+	  if(!$fp):
+		return false;
+	  else:
+		if(!fputs($fp,"Test Write")):
+		  return false;
+		endif;
+	  endif;
+		unlink($path); # Deleting the mess we just done
+		fclose($fp);
+	endif;
+  
+  return true;
+}
+
+function hex_esc($matches) {
+  return sprintf("%02x", ord($matches[0]));
+}
+function RandomAlpha($num)
+{
+    $set  = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz0123456789";
+    $resp = "";
+
+    for($i = 1; $i <= $num; $i++):
+      $char  = random_int(0, strlen($set) - 1);
+      $resp .= $set[$char];
+    endfor;
+  
+  return $resp;
+}
+
+function getscrapedata($url, $display=false, $info = false) {
+	$ret = null;
+ if (preg_match("/thepiratebay.org/i", (string) $url))$url = 'udp://tracker.openbittorrent.com:80';
+		if(preg_match('%udp://([^:/]*)(?::([0-9]*))?(?:/)?%si', (string) $url, $m))
+			{
+				$tracker = 'udp://' . $m[1];
+				$port = $m[2] ?? 80;
+				$page = "d5:filesd";
+				$transaction_id = random_int(0,65535);
+				$fp = fsockopen($tracker, $port, $errno, $errstr);
+				stream_set_timeout($fp, 10);
+				if(!$fp)
+					{
+						return false;
+					}
+						fclose($fp);
+						return true;
+				$current_connid = "\x00\x00\x04\x17\x27\x10\x19\x80";
+				//Connection request
+				$packet = $current_connid . pack("N", 0) . pack("N", $transaction_id);
+				fwrite($fp,(string) $packet);
+				//Connection response
+				$ret = fread($fp, 100);
+				if(strlen($ret) < 1 OR strlen($ret) < 16)
+					{
+						die($ret);
+						return false;
+					}
+				$retd = unpack("Naction/Ntransid",$ret);
+				if($retd['action'] != 0 || $retd['transid'] != $transaction_id)
+					{
+						return false;
+					}
+				$current_connid = substr($ret,8,8);
+				//Scrape request
+				$hashes = '';
+				foreach($info as $hash)
+					{
+						$hashes .= pack('H*', $hash);
+					}
+				$packet = $current_connid . pack("N", 2) . pack("N", $transaction_id) . $hashes;
+				fwrite($fp,(string) $packet);
+				//Scrape response
+				$readlength = 8 + (12 * (is_countable($info) ? count($info) : 0));
+				$ret = fread($fp, $readlength);
+				if(strlen($ret) < 1 OR strlen($ret) < 8)
+					{
+						return false;
+					}
+					else
+					{
+						return true;
+					}
+				$retd = unpack("Naction/Ntransid",$ret);
+				// Todo check for error string if response = 3
+				if($retd['action'] != 2 || $retd['transid'] != $transaction_id || strlen($ret) < $readlength)
+					{
+						return false;
+					}
+				$torrents = [];
+				$index = 8;
+				foreach($info as $k => $hash)
+					{
+						$retd = unpack("Nseeders/Ncompleted/Nleechers",substr($ret,$index,12));
+						$retd['infohash'] = $k;
+						$torrents[$hash] = $retd;
+						$index = $index + 12;
+					}
+				foreach($torrents as $retb)$page .= "20:".str_pad((string) $retb['infohash'], 20)."d".
+				"8:completei".$retb['seeders']."e".
+				"10:downloadedi".$retb['completed']."e".
+				"10:incompletei".$retb['leechers']."e".
+				"e";
+				$page .= "ee";
+			}
+			else
+			{
+				if (!$fp = fopen($url,"rb")) return false; //Warnings are shown
+					stream_set_timeout($fp, 10);
+				$page = "";
+				while (!feof($fp)) $page .= fread($fp,10000);
+				fclose($fp);
+			}
+				if(strlen($page) < 1 OR strlen($page) < 16)
+					{
+						return false;
+					}
+
+
+        return $page;
+}
+
+function check_chmod($file_check)
+{
+
+}

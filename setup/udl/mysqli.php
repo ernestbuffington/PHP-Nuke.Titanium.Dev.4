@@ -2,12 +2,12 @@
 
 /**
 *****************************************************************************************
-** PHP-AN602  (Titanium Edition) v1.0.0 - Project Start Date 11/04/2022 Friday 4:09 am **
+** PHP-Nuke Titanium v4.0.4 - Project Start Date 11/04/2022 Friday 4:09 am             **
 *****************************************************************************************
-** https://an602.86it.us/
-** https://github.com/php-an602/php-an602
-** https://an602.86it.us/index.php (DEMO)
-** Apache License, Version 2.0, MIT license 
+** https://www.php-nuke-titanium.86it.us
+** https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4
+** https://www.php-nuke-titanium.86it.us/index.php (DEMO)
+** Apache License, Version 2.0. MIT license 
 ** Copyright (C) 2022
 ** Formerly Known As PHP-Nuke by Francisco Burzi <fburzi@gmail.com>
 ** Created By Ernest Allen Buffington (aka TheGhost or Ghost) <ernest.buffington@gmail.com>
@@ -32,9 +32,9 @@ if(!defined("SQL_LAYER"))
     {
         public $any_char;
         public $one_char;
-       public $sql_layer = 'mysqli';
+        public $sql_layer = 'mysqli';
         public $db_connect_id;
-       public $mysql_version;
+        public $mysql_version;
         public $query_result;
         public $row = [];
         public $rowset = [];
@@ -85,18 +85,18 @@ if(!defined("SQL_LAYER"))
                 }
             }
 
-            $this->db_connect_id = @mysqli_connect($this->server, $this->user, $sqlpassword, $this->dbname, $port, $socket);
+            $this->db_connect_id = mysqli_connect($this->server, $this->user, $sqlpassword, $this->dbname, $port, $socket);
 
             if ($this->db_connect_id && $this->dbname != '')
             {
-                @mysqli_query($this->db_connect_id, "SET NAMES 'utf8'");
+                mysqli_query($this->db_connect_id, "SET NAMES 'utf8'");
 
                 // enforce strict mode on databases that support it
                 if (version_compare($this->sql_server_info(true), '5.0.2', '>='))
                 {
-                    $result = @mysqli_query($this->db_connect_id, 'SELECT @@session.sql_mode AS sql_mode');
-                    $row = @mysqli_fetch_assoc($result);
-                    @mysqli_free_result($result);
+                    $result = mysqli_query($this->db_connect_id, 'SELECT @@session.sql_mode AS sql_mode');
+                    $row = mysqli_fetch_assoc($result);
+                    mysqli_free_result($result);
 
                     $modes = array_map('trim', explode(',', $row['sql_mode']));
 
@@ -115,7 +115,7 @@ if(!defined("SQL_LAYER"))
                     }
 
                     $mode = implode(',', $modes);
-                    @mysqli_query($this->db_connect_id, "SET SESSION sql_mode='{$mode}'");
+                    mysqli_query($this->db_connect_id, "SET SESSION sql_mode='{$mode}'");
                 }
                 return $this->db_connect_id;
             }
@@ -335,9 +335,9 @@ if(!defined("SQL_LAYER"))
     */
     function sql_server_info($raw = false, $use_cache = true)
     {
-            $result = @mysqli_query($this->db_connect_id, 'SELECT VERSION() AS version');
-            $row = @mysqli_fetch_assoc($result);
-            @mysqli_free_result($result);
+            $result = mysqli_query($this->db_connect_id, 'SELECT VERSION() AS version');
+            $row = mysqli_fetch_assoc($result);
+            mysqli_free_result($result);
 
             $this->sql_server_version = $row['version'];
 
@@ -353,18 +353,18 @@ if(!defined("SQL_LAYER"))
         switch ($status)
         {
             case 'begin':
-                return @mysqli_autocommit($this->db_connect_id, false);
+                return mysqli_autocommit($this->db_connect_id, false);
             break;
 
             case 'commit':
-                $result = @mysqli_commit($this->db_connect_id);
-                @mysqli_autocommit($this->db_connect_id, true);
+                $result = mysqli_commit($this->db_connect_id);
+                mysqli_autocommit($this->db_connect_id, true);
                 return $result;
             break;
 
             case 'rollback':
-                $result = @mysqli_rollback($this->db_connect_id);
-                @mysqli_autocommit($this->db_connect_id, true);
+                $result = mysqli_rollback($this->db_connect_id);
+                mysqli_autocommit($this->db_connect_id, true);
                 return $result;
             break;
         }
@@ -393,7 +393,7 @@ if(!defined("SQL_LAYER"))
 
             if ($this->query_result === false)
             {
-                if (($this->query_result = @mysqli_query($this->db_connect_id, $query)) === false)
+                if (($this->query_result = mysqli_query($this->db_connect_id, $query)) === false)
                 {
                     $this->sql_error();
                 }
@@ -420,7 +420,7 @@ if(!defined("SQL_LAYER"))
                 }
                 if($query_id)
                 {
-                        $result_query = @mysqli_num_rows($query_id);
+                        $result_query = mysqli_num_rows($query_id);
                         //echo $result_query;
                         return (int)$result_query;
                 }
@@ -454,7 +454,7 @@ if(!defined("SQL_LAYER"))
 
                        // unset($this->row[$query_id]);
 
-                        while($this->rowset['55'] = @mysqli_fetch_array($query_id))
+                        while($this->rowset['55'] = mysqli_fetch_array($query_id))
 
                         {
 
@@ -526,7 +526,7 @@ if(!defined("SQL_LAYER"))
     */
     function sql_affectedrows()
     {
-        return ($this->db_connect_id) ? @mysqli_affected_rows($this->db_connect_id) : false;
+        return ($this->db_connect_id) ? mysqli_affected_rows($this->db_connect_id) : false;
     }
 
     /**
@@ -543,7 +543,7 @@ if(!defined("SQL_LAYER"))
 
         if ($query_id !== false)
         {
-            $result = @mysqli_fetch_assoc($query_id);
+            $result = mysqli_fetch_assoc($query_id);
             return $result ?? false;
         }
 
@@ -563,7 +563,7 @@ if(!defined("SQL_LAYER"))
         }
 
 
-        return ($query_id !== false) ? @mysqli_data_seek($query_id, $rownum) : false;
+        return ($query_id !== false) ? mysqli_data_seek($query_id, $rownum) : false;
     }
     function sql_in_set($field, $array, $negate = false, $allow_empty_set = false)
     {
@@ -596,7 +596,7 @@ if(!defined("SQL_LAYER"))
 
         if (sizeof($array) == 1)
         {
-            @reset($array);
+            reset($array);
             $var = current($array);
 
             return $field . ($negate ? ' <> ' : ' = ') . $this->_sql_validate_value($var);
@@ -612,7 +612,7 @@ if(!defined("SQL_LAYER"))
     */
     function sql_nextid()
     {
-        return ($this->db_connect_id) ? @mysqli_insert_id($this->db_connect_id) : false;
+        return ($this->db_connect_id) ? mysqli_insert_id($this->db_connect_id) : false;
     }
 
     /**
@@ -632,7 +632,7 @@ if(!defined("SQL_LAYER"))
             return ;
         }
 
-        return @mysqli_free_result($query_id);
+        return mysqli_free_result($query_id);
     }
 
     /**
@@ -640,7 +640,7 @@ if(!defined("SQL_LAYER"))
     */
     function sql_escape($msg)
     {
-        return @mysqli_real_escape_string($this->db_connect_id, (string) $msg);
+        return mysqli_real_escape_string($this->db_connect_id, (string) $msg);
     }
 
     /**
@@ -753,11 +753,11 @@ if(!defined("SQL_LAYER"))
     {
         if ($this->db_connect_id)
         {
-            $error = ['message'   => @mysqli_error($this->db_connect_id), 'code'      => @mysqli_errno($this->db_connect_id)];
+            $error = ['message'   => mysqli_error($this->db_connect_id), 'code'      => mysqli_errno($this->db_connect_id)];
         }
         else if (function_exists('mysqli_connect_error'))
         {
-            $error = ['message'   => @mysqli_connect_error(), 'code'      => @mysqli_connect_errno()];
+            $error = ['message'   => mysqli_connect_error(), 'code'      => mysqli_connect_errno()];
         }
         else
         {
@@ -802,7 +802,7 @@ if(!defined("SQL_LAYER"))
     }
     function _sql_close()
     {
-        return @mysqli_close($this->db_connect_id);
+        return mysqli_close($this->db_connect_id);
     }
 
     /**
@@ -848,17 +848,17 @@ if(!defined("SQL_LAYER"))
                     // begin profiling
                     if ($test_prof)
                     {
-                        @mysqli_query($this->db_connect_id, 'SET profiling = 1;');
+                        mysqli_query($this->db_connect_id, 'SET profiling = 1;');
                     }
 
-                    if ($result = @mysqli_query($this->db_connect_id, "EXPLAIN $explain_query"))
+                    if ($result = mysqli_query($this->db_connect_id, "EXPLAIN $explain_query"))
                     {
-                        while ($row = @mysqli_fetch_assoc($result))
+                        while ($row = mysqli_fetch_assoc($result))
                         {
                             $html_table = $this->sql_report('add_select_row', $query, $html_table, $row);
                         }
                     }
-                    @mysqli_free_result($result);
+                    mysqli_free_result($result);
 
                     if ($html_table)
                     {
@@ -870,10 +870,10 @@ if(!defined("SQL_LAYER"))
                         $html_table = false;
 
                         // get the last profile
-                        if ($result = @mysqli_query($this->db_connect_id, 'SHOW PROFILE ALL;'))
+                        if ($result = mysqli_query($this->db_connect_id, 'SHOW PROFILE ALL;'))
                         {
                             $this->html_hold .= '<br />';
-                            while ($row = @mysqli_fetch_assoc($result))
+                            while ($row = mysqli_fetch_assoc($result))
                             {
                                 // make <unknown> HTML safe
                                 if (!empty($row['Source_function']))
@@ -892,14 +892,14 @@ if(!defined("SQL_LAYER"))
                                 $html_table = $this->sql_report('add_select_row', $query, $html_table, $row);
                             }
                         }
-                        @mysqli_free_result($result);
+                        mysqli_free_result($result);
 
                         if ($html_table)
                         {
                             $this->html_hold .= '</table>';
                         }
 
-                        @mysqli_query($this->db_connect_id, 'SET profiling = 0;');
+                        mysqli_query($this->db_connect_id, 'SET profiling = 0;');
                     }
                 }
 
@@ -909,12 +909,12 @@ if(!defined("SQL_LAYER"))
                 $endtime = explode(' ', microtime());
                 $endtime = $endtime[0] + $endtime[1];
 
-                $result = @mysqli_query($this->db_connect_id, $query);
-                while ($void = @mysqli_fetch_assoc($result))
+                $result = mysqli_query($this->db_connect_id, $query);
+                while ($void = mysqli_fetch_assoc($result))
                 {
                     // Take the time spent on parsing rows into account
                 }
-                @mysqli_free_result($result);
+                mysqli_free_result($result);
 
                 $splittime = explode(' ', microtime());
                 $splittime = $splittime[0] + $splittime[1];

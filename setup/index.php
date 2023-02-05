@@ -2,12 +2,12 @@
 
 /**
 *****************************************************************************************
-** PHP-AN602  (Titanium Edition) v1.0.0 - Project Start Date 11/04/2022 Friday 4:09 am **
+** PHP-Nuke Titanium v4.0.4 - Project Start Date 11/04/2022 Friday 4:09 am             **
 *****************************************************************************************
-** https://an602.86it.us/
-** https://github.com/php-an602/php-an602
-** https://an602.86it.us/index.php (DEMO)
-** Apache License, Version 2.0, MIT license 
+** https://www.php-nuke-titanium.86it.us
+** https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4
+** https://www.php-nuke-titanium.86it.us/index.php (DEMO)
+** Apache License, Version 2.0. MIT license 
 ** Copyright (C) 2022
 ** Formerly Known As PHP-Nuke by Francisco Burzi <fburzi@gmail.com>
 ** Created By Ernest Allen Buffington (aka TheGhost or Ghost) <ernest.buffington@gmail.com>
@@ -23,6 +23,23 @@
 **/
 
 require_once("setup_config.php");
+require_once("functions.php");
+require_once(SETUP_NUKE_INCLUDES_DIR.'functions_selects.php');
+
+$nuke_name = "PHP-Nuke Titanium Dev 4 (US Version) ";
+$sql_version = '10.3.37-MariaDB'; //mysqli_get_server_info();
+
+if (!isset($_SESSION['language']) || $_SESSION['language'] == 'english'){
+    $_SESSION['language'] = $_POST['language'] ?? 'english';
+}
+
+if ($_SESSION['language']){
+    if (is_file(BASE_DIR.'language/lang_' . $_SESSION['language'] . '/lang-install.php')){
+        include(BASE_DIR.'language/lang_' . $_SESSION['language'] . '/lang-install.php');
+    } else {
+        include(BASE_DIR.'language/lang_english/lang-install.php');
+    }
+}
 
 error_reporting(E_ALL ^ E_NOTICE);
 
@@ -52,9 +69,37 @@ if(!ini_get("register_globals")):
   endif;
 endif;
 
+$step = $_REQUEST['step'] ?? 0;
+
 if(!isset($step) OR !is_numeric($step)): 
   $step = 0;
 endif;
+
+$total_steps = '10';
+$next_step = $step+1;
+$continue_button = '<input type="hidden" name="step" value="'.$next_step.'" /><input type="submit" class="button" name="submit" value="'.$install_lang['continue'].' '.$next_step.'" />';
+check_required_files();
+$safemodcheck = ini_get('safe_mod');
+
+if ($safemodcheck == 'On' || $safemodcheck == 'on' || $safemodcheck == true){
+    echo '<table id="menu" border="1" width="100%">';
+    echo '  <tr>';
+    echo '    <th id="rowHeading" align="center">'.$nuke_name.' '.$install_lang['installer_heading'].' '.$install_lang['failed'].'</th>';
+    echo '  </tr>';
+    echo '  <tr>';
+    echo '    <td align="center"><span style="color: #ff0000;"><strong>'.$install_lang['safe_mode'].'</strong></span></td>';
+    echo '  </tr>';
+    echo '</table>';
+    exit;
+}
+
+if (isset($_POST['download_file']) && !empty($_SESSION['configData']) && !$_POST['continue']){
+    header("Content-Type: text/x-delimtext; name=config.php");
+    header("Content-disposition: attachment; filename=config.php");
+    $configData = $_SESSION['configData'];
+    echo $configData;
+    exit;
+}
 
 /**
  * Operating System Analysis
@@ -68,150 +113,23 @@ endif;
 
 require_once(SETUP_GRAPHICS_DIR."graphics.php");
 
-function check_chmod($file_check)
-{
+global $cookiedata_admin, $cookiedata;
 
-}
+if(!isset($cookiedata_admin))
+$cookiedata_admin = '';
+if(!isset($cookiedata))
+$cookiedata = '';
+if(!isset($cookie_location))
+$cookie_location = (string) $_SERVER['PHP_SELF'];
 
-function is__writable($path, $file = '')
-{
-	if($path[strlen((string) $path)-1]=='/' AND $file == ''): 
-	  return is__writable($path, uniqid(random_int(0, mt_getrandmax())).'.tmp');
-	endif;
-	//die($path);
-	if(!is_dir($path)):
-	  return false;
-	else:
-      $path = $path.$file;
-	//die($path);
-	  $fp = fopen($path,"w");
-	  
-	  if(!$fp):
-		return false;
-	  else:
-		if(!fputs($fp,"Test Write")):
-		  return false;
-		endif;
-	  endif;
-		unlink($path); # Deleting the mess we just done
-		fclose($fp);
-	endif;
-  
-  return true;
-}
+setcookie('admin',$cookiedata_admin, ['expires' => time()+2_592_000, 'path' => $cookie_location]);
+setcookie('user',$cookiedata, ['expires' => time()+2_592_000, 'path' => $cookie_location]);
 
-function hex_esc($matches) {
-  return sprintf("%02x", ord($matches[0]));
-}
-function RandomAlpha($num)
-{
-    $set  = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz0123456789";
-    $resp = "";
-
-    for($i = 1; $i <= $num; $i++):
-      $char  = random_int(0, strlen($set) - 1);
-      $resp .= $set[$char];
-    endfor;
-  
-  return $resp;
-}
-
-function getscrapedata($url, $display=false, $info = false) {
-	$ret = null;
- if (preg_match("/thepiratebay.org/i", (string) $url))$url = 'udp://tracker.openbittorrent.com:80';
-		if(preg_match('%udp://([^:/]*)(?::([0-9]*))?(?:/)?%si', (string) $url, $m))
-			{
-				$tracker = 'udp://' . $m[1];
-				$port = $m[2] ?? 80;
-				$page = "d5:filesd";
-				$transaction_id = random_int(0,65535);
-				$fp = fsockopen($tracker, $port, $errno, $errstr);
-				stream_set_timeout($fp, 10);
-				if(!$fp)
-					{
-						return false;
-					}
-						fclose($fp);
-						return true;
-				$current_connid = "\x00\x00\x04\x17\x27\x10\x19\x80";
-				//Connection request
-				$packet = $current_connid . pack("N", 0) . pack("N", $transaction_id);
-				fwrite($fp,(string) $packet);
-				//Connection response
-				$ret = fread($fp, 100);
-				if(strlen($ret) < 1 OR strlen($ret) < 16)
-					{
-						die($ret);
-						return false;
-					}
-				$retd = unpack("Naction/Ntransid",$ret);
-				if($retd['action'] != 0 || $retd['transid'] != $transaction_id)
-					{
-						return false;
-					}
-				$current_connid = substr($ret,8,8);
-				//Scrape request
-				$hashes = '';
-				foreach($info as $hash)
-					{
-						$hashes .= pack('H*', $hash);
-					}
-				$packet = $current_connid . pack("N", 2) . pack("N", $transaction_id) . $hashes;
-				fwrite($fp,(string) $packet);
-				//Scrape response
-				$readlength = 8 + (12 * (is_countable($info) ? count($info) : 0));
-				$ret = fread($fp, $readlength);
-				if(strlen($ret) < 1 OR strlen($ret) < 8)
-					{
-						return false;
-					}
-					else
-					{
-						return true;
-					}
-				$retd = unpack("Naction/Ntransid",$ret);
-				// Todo check for error string if response = 3
-				if($retd['action'] != 2 || $retd['transid'] != $transaction_id || strlen($ret) < $readlength)
-					{
-						return false;
-					}
-				$torrents = [];
-				$index = 8;
-				foreach($info as $k => $hash)
-					{
-						$retd = unpack("Nseeders/Ncompleted/Nleechers",substr($ret,$index,12));
-						$retd['infohash'] = $k;
-						$torrents[$hash] = $retd;
-						$index = $index + 12;
-					}
-				foreach($torrents as $retb)$page .= "20:".str_pad((string) $retb['infohash'], 20)."d".
-				"8:completei".$retb['seeders']."e".
-				"10:downloadedi".$retb['completed']."e".
-				"10:incompletei".$retb['leechers']."e".
-				"e";
-				$page .= "ee";
-			}
-			else
-			{
-				if (!$fp = fopen($url,"rb")) return false; //Warnings are shown
-					stream_set_timeout($fp, 10);
-				$page = "";
-				while (!feof($fp)) $page .= fread($fp,10000);
-				fclose($fp);
-			}
-				if(strlen($page) < 1 OR strlen($page) < 16)
-					{
-						return false;
-					}
-
-
-        return $page;
-}
-echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
-echo "<html>\n";
-echo "<head>\n";
-echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1252\">\n";
-echo "<title>PHP-AN602 - Setup</title>\n";
+echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+echo '<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">';
+echo '<head>';
+echo '<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />';
+echo '<title>PHP-Nuke Titanium (US Version) Installer</title>';
 echo "<link rel=\"StyleSheet\" href=\"graphics/style.css\" type=\"text/css\">\n";
 
 if (isset($language) AND $language != "" AND is_readable(SETUP_LANGUAGE_DIR."".$language.".php")) {
@@ -283,7 +201,8 @@ echo "</table>";
 echo "</td>\n<td width=\"512\">\n";
 
 echo "<form name=\"formdata\" action=\"index.php\" method=\"POST\">\n";
-if (isset($language)) echo "<input type=\"hidden\" name=\"language\" value=\"".$language."\" />\n";
+if (isset($language)) 
+echo "<input type=\"hidden\" name=\"language\" value=\"".$language."\" />\n";
 
 
 #INTERFACE HERE

@@ -2,12 +2,12 @@
 
 /**
 *****************************************************************************************
-** PHP-AN602  (Titanium Edition) v1.0.0 - Project Start Date 11/04/2022 Friday 4:09 am **
+** PHP-Nuke Titanium v4.0.4 - Project Start Date 11/04/2022 Friday 4:09 am             **
 *****************************************************************************************
-** https://an602.86it.us/
-** https://github.com/php-an602/php-an602
-** https://an602.86it.us/index.php (DEMO)
-** Apache License, Version 2.0, MIT license 
+** https://www.php-nuke-titanium.86it.us
+** https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4
+** https://www.php-nuke-titanium.86it.us/index.php (DEMO)
+** Apache License, Version 2.0. MIT license 
 ** Copyright (C) 2022
 ** Formerly Known As PHP-Nuke by Francisco Burzi <fburzi@gmail.com>
 ** Created By Ernest Allen Buffington (aka TheGhost or Ghost) <ernest.buffington@gmail.com>
@@ -24,8 +24,8 @@
 
 if (!ini_get('display_errors'))
 {
-    @ini_set('error_reporting', E_ALL);
-    @ini_set('display_errors', 1);
+    ini_set('error_reporting', E_ALL);
+    ini_set('display_errors', 1);
 }
 
 define("IN_NUKE",true);
@@ -55,8 +55,8 @@ $sql = "SELECT * FROM ".$db_prefix."_config LIMIT 1;";
 
 $configquery = $db->sql_query($sql);
 
-if (!$configquery) die($sql."PHP-AN602 not correctly installed! Ensure you have run setup!!");
-if (!$row = $db->sql_fetchrow($configquery)) die("PHP-AN602 not correctly installed! Ensure you have run setup!!");
+if (!$configquery) die($sql."PHP-Nuke Titanium not correctly installed! Ensure you have run setup!!");
+if (!$row = $db->sql_fetchrow($configquery)) die("PHP-Nuke Titanium not correctly installed! Ensure you have run setup!!");
 $sitename = $row["sitename"];
 $siteurl = $row["siteurl"];
 $admin_email = $row["admin_email"];
@@ -71,7 +71,7 @@ require_once("include/class.user.php");
 if ($use_rsa) require_once("include/rsalib.php");
 if ($use_rsa) $rsa = New RSA($rsa_modulo, $rsa_public, $rsa_private);
 if(!isset($_COOKIE["btuser"]))$_COOKIE["btuser"] = '';
-$user = @new User($_COOKIE["btuser"]);
+$user = new User($_COOKIE["btuser"]);
 $theme = $user->theme;
 $user->set_lang('admin/install',$user->ulanguage);
 function sql_add($check, $td, $rd, $arr, $dos)
@@ -140,8 +140,8 @@ function backup_tables($tables = '*',$struc=false,$data=false,$name='backup')
 	fclose($handle);
 	$zipname = "../backups/{$name}.zip";
 	passthru("nice -n 16 zip -q -r {$zipname} ../backups ");
-	@unlink("../backups/{$name}.sql");
-	$f=@fopen('../backups/'.$name.'.zip',"r");
+	unlink("../backups/{$name}.sql");
+	$f=fopen('../backups/'.$name.'.zip',"r");
 	if($f)
 	{
 		fclose($f);
@@ -175,6 +175,12 @@ function stepimage() {
                         return "Admin.png";
                 }
                 case "7": {
+                        return "Runtime.png";
+                }
+                case "8": {
+                        return "Runtime.png";
+                }
+                case "9": {
                         return "Runtime.png";
                 }
         }

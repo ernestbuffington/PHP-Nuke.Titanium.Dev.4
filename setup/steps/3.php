@@ -2,12 +2,13 @@
 
 /**
 *****************************************************************************************
-** PHP-AN602  (Titanium Edition) v1.0.0 - Project Start Date 11/04/2022 Friday 4:09 am **
+** PHP-Nuke Titanium v4.0.4 - Project Start Date 11/04/2022 Friday 4:09 am             **
+
 *****************************************************************************************
-** https://an602.86it.us/
-** https://github.com/php-an602/php-an602
-** https://an602.86it.us/index.php (DEMO)
-** Apache License, Version 2.0, MIT license 
+** https://www.php-nuke-titanium.86it.us
+** https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4
+** https://www.php-nuke-titanium.86it.us/index.php (DEMO)
+** Apache License, Version 2.0. MIT license 
 ** Copyright (C) 2021
 ** Formerly Known As PHP-Nuke by Francisco Burzi <fburzi@gmail.com>
 ** Created By Ernest Allen Buffington (aka TheGhost or Ghost) <ernest.buffington@gmail.com>
@@ -24,18 +25,30 @@
 $error = ((!isset($gpl) OR $gpl != "yes" OR !isset($lgpl) OR $lgpl != "yes") AND !isset($postback));
 $errors = ["db_host"=>false, "db_host_msg"=>"", "db_user"=>false, "db_user_msg"=>"", "db_name"=>false, "upload_directory"=>false, "upload_directory"=>false];
 
-if (!isset($db_type)) $db_type = "MySQLi";
-if (!isset($db_host)) $db_host = "localhost";
-if (!isset($db_user)) $db_user = "root";
-if (!isset($db_pass)) $db_pass = "";
-if (!isset($db_name)) $db_name = "";
-if (!isset($db_prefix)) $db_prefix = "nuke";
-if (!isset($db_persistency)) $db_persistency = "false";
-if (!isset($upload_directory)) $upload_directory = "uploads";
-if (!isset($use_rsa)) $use_rsa = "false";
-if (!isset($rsa_modulo)) $rsa_modulo = 0;
-if (!isset($rsa_public)) $rsa_public = 0;
-if (!isset($rsa_private)) $rsa_private = 0;
+if (!isset($db_type)) 
+$db_type = "MySQLi";
+if (!isset($db_host)) 
+$db_host = "localhost";
+if (!isset($db_user)) 
+$db_user = "";
+if (!isset($db_pass)) 
+$db_pass = "";
+if (!isset($db_name)) 
+$db_name = "";
+if (!isset($db_prefix)) 
+$db_prefix = "nuke";
+if (!isset($db_persistency)) 
+$db_persistency = "false";
+if (!isset($upload_directory)) 
+$upload_directory = "uploads";
+if (!isset($use_rsa)) 
+$use_rsa = "false";
+if (!isset($rsa_modulo)) 
+$rsa_modulo = 0;
+if (!isset($rsa_public)) 
+$rsa_public = 0;
+if (!isset($rsa_private)) 
+$rsa_private = 0;
 
 $showpanel = false;
 
@@ -45,12 +58,12 @@ $configproto = <<<EOF
 <?php
 /**
 *****************************************************************************************
-** PHP-AN602  (Titanium Edition) v1.0.0 - Project Start Date 11/04/2022 Friday 4:09 am **
+** PHP-Nuke Titanium v4.0.4 - Project Start Date 11/04/2022 Friday 4:09 am             **
 *****************************************************************************************
-** https://an602.86it.us/
-** https://github.com/php-an602/php-an602
-** https://an602.86it.us/index.php (DEMO)
-** Apache License, Version 2.0, MIT license 
+** https://www.php-nuke-titanium.86it.us
+** https://github.com/ernestbuffington/PHP-Nuke.Titanium.Dev.4
+** https://www.php-nuke-titanium.86it.us/index.php (DEMO)
+** Apache License, Version 2.0. MIT license 
 ** Copyright (C) 2021
 ** Formerly Known As PHP-Nuke by Francisco Burzi <fburzi@gmail.com>
 ** Created By Ernest Allen Buffington (aka TheGhost or Ghost) <ernest.buffington@gmail.com>
@@ -125,7 +138,6 @@ by httpd/IUSR_MACHINE User
 EOF;
 ?>
 <?php
-
 if (isset($postback)) {
         switch ($db_type) {
                 case "MySQL":
@@ -308,6 +320,34 @@ if ($error) {
         } else {
 
         }
+        require_once(SETUP_INCLUDE_DIR."configdata.php");
+        require_once(SETUP_UDL_DIR."database.php");
+        $db = new sql_db($db_host, $db_user, $db_pass, $db_name, $db_persistency);
+
+        $_SESSION['dbhost'] = $db_host;
+        $_SESSION['dbuser'] = $db_user;
+        $_SESSION['dbpass'] = $db_pass;
+        $_SESSION['dbname'] = $db_name;
+        $_SESSION['dbtype'] = $db_type;
+        $_SESSION['user_prefix'] = $db_prefix;
+	    $_SESSION['prefix'] = $db_prefix;
+	
+	    global $step, $next_step, $install_lang, $server_check;
+
+	    $error = '';
+        $message = '';
+
+        if (generate_config())
+		{
+          $message .= '<font color="green">'.$install_lang['config_success'].'</font><br />';
+          $message .= '<font color="green">'.$install_lang['data_success'].'</font><br />';
+        } 
+		else 
+		{
+          $message .= '<font color="red">'.$install_lang['config_failed'].'</font><br />';
+        }
+        echo $message;
+		
         echo "<p>"._step3complete."</p>";
         echo "<p><input type=\"submit\" name=\"postback\" value=\""._nextstep."\" /></p>\n";
 }
