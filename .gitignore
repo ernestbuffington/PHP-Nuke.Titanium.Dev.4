@@ -1,4 +1,4 @@
-_notes
+_notes/
 2gb.mp4
 cp_errordocument.shtml
 400.shtml
@@ -8,12 +8,12 @@ cp_errordocument.shtml
 413.shtml
 500.shtml
 pspbrwse.jbf
-_vti_cnf
-_vti_pvt
+_vti_cnf/
+_vti_pvt/
 phpBB3
 Q_A
 desktop.ini
-_private
+_private/
 tpl_*.php
 *.mp4
 CarbinFiber-Red-Flames
