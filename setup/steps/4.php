@@ -531,9 +531,13 @@ if ($can_proceed) {
         echo "</p>\n";
         unset($installscript);
 
+        $time = time();
+
 		$sql="ALTER TABLE ".$db_prefix."_bbconfig 
 		ADD PRIMARY KEY (`config_name`) ";
 		$result=$db->sql_query($sql);
+		$sql="UPDATE `nuke_bbconfig` SET `config_name` = 'board_startdate',`config_value` = '".$time."' WHERE `nuke_bbconfig`.`config_name` = 'board_startdate'; ";
+		$result=$db->sql_query($sql);	  
 }
 
 # Forum Disallow Config

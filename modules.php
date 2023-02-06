@@ -63,17 +63,17 @@ if($name):
 
     $module = $db->sql_ufetchrow('SELECT `title`, `active`, `view`, `blocks`, `custom_title`, `groups` FROM `'.$prefix.'_modules` WHERE `title`="'.Fix_Quotes($name).'"');
 	
-	$module_name = $module['title'];
+	$module_name = $module['title'] ?? '';
 	
 	if ($module_name == 'Your_Account' 
 	|| $module_name == main_module()): 
 		$module['active'] = true;
 		$view = 0;
-	else: 
-		$view = $module['view'];
+	else:
+		$view = $module['view'] ?? '';
 	endif;
 	
-	if($module['active'] || is_mod_admin($module_name)):
+	if(isset($module['active']) || is_mod_admin($module_name)):
       
 	  if(!isset($file) OR $file != $_REQUEST['file']): 
 		$file='index';
@@ -94,7 +94,11 @@ if($name):
 		  die('You are so cool...');
 		endif;
 		
-		$showblocks = $module['blocks'];
+		$showblocks = $module['blocks'] ?? '';
+		
+		if(!isset($module['custom_title']))
+		$module['custom_title'] = '';
+		
 		$module_title = ($module['custom_title'] != '') ? $module['custom_title'] : str_replace('_', ' ', $module_name);
         $modpath = isset($module['title']) ? NUKE_MODULES_DIR.$module['title']."/$file.php" : NUKE_MODULES_DIR.$name."/$file.php";
         $groups = (!empty($module['groups'])) ? $groups = explode('-', $module['groups']) : '';

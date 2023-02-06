@@ -23,8 +23,6 @@ if (!defined('IN_NUKE'))
     die ('Error 404 - Page Not Found');
 }
 
-global $db_type, $db_host, $db_user, $db_pass, $db_name, $db_prefix, $db_persistency, $use_rsa, $rsa_modulo, $rsa_public, $rsa_private, $uploads_dir;
-
 /* ---------------------------------
 Database Configuration
 You have to Configure your Database
@@ -53,9 +51,9 @@ persistency : Connection Persistency
 --------------------------------- */
 $db_type        = "MySQLi";
 $db_host        = "localhost";
-$db_user        = "setup_user";
-$db_pass        = "xwdNPADv86user";
-$db_name        = "setup_db";
+$db_user        = "theghost_abode";
+$db_pass        = "xwdNPADv86ha";
+$db_name        = "theghost_abode";
 $db_prefix      = "nuke"; //Without "_"
 $db_persistency = false;
 
@@ -67,9 +65,9 @@ Key Pair to Enable RSA.
 You can Copy & Paste the rsa_keygen Output
 --------------------------------- */
 $use_rsa     = false;
-$rsa_modulo  = 47408399;
-$rsa_public  = 9463;
-$rsa_private = 36871927;
+$rsa_modulo  = 26925823;
+$rsa_public  = 9151;
+$rsa_private = 25015351;
 
 /*----------------------------------
 Torrent Upload Directory
@@ -79,3 +77,4 @@ by httpd/IUSR_MACHINE User
 ----------------------------------*/
 $uploads_dir = "uploads";
 
+?>

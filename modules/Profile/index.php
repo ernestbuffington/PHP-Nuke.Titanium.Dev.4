@@ -61,9 +61,12 @@ init_userprefs($userdata);
 /*****[BEGIN]******************************************
  [ Mod:   Admin delete user with all postings v.1.0.5 ]
  ******************************************************/
-if( $userdata['session_logged_in']  &&  $userdata['user_level'] == ADMIN )
-{
+if(isset($userdata['session_logged_in']))
+{ 
+  if($userdata['session_logged_in'] && $userdata['user_level'] == ADMIN)
+  {
 	include($phpbb_root_path.'language/lang_' . $userdata['user_lang'] . '/lang_user_delete.'.$phpEx);
+  }
 }
 /*****[END]********************************************
  [ Mod:   Admin delete user with all postings v.1.0.5 ]

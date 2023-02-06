@@ -409,9 +409,13 @@ $sql = "SELECT COUNT(user_id) AS total
 /*****[END]********************************************
  [ Mod:    Advance Admin Index Stats           v1.0.0 ]
  ******************************************************/
-        $start_date = create_date($board_config['default_dateformat'], $board_config['board_startdate'], $board_config['board_timezone']);
+        global $board_config;
+		
+		if(empty($board_config['board_startdate']))
+        $board_config['board_startdate'] = '1672571760';
 
-        $boarddays = ( time() - $board_config['board_startdate'] ) / 86400;
+        $start_date = create_date($board_config['default_dateformat'], $board_config['board_startdate'], $board_config['board_timezone']);
+		$boarddays = ( time() - $board_config['board_startdate'] ) / 86400;
 
         $posts_per_day = sprintf("%.2f", $total_posts / $boarddays);
         $topics_per_day = sprintf("%.2f", $total_topics / $boarddays);
@@ -671,7 +675,10 @@ $sql = "SELECT VERSION() AS mysql_version";
                                 if(!isset($onlinerow_reg[$i]['user_allow_viewonline']))
 								$onlinerow_reg[$i]['user_allow_viewonline'] = '';
 								
-                                if( $onlinerow_reg[$i]['user_allow_viewonline'] || $userdata['user_level'] == ADMIN )
+								if(!isset($hidden_users))
+								$hidden_users = 0;
+                                
+								if( $onlinerow_reg[$i]['user_allow_viewonline'] || $userdata['user_level'] == ADMIN )
                                 {
                                         $registered_users++;
                                         $hidden = FALSE;

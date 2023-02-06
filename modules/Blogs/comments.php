@@ -1038,7 +1038,9 @@ function CreateTopic ($xanonpost, $subject, $comment, $pid, $sid, $host_name, $m
 switch(isset($op)) {
 
     case "Reply":
-    reply($pid, $sid, isset($mode), isset($order), isset($thold));
+    if(!isset($pid))
+	$pid = '';
+	reply($pid, $sid, isset($mode), isset($order), isset($thold));
     break;
 
     case ""._PREVIEW."":

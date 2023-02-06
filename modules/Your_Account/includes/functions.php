@@ -201,13 +201,20 @@ function yacookie($setuid, $setusername, $setpass, $setstorynum, $setumode, $set
 
     $guest = 1;
     $user_agent = $identify->identify_agent();
-    if (is_user()) {
-        $guest = 0;
-    } elseif($user_agent['engine'] == 'bot') {
-        $guest = 3;
-    }
-
-    if (!empty($setusername)) {
+    
+	if(!isset($user_agent['engine']))
+	$user_agent['engine'] = '';
+	
+	   if (is_user()) 
+	   {
+          $guest = 0;
+       } 
+	   elseif($user_agent['engine'] == 'bot') 
+	   {
+          $guest = 3;
+       }
+    
+	if (!empty($setusername)) {
         $uname = substr($setusername, 0,25);
         if ($row = $db->sql_fetchrow($result)) {
             $db->sql_query("UPDATE ".$prefix."_session SET uname='$setusername', time='$ctime', host_addr='$ip', guest='$guest' WHERE uname='$uname'");

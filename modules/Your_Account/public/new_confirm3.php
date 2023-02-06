@@ -91,14 +91,18 @@ $_SESSION['YA2'] = true;
     ya_mailCheck($ya_user_email);
     if (!$stop) {
         $datekey = date("F j");
-        global $sitekey, $evoconfig;
+       global $sitekey, $evoconfig;
 		
-		if(!isset($_POST['random_num']))
-		$_POST['random_num'] = '';
+	   if(!isset($_POST['random_num']))
+	   $_POST['random_num'] = '';
         
-		$rcode = hexdec(md5($_SERVER['HTTP_USER_AGENT'] . $sitekey . $_POST['random_num'] . $datekey));
-        $code = substr($rcode, 2, $evoconfig['codesize']);
+	   $rcode = hexdec(md5($_SERVER['HTTP_USER_AGENT'] . $sitekey . $_POST['random_num'] . $datekey));
+       $code = substr($rcode, 2, $evoconfig['codesize']);
        $gfxchk = array(3,4,6,7);
+	   
+	   if(!isset($_POST['g-recaptcha-response']))
+	   $_POST['g-recaptcha-response'] = '';
+	   
         if (!security_code_check($_POST['g-recaptcha-response'], $gfxchk)) {
             OpenTable();
             echo "<center><span class='title'><strong>"._ERRORREG."</strong></span><br /><br />";
@@ -154,6 +158,13 @@ $_SESSION['YA2'] = true;
 //      echo "<tr><td><strong>"._YA_PASSWORD.":</strong> $user_password<br /></td></tr>";
         echo "</table>";
         echo "<center><form action='modules.php?name=$module_name' method='post'>";
+        
+		if(!isset($nfield))
+		$nfield = '';
+		if(!isset($random_num))
+        $random_num = '';
+		if(!isset($gfx_check))
+		$gfx_check = '';
 
         if (is_array($nfield))
         {

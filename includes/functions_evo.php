@@ -58,6 +58,9 @@ function get_user_field($field_name, $user, $is_name = false)
 	{
         $sql = "SELECT * FROM ".USERS_TABLE." WHERE $where";
         $actual_user[$user] = $db->sql_ufetchrow($sql);
+		
+		if(!isset($actual_user[$user]['user_id']))
+		$actual_user[$user]['user_id'] = 1;
         // We also put the groups data in the array.
         $result = $db->sql_query('SELECT g.group_id, 
 		                               g.group_name, 
@@ -103,27 +106,33 @@ function get_user_field($field_name, $user, $is_name = false)
 function get_admin_field($field_name, $admin) 
 {
     global $db, $debugger;
-    static $fields = array();
-    if (!$admin) {
-        return array();
+	//static $fields = array();
+	static $fields = [];
+
+    
+	if (!$admin) {
+      //return array();
+      return [];
     }
 
     if(!isset($fields[$admin]) || !is_array($fields[$admin])) {
-        $fields[$admin] = $db->sql_ufetchrow("SELECT * FROM "._AUTHOR_TABLE." WHERE `aid` = '" .  str_replace("\'", "''", $admin) . "'");
+        //$fields[$admin] = $db->sql_ufetchrow("SELECT * FROM "._AUTHOR_TABLE." WHERE `aid` = '" .  str_replace("\'", "''", $admin) . "'");
+        $fields[$admin] = $db->sql_ufetchrow("SELECT * FROM "._AUTHOR_TABLE." WHERE `aid` = '" .  str_replace("\'", "''", (string) $admin) . "'");
     }
 
     if($field_name == '*') {
         return $fields[$admin];
     }
     if(is_array($field_name)) {
-        $data = array();
+        //$data = array();
+        $data = [];
+
         foreach($field_name as $fld) {
             $data[$fld] = $fields[$admin][$fld];
         }
         return $data;
     }
-
-    return $fields[$admin][$field_name];
+    return $fields[$admin][$field_name] ?? '';
 }
 
 /**

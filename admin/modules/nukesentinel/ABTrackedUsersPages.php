@@ -25,8 +25,15 @@ CloseMenu();
 CloseTable();
 
 OpenTable();
-//$perpage = $ab_config['track_perpage'];
-if($perpage == 0) { $perpage = 25; }
+
+if(isset($ab_config['track_perpage']))
+$perpage = $ab_config['track_perpage'];
+
+if($perpage == 0) 
+{ 
+  $perpage = 25; 
+}
+
 if(!isset($min)) $min=0;
 if(!isset($max)) $max=$min+$perpage;
 if(!isset($column)) $column='';

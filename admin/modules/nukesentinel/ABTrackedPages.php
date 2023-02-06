@@ -25,8 +25,14 @@ CloseMenu();
 CloseTable();
 
 OpenTable();
+
+if(isset($ab_config['track_perpage']))
 $perpage = $ab_config['track_perpage'];
-if($perpage == 0) { $perpage = 25; }
+
+if($perpage == 0) 
+{ 
+  $perpage = 25; 
+}
 if(!isset($min)) $min=0;
 if(!isset($max)) $max=$min+$perpage;
 if(!isset($column)) $column = '';
@@ -85,6 +91,8 @@ while(list($ltid, $page, $date_time) = $db->sql_fetchrow($result)){
   echo '</tr>'."\n";
 }
 echo '</table>'."\n";
+if(!isset($totalselected))
+$totalselected = 0;
 abadminpagenums($op, $totalselected, $perpage, $max, $column, $direction);
 CloseTable();
 include_once(NUKE_BASE_DIR.'footer.php');

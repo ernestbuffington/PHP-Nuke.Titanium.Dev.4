@@ -102,6 +102,9 @@ if ((isset($aid)) && (isset($pwd)) && (isset($op)) && ($op == "login")){
 /*****[BEGIN]******************************************
  [ Mod:     Advanced Security Code Control     v1.0.0 ]
  ******************************************************/
+    if(!isset($_POST['g-recaptcha-response']))
+    $_POST['g-recaptcha-response'] = '';
+ 
     $gfxchk = array(1,5,6,7);
     if (!security_code_check($_POST['g-recaptcha-response'], $gfxchk)){
 /*****[END]********************************************
