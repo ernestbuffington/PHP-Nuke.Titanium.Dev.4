@@ -82,7 +82,7 @@ There have been existing efforts to re-implement the Flash Player, including Gna
 
 <ul>
 	<li><b>Advertising</b><br />Programmable local Portal Advertisng.</li>
-	<li><b>Blogs</b><br />This use to be the News system from Nuke Evolution Xtreme (UK Version) and it was drasticly changed and we renamed it to Blogs when we added new features and updated the code for PHP 7.X - We added a Blog Signature and a few other bells and whistles!</li>
+	<li><b>Blogs</b><br />This use to be the News system from Nuke Evolution Xtreme (UK Version) and it was drasticly changed and we renamed it to Blogs when we added new features and updated the code for PHP 8.X - We added a Blog Signature and a few other bells and whistles!</li>
 	<li><b>Blog Archives</b><br />This use to be the News archive for Nuke Evolution Xtreme (UK Version), it is now the Blog Archives and has had some updates and addons implemented. The display layout has been changed.</li>
 	<li><b>Blog Submit</b><br />Portal members can submit Blogs.</li>
 	<li><b>Blogs Top</b><br />Top 10 Blogs information will be listed - 10 Most Read, 10 Most Voted, 10 Best Rated, 10 Most Commented, 10 Most Active, and 10 Most Active Blog Post Submitters.</li>
@@ -93,7 +93,7 @@ There have been existing efforts to re-implement the Flash Player, including Gna
 	<li><b>FAQ<br />Portal Frequently Asked Questions</li>
 	<li><b>Feedback<br />Users can leave detailed Feedback anytime they want.</li>
 	<li><b>File Repository</b><br />A Most excellent Downloads Manager, This module brings you an advanced file manager, it was been developed to be as user friendly as possible. by Lonestar.</br>Module Version: v1.1.0</br>Website: (http://lonestar-modules.com)</br>Author Email: crazycoder@live.co.uk</br></li>
-	<li><b>Forums</b><br />phpBB Forums Area - phpBB Titanium v4.03 is what we use now.</br>We are currently porting phpBB 3 into our system.</li>
+	<li><b>Forums</b><br />phpBB Forums Area - phpBB Titanium v2.0.25 is what we use now.</br>We are currently porting phpBB 3 into our system.</li>
 	<li><b>Google Site Map</b><br />Added a NEW fast and lightweight class for generating Google sitemap XML files and index of sitemap files. Written on PHP and uses XMLWriter extension (wrapper for libxml xmlWriter API) for creating XML files. XMLWriter extension is enabled by default in PHP 5 >= 5.1.2. If you have more than 50000 urls, it will split items into seperated files. (In benchmarks, 1 million urls were generated in 8 seconds).</li>
 	<li><b>Groups</b><br />List of various groups that members of a portal can subscribe to and become a member of.</li>
 	<li><b>HTML Newsletter</b><br />Currently needs to be re-written as it does have some security issues.</li>
