@@ -1,16 +1,16 @@
 <a href="https://www.php-nuke-titanium.86it.us" rel="nofollow"><img src="/images/github/github_rip_open2.png" alt="PHP-NUke Titanium" style="max-width: 100%;"></a>
 
-<h2>Changes in PHP-Nuke Titanium v4.0.3</h2>
+<h2>Changes in PHP-Nuke Titanium v4.0.4</h2>
 <p>Support Website https://www.php-nuke-titanium.86it.us <-(This Code Running Live) SIGN UP AND CHECK IT OUT!!!</p>
 
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fernestbuffington%2FPHP-Nuke.Titanium.Dev.4.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fernestbuffington%2FPHP-Nuke.Titanium.Dev.4?ref=badge_shield)  [![Codacy Badge](https://app.codacy.com/project/badge/Grade/e5300f0dccdb4bcc9b7bdbc5d6e65f50)](https://www.codacy.com/gh/ernestbuffington/PHP-Nuke.Titanium.Dev.4/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ernestbuffington/PHP-Nuke.Titanium.Dev.4&amp;utm_campaign=Badge_Grade)
 
-<h2>PHP-Nuke Titanium v4.0.3 2022 Nightly Build Repo</h2>
+<h2>PHP-Nuke Titanium v4.0.4 2023 Nightly Build Repo</h2>
 
 <p>This code is running live at https://www.php-nuke-titanium.86it.us</p>
 
-<h2>PHP-Nuke Titanium v4.0.3 Core Developers</h2>
+<h2>PHP-Nuke Titanium v4.0.4 Core Developers</h2>
 
 <ul>
 	<li>Ernest Allen Buffington (Lead Core Developer)</li>
@@ -21,7 +21,7 @@
 	<li>Sebastian Scott Buffington</li>
 </ul>
 
-<h2>PHP-Nuke Titanium v4.0.3 Core Contributors</h2>
+<h2>PHP-Nuke Titanium v4.0.4 Core Contributors</h2>
 
 <ul>
 	<li>Technocrat</li>
@@ -40,7 +40,7 @@
 	<li>Cobalt74</li>
 </ul>
 
-<h2>PHP-Nuke Titanium v4.0.3 Flash Game, and Movie Support for 2022</h2>
+<h2>PHP-Nuke Titanium v4.0.4 Flash Game, and Movie Support for 2022</h2>
 
 <ul>
 	<li>The Ruffle Web Core (https://github.com/ruffle-rs/ruffle): is what we use to enable flash site wide, you will not need any browser plugins.</li>
@@ -78,7 +78,7 @@ Rust was chosen as the programming language because:
 
 There have been existing efforts to re-implement the Flash Player, including Gnash, Shumway, and [Lightspark](https://lightspark.github.io/). Of these, only Lightspark is still maintained. Porting one of the existing C++ projects to Web using Emscripten is another path forward, and, in fact, may be the fastest way to getting a large amount of content running quickly. This project's goal is a fresh start in a modern codebase with the web as a primary platform.
 
-<h2>PHP-Nuke Titanium v4.0.3 Modules</h2>
+<h2>PHP-Nuke Titanium v4.0.4 Modules</h2>
 
 <ul>
 	<li><b>Advertising</b><br />Programmable local Portal Advertisng.</li>
@@ -116,7 +116,7 @@ There have been existing efforts to re-implement the Flash Player, including Gna
 	<li><b>Your Account</b><br />Edit your profile settings anytime you like - Change Avatar, Name, Ghost Mode, and much more...</li>
 </ul>
 
-<h2>PHP-Nuke Titanium v4.0.3 Test Server Information</h2>
+<h2>PHP-Nuke Titanium v4.0.4 Test Server Information</h2>
 
 <ul>
 	<li><b>You will need Network Database Access for the Network Projects Module</b>- edit your nconfig.php file</li>
@@ -154,7 +154,7 @@ Apache doesn't serve these files correctly by default, you will need to add this
 AddType application/wasm .wasm
 ```
 
-<h2>PHP-Nuke Titanium v4.0.3 Local Development</h2>
+<h2>PHP-Nuke Titanium v4.0.4 Local Development</h2>
 
 <p>PHP-Nuke Titanium while advanced can be easily installed using local development servers including MAMP, WAMP, and XAMPP but you can also use IIS or compile your own AMP (Apache, MySQL, PHP) server if you wish to. Please ensure that your local server meets the first 3 server requirements in order to achieve the best possible development results when building your custom add-ons, modules, and mods.</p>
 
@@ -167,18 +167,18 @@ AddType application/wasm .wasm
 <p><a href="https://php-nuke-titanium.86it.us/modules.php?name=Network_Projects&amp;op=Project&amp;project_id=76" rel="nofollow" target="_tab">Fresh install</a><br />
 <a href="https://php-nuke-titanium.86it.us/modules.php?name=Network_Projects&amp;op=Project&amp;project_id=76" rel="nofollow" target="_tab">Upgrade</a></p>
 
-<h2>PHP-Nuke Titanium v4.0.3 Security</h2>
+<h2>PHP-Nuke Titanium v4.0.4 Security</h2>
 
 <p>Security is the top priority for this CMS, the core of PHP-Nuke Titanium uses a comprehensive integrated module called Nuke Sentinel (tm). Nuke Sentinel (tm) protects your website against DDOS, CLIKE, Union, and many more attacks, Nuke Sentinel (tm) is so advanced you don&#39;t even have to worry about protecting your admin panel as it watches for failed logins and can ban anonymous users automatically from your website.</p>
 
 <p>Hopefully, you will never have to visit the admin panel for Nuke Sentinel (tm) as 99% of all web hosts now have DDOS protection and many more security features which prevent attacks and such.</p>
 
-<h2>PHP-Nuke Titanium v4.0.3 Help</h2>
+<h2>PHP-Nuke Titanium v4.0.4 Help</h2>
 
 <p>If you are having issues with your installation please do not hesitate to submit a report by clicking <a href="https://php-nuke-titanium.86it.us/modules.php?name=Network_Projects&amp;op=RequestSubmit&amp;project_id=76" target="_tab">HERE</a><br />
 If you need help with an install do not hesitate to submit a request by clicking <a href="https://php-nuke-titanium.86it.us/modules.php?name=Network_Projects&amp;op=RequestSubmit&amp;project_id=76" target="_tab">HERE</a></p>
 
-<h2>PHP-Nuke Titanium v4.0.3 Feedback, Bugs, and Improvements</h2>
+<h2>PHP-Nuke Titanium v4.0.4 Feedback, Bugs, and Improvements</h2>
 
 <p>If you have any suggestions, feedback, or ideas you feel will be a nice contribution to PHP-Nuke Titanium please use the following links</p>
 
