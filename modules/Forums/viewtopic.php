@@ -585,7 +585,7 @@ endfor;
 
 $select_post_days .= '</select>';
 
-# Decide how to order the post display
+# Decide how to order the post dissplay
 if(!empty($_POST['postorder']) || !empty($_GET['postorder'])):
     $post_order = (!empty($_POST['postorder'])) ? htmlspecialchars((string) $_POST['postorder']) : htmlspecialchars((string) $_GET['postorder']);
  
