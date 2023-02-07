@@ -68,8 +68,11 @@
  ************************************************************************/
 if (!defined('MODULE_FILE')) die ("You can't access this file directly...");
 
-if((!(isset($popup)) OR ($popup != "1")) && !isset($HTTP_GET_VARS['printertopic'])):
-    $module_name = basename(dirname(__FILE__));
+//if((!(isset($popup)) OR ($popup != "1")) && !isset($_GET['printertopic'])):
+//    $module_name = basename(dirname(__FILE__));
+if((!(isset($popup)) OR ($popup != "1")) && !isset($_GET['printertopic'])):
+    $module_name = basename(__DIR__);	
+	
     require("modules/".$module_name."/nukebb.php");
 else:
     $phpbb_root_path = NUKE_FORUMS_DIR;
@@ -96,20 +99,20 @@ include('includes/posting_icons.'. $phpEx);
 
 # Start initial var setup
 $topic_id = $post_id = 0;
-if(isset($HTTP_GET_VARS[POST_TOPIC_URL]))
-$topic_id = intval($HTTP_GET_VARS[POST_TOPIC_URL]);
-elseif( isset($HTTP_GET_VARS['topic']))
-$topic_id = intval($HTTP_GET_VARS['topic']);
+if(isset($_GET[POST_TOPIC_URL]))
+$topic_id = intval($_GET[POST_TOPIC_URL]);
+elseif( isset($_GET['topic']))
+$topic_id = intval($_GET['topic']);
 
 $reply_topic_id = $topic_id;
 
-if(isset($HTTP_GET_VARS[POST_POST_URL]))
-$post_id = intval($HTTP_GET_VARS[POST_POST_URL]);
+if(isset($_GET[POST_POST_URL]))
+$post_id = intval($_GET[POST_POST_URL]);
 
-if(isset($HTTP_GET_VARS['page'])):
-$start = (isset($HTTP_GET_VARS['page']) ) ? intval($HTTP_GET_VARS['page']) : 0;
+if(isset($_GET['page'])):
+$start = (isset($_GET['page']) ) ? intval($_GET['page']) : 0;
 else:
-$start = (isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
+$start = (isset($_GET['start']) ) ? intval($_GET['start']) : 0;
 endif;
 $start = ($start < 0) ? 0 : $start;
 
@@ -122,15 +125,15 @@ $parent_forum = 1;
 # $start          = $calc - $board_config['topics_per_page'];
 
 # Mod: Printer Topic v1.0.8 START
-if(isset($HTTP_GET_VARS['printertopic']))
+if(isset($_GET['printertopic']))
 {
-    $start = ( isset($HTTP_GET_VARS['start_rel']) ) && ( isset($HTTP_GET_VARS['printertopic']) ) ? intval($HTTP_GET_VARS['start_rel']) - 1 : $start;
+    $start = ( isset($_GET['start_rel']) ) && ( isset($_GET['printertopic']) ) ? intval($_GET['start_rel']) - 1 : $start;
 	# $finish when positive indicates last message; when negative it indicates range; can't be 0
     if(!isset($finish))
     $finish = 0;
 
-    if(isset($HTTP_GET_VARS['finish_rel']))
-	$finish = intval($HTTP_GET_VARS['finish_rel']);
+    if(isset($_GET['finish_rel']))
+	$finish = intval($_GET['finish_rel']);
     if(($finish >= 0) && (($finish - $start) <=0))
     unset($finish);
 }
@@ -141,13 +144,13 @@ message_die(GENERAL_MESSAGE, 'Topic_post_not_exist');
 
 # Find topic id if user requested a newer
 # or older topic
-if(isset($HTTP_GET_VARS['view']) && empty($HTTP_GET_VARS[POST_POST_URL])):
+if(isset($_GET['view']) && empty($_GET[POST_POST_URL])):
 
-   if($HTTP_GET_VARS['view'] == 'newest'):
+   if($_GET['view'] == 'newest'):
 
-      if(isset($HTTP_COOKIE_VARS[$board_config['cookie_name'].'_sid']) || isset($HTTP_GET_VARS['sid'])):
+      if(isset($HTTP_COOKIE_VARS[$board_config['cookie_name'].'_sid']) || isset($_GET['sid'])):
 
-         $session_id = isset($HTTP_COOKIE_VARS[$board_config['cookie_name'] . '_sid']) ? $HTTP_COOKIE_VARS[$board_config['cookie_name'] . '_sid'] : $HTTP_GET_VARS['sid'];
+         $session_id = isset($HTTP_COOKIE_VARS[$board_config['cookie_name'] . '_sid']) ? $HTTP_COOKIE_VARS[$board_config['cookie_name'] . '_sid'] : $_GET['sid'];
 
          if (!preg_match('/^[A-Za-z0-9]*$/', $session_id))
          $session_id = '';
@@ -188,7 +191,7 @@ if(isset($HTTP_GET_VARS['view']) && empty($HTTP_GET_VARS[POST_POST_URL])):
 
             $post_id = $row['post_id'];
 
-            if(isset($HTTP_GET_VARS['sid']))
+            if(isset($_GET['sid']))
             redirect(append_sid("viewtopic.$phpEx?sid=$session_id&".POST_POST_URL."=$post_id#$post_id",true));
             else
             redirect(append_sid("viewtopic.$phpEx?".POST_POST_URL ."=$post_id#$post_id",true));
@@ -197,10 +200,10 @@ if(isset($HTTP_GET_VARS['view']) && empty($HTTP_GET_VARS[POST_POST_URL])):
 
       redirect(append_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id",true));
 
-   elseif($HTTP_GET_VARS['view'] == 'next' || $HTTP_GET_VARS['view'] == 'previous'):
+   elseif($_GET['view'] == 'next' || $_GET['view'] == 'previous'):
 
-      $sql_condition = ( $HTTP_GET_VARS['view'] == 'next' ) ? '>' : '<';
-      $sql_ordering = ( $HTTP_GET_VARS['view'] == 'next' ) ? 'ASC' : 'DESC';
+      $sql_condition = ( $_GET['view'] == 'next' ) ? '>' : '<';
+      $sql_ordering = ( $_GET['view'] == 'next' ) ? 'ASC' : 'DESC';
 
       $sql = "SELECT t.topic_id
       FROM (" . TOPICS_TABLE . " t, " . TOPICS_TABLE . " t2)
@@ -218,7 +221,7 @@ if(isset($HTTP_GET_VARS['view']) && empty($HTTP_GET_VARS[POST_POST_URL])):
       if ( $row = $db->sql_fetchrow($result)):
       $topic_id = intval($row['topic_id']);
       else:
-         $message = ( $HTTP_GET_VARS['view'] == 'next' ) ? 'No_newer_topics' : 'No_older_topics';
+         $message = ( $_GET['view'] == 'next' ) ? 'No_newer_topics' : 'No_older_topics';
          message_die(GENERAL_MESSAGE, $message);
       endif;
    endif;
@@ -370,13 +373,13 @@ $topic_time = $forum_topic_data['topic_time'];
 # Password check START
 if( !$is_auth['auth_mod'] && $userdata['user_level'] != ADMIN ):
 	$redirect = str_replace("&amp;", "&", preg_replace('#.*?([a-z]+?\.' . $phpEx . '.*?)$#i', '\1', htmlspecialchars($HTTP_SERVER_VARS['REQUEST_URI'])));
-	if(isset($HTTP_POST_VARS['cancel'])):
+	if(isset($_POST['cancel'])):
 		redirect(append_sid("index.$phpEx"));
-	elseif(isset($HTTP_POST_VARS['pass_login'])):
+	elseif(isset($_POST['pass_login'])):
 		if($forum_topic_data['topic_password'] != ''):
-			password_check('topic', $topic_id, $HTTP_POST_VARS['password'], $redirect);
+			password_check('topic', $topic_id, $_POST['password'], $redirect);
 		elseif($forum_topic_data['forum_password'] != ''):
-			password_check('forum', $forum_id, $HTTP_POST_VARS['password'], $redirect);
+			password_check('forum', $forum_id, $_POST['password'], $redirect);
 	    endif;
 	endif;
 	
@@ -405,11 +408,11 @@ $start = floor(($forum_topic_data['prev_posts'] - 1) / intval($board_config['pos
 if($userdata['session_logged_in']):
 
     # Mod: Report Posts v1.0.2 START
-    if ( isset($HTTP_GET_VARS['report']) || isset($HTTP_POST_VARS['report'])):
+    if ( isset($_GET['report']) || isset($_POST['report'])):
 
         include("includes/functions_report.php");
 
-        $comments = ( !empty($HTTP_POST_VARS['comments']) ) ? htmlspecialchars(trim($HTTP_POST_VARS['comments'])) : '';
+        $comments = ( !empty($_POST['comments']) ) ? htmlspecialchars(trim($_POST['comments'])) : '';
 
         if(empty($comments)):
             # show form to add comments about topic
@@ -465,9 +468,9 @@ if($userdata['session_logged_in']):
 
         if($row = $db->sql_fetchrow($result)):
 
-           if(isset($HTTP_GET_VARS['unwatch'])):
+           if(isset($_GET['unwatch'])):
 
-              if($HTTP_GET_VARS['unwatch'] == 'topic'):
+              if($_GET['unwatch'] == 'topic'):
                  $is_watching_topic = 0;
                  $sql_priority = (SQL_LAYER == "mysql" || SQL_LAYER == "mysqli") ? "LOW_PRIORITY" : '';
                  $sql = "DELETE $sql_priority FROM ".TOPICS_WATCH_TABLE."
@@ -497,8 +500,8 @@ if($userdata['session_logged_in']):
               endif;
            endif;
         else:
-           if(isset($HTTP_GET_VARS['watch'])):
-              if($HTTP_GET_VARS['watch'] == 'topic'):
+           if(isset($_GET['watch'])):
+              if($_GET['watch'] == 'topic'):
                  $is_watching_topic = TRUE;
                  $sql_priority = (SQL_LAYER == "mysql" || SQL_LAYER == "mysqli") ? "LOW_PRIORITY" : '';
                  $sql = "INSERT $sql_priority INTO ".TOPICS_WATCH_TABLE." (user_id, topic_id, notify_status)
@@ -514,8 +517,8 @@ if($userdata['session_logged_in']):
            endif;
         endif;
 else:
-   if(isset($HTTP_GET_VARS['unwatch'])):
-       if($HTTP_GET_VARS['unwatch'] == 'topic'):
+   if(isset($_GET['unwatch'])):
+       if($_GET['unwatch'] == 'topic'):
        $header_location = ( @preg_match("/Microsoft|WebSTAR|Xitami/", $_SERVER["SERVER_SOFTWARE"]) ) ? "Refresh: 0; URL=" : "Location: ";
        redirect(append_sid("login.$phpEx?redirect=viewtopic.$phpEx&".POST_TOPIC_URL."=$topic_id&unwatch=topic", true));
        exit;
@@ -545,8 +548,8 @@ endif;
 $previous_days = array(0, 1, 7, 14, 30, 90, 180, 364);
 $previous_days_text = array($lang['All_Posts'], $lang['1_Day'], $lang['7_Days'], $lang['2_Weeks'], $lang['1_Month'], $lang['3_Months'], $lang['6_Months'], $lang['1_Year']);
 
-if(!empty($HTTP_POST_VARS['postdays']) || !empty($HTTP_GET_VARS['postdays'])):
-        $post_days = ( !empty($HTTP_POST_VARS['postdays']) ) ? intval($HTTP_POST_VARS['postdays']) : intval($HTTP_GET_VARS['postdays']);
+if(!empty($_POST['postdays']) || !empty($_GET['postdays'])):
+        $post_days = ( !empty($_POST['postdays']) ) ? intval($_POST['postdays']) : intval($_GET['postdays']);
         $min_post_time = time() - (intval($post_days) * 86400);
 
         $sql = "SELECT COUNT(p.post_id) AS num_posts
@@ -563,7 +566,7 @@ if(!empty($HTTP_POST_VARS['postdays']) || !empty($HTTP_GET_VARS['postdays'])):
 
         $limit_posts_time = "AND p.post_time >= $min_post_time ";
 
-        if(!empty($HTTP_POST_VARS['postdays'])):
+        if(!empty($_POST['postdays'])):
         $start = 0;
 		endif;
 
@@ -583,9 +586,9 @@ endfor;
 $select_post_days .= '</select>';
 
 # Decide how to order the post display
-if(!empty($HTTP_POST_VARS['postorder']) || !empty($HTTP_GET_VARS['postorder'])):
-    $post_order = (!empty($HTTP_POST_VARS['postorder'])) ? htmlspecialchars($HTTP_POST_VARS['postorder']) : htmlspecialchars($HTTP_GET_VARS['postorder']);
-
+if(!empty($_POST['postorder']) || !empty($_GET['postorder'])):
+    $post_order = (!empty($_POST['postorder'])) ? htmlspecialchars((string) $_POST['postorder']) : htmlspecialchars((string) $_GET['postorder']);
+ 
     if (!preg_match("/^((asc)|(desc))$/i",$post_order) )
     message_die(GENERAL_ERROR, 'Selected post order is not valid');
 
@@ -716,16 +719,16 @@ $topic_title = preg_replace($orig_word, $replacement_word, $topic_title);
 
 # Was a highlight request part of the URI?
 $highlight_match = $highlight = '';
-if (isset($HTTP_GET_VARS['highlight'])):
+if (isset($_GET['highlight'])):
         # Split words and phrases
-        $words = explode(' ', trim(htmlspecialchars($HTTP_GET_VARS['highlight'])));
+        $words = explode(' ', trim(htmlspecialchars($_GET['highlight'])));
         for($i = 0; $i < count($words); $i++):
           if (trim($words[$i]) != '')
           $highlight_match .= (($highlight_match != '') ? '|' : '').str_replace('*', '\w*', preg_quote($words[$i], '#'));
         endfor;
         unset($words);
 
-    $highlight = urlencode($HTTP_GET_VARS['highlight']);
+    $highlight = urlencode($_GET['highlight']);
         $highlight_match = phpbb_rtrim($highlight_match, "\\");
 endif;
 
@@ -805,7 +808,7 @@ endif;
 
 # Load templates
 # Mod: Printer Topic v1.0.8 START
-if(isset($HTTP_GET_VARS['printertopic'])):
+if(isset($_GET['printertopic'])):
     $template->set_filenames(array(
         'body' => 'printertopic_body.tpl')
     );
@@ -854,7 +857,7 @@ if( $parent_id )
 $page_title = $lang['View_topic'] .' - ' . $topic_title;
 
 # Mod: Printer Topic v1.0.8 START
-if(isset($HTTP_GET_VARS['printertopic']))
+if(isset($_GET['printertopic']))
 include('includes/page_header_printer.'.$phpEx);
 else
 include("includes/page_header.$phpEx");
@@ -970,7 +973,7 @@ endif;
 # If we've got a hightlight set pass it on to pagination,
 # I get annoyed when I lose my highlight after the first page.
 # Mod: Printer Topic v1.0.8 START
-if(isset($HTTP_GET_VARS['printertopic']))
+if(isset($_GET['printertopic']))
 $pagination_printertopic = "printertopic=1&amp;";
 if(!empty($highlight))
 $pagination_highlight = "highlight=$highlight&amp;";
@@ -1019,7 +1022,7 @@ $template->assign_vars(array(
         # Mod: Printer Topic v1.0.8 START
 		'PARENT_FORUM'	 => $parent_forum,
         'START_REL' => ($start + 1),
-        'FINISH_REL' => (isset($HTTP_GET_VARS['finish_rel'])? intval($HTTP_GET_VARS['finish_rel']) : ($board_config['posts_per_page'] - $start)),
+        'FINISH_REL' => (isset($_GET['finish_rel'])? intval($_GET['finish_rel']) : ($board_config['posts_per_page'] - $start)),
         # Mod: Printer Topic v1.0.8 END
  		/**
  		 *	@since 2.0.9e001
@@ -1171,8 +1174,8 @@ if(!empty($forum_topic_data['topic_vote'])):
                 $user_voted = ($row = $db->sql_fetchrow($result)) ? TRUE : 0;
                 $db->sql_freeresult($result);
 
-                if( isset($HTTP_GET_VARS['vote']) || isset($HTTP_POST_VARS['vote']))
-                $view_result = (((isset($HTTP_GET_VARS['vote'])) ? $HTTP_GET_VARS['vote'] : $HTTP_POST_VARS['vote']) == 'viewresult') ? TRUE : 0;
+                if( isset($_GET['vote']) || isset($_POST['vote']))
+                $view_result = (((isset($_GET['vote'])) ? $_GET['vote'] : $_POST['vote']) == 'viewresult') ? TRUE : 0;
                 else
                 $view_result = 0;
 
@@ -2077,7 +2080,7 @@ $leave_out['show_sig_once'] = false;
        # Mod: Force Topic Read v1.0.3 START
 	   if((!$userdata['user_ftr']) && ($userdata['user_id'] != ANONYMOUS)):
 		  # They Have Clicked The Link & Are Viewing The Post, So Set Them As Read
-		  if (isset($HTTP_GET_VARS['directed']) && $HTTP_GET_VARS['directed'] == 'ftr'):
+		  if (isset($_GET['directed']) && $_GET['directed'] == 'ftr'):
 			$q = "UPDATE ". USERS_TABLE ."
 				  SET user_ftr = '1', user_ftr_time = '".time()."'
 				  WHERE user_id = '".$userdata['user_id']."'";
@@ -2393,7 +2396,7 @@ $leave_out['show_sig_once'] = false;
 
 endfor;
 
-if(!isset($HTTP_GET_VARS['printertopic'])): 
+if(!isset($_GET['printertopic'])): 
    # Base: At a Glance v2.2.1 START
    # Mod: At a Glance Options v1.0.0 START
    if(show_glance("topics")) 
@@ -2417,9 +2420,9 @@ get_related_topics($topic_id);
 $template->pparse('body');
 
 # Mod: Printer Topic v1.0.8 START
-if(isset($HTTP_GET_VARS['printertopic']))
+if(isset($_GET['printertopic']))
 $gen_simple_header = 1;
 else 
 include("includes/page_tail.$phpEx");
 # Mod: Printer Topic v1.0.8 END
-?>
+
