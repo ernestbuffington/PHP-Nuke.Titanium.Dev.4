@@ -71,7 +71,7 @@ if(is_user())
 	if(!isset($thold)) 
 	$thold = $userinfo['thold']; 
     
-	$db->sql_query("UPDATE ".$user_prefix."_users SET umode='$mode', uorder='$order', thold='$thold' where user_id=".(int) $cookie[0]);
+	$db->sql_query("UPDATE ".$user_prefix."_users SET umode='$mode', uorder='$order', thold='$thold' WHERE user_id=".(int) $cookie[0]);
 }
 
 if (isset($op) && $op == "Reply") 
@@ -178,7 +178,7 @@ $informant = $anonymous;
 getTopics($sid);
 
 if ($catid != 0) {
-    $row2 = $db->sql_fetchrow($db->sql_query("select title from ".$prefix."_blogs_cat where catid='$catid'"));
+    $row2 = $db->sql_fetchrow($db->sql_query("SELECT title FROM ".$prefix."_blogs_cat WHERE catid='$catid'"));
     $title1 = stripslashes((string) check_html($row2["title"], "nohtml"));
     $title = "<a href=\"modules.php?name=$module_name&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><font class=\"storycat\">$title1</font></a>: $title";
 }
@@ -240,7 +240,7 @@ if ($haspoll == 1)
 
     if ($pollcomm) 
 	{
-      $result6 = $db->sql_query("select * from ".$prefix."_pollcomments where pollID='$pollID'");
+      $result6 = $db->sql_query("SELECT * FROM ".$prefix."_pollcomments WHERE pollID='$pollID'");
       $numcom = $db->sql_numrows($result6);
       $db->sql_freeresult($result6);
       $boxContent .= "<br />"._VOTES.": <strong>$sum</strong><br />"._PCOMMENTS." <strong>$numcom</strong>\n\n";
@@ -256,7 +256,7 @@ if ($haspoll == 1)
 $boxtitle = ""._RELATED."";
 $boxstuff = "<span class=\"content\"><br />";
 
-$url_result = $db->sql_query("select name, url from ".$prefix."_related where tid='$topic'");
+$url_result = $db->sql_query("SELECT name, url FROM ".$prefix."_related WHERE tid='$topic'");
 
 while ($row_eight = $db->sql_fetchrow($url_result)) 
 {
@@ -372,9 +372,11 @@ else
 {
   $ratetitle = ""._RATEARTICLE."<br/>";
   if ($ratings == 1)
-  $ratecontent = "<div align=\"center\"><strong>This Blog has a<br/>$rate Star Rating</strong><br/><img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" ><br/><strong>$ratings person has<br/>voted for this Blog</strong><br/><img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" >";
+  $ratecontent = "<div align=\"center\"><strong>This Blog has a<br/>$rate Star Rating</strong><br/><img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" 
+  height=\"5\" ><br/><strong>$ratings person has<br/>voted for this Blog</strong><br/><img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" >";
   else
-  $ratecontent = "<div align=\"center\"><strong>This Blog has a<br/>$rate Star Rating</strong><br/><img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" ><br/><strong>$ratings people have<br/>voted for this Blog</strong><br/><img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" >";
+  $ratecontent = "<div align=\"center\"><strong>This Blog has a<br/>$rate Star Rating</strong><br/><img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" 
+  height=\"5\" ><br/><strong>$ratings people have<br/>voted for this Blog</strong><br/><img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" >";
   
   $ratecontent .= "<form action=\"modules.php?name=$module_name\" method=\"post\"><img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"10\" ><br /><div align=center>"._RATETHISARTICLE."</div><br />";
   $ratecontent .= "<img src=\"modules/Blogs/images/blockspacer.png\" alt=\"stars\" width=\"20\" height=\"20\" ><br />$the_image<br/><img src=\"modules/Blogs/images/blockspacer.png\" alt=\"\" width=\"10\" height=\"5\" ><br />";
@@ -453,7 +455,8 @@ $optionbox .= '&nbsp;<a href="modules.php?name='.the_module().'&amp;file=friend&
 
 if (is_mod_admin($module_name)) 
 {
-    $optionbox .= '<div class="acenter">'.$customlang['global']['admin'].'<br />[ <a href="'.$admin_file.'.php?op=adminBlog">'.$customlang['global']['add'].'</a> | <a href="'.$admin_file.'.php?op=EditBlog&amp;sid='.$sid.'">'.$customlang['global']['edit'].'</a> | <a href="'.$admin_file.'.php?op=RemoveBlog&amp;sid='.$sid.'">'.$customlang['global']['delete'].'</a> ]</div>';
+    $optionbox .= '<div class="acenter">'.$customlang['global']['admin'].'<br />[ <a href="'.$admin_file.'.php?op=adminBlog">'.$customlang['global']['add'].'</a> | <a 
+	href="'.$admin_file.'.php?op=EditBlog&amp;sid='.$sid.'">'.$customlang['global']['edit'].'</a> | <a href="'.$admin_file.'.php?op=RemoveBlog&amp;sid='.$sid.'">'.$customlang['global']['delete'].'</a> ]</div>';
 }
 
 themesidebox($optiontitle, $optionbox, "newsopt");
