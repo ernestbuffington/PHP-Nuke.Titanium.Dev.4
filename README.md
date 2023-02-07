@@ -158,7 +158,7 @@ AddType application/wasm .wasm
 
 <p>PHP-Nuke Titanium while advanced can be easily installed using local development servers including MAMP, WAMP, and XAMPP but you can also use IIS or compile your own AMP (Apache, MySQL, PHP) server if you wish to. Please ensure that your local server meets the first 3 server requirements in order to achieve the best possible development results when building your custom add-ons, modules, and mods.</p>
 
-<h2>PHP-Nuke Titanium v4.0.3 Installation and Upgrade</h2>
+<h2>PHP-Nuke Titanium v4.0.4 Installation and Upgrade</h2>
 
 <p>While PHP-Nuke Titanium uses the same core as PHP-Nuke Evolution Xtreme there have been a lot of updates to it which improve performance and security, please see the following links for installing a fresh copy or upgrading.</p>
 
