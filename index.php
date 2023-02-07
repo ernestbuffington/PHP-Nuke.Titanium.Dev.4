@@ -38,7 +38,6 @@ define('MODULE_FILE', true);
 
 $_SERVER['PHP_SELF'] = 'modules.php';
 
-//require_once(dirname(__FILE__).'/mainfile.php');
 require_once(__DIR__.'/mainfile.php');
 
 /*****[BEGIN]******************************************
@@ -46,12 +45,11 @@ require_once(__DIR__.'/mainfile.php');
  ******************************************************/
 global $prefix, $db, $admin_file, $httpref, $httprefmax, $module_name;
 
-if (isset($_GET['op'])):
+if (isset($_GET['op']) && $_GET['op'] == 'ad_click'):
 
 	if($_GET['op'] == 'ad_click' && isset($_GET['bid'])):
         $bid = intval($_GET['bid']);
         
-		//list($clickurl) = $db->sql_ufetchrow("SELECT `clickurl` FROM `".$prefix."_banner` WHERE `bid`='$bid'", SQL_NUM);
         [$clickurl] = $db->sql_ufetchrow("SELECT `clickurl` FROM `".$prefix."_banner` WHERE `bid`='$bid'", SQL_NUM);
 
         if(!is_admin()):
@@ -71,14 +69,13 @@ endif;
 /*****[BEGIN]**************************************************
  [ Mod:    Network Banner Ads                          v1.0.0 ]#### 3/19/2021
  **************************************************************/
-global $network_prefix, $db2;
+global $dbhost2, $dbname2, $dbuname2, $db2, $network_prefix; 
 
-if (isset($_GET['op'])):
+if (isset($_GET['op']) && $_GET['op'] == 'ad_network_click'):
     
 	if($_GET['op'] == 'ad_network_click' && isset($_GET['bid'])):
         $bid = intval($_GET['bid']);
     
- 	    //list($clickurl) = $db2->sql_ufetchrow("SELECT `clickurl` FROM `".$network_prefix."_banner` WHERE `bid`='$bid'", SQL_NUM);
 	    [$clickurl] = $db2->sql_ufetchrow("SELECT `clickurl` FROM `".$network_prefix."_banner` WHERE `bid`='$bid'", SQL_NUM);
     
 	    if(!is_admin()):
@@ -103,20 +100,14 @@ $arcade = get_query_var('act', 'get');
 $newscore = get_query_var('do', 'get');
 
 if($arcade == 'Arcade' && $newscore='newscore'):
-     //$gamename = str_replace("\'","''",$HTTP_POST_VARS['gname']);
-     //$gamename = preg_replace(array('#&(?!(\#[0-9]+;))#', '#<#', '#>#'), array('&amp;', '&lt;', '&gt;'),$gamename);
-     //$gamescore = intval($HTTP_POST_VARS['gscore']);
-	 
 	 $gamename = str_replace("\'","''",$_POST['gname']);
      $gamename = preg_replace(['#&(?!(\#[0-9]+;))#', '#<#', '#>#'], ['&amp;', '&lt;', '&gt;'],$gamename);
      $gamescore = intval($_POST['gscore']);
-
       //Get Game ID
       $row = $db->sql_ufetchrow("SELECT `game_id` FROM `".$prefix."_bbgames` WHERE `game_scorevar`='$gamename'");
       $gid = intval($row['game_id']);
 
       $ThemeSel = get_theme();
-
       print '<link rel="StyleSheet" href="themes/"'.$ThemeSel.'"/style/style.css">'."\n";
       print '<form method="post" name="ibpro_score" action="modules.php?name=Forums&amp;file=proarcade&amp;valid=X&amp;gpaver=GFARV2">'."\n";
       print '<input type=hidden name="vscore" value="'.$gamescore.'">'."\n";
