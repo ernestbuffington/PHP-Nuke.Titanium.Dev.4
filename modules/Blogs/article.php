@@ -90,7 +90,25 @@ if (isset($op) && $op == "Reply")
 	redirect("modules.php?name=$module_name&file=comments&op=Reply&pid=0&sid=".$sid.$display);
 }
 
-$result = $db->sql_query("select catid, aid, datePublished, dateModified, title, counter, hometext, bodytext, topic, informant, notes, acomm, haspoll, pollID, score, ratings, ticon FROM ".$prefix."_blogs where sid='$sid'");
+$result = $db->sql_query("SELECT `catid`, 
+                                   `aid`, 
+						 `datePublished`, 
+						  `dateModified`, 
+						         `title`, 
+							   `counter`, 
+							  `hometext`, 
+							  `bodytext`, 
+							     `topic`, 
+							 `informant`, 
+							     `notes`, 
+								 `acomm`, 
+							   `haspoll`, 
+							    `pollID`, 
+								 `score`, 
+							   `ratings`, 
+							     `ticon` 
+
+FROM ".$prefix."_blogs WHERE sid='$sid'");
 
 $numrows = $db->sql_numrows($result);
 
@@ -132,7 +150,7 @@ $topic_icon = (int) $row["ticon"];
 if (empty($aaid)) 
 redirect("modules.php?name=".$module_name);
 
-$db->sql_query("UPDATE ".$prefix."_blogs SET counter=counter+1 where sid='$sid'");
+$db->sql_query("UPDATE ".$prefix."_blogs SET counter=counter+1 WHERE sid='$sid'");
 
 $artpage = 1;
 
@@ -174,8 +192,8 @@ themearticle($aaid, $informant, $datetime, $modified, $title, $counter, $bodytex
 
 include_once("modules/$module_name/associates.php");
 
-if (empty($mode) || $mode != "nocomments" || $acomm == 0 || $articlecomm == 1) 
-include_once("modules/$module_name/comments.php");
+//if (empty($mode) || $mode != "nocomments" || $acomm == 0 || $articlecomm == 1) 
+//include_once("modules/$module_name/comments.php");
 
 echo "</td><td>&nbsp;</td><td valign=\"top\">\n";
 
