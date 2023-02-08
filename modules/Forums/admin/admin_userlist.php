@@ -3,7 +3,6 @@
   PHP-Nuke Titanium | Nuke-Evolution Xtreme : PHP-Nuke Web Portal System
  =======================================================================*/
 
-
 /***************************************************************************
  *                              admin_userlist.php
  *                            -------------------
@@ -49,9 +48,9 @@ require('./pagestart.' . $phpEx);
 //
 // Set mode
 //
-if( isset( $HTTP_POST_VARS['mode'] ) || isset( $HTTP_GET_VARS['mode'] ) )
+if( isset( $_POST['mode'] ) || isset( $_GET['mode'] ) )
 {
-    $mode = ( isset($HTTP_POST_VARS['mode']) ) ? $HTTP_POST_VARS['mode'] : $HTTP_GET_VARS['mode'];
+    $mode = ( isset($_POST['mode']) ) ? $_POST['mode'] : $_GET['mode'];
 }
 else
 {
@@ -61,7 +60,7 @@ else
 //
 // confirm
 //
-if( isset( $HTTP_POST_VARS['confirm'] ) || isset( $HTTP_GET_VARS['confirm'] ) )
+if( isset( $_POST['confirm'] ) || isset( $_GET['confirm'] ) )
 {
     $confirm = true;
 }
@@ -73,7 +72,7 @@ else
 //
 // cancel
 //
-if( isset( $HTTP_POST_VARS['cancel'] ) || isset( $HTTP_GET_VARS['cancel'] ) )
+if( isset( $_POST['cancel'] ) || isset( $_GET['cancel'] ) )
 {
     $cancel = true;
     $mode = '';
@@ -86,14 +85,14 @@ else
 //
 // get starting position
 //
-$start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
+$start = ( isset($_GET['start']) ) ? intval($_GET['start']) : 0;
 
 //
 // get show amount
 //
-if ( isset($HTTP_GET_VARS['show']) || isset($HTTP_POST_VARS['show']) )
+if ( isset($_GET['show']) || isset($_POST['show']) )
 {
-    $show = ( isset($HTTP_POST_VARS['show']) ) ? intval($HTTP_POST_VARS['show']) : intval($HTTP_GET_VARS['show']);
+    $show = ( isset($_POST['show']) ) ? intval($_POST['show']) : intval($_GET['show']);
 }
 else
 {
@@ -103,9 +102,9 @@ else
 //
 // sort method
 //
-if ( isset($HTTP_GET_VARS['sort']) || isset($HTTP_POST_VARS['sort']) )
+if ( isset($_GET['sort']) || isset($_POST['sort']) )
 {
-    $sort = ( isset($HTTP_POST_VARS['sort']) ) ? htmlspecialchars($HTTP_POST_VARS['sort']) : htmlspecialchars($HTTP_GET_VARS['sort']);
+    $sort = ( isset($_POST['sort']) ) ? htmlspecialchars($_POST['sort']) : htmlspecialchars($_GET['sort']);
     $sort = str_replace("\'", "''", $sort);
 }
 else
@@ -116,13 +115,13 @@ else
 //
 // sort order
 //
-if( isset($HTTP_POST_VARS['order']) )
+if( isset($_POST['order']) )
 {
-    $sort_order = ( $HTTP_POST_VARS['order'] == 'ASC' ) ? 'ASC' : 'DESC';
+    $sort_order = ( $_POST['order'] == 'ASC' ) ? 'ASC' : 'DESC';
 }
-else if( isset($HTTP_GET_VARS['order']) )
+else if( isset($_GET['order']) )
 {
-    $sort_order = ( $HTTP_GET_VARS['order'] == 'ASC' ) ? 'ASC' : 'DESC';
+    $sort_order = ( $_GET['order'] == 'ASC' ) ? 'ASC' : 'DESC';
 }
 else
 {
@@ -132,11 +131,11 @@ else
 //
 // alphanumeric stuff
 //
-if ( isset($HTTP_GET_VARS['alphanum']) || isset($HTTP_POST_VARS['alphanum']) )
+if ( isset($_GET['alphanum']) || isset($_POST['alphanum']) )
 {
-    $alphanum = ( isset($HTTP_POST_VARS['alphanum']) ) ? htmlspecialchars($HTTP_POST_VARS['alphanum']) : htmlspecialchars($HTTP_GET_VARS['alphanum']);
+    $alphanum = ( isset($_POST['alphanum']) ) ? htmlspecialchars($_POST['alphanum']) : htmlspecialchars($_GET['alphanum']);
     $alphanum = str_replace("\'", "''", $alphanum);
-    switch( $dbms )
+    switch( isset($dbms) )
     {
         case 'postgres':
             $alpha_where = ( $alphanum == 'num' ) ? "AND username !~ '^[A-Z]+'" : "AND username ILIKE '$alphanum%'";
@@ -156,17 +155,17 @@ $user_ids = array();
 $filter = '';
 $filter_where = '';
 $find_by = 'find_username';
-if ( isset($HTTP_GET_VARS['filter']) || isset($HTTP_POST_VARS['filter']) )
+if ( isset($_GET['filter']) || isset($_POST['filter']) )
 {
-	$filter = ( isset($HTTP_POST_VARS['filter']) ) ? htmlspecialchars($HTTP_POST_VARS['filter']) : htmlspecialchars($HTTP_GET_VARS['filter']);
+	$filter = ( isset($_POST['filter']) ) ? htmlspecialchars($_POST['filter']) : htmlspecialchars($_GET['filter']);
 	if (!empty($filter))
 	{
 		$filter = preg_replace('/\*/', '%', phpbb_clean_username($filter));
 
-		if (isset($HTTP_POST_VARS['find_by']))
-			$find_by = htmlspecialchars($HTTP_POST_VARS['find_by']);
-		elseif (isset($HTTP_GET_VARS['find_by']))
-			$find_by = htmlspecialchars($HTTP_GET_VARS['find_by']);
+		if (isset($_POST['find_by']))
+			$find_by = htmlspecialchars($_POST['find_by']);
+		elseif (isset($_GET['find_by']))
+			$find_by = htmlspecialchars($_GET['find_by']);
 
 		switch($find_by)
 		{
@@ -188,9 +187,9 @@ if ( isset($HTTP_GET_VARS['filter']) || isset($HTTP_POST_VARS['filter']) )
 // users id
 // because it is an array we will intval() it when we use it
 //
-if ( isset($HTTP_POST_VARS[POST_USERS_URL]) || isset($HTTP_GET_VARS[POST_USERS_URL]) )
+if ( isset($_POST[POST_USERS_URL]) || isset($_GET[POST_USERS_URL]) )
 {
-    $user_ids = ( isset($HTTP_POST_VARS[POST_USERS_URL]) ) ? $HTTP_POST_VARS[POST_USERS_URL] : $HTTP_GET_VARS[POST_USERS_URL];
+    $user_ids = ( isset($_POST[POST_USERS_URL]) ) ? $_POST[POST_USERS_URL] : $_GET[POST_USERS_URL];
 }
 else
 {
@@ -570,7 +569,7 @@ switch( $mode )
         else
         {
             // add the users to the selected group
-            $group_id = intval($HTTP_POST_VARS[POST_GROUPS_URL]);
+            $group_id = intval($_POST[POST_GROUPS_URL]);
 
             include("../../../includes/emailer.php");
             $emailer = new emailer($board_config['smtp_delivery']);
@@ -741,7 +740,7 @@ switch( $mode )
             {
                 if ( $alpha_range[$i] != '#' )
                 {
-                    $temp = strtolower($alpha_range[$i]);
+                    $temp = strtoupper($alpha_range[$i]);
                 }
                 else
                 {
@@ -754,7 +753,10 @@ switch( $mode )
                 $alphanum_search_url = append_sid($phpbb_root_path . "admin/admin_userlist.$phpEx?sort=$sort&amp;order=$sort_order&amp;show=$show");
             }
 
-            if ( ( $alphanum == $temp ) || ( $alpha_range[$i] == $lang['All'] && empty($alphanum) ) )
+            if(!isset($alphanum))
+			$alphanum = '';
+			
+            if ( (isset($temp) && $alphanum == $temp ) || ( $alpha_range[$i] == $lang['All'] && empty($alphanum) ) )
             {
                 $alpha_range[$i] = '<strong>' . $alpha_range[$i] . '</strong>';
             }
@@ -775,7 +777,7 @@ switch( $mode )
         // set up template varibles
         //
         $template->assign_vars(array(
-            'L_TITLE' => $lang['Userlist'],
+            'L_TITLE' => $lang['Userlist'] ?? '',
             'L_DESCRIPTION' => $lang['Userlist_description'],
 
             'L_OPEN_CLOSE' => $lang['Open_close'],
@@ -871,7 +873,7 @@ switch( $mode )
                 switch( $row['user_avatar_type'] )
                 {
                     case USER_AVATAR_UPLOAD:
-                        $avatar_img = ( $board_config['allow_avatar_upload'] ) ? '<img src="../../../' . $board_config['avatar_path'] . '/' . $row['user_avatar'] . '" alt="" border="0" />' : '';
+                        $avatar_img = ( $board_config['allow_avatar_upload'] ) ? '<img width="200px" style="border-radius: 25px;" src="../../../' . $board_config['avatar_path'] . '/' . $row['user_avatar'] . '" alt="" border="0" />' : '';
                         break;
 /*****[BEGIN]******************************************
  [ Mod:     Remote Avatar Resize               v2.0.0 ]
@@ -883,7 +885,7 @@ switch( $mode )
  [ Mod:     Remote Avatar Resize               v2.0.0 ]
  ******************************************************/
                     case USER_AVATAR_GALLERY:
-                        $avatar_img = ( $board_config['allow_avatar_local'] ) ? '<img src="../../../' . $board_config['avatar_gallery_path'] . '/' . $row['user_avatar'] . '" alt="" border="0" />' : '';
+                        $avatar_img = ( $board_config['allow_avatar_local'] ) ? '<img width="200px" style="border-radius: 25px;" src="../../../' . $board_config['avatar_gallery_path'] . '/' . $row['user_avatar'] . '" alt="" border="0" />' : '';
                         break;
                 }
             }
@@ -929,33 +931,11 @@ switch( $mode )
                     }
                 }
             }
-
-/*****[BEGIN]******************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-            //
-            // user's color depending on their level
-            //
-            /*$style_color = '';
-            if ( $row['user_level'] == ADMIN )
-            {
-                $row['username'] = '<strong>' . UsernameColor($row['username']) . '</strong>';
-                //$style_color = 'style="color:#' . $theme['fontcolor3'] . '"';
-            }
-            else if ( $row['user_level'] == MOD )
-            {
-                $row['username'] = '<strong>' . UsernameColor($row['username']) . '</strong>';
-                //$style_color = 'style="color:#' . $theme['fontcolor2'] . '"';
-            }*/
-/*****[END]********************************************
- [ Mod:    Advanced Username Color             v1.0.5 ]
- ******************************************************/
-
             //
             // setup user row template varibles
             //
             $template->assign_block_vars('user_row', array(
-                'ROW_NUMBER' => $i + ( $HTTP_GET_VARS['start'] + 1 ),
+                'ROW_NUMBER' => $i + ( isset($_GET['start']) + 1 ),
                 'ROW_CLASS' => ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2'],
 
                 'USER_ID' => $row['user_id'],
@@ -963,7 +943,6 @@ switch( $mode )
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-                //'STYLE_COLOR' => $style_color,
                 'USERNAME' => UsernameColor($row['username']),
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]

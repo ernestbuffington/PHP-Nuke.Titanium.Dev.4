@@ -1002,6 +1002,9 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
                     if(!isset($username_sql))
 					$username_sql = '';
 					
+					if(!isset($signature_bbcode_uid))
+					$signature_bbcode_uid = '';
+					
                     $sql = "UPDATE " . USERS_TABLE . "
                                 SET " . $username_sql . $passwd_sql . "user_email = '" . str_replace("\'", "''", (string) $email) . "', 
 								user_reputation = '" . str_replace("\'", "''", (string) $reputation) . "', 
@@ -1628,7 +1631,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
                         switch( $user_avatar_type )
                         {
                                 case USER_AVATAR_UPLOAD:
-                                        $avatar = '<img class="rounded-corners-profile" src="../../../' . $board_config['avatar_path'] . '/' . $user_avatar . '" alt="" />';
+                                        $avatar = '<img width="200px" style="border-radius: 25px;" src="../../../' . $board_config['avatar_path'] . '/' . $user_avatar . '" alt="" />';
                                         break;
                                 /*****[BEGIN]******************************************
                                  [ Mod:     Remote Avatar Resize               v2.0.0 ]
@@ -1640,7 +1643,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($_POST['username']) || isset(
                                  [ Mod:     Remote Avatar Resize               v2.0.0 ]
                                  ******************************************************/
                                 case USER_AVATAR_GALLERY:
-                                        $avatar = '<img class="rounded-corners-profile" src="../../../' . $board_config['avatar_gallery_path'] . '/' . $user_avatar . '" alt="" />';
+                                        $avatar = '<img width="200px" style="border-radius: 25px;" src="../../../' . $board_config['avatar_gallery_path'] . '/' . $user_avatar . '" alt="" />';
                                         break;
                         }
                 }

@@ -236,7 +236,7 @@ if( ( ($total_categories = count($category_rows)) !== 0 ) )
     // Obtain a list of topic ids which contain
     // posts made since user last visited
     //
-    if ($userdata['session_logged_in'])
+    if (isset($userdata['session_logged_in']))
     {
         // 60 days limit
         if ($userdata['user_lastvisit'] < (time() - 5_184_000))

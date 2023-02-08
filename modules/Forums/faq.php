@@ -59,7 +59,7 @@ $faq = array();
 /*if( isset($HTTP_GET_VARS['mode']) )
 {*/
 $mode = request_var('mode', '');
-        switch( $HTTP_GET_VARS['mode'] )
+        switch(isset($HTTP_GET_VARS['mode']))
         {
                 case 'bbcode':
                         $lang_file = 'lang_bbcode';

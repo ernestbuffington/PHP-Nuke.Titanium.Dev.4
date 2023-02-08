@@ -202,14 +202,11 @@ function yacookie($setuid, $setusername, $setpass, $setstorynum, $setumode, $set
     $guest = 1;
     $user_agent = $identify->identify_agent();
     
-	if(!isset($user_agent['engine']))
-	$user_agent['engine'] = '';
-	
 	   if (is_user()) 
 	   {
           $guest = 0;
        } 
-	   elseif($user_agent['engine'] == 'bot') 
+	   elseif(isset($user_agent['engine']) && $user_agent['engine'] == 'bot') 
 	   {
           $guest = 3;
        }

@@ -1401,7 +1401,11 @@ function blog_signature($aid)
      $email = $userinfo['user_email'];
      # added for blog preview END     
 	 
-	 $aid  = '';				   
+	 $aid  = '';
+	 
+	 if($name == 'Francisco Burzi')
+	 $aid .= 'Adiós Cordialmente,<br />';				   
+     else	 
      $aid .= 'Sincerely,<br />';
      $aid .= $name.'<br />';				   				   
      $aid .= '<br />';				   
@@ -2185,6 +2189,11 @@ function UsernameColor($username, $old_name=false)
     static $cached_names;
 	$horndonkle_name = '';
 	
+	$cached_names = [];
+	
+	if(!isset($plain_username))
+	$plain_username = '';
+	
     if($old_name): 
 	  $username = $old_name; 
 	endif;
@@ -2193,15 +2202,18 @@ function UsernameColor($username, $old_name=false)
 	  return $username;
 	endif;
 
-	$horndonkle_name = md5($username);
-
-    $plain_username = strtolower((string) $username);
- 
-    if(isset($cached_names[$plain_username])): 
-      return $cached_names[$plain_username];
-	endif;
+    if(isset($username)):
+	  $horndonkle_name = md5((string) $username);
+      $plain_username = strtolower((string) $username);
+    endif;
     
-    if(!is_array($cached_names)): 
+	if(isset($cached_names[$plain_username])):
+	  if(isset($plain_username) && ($cached_names[$plain_username])): 
+        return $cached_names[$plain_username];
+	  endif;
+    endif;
+    
+	if(!is_array($cached_names)): 
       $cached_names = $cache->load('Horndonkle_UserNameColors_'.$horndonkle_name, 'config');
     endif;
 
