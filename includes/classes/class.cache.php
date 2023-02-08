@@ -105,13 +105,18 @@ class cache
     }
 
     // This function passes the variable $cache_changed, and then the function resync will handle it
-    function save($name, $cat='config', $fileData) {
-        if(!$this->valid) return false;
+    function save($name, string $cat = null, $fileData) {
+        
+		if(!isset($cat))
+		$cat = 'config';
+		
+		if(!$this->valid) return false;
         if(!isset($fileData)) return false;
         if(empty($fileData)) return false;
         if($fileData == false) return false;
 		
-		$name = str_replace(array(' ', '.', '-'), '_', $name);
+		$name = str_replace([' ', '.', '-'], '_', (string) $name);
+
 		$this->saved[$cat][$name] = $fileData;
         $this->changed = true;
         $this->zend->save($fileData, CACHE_PREFIX.$cat.'_'.$name);

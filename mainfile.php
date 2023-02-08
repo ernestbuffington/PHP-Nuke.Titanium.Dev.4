@@ -924,7 +924,7 @@ function blocks($side, $count=false)
 
 	$side = strtolower((string) $side[0]);
 
-	if(!($blocks = $cache->load('blocks', 'titanium_config'))): 
+	if(!($blocks = $cache->load('blocks', 'config'))): 
 
 	    $sql = 'SELECT * FROM `'.$prefix.'_blocks` WHERE `active`="1" '.$querylang.' ORDER BY `weight` ASC';
         $result = $db->sql_query($sql);
@@ -934,7 +934,7 @@ function blocks($side, $count=false)
         endwhile;
 
 		$db->sql_freeresult($result);
-        $cache->save('blocks', 'titanium_config', $blocks);
+        $cache->save('blocks', 'config', $blocks);
 
 	endif;
 
@@ -959,11 +959,11 @@ function blocks($side, $count=false)
 
    	        if($action == 'd'): 
                    $db->sql_query('UPDATE `'.$prefix.'_blocks` SET `active`="0", `expire`="0" WHERE `bid`="'.$bid.'"');
-                   $cache->delete('blocks', 'titanium_config');
+                   $cache->delete('blocks', 'config');
                    return;
    			elseif($action == 'r'): 
                    $db->sql_query('DELETE FROM `'.$prefix.'_blocks` WHERE `bid`="'.$bid.'"');
-                   $cache->delete('blocks', 'titanium_config');
+                   $cache->delete('blocks', 'config');
                    return;
                endif;
 
@@ -2151,7 +2151,7 @@ function UsernameColorBBC($username, $old_name=false) {
 
     if($old_name) { $username = $old_name; }
     
-    if ((($cached_names = $cache->load('Horndonkle_UserColors', 'titanium_config'.$horndonkle_username)) === false) || empty($cached_names) && !isset($cached_names)) 
+    if ((($cached_names = $cache->load('Horndonkle_UserColors', 'config'.$horndonkle_username)) === false) || empty($cached_names) && !isset($cached_names)) 
 	{
 	        list($user_color, $uname) = $db->sql_ufetchrow("SELECT `user_color_gc`, `username` FROM `" . $user_prefix . "_users` WHERE `username` = '" . str_replace("'", "\'", $username) . "'", SQL_NUM);
 
@@ -2162,7 +2162,7 @@ function UsernameColorBBC($username, $old_name=false) {
 			$username = $uname;
 			endif;
  			$cached_names = $username;
-            $cache->save('Horndonkle_UserColors', 'titanium_config'.$horndonkle_username, $cached_names);
+            $cache->save('Horndonkle_UserColors', 'config'.$horndonkle_username, $cached_names);
 		endif;
     }
 
@@ -2202,10 +2202,10 @@ function UsernameColor($username, $old_name=false)
 	endif;
     
     if(!is_array($cached_names)): 
-      $cached_names = $cache->load('Horndonkle_UserNameColors_'.$horndonkle_name, 'titanium_config');
+      $cached_names = $cache->load('Horndonkle_UserNameColors_'.$horndonkle_name, 'config');
     endif;
 
-   if (!($cached_names = $cache->load('Horndonkle_UserNameColors_'.$horndonkle_name, 'titanium_config'))):
+   if (!($cached_names = $cache->load('Horndonkle_UserNameColors_'.$horndonkle_name, 'config'))):
     if (!isset($cached_names[$plain_username])):
         $cached_names = [];
 		[$user_color, $uname] = $db->sql_ufetchrow("SELECT `user_color_gc`, `username` FROM `" . $user_prefix . "_users` WHERE `username` = '" . str_replace("'", "\'", (string) $username) . "'", SQL_NUM);
@@ -2213,7 +2213,7 @@ function UsernameColor($username, $old_name=false)
         $username = (strlen((string) $user_color) == 6) ? '<span style="color: #'. $user_color .'">'. $uname .'</span>' : $uname;
         if(!empty($username))
 		$cached_names[$plain_username] = $username;
-        $cache->save('Horndonkle_UserNameColors_'.$horndonkle_name, 'titanium_config', $cached_names);
+        $cache->save('Horndonkle_UserNameColors_'.$horndonkle_name, 'config', $cached_names);
 	endif;
    endif;
 

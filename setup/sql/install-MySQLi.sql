@@ -1496,7 +1496,7 @@ CREATE TABLE IF NOT EXISTS `#prefix#_nsncb_config` (
   `count` tinyint(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `#prefix#_nsnne_config` (
+CREATE TABLE IF NOT EXISTS `#prefix#_blogs_config` (
   `config_name` varchar(255) NOT NULL DEFAULT '',
   `config_value` longtext NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

@@ -3217,7 +3217,7 @@ if ($can_proceed) {
 
 # Titanium Blogs Config
 if ($can_proceed) {
-        $fp = fopen("sql/nuke_nsnne_config.sql","r"); 
+        $fp = fopen("sql/nuke_blogs_config.sql","r"); 
         $installscript = "";
         while (!feof($fp)) $installscript .= fgets($fp,1000);
         fclose($fp);
@@ -3231,7 +3231,7 @@ if ($can_proceed) {
         echo "</p>\n";
         unset($installscript);
 
-		$sql="ALTER TABLE ".$db_prefix."_nsnne_config 
+		$sql="ALTER TABLE ".$db_prefix."_blogs_config 
         ADD UNIQUE KEY `config_name` (`config_name`) ";
 		$result=$db->sql_query($sql);
 }

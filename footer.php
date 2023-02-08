@@ -169,7 +169,7 @@ endif;
 # Auto Optimize v1.0.0 START
 if(is_admin()): 
  $first_time = false;
-  if (!($last_optimize = $cache->load('last_optimize', 'titanium_config'))): 
+  if (!($last_optimize = $cache->load('last_optimize', 'config'))): 
    $last_optimize = time();
     $first_time = true;
   endif;			
@@ -180,7 +180,7 @@ if(is_admin()):
 	 $interval = strtotime('-1 day');
        if (($last_optimize <= $interval) || ($first_time && $cache->valid && $use_cache)):
          if ($db->sql_optimize()):
-           $cache->save('last_optimize', 'titanium_config', time());
+           $cache->save('last_optimize', 'config', time());
              $total_time .= "<br />Database Optimized";
          endif;
        endif;

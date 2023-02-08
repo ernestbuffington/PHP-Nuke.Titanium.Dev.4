@@ -10,8 +10,11 @@ function cache_delete( $name, $cat='config' )
 	return $cache->delete($name, $cat);
 }
 
-function cache_set( $name, $cat='config', $fileData )
+function cache_set( $name, string $cat = null, $fileData )
 {
+	if(!isset($cat))
+	$cat = 'config';
+
 	global $cache;
 	return $cache->save($name, $cat, $fileData);
 }

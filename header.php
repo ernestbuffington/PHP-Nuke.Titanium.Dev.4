@@ -120,7 +120,7 @@ function head()
 
 
 	echo "\n<!-- Loadiing favicon from header.php -->\n\n";
-    if (!($favicon = $cache->load('favicon', 'titanium_config'))): 
+    if (!($favicon = $cache->load('favicon', 'config'))): 
         if (file_exists(NUKE_BASE_DIR.'favicon.ico')) 
 		$favicon = "favicon.ico";
 		else 
@@ -133,7 +133,7 @@ function head()
         $favicon = 'none';
 		if ($favicon != 'none') 
         echo "<link rel=\"shortcut icon\" href=\"$favicon\" type=\"image/x-icon\" />\n";
-        $cache->save('favicon', 'titanium_config', $favicon);
+        $cache->save('favicon', 'config', $favicon);
 	else: 
         if ($favicon != 'none') 
         echo "<link rel=\"shortcut icon\" href=\"$favicon\" type=\"image/x-icon\" />\n";
@@ -145,7 +145,7 @@ function head()
     writeHEAD();
 
 
-	if (!($custom_head = $cache->load('custom_head', 'titanium_config'))): 
+	if (!($custom_head = $cache->load('custom_head', 'config'))): 
     
 	    $custom_head = array();
 
@@ -167,7 +167,7 @@ function head()
             endforeach;
         
 		endif;
-		$cache->save('custom_head', 'titanium_config', $custom_head);
+		$cache->save('custom_head', 'config', $custom_head);
 	else: 
         
 		if (!empty($custom_head)): 

@@ -651,7 +651,7 @@ function modadmin_get_module_cats ()
 
     if (isset($cats) && is_array($cats)) $modadmin_module_cats = $cats;
 
-    if(!($cats = $cache->load('module_cats', 'titanium_config'))) 
+    if(!($cats = $cache->load('module_cats', 'config'))) 
 	{
         if(!$result = $db->sql_query("SELECT `cid`, `name`, `image`, `pos`, `link_type`, `link` FROM `".$prefix."_modules_cat` WHERE `name`<>'Home' ORDER BY `pos` ASC")) 
 		{
@@ -664,7 +664,7 @@ function modadmin_get_module_cats ()
         }
         
 		$db->sql_freeresult($result);
-        $cache->save('module_cats', 'titanium_config', $cats);
+        $cache->save('module_cats', 'config', $cats);
     }
     
 	$modadmin_module_cats = $cats;

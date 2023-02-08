@@ -250,8 +250,7 @@ define_once('_LINKUS_CONFIG_TABLE', $prefix.'_link_us_config');
 define_once('_LINKUS_TABLE', $prefix.'_link_us');
 
 # Blogs - These are not used yet as of 10/15/2022 TheGhost
-define_once('_BLOGS_FUNC_TABLE', $prefix.'_nsnne_func');
-define_once('_BLOG_CONFIG_TABLE', $prefix.'_nsnne_config');
+define_once('_BLOG_CONFIG_TABLE', $prefix.'_blogs_config');
 
 # Sommaire (not pre-installed within Evo)
 define_once('_SOMMAIRE_TABLE', $prefix.'_sommaire');

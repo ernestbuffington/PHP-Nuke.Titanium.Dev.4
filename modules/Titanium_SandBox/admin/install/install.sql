@@ -3845,20 +3845,20 @@ INSERT INTO `nuke_nsncb_config` (`cgid`, `enabled`, `height`, `count`) VALUES (4
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nuke_nsnne_config`
+-- Table structure for table `nuke_blogs_config`
 --
 
-CREATE TABLE `nuke_nsnne_config` (
+CREATE TABLE `nuke_blogs_config` (
   `config_name` varchar(255) NOT NULL DEFAULT '',
   `config_value` longtext NOT NULL,
   UNIQUE KEY `config_name` (`config_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `nuke_nsnne_config`
+-- Dumping data for table `nuke_blogs_config`
 --
 
-INSERT INTO `nuke_nsnne_config` (`config_name`, `config_value`) VALUES
+INSERT INTO `nuke_blogs_config` (`config_name`, `config_value`) VALUES
 ('columns', '0'),
 ('readmore', '0'),
 ('texttype', '0'),
