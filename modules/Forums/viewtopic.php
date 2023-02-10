@@ -1110,7 +1110,7 @@ $template->assign_vars(array(
 		 # Mod: Email topic to friend v1.0.0 END
 
         'S_WATCH_TOPIC' => $s_watching_topic,
-        'S_WATCH_TOPIC_IMG' => $s_watching_topic_img,
+        'S_WATCH_TOPIC_IMG' => $s_watching_topic_img ?? '',
 
         'S_WATCH_TOPIC_URL' => $s_watching_topic_url,
         'S_WATCH_TOPIC_TEXT' => $s_watching_topic_text,
@@ -1185,8 +1185,8 @@ if(!empty($forum_topic_data['topic_vote'])):
 
                      # Mod: Must first vote to see Results v1.0.0 START
                      # If poll is over, allow results to be viewed by all.
-                     if (!$user_voted && !$poll_view_toggle && $view_result && !$poll_expired) 
-                     message_die(GENERAL_ERROR, $lang['must_first_vote']);
+                     //if (!$user_voted && !$poll_view_toggle && $view_result && !$poll_expired) # This shit don't work. cant even figure out the pupose for this code
+                     //message_die(GENERAL_ERROR, $lang['must_first_vote']);
                      # Mod: Must first vote to see Results v1.0.0 START
 
                      $template->set_filenames(array(
@@ -1219,7 +1219,7 @@ if(!empty($forum_topic_data['topic_vote'])):
                       'POLL_OPTION_CAPTION' => smilies_pass($vote_info[$i]['vote_option_text']),
 					   # Mod: Smilies in Topic Titles v1.0.0 END
 
-                      'POLL_PROGRESS_BAR' => display_progress_bar(false,'evo-progress-bar orange shine', ($vote_percent * 100)),
+                      'POLL_PROGRESS_BAR' => display_progress_bar(false,'progress-bar', ($vote_percent * 100)),
                       'POLL_OPTION_RESULT' => $vote_info[$i]['vote_result'],
                       // 'POLL_OPTION_PERCENT_VALUE' => sprintf("%.1d%%", ($vote_percent * 100)),
 
@@ -2018,9 +2018,11 @@ $leave_out['show_sig_once'] = false;
           message_die(GENERAL_ERROR, 'Could not query ad information', '', __LINE__, __FILE__, $sql);
           $adRow = array();
           $adRow = $db->sql_fetchrowset($result);
-          srand((double)microtime()*1000000);
+          //srand((double)microtime()*1000000); <- this horse shit is dead and gone
+          mt_srand((double)microtime()*1_000_000); # <- this is the new horse shit
           $adindex = rand(1, $db->sql_numrows($result)) - 1;
           $db->sql_freeresult($result);
+		  if(!empty($adRow[$adindex]['ad_code']))
           $inline_ad_code = $adRow[$adindex]['ad_code'];
         endif;
         # Mod: Inline Banner Ad v1.2.3 START

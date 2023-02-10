@@ -506,8 +506,10 @@ function dss_rand()
 function get_userdata($user, $force_str = false) 
 {
     global $db;
-
-    $user = (!is_numeric($user) || $force_str) ? phpbb_clean_username($user) : intval($user);
+    
+	$row = [];
+    
+	$user = (!is_numeric($user) || $force_str) ? phpbb_clean_username($user) : intval($user);
 
     $sql = "SELECT * FROM ".USERS_TABLE." WHERE ";
 
@@ -517,7 +519,7 @@ function get_userdata($user, $force_str = false)
 	{
         message_die(GENERAL_ERROR, 'Tried obtaining data for a non-existent user', '', __LINE__, __FILE__, $sql);
     }
-
+	
     return ($row = $db->sql_fetchrow($result)) ? $row : false;
 }
 

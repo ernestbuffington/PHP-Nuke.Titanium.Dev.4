@@ -65,18 +65,18 @@ include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/
 /*****[END]********************************************
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
-if ( isset($HTTP_POST_VARS[POST_GROUPS_URL]) || isset($HTTP_GET_VARS[POST_GROUPS_URL]) )
+if ( isset($_POST[POST_GROUPS_URL]) || isset($_GET[POST_GROUPS_URL]) )
 {
-    $group_id = ( isset($HTTP_POST_VARS[POST_GROUPS_URL]) ) ? intval($HTTP_POST_VARS[POST_GROUPS_URL]) : intval($HTTP_GET_VARS[POST_GROUPS_URL]);
+    $group_id = ( isset($_POST[POST_GROUPS_URL]) ) ? intval($_POST[POST_GROUPS_URL]) : intval($_GET[POST_GROUPS_URL]);
 }
 else
 {
     $group_id = 0;
 }
 
-if ( isset($HTTP_POST_VARS['mode']) || isset($HTTP_GET_VARS['mode']) )
+if ( isset($_POST['mode']) || isset($_GET['mode']) )
 {
-    $mode = ( isset($HTTP_POST_VARS['mode']) ) ? $HTTP_POST_VARS['mode'] : $HTTP_GET_VARS['mode'];
+    $mode = ( isset($_POST['mode']) ) ? $_POST['mode'] : $_GET['mode'];
     $mode = htmlspecialchars($mode);
 }
 else
@@ -87,13 +87,13 @@ else
 /*****[BEGIN]******************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/
-if(isset($HTTP_POST_VARS['group_update']))
-attachment_quota_settings('group', $HTTP_POST_VARS['group_update'], $mode);
+if(isset($_POST['group_update']))
+attachment_quota_settings('group', $_POST['group_update'], $mode);
 /*****[END]********************************************
  [ Mod:    Attachment Mod                      v2.4.1 ]
  ******************************************************/
 
-if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
+if ( isset($_POST['edit']) || isset($_POST['new']) )
 {
         //
         // Ok they are editing a group or creating a new group
@@ -102,7 +102,7 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
                 'body' => 'admin/group_edit_body.tpl')
         );
 
-        if ( isset($HTTP_POST_VARS['edit']) )
+        if ( isset($_POST['edit']) )
         {
                 //
                 // They're editing. Grab the vars.
@@ -148,7 +148,7 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
                 $template->assign_block_vars('group_edit', array());
 
         }
-        else if ( isset($HTTP_POST_VARS['new']) )
+        else if ( isset($_POST['new']) )
         {
                 $group_info = array (
                         'group_name' => '',
@@ -347,7 +347,7 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
  ******************************************************/
 
                 'L_GROUP_TITLE' => $lang['Group_administration'],
-                'L_GROUP_EDIT_DELETE' => ( isset($HTTP_POST_VARS['new']) ) ? $lang['New_group'] : $lang['Edit_group'],
+                'L_GROUP_EDIT_DELETE' => ( isset($_POST['new']) ) ? $lang['New_group'] : $lang['Edit_group'],
                 'L_GROUP_NAME' => $lang['group_name'],
                 'L_GROUP_DESCRIPTION' => $lang['group_description'],
                 'L_GROUP_MODERATOR' => $lang['group_moderator'],
@@ -426,12 +426,12 @@ if ( isset($HTTP_POST_VARS['edit']) || isset($HTTP_POST_VARS['new']) )
         $template->pparse('body');
 
 }
-else if ( isset($HTTP_POST_VARS['group_update']) )
+else if ( isset($_POST['group_update']) )
 {
         //
         // Ok, they are submitting a group, let's save the data based on if it's new or editing
         //
-        if ( isset($HTTP_POST_VARS['group_delete']) )
+        if ( isset($_POST['group_delete']) )
         {
                 //
                 // Reset User Moderator Level
@@ -537,27 +537,27 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
         }
         else
         {
-                $group_type = isset($HTTP_POST_VARS['group_type']) ? intval($HTTP_POST_VARS['group_type']) : GROUP_OPEN;
-                $group_name = isset($HTTP_POST_VARS['group_name']) ? htmlspecialchars(trim($HTTP_POST_VARS['group_name'])) : '';
-                $group_description = isset($HTTP_POST_VARS['group_description']) ? trim($HTTP_POST_VARS['group_description']) : '';
-                $group_moderator = isset($HTTP_POST_VARS['username']) ? $HTTP_POST_VARS['username'] : '';
-                $delete_old_moderator = isset($HTTP_POST_VARS['delete_old_moderator']) ? 1 : 0;
+                $group_type = isset($_POST['group_type']) ? intval($_POST['group_type']) : GROUP_OPEN;
+                $group_name = isset($_POST['group_name']) ? htmlspecialchars(trim($_POST['group_name'])) : '';
+                $group_description = isset($_POST['group_description']) ? trim($_POST['group_description']) : '';
+                $group_moderator = isset($_POST['username']) ? $_POST['username'] : '';
+                $delete_old_moderator = isset($_POST['delete_old_moderator']) ? 1 : 0;
 /*****[BEGIN]******************************************
  [ Mod:    Auto Group                          v1.2.2 ]
  ******************************************************/
-                $group_count = isset($HTTP_POST_VARS['group_count']) ? intval($HTTP_POST_VARS['group_count']) : 0;
-                $group_count_max = isset($HTTP_POST_VARS['group_count_max']) ? intval($HTTP_POST_VARS['group_count_max']) : 0;
-                $group_count_enable = isset($HTTP_POST_VARS['group_count_enable']) ? 1 : 0;
-                $group_count_update = isset($HTTP_POST_VARS['group_count_update']) ? 1 : 0;
-                $group_count_delete = isset($HTTP_POST_VARS['group_count_delete']) ? 1 : 0;
+                $group_count = isset($_POST['group_count']) ? intval($_POST['group_count']) : 0;
+                $group_count_max = isset($_POST['group_count_max']) ? intval($_POST['group_count_max']) : 0;
+                $group_count_enable = isset($_POST['group_count_enable']) ? 1 : 0;
+                $group_count_update = isset($_POST['group_count_update']) ? 1 : 0;
+                $group_count_delete = isset($_POST['group_count_delete']) ? 1 : 0;
 /*****[END]********************************************
  [ Mod:    Auto Group                          v1.2.2 ]
  ******************************************************/
  /*****[BEGIN]******************************************
  [ Mod:     Group Colors                       v1.0.0 ]
  ******************************************************/
-                $group_color = isset($HTTP_POST_VARS['group_color']) ? intval($HTTP_POST_VARS['group_color']) : '';
-                $group_rank = isset($HTTP_POST_VARS['group_rank']) ? intval($HTTP_POST_VARS['group_rank']) : '';
+                $group_color = isset($_POST['group_color']) ? intval($_POST['group_color']) : '';
+                $group_rank = isset($_POST['group_rank']) ? intval($_POST['group_rank']) : '';
 /*****[END]********************************************
  [ Mod:     Group Colors                       v1.0.0 ]
  ******************************************************/
@@ -565,12 +565,12 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
 /*****[BEGIN]******************************************
  [ Mod:     Enhanced BBGroups                  v1.0.0 ]
  ******************************************************/
-		$max_inbox = isset($HTTP_POST_VARS['max_inbox']) ? intval($HTTP_POST_VARS['max_inbox']) : '';
-		$max_sentbox = isset($HTTP_POST_VARS['max_sentbox']) ? intval($HTTP_POST_VARS['max_sentbox']) : '';
-		$max_savebox = isset($HTTP_POST_VARS['max_savebox']) ? intval($HTTP_POST_VARS['max_savebox']) : '';
-                $override_max_inbox = isset($HTTP_POST_VARS['override_max_inbox']) ? 1 : 0;
-                $override_max_sentbox = isset($HTTP_POST_VARS['override_max_sentbox']) ? 1 : 0;
-                $override_max_savebox = isset($HTTP_POST_VARS['override_max_savebox']) ? 1 : 0;
+		$max_inbox = isset($_POST['max_inbox']) ? intval($_POST['max_inbox']) : '';
+		$max_sentbox = isset($_POST['max_sentbox']) ? intval($_POST['max_sentbox']) : '';
+		$max_savebox = isset($_POST['max_savebox']) ? intval($_POST['max_savebox']) : '';
+                $override_max_inbox = isset($_POST['override_max_inbox']) ? 1 : 0;
+                $override_max_sentbox = isset($_POST['override_max_sentbox']) ? 1 : 0;
+                $override_max_savebox = isset($_POST['override_max_savebox']) ? 1 : 0;
 /*****[END]********************************************
  [ Mod:     Enhanced BBGroups                  v1.0.0 ]
  ******************************************************/
@@ -578,7 +578,7 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
 /*****[BEGIN]******************************************
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
-                $group_allow_pm = isset($HTTP_POST_VARS['group_allow_pm']) ? intval($HTTP_POST_VARS['group_allow_pm']) : AUTH_ADMIN;
+                $group_allow_pm = isset($_POST['group_allow_pm']) ? intval($_POST['group_allow_pm']) : AUTH_ADMIN;
 /*****[END]********************************************
  [ Mod:     Custom mass PM                     v1.4.7 ]
  ******************************************************/
@@ -618,8 +618,8 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
 /*****[BEGIN]******************************************
  [ Mod:     Initial Usergroup                 v1.0.1 ]
  ******************************************************/
-                        if(isset($HTTP_POST_VARS['initial_group'])) {
-                            if($HTTP_POST_VARS['initial_group'] == 1) {
+                        if(isset($_POST['initial_group'])) {
+                            if($_POST['initial_group'] == 1) {
                                 $sql = $sql = "UPDATE
                                 " . CONFIG_TABLE . "
                                  SET config_value = '".$group_id."'
@@ -840,8 +840,8 @@ else if ( isset($HTTP_POST_VARS['group_update']) )
 /*****[BEGIN]******************************************
  [ Mod:     Initial Usergroup                  v1.0.1 ]
  ******************************************************/
-                        if(isset($HTTP_POST_VARS['initial_group'])) {
-                            if($HTTP_POST_VARS['initial_group'] == 1) {
+                        if(isset($_POST['initial_group'])) {
+                            if($_POST['initial_group'] == 1) {
 
                             $sql = $sql = "UPDATE
                             " . CONFIG_TABLE . "

@@ -591,7 +591,9 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
         $group_user[$row['user_id']] = $row['user_id'];
     }
     $db->sql_freeresult($result);
-
+    
+if(!empty($group_user)):
+	
     $sql = "SELECT ug.user_id, COUNT(auth_mod) AS is_auth_mod
             FROM " . AUTH_ACCESS_TABLE . " aa, " . USER_GROUP_TABLE . " ug
             WHERE ug.user_id IN (" . implode(', ', $group_user ?? '') . ")
@@ -611,8 +613,10 @@ if (isset($_POST['submit']) && ( ( $mode == 'user' && $user_id ) || ( $mode == '
         }
     }
     $db->sql_freeresult($result);
-
-    if ($group_user !== [])
+    
+endif;
+    
+	if ($group_user !== [])
     {
 /*****[BEGIN]******************************************
  [ Base:    Nuke Patched                       v3.1.0 ]

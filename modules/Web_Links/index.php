@@ -889,7 +889,8 @@ function RandomLink()
     if ($numrows == 1) {
     $random = 1;
     } else {
-    srand((double)microtime()*1000000);
+  //srand((double)microtime()*1000000); <- this horse shit is dead and gone
+    mt_srand((double)microtime()*1_000_000); # <- this is the new horse shit
     $random = rand(1,$numrows);
         $random = intval($random);
     }

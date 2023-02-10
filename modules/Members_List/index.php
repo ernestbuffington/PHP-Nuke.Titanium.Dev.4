@@ -86,7 +86,7 @@ $template->set_filenames(['body' => 'memberlist_body.tpl']
 );
 
 if(!isset($lang['Sort_Go']))
-$lang['Sort_Go'] = '';
+$lang['Sort_Go'] = 'Sort';
 
 $template->assign_vars([
     'L_PAGE_TITLE' => $lang['Memberlist'],
@@ -361,7 +361,8 @@ if($row = $db->sql_fetchrow($result)):
 		
 		# facebook mod v1.0 START
 		if(!empty($row['user_facebook']))
-		$facebook = '<a href="https://www.facebook.com/'.$row['user_facebook'].'" target="_blank"><img class="tooltip-html copyright" alt="Male" title="View '.$username.'\'s Facebook Page" width="30"alt="online" src="themes/'.$theme_name.'/forums/images/status/icons8-facebook-80.png" /></a>';
+		$facebook = '<a href="https://www.facebook.com/'.$row['user_facebook'].'" target="_blank"><img class="tooltip-html copyright" alt="Male" title="View '.$username.'\'s Facebook Page" 
+		width="30"alt="online" src="themes/'.$theme_name.'/forums/images/status/icons8-facebook-80.png" /></a>';
 		else
 		$facebook = '';
 		# facebook mod v1.0 END
@@ -394,7 +395,22 @@ if($row = $db->sql_fetchrow($result)):
 		
         # Alternate the row class
         $row_class = ( !($i % 2) ) ? 'row2' : 'row3';
-		$template->assign_block_vars('memberrow', ['ROW_NUMBER' => $i + ( $start + 1 ), 'ROW_CLASS' => $row_class, 'USERNAME' => UsernameColor($row['username']), 'FROM' => $user_from, 'FLAG' => $user_flag, 'JOINED' => $joined, 'AGE' => $age, 'POSTS' => $posts, 'PM' => $pm, 'WWW' => $www, 'GENDER' => $pm.' '.$www.' '.$facebook.' '.$gender, 'LAST_ACTIVE' => $last_visit, 'FACEBOOK' => $facebook, 'STATUS' => $online_status, 'CURRENT_AVATAR' => '<img class="rounded-corners-header" height="auto" width="30" src="'.$current_avatar.'">&nbsp;', 'U_VIEWPROFILE' => "modules.php?name=Profile&mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id"]
+		$template->assign_block_vars('memberrow', ['ROW_NUMBER' => $i + ( $start + 1 ), 
+		                                           'ROW_CLASS' => $row_class, 
+												   'USERNAME' => UsernameColor($row['username']), 
+												   'FROM' => $user_from, 
+												   'FLAG' => $user_flag, 
+												   'JOINED' => $joined, 
+												   'AGE' => $age, 
+												   'POSTS' => $posts, 
+												   'PM' => $pm, 
+												   'WWW' => $www, 
+												   'GENDER' => $pm.' '.$www.' '.$facebook.' '.$gender, 
+												   'LAST_ACTIVE' => $last_visit, 
+												   'FACEBOOK' => $facebook, 
+												   'STATUS' => $online_status, 
+												   'CURRENT_AVATAR' => '<img class="rounded-corners-header" height="auto" width="30" src="'.$current_avatar.'">&nbsp;', 
+												   'U_VIEWPROFILE' => "modules.php?name=Profile&mode=viewprofile&amp;" . POST_USERS_URL . "=$user_id"]
 		);
 		$i++;
 	} 
@@ -402,7 +418,7 @@ if($row = $db->sql_fetchrow($result)):
 	$db->sql_freeresult($result);
 
 else:
-	$template->assign_block_vars('no_username', ['NO_USER_ID_SPECIFIED' => $lang['No_user_id_specified']]
+	$template->assign_block_vars('no_username', ['NO_USER_ID_SPECIFIED' => $lang['No_user_id_members_list_specified']]
 	);
 endif;
 
@@ -474,10 +490,11 @@ if($total['total'] > $board_config['topics_per_page'] && $mode != 'topten' || $b
 			$pagination .= '<a href="'.$redirect.'&amp;page='.$j.'">'.$lang['Goto_page_next'].'</a>';
 		endif;
 	endif;
-	$template->assign_block_vars('pagination', ['PAGINATION'	=> $pagination, 'TOTAL' 		=> $total_found, 'PERPAGE'		=> $board_config['topics_per_page']]
+	$template->assign_block_vars('pagination', ['PAGINATION'	=> $pagination, 
+	                                            'TOTAL' 		=> $total_found, 
+												'PERPAGE'		=> $board_config['topics_per_page']]
 	);
 endif;
 $template->pparse('body');
-//echo '<span style="float:right; padding-right:5px;"><a class="font-family" href="#module-copyright-popup" rel="modal:open">'.str_replace('_',' ',$name).' &#169;</a></span><br />';
 include(NUKE_INCLUDE_DIR.'page_tail.php');
-?>
+

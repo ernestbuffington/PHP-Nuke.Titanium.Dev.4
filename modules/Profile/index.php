@@ -72,9 +72,9 @@ if(isset($userdata['session_logged_in']))
  [ Mod:   Admin delete user with all postings v.1.0.5 ]
  ******************************************************/
 // session id check
-if (!empty($HTTP_POST_VARS['sid']) || !empty($HTTP_GET_VARS['sid']))
+if (!empty($_POST['sid']) || !empty($_GET['sid']))
 {
-        $sid = (!empty($HTTP_POST_VARS['sid'])) ? $HTTP_POST_VARS['sid'] : $HTTP_GET_VARS['sid'];
+        $sid = (!empty($_POST['sid'])) ? $_POST['sid'] : $_GET['sid'];
 }
 else
 {
@@ -109,15 +109,15 @@ function gen_rand_string($hash)
 //
 // Start of program proper
 //
-		if(!isset($HTTP_GET_VARS['mode']))
-		$HTTP_GET_VARS['mode'] = '';
+		if(!isset($_GET['mode']))
+		$_GET['mode'] = '';
 
-		if(!isset($HTTP_GET_VARS['check_num']))
-		$HTTP_GET_VARS['check_num'] = '';
+		if(!isset($_GET['check_num']))
+		$_GET['check_num'] = '';
 
-        $mode      = ( isset($HTTP_GET_VARS['mode']) ) ? $HTTP_GET_VARS['mode'] : $HTTP_POST_VARS['mode'];
+        $mode      = ( isset($_GET['mode']) ) ? $_GET['mode'] : $_POST['mode'];
         $mode      = htmlspecialchars($mode);
-        $check_num = ( isset($HTTP_GET_VARS['check_num']) ) ? $HTTP_GET_VARS['check_num'] : $HTTP_POST_VARS['check_num'];
+        $check_num = ( isset($_GET['check_num']) ) ? $_GET['check_num'] : $_POST['check_num'];
 
         if (!$mode) {
                 if ( !is_user() )
@@ -136,7 +136,7 @@ function gen_rand_string($hash)
           include(NUKE_INCLUDE_DIR.'usercp_viewprofile.php');
           exit;
         }
-		elseif($mode == 'register' && ($check_num || isset($HTTP_POST_VARS['submit']))) 
+		elseif($mode == 'register' && ($check_num || isset($_POST['submit']))) 
 		{
                 include(NUKE_INCLUDE_DIR.'usercp_register.php');
                 exit;
@@ -228,8 +228,3 @@ function gen_rand_string($hash)
  [ Mod:    Birthdays                           v3.0.0 ]
  ******************************************************/
         include('includes/usercp_register.'.$phpEx);
-       // $header_location = ( @preg_match("/Microsoft|WebSTAR|Xitami/", $_SERVER["SERVER_SOFTWARE"]) ) ? "Refresh: 0; URL=" : "Location: ";
-       // redirect(append_sid("index.$phpEx", true));
-       // exit;
-
-?>

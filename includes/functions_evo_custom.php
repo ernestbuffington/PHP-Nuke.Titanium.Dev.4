@@ -309,14 +309,14 @@ function get_image_viewer($slideshow = '',$caption = '')
  * @param int    $strip_html    Provide the maximum value.
  * @return string Displays the progress bar.
  */
-function display_progress_bar($type='css3',$class='progress-bar blue stripes', $value='0', $max='100')
+function display_progress_bar($type='css3',$class='progress-bar', $value='0', $max='100')
 {
 	if ($type == 'css3'):
 		$progress_bar  = '<div class="'.$class.'">';
-		$progress_bar .= '  <span data-percentage="'.$value.'" style="max-width:100%;"></span>';
+		$progress_bar .= '  <span style="border-radius: 15px; -moz-border-radius: 15px; max-width:100%;" data-percentage="'.$value.'"></span>';
 		$progress_bar .= '</div>';
 	else:
-		$progress_bar = '<progress class="'.$class.'" data-percentage="'.$value.'" value="'.$value.'" max="'.$max.'"></progress>';
+		$progress_bar = '<progress style="border-radius: 15px; -moz-border-radius: 15px;" class="'.$class.'" data-percentage="'.$value.'" value="'.$value.'" max="'.$max.'"></progress>';
 	endif;
 	return $progress_bar;
 }

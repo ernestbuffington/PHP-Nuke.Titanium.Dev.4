@@ -45,10 +45,22 @@
 if (!defined('IN_PHPBB'))
 exit('Hacking attempt');
 
-if(empty($HTTP_GET_VARS[POST_USERS_URL]) || $HTTP_GET_VARS[POST_USERS_URL] == ANONYMOUS)
+if(empty($_GET[POST_USERS_URL]) || $_GET[POST_USERS_URL] == ANONYMOUS)
 message_die(GENERAL_MESSAGE, $lang['No_user_id_specified']);
 
-$profiledata = get_userdata($HTTP_GET_VARS[POST_USERS_URL]);
+$profiledata = get_userdata($_GET[POST_USERS_URL]);
+
+/*  
+ * Ghost Mode Mod v1.0
+ * @Author Ernest Allen Buffingon
+ */
+global $userinfo;
+if($profiledata["user_allow_viewonline"] == 0):
+if($userinfo['user_level'] != ADMIN && $userinfo['username'] != $profiledata['username'])
+$profiledata = get_userdata(1);
+endif;
+
+
 /*****[BEGIN]******************************************
  [ Mod:     Show Groups                        v1.0.1 ]
  ******************************************************/
@@ -82,7 +94,7 @@ endif;
  ******************************************************/
 
 if(!$profiledata)
-message_die(GENERAL_MESSAGE, $lang['No_user_id_specified']);
+message_die(GENERAL_MESSAGE, $lang['Ghost_Mode_Specified']);
 
 /*****[BEGIN]******************************************
  [ Mod:    Multiple Ranks And Staff View       v2.0.3 ]
@@ -301,9 +313,12 @@ if ($profiledata['user_session_time'] >= (time()-$board_config['online_time'])):
 
     if ($profiledata['user_allow_viewonline']):
         $online_status = '<a href="'.append_sid("viewonline.$phpEx").'" title="'.sprintf($lang['is_online'], $profiledata['username']).'"'.$online_color.'>'.$lang['Online'].'</a>';
-    elseif ( $userdata['user_level'] == ADMIN || $userdata['user_id'] == $profiledata['user_id'] ):
-        $online_status = '<em><a href="' . append_sid("viewonline.$phpEx") . '" title="' . sprintf($lang['is_hidden'], $profiledata['username']) . '"' . $hidden_color . '>' . $lang['Hidden'] . '</a></em>';
-    else:
+    
+	elseif ( $userdata['user_level'] == ADMIN || $userdata['user_id'] == $profiledata['user_id'] ):
+        $online_status = '<em><img style="padding-bottom: 3px;" src="images/ico/snapchat-002.ico" alt="Ghost Mode" data-alt-src="images/ico/snapchat-002.ico" 
+		width="16" height="19"> <a href="' . append_sid("viewonline.$phpEx") . '" title="' . sprintf($lang['is_hidden'], $profiledata['username']) . '"' . $hidden_color . '>' . $lang['GhostMode'] . '</a></em>';
+    
+	else:
         $online_status = '<span title="' . sprintf($lang['is_offline'], $profiledata['username']) . '"' . $offline_color . '>' . $lang['Offline'] . '</span>';
     endif;
 
@@ -676,7 +691,8 @@ $template->assign_vars(array(
 include_once('includes/bbcode.'.$phpEx);
 
 $xd_meta = get_xd_metadata();
-$xdata = get_user_xdata($HTTP_GET_VARS[POST_USERS_URL]);
+$xdata = get_user_xdata($_GET[POST_USERS_URL]);
+
 foreach ($xd_meta as $code_name => $info) {
     $value = $xdata[$code_name] ?? null;
     /*****[ANFANG]*****************************************

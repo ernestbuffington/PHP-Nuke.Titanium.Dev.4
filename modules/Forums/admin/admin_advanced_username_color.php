@@ -29,9 +29,9 @@ require($phpbb_root_path . 'extension.inc');
 require('./pagestart.' . $phpEx);
 include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_auc.' . $phpEx);
 
-    if(isset($HTTP_POST_VARS['mode']) || isset($HTTP_GET_VARS['mode']))
+    if(isset($_POST['mode']) || isset($_GET['mode']))
         {    
-    $mode = (isset( $HTTP_POST_VARS['mode'])) ? $HTTP_POST_VARS['mode'] : $HTTP_GET_VARS['mode'];
+    $mode = (isset( $_POST['mode'])) ? $_POST['mode'] : $_GET['mode'];
         }
     else
         {
@@ -59,7 +59,7 @@ include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/
         
     if ($mode == 'move_up')
         {
-    $group = ($_GET['id']) ? $_GET['id'] : $HTTP_GET_VARS['id'];
+    $group = ($_GET['id']) ? $_GET['id'] : $_GET['id'];
     
     #==== Get current weight & weight above it to switch them.
     $q = "SELECT *
@@ -97,7 +97,7 @@ include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/
         
     if ($mode == 'move_down')
         {
-    $group = ($_GET['id']) ? $_GET['id'] : $HTTP_GET_VARS['id'];
+    $group = ($_GET['id']) ? $_GET['id'] : $_GET['id'];
     
     #==== Get current weight & weight under it to switch them.
     $q = "SELECT *
@@ -631,7 +631,7 @@ if($mode == "main" || !$mode)
     $r            = $db -> sql_query($q);
     $row         = $db -> sql_fetchrow($r);
     
-    if($row['group_name']) 
+    if(isset($row['group_name'])) 
         message_die(GENERAL_ERROR, $lang['add_error_2'] . "<br /><br />" . sprintf($lang['Return_to_config'], "<a href=admin_advanced_username_color.php>", "</a>"), $lang['error']);
 
     $q = "SELECT MAX(group_weight) AS max_weight

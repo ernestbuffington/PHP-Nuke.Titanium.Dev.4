@@ -970,10 +970,10 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                                     );
 
                                     $email_data = array(
-                                        'email'         => $row['user_email'],
-                                        'from'          => $board_config['board_email'],
-                                        'reply_to'      => $board_config['board_email'],
-                                        'subject'       => $lang['Topic_reply_notification'],
+                                        'email'         => $row['user_email'] ?? '',
+                                        'from'          => $board_config['board_email']?? '',
+                                        'reply_to'      => $board_config['board_email'] ?? '',
+                                        'subject'       => $lang['Topic_reply_notification'] ?? '',
                                         'signature'     => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : '',
                                         'content_type'  => 'text/html',
                                         'charset'       => 'UTF-8',
@@ -982,9 +982,9 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
                                         'topic_title'   => $topic_title,
                                         'sitename'      => $board_config['sitename'],
                                         'topic_link'    => $server_protocol . $server_name . $server_port . $script_name . '&' . POST_POST_URL . "=$post_id#$post_id",
-                                        'reply_by'      => $poster_name,
-                                        'contents'      => $text,
-                                        'attachment'    => $attachment,
+                                        'reply_by'      => $poster_name ?? '',
+                                        'contents'      => $text ?? '',
+                                        'attachment'    => $attachment ?? '',
                                         'stop_watching' => $server_protocol . $server_name . $server_port . $script_name . '&' . POST_TOPIC_URL . "=$topic_id&unwatch=topic",
                                         'signature'     => (!empty($board_config['board_email_sig'])) ? str_replace('<br />', "\n", "-- \n" . $board_config['board_email_sig']) : ''
                                     );
@@ -1001,7 +1001,7 @@ function user_notification($mode, &$post_data, &$topic_title, &$forum_id, &$topi
 
 									foreach ($bcc_list_ary as $user_lang => $bcc_list)
                                     {
-                                        $name_list = $user_name[$user_lang];
+                                        $name_list = $user_name[$user_lang] ?? '';
                                         $headers[] = 'From: '.$email_data['from'];
                                         for ($i = 0; $i < count($bcc_list); $i++):
                                             $headers[] = 'Bcc: '.$bcc_list[$i];

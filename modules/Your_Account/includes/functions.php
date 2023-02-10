@@ -243,19 +243,16 @@ function YA_CoolSize($size) {
     return $mysize;
 }
 
-// Borrowed from Nuke 7.8 Ads module
 function YA_MakePass() {
     static $makepass;
     if(isset($makepass)) return $makepass;
     $cons = 'bcdfghjklmnpqrstvwxyz';
     $vocs = 'aeiou';
     for ($x=0; $x < 6; $x++) {
-        //mt_srand ((double) microtime() * 1000000);
 		mt_srand(0, MT_RAND_MT19937);
         $con[$x] = substr($cons, mt_rand(0, strlen($cons)-1), 1);
         $voc[$x] = substr($vocs, mt_rand(0, strlen($vocs)-1), 1);
     }
-    //mt_srand((double)microtime()*1000000);
 	mt_srand(0, MT_RAND_MT19937);
     $num1 = mt_rand(0, 9);
     $num2 = mt_rand(0, 9);

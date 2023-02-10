@@ -99,7 +99,7 @@ define("_DATE","Date");
 define("_SEARCH","Search");
 define("_FORADMINTESTS","(for Admin tests)");
 define("_ACTIVEBUTNOTSEE","(Active but invisible link)");
-define("_PAGESVIEWS","page views since");
+define("_PAGESVIEWS","Page Views Since");
 define("_WERECEIVED","We received");
 define("_WRITES","writes");
 define("_GOBACK","[ <a href=\"javascript:history.go(-1)\">Go Back</a> ]");

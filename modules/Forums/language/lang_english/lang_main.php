@@ -648,7 +648,9 @@ $lang['User_post_pct_stats'] = '%.2f%% of total posts'; // 1.25% of total
 $lang['User_post_day_stats'] = '%.2f per day'; // 1.5 posts per day
 $lang['Search_user_posts'] = 'Find all posts by %s'; // Find all posts by username
 
-$lang['No_user_id_specified'] = 'The user you are looking for is in Ghost Mode!<br />- THIS USER DOES NOT WANT TO BE FOUND -';
+$lang['Ghost_Mode_Specified'] = '<img style="padding-bottom: 3px;" src="images/ico/snapchat-002.ico" alt="Ghost Mode" data-alt-src="images/ico/snapchat-002.ico" width="16" height="19"> User is in Ghost Mode';
+$lang['No_user_id_specified'] = '<img style="padding-bottom: 3px;" src="images/ico/snapchat-002.ico" alt="Ghost Mode" data-alt-src="images/ico/snapchat-002.ico" width="16" height="19"> User is in Ghost Mode';
+$lang['No_user_id_members_list_specified'] = 'No Users Found';
 $lang['Wrong_Profile'] = 'You cannot modify a profile that is not your own.';
 
 $lang['Only_one_avatar'] = 'Only one type of avatar can be specified';
@@ -1513,6 +1515,7 @@ $lang['topic_glance_priority'] = 'Cement this topic on the Recent Topics Display
 $lang['Online'] = 'Online';
 $lang['Offline'] = 'Offline';
 $lang['Hidden'] = 'Hidden';
+$lang['GhostMode'] = 'Ghost Mode<br/>Your profile is currently invisible!';
 $lang['is_online'] = '%s is online now';
 $lang['is_offline'] = '%s is offline';
 $lang['is_hidden'] = '%s is hidden';

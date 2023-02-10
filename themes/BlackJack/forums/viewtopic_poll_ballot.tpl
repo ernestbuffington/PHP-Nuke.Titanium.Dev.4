@@ -3,7 +3,7 @@
       <form method="POST" action="{S_POLL_ACTION}">
       <table cellspacing="0" cellpadding="4" border="0" style="margin: auto">
         <tr>
-          <td style="text-align: center">{POLL_QUESTION}</td>
+          <td style="text-align: center"><h1>{POLL_QUESTION}</h1></td>
         </tr>
         <tr>
           <td align="center">
@@ -18,10 +18,20 @@
           </td>
         </tr>
         <tr>
-          <td><input type="submit" name="submit" value="{L_SUBMIT_VOTE}" class="titaniumbutton" /></td>
+          <td>
+          <div style="padding-top:15px;"></div>
+          <div align="center"><input class="buttonlink" type="submit" name="submit" value="{L_SUBMIT_VOTE}"></div>
+          <div style="padding-top:15px;"></div>
+          </td>
         </tr>
         <tr>                        
-          <td><a href="{U_VIEW_RESULTS}">{L_VIEW_RESULTS}</a></td>
+          <td>
+          <div style="padding-top:1px;"></div>
+          <div align="center"><a class="buttonlink" href="{U_VIEW_RESULTS}">{L_VIEW_RESULTS}</a></div>
+          <div style="padding-top:15px;"></div>
+          
+          
+          </td>
         </tr>
       </table>
       {S_HIDDEN_FIELDS}

@@ -87,9 +87,9 @@ $forum_auth_ary['auth_download'] = AUTH_REG;
 //
 // Mode setting
 //
-if( isset($HTTP_POST_VARS['mode']) || isset($HTTP_GET_VARS['mode']) )
+if( isset($_POST['mode']) || isset($HTTP_GET_VARS['mode']) )
 {
-        $mode = ( isset($HTTP_POST_VARS['mode']) ) ? $HTTP_POST_VARS['mode'] : $HTTP_GET_VARS['mode'];
+        $mode = ( isset($_POST['mode']) ) ? $_POST['mode'] : $HTTP_GET_VARS['mode'];
 
         $mode = htmlspecialchars($mode);
 }
@@ -431,14 +431,14 @@ function renumber_order($mode, $cat = 0)
 //
 // Begin program proper
 //
-if( isset($HTTP_POST_VARS['addforum']) || isset($HTTP_POST_VARS['addcategory']) )
+if( isset($_POST['addforum']) || isset($_POST['addcategory']) )
 {
-        $mode = ( isset($HTTP_POST_VARS['addforum']) ) ? "addforum" : "addcat";
+        $mode = ( isset($_POST['addforum']) ) ? "addforum" : "addcat";
 
         if( $mode == "addforum" )
         {
-                //list($cat_id) = each($HTTP_POST_VARS['addforum']);
-				foreach (array_keys($HTTP_POST_VARS['addforum']) as $cat_id)
+                //list($cat_id) = each($_POST['addforum']);
+				foreach (array_keys($_POST['addforum']) as $cat_id)
 
                 $cat_id = intval($cat_id);
 
@@ -446,14 +446,14 @@ if( isset($HTTP_POST_VARS['addforum']) || isset($HTTP_POST_VARS['addcategory']) 
                 // stripslashes needs to be run on this because slashes are added when the forum name is posted
                 //
 
-                $forumname = stripslashes($HTTP_POST_VARS['forumname'][$cat_id]);
+                $forumname = stripslashes($_POST['forumname'][$cat_id]);
         }
 
 }
 
-if( !empty($HTTP_POST_VARS['password']) )
+if( !empty($_POST['password']) )
 {
-	if( !preg_match("#^[A-Za-z0-9]{3,20}$#si", $HTTP_POST_VARS['password']) )
+	if( !preg_match("#^[A-Za-z0-9]{3,20}$#si", $_POST['password']) )
 	{
 		message_die(GENERAL_MESSAGE, $lang['Only_alpha_num_chars']);
 	}
@@ -680,46 +680,43 @@ if( !empty($mode) )
  ******************************************************/
                         $s_hidden_fields = '<input type="hidden" name="mode" value="' . $newmode .'" /><input type="hidden" name="' . POST_FORUM_URL . '" value="' . $forum_id . '" />';
                         /*--FNA #2--*/
+						if(!isset($forum_is_link))
+						$forum_is_link = '';
+						if(!isset($forum_weblink))
+                        $forum_weblink = '';
+						if(!isset($forum_link_icon))
+                        $forum_link_icon = '';
+						
                         $template->assign_vars(array(
 /*****[BEGIN]******************************************
  [ Mod:    Topic display order                 v1.0.2 ]
  ******************************************************/
                                 'L_FORUM_DISPLAY_SORT'        => $lang['Sort_by'],
-
                                 'S_FORUM_DISPLAY_SORT_LIST'        => $forum_display_sort_list,
-
                                 'S_FORUM_DISPLAY_ORDER_LIST'    => $forum_display_order_list,
 /*****[END]********************************************
  [ Mod:    Topic display order                 v1.0.2 ]
  ******************************************************/
                                 'S_FORUM_ACTION' => append_sid("admin_forums.$phpEx"),
-
                                 'S_HIDDEN_FIELDS' => $s_hidden_fields,
-
                                 'S_SUBMIT_VALUE' => $buttonvalue,
-
                                 'S_CAT_LIST' => $catlist,
-
                                 'S_STATUS_LIST' => $statuslist,
 /*****[BEGIN]******************************************
  [ Mod:    Thank You Mod                       v1.1.8 ]
  ******************************************************/
                                 'THANK_ENABLE' => $thank_yes,
-
                                 'THANK_DISABLE' => $thank_no,
 /*****[END]********************************************
  [ Mod:    Thank You Mod                       v1.1.8 ]
  ******************************************************/
                                 'S_PRUNE_ENABLED' => $prune_enabled,
-
                                 'L_FORUM_TITLE' => $l_title,
 /*****[BEGIN]******************************************
  [ Mod:    Forumtitle as Weblink               v1.2.2 ]
  ******************************************************/ 
 								'L_FORUM_IS_LINK' => $lang['Forum_is_link'],
-
 								'L_FORUM_WEBLINK' => $lang['Forum_weblink'],
-
 								'L_FORUM_LINK_ICON' => $lang['Forum_link_icon'],
 /*****[END]********************************************
  [ Mod:    Forumtitle as Weblink               v1.2.2 ]
@@ -729,15 +726,12 @@ if( !empty($mode) )
  [ Mod:    Colorize Forumtitle                 v1.0.0 ]
  ******************************************************/
                                 'L_FORUM_COLOR' => $lang['Forum_color'],
-
                                 'L_FORUM_COLOR_EXPLAIN' => $lang['Forum_color_explain'],
 /*****[END]********************************************
  [ Mod:    Colorize Forumtitle                 v1.0.0 ]
  ******************************************************/
                                 'L_FORUM_EXPLAIN' => $lang['Forum_edit_delete_explain'],
-
                                 'L_FORUM_SETTINGS' => $lang['Forum_settings'],
-
                                 'L_FORUM_NAME' => $lang['Forum_name'],
 /*****[BEGIN]******************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
@@ -754,9 +748,7 @@ if( !empty($mode) )
  [ Mod:    Thank You Mod                       v1.1.8 ]
  ******************************************************/
 								'L_FORUM_THANK' => $lang['use_thank'],
-
 								'L_YES' => $lang['Yes'],
-
 								'L_NO' => $lang['No'],
 /*****[END]********************************************
  [ Mod:    Thank You Mod                       v1.1.8 ]
@@ -770,19 +762,12 @@ if( !empty($mode) )
  [ Mod:     Forum Icons                        v1.0.4 ]
  ******************************************************/
                                 'L_AUTO_PRUNE' => $lang['Forum_pruning'],
-
                                 'L_ENABLED' => $lang['Enabled'],
-
                                 'L_PRUNE_DAYS' => $lang['prune_days'],
-
                                 'L_PRUNE_FREQ' => $lang['prune_freq'],
-
                                 'L_DAYS' => $lang['Days'],
-
                                 'PRUNE_DAYS' => ( isset($pr_row['prune_days']) ) ? $pr_row['prune_days'] : 7,
-
                                 'PRUNE_FREQ' => ( isset($pr_row['prune_freq']) ) ? $pr_row['prune_freq'] : 1,
-
                                 'FORUM_NAME' => $forumname,
 								'FORUM_PASSWORD' => $forum_password,
 /*****[BEGIN]******************************************
@@ -797,11 +782,8 @@ if( !empty($mode) )
  [ Mod:    Forumtitle as Weblink               v1.2.2 ]
  ******************************************************/ 
 								'DESCRIPTION' => $forumdesc,
-
 								'FORUM_IS_LINK' => ($forum_is_link) ? 'checked="checked"' : '',
-
 								'FORUM_WEBLINK' => ($forum_weblink) ? $forum_weblink : 'http://',
-
 								'FORUM_LINK_ICON' => $forum_link_icon,
 /*****[END]********************************************
  [ Mod:    Forumtitle as Weblink               v1.2.2 ]
@@ -811,7 +793,6 @@ if( !empty($mode) )
  [ Mod:     Forum Icons                        v1.0.4 ]
  ******************************************************/
 								'ICON' => ( $forumicon ) ? $forumicon : '', 
-
 								'ICON_DISPLAY' => ( $forumicon ) ? '<img src="' . $phpbb_root_path . $forumicon . '" />' : '')
 /*****[END]********************************************
  [ Mod:     Forum Icons                        v1.0.4 ]
@@ -826,7 +807,7 @@ if( !empty($mode) )
                         //
                         // Create a forum in the DB
                         //
-                        if( trim($HTTP_POST_VARS['forumname']) == "" )
+                        if( trim($_POST['forumname']) == "" )
                         {
                                 message_die(GENERAL_ERROR, "Can't create a forum without a name");
                         }
@@ -834,7 +815,7 @@ if( !empty($mode) )
 
                                 FROM " . FORUMS_TABLE . "
 
-                                WHERE cat_id = " . intval($HTTP_POST_VARS[POST_CAT_URL]);
+                                WHERE cat_id = " . intval($_POST[POST_CAT_URL]);
 
                         if( !$result = $db->sql_query($sql) )
                         {
@@ -888,11 +869,11 @@ if( !empty($mode) )
  ******************************************************/
                         $field_sql .= ', forum_display_sort';
 
-                        $value_sql .= ', ' . intval($HTTP_POST_VARS['forum_display_sort']);
+                        $value_sql .= ', ' . intval($_POST['forum_display_sort']);
 
                         $field_sql .= ', forum_display_order';
 
-                        $value_sql .= ', ' . intval($HTTP_POST_VARS['forum_display_order']);
+                        $value_sql .= ', ' . intval($_POST['forum_display_order']);
 /*****[END]********************************************
  [ Mod:    Topic display order                 v1.0.2 ]
  ******************************************************/
@@ -912,15 +893,52 @@ if( !empty($mode) )
  [ Mod:    Forum Icons                         v1.0.4 ]
  [ Mod:    Thank You Mod                       v1.1.8 ]
  ******************************************************/
-						$list = explode(',', $HTTP_POST_VARS[POST_CAT_URL]);
+						$list = explode(',', $_POST[POST_CAT_URL]);
 
-						$new_cat = ( count($list) ) ? intval($list[0]) : intval($HTTP_POST_VARS[POST_CAT_URL]);
+						$new_cat = ( count($list) ) ? intval($list[0]) : intval($_POST[POST_CAT_URL]);
 
 						$new_parent = ( isset($list[1]) ) ? intval($list[1]) : 0;
+                        
+						if(!isset($_POST['forum_is_link']))
+                        $_POST['forum_is_link'] = '';
+						
+						if(!isset($_POST['forum_link_target']))
+						$_POST['forum_link_target'] = '';
 
-                        $sql = "INSERT INTO " . FORUMS_TABLE . " (forum_id, forum_name, title_is_link, weblink, forum_link_icon, forum_link_target, forum_color, cat_id, forum_parent, forum_desc, forum_order, forum_status, forum_password, forum_icon, prune_enable" . $field_sql . ", forum_thank)
+						if(!isset($_POST['prune_enable']))
+						$_POST['prune_enable'] = '';
+						
+						$sql = "INSERT INTO " . FORUMS_TABLE . " (forum_id, 
+						                                        forum_name, 
+															 title_is_link, 
+															       weblink, 
+														   forum_link_icon, 
+														 forum_link_target, 
+														       forum_color, 
+															        cat_id, 
+															  forum_parent, 
+															    forum_desc, 
+															   forum_order, 
+															  forum_status, 
+															forum_password, 
+															    forum_icon, 
+															  prune_enable" . $field_sql . ", forum_thank)
 
-                                VALUES ('" . $next_id . "', '" . str_replace("\'", "''", $HTTP_POST_VARS['forumname']) . "', " . intval($HTTP_POST_VARS['forum_is_link']) . ", '" . str_replace("\'", "''", $HTTP_POST_VARS['forum_weblink']) . "', '" . str_replace("\'", "''", $HTTP_POST_VARS['forum_link_icon']) . "', " . intval($HTTP_POST_VARS['forum_link_target']) . ", '" . str_replace("\'", "''", $HTTP_POST_VARS['forum_color']) . "', " . $new_cat . ', ' . $new_parent . ", '" . str_replace("\'", "''", $HTTP_POST_VARS['forumdesc']) . "', $next_order, " . intval($HTTP_POST_VARS['forumstatus']) . ", '" . str_replace("\'", "''", $HTTP_POST_VARS['password']) . "', '" . str_replace("\'", "''", $HTTP_POST_VARS['forumicon']) . "', " . intval($HTTP_POST_VARS['prune_enable']) . $value_sql . ", " . intval($HTTP_POST_VARS['forumthank']) . ")";
+                                    VALUES ('" . $next_id . "', 
+	    '" . str_replace("\'", "''", $_POST['forumname']) . "', 
+	                   " . intval($_POST['forum_is_link']) . ", 
+	'" . str_replace("\'", "''", $_POST['forum_weblink']) . "', 
+  '" . str_replace("\'", "''", $_POST['forum_link_icon']) . "', 
+                   " . intval($_POST['forum_link_target']) . ", 
+	  '" . str_replace("\'", "''", $_POST['forum_color']) . "', 
+	                                          " . $new_cat . ', 
+										   ' . $new_parent . ", 
+		'" . str_replace("\'", "''", $_POST['forumdesc']) . "', 
+		    $next_order, " . intval($_POST['forumstatus']) . ", 
+		 '" . str_replace("\'", "''", $_POST['password']) . "', 
+		'" . str_replace("\'", "''", $_POST['forumicon']) . "', 
+		   " . intval($_POST['prune_enable']) . $value_sql . ", 
+		                  " . intval($_POST['forumthank']) . ")";
 /*****[END]********************************************
  [ Mod:    Thank You Mod                       v1.1.8 ]
  [ Mod:    Forum Icons                         v1.0.4 ]
@@ -933,16 +951,16 @@ if( !empty($mode) )
                                 message_die(GENERAL_ERROR, "Couldn't insert row in forums table", "", __LINE__, __FILE__, $sql);
                         }
 
-                        if( $HTTP_POST_VARS['prune_enable'] )
+                        if( $_POST['prune_enable'] )
                         {
-                                if( empty($HTTP_POST_VARS['prune_days']) || empty($HTTP_POST_VARS['prune_freq']) )
+                                if( empty($_POST['prune_days']) || empty($_POST['prune_freq']) )
                                 {
                                         message_die(GENERAL_MESSAGE, $lang['Set_prune_data']);
                                 }
 
                                 $sql = "INSERT INTO " . PRUNE_TABLE . " (forum_id, prune_days, prune_freq)
 
-                                        VALUES('" . $next_id . "', " . intval($HTTP_POST_VARS['prune_days']) . ", " . intval($HTTP_POST_VARS['prune_freq']) . ")";
+                                        VALUES('" . $next_id . "', " . intval($_POST['prune_days']) . ", " . intval($_POST['prune_freq']) . ")";
 
                                 if( !$result = $db->sql_query($sql) )
                                 {
@@ -961,13 +979,13 @@ if( !empty($mode) )
 /*****[BEGIN]******************************************
  [ Mod:    Simple Subforums                    v1.0.1 ]
  ******************************************************/
-						$forum_id = intval($HTTP_POST_VARS[POST_FORUM_URL]);
+						$forum_id = intval($_POST[POST_FORUM_URL]);
 
 						$row = get_info('forum', $forum_id);
 
-						$list = explode(',', $HTTP_POST_VARS[POST_CAT_URL]);
+						$list = explode(',', $_POST[POST_CAT_URL]);
 
-						$new_cat = ( count($list) ) ? intval($list[0]) : intval($HTTP_POST_VARS[POST_CAT_URL]);
+						$new_cat = ( count($list) ) ? intval($list[0]) : intval($_POST[POST_CAT_URL]);
 
 						$new_parent = ( isset($list[1]) ) ? intval($list[1]) : 0;
 
@@ -983,11 +1001,11 @@ if( !empty($mode) )
  ******************************************************/
                         /*--FNA #3--*/
                         // Modify a forum in the DB
-                        if( isset($HTTP_POST_VARS['prune_enable']))
+                        if( isset($_POST['prune_enable']))
                         {
-                                if( $HTTP_POST_VARS['prune_enable'] != 1 )
+                                if( $_POST['prune_enable'] != 1 )
                                 {
-                                        $HTTP_POST_VARS['prune_enable'] = 0;
+                                        $_POST['prune_enable'] = 0;
                                 }
                         }
 /*****[BEGIN]******************************************
@@ -1029,9 +1047,9 @@ if( !empty($mode) )
                                 message_die(GENERAL_ERROR, "Couldn't update forum information", "", __LINE__, __FILE__, $sql);
                         }
 
-                        if( $HTTP_POST_VARS['prune_enable'] == 1 )
+                        if( $_POST['prune_enable'] == 1 )
                         {
-                                if( empty($HTTP_POST_VARS['prune_days']) || empty($HTTP_POST_VARS['prune_freq']) )
+                                if( empty($_POST['prune_days']) || empty($_POST['prune_freq']) )
                                 {
                                         message_die(GENERAL_MESSAGE, $lang['Set_prune_data']);
                                 }
@@ -1040,7 +1058,7 @@ if( !empty($mode) )
 
                                         FROM " . PRUNE_TABLE . "
 
-                                        WHERE forum_id = " . intval($HTTP_POST_VARS[POST_FORUM_URL]);
+                                        WHERE forum_id = " . intval($_POST[POST_FORUM_URL]);
 
                                 if( !$result = $db->sql_query($sql) )
                                 {
@@ -1051,16 +1069,16 @@ if( !empty($mode) )
                                 {
                                         $sql = "UPDATE " . PRUNE_TABLE . "
 
-                                                SET        prune_days = " . intval($HTTP_POST_VARS['prune_days']) . ",        prune_freq = " . intval($HTTP_POST_VARS['prune_freq']) . "
+                                                SET        prune_days = " . intval($_POST['prune_days']) . ",        prune_freq = " . intval($_POST['prune_freq']) . "
 
-                                                 WHERE forum_id = " . intval($HTTP_POST_VARS[POST_FORUM_URL]);
+                                                 WHERE forum_id = " . intval($_POST[POST_FORUM_URL]);
                                 }
                                 else
                                 {
 
                                         $sql = "INSERT INTO " . PRUNE_TABLE . " (forum_id, prune_days, prune_freq)
 
-                                                VALUES(" . intval($HTTP_POST_VARS[POST_FORUM_URL]) . ", " . intval($HTTP_POST_VARS['prune_days']) . ", " . intval($HTTP_POST_VARS['prune_freq']) . ")";
+                                                VALUES(" . intval($_POST[POST_FORUM_URL]) . ", " . intval($_POST['prune_days']) . ", " . intval($_POST['prune_freq']) . ")";
 
                                 }
 
@@ -1081,7 +1099,7 @@ if( !empty($mode) )
                 case 'addcat':
 
                         // Create a category in the DB
-                        if( trim($HTTP_POST_VARS['categoryname']) == '')
+                        if( trim($_POST['categoryname']) == '')
                         {
                                 message_die(GENERAL_ERROR, "Can't create a category without a name");
                         }
@@ -1105,7 +1123,7 @@ if( !empty($mode) )
                         //
                         $sql = "INSERT INTO " . CATEGORIES_TABLE . " (cat_title, cat_order)
 
-                                VALUES ('" . str_replace("\'", "''", $HTTP_POST_VARS['categoryname']) . "', $next_order)";
+                                VALUES ('" . str_replace("\'", "''", $_POST['categoryname']) . "', $next_order)";
 
                         if( !$result = $db->sql_query($sql) )
                         {
@@ -1193,9 +1211,9 @@ if( !empty($mode) )
 
                         $sql = "UPDATE " . CATEGORIES_TABLE . "
 
-                                SET cat_title = '" . str_replace("\'", "''", $HTTP_POST_VARS['cat_title']) . "'
+                                SET cat_title = '" . str_replace("\'", "''", $_POST['cat_title']) . "'
 
-                                WHERE cat_id = " . intval($HTTP_POST_VARS[POST_CAT_URL]);
+                                WHERE cat_id = " . intval($_POST[POST_CAT_URL]);
 
                         if( !$result = $db->sql_query($sql) )
                         {
@@ -1276,11 +1294,11 @@ if( !empty($mode) )
                         //
                         // Move or delete a forum in the DB
                         //
-                        $from_id = intval($HTTP_POST_VARS['from_id']);
+                        $from_id = intval($_POST['from_id']);
 
-                        $to_id = intval($HTTP_POST_VARS['to_id']);
+                        $to_id = intval($_POST['to_id']);
 
-                        $delete_old = intval($HTTP_POST_VARS['delete_old']);
+                        $delete_old = intval($_POST['delete_old']);
 
                         // Either delete or move all posts in a forum
                         if($to_id == -1)
@@ -1698,9 +1716,9 @@ if( !empty($mode) )
 
                         //
 
-                        $from_id = intval($HTTP_POST_VARS['from_id']);
+                        $from_id = intval($_POST['from_id']);
 
-                        $to_id = intval($HTTP_POST_VARS['to_id']);
+                        $to_id = intval($_POST['to_id']);
 
 
 
@@ -2010,7 +2028,7 @@ if( !empty($mode) )
 
 
 
-        if ($show_index != TRUE)
+        if (isset($show_index) && $show_index != TRUE)
 
         {
 

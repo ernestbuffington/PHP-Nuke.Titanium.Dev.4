@@ -218,7 +218,7 @@ endswitch;
         # are denied access
         $u_access = array();
 
-        if($userdata['session_logged_in']):
+        if(isset($userdata['session_logged_in'])):
            $forum_match_sql = ($forum_id != AUTH_LIST_ALL) ? "AND a.forum_id = '$forum_id'" : '';
            $sql = "SELECT a.forum_id, $a_sql, a.auth_mod
                    FROM " . AUTH_ACCESS_TABLE . " a, " . USER_GROUP_TABLE . " ug

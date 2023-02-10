@@ -391,7 +391,7 @@ function topicdelete($topicid, $ok=0) {
         $topicimage = $row3['topicimage'];
         $topictext = $row3['topictext'];
         OpenTable();
-        echo "<div align=\"center\"><img src=\"images/topics/$topicimage\" alt=\"$topictext\" /><br /><br />"
+        echo "<div align=\"center\"><br /><br />"
             ."<strong>" . _DELETETOPIC . " $topictext</strong><br /><br />"
             ."" . _TOPICDELSURE . " <i>$topictext</i>?<br />"
             ."" . _TOPICDELSURE1 . "<br /><br />"
@@ -416,6 +416,8 @@ switch ($op) {
     break;
 
     case "topicdelete":
+	if(!isset($ok))
+	$ok = '';
     topicdelete($topicid, $ok);
     break;
 

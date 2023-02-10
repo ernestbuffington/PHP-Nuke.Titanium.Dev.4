@@ -44,7 +44,7 @@ while($whosbeen = $db->sql_fetchrow($row1_result)):
 	if($whosbeen['user_allow_viewonline'] == 0):
 	$whosbeen['username'] = 'Ghost Mode';
 	$whosbeen['user_avatar_type'] = 4;
-	$whosbeen['user_id'] = -1;
+	$whosbeen['user_id'] = 1;
 	endif;
 	
 	if($whosbeen['user_from_flag'] ):
@@ -137,7 +137,7 @@ while($whosbeen = $db->sql_fetchrow($row2_result)):
 	if($whosbeen['user_allow_viewonline'] == 0):
 	$whosbeen['username'] = 'Ghost Mode';
 	$whosbeen['user_avatar_type'] = 4;
-	$whosbeen['user_id'] = -1;
+	$whosbeen['user_id'] = 1;
 	endif;
 	
 	if($whosbeen['user_from_flag'] ):
@@ -225,7 +225,7 @@ while($whosbeen = $db->sql_fetchrow($row3_result)):
 	if($whosbeen['user_allow_viewonline'] == 0):
 	$whosbeen['username'] = 'Ghost Mode';
 	$whosbeen['user_avatar_type'] = 4;
-	$whosbeen['user_id'] = -1;
+	$whosbeen['user_id'] = 1;
 	endif;
 	
 	if($whosbeen['user_from_flag'] ):
@@ -313,7 +313,7 @@ while($whosbeen = $db->sql_fetchrow($row4_result)):
 	if($whosbeen['user_allow_viewonline'] == 0):
 	$whosbeen['username'] = 'Ghost Mode';
 	$whosbeen['user_avatar_type'] = 4;
-	$whosbeen['user_id'] = -1;
+	$whosbeen['user_id'] = 1;
 	endif;
 	
 	if($whosbeen['user_from_flag']):
