@@ -584,7 +584,7 @@ if($mode == "main" || !$mode)
           WHERE group_name = '". $new_name ."'";
     $r            = $db -> sql_query($q);
     $row         = $db -> sql_fetchrow($r);
-    $exists = $row['group_name'];
+    $exists = $row['group_name'] ?? '';
     
         if($new_name != $old_name)
             {
