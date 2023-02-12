@@ -1416,6 +1416,9 @@ else
         if(!isset($s_pending_groups_opt))
 		$s_pending_groups_opt = '';
 
+        if(!isset($userdata['session_id']))
+		$userdata['session_id'] = '';
+
         if(!isset($s_member_groups_opt))
 		$s_member_groups_opt = '';
 		
