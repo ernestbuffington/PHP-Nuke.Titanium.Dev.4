@@ -637,7 +637,7 @@ function honeypot()
 		. '</form>' , PHP_EOL
 		. '<br/>' , PHP_EOL;
 	// Check if delete button active, start this
-	if (isset($_POST) && $_POST['delete']) {
+	if (isset($_POST) && isset($_POST['delete'])) {
 		$checkbox = $_POST['checkbox'];
 		$count = count($checkbox);
 
@@ -1223,6 +1223,7 @@ $hpjs2head .= '  </script>'."\n";
 	   , '<br />' , PHP_EOL
 	   , '</td>' , PHP_EOL
 	   , '</tr>' , PHP_EOL
+
 	   , '</table>' , PHP_EOL
 	   , '</form>' , PHP_EOL
 
