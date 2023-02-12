@@ -1260,7 +1260,7 @@ if(!empty($forum_topic_data['topic_vote'])):
                                 'L_SUBMIT_VOTE' => $lang['Submit_vote'],
 
                                  # Mod: Must first vote to see Results v1.0.0 START
-                                'L_VIEW_RESULTS' => (!$user_voted && $poll_view_toggle) ? $lang['View_results'] : '',
+                                'L_VIEW_RESULTS' => (!$user_voted && $poll_view_toggle) ? $lang['View_results'] : 'View Results',
                                  # Mod: Must first vote to see Results v1.0.0 END
 
                                 'U_VIEW_RESULTS' => append_sid("viewtopic.$phpEx?".POST_TOPIC_URL."=$topic_id&amp;postdays=$post_days&amp;postorder=$post_order&amp;vote=viewresult"))
