@@ -328,7 +328,9 @@ endswitch;
           $auth_user['auth_mod'] = ($userdata['session_logged_in']) ? auth_check_user(AUTH_MOD, 'auth_mod', $u_access, $is_admin) : 0;
         
         else:
-        
+          if(!isset($userdata['session_logged_in']))
+		  $userdata['session_logged_in'] = '';
+		
           for($k = 0; $k < count($f_access); $k++):
              $f_forum_id = $f_access[$k]['forum_id'];
              $u_access[$f_forum_id] = isset($u_access[$f_forum_id]) ? $u_access[$f_forum_id] : array();
