@@ -268,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `#prefix#_bbgamehash` (
 CREATE TABLE IF NOT EXISTS `#prefix#_bbgames` (
   `game_id` mediumint(8) NOT NULL,
   `game_pic` varchar(50) NOT NULL DEFAULT '',
-  `game_desc` longtext NOT NULL DEFAULT 'No Description',
+  `game_desc` longtext,
   `game_highscore` int(11) NOT NULL DEFAULT 0,
   `game_highdate` int(11) NOT NULL DEFAULT 0,
   `game_highuser` mediumint(8) NOT NULL DEFAULT 0,

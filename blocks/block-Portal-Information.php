@@ -6,7 +6,7 @@ $heading_color = 'green';
 
 $content = '<hr>';
 $content .= '<div align="center">';
-$content .= '<strong><span style="color:'.$heading_color.';">Dedicated Rack 68</span></strong><br />Intel(R) Xeon(R)<br /> CPU E3-1230 v5 @ 3.40GHz<br />Data Center: Tampa, Florida<br />Hosting: $500.00 Monthly';
+$content .= '<strong><span style="color:'.$heading_color.';">Dedicated Server</span></strong><br />Intel(R) Xeon(R)<br /> CPU E3-1230 v5 @ 3.40GHz<br />Data Center: Tampa, Florida<br />Hosting: $500.00 Monthly';
 $content .= '<hr>';
 $content .= '<strong><span style="color:'.$heading_color.';">CMS</span></strong><br />PHP-Nuke Titanium v'.NUKE_TITANIUM.'<br />';
 $content .= '<hr>';
@@ -16,7 +16,7 @@ $content .= '<strong><span style="color:'.$heading_color.';">EasyApache 4</span>
 $content .= '<hr>';
 $content .= '<strong><strong><span style="color:'.$heading_color.';">Perl</span></strong><br />Version: 5.16.3<br />';
 $content .= '<hr>';
-$content .= '<strong><strong><span style="color:'.$heading_color.';">cPanel</span></strong><br />106.0.11<br />';
+$content .= '<strong><strong><span style="color:'.$heading_color.';">cPanel</span></strong><br />108.0.11<br />';
 $content .= '<hr>';
 $content .= '<strong><strong><span style="color:'.$heading_color.';">PHP Version</span></strong><br />php-fpm '.PHPVERS.'<br />';
 $content .= '<hr>';
@@ -46,4 +46,4 @@ $content .= '<hr>';
 
 $content .= '</div>';
 
-?>
+

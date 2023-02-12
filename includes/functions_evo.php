@@ -39,8 +39,9 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 function get_user_field($field_name, $user, $is_name = false) 
 {
     global $db, $identify;
-    static $actual_user;
-    
+    static $actual_user = [];
+    $data = [];
+	
 	if (!$user) return null;
 
     if ($is_name || !is_numeric($user))  
@@ -91,6 +92,7 @@ function get_user_field($field_name, $user, $is_name = false)
         }
         return $data;
     }
+	if(isset($actual_user[$user][$field_name]))
     return $actual_user[$user][$field_name];
 }
 
