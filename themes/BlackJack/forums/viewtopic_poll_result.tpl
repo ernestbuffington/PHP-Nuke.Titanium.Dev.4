@@ -8,7 +8,7 @@
       <tr>
         <td>
         <div align="center">
-        <table border="1" cellpadding="0" cellspacing="0" bgcolor="#666666"><tr><td>
+        <table width="400px" border="1" cellpadding="0" cellspacing="0"><tr><td>
         
         <span style="color: lime;">{poll_option.POLL_OPTION_CAPTION}</span><br/>( votes: <strong>{poll_option.POLL_OPTION_RESULT}</strong> )&nbsp;[ {poll_option.POLL_OPTION_PERCENT_VALUE} of the voters ]&nbsp;
         <div style="padding-top:1px;"></div>
