@@ -82,8 +82,8 @@ if($config['button_standard'] == 1):
 				target='_blank'><img height=\"31\" src='".$site_image."' ".$settings." /></a></a>";
 
                 if (is_mod_admin($module_name)): 
-                  echo "<br /><a href='".$admin_file.".php?op=edit_button&amp;
-                  id=".$id."'><img src='modules/".$module_name."/images/edit.png' alt='".$lang_new[$module_name]['EDIT']."' title='".$lang_new[$module_name]['EDIT']."' /></a>";
+                  echo "<br /><a href='".$admin_file.".php?op=edit_button&amp;id=".$id."'><img src='modules/".$module_name."/images/edit.png' alt='".$lang_new[$module_name]['EDIT']."' 
+				  title='".$lang_new[$module_name]['EDIT']."' /></a>";
                   echo " <a href='".$admin_file.".php?op=delete_button&amp;id=".$id."'><img 
                   src='modules/".$module_name."/images/delete.png' alt='".$lang_new[$module_name]['DELETE']."' title='".$lang_new[$module_name]['DELETE']."' /></a>";
                 endif;
