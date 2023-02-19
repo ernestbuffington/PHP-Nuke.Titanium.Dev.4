@@ -14,7 +14,6 @@
 
 <ul>
 	<li>Ernest Allen Buffington (Lead Core Developer)</li>
-	<li>Gaz "Wiggy" Jones (Core Developer)</li>
 	<li>Winston Terrance Wolfe</li>
 	<li>Truman Scott Buffington</li>
 	<li>Bob Marion</li> 
@@ -38,6 +37,7 @@
 	<li>ScottyBcoder</li>
 	<li>UniKCode</li>
 	<li>Cobalt74</li>
+        <li>Gaz "Wiggy" Jones</li>
 </ul>
 
 <h2>PHP-Nuke Titanium v4.0.4 Flash Game, and Movie Support for 2022</h2>
