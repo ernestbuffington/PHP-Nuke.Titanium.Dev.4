@@ -130,6 +130,8 @@ class Services_JSON
     *                                   bubble up with an error, so all return values
     *                                   from encode() should be checked with isError()
     */
+	public $use;
+	
     function __construct($use = 0)
     {
         $this->use = $use;
