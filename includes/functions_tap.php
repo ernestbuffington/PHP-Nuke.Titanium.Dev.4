@@ -22,7 +22,7 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
     exit('Access Denied');
 }
 
-define('TAP_PREFIX', 'Evo-');
+define('TAP_PREFIX', 'Titanium-');
 
 define('TAP_SCOPE','[a-z0-9_-]');
 
@@ -33,7 +33,7 @@ define('TAP_SCOPE','[a-z0-9_-]');
   $lazy_tap = 3;  = Admin's only see the tap && bots
   ==========================================================================*/
 global $identify;
-if ($lazy_tap && !defined('ADMIN_FILE') && !defined('FORUM_ADMIN') && !defined('IN_ADMIN') && !defined('CNBYA')) {
+if (isset($lazy_tap) && !defined('ADMIN_FILE') && !defined('FORUM_ADMIN') && !defined('IN_ADMIN') && !defined('CNBYA')) {
     
     function tap($buffer) { 
         $buffer = str_replace('&&', '&',$buffer);
@@ -88,5 +88,3 @@ if ($lazy_tap && !defined('ADMIN_FILE') && !defined('FORUM_ADMIN') && !defined('
         ob_start("tap");
     }
 }
-
-?>
