@@ -167,6 +167,7 @@ class Template {
 		array('site_today', 'site_week'),
 		);
 
+     public $filename;
 	/**
 	 * Constructor. Installs XS mod on first run or updates it and sets the root dir.
 	 */
@@ -2523,5 +2524,3 @@ function xs_switch($tpl, $name)
 {
 	return (isset($tpl->_tpldata[$name.'.']) && count($tpl->_tpldata[$name.'.']) > 0);
 }
-
-?>
