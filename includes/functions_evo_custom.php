@@ -382,6 +382,7 @@ function has_new_or_unread_private_messages()
 function get_evo_option($name, $type='string')
 {
 	global $evoconfig;
+    if(isset($evoconfig[$name]))
 	return ($type == 'string') ? $evoconfig[$name] : intval($evoconfig[$name]);
 }
 
@@ -1023,4 +1024,3 @@ function bootstrap_pagination() {
     endif;
 
 }
-?>
