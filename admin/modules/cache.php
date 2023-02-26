@@ -33,11 +33,13 @@ function cache_header()
     $enabled = ($cache->valid) ? "<font color=\"green\">" . _CACHE_ENABLED . "</font>" : "<font color=\"red\">" . _CACHE_DISABLED . "</font> (<a href=\"$admin_file.php?op=howto_enable_cache\">" . _CACHE_HOWTOENABLE . "</a>)";
     $enabled_img = ($cache->valid) ? get_evo_icon('evo-sprite good') : get_evo_icon('evo-sprite bad');
     $cache_num_files = $cache->count_rows();
+
+	if(isset($evoconfig['cache_last_cleared'])):
     $last_cleared_img = ((time() - $evoconfig['cache_last_cleared']) >= 604800) ? get_evo_icon('evo-sprite bad') : get_evo_icon('evo-sprite good');
-    $clear_needed = ((time() - $evoconfig['cache_last_cleared']) >= 604800) ? "(<a href=\"$admin_file.php?op=cache_clear\"><font color=\"red\">" . _CACHE_CLEARNOW . "</font></a>)" : "";
-    
+	$clear_needed = ((time() - $evoconfig['cache_last_cleared']) >= 604800) ? "(<a href=\"$admin_file.php?op=cache_clear\"><font color=\"red\">" . _CACHE_CLEARNOW . "</font></a>)" : "";
 	$last_cleared = date('F j, Y, g:i a', $evoconfig['cache_last_cleared']);
-    
+    endif;
+	
 	$user_can_clear = ($usrclearcache) ? "[ <strong>" . _CACHE_YES . "</strong> | <a href=\"$admin_file.php?op=usrclearcache&amp;opt=0\">" . _CACHE_NO . "</a> ]" : "[ <a href=\"$admin_file.php?op=usrclearcache&amp;opt=1\">" . _CACHE_YES . "</a> | <strong>" . _CACHE_NO . "</strong> ]";
     $cache_good = (is_writable(NUKE_CACHE_DIR) && !ini_get('safe_mode')) ? "<font color=\"green\">" . _CACHE_GOOD . "</font>" : "<font color=\"red\">" . _CACHE_BAD . "</font>";
     $cache_good_img = (is_writable(NUKE_CACHE_DIR) && !ini_get('safe_mode')) ? get_evo_icon('evo-sprite good') : get_evo_icon('evo-sprite bad');
@@ -68,6 +70,14 @@ function cache_header()
     CloseTable();
 
     OpenTable();
+	    
+		if(!isset($last_cleared_img))
+	    $last_cleared_img = get_evo_icon('evo-sprite bad');
+	    if(!isset($last_cleared))
+	    $last_cleared = '';
+	    if(!isset($clear_needed))
+		$clear_needed = '';
+		
         echo "<div align=\"center\">\n"
         ."<table border='0' width='70%'><tr><td>"
         ."$enabled_img</td><td>"
@@ -84,8 +94,8 @@ function cache_header()
         // ."<i>" . _CACHE_NUM_FILES . "</i></td><td>" . $cache_num_files . "</td>"
         // ."</tr>"
         ."<tr><td>"
-        ."$last_cleared_img</td><td>"
-        ."<i>" . _CACHE_LAST_CLEARED . "</i></td><td>" . $last_cleared . "  $clear_needed</td>"
+        ."".$last_cleared_img."</td><td>"
+        ."<i>" . _CACHE_LAST_CLEARED . "</i></td><td>" . $last_cleared . "  ".$clear_needed."</td>"
         ."</tr>"
         ."<tr><td>"
         .(($usrclearcache == 1) ? get_evo_icon('evo-sprite good') : get_evo_icon('evo-sprite bad'))."</td><td>"
@@ -291,5 +301,3 @@ if (is_admin()) {
 } else {
     echo "Access Denied";
 }
-
-?>
