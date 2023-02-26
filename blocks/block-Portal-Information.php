@@ -10,13 +10,13 @@ $content .= '<strong><span style="color:'.$heading_color.';">Dedicated Rack 68</
 $content .= '<hr>';
 $content .= '<strong><span style="color:'.$heading_color.';">CMS</span></strong><br />PHP-Nuke Titanium v'.NUKE_TITANIUM.'<br />';
 $content .= '<hr>';
-$content .= '<strong><span style="color:'.$heading_color.';">Linux</span></strong><br />Alma Linux v8.7.0<br />x86_64<br />';
+$content .= '<strong><span style="color:'.$heading_color.';">Linux</span></strong><br />Alma Linux v8.7.0<br />STANDARD<br />';
 $content .= '<hr>';
 $content .= '<strong><span style="color:'.$heading_color.';">EasyApache 4</span></strong><br />Apache 2.4.54<br />';
 $content .= '<hr>';
 $content .= '<strong><strong><span style="color:'.$heading_color.';">Perl</span></strong><br />Version: 5.16.3<br />';
 $content .= '<hr>';
-$content .= '<strong><strong><span style="color:'.$heading_color.';">cPanel</span></strong><br />106.0.11<br />';
+$content .= '<strong><strong><span style="color:'.$heading_color.';">cPanel</span></strong><br />v108.0.12<br />';
 $content .= '<hr>';
 $content .= '<strong><strong><span style="color:'.$heading_color.';">PHP Version</span></strong><br />php-fpm '.PHPVERS.'<br />';
 $content .= '<hr>';
