@@ -44,6 +44,11 @@ class sql_db
 	public $file;
 	public $line;
 	public $qtime;
+	public $persistency;
+	public $user;
+	public $password;
+	public $server;
+	public $dbname;
 
 	function _backtrace_log($query, $failed=false, $queryid=0)
 	{
@@ -641,5 +646,3 @@ class sql_db
 } // class sql_db
 
 } // if ... define
-
-?>
