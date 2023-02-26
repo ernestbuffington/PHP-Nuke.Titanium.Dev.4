@@ -57,10 +57,25 @@ if(!isset($pollID)) {
     echo "</td><td>&nbsp;</td><td width='30%' valign='top'>";
     OpenTable();
     echo "<strong>"._LAST5POLLS." $sitename</strong><br /><br />";
-    if (isset($userinfo['umode'])) { $r_options .= "&amp;mode=$userinfo[umode]"; }
-    if (isset($userinfo['uorder'])) { $r_options .= "&amp;order=$userinfo[uorder]"; }
-    if (isset($userinfo['thold'])) { $r_options .= "&amp;thold=$userinfo[thold]"; }
-    $resu = $db->sql_query("SELECT pollID, pollTitle, voters FROM ".$prefix."_poll_desc WHERE artid='0' ORDER BY timeStamp DESC LIMIT 1,6");
+    
+	$r_options = '';
+	
+	if (isset($userinfo['umode'])) 
+	{ 
+	  $r_options .= "&amp;mode=$userinfo[umode]"; 
+	}
+    
+	if (isset($userinfo['uorder'])) 
+	{ 
+	  $r_options .= "&amp;order=$userinfo[uorder]"; 
+	}
+    
+	if (isset($userinfo['thold'])) 
+	{ 
+	  $r_options .= "&amp;thold=$userinfo[thold]"; 
+	}
+    
+	$resu = $db->sql_query("SELECT pollID, pollTitle, voters FROM ".$prefix."_poll_desc WHERE artid='0' ORDER BY timeStamp DESC LIMIT 1,6");
     while (list($plid, $pltitle, $plvoters) = $db->sql_fetchrow($resu)) {
         if ($pollID == $plid) {
             echo "<img src=\"images/arrow.gif\" border=\"0\">&nbsp;$pltitle ($plvoters "._LVOTES.")<br /><br />";
