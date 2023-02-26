@@ -39,8 +39,18 @@ class attach_parent
     // Switches
     var $add_attachment_body = 0;
     var $posted_attachments_body = 0;
-
-    /**
+	
+    public $attachment_id_list;
+	public $attachment_comment_list;
+	public $attachment_filesize_list;
+	public $attachment_filetime_list;
+	public $attachment_filename_list;
+	public $attachment_extension_list;
+	public $attachment_mimetype_list;
+	public $attachment_list;
+	public $attachment_thumbnail_list;
+    
+	/**
     * Constructor
     */
     function __construct()
