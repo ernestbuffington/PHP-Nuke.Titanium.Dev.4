@@ -121,11 +121,11 @@ echo '<br />';
 
 echo _udp_check;
 echo " - ";
-if(!getscrapedata('udp://tracker.coppersurfer.tk:6969/scrape', false, [utf8_decode('Ñd>[÷lzÜ5ÉE')=>preg_replace_callback('/./s', "hex_esc", str_pad(utf8_decode('Ñd>[÷lzÜ5ÉE'),20))]))
-{
-warn();
-echo '<br />';
-echo _udpfail;
+if(!getscrapedata('udp://tracker.coppersurfer.tk:6969/scrape', false, [mb_convert_encoding('Ñd>[÷lzÜ5ÉE', 'ISO-8859-1')=>preg_replace_callback('/./s', "hex_esc", str_pad(mb_convert_encoding('Ñd>[÷lzÜ5ÉE', 'ISO-8859-1'),20))]))
+ {
+ warn();
+ echo '<br />';
+echo \_UDPFAIL;
 }
 else
 ok();
