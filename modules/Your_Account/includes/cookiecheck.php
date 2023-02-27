@@ -216,22 +216,31 @@ function ShowCookies()
 function DeleteCookies() {
 global $ya_config,$module_name,$prefix,$user,$username,$CookieArray,$cookie;
 include_once(NUKE_BASE_DIR.'header.php');
-//Show_CNBYA_menu(); # Remove excessive menu from delete cookies
 OpenTable();
-
-    $r_uid        = $cookie[0];
-    $r_username    = $cookie[1];
-    echo $r_username;
+    
+	if(isset($cookie[0]))
+    $r_uid = $cookie[0];
+	
+	if(isset($cookie[1]))
+    $r_username = $cookie[1];
+    
+	if(isset($r_username))
+	echo $r_username;
+	
+	if(isset($r_uid))
     echo $r_uid;
+	
+	if(isset($username))
     echo $username;
 
     $CookieArray = $_COOKIE;
-    $db->sql_query("DELETE FROM ".$prefix."_session WHERE uname='$r_username'");
-    $db->sql_query("OPTIMIZE TABLE ".$prefix."_session");
-//    $db->sql_query("DELETE FROM     ".$prefix."_bbsessions WHERE session_user_id='$r_uid'");
-//    $db->sql_query("OPTIMIZE TABLE ".$prefix."_bbsessions");
-
-    echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\"><tr>";
+	
+	if(isset($r_username)):
+      $db->sql_query("DELETE FROM ".$prefix."_session WHERE uname='$r_username'");
+      $db->sql_query("OPTIMIZE TABLE ".$prefix."_session");
+    endif;
+    
+	echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\"><tr>";
     echo "<form action=\"modules.php?name=$module_name&amp;op=ShowCookies\" method=\"post\">";
     echo "<td colspan=\"2\"><img src=\"modules/$module_name/images/warning.png\" align=\"left\" width=\"40\" height=\"40\">";
   
@@ -240,8 +249,9 @@ OpenTable();
     echo "<table cellspacing=\"0\" cellpadding=\"5\" border=\"1\" align=\"left\"><tr><td colspan=\"2\">";
     echo "<span class=\"title\">"._YA_CURRENTCOOKIE."</span></td></tr>";
     echo "<tr><td nowrap=\"nowrap\"><strong>"._YA_COOKIENAME."</strong></td><td width=\"100%\"><strong>"._YA_COOKIESTAT."</strong></td></tr>";
+
     if (is_array($CookieArray) && !empty($CookieArray)) {
-        //while(list($cName,$cValue) = each($CookieArray)) { # PHP 8.1 Fix
+
 		foreach ($CookieArray as $cName => $cValue)
 		{	
             $cName = str_replace(" ","",$cName);
@@ -249,6 +259,7 @@ OpenTable();
             setcookie("$cName","1",time()-604800,"");                          // Directory only path
             setcookie("$cName","2",time()-604800,"/");                         // Site wide path
             setcookie("$cName","3",time()-604800,"$ya_config[cookiepath]");    // Configured path
+
             echo "<tr><td align=\"left\" nowrap=\"nowrap\">$cName</td><td width=\"100%\" align=\"left\">"._YA_COOKIEDEL2."</td></tr>";
             unset($cName);
         }
@@ -259,7 +270,6 @@ OpenTable();
     echo "</td><td valign=\"top\"><input type=\"submit\" name=\"submit\" value='"._YA_COOKIESHOWALL."'></td></form></tr></table>";
     }
 
-# menelaos: these lines need some more study: which are usefull, which are not
 unset($user);
 unset($cookie);
 
