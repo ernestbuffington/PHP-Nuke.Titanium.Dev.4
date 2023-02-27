@@ -159,7 +159,7 @@ function ShowCookiesRedirect()
 /*************************************************************************************/
 function ShowCookies() 
 {
-  global $ya_config,$module_name;
+  global $ya_config,$module_name,$prefix,$user,$username,$CookieArray,$cookie;
   include_once(NUKE_BASE_DIR.'header.php');
   //Show_CNBYA_menu(); # removed excessive menu system from show cookies
   OpenTable();
@@ -167,6 +167,12 @@ function ShowCookies()
     //$CookieArray = explode('; ', $_SERVER['HTTP_COOKIE']);
     $CookieArray = $_COOKIE;
 
+	if(isset($cookie[0]))
+    $r_uid = $cookie[0];
+	
+	if(isset($cookie[1]))
+    $r_username = $cookie[1];
+	
     echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\"><tr>";
     echo "<form action=\"modules.php?name=$module_name&amp;op=DeleteCookies\" method=\"post\">";
     echo "<td style=\"padding-bottom: 0px;\" colspan=\"2\">";
@@ -175,7 +181,7 @@ function ShowCookies()
 
 	echo '<fieldset style="border-color: gold; border-width: '.$fieldset_border_width.'; border-style: solid;">';
     echo '<legend align="left" id="Legend5" runat="server" visible="true" style="width:auto; margin: 0px; font-weight: bold;"><img 
-	src="modules/'.$module_name.'/images/warning.png" align="left" width="20" height="20"></strong>&nbsp;<span style="color: red">Delete Cookies</span>&nbsp;</legend>';
+	src="modules/'.$module_name.'/images/warning.png" align="left" width="20" height="20"></strong>&nbsp;<span style="color: red">'.$r_username.'\'s Cookies</span>&nbsp;</legend>';
 	
 	echo "<span class=\"content\">"._YA_DELCOOKIEINFO1."</span></td></tr><tr><td width=\"100%\"></fieldset>";
 
@@ -185,16 +191,20 @@ function ShowCookies()
     
 	if (is_array($CookieArray) && !empty($CookieArray)) 
 	{
-        //while(list($cName,$cValue) = each($CookieArray)) # PHP 8.1 Fix
 		foreach ($CookieArray as $cName => $cValue) 
 		{
-            $cName     = str_replace(" ","",$cName); 
-            if (empty($cValue)) $cValue = "(empty)";
-            $cMore = substr("$cValue", 0, 37)." <span style=\"color: white;\">...✂</span>";
-			//$cMore     = substr("$cValue", 36, 1);
+            $cName = str_replace(" ","",$cName); 
+            
+			if (empty($cValue)) $cValue = "(empty)";
+            
+			$cMore = substr("$cValue", 0, 37)." <span style=\"color: white;\">...✂</span>";
+
             if (!empty($cMore)) 
             $cValue = substr("$cValue", 0, 37)." <span style=\"color: white;\">...✂</span>";
             
+			if($cName === 'PHPSESSID')
+			echo "<tr><td align=\"left\" nowrap=\"nowrap\"><span style=\"color:crimson;\">$cName</span>&nbsp;&nbsp;&nbsp;</td><td width=\"100%\" align=\"left\"><span style=\"color:yellow;\">🍪 $cValue</span></td></tr>";
+			else
 			echo "<tr><td align=\"left\" nowrap=\"nowrap\"><span style=\"color:lime;\">$cName</span>&nbsp;&nbsp;&nbsp;</td><td width=\"100%\" align=\"left\"><span style=\"color:yellow;\">🍪 $cValue</span></td></tr>";
         }
             
@@ -283,7 +293,7 @@ if(isset($_SESSION)):
   session_destroy();
 endif; 
 
-if( isset($_COOKIE[session_name()])):
+if(isset($_COOKIE[session_name()])):
   unset($_COOKIE[session_name()]);
 endif;
 # menelaos: these lines need some more study: which are usefull, which are not
@@ -291,5 +301,3 @@ endif;
 CloseTable();
 include_once(NUKE_BASE_DIR.'footer.php');
 }
-
-?>
