@@ -161,17 +161,20 @@ function ShowCookies()
 {
   global $ya_config,$module_name,$prefix,$user,$username,$CookieArray,$cookie;
   include_once(NUKE_BASE_DIR.'header.php');
-  //Show_CNBYA_menu(); # removed excessive menu system from show cookies
+
   OpenTable();
 
-    //$CookieArray = explode('; ', $_SERVER['HTTP_COOKIE']);
     $CookieArray = $_COOKIE;
 
 	if(isset($cookie[0]))
     $r_uid = $cookie[0];
+	else
+	$r_uid = '1';
 	
 	if(isset($cookie[1]))
     $r_username = $cookie[1];
+	else
+    $r_username = 'Anonymous';
 	
     echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\"><tr>";
     echo "<form action=\"modules.php?name=$module_name&amp;op=DeleteCookies\" method=\"post\">";
@@ -230,18 +233,20 @@ OpenTable();
     
 	if(isset($cookie[0]))
     $r_uid = $cookie[0];
+	else
+	$r_uid = '1';
 	
 	if(isset($cookie[1]))
     $r_username = $cookie[1];
-    
-	if(isset($r_username))
-	echo $r_username;
+	else
+    $r_username = 'Anonymous';
 	
-	if(isset($r_uid))
-    echo $r_uid;
 	
-	if(isset($username))
-    echo $username;
+	//if(isset($r_uid))
+    //echo $r_uid;
+	
+	//if(isset($username))
+    //echo $username;
 
     $CookieArray = $_COOKIE;
 	
