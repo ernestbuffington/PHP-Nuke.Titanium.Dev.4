@@ -240,13 +240,6 @@ OpenTable();
     $r_username = $cookie[1];
 	else
     $r_username = 'Anonymous';
-	
-	
-	//if(isset($r_uid))
-    //echo $r_uid;
-	
-	//if(isset($username))
-    //echo $username;
 
     $CookieArray = $_COOKIE;
 	
