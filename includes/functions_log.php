@@ -81,7 +81,7 @@ function log_action($action, $new_topic_id, $topic_id, $user_id, $forum_id, $new
         message_die(GENERAL_ERROR, 'Could not get topic_last_post_id', '', __LINE__, __FILE__, $sql);
     }
     $row = $db->sql_fetchrow($result);
-    if ( $row['topic_last_post_id'] )
+    if (isset($row['topic_last_post_id']))
     	$last_post_id = $row['topic_last_post_id'];
     $db->sql_freeresult($result);
 
