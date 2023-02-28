@@ -64,10 +64,10 @@ endif;
 
 # Define File
 define('NUKE_EVO', '2.0.9e');
-define('NUKE_TITANIUM', '4.0.3');
+define('NUKE_TITANIUM', '4.0.4');
 define('PHPBB_TITANIUM', '2.0.25');
-define('PHPBB_TITANIUM_LAST_UPDATE', 'Sunday Jan 1st, 2023');
-define('TITANIUM_BUILD', '20940312032022');
+define('PHPBB_TITANIUM_LAST_UPDATE', 'Tuesday Jan 28th, 2023');
+define('TITANIUM_BUILD', '20940402282023');
 define('CUR_EVO', 'NUKE_EVO');
 define('CUR_TITANIUM', 'NUKE_TITANIUM');
 define('EVO_EDITION', 'Xtreme');
