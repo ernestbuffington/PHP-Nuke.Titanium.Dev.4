@@ -1,5 +1,4 @@
 <?php
-
 /**
 *****************************************************************************************
 ** PHP-Nuke Titanium v4.0.4 - Project Start Date 11/04/2022 Friday 4:09 am             **
@@ -43,7 +42,7 @@ echo "<p>";
 echo _phpvercheck;
 echo " - ". phpversion();
 echo " - ";
-if (phpversion() < "8.1") {
+if (phpversion() < "8.2") {
         $error = true;
         err();
         echo " - "._phpverfail;

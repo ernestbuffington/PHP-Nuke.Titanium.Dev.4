@@ -68,6 +68,7 @@ print blog_signature($aid).''.PHP_EOL;
 
 print '</div>'.PHP_EOL;
 print '<br/><br/>';
+/*
 print '<section id="comments">';
 
 print '<div align="left" id="respond">';
@@ -92,7 +93,7 @@ print '    <input name="submit" type="submit" value="Submit comment" /><br/>';
 print '  </form>';
 
 print '</div>';
-
+*/
 
 echo '<div valign="bottom" align="right">'.$reads.'</div>'.PHP_EOL;
 

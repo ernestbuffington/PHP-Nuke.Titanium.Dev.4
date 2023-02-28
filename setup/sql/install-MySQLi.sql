@@ -889,7 +889,7 @@ CREATE TABLE IF NOT EXISTS `#prefix#_blogs_queue` (
 
 CREATE TABLE IF NOT EXISTS `#prefix#_blogs_topics` (
   `topicid` int(3) NOT NULL,
-  `topicname` varchar(20) DEFAULT NULL,
+  `topicname` varchar(120) DEFAULT NULL,
   `topicimage` varchar(100) DEFAULT NULL,
   `topictext` varchar(40) DEFAULT NULL,
   `counter` int(11) NOT NULL DEFAULT 0

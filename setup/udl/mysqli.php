@@ -1,5 +1,4 @@
 <?php
-
 /**
 *****************************************************************************************
 ** PHP-Nuke Titanium v4.0.4 - Project Start Date 11/04/2022 Friday 4:09 am             **
@@ -21,13 +20,13 @@
 **
 ** 2018-09-21 - Updated Masthead, Github, !defined('IN_NUKE')
 **/
-
 if (!defined('IN_NUKE'))
     die ("You Can't Access this File Directly");
 
 if(!defined("SQL_LAYER"))
 {
     define("SQL_LAYER","mysqli");
+
     class sql_db
     {
         public $any_char;
@@ -39,11 +38,15 @@ if(!defined("SQL_LAYER"))
         public $row = [];
         public $rowset = [];
         public $transaction = false;
-       // var $num_queries = 0;
         public $multi_insert = true;
         public $connect_error = '';
         public $open_queries = [];
-        public $num_queries = ['cached'        => 0, 'normal'        => 0, 'total'         => 0];
+        public $num_queries = ['cached' => 0, 'normal' => 0, 'total' => 0];
+		public $persistency;
+		public $user;
+		public $server;
+		public $dbname;
+		public $sql_server_version;
 
         /**
         * Constuctor
@@ -926,5 +929,3 @@ if(!defined("SQL_LAYER"))
     }
     }
 }
-
-?>

@@ -35,7 +35,7 @@ define("_reset", "Reset");
 // Step 1
 define("_step1", "<strong>Step 1: Installation Requirements</strong>");
 define("_phpvercheck", "Checking PHP Version");
-define("_phpverfail", "You need at least PHP version 8.1 to Install PHP-Nuke Titanium.");
+define("_phpverfail", "You need at least PHP version 8.2 to Install PHP-Nuke Titanium.");
 define("_zlibcheck", "Checking Zlib");
 define("_zlibfail", "Installing Zlib allows you to Save Bandwidth.");
 define("_mysqlcheck", "Checking MySQL");
