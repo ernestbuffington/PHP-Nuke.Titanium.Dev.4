@@ -315,7 +315,7 @@ switch( $mode )
 
                 include("includes/page_header.$phpEx");
 
-                if ( $confirm )
+                if (isset($confirm))
                 {
                			if ( empty($_POST['topic_id_list']) && empty($topic_id) )
             			{
