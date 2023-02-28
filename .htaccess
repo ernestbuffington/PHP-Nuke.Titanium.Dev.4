@@ -19,6 +19,27 @@ DirectoryIndex index.php index.html
 Options +FollowSymlinks
 <IfModule mod_rewrite.c> 
 RewriteEngine on
+
+RewriteBase /
+
+##################################################################################################
+# Force SSL - no insecure data connections!                                                      ##### Added By Ernest Allen Buffington 08/05/2019
+##################################################################################################
+RewriteCond %{HTTPS} off
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule (.*) https://%{HTTP_HOST}:443%{REQUEST_URI}
+
+##################################################################################################
+# Force WWW - this is only needed for root domains...                                            ##### Added By Ernest Allen Buffington 03/16/2021
+##################################################################################################
+RewriteCond %{HTTP_HOST} !=""
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteCond %{HTTPS}s ^on(s)|
+RewriteRule ^ http%1://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+##################################################################################################
+
 # -------------------------------------------
 # Security Rewrites
 # -------------------------------------------
