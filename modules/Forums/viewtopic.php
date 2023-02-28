@@ -68,8 +68,6 @@
  ************************************************************************/
 if (!defined('MODULE_FILE')) die ("You can't access this file directly...");
 
-//if((!(isset($popup)) OR ($popup != "1")) && !isset($_GET['printertopic'])):
-//    $module_name = basename(dirname(__FILE__));
 if((!(isset($popup)) OR ($popup != "1")) && !isset($_GET['printertopic'])):
     $module_name = basename(__DIR__);	
 	
