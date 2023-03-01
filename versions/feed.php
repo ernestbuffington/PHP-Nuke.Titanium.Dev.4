@@ -77,7 +77,7 @@
 <hr>
 <strong><i class="bi bi-calendar3"></i> Jan 27th 2023</strong>&nbsp;-&nbsp;<span class="updated">Updated</span> PHP version to <span class="version-font">v8.2.3</span> <br />
 <hr>
-<strong><i class="bi bi-calendar3"></i> Jan 26th 2023</strong>&nbsp;-&nbsp;<span class="updated">Updated</span>  New Release version to <span class="version-font">v4.0.4</span><br />
+<strong><i class="bi bi-calendar3"></i> Jan 26th 2023</strong>&nbsp;-&nbsp;<span class="updated">Updated</span>  New PHP-Nuke Titanium Release version to <span class="version-font">v4.0.4</span><br />
 <hr>
 <strong><i class="bi bi-calendar3"></i> Jan 25th 2023</strong>&nbsp;-&nbsp;<span class="updated">Updated</span> Server Info block<br />
  <hr>
