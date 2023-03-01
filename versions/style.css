@@ -1,0 +1,40 @@
+.version-font {
+	color: lime;
+	font-weight: bold;
+}
+.fixed {
+	color: #F00;
+	font-weight: bold;
+}
+.updated {
+	color: #F90;
+	font-weight: bold;
+}
+.setup {
+	color: #93F;
+	font-weight: bold;
+}
+.added {
+	color: #6CF;
+	font-weight: bold;
+}
+.removed {
+	color: #03F;
+	font-weight: bold;
+}
+.released {
+	color: #0F0;
+	font-weight: bold;
+}
+.deprecated {
+	color: #F9C;
+	font-weight: bold;
+}
+.working-on {
+	color: #FF0;
+	font-weight: bold;
+}
+.patched {
+	color: #06F;
+	font-weight: bold;
+}
