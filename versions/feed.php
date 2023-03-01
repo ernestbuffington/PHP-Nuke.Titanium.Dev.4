@@ -43,7 +43,7 @@
 <hr>
 <strong><i class="bi bi-calendar3"></i> Feb 14th 2023</strong> -<br />
 <hr>
-<strong><i class="bi bi-calendar3"></i> Feb 13th 2023</strong> -<br />
+<strong><i class="bi bi-calendar3"></i> Feb 13th 2023</strong> - <span class="updated">Updated</span> .htaccess file for new PHP-Nuke Titianium <span class="version-font">v4.0.4</span><br />
 <hr>
 <strong><i class="bi bi-calendar3"></i> Feb 12th 2023</strong> - <span class="added">Added</span> back www.inzanemindz.coders.exchange<br />
 <hr>
