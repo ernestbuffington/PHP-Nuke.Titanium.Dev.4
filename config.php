@@ -55,7 +55,7 @@ $dbuname = 'database_user_name_goes_here';
 | The password associated with your db usersname          |
 |                                                         |
 ---------------------------------------------------------*/
-$dbpass = 'data_base_user_password_goes_here';
+$dbpass = '';
 
 /*----[ $dbtype ] ----------------------------------------
 |                                                         |
