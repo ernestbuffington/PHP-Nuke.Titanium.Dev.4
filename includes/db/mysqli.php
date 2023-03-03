@@ -91,30 +91,31 @@ class sql_db
 		$this->password = $sqlpassword;
 		$this->server = $sqlserver;
 		$this->dbname = $database;
+		
+		$newURL = 'setup';
+		
+		if($sqlpassword == ''):
+		 header("Location: $newURL");
+         die();
+		endif;
 
 		if ($this->dbname != '') {
 			//$this->db_connect_id = mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-			$this->db_connect_id = mysqli_connect($this->server, $this->user, $this->password, $this->dbname);
-
-			if ($this->db_connect_id)
-			{
+			 $this->db_connect_id = mysqli_connect($this->server, $this->user, $this->password, $this->dbname);
+                
 				# Determine what version we are using and if it natively supports UNICODE
-				//$this->mysql_version = mysqli_get_server_info($this->db_connect_id);
+				$this->mysql_version = mysqli_get_server_info($this->db_connect_id);
 
 				# not sure why this was removed i see no explanation, Thanks Dick!
-				/*if (version_compare($this->mysql_version, '4.1.3', '>='))
+				if (version_compare($this->mysql_version, '4.1.3', '>='))
 				{
 					mysqli_query("SET NAMES 'utf8'", $this->db_connect_id);
 					mysqli_query("SET CHARACTER SET 'utf8'", $this->db_connect_id);
-				}*/
+				}
+
 				$this->connect_id = $this->db_connect_id;
+
 				return $this->db_connect_id;
-			}
-			else
-			{
-				header('Location: install.php');
-				die();
-			}
 		}
 
 		return false;
