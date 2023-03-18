@@ -27,6 +27,7 @@
 -=[Mod]=-
       Better Session Handling                  v1.0.0       06/25/2005
       Advanced Time Management                 v2.2.0       07/26/2005
+      PHP Patched                              v8.2.3       03/18/2023            
  ************************************************************************/
 
 if(!defined('NUKE_EVO')) {
