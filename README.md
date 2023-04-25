@@ -117,7 +117,7 @@ There have been existing efforts to re-implement the Flash Player, including Gna
 	<li><b>Your Account</b><br />Edit your profile settings anytime you like - Change Avatar, Name, Ghost Mode, and much more...</li>
 </ul>
 
-<h2>PHP-Nuke Titanium v4.0.4 Test Server Information</h2>
+<h2>PHP-Nuke Titanium v4.0.5 Test Server Information</h2>
 
 <ul>
 	<li><b>You will need Network Database Access for the Network Projects Module</b>- edit your nconfig.php file</li>
@@ -135,7 +135,7 @@ There have been existing efforts to re-implement the Flash Player, including Gna
 
 <ul>
 	<li>Easy Apache 4 / Apache 2.4.54</li>
-	<li>MySQL Server Version: 5.5.5-10.3.38-MariaDB (MariaDB Server) The fastest on the planet!</li>
+	<li>MySQLi Server Version: 5.5.5-10.3.38-MariaDB (MariaDB Server) The fastest on the planet!</li>
 	<li>PHP 8.2.5 / php-fpm 8.2.5 (we are working on a version for PHP 9)</li>
 	<li>cURL&nbsp;7.86.0</li>
 	<li>GD Support bundled (2.1.0 compatible)</li>
