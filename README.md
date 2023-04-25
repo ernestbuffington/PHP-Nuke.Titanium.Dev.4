@@ -1,7 +1,7 @@
 <a href="https://www.nuketitanium.coders.exchange" rel="nofollow"><img src="/images/github/github_rip_open2.png" alt="PHP-NUke Titanium" style="max-width: 100%;"></a>
 
 <h2>Changes in PHP-Nuke Titanium v4.0.5</h2>
-<p>Support Website https://www.nuketitanium.coders.exchange <-(This Code Running Live) SIGN UP AND CHECK IT OUT!!!</p>
+<p>Support Website https://www.nuketitanium.coders.exchange <-(Live Site) SIGN UP AND CHECK IT OUT!!!</p>
 
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fernestbuffington%2FPHP-Nuke.Titanium.Dev.4.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fernestbuffington%2FPHP-Nuke.Titanium.Dev.4?ref=badge_shield)  [![Codacy Badge](https://app.codacy.com/project/badge/Grade/e5300f0dccdb4bcc9b7bdbc5d6e65f50)](https://www.codacy.com/gh/ernestbuffington/PHP-Nuke.Titanium.Dev.4/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ernestbuffington/PHP-Nuke.Titanium.Dev.4&amp;utm_campaign=Badge_Grade)
